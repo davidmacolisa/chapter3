@@ -1,0 +1,4469 @@
+% $ biblatex auxiliary file $
+% $ biblatex bbl format version 3.3 $
+% Do not modify the above lines!
+%
+% This is an auxiliary file used by the 'biblatex' package.
+% This file may safely be deleted. It will be recreated by
+% biber as required.
+%
+\begingroup
+\makeatletter
+\@ifundefined{ver@biblatex.sty}
+  {\@latex@error
+     {Missing 'biblatex' package}
+     {The bibliography requires the 'biblatex' package.}
+      \aftergroup\endinput}
+  {}
+\endgroup
+
+
+\refsection{0}
+  \datalist[entry]{ydnt/apasortcite//global/global/global}
+    \entry{clemens2023important}{article}{}{}
+      \name{author}{2}{}{%
+        {{un=0,uniquepart=base,hash=b3fb95c1dd2e407afc01cf9068f7705d}{%
+           family={Clemens},
+           familyi={C\bibinitperiod},
+           given={Jeffrey},
+           giveni={J\bibinitperiod},
+           givenun=0}}%
+        {{un=0,uniquepart=base,hash=4f44770e07ad143b91b94bbe880b0c33}{%
+           family={Strain},
+           familyi={S\bibinitperiod},
+           given={Michael\bibnamedelima R},
+           giveni={M\bibinitperiod\bibinitdelim R\bibinitperiod},
+           givenun=0}}%
+      }
+      \list{publisher}{1}{%
+        {Wiley Online Library}%
+      }
+      \strng{namehash}{d8047aecf5be926833de9c820d8d6af9}
+      \strng{fullhash}{d8047aecf5be926833de9c820d8d6af9}
+      \strng{fullhashraw}{d8047aecf5be926833de9c820d8d6af9}
+      \strng{bibnamehash}{d8047aecf5be926833de9c820d8d6af9}
+      \strng{authorbibnamehash}{d8047aecf5be926833de9c820d8d6af9}
+      \strng{authornamehash}{d8047aecf5be926833de9c820d8d6af9}
+      \strng{authorfullhash}{d8047aecf5be926833de9c820d8d6af9}
+      \strng{authorfullhashraw}{d8047aecf5be926833de9c820d8d6af9}
+      \field{sortinit}{2}
+      \field{sortinithash}{8b555b3791beccb63322c22f3320aa9a}
+      \field{extradatescope}{labelyear}
+      \field{labeldatesource}{}
+      \true{uniqueprimaryauthor}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{journaltitle}{Contemporary Economic Policy}
+      \field{number}{4}
+      \field{title}{How important are minimum wage increases in increasing the wages of minimum wage workers?}
+      \field{volume}{41}
+      \field{year}{2023}
+      \field{pages}{594\bibrangedash 612}
+      \range{pages}{19}
+    \endentry
+    \entry{dai2023minimum}{article}{}{}
+      \name{author}{2}{}{%
+        {{un=0,uniquepart=base,hash=c1cab1cde1ac78f0d57872bb433f073c}{%
+           family={Dai},
+           familyi={D\bibinitperiod},
+           given={Xin},
+           giveni={X\bibinitperiod},
+           givenun=0}}%
+        {{un=0,uniquepart=base,hash=86969dc6f0a15b4fd948fc0bb56d9171}{%
+           family={Qiu},
+           familyi={Q\bibinitperiod},
+           given={Yue},
+           giveni={Y\bibinitperiod},
+           givenun=0}}%
+      }
+      \strng{namehash}{41072171801d39ef6c43c639f59bbf81}
+      \strng{fullhash}{41072171801d39ef6c43c639f59bbf81}
+      \strng{fullhashraw}{41072171801d39ef6c43c639f59bbf81}
+      \strng{bibnamehash}{41072171801d39ef6c43c639f59bbf81}
+      \strng{authorbibnamehash}{41072171801d39ef6c43c639f59bbf81}
+      \strng{authornamehash}{41072171801d39ef6c43c639f59bbf81}
+      \strng{authorfullhash}{41072171801d39ef6c43c639f59bbf81}
+      \strng{authorfullhashraw}{41072171801d39ef6c43c639f59bbf81}
+      \field{sortinit}{2}
+      \field{sortinithash}{8b555b3791beccb63322c22f3320aa9a}
+      \field{extradatescope}{labelyear}
+      \field{labeldatesource}{}
+      \true{uniqueprimaryauthor}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{journaltitle}{Journal of Financial and Quantitative Analysis}
+      \field{title}{Minimum wage hikes and technology adoption: Evidence from US establishments}
+      \field{year}{2023}
+      \field{pages}{1\bibrangedash 39}
+      \range{pages}{39}
+    \endentry
+    \entry{li2023does}{article}{}{}
+      \name{author}{3}{}{%
+        {{un=1,uniquepart=given,hash=541cc418b6ae5b4415bb19d0ac80bc5e}{%
+           family={Li},
+           familyi={L\bibinitperiod},
+           given={Houjian},
+           giveni={H\bibinitperiod},
+           givenun=1}}%
+        {{un=0,uniquepart=base,hash=2ed35cd2b77dd47718c13bf764aa6527}{%
+           family={Li},
+           familyi={L\bibinitperiod},
+           given={Yanjiao},
+           giveni={Y\bibinitperiod},
+           givenun=0}}%
+        {{un=0,uniquepart=base,hash=be5d03f58577f4fe7e5d098a7769f7c1}{%
+           family={Guo},
+           familyi={G\bibinitperiod},
+           given={Lili},
+           giveni={L\bibinitperiod},
+           givenun=0}}%
+      }
+      \list{publisher}{1}{%
+        {Elsevier}%
+      }
+      \strng{namehash}{388cefd61b3628fed9cb41bfd6f76d2f}
+      \strng{fullhash}{17939e857a937e1500d2898254a7d04c}
+      \strng{fullhashraw}{17939e857a937e1500d2898254a7d04c}
+      \strng{bibnamehash}{17939e857a937e1500d2898254a7d04c}
+      \strng{authorbibnamehash}{17939e857a937e1500d2898254a7d04c}
+      \strng{authornamehash}{388cefd61b3628fed9cb41bfd6f76d2f}
+      \strng{authorfullhash}{17939e857a937e1500d2898254a7d04c}
+      \strng{authorfullhashraw}{17939e857a937e1500d2898254a7d04c}
+      \field{sortinit}{2}
+      \field{sortinithash}{8b555b3791beccb63322c22f3320aa9a}
+      \field{extradatescope}{labelyear}
+      \field{labeldatesource}{}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{journaltitle}{Journal of Cleaner Production}
+      \field{title}{How does minimum wage affect firm pollution discharges: Evidence from China}
+      \field{volume}{414}
+      \field{year}{2023}
+      \field{pages}{137504}
+      \range{pages}{1}
+    \endentry
+    \entry{medrano2023minimum}{article}{}{}
+      \name{author}{2}{}{%
+        {{un=0,uniquepart=base,hash=02bd3f2b532cb57d7f1ef872b6327c16}{%
+           family={Medrano-Adán},
+           familyi={M\bibinithyphendelim A\bibinitperiod},
+           given={Luis},
+           giveni={L\bibinitperiod},
+           givenun=0}}%
+        {{un=0,uniquepart=base,hash=5f3d03eca87de8fd25d963c912d4cedc}{%
+           family={Salas-Fumás},
+           familyi={S\bibinithyphendelim F\bibinitperiod},
+           given={Vicente},
+           giveni={V\bibinitperiod},
+           givenun=0}}%
+      }
+      \list{publisher}{1}{%
+        {Elsevier}%
+      }
+      \strng{namehash}{53617efff27110e627d2dd9252af104e}
+      \strng{fullhash}{53617efff27110e627d2dd9252af104e}
+      \strng{fullhashraw}{53617efff27110e627d2dd9252af104e}
+      \strng{bibnamehash}{53617efff27110e627d2dd9252af104e}
+      \strng{authorbibnamehash}{53617efff27110e627d2dd9252af104e}
+      \strng{authornamehash}{53617efff27110e627d2dd9252af104e}
+      \strng{authorfullhash}{53617efff27110e627d2dd9252af104e}
+      \strng{authorfullhashraw}{53617efff27110e627d2dd9252af104e}
+      \field{sortinit}{2}
+      \field{sortinithash}{8b555b3791beccb63322c22f3320aa9a}
+      \field{extradatescope}{labelyear}
+      \field{labeldatesource}{}
+      \true{uniqueprimaryauthor}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{journaltitle}{Economic Analysis and Policy}
+      \field{title}{Do minimum wages deliver what they promise? Effects of minimum wage on employment, output, and income inequality from occupational choice theory}
+      \field{volume}{80}
+      \field{year}{2023}
+      \field{pages}{366\bibrangedash 383}
+      \range{pages}{18}
+    \endentry
+    \entry{meer2023effects}{report}{}{}
+      \name{author}{2}{}{%
+        {{un=0,uniquepart=base,hash=8fb4e48c24a1b591e7cbe2306bed97fb}{%
+           family={Meer},
+           familyi={M\bibinitperiod},
+           given={Jonathan},
+           giveni={J\bibinitperiod},
+           givenun=0}}%
+        {{un=0,uniquepart=base,hash=39d9f8c32be2e818eb7bbe095715eff5}{%
+           family={Tajali},
+           familyi={T\bibinitperiod},
+           given={Hedieh},
+           giveni={H\bibinitperiod},
+           givenun=0}}%
+      }
+      \list{institution}{1}{%
+        {National Bureau of Economic Research}%
+      }
+      \strng{namehash}{2d0075292e127d0ec022a315250a6dcc}
+      \strng{fullhash}{2d0075292e127d0ec022a315250a6dcc}
+      \strng{fullhashraw}{2d0075292e127d0ec022a315250a6dcc}
+      \strng{bibnamehash}{2d0075292e127d0ec022a315250a6dcc}
+      \strng{authorbibnamehash}{2d0075292e127d0ec022a315250a6dcc}
+      \strng{authornamehash}{2d0075292e127d0ec022a315250a6dcc}
+      \strng{authorfullhash}{2d0075292e127d0ec022a315250a6dcc}
+      \strng{authorfullhashraw}{2d0075292e127d0ec022a315250a6dcc}
+      \field{sortinit}{2}
+      \field{sortinithash}{8b555b3791beccb63322c22f3320aa9a}
+      \field{extradatescope}{labelyear}
+      \field{labeldatesource}{}
+      \true{uniqueprimaryauthor}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{title}{Effects of the Minimum Wage on the Nonprofit Sector}
+      \field{type}{techreport}
+      \field{year}{2023}
+    \endentry
+    \entry{zhang2023unintended}{article}{}{}
+      \name{author}{4}{}{%
+        {{un=1,uniquepart=given,hash=8d5fab7fcae144537165fa0325fc15c9}{%
+           family={Zhang},
+           familyi={Z\bibinitperiod},
+           given={Ming-ang},
+           giveni={M\bibinithyphendelim a\bibinitperiod},
+           givenun=1}}%
+        {{un=0,uniquepart=base,hash=08f9320f27fcd1c76e271022eb88d554}{%
+           family={Lu},
+           familyi={L\bibinitperiod},
+           given={Shuling},
+           giveni={S\bibinitperiod},
+           givenun=0}}%
+        {{un=0,uniquepart=base,hash=42df3449e0bf3550e0a78db8566645d4}{%
+           family={Zhang},
+           familyi={Z\bibinitperiod},
+           given={Sihan},
+           giveni={S\bibinitperiod},
+           givenun=0}}%
+        {{un=0,uniquepart=base,hash=d6267a627b095270e2f9c997f6695750}{%
+           family={Bai},
+           familyi={B\bibinitperiod},
+           given={Yanfeng},
+           giveni={Y\bibinitperiod},
+           givenun=0}}%
+      }
+      \list{publisher}{1}{%
+        {Elsevier}%
+      }
+      \strng{namehash}{8602cf13095bbe30362fb8bc84c60e21}
+      \strng{fullhash}{d3047ffe85aa148a999e8781fc89c491}
+      \strng{fullhashraw}{d3047ffe85aa148a999e8781fc89c491}
+      \strng{bibnamehash}{d3047ffe85aa148a999e8781fc89c491}
+      \strng{authorbibnamehash}{d3047ffe85aa148a999e8781fc89c491}
+      \strng{authornamehash}{8602cf13095bbe30362fb8bc84c60e21}
+      \strng{authorfullhash}{d3047ffe85aa148a999e8781fc89c491}
+      \strng{authorfullhashraw}{d3047ffe85aa148a999e8781fc89c491}
+      \field{sortinit}{2}
+      \field{sortinithash}{8b555b3791beccb63322c22f3320aa9a}
+      \field{extradatescope}{labelyear}
+      \field{labeldatesource}{}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{journaltitle}{Energy Economics}
+      \field{title}{The unintended consequence of minimum wage hikes: Evidence based on firms' pollution emission}
+      \field{volume}{125}
+      \field{year}{2023}
+      \field{pages}{106857}
+      \range{pages}{1}
+    \endentry
+    \entry{alexandre2022minimum}{article}{}{}
+      \name{author}{5}{}{%
+        {{un=0,uniquepart=base,hash=260457b681e94022763466cbfc2f286f}{%
+           family={Alexandre},
+           familyi={A\bibinitperiod},
+           given={Fernando},
+           giveni={F\bibinitperiod},
+           givenun=0}}%
+        {{un=0,uniquepart=base,hash=904f1384889e9bc6af5ed18dd6de229b}{%
+           family={Bação},
+           familyi={B\bibinitperiod},
+           given={Pedro},
+           giveni={P\bibinitperiod},
+           givenun=0}}%
+        {{un=0,uniquepart=base,hash=47df996ee2b6d2d732c27447a4c0d8c1}{%
+           family={Cerejeira},
+           familyi={C\bibinitperiod},
+           given={João},
+           giveni={J\bibinitperiod},
+           givenun=0}}%
+        {{un=0,uniquepart=base,hash=d75defd2c0c1d9a2d17fa2183df6bd56}{%
+           family={Costa},
+           familyi={C\bibinitperiod},
+           given={Hélder},
+           giveni={H\bibinitperiod},
+           givenun=0}}%
+        {{un=0,uniquepart=base,hash=022e1a2f66d47195fb619cafd6a64a24}{%
+           family={Portela},
+           familyi={P\bibinitperiod},
+           given={Miguel},
+           giveni={M\bibinitperiod},
+           givenun=0}}%
+      }
+      \list{publisher}{1}{%
+        {Elsevier}%
+      }
+      \strng{namehash}{e058653cdcecc92529288e7245d72a44}
+      \strng{fullhash}{ae8196d2bfdcb9c32577ad62474d3049}
+      \strng{fullhashraw}{ae8196d2bfdcb9c32577ad62474d3049}
+      \strng{bibnamehash}{ae8196d2bfdcb9c32577ad62474d3049}
+      \strng{authorbibnamehash}{ae8196d2bfdcb9c32577ad62474d3049}
+      \strng{authornamehash}{e058653cdcecc92529288e7245d72a44}
+      \strng{authorfullhash}{ae8196d2bfdcb9c32577ad62474d3049}
+      \strng{authorfullhashraw}{ae8196d2bfdcb9c32577ad62474d3049}
+      \field{sortinit}{2}
+      \field{sortinithash}{8b555b3791beccb63322c22f3320aa9a}
+      \field{extradatescope}{labelyear}
+      \field{labeldatesource}{}
+      \true{uniqueprimaryauthor}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{journaltitle}{Labour Economics}
+      \field{title}{Minimum wage and financially distressed firms: another one bites the dust}
+      \field{volume}{74}
+      \field{year}{2022}
+      \field{pages}{102088}
+      \range{pages}{1}
+    \endentry
+    \entry{coviello2022minimum}{article}{}{}
+      \name{author}{3}{}{%
+        {{un=0,uniquepart=base,hash=b9757bedb2b070b3963b86a854a4d283}{%
+           family={Coviello},
+           familyi={C\bibinitperiod},
+           given={Decio},
+           giveni={D\bibinitperiod},
+           givenun=0}}%
+        {{un=0,uniquepart=base,hash=e779a96f04b4eb6f6bad49af2b1780da}{%
+           family={Deserranno},
+           familyi={D\bibinitperiod},
+           given={Erika},
+           giveni={E\bibinitperiod},
+           givenun=0}}%
+        {{un=0,uniquepart=base,hash=67d45f86f0f8778a1acf4a1aab06092e}{%
+           family={Persico},
+           familyi={P\bibinitperiod},
+           given={Nicola},
+           giveni={N\bibinitperiod},
+           givenun=0}}%
+      }
+      \list{publisher}{1}{%
+        {The University of Chicago Press Chicago, IL}%
+      }
+      \strng{namehash}{37bb5e0f385d3e6e3e29b3090c0ae30b}
+      \strng{fullhash}{8407c7fa493146c9276e3279798d77c4}
+      \strng{fullhashraw}{8407c7fa493146c9276e3279798d77c4}
+      \strng{bibnamehash}{8407c7fa493146c9276e3279798d77c4}
+      \strng{authorbibnamehash}{8407c7fa493146c9276e3279798d77c4}
+      \strng{authornamehash}{37bb5e0f385d3e6e3e29b3090c0ae30b}
+      \strng{authorfullhash}{8407c7fa493146c9276e3279798d77c4}
+      \strng{authorfullhashraw}{8407c7fa493146c9276e3279798d77c4}
+      \field{sortinit}{2}
+      \field{sortinithash}{8b555b3791beccb63322c22f3320aa9a}
+      \field{extradatescope}{labelyear}
+      \field{labeldatesource}{}
+      \true{uniqueprimaryauthor}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{journaltitle}{Journal of Political Economy}
+      \field{number}{9}
+      \field{title}{Minimum wage and individual worker productivity: Evidence from a large US retailer}
+      \field{volume}{130}
+      \field{year}{2022}
+      \field{pages}{2315\bibrangedash 2360}
+      \range{pages}{46}
+    \endentry
+    \entry{du2022minimum}{article}{}{}
+      \name{author}{3}{}{%
+        {{un=0,uniquepart=base,hash=4797d5c0f892bb7929c77b658b38eb3a}{%
+           family={Du},
+           familyi={D\bibinitperiod},
+           given={Pengcheng},
+           giveni={P\bibinitperiod},
+           givenun=0}}%
+        {{un=0,uniquepart=base,hash=9e6af3ce4c5063ff98977528f367e685}{%
+           family={Zheng},
+           familyi={Z\bibinitperiod},
+           given={Yi},
+           giveni={Y\bibinitperiod},
+           givenun=0}}%
+        {{un=0,uniquepart=base,hash=e308ebde0289180922257aed19f88d71}{%
+           family={Wang},
+           familyi={W\bibinitperiod},
+           given={Shuxun},
+           giveni={S\bibinitperiod},
+           givenun=0}}%
+      }
+      \list{publisher}{1}{%
+        {Elsevier}%
+      }
+      \strng{namehash}{942b199134b6ba113a1abdb8c84e30df}
+      \strng{fullhash}{4ee3a214cf1eb0a45c097b2f171fe342}
+      \strng{fullhashraw}{4ee3a214cf1eb0a45c097b2f171fe342}
+      \strng{bibnamehash}{4ee3a214cf1eb0a45c097b2f171fe342}
+      \strng{authorbibnamehash}{4ee3a214cf1eb0a45c097b2f171fe342}
+      \strng{authornamehash}{942b199134b6ba113a1abdb8c84e30df}
+      \strng{authorfullhash}{4ee3a214cf1eb0a45c097b2f171fe342}
+      \strng{authorfullhashraw}{4ee3a214cf1eb0a45c097b2f171fe342}
+      \field{sortinit}{2}
+      \field{sortinithash}{8b555b3791beccb63322c22f3320aa9a}
+      \field{extradatescope}{labelyear}
+      \field{labeldatesource}{}
+      \true{uniqueprimaryauthor}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{journaltitle}{China Economic Review}
+      \field{title}{The minimum wage and the financialization of firms: Evidence from China}
+      \field{volume}{76}
+      \field{year}{2022}
+      \field{pages}{101870}
+      \range{pages}{1}
+    \endentry
+    \entry{dustmann2022reallocation}{article}{}{}
+      \name{author}{5}{}{%
+        {{un=0,uniquepart=base,hash=e26258e53a5d323c8365d750c1a63e0e}{%
+           family={Dustmann},
+           familyi={D\bibinitperiod},
+           given={Christian},
+           giveni={C\bibinitperiod},
+           givenun=0}}%
+        {{un=0,uniquepart=base,hash=c5a38268ae1913d5e53d45cc5513ad57}{%
+           family={Lindner},
+           familyi={L\bibinitperiod},
+           given={Attila},
+           giveni={A\bibinitperiod},
+           givenun=0}}%
+        {{un=0,uniquepart=base,hash=de9dd0ae65d941ab9ad256586913605b}{%
+           family={Schönberg},
+           familyi={S\bibinitperiod},
+           given={Uta},
+           giveni={U\bibinitperiod},
+           givenun=0}}%
+        {{un=0,uniquepart=base,hash=a25acc5d0d1bf54c829daadc217b21e0}{%
+           family={Umkehrer},
+           familyi={U\bibinitperiod},
+           given={Matthias},
+           giveni={M\bibinitperiod},
+           givenun=0}}%
+        {{un=0,uniquepart=base,hash=0f81a63ae788e27d5c97d5202645a2b4}{%
+           family={Vom\bibnamedelima Berge},
+           familyi={V\bibinitperiod\bibinitdelim B\bibinitperiod},
+           given={Philipp},
+           giveni={P\bibinitperiod},
+           givenun=0}}%
+      }
+      \list{publisher}{1}{%
+        {Oxford University Press}%
+      }
+      \strng{namehash}{b65f96d02e15a1266fd660628b37efdf}
+      \strng{fullhash}{366f75f96b23a479ccc7bd83ac805ee0}
+      \strng{fullhashraw}{366f75f96b23a479ccc7bd83ac805ee0}
+      \strng{bibnamehash}{366f75f96b23a479ccc7bd83ac805ee0}
+      \strng{authorbibnamehash}{366f75f96b23a479ccc7bd83ac805ee0}
+      \strng{authornamehash}{b65f96d02e15a1266fd660628b37efdf}
+      \strng{authorfullhash}{366f75f96b23a479ccc7bd83ac805ee0}
+      \strng{authorfullhashraw}{366f75f96b23a479ccc7bd83ac805ee0}
+      \field{sortinit}{2}
+      \field{sortinithash}{8b555b3791beccb63322c22f3320aa9a}
+      \field{extradatescope}{labelyear}
+      \field{labeldatesource}{}
+      \true{uniqueprimaryauthor}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{journaltitle}{The Quarterly Journal of Economics}
+      \field{number}{1}
+      \field{title}{Reallocation effects of the minimum wage}
+      \field{volume}{137}
+      \field{year}{2022}
+      \field{pages}{267\bibrangedash 328}
+      \range{pages}{62}
+    \endentry
+    \entry{geng2022minimum}{article}{}{}
+      \name{author}{4}{}{%
+        {{un=0,uniquepart=base,hash=0013fd3d29765295341e7dbc24b3ff68}{%
+           family={Geng},
+           familyi={G\bibinitperiod},
+           given={Heng\bibnamedelima Griffin},
+           giveni={H\bibinitperiod\bibinitdelim G\bibinitperiod},
+           givenun=0}}%
+        {{un=0,uniquepart=base,hash=1fd5ec8bcbaf30b0eeea16e2e3c528d0}{%
+           family={Huang},
+           familyi={H\bibinitperiod},
+           given={Yi},
+           giveni={Y\bibinitperiod},
+           givenun=0}}%
+        {{un=0,uniquepart=base,hash=090fc57e7cf4e1ae02f7f6063dcef65d}{%
+           family={Lin},
+           familyi={L\bibinitperiod},
+           given={Chen},
+           giveni={C\bibinitperiod},
+           givenun=0}}%
+        {{un=0,uniquepart=base,hash=051b4ec96f6ee1d1b648394353f11718}{%
+           family={Liu},
+           familyi={L\bibinitperiod},
+           given={Sibo},
+           giveni={S\bibinitperiod},
+           givenun=0}}%
+      }
+      \list{publisher}{1}{%
+        {Cambridge University Press}%
+      }
+      \strng{namehash}{805d8486ac8998c35814d79894086885}
+      \strng{fullhash}{43a6a1245c30e14cf7a678b684e24975}
+      \strng{fullhashraw}{43a6a1245c30e14cf7a678b684e24975}
+      \strng{bibnamehash}{43a6a1245c30e14cf7a678b684e24975}
+      \strng{authorbibnamehash}{43a6a1245c30e14cf7a678b684e24975}
+      \strng{authornamehash}{805d8486ac8998c35814d79894086885}
+      \strng{authorfullhash}{43a6a1245c30e14cf7a678b684e24975}
+      \strng{authorfullhashraw}{43a6a1245c30e14cf7a678b684e24975}
+      \field{sortinit}{2}
+      \field{sortinithash}{8b555b3791beccb63322c22f3320aa9a}
+      \field{extradatescope}{labelyear}
+      \field{labeldatesource}{}
+      \true{uniqueprimaryauthor}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{journaltitle}{Journal of Financial and Quantitative Analysis}
+      \field{number}{1}
+      \field{title}{Minimum wage and corporate investment: Evidence from manufacturing firms in China}
+      \field{volume}{57}
+      \field{year}{2022}
+      \field{pages}{94\bibrangedash 126}
+      \range{pages}{33}
+    \endentry
+    \entry{gregory2022minimum}{article}{}{}
+      \name{author}{2}{}{%
+        {{un=0,uniquepart=base,hash=933476e5e8b47b8644f20feded88f3c8}{%
+           family={Gregory},
+           familyi={G\bibinitperiod},
+           given={Terry},
+           giveni={T\bibinitperiod},
+           givenun=0}}%
+        {{un=0,uniquepart=base,hash=581b44bec06143c42d9c73230b3c183f}{%
+           family={Zierahn},
+           familyi={Z\bibinitperiod},
+           given={Ulrich},
+           giveni={U\bibinitperiod},
+           givenun=0}}%
+      }
+      \list{publisher}{1}{%
+        {Elsevier}%
+      }
+      \strng{namehash}{38b178ab9d98f0b676cfb0a10d6eb8cc}
+      \strng{fullhash}{38b178ab9d98f0b676cfb0a10d6eb8cc}
+      \strng{fullhashraw}{38b178ab9d98f0b676cfb0a10d6eb8cc}
+      \strng{bibnamehash}{38b178ab9d98f0b676cfb0a10d6eb8cc}
+      \strng{authorbibnamehash}{38b178ab9d98f0b676cfb0a10d6eb8cc}
+      \strng{authornamehash}{38b178ab9d98f0b676cfb0a10d6eb8cc}
+      \strng{authorfullhash}{38b178ab9d98f0b676cfb0a10d6eb8cc}
+      \strng{authorfullhashraw}{38b178ab9d98f0b676cfb0a10d6eb8cc}
+      \field{sortinit}{2}
+      \field{sortinithash}{8b555b3791beccb63322c22f3320aa9a}
+      \field{extradatescope}{labelyear}
+      \field{labeldatesource}{}
+      \true{uniqueprimaryauthor}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{journaltitle}{Journal of Public Economics}
+      \field{title}{When the minimum wage really bites hard: The negative spillover effect on high-skilled workers}
+      \field{volume}{206}
+      \field{year}{2022}
+      \field{pages}{104582}
+      \range{pages}{1}
+    \endentry
+    \entry{ku2022does}{article}{}{}
+      \name{author}{1}{}{%
+        {{un=0,uniquepart=base,hash=527b2709dc95e2f0cac25f57a911ee94}{%
+           family={Ku},
+           familyi={K\bibinitperiod},
+           given={Hyejin},
+           giveni={H\bibinitperiod},
+           givenun=0}}%
+      }
+      \list{publisher}{1}{%
+        {The University of Chicago Press Chicago, IL}%
+      }
+      \strng{namehash}{527b2709dc95e2f0cac25f57a911ee94}
+      \strng{fullhash}{527b2709dc95e2f0cac25f57a911ee94}
+      \strng{fullhashraw}{527b2709dc95e2f0cac25f57a911ee94}
+      \strng{bibnamehash}{527b2709dc95e2f0cac25f57a911ee94}
+      \strng{authorbibnamehash}{527b2709dc95e2f0cac25f57a911ee94}
+      \strng{authornamehash}{527b2709dc95e2f0cac25f57a911ee94}
+      \strng{authorfullhash}{527b2709dc95e2f0cac25f57a911ee94}
+      \strng{authorfullhashraw}{527b2709dc95e2f0cac25f57a911ee94}
+      \field{sortinit}{2}
+      \field{sortinithash}{8b555b3791beccb63322c22f3320aa9a}
+      \field{extradatescope}{labelyear}
+      \field{labeldatesource}{}
+      \true{uniqueprimaryauthor}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{journaltitle}{Journal of Labor Economics}
+      \field{number}{2}
+      \field{title}{Does minimum wage increase labor productivity? Evidence from piece rate workers}
+      \field{volume}{40}
+      \field{year}{2022}
+      \field{pages}{325\bibrangedash 359}
+      \range{pages}{35}
+    \endentry
+    \entry{seok2022macroeconomic}{article}{}{}
+      \name{author}{2}{}{%
+        {{un=0,uniquepart=base,hash=42b6bd4520be2b72c6865670592f5396}{%
+           family={Seok},
+           familyi={S\bibinitperiod},
+           given={Byoung\bibnamedelima Hoon},
+           giveni={B\bibinitperiod\bibinitdelim H\bibinitperiod},
+           givenun=0}}%
+        {{un=0,uniquepart=base,hash=65b94c7bc0f99332b33dd309aa769905}{%
+           family={You},
+           familyi={Y\bibinitperiod},
+           given={Hye\bibnamedelima Mi},
+           giveni={H\bibinitperiod\bibinitdelim M\bibinitperiod},
+           givenun=0}}%
+      }
+      \list{publisher}{1}{%
+        {Elsevier}%
+      }
+      \strng{namehash}{275f1dbb467214c0cff209714268ddd3}
+      \strng{fullhash}{275f1dbb467214c0cff209714268ddd3}
+      \strng{fullhashraw}{275f1dbb467214c0cff209714268ddd3}
+      \strng{bibnamehash}{275f1dbb467214c0cff209714268ddd3}
+      \strng{authorbibnamehash}{275f1dbb467214c0cff209714268ddd3}
+      \strng{authornamehash}{275f1dbb467214c0cff209714268ddd3}
+      \strng{authorfullhash}{275f1dbb467214c0cff209714268ddd3}
+      \strng{authorfullhashraw}{275f1dbb467214c0cff209714268ddd3}
+      \field{sortinit}{2}
+      \field{sortinithash}{8b555b3791beccb63322c22f3320aa9a}
+      \field{extradatescope}{labelyear}
+      \field{labeldatesource}{}
+      \true{uniqueprimaryauthor}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{journaltitle}{Economic Modelling}
+      \field{title}{Macroeconomic impacts of increasing the minimum wage: The case of Korea}
+      \field{volume}{113}
+      \field{year}{2022}
+      \field{pages}{105880}
+      \range{pages}{1}
+    \endentry
+    \entry{baek2021impact}{article}{}{}
+      \name{author}{3}{}{%
+        {{un=0,uniquepart=base,hash=87b100316b7afef254ce8f8f9821b5ce}{%
+           family={Baek},
+           familyi={B\bibinitperiod},
+           given={Jisun},
+           giveni={J\bibinitperiod},
+           givenun=0}}%
+        {{un=0,uniquepart=base,hash=3364ca12b693459a342ae99d951f24d2}{%
+           family={Lee},
+           familyi={L\bibinitperiod},
+           given={Changkeun},
+           giveni={C\bibinitperiod},
+           givenun=0}}%
+        {{un=0,uniquepart=base,hash=79672880a52ced3f2301467e58d2f2c1}{%
+           family={Park},
+           familyi={P\bibinitperiod},
+           given={WooRam},
+           giveni={W\bibinitperiod},
+           givenun=0}}%
+      }
+      \list{publisher}{1}{%
+        {Elsevier}%
+      }
+      \strng{namehash}{604d45687aada0769636f349bba8aad5}
+      \strng{fullhash}{7eba2b864d235a6335ee8f5c5b2ca1e2}
+      \strng{fullhashraw}{7eba2b864d235a6335ee8f5c5b2ca1e2}
+      \strng{bibnamehash}{7eba2b864d235a6335ee8f5c5b2ca1e2}
+      \strng{authorbibnamehash}{7eba2b864d235a6335ee8f5c5b2ca1e2}
+      \strng{authornamehash}{604d45687aada0769636f349bba8aad5}
+      \strng{authorfullhash}{7eba2b864d235a6335ee8f5c5b2ca1e2}
+      \strng{authorfullhashraw}{7eba2b864d235a6335ee8f5c5b2ca1e2}
+      \field{sortinit}{2}
+      \field{sortinithash}{8b555b3791beccb63322c22f3320aa9a}
+      \field{extradatescope}{labelyear}
+      \field{labeldatesource}{}
+      \true{uniqueprimaryauthor}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{journaltitle}{Labour Economics}
+      \field{title}{The impact of the minimum wage on the characteristics of new establishments: Evidence from South Korea}
+      \field{volume}{72}
+      \field{year}{2021}
+      \field{pages}{102059}
+      \range{pages}{1}
+    \endentry
+    \entry{baines2021linking}{article}{}{}
+      \true{moreauthor}
+      \true{morelabelname}
+      \name{author}{10}{}{%
+        {{un=0,uniquepart=base,hash=74ef491bf2f681efddfba155e06bf47e}{%
+           family={Baines},
+           familyi={B\bibinitperiod},
+           given={Ciara},
+           giveni={C\bibinitperiod},
+           givenun=0}}%
+        {{un=0,uniquepart=base,hash=a0a733d0047a56f5ea0f3c72b6588fcd}{%
+           family={Lerebours},
+           familyi={L\bibinitperiod},
+           given={Adelaide},
+           giveni={A\bibinitperiod},
+           givenun=0}}%
+        {{un=0,uniquepart=base,hash=fcc74d0bc4d75c2c90ce8c01ef7f774f}{%
+           family={Thomas},
+           familyi={T\bibinitperiod},
+           given={Frederic},
+           giveni={F\bibinitperiod},
+           givenun=0}}%
+        {{un=0,uniquepart=base,hash=d9e14f84f96c4f107a241919c8104636}{%
+           family={Fort},
+           familyi={F\bibinitperiod},
+           given={Jerome},
+           giveni={J\bibinitperiod},
+           givenun=0}}%
+        {{un=0,uniquepart=base,hash=b603ce8d4da84cb0de8d2ba6f3362dd3}{%
+           family={Kreitsberg},
+           familyi={K\bibinitperiod},
+           given={Randel},
+           giveni={R\bibinitperiod},
+           givenun=0}}%
+        {{un=0,uniquepart=base,hash=d9c7ce18ef811f9d8072387c73b0bb82}{%
+           family={Gentes},
+           familyi={G\bibinitperiod},
+           given={Sophie},
+           giveni={S\bibinitperiod},
+           givenun=0}}%
+        {{un=0,uniquepart=base,hash=49ef283787a304970d836bc880d59743}{%
+           family={Meitern},
+           familyi={M\bibinitperiod},
+           given={Richard},
+           giveni={R\bibinitperiod},
+           givenun=0}}%
+        {{un=0,uniquepart=base,hash=d3854c16ba521f130bc6ef8dd8ddc8f3}{%
+           family={Saks},
+           familyi={S\bibinitperiod},
+           given={Lauri},
+           giveni={L\bibinitperiod},
+           givenun=0}}%
+        {{un=0,uniquepart=base,hash=fd4f7211fd8f294288748d3912335210}{%
+           family={Ujvari},
+           familyi={U\bibinitperiod},
+           given={Beata},
+           giveni={B\bibinitperiod},
+           givenun=0}}%
+        {{un=0,uniquepart=base,hash=4aa49b6eb575a9eb804162da54b88a13}{%
+           family={Giraudeau},
+           familyi={G\bibinitperiod},
+           given={Mathieu},
+           giveni={M\bibinitperiod},
+           givenun=0}}%
+      }
+      \list{publisher}{1}{%
+        {Elsevier}%
+      }
+      \strng{namehash}{74eda7cf3dfdfe029a4dda8273b0c5c1}
+      \strng{fullhash}{62718b92f57e595eab050be4dcbbceb3}
+      \strng{fullhashraw}{62718b92f57e595eab050be4dcbbceb3}
+      \strng{bibnamehash}{62718b92f57e595eab050be4dcbbceb3}
+      \strng{authorbibnamehash}{62718b92f57e595eab050be4dcbbceb3}
+      \strng{authornamehash}{74eda7cf3dfdfe029a4dda8273b0c5c1}
+      \strng{authorfullhash}{62718b92f57e595eab050be4dcbbceb3}
+      \strng{authorfullhashraw}{62718b92f57e595eab050be4dcbbceb3}
+      \field{sortinit}{2}
+      \field{sortinithash}{8b555b3791beccb63322c22f3320aa9a}
+      \field{extradatescope}{labelyear}
+      \field{labeldatesource}{}
+      \true{uniqueprimaryauthor}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{journaltitle}{Environment International}
+      \field{title}{Linking pollution and cancer in aquatic environments: A review}
+      \field{volume}{149}
+      \field{year}{2021}
+      \field{pages}{106391}
+      \range{pages}{1}
+    \endentry
+    \entry{gopalan2021state}{article}{}{}
+      \name{author}{4}{}{%
+        {{un=0,uniquepart=base,hash=e607a4be3c98da061396ec70764ea39b}{%
+           family={Gopalan},
+           familyi={G\bibinitperiod},
+           given={Radhakrishnan},
+           giveni={R\bibinitperiod},
+           givenun=0}}%
+        {{un=0,uniquepart=base,hash=70f6319cea6641f628a943af5a802449}{%
+           family={Hamilton},
+           familyi={H\bibinitperiod},
+           given={Barton\bibnamedelima H},
+           giveni={B\bibinitperiod\bibinitdelim H\bibinitperiod},
+           givenun=0}}%
+        {{un=0,uniquepart=base,hash=0cccd38e5c25e8e701ea21e2b6a162ea}{%
+           family={Kalda},
+           familyi={K\bibinitperiod},
+           given={Ankit},
+           giveni={A\bibinitperiod},
+           givenun=0}}%
+        {{un=0,uniquepart=base,hash=416bd791b127288d84af8ee0da981f17}{%
+           family={Sovich},
+           familyi={S\bibinitperiod},
+           given={David},
+           giveni={D\bibinitperiod},
+           givenun=0}}%
+      }
+      \list{publisher}{1}{%
+        {The University of Chicago Press Chicago, IL}%
+      }
+      \strng{namehash}{b3e3460a34918b93f69d0885f90a1235}
+      \strng{fullhash}{021de5ed58cf739b48ced8888888a40c}
+      \strng{fullhashraw}{021de5ed58cf739b48ced8888888a40c}
+      \strng{bibnamehash}{021de5ed58cf739b48ced8888888a40c}
+      \strng{authorbibnamehash}{021de5ed58cf739b48ced8888888a40c}
+      \strng{authornamehash}{b3e3460a34918b93f69d0885f90a1235}
+      \strng{authorfullhash}{021de5ed58cf739b48ced8888888a40c}
+      \strng{authorfullhashraw}{021de5ed58cf739b48ced8888888a40c}
+      \field{sortinit}{2}
+      \field{sortinithash}{8b555b3791beccb63322c22f3320aa9a}
+      \field{extradatescope}{labelyear}
+      \field{labeldatesource}{}
+      \true{uniqueprimaryauthor}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{journaltitle}{Journal of Labor Economics}
+      \field{number}{3}
+      \field{title}{State minimum wages, employment, and wage spillovers: Evidence from administrative payroll data}
+      \field{volume}{39}
+      \field{year}{2021}
+      \field{pages}{673\bibrangedash 707}
+      \range{pages}{35}
+    \endentry
+    \entry{lathrop2021raises}{article}{}{}
+      \name{author}{1}{}{%
+        {{un=0,uniquepart=base,hash=0c4e5593704a229e45d4e026299cfa31}{%
+           family={Lathrop},
+           familyi={L\bibinitperiod},
+           given={Yannet},
+           giveni={Y\bibinitperiod},
+           givenun=0}}%
+      }
+      \strng{namehash}{0c4e5593704a229e45d4e026299cfa31}
+      \strng{fullhash}{0c4e5593704a229e45d4e026299cfa31}
+      \strng{fullhashraw}{0c4e5593704a229e45d4e026299cfa31}
+      \strng{bibnamehash}{0c4e5593704a229e45d4e026299cfa31}
+      \strng{authorbibnamehash}{0c4e5593704a229e45d4e026299cfa31}
+      \strng{authornamehash}{0c4e5593704a229e45d4e026299cfa31}
+      \strng{authorfullhash}{0c4e5593704a229e45d4e026299cfa31}
+      \strng{authorfullhashraw}{0c4e5593704a229e45d4e026299cfa31}
+      \field{sortinit}{2}
+      \field{sortinithash}{8b555b3791beccb63322c22f3320aa9a}
+      \field{extradatescope}{labelyear}
+      \field{labeldatesource}{}
+      \true{uniqueprimaryauthor}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{journaltitle}{National Employment Law Project (December 2021), available at https://www. nelp. org/publication/raises-from-coast-to-coast-in-2022/, also showing that, in all}
+      \field{title}{Raises from Coast to Coast in 2022}
+      \field{volume}{33}
+      \field{year}{2021}
+    \endentry
+    \entry{zhao2021effects}{article}{}{}
+      \name{author}{2}{}{%
+        {{un=0,uniquepart=base,hash=e01469d987bf81a4e00e68a3f3d40827}{%
+           family={Zhao},
+           familyi={Z\bibinitperiod},
+           given={Naibao},
+           giveni={N\bibinitperiod},
+           givenun=0}}%
+        {{un=0,uniquepart=base,hash=7b8f28a51717b34b499e8a1ffca1df90}{%
+           family={Sun},
+           familyi={S\bibinitperiod},
+           given={Meng},
+           giveni={M\bibinitperiod},
+           givenun=0}}%
+      }
+      \list{publisher}{1}{%
+        {Elsevier}%
+      }
+      \strng{namehash}{479f162f9cc3cd4c2af1689e96872659}
+      \strng{fullhash}{479f162f9cc3cd4c2af1689e96872659}
+      \strng{fullhashraw}{479f162f9cc3cd4c2af1689e96872659}
+      \strng{bibnamehash}{479f162f9cc3cd4c2af1689e96872659}
+      \strng{authorbibnamehash}{479f162f9cc3cd4c2af1689e96872659}
+      \strng{authornamehash}{479f162f9cc3cd4c2af1689e96872659}
+      \strng{authorfullhash}{479f162f9cc3cd4c2af1689e96872659}
+      \strng{authorfullhashraw}{479f162f9cc3cd4c2af1689e96872659}
+      \field{sortinit}{2}
+      \field{sortinithash}{8b555b3791beccb63322c22f3320aa9a}
+      \field{extradatescope}{labelyear}
+      \field{labeldatesource}{}
+      \true{uniqueprimaryauthor}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{journaltitle}{Economic Modelling}
+      \field{title}{Effects of minimum wage on workers’ on-the-job effort and labor market outcomes}
+      \field{volume}{95}
+      \field{year}{2021}
+      \field{pages}{453\bibrangedash 461}
+      \range{pages}{9}
+    \endentry
+    \entry{hau2020firm}{article}{}{}
+      \name{author}{3}{}{%
+        {{un=0,uniquepart=base,hash=450afd072be9c78389a22f3d7eaceb4b}{%
+           family={Hau},
+           familyi={H\bibinitperiod},
+           given={Harald},
+           giveni={H\bibinitperiod},
+           givenun=0}}%
+        {{un=0,uniquepart=base,hash=1fd5ec8bcbaf30b0eeea16e2e3c528d0}{%
+           family={Huang},
+           familyi={H\bibinitperiod},
+           given={Yi},
+           giveni={Y\bibinitperiod},
+           givenun=0}}%
+        {{un=0,uniquepart=base,hash=a01bd9f90dae4038bb9d6a65ff7e60d1}{%
+           family={Wang},
+           familyi={W\bibinitperiod},
+           given={Gewei},
+           giveni={G\bibinitperiod},
+           givenun=0}}%
+      }
+      \list{publisher}{1}{%
+        {Oxford University Press}%
+      }
+      \strng{namehash}{c2605543a8e5d58f41bde9fbb39343e3}
+      \strng{fullhash}{c03ec834e8769c85716448512fb5d944}
+      \strng{fullhashraw}{c03ec834e8769c85716448512fb5d944}
+      \strng{bibnamehash}{c03ec834e8769c85716448512fb5d944}
+      \strng{authorbibnamehash}{c03ec834e8769c85716448512fb5d944}
+      \strng{authornamehash}{c2605543a8e5d58f41bde9fbb39343e3}
+      \strng{authorfullhash}{c03ec834e8769c85716448512fb5d944}
+      \strng{authorfullhashraw}{c03ec834e8769c85716448512fb5d944}
+      \field{sortinit}{2}
+      \field{sortinithash}{8b555b3791beccb63322c22f3320aa9a}
+      \field{extradatescope}{labelyear}
+      \field{labeldatesource}{}
+      \true{uniqueprimaryauthor}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{journaltitle}{The Review of Economic Studies}
+      \field{number}{6}
+      \field{title}{Firm response to competitive shocks: Evidence from China’s minimum wage policy}
+      \field{volume}{87}
+      \field{year}{2020}
+      \field{pages}{2639\bibrangedash 2671}
+      \range{pages}{33}
+    \endentry
+    \entry{li2020labor}{article}{}{}
+      \name{author}{4}{}{%
+        {{un=1,uniquepart=given,hash=044e3ce31698740e52346ad0aadea689}{%
+           family={Li},
+           familyi={L\bibinitperiod},
+           given={Jianqiang},
+           giveni={J\bibinitperiod},
+           givenun=1}}%
+        {{un=0,uniquepart=base,hash=295953abbce6ca5ea5613b0b195bc3e7}{%
+           family={Shan},
+           familyi={S\bibinitperiod},
+           given={Yaowen},
+           giveni={Y\bibinitperiod},
+           givenun=0}}%
+        {{un=0,uniquepart=base,hash=46ff66faf6eb8c27427948491495268d}{%
+           family={Tian},
+           familyi={T\bibinitperiod},
+           given={Gary},
+           giveni={G\bibinitperiod},
+           givenun=0}}%
+        {{un=0,uniquepart=base,hash=b8a92d7dddf06451b7b6cbaf583ff9c6}{%
+           family={Hao},
+           familyi={H\bibinitperiod},
+           given={Xiangchao},
+           giveni={X\bibinitperiod},
+           givenun=0}}%
+      }
+      \list{publisher}{1}{%
+        {Elsevier}%
+      }
+      \strng{namehash}{3c8f9e3749c8affb6782d4f17b24d4a7}
+      \strng{fullhash}{a381039ad5f0678148ba4cc9424a3251}
+      \strng{fullhashraw}{a381039ad5f0678148ba4cc9424a3251}
+      \strng{bibnamehash}{a381039ad5f0678148ba4cc9424a3251}
+      \strng{authorbibnamehash}{a381039ad5f0678148ba4cc9424a3251}
+      \strng{authornamehash}{3c8f9e3749c8affb6782d4f17b24d4a7}
+      \strng{authorfullhash}{a381039ad5f0678148ba4cc9424a3251}
+      \strng{authorfullhashraw}{a381039ad5f0678148ba4cc9424a3251}
+      \field{sortinit}{2}
+      \field{sortinithash}{8b555b3791beccb63322c22f3320aa9a}
+      \field{extradatescope}{labelyear}
+      \field{labeldatesource}{}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{journaltitle}{Journal of Corporate Finance}
+      \field{title}{Labor cost, government intervention, and corporate innovation: Evidence from China}
+      \field{volume}{64}
+      \field{year}{2020}
+      \field{pages}{101668}
+      \range{pages}{1}
+    \endentry
+    \entry{turner2020outdoor}{article}{}{}
+      \name{author}{10}{}{%
+        {{un=0,uniquepart=base,hash=37c9dcb6fb18a5a3f18b0453f694b5d6}{%
+           family={Turner},
+           familyi={T\bibinitperiod},
+           given={Michelle\bibnamedelima C},
+           giveni={M\bibinitperiod\bibinitdelim C\bibinitperiod},
+           givenun=0}}%
+        {{un=0,uniquepart=base,hash=be36a1f3c688e893d8f6d20c4b29f8d8}{%
+           family={Andersen},
+           familyi={A\bibinitperiod},
+           given={Zorana\bibnamedelima J},
+           giveni={Z\bibinitperiod\bibinitdelim J\bibinitperiod},
+           givenun=0}}%
+        {{un=0,uniquepart=base,hash=ddb58cbb4cca3f830eb5010d16278a0a}{%
+           family={Baccarelli},
+           familyi={B\bibinitperiod},
+           given={Andrea},
+           giveni={A\bibinitperiod},
+           givenun=0}}%
+        {{un=0,uniquepart=base,hash=5ba27b1e299c8c0e201a6c7e3dc91b9d}{%
+           family={Diver},
+           familyi={D\bibinitperiod},
+           given={W\bibnamedelima Ryan},
+           giveni={W\bibinitperiod\bibinitdelim R\bibinitperiod},
+           givenun=0}}%
+        {{un=0,uniquepart=base,hash=8f2ffc395d885b406f06c5bdb1c1bcd1}{%
+           family={Gapstur},
+           familyi={G\bibinitperiod},
+           given={Susan\bibnamedelima M},
+           giveni={S\bibinitperiod\bibinitdelim M\bibinitperiod},
+           givenun=0}}%
+        {{un=0,uniquepart=base,hash=80373fbf04d8e2d5e387c7eb5c4c9456}{%
+           family={Pope\bibnamedelima III},
+           familyi={P\bibinitperiod\bibinitdelim I\bibinitperiod},
+           given={C\bibnamedelima Arden},
+           giveni={C\bibinitperiod\bibinitdelim A\bibinitperiod},
+           givenun=0}}%
+        {{un=0,uniquepart=base,hash=e8c203ff0730aa076277145b54f1401c}{%
+           family={Prada},
+           familyi={P\bibinitperiod},
+           given={Diddier},
+           giveni={D\bibinitperiod},
+           givenun=0}}%
+        {{un=0,uniquepart=base,hash=13a1f43aa6393d12a865308c965cca12}{%
+           family={Samet},
+           familyi={S\bibinitperiod},
+           given={Jonathan},
+           giveni={J\bibinitperiod},
+           givenun=0}}%
+        {{un=0,uniquepart=base,hash=4c3171c337841f8cabae2103799638be}{%
+           family={Thurston},
+           familyi={T\bibinitperiod},
+           given={George},
+           giveni={G\bibinitperiod},
+           givenun=0}}%
+        {{un=0,uniquepart=base,hash=61c4d9e122ef2150a9e75d26baabdc5e}{%
+           family={Cohen},
+           familyi={C\bibinitperiod},
+           given={Aaron},
+           giveni={A\bibinitperiod},
+           givenun=0}}%
+      }
+      \list{publisher}{1}{%
+        {Wiley Online Library}%
+      }
+      \strng{namehash}{380b4fc6297586a46f10c7562d42b685}
+      \strng{fullhash}{56a33fff5a56b85aca065f6b4fe5aa71}
+      \strng{fullhashraw}{56a33fff5a56b85aca065f6b4fe5aa71}
+      \strng{bibnamehash}{56a33fff5a56b85aca065f6b4fe5aa71}
+      \strng{authorbibnamehash}{56a33fff5a56b85aca065f6b4fe5aa71}
+      \strng{authornamehash}{380b4fc6297586a46f10c7562d42b685}
+      \strng{authorfullhash}{56a33fff5a56b85aca065f6b4fe5aa71}
+      \strng{authorfullhashraw}{56a33fff5a56b85aca065f6b4fe5aa71}
+      \field{extraname}{1}
+      \field{sortinit}{2}
+      \field{sortinithash}{8b555b3791beccb63322c22f3320aa9a}
+      \field{extradatescope}{labelyear}
+      \field{labeldatesource}{}
+      \true{uniqueprimaryauthor}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{journaltitle}{CA: a cancer journal for clinicians}
+      \field{number}{6}
+      \field{title}{Outdoor air pollution and cancer: An overview of the current evidence and public health recommendations}
+      \field{volume}{70}
+      \field{year}{2020}
+      \field{pages}{460\bibrangedash 479}
+      \range{pages}{20}
+    \endentry
+    \entry{cengiz2019effect}{article}{}{}
+      \name{author}{4}{}{%
+        {{un=0,uniquepart=base,hash=288fda1d982b59074055775aefeaa70d}{%
+           family={Cengiz},
+           familyi={C\bibinitperiod},
+           given={Doruk},
+           giveni={D\bibinitperiod},
+           givenun=0}}%
+        {{un=0,uniquepart=base,hash=806312e86adad46015daebe215cb2c39}{%
+           family={Dube},
+           familyi={D\bibinitperiod},
+           given={Arindrajit},
+           giveni={A\bibinitperiod},
+           givenun=0}}%
+        {{un=0,uniquepart=base,hash=c5a38268ae1913d5e53d45cc5513ad57}{%
+           family={Lindner},
+           familyi={L\bibinitperiod},
+           given={Attila},
+           giveni={A\bibinitperiod},
+           givenun=0}}%
+        {{un=0,uniquepart=base,hash=86ef88841e63d7c69a12b35e6c0db2c1}{%
+           family={Zipperer},
+           familyi={Z\bibinitperiod},
+           given={Ben},
+           giveni={B\bibinitperiod},
+           givenun=0}}%
+      }
+      \list{publisher}{1}{%
+        {Oxford Academic}%
+      }
+      \strng{namehash}{9d1d264d4c040b3bdd52304301fbb73e}
+      \strng{fullhash}{d192571910f235584fc016c161a9cdce}
+      \strng{fullhashraw}{d192571910f235584fc016c161a9cdce}
+      \strng{bibnamehash}{d192571910f235584fc016c161a9cdce}
+      \strng{authorbibnamehash}{d192571910f235584fc016c161a9cdce}
+      \strng{authornamehash}{9d1d264d4c040b3bdd52304301fbb73e}
+      \strng{authorfullhash}{d192571910f235584fc016c161a9cdce}
+      \strng{authorfullhashraw}{d192571910f235584fc016c161a9cdce}
+      \field{sortinit}{2}
+      \field{sortinithash}{8b555b3791beccb63322c22f3320aa9a}
+      \field{extradatescope}{labelyear}
+      \field{labeldatesource}{}
+      \true{uniqueprimaryauthor}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{journaltitle}{The Quarterly Journal of Economics}
+      \field{number}{3}
+      \field{title}{The effect of minimum wages on low-wage jobs}
+      \field{volume}{134}
+      \field{year}{2019}
+      \field{pages}{1405\bibrangedash 1454}
+      \range{pages}{50}
+    \endentry
+    \entry{dube2019fairness}{article}{}{}
+      \name{author}{3}{}{%
+        {{un=0,uniquepart=base,hash=806312e86adad46015daebe215cb2c39}{%
+           family={Dube},
+           familyi={D\bibinitperiod},
+           given={Arindrajit},
+           giveni={A\bibinitperiod},
+           givenun=0}}%
+        {{un=0,uniquepart=base,hash=63ca5566435f365e906109384fd645b1}{%
+           family={Giuliano},
+           familyi={G\bibinitperiod},
+           given={Laura},
+           giveni={L\bibinitperiod},
+           givenun=0}}%
+        {{un=0,uniquepart=base,hash=c4130b35acb781f9bace509afcadcb0e}{%
+           family={Leonard},
+           familyi={L\bibinitperiod},
+           given={Jonathan},
+           giveni={J\bibinitperiod},
+           givenun=0}}%
+      }
+      \list{publisher}{1}{%
+        {American Economic Association 2014 Broadway, Suite 305, Nashville, TN 37203}%
+      }
+      \strng{namehash}{d6a778cb7c4aad590812f7e0d2e98c00}
+      \strng{fullhash}{47d4a9d33ed2d306bf1507e2e702900c}
+      \strng{fullhashraw}{47d4a9d33ed2d306bf1507e2e702900c}
+      \strng{bibnamehash}{47d4a9d33ed2d306bf1507e2e702900c}
+      \strng{authorbibnamehash}{47d4a9d33ed2d306bf1507e2e702900c}
+      \strng{authornamehash}{d6a778cb7c4aad590812f7e0d2e98c00}
+      \strng{authorfullhash}{47d4a9d33ed2d306bf1507e2e702900c}
+      \strng{authorfullhashraw}{47d4a9d33ed2d306bf1507e2e702900c}
+      \field{extraname}{1}
+      \field{sortinit}{2}
+      \field{sortinithash}{8b555b3791beccb63322c22f3320aa9a}
+      \field{extradatescope}{labelyear}
+      \field{labeldatesource}{}
+      \true{uniqueprimaryauthor}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{journaltitle}{American Economic Review}
+      \field{number}{2}
+      \field{title}{Fairness and frictions: The impact of unequal raises on quit behavior}
+      \field{volume}{109}
+      \field{year}{2019}
+      \field{pages}{620\bibrangedash 663}
+      \range{pages}{44}
+    \endentry
+    \entry{harasztosi2019pays}{article}{}{}
+      \name{author}{2}{}{%
+        {{un=0,uniquepart=base,hash=705479fcbdb97b914628d48e7bdfb070}{%
+           family={Harasztosi},
+           familyi={H\bibinitperiod},
+           given={Péter},
+           giveni={P\bibinitperiod},
+           givenun=0}}%
+        {{un=0,uniquepart=base,hash=c5a38268ae1913d5e53d45cc5513ad57}{%
+           family={Lindner},
+           familyi={L\bibinitperiod},
+           given={Attila},
+           giveni={A\bibinitperiod},
+           givenun=0}}%
+      }
+      \list{publisher}{1}{%
+        {American Economic Association 2014 Broadway, Suite 305, Nashville, TN 37203}%
+      }
+      \strng{namehash}{9c2334c911ce4f1cd45547a73cbcc2c5}
+      \strng{fullhash}{9c2334c911ce4f1cd45547a73cbcc2c5}
+      \strng{fullhashraw}{9c2334c911ce4f1cd45547a73cbcc2c5}
+      \strng{bibnamehash}{9c2334c911ce4f1cd45547a73cbcc2c5}
+      \strng{authorbibnamehash}{9c2334c911ce4f1cd45547a73cbcc2c5}
+      \strng{authornamehash}{9c2334c911ce4f1cd45547a73cbcc2c5}
+      \strng{authorfullhash}{9c2334c911ce4f1cd45547a73cbcc2c5}
+      \strng{authorfullhashraw}{9c2334c911ce4f1cd45547a73cbcc2c5}
+      \field{sortinit}{2}
+      \field{sortinithash}{8b555b3791beccb63322c22f3320aa9a}
+      \field{extradatescope}{labelyear}
+      \field{labeldatesource}{}
+      \true{uniqueprimaryauthor}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{journaltitle}{American Economic Review}
+      \field{number}{8}
+      \field{title}{Who pays for the minimum wage?}
+      \field{volume}{109}
+      \field{year}{2019}
+      \field{pages}{2693\bibrangedash 2727}
+      \range{pages}{35}
+    \endentry
+    \entry{kim2019minimum}{article}{}{}
+      \name{author}{2}{}{%
+        {{un=0,uniquepart=base,hash=cc42d57d6f19d25b4e145a7d09ef6ee8}{%
+           family={Kim},
+           familyi={K\bibinitperiod},
+           given={Hong\bibnamedelima Soon},
+           giveni={H\bibinitperiod\bibinitdelim S\bibinitperiod},
+           givenun=0}}%
+        {{un=0,uniquepart=base,hash=135dbb91de7a44f26ff2dbdf0a6d200b}{%
+           family={Jang},
+           familyi={J\bibinitperiod},
+           given={SooCheong\bibnamedelima Shawn},
+           giveni={S\bibinitperiod\bibinitdelim S\bibinitperiod},
+           givenun=0}}%
+      }
+      \list{publisher}{1}{%
+        {Elsevier}%
+      }
+      \strng{namehash}{3ea3ddc62a15118fce43b74032080a65}
+      \strng{fullhash}{3ea3ddc62a15118fce43b74032080a65}
+      \strng{fullhashraw}{3ea3ddc62a15118fce43b74032080a65}
+      \strng{bibnamehash}{3ea3ddc62a15118fce43b74032080a65}
+      \strng{authorbibnamehash}{3ea3ddc62a15118fce43b74032080a65}
+      \strng{authornamehash}{3ea3ddc62a15118fce43b74032080a65}
+      \strng{authorfullhash}{3ea3ddc62a15118fce43b74032080a65}
+      \strng{authorfullhashraw}{3ea3ddc62a15118fce43b74032080a65}
+      \field{sortinit}{2}
+      \field{sortinithash}{8b555b3791beccb63322c22f3320aa9a}
+      \field{extradatescope}{labelyear}
+      \field{labeldatesource}{}
+      \true{uniqueprimaryauthor}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{journaltitle}{Tourism Management}
+      \field{title}{Minimum wage increase and firm productivity: Evidence from the restaurant industry}
+      \field{volume}{71}
+      \field{year}{2019}
+      \field{pages}{378\bibrangedash 388}
+      \range{pages}{11}
+    \endentry
+    \entry{okudaira2019minimum}{article}{}{}
+      \name{author}{3}{}{%
+        {{un=0,uniquepart=base,hash=74de29c0ecb6864598984d005dbbed74}{%
+           family={Okudaira},
+           familyi={O\bibinitperiod},
+           given={Hiroko},
+           giveni={H\bibinitperiod},
+           givenun=0}}%
+        {{un=0,uniquepart=base,hash=8d159e48f462267a3ee8b09a1c4fb599}{%
+           family={Takizawa},
+           familyi={T\bibinitperiod},
+           given={Miho},
+           giveni={M\bibinitperiod},
+           givenun=0}}%
+        {{un=0,uniquepart=base,hash=d28a828b669e13e061de1c390f755990}{%
+           family={Yamanouchi},
+           familyi={Y\bibinitperiod},
+           given={Kenta},
+           giveni={K\bibinitperiod},
+           givenun=0}}%
+      }
+      \list{publisher}{1}{%
+        {Elsevier}%
+      }
+      \strng{namehash}{52eb9a33c053f9bf8f195a80427b4532}
+      \strng{fullhash}{bc392d84f47e36a9e7b506e5ec68e7f8}
+      \strng{fullhashraw}{bc392d84f47e36a9e7b506e5ec68e7f8}
+      \strng{bibnamehash}{bc392d84f47e36a9e7b506e5ec68e7f8}
+      \strng{authorbibnamehash}{bc392d84f47e36a9e7b506e5ec68e7f8}
+      \strng{authornamehash}{52eb9a33c053f9bf8f195a80427b4532}
+      \strng{authorfullhash}{bc392d84f47e36a9e7b506e5ec68e7f8}
+      \strng{authorfullhashraw}{bc392d84f47e36a9e7b506e5ec68e7f8}
+      \field{sortinit}{2}
+      \field{sortinithash}{8b555b3791beccb63322c22f3320aa9a}
+      \field{extradatescope}{labelyear}
+      \field{labeldatesource}{}
+      \true{uniqueprimaryauthor}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{journaltitle}{Labour Economics}
+      \field{title}{Minimum wage effects across heterogeneous markets}
+      \field{volume}{59}
+      \field{year}{2019}
+      \field{pages}{110\bibrangedash 122}
+      \range{pages}{13}
+    \endentry
+    \entry{wong2019minimum}{article}{}{}
+      \name{author}{1}{}{%
+        {{un=0,uniquepart=base,hash=7b1267de9dcc121504954af90026cb19}{%
+           family={Wong},
+           familyi={W\bibinitperiod},
+           given={Sara\bibnamedelima A},
+           giveni={S\bibinitperiod\bibinitdelim A\bibinitperiod},
+           givenun=0}}%
+      }
+      \list{publisher}{1}{%
+        {Elsevier}%
+      }
+      \strng{namehash}{7b1267de9dcc121504954af90026cb19}
+      \strng{fullhash}{7b1267de9dcc121504954af90026cb19}
+      \strng{fullhashraw}{7b1267de9dcc121504954af90026cb19}
+      \strng{bibnamehash}{7b1267de9dcc121504954af90026cb19}
+      \strng{authorbibnamehash}{7b1267de9dcc121504954af90026cb19}
+      \strng{authornamehash}{7b1267de9dcc121504954af90026cb19}
+      \strng{authorfullhash}{7b1267de9dcc121504954af90026cb19}
+      \strng{authorfullhashraw}{7b1267de9dcc121504954af90026cb19}
+      \field{sortinit}{2}
+      \field{sortinithash}{8b555b3791beccb63322c22f3320aa9a}
+      \field{extradatescope}{labelyear}
+      \field{labeldatesource}{}
+      \true{uniqueprimaryauthor}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{journaltitle}{World Development}
+      \field{title}{Minimum wage impacts on wages and hours worked of low-income workers in Ecuador}
+      \field{volume}{116}
+      \field{year}{2019}
+      \field{pages}{77\bibrangedash 99}
+      \range{pages}{23}
+    \endentry
+    \entry{zhang2019distributional}{article}{}{}
+      \name{author}{1}{}{%
+        {{un=1,uniquepart=given,hash=f2a08e7a352978d95afbc21de72fcdb2}{%
+           family={Zhang},
+           familyi={Z\bibinitperiod},
+           given={Weilong},
+           giveni={W\bibinitperiod},
+           givenun=1}}%
+      }
+      \strng{namehash}{f2a08e7a352978d95afbc21de72fcdb2}
+      \strng{fullhash}{f2a08e7a352978d95afbc21de72fcdb2}
+      \strng{fullhashraw}{f2a08e7a352978d95afbc21de72fcdb2}
+      \strng{bibnamehash}{f2a08e7a352978d95afbc21de72fcdb2}
+      \strng{authorbibnamehash}{f2a08e7a352978d95afbc21de72fcdb2}
+      \strng{authornamehash}{f2a08e7a352978d95afbc21de72fcdb2}
+      \strng{authorfullhash}{f2a08e7a352978d95afbc21de72fcdb2}
+      \strng{authorfullhashraw}{f2a08e7a352978d95afbc21de72fcdb2}
+      \field{sortinit}{2}
+      \field{sortinithash}{8b555b3791beccb63322c22f3320aa9a}
+      \field{extradatescope}{labelyear}
+      \field{labeldatesource}{}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{journaltitle}{Available at SSRN 3309362}
+      \field{title}{Distributional effects of local minimum wage hikes: A spatial job search approach}
+      \field{year}{2019}
+    \endentry
+    \entry{aaronson2018industry}{article}{}{}
+      \name{author}{4}{}{%
+        {{un=0,uniquepart=base,hash=dd47dcaf0c8ed65a0cfbad07e74f5058}{%
+           family={Aaronson},
+           familyi={A\bibinitperiod},
+           given={Daniel},
+           giveni={D\bibinitperiod},
+           givenun=0}}%
+        {{un=0,uniquepart=base,hash=5390653651b76118812d836185ae842b}{%
+           family={French},
+           familyi={F\bibinitperiod},
+           given={Eric},
+           giveni={E\bibinitperiod},
+           givenun=0}}%
+        {{un=0,uniquepart=base,hash=95a4c478dc1f368c14f4a266def33da7}{%
+           family={Sorkin},
+           familyi={S\bibinitperiod},
+           given={Isaac},
+           giveni={I\bibinitperiod},
+           givenun=0}}%
+        {{un=0,uniquepart=base,hash=7c54146c86f682d93623f28863e037fa}{%
+           family={To},
+           familyi={T\bibinitperiod},
+           given={Ted},
+           giveni={T\bibinitperiod},
+           givenun=0}}%
+      }
+      \list{publisher}{1}{%
+        {Wiley Online Library}%
+      }
+      \strng{namehash}{e43ba15c36477588de062a5504453e2f}
+      \strng{fullhash}{733c7340407c9ed79705267a8ad9dfc6}
+      \strng{fullhashraw}{733c7340407c9ed79705267a8ad9dfc6}
+      \strng{bibnamehash}{733c7340407c9ed79705267a8ad9dfc6}
+      \strng{authorbibnamehash}{733c7340407c9ed79705267a8ad9dfc6}
+      \strng{authornamehash}{e43ba15c36477588de062a5504453e2f}
+      \strng{authorfullhash}{733c7340407c9ed79705267a8ad9dfc6}
+      \strng{authorfullhashraw}{733c7340407c9ed79705267a8ad9dfc6}
+      \field{sortinit}{2}
+      \field{sortinithash}{8b555b3791beccb63322c22f3320aa9a}
+      \field{extradatescope}{labelyear}
+      \field{labeldatesource}{}
+      \true{uniqueprimaryauthor}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{journaltitle}{International Economic Review}
+      \field{number}{1}
+      \field{title}{Industry dynamics and the minimum wage: a putty-clay approach}
+      \field{volume}{59}
+      \field{year}{2018}
+      \field{pages}{51\bibrangedash 84}
+      \range{pages}{34}
+    \endentry
+    \entry{bell2018minimum}{article}{}{}
+      \name{author}{2}{}{%
+        {{un=0,uniquepart=base,hash=ad0e4319e00f0c7882fccbe05e05c091}{%
+           family={Bell},
+           familyi={B\bibinitperiod},
+           given={Brian},
+           giveni={B\bibinitperiod},
+           givenun=0}}%
+        {{un=0,uniquepart=base,hash=d805cb2e720d45cb623715f0750f64b0}{%
+           family={Machin},
+           familyi={M\bibinitperiod},
+           given={Stephen},
+           giveni={S\bibinitperiod},
+           givenun=0}}%
+      }
+      \list{publisher}{1}{%
+        {University of Chicago Press Chicago, IL}%
+      }
+      \strng{namehash}{7018da8858dd362a99d5f32b8f1317e5}
+      \strng{fullhash}{7018da8858dd362a99d5f32b8f1317e5}
+      \strng{fullhashraw}{7018da8858dd362a99d5f32b8f1317e5}
+      \strng{bibnamehash}{7018da8858dd362a99d5f32b8f1317e5}
+      \strng{authorbibnamehash}{7018da8858dd362a99d5f32b8f1317e5}
+      \strng{authornamehash}{7018da8858dd362a99d5f32b8f1317e5}
+      \strng{authorfullhash}{7018da8858dd362a99d5f32b8f1317e5}
+      \strng{authorfullhashraw}{7018da8858dd362a99d5f32b8f1317e5}
+      \field{sortinit}{2}
+      \field{sortinithash}{8b555b3791beccb63322c22f3320aa9a}
+      \field{extradatescope}{labelyear}
+      \field{labeldatesource}{}
+      \true{uniqueprimaryauthor}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{journaltitle}{Journal of Labor Economics}
+      \field{number}{1}
+      \field{title}{Minimum wages and firm value}
+      \field{volume}{36}
+      \field{year}{2018}
+      \field{pages}{159\bibrangedash 195}
+      \range{pages}{37}
+    \endentry
+    \entry{jardim2018minimum}{misc}{}{}
+      \name{author}{6}{}{%
+        {{un=0,uniquepart=base,hash=a52a02ef9b2ea3ffb6e159ca79aa5d95}{%
+           family={Jardim},
+           familyi={J\bibinitperiod},
+           given={E},
+           giveni={E\bibinitperiod},
+           givenun=0}}%
+        {{un=0,uniquepart=base,hash=4ed0826dd4912e0cb01967e9626702eb}{%
+           family={Long},
+           familyi={L\bibinitperiod},
+           given={M},
+           giveni={M\bibinitperiod},
+           givenun=0}}%
+        {{un=0,uniquepart=base,hash=7e706522b4c7806255be2792dfbae8c5}{%
+           family={Plotnick},
+           familyi={P\bibinitperiod},
+           given={R},
+           giveni={R\bibinitperiod},
+           givenun=0}}%
+        {{un=0,uniquepart=base,hash=b7cc65848ffd44b46a23c9a07406f91f}{%
+           family={Inwegen},
+           familyi={I\bibinitperiod},
+           given={E},
+           giveni={E\bibinitperiod},
+           givenun=0,
+           prefix={van},
+           prefixi={v\bibinitperiod}}}%
+        {{un=0,uniquepart=base,hash=9758b57f94120df96c19d6237ce979e5}{%
+           family={Vigdor},
+           familyi={V\bibinitperiod},
+           given={J},
+           giveni={J\bibinitperiod},
+           givenun=0}}%
+        {{un=0,uniquepart=base,hash=42ec59fb765a45e7cf7ee2f15885edc3}{%
+           family={Wething},
+           familyi={W\bibinitperiod},
+           given={H},
+           giveni={H\bibinitperiod},
+           givenun=0}}%
+      }
+      \list{publisher}{1}{%
+        {National Bureau of Economic Research. https://doi. org/10.3386/w23532}%
+      }
+      \strng{namehash}{c8ee52c911a50108cf7f027c5a0bda9d}
+      \strng{fullhash}{1fad47a982f4daee1cb964defb2f1945}
+      \strng{fullhashraw}{1fad47a982f4daee1cb964defb2f1945}
+      \strng{bibnamehash}{1fad47a982f4daee1cb964defb2f1945}
+      \strng{authorbibnamehash}{1fad47a982f4daee1cb964defb2f1945}
+      \strng{authornamehash}{c8ee52c911a50108cf7f027c5a0bda9d}
+      \strng{authorfullhash}{1fad47a982f4daee1cb964defb2f1945}
+      \strng{authorfullhashraw}{1fad47a982f4daee1cb964defb2f1945}
+      \field{sortinit}{2}
+      \field{sortinithash}{8b555b3791beccb63322c22f3320aa9a}
+      \field{extradatescope}{labelyear}
+      \field{labeldatesource}{}
+      \true{uniqueprimaryauthor}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{title}{Minimum wage increases, wages, and low-wage employment: Evidence from Seattle (NBRE Working Paper 23532)}
+      \field{year}{2018}
+    \endentry
+    \entry{shapiro2018pollution}{article}{}{}
+      \name{author}{2}{}{%
+        {{un=0,uniquepart=base,hash=5b6cfcad3f781db23a02e4d7e6f50f62}{%
+           family={Shapiro},
+           familyi={S\bibinitperiod},
+           given={Joseph\bibnamedelima S},
+           giveni={J\bibinitperiod\bibinitdelim S\bibinitperiod},
+           givenun=0}}%
+        {{un=0,uniquepart=base,hash=16bbc59bc9faa239c748fa1ea9f22a54}{%
+           family={Walker},
+           familyi={W\bibinitperiod},
+           given={Reed},
+           giveni={R\bibinitperiod},
+           givenun=0}}%
+      }
+      \list{publisher}{1}{%
+        {American Economic Association 2014 Broadway, Suite 305, Nashville, TN 37203}%
+      }
+      \strng{namehash}{b873193b2f76d873e339f5f541de3a93}
+      \strng{fullhash}{b873193b2f76d873e339f5f541de3a93}
+      \strng{fullhashraw}{b873193b2f76d873e339f5f541de3a93}
+      \strng{bibnamehash}{b873193b2f76d873e339f5f541de3a93}
+      \strng{authorbibnamehash}{b873193b2f76d873e339f5f541de3a93}
+      \strng{authornamehash}{b873193b2f76d873e339f5f541de3a93}
+      \strng{authorfullhash}{b873193b2f76d873e339f5f541de3a93}
+      \strng{authorfullhashraw}{b873193b2f76d873e339f5f541de3a93}
+      \field{sortinit}{2}
+      \field{sortinithash}{8b555b3791beccb63322c22f3320aa9a}
+      \field{extradatescope}{labelyear}
+      \field{labeldatesource}{}
+      \true{uniqueprimaryauthor}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{journaltitle}{American Economic Review}
+      \field{number}{12}
+      \field{title}{Why is pollution from US manufacturing declining? The roles of environmental regulation, productivity, and trade}
+      \field{volume}{108}
+      \field{year}{2018}
+      \field{pages}{3814\bibrangedash 3854}
+      \range{pages}{41}
+    \endentry
+    \entry{riley2017raising}{article}{}{}
+      \name{author}{2}{}{%
+        {{un=0,uniquepart=base,hash=dbb52826011d042d3db8692c6d489189}{%
+           family={Riley},
+           familyi={R\bibinitperiod},
+           given={Rebecca},
+           giveni={R\bibinitperiod},
+           givenun=0}}%
+        {{un=0,uniquepart=base,hash=59bd8a3d8de80af083b9e22ec5115f37}{%
+           family={Bondibene},
+           familyi={B\bibinitperiod},
+           given={Chiara\bibnamedelima Rosazza},
+           giveni={C\bibinitperiod\bibinitdelim R\bibinitperiod},
+           givenun=0}}%
+      }
+      \list{publisher}{1}{%
+        {Elsevier}%
+      }
+      \strng{namehash}{dd114429960ed037e44279fc86b9f5ce}
+      \strng{fullhash}{dd114429960ed037e44279fc86b9f5ce}
+      \strng{fullhashraw}{dd114429960ed037e44279fc86b9f5ce}
+      \strng{bibnamehash}{dd114429960ed037e44279fc86b9f5ce}
+      \strng{authorbibnamehash}{dd114429960ed037e44279fc86b9f5ce}
+      \strng{authornamehash}{dd114429960ed037e44279fc86b9f5ce}
+      \strng{authorfullhash}{dd114429960ed037e44279fc86b9f5ce}
+      \strng{authorfullhashraw}{dd114429960ed037e44279fc86b9f5ce}
+      \field{sortinit}{2}
+      \field{sortinithash}{8b555b3791beccb63322c22f3320aa9a}
+      \field{extradatescope}{labelyear}
+      \field{labeldatesource}{}
+      \true{uniqueprimaryauthor}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{journaltitle}{Labour Economics}
+      \field{title}{Raising the standard: Minimum wages and firm productivity}
+      \field{volume}{44}
+      \field{year}{2017}
+      \field{pages}{27\bibrangedash 50}
+      \range{pages}{24}
+    \endentry
+    \entry{turner2017ambient}{article}{}{}
+      \name{author}{8}{}{%
+        {{un=0,uniquepart=base,hash=37c9dcb6fb18a5a3f18b0453f694b5d6}{%
+           family={Turner},
+           familyi={T\bibinitperiod},
+           given={Michelle\bibnamedelima C},
+           giveni={M\bibinitperiod\bibinitdelim C\bibinitperiod},
+           givenun=0}}%
+        {{un=0,uniquepart=base,hash=7675577cd229a2cd14a4182e7a5bb60f}{%
+           family={Krewski},
+           familyi={K\bibinitperiod},
+           given={Daniel},
+           giveni={D\bibinitperiod},
+           givenun=0}}%
+        {{un=0,uniquepart=base,hash=5ba27b1e299c8c0e201a6c7e3dc91b9d}{%
+           family={Diver},
+           familyi={D\bibinitperiod},
+           given={W\bibnamedelima Ryan},
+           giveni={W\bibinitperiod\bibinitdelim R\bibinitperiod},
+           givenun=0}}%
+        {{un=0,uniquepart=base,hash=80373fbf04d8e2d5e387c7eb5c4c9456}{%
+           family={Pope\bibnamedelima III},
+           familyi={P\bibinitperiod\bibinitdelim I\bibinitperiod},
+           given={C\bibnamedelima Arden},
+           giveni={C\bibinitperiod\bibinitdelim A\bibinitperiod},
+           givenun=0}}%
+        {{un=0,uniquepart=base,hash=8958f6db72862a94d4268f8cf88388d1}{%
+           family={Burnett},
+           familyi={B\bibinitperiod},
+           given={Richard\bibnamedelima T},
+           giveni={R\bibinitperiod\bibinitdelim T\bibinitperiod},
+           givenun=0}}%
+        {{un=0,uniquepart=base,hash=cb5b97dd5de4623bf250880fe7e9e0e5}{%
+           family={Jerrett},
+           familyi={J\bibinitperiod},
+           given={Michael},
+           giveni={M\bibinitperiod},
+           givenun=0}}%
+        {{un=0,uniquepart=base,hash=28e8449e4dcb4577316e06ac651bed7d}{%
+           family={Marshall},
+           familyi={M\bibinitperiod},
+           given={Julian\bibnamedelima D},
+           giveni={J\bibinitperiod\bibinitdelim D\bibinitperiod},
+           givenun=0}}%
+        {{un=0,uniquepart=base,hash=8f2ffc395d885b406f06c5bdb1c1bcd1}{%
+           family={Gapstur},
+           familyi={G\bibinitperiod},
+           given={Susan\bibnamedelima M},
+           giveni={S\bibinitperiod\bibinitdelim M\bibinitperiod},
+           givenun=0}}%
+      }
+      \strng{namehash}{380b4fc6297586a46f10c7562d42b685}
+      \strng{fullhash}{633cb40ea2a071c29ef6da938c3b5cfc}
+      \strng{fullhashraw}{633cb40ea2a071c29ef6da938c3b5cfc}
+      \strng{bibnamehash}{633cb40ea2a071c29ef6da938c3b5cfc}
+      \strng{authorbibnamehash}{633cb40ea2a071c29ef6da938c3b5cfc}
+      \strng{authornamehash}{380b4fc6297586a46f10c7562d42b685}
+      \strng{authorfullhash}{633cb40ea2a071c29ef6da938c3b5cfc}
+      \strng{authorfullhashraw}{633cb40ea2a071c29ef6da938c3b5cfc}
+      \field{extraname}{2}
+      \field{sortinit}{2}
+      \field{sortinithash}{8b555b3791beccb63322c22f3320aa9a}
+      \field{extradatescope}{labelyear}
+      \field{labeldatesource}{}
+      \true{uniqueprimaryauthor}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{journaltitle}{Environmental health perspectives}
+      \field{number}{8}
+      \field{title}{Ambient air pollution and cancer mortality in the cancer prevention study II}
+      \field{volume}{125}
+      \field{year}{2017}
+      \field{pages}{087013}
+      \range{pages}{1}
+    \endentry
+    \entry{coneus2012pollution}{article}{}{}
+      \name{author}{2}{}{%
+        {{un=0,uniquepart=base,hash=d027ebdeef069a09e1fd5a72f06620ee}{%
+           family={Coneus},
+           familyi={C\bibinitperiod},
+           given={Katja},
+           giveni={K\bibinitperiod},
+           givenun=0}}%
+        {{un=0,uniquepart=base,hash=b7c9d9a89f88db587015b5de34e1319a}{%
+           family={Spiess},
+           familyi={S\bibinitperiod},
+           given={C\bibnamedelima Katharina},
+           giveni={C\bibinitperiod\bibinitdelim K\bibinitperiod},
+           givenun=0}}%
+      }
+      \list{publisher}{1}{%
+        {Elsevier}%
+      }
+      \strng{namehash}{e89d95b1c9156ef58ca823a3b90c5b7e}
+      \strng{fullhash}{e89d95b1c9156ef58ca823a3b90c5b7e}
+      \strng{fullhashraw}{e89d95b1c9156ef58ca823a3b90c5b7e}
+      \strng{bibnamehash}{e89d95b1c9156ef58ca823a3b90c5b7e}
+      \strng{authorbibnamehash}{e89d95b1c9156ef58ca823a3b90c5b7e}
+      \strng{authornamehash}{e89d95b1c9156ef58ca823a3b90c5b7e}
+      \strng{authorfullhash}{e89d95b1c9156ef58ca823a3b90c5b7e}
+      \strng{authorfullhashraw}{e89d95b1c9156ef58ca823a3b90c5b7e}
+      \field{sortinit}{2}
+      \field{sortinithash}{8b555b3791beccb63322c22f3320aa9a}
+      \field{extradatescope}{labelyear}
+      \field{labeldatesource}{}
+      \true{uniqueprimaryauthor}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{journaltitle}{Journal of Health Economics}
+      \field{number}{1}
+      \field{title}{Pollution exposure and child health: Evidence for infants and toddlers in Germany}
+      \field{volume}{31}
+      \field{year}{2012}
+      \field{pages}{180\bibrangedash 196}
+      \range{pages}{17}
+    \endentry
+    \entry{draca2011minimum}{article}{}{}
+      \name{author}{3}{}{%
+        {{un=0,uniquepart=base,hash=8cfc610d435bcb6775e963b21a8b9e29}{%
+           family={Draca},
+           familyi={D\bibinitperiod},
+           given={Mirko},
+           giveni={M\bibinitperiod},
+           givenun=0}}%
+        {{un=0,uniquepart=base,hash=d805cb2e720d45cb623715f0750f64b0}{%
+           family={Machin},
+           familyi={M\bibinitperiod},
+           given={Stephen},
+           giveni={S\bibinitperiod},
+           givenun=0}}%
+        {{un=0,uniquepart=base,hash=f70553b3e26946f6aa958883ea10f035}{%
+           family={Van\bibnamedelima Reenen},
+           familyi={V\bibinitperiod\bibinitdelim R\bibinitperiod},
+           given={John},
+           giveni={J\bibinitperiod},
+           givenun=0}}%
+      }
+      \list{publisher}{1}{%
+        {American Economic Association}%
+      }
+      \strng{namehash}{cd7fb7f1e54b4ec329312394dcdd0970}
+      \strng{fullhash}{c82b1df38239dbd7d21bc6ec56210ec7}
+      \strng{fullhashraw}{c82b1df38239dbd7d21bc6ec56210ec7}
+      \strng{bibnamehash}{c82b1df38239dbd7d21bc6ec56210ec7}
+      \strng{authorbibnamehash}{c82b1df38239dbd7d21bc6ec56210ec7}
+      \strng{authornamehash}{cd7fb7f1e54b4ec329312394dcdd0970}
+      \strng{authorfullhash}{c82b1df38239dbd7d21bc6ec56210ec7}
+      \strng{authorfullhashraw}{c82b1df38239dbd7d21bc6ec56210ec7}
+      \field{sortinit}{2}
+      \field{sortinithash}{8b555b3791beccb63322c22f3320aa9a}
+      \field{extradatescope}{labelyear}
+      \field{labeldatesource}{}
+      \true{uniqueprimaryauthor}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{journaltitle}{American economic journal: applied economics}
+      \field{number}{1}
+      \field{title}{Minimum wages and firm profitability}
+      \field{volume}{3}
+      \field{year}{2011}
+      \field{pages}{129\bibrangedash 151}
+      \range{pages}{23}
+    \endentry
+    \entry{acemoglu2010does}{article}{}{}
+      \name{author}{1}{}{%
+        {{un=0,uniquepart=base,hash=d849e6f8de178bfb18aa67341c9f8d38}{%
+           family={Acemoglu},
+           familyi={A\bibinitperiod},
+           given={Daron},
+           giveni={D\bibinitperiod},
+           givenun=0}}%
+      }
+      \list{publisher}{1}{%
+        {University of Chicago Press Chicago, IL}%
+      }
+      \strng{namehash}{d849e6f8de178bfb18aa67341c9f8d38}
+      \strng{fullhash}{d849e6f8de178bfb18aa67341c9f8d38}
+      \strng{fullhashraw}{d849e6f8de178bfb18aa67341c9f8d38}
+      \strng{bibnamehash}{d849e6f8de178bfb18aa67341c9f8d38}
+      \strng{authorbibnamehash}{d849e6f8de178bfb18aa67341c9f8d38}
+      \strng{authornamehash}{d849e6f8de178bfb18aa67341c9f8d38}
+      \strng{authorfullhash}{d849e6f8de178bfb18aa67341c9f8d38}
+      \strng{authorfullhashraw}{d849e6f8de178bfb18aa67341c9f8d38}
+      \field{sortinit}{2}
+      \field{sortinithash}{8b555b3791beccb63322c22f3320aa9a}
+      \field{extradatescope}{labelyear}
+      \field{labeldatesource}{}
+      \true{uniqueprimaryauthor}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{journaltitle}{Journal of Political Economy}
+      \field{number}{6}
+      \field{title}{When does labor scarcity encourage innovation?}
+      \field{volume}{118}
+      \field{year}{2010}
+      \field{pages}{1037\bibrangedash 1078}
+      \range{pages}{42}
+    \endentry
+    \entry{borjas2010labor}{book}{}{}
+      \name{author}{2}{}{%
+        {{un=0,uniquepart=base,hash=2bbc4693cc6e25946b1ae21cf51483a4}{%
+           family={Borjas},
+           familyi={B\bibinitperiod},
+           given={George\bibnamedelima J},
+           giveni={G\bibinitperiod\bibinitdelim J\bibinitperiod},
+           givenun=0}}%
+        {{un=0,uniquepart=base,hash=b9406716af121997f2144175e27462d4}{%
+           family={Van\bibnamedelima Ours},
+           familyi={V\bibinitperiod\bibinitdelim O\bibinitperiod},
+           given={Jan\bibnamedelima C},
+           giveni={J\bibinitperiod\bibinitdelim C\bibinitperiod},
+           givenun=0}}%
+      }
+      \list{publisher}{1}{%
+        {McGraw-Hill/Irwin Boston}%
+      }
+      \strng{namehash}{964596247e19a055f3729143388b8c1a}
+      \strng{fullhash}{964596247e19a055f3729143388b8c1a}
+      \strng{fullhashraw}{964596247e19a055f3729143388b8c1a}
+      \strng{bibnamehash}{964596247e19a055f3729143388b8c1a}
+      \strng{authorbibnamehash}{964596247e19a055f3729143388b8c1a}
+      \strng{authornamehash}{964596247e19a055f3729143388b8c1a}
+      \strng{authorfullhash}{964596247e19a055f3729143388b8c1a}
+      \strng{authorfullhashraw}{964596247e19a055f3729143388b8c1a}
+      \field{sortinit}{2}
+      \field{sortinithash}{8b555b3791beccb63322c22f3320aa9a}
+      \field{extradatescope}{labelyear}
+      \field{labeldatesource}{}
+      \true{uniqueprimaryauthor}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{title}{Labor economics}
+      \field{year}{2010}
+    \endentry
+    \entry{dube2010minimum}{article}{}{}
+      \name{author}{3}{}{%
+        {{un=0,uniquepart=base,hash=806312e86adad46015daebe215cb2c39}{%
+           family={Dube},
+           familyi={D\bibinitperiod},
+           given={Arindrajit},
+           giveni={A\bibinitperiod},
+           givenun=0}}%
+        {{un=0,uniquepart=base,hash=0a1bef0d9204ca5b85e8a87e1861d595}{%
+           family={Lester},
+           familyi={L\bibinitperiod},
+           given={T\bibnamedelima William},
+           giveni={T\bibinitperiod\bibinitdelim W\bibinitperiod},
+           givenun=0}}%
+        {{un=0,uniquepart=base,hash=1c3fe015d34b5591836f431ee1d7fcb3}{%
+           family={Reich},
+           familyi={R\bibinitperiod},
+           given={Michael},
+           giveni={M\bibinitperiod},
+           givenun=0}}%
+      }
+      \list{publisher}{1}{%
+        {The MIT Press}%
+      }
+      \strng{namehash}{d6a778cb7c4aad590812f7e0d2e98c00}
+      \strng{fullhash}{b5b521035c69bc10107862cf67a736ac}
+      \strng{fullhashraw}{b5b521035c69bc10107862cf67a736ac}
+      \strng{bibnamehash}{b5b521035c69bc10107862cf67a736ac}
+      \strng{authorbibnamehash}{b5b521035c69bc10107862cf67a736ac}
+      \strng{authornamehash}{d6a778cb7c4aad590812f7e0d2e98c00}
+      \strng{authorfullhash}{b5b521035c69bc10107862cf67a736ac}
+      \strng{authorfullhashraw}{b5b521035c69bc10107862cf67a736ac}
+      \field{extraname}{2}
+      \field{sortinit}{2}
+      \field{sortinithash}{8b555b3791beccb63322c22f3320aa9a}
+      \field{extradatescope}{labelyear}
+      \field{labeldatesource}{}
+      \true{uniqueprimaryauthor}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{journaltitle}{The review of economics and statistics}
+      \field{number}{4}
+      \field{title}{Minimum wage effects across state borders: Estimates using contiguous counties}
+      \field{volume}{92}
+      \field{year}{2010}
+      \field{pages}{945\bibrangedash 964}
+      \range{pages}{20}
+    \endentry
+    \entry{machin2004minimum}{report}{}{}
+      \name{author}{2}{}{%
+        {{un=0,uniquepart=base,hash=d805cb2e720d45cb623715f0750f64b0}{%
+           family={Machin},
+           familyi={M\bibinitperiod},
+           given={Stephen},
+           giveni={S\bibinitperiod},
+           givenun=0}}%
+        {{un=0,uniquepart=base,hash=5eb91b82bc6aee8e456fa46a5c09c2a2}{%
+           family={Wilson},
+           familyi={W\bibinitperiod},
+           given={Joan},
+           giveni={J\bibinitperiod},
+           givenun=0}}%
+      }
+      \list{institution}{1}{%
+        {Oxford University Press Oxford, UK}%
+      }
+      \strng{namehash}{a6bf11ad8c8fe2ffe6e520235f90af3c}
+      \strng{fullhash}{a6bf11ad8c8fe2ffe6e520235f90af3c}
+      \strng{fullhashraw}{a6bf11ad8c8fe2ffe6e520235f90af3c}
+      \strng{bibnamehash}{a6bf11ad8c8fe2ffe6e520235f90af3c}
+      \strng{authorbibnamehash}{a6bf11ad8c8fe2ffe6e520235f90af3c}
+      \strng{authornamehash}{a6bf11ad8c8fe2ffe6e520235f90af3c}
+      \strng{authorfullhash}{a6bf11ad8c8fe2ffe6e520235f90af3c}
+      \strng{authorfullhashraw}{a6bf11ad8c8fe2ffe6e520235f90af3c}
+      \field{sortinit}{2}
+      \field{sortinithash}{8b555b3791beccb63322c22f3320aa9a}
+      \field{extradatescope}{labelyear}
+      \field{labeldatesource}{}
+      \true{uniqueprimaryauthor}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{title}{Minimum wages in a low-wage labour market: care homes in the UK}
+      \field{type}{techreport}
+      \field{year}{2004}
+    \endentry
+    \entry{card2000minimum}{article}{}{}
+      \name{author}{2}{}{%
+        {{un=0,uniquepart=base,hash=a9e88233ec6ce30d2d31e294961e3e76}{%
+           family={Card},
+           familyi={C\bibinitperiod},
+           given={David},
+           giveni={D\bibinitperiod},
+           givenun=0}}%
+        {{un=0,uniquepart=base,hash=34526c3bf548080921683822747fad7e}{%
+           family={Krueger},
+           familyi={K\bibinitperiod},
+           given={Alan\bibnamedelima B},
+           giveni={A\bibinitperiod\bibinitdelim B\bibinitperiod},
+           givenun=0}}%
+      }
+      \list{publisher}{1}{%
+        {American Economic Association}%
+      }
+      \strng{namehash}{88d00363e1018b78cd4ea4a59ccee815}
+      \strng{fullhash}{88d00363e1018b78cd4ea4a59ccee815}
+      \strng{fullhashraw}{88d00363e1018b78cd4ea4a59ccee815}
+      \strng{bibnamehash}{88d00363e1018b78cd4ea4a59ccee815}
+      \strng{authorbibnamehash}{88d00363e1018b78cd4ea4a59ccee815}
+      \strng{authornamehash}{88d00363e1018b78cd4ea4a59ccee815}
+      \strng{authorfullhash}{88d00363e1018b78cd4ea4a59ccee815}
+      \strng{authorfullhashraw}{88d00363e1018b78cd4ea4a59ccee815}
+      \field{extraname}{1}
+      \field{sortinit}{2}
+      \field{sortinithash}{8b555b3791beccb63322c22f3320aa9a}
+      \field{extradatescope}{labelyear}
+      \field{labeldatesource}{}
+      \true{uniqueprimaryauthor}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{journaltitle}{American Economic Review}
+      \field{number}{5}
+      \field{title}{Minimum wages and employment: a case study of the fast-food industry in New Jersey and Pennsylvania: reply}
+      \field{volume}{90}
+      \field{year}{2000}
+      \field{pages}{1397\bibrangedash 1420}
+      \range{pages}{24}
+    \endentry
+    \entry{neumark2000minimum}{article}{}{}
+      \name{author}{2}{}{%
+        {{un=0,uniquepart=base,hash=17b0d070068575315bd7fa38f68880e8}{%
+           family={Neumark},
+           familyi={N\bibinitperiod},
+           given={David},
+           giveni={D\bibinitperiod},
+           givenun=0}}%
+        {{un=0,uniquepart=base,hash=d2cd8b10133c3539c0fec8f2ce3867db}{%
+           family={Wascher},
+           familyi={W\bibinitperiod},
+           given={William},
+           giveni={W\bibinitperiod},
+           givenun=0}}%
+      }
+      \list{publisher}{1}{%
+        {American Economic Association}%
+      }
+      \strng{namehash}{4bc2f70ace646cdca216591da6c7e22d}
+      \strng{fullhash}{4bc2f70ace646cdca216591da6c7e22d}
+      \strng{fullhashraw}{4bc2f70ace646cdca216591da6c7e22d}
+      \strng{bibnamehash}{4bc2f70ace646cdca216591da6c7e22d}
+      \strng{authorbibnamehash}{4bc2f70ace646cdca216591da6c7e22d}
+      \strng{authornamehash}{4bc2f70ace646cdca216591da6c7e22d}
+      \strng{authorfullhash}{4bc2f70ace646cdca216591da6c7e22d}
+      \strng{authorfullhashraw}{4bc2f70ace646cdca216591da6c7e22d}
+      \field{extraname}{1}
+      \field{sortinit}{2}
+      \field{sortinithash}{8b555b3791beccb63322c22f3320aa9a}
+      \field{extradatescope}{labelyear}
+      \field{labeldatesource}{}
+      \true{uniqueprimaryauthor}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{journaltitle}{American Economic Review}
+      \field{number}{5}
+      \field{title}{Minimum wages and employment: A case study of the fast-food industry in New Jersey and Pennsylvania: Comment}
+      \field{volume}{90}
+      \field{year}{2000}
+      \field{pages}{1362\bibrangedash 1396}
+      \range{pages}{35}
+    \endentry
+    \entry{brown1999minimum}{article}{}{}
+      \name{author}{1}{}{%
+        {{un=0,uniquepart=base,hash=62ce1b47717048647a682cd9521d189c}{%
+           family={Brown},
+           familyi={B\bibinitperiod},
+           given={Charles},
+           giveni={C\bibinitperiod},
+           givenun=0}}%
+      }
+      \list{publisher}{1}{%
+        {Elsevier}%
+      }
+      \strng{namehash}{62ce1b47717048647a682cd9521d189c}
+      \strng{fullhash}{62ce1b47717048647a682cd9521d189c}
+      \strng{fullhashraw}{62ce1b47717048647a682cd9521d189c}
+      \strng{bibnamehash}{62ce1b47717048647a682cd9521d189c}
+      \strng{authorbibnamehash}{62ce1b47717048647a682cd9521d189c}
+      \strng{authornamehash}{62ce1b47717048647a682cd9521d189c}
+      \strng{authorfullhash}{62ce1b47717048647a682cd9521d189c}
+      \strng{authorfullhashraw}{62ce1b47717048647a682cd9521d189c}
+      \field{sortinit}{1}
+      \field{sortinithash}{4f6aaa89bab872aa0999fec09ff8e98a}
+      \field{extradatescope}{labelyear}
+      \field{labeldatesource}{}
+      \true{uniqueprimaryauthor}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{journaltitle}{Handbook of labor economics}
+      \field{title}{Minimum wages, employment, and the distribution of income}
+      \field{volume}{3}
+      \field{year}{1999}
+      \field{pages}{2101\bibrangedash 2163}
+      \range{pages}{63}
+    \endentry
+    \entry{card1993minimum}{misc}{}{}
+      \name{author}{2}{}{%
+        {{un=0,uniquepart=base,hash=a9e88233ec6ce30d2d31e294961e3e76}{%
+           family={Card},
+           familyi={C\bibinitperiod},
+           given={David},
+           giveni={D\bibinitperiod},
+           givenun=0}}%
+        {{un=0,uniquepart=base,hash=34526c3bf548080921683822747fad7e}{%
+           family={Krueger},
+           familyi={K\bibinitperiod},
+           given={Alan\bibnamedelima B},
+           giveni={A\bibinitperiod\bibinitdelim B\bibinitperiod},
+           givenun=0}}%
+      }
+      \list{publisher}{1}{%
+        {National Bureau of Economic Research Cambridge, Mass., USA}%
+      }
+      \strng{namehash}{88d00363e1018b78cd4ea4a59ccee815}
+      \strng{fullhash}{88d00363e1018b78cd4ea4a59ccee815}
+      \strng{fullhashraw}{88d00363e1018b78cd4ea4a59ccee815}
+      \strng{bibnamehash}{88d00363e1018b78cd4ea4a59ccee815}
+      \strng{authorbibnamehash}{88d00363e1018b78cd4ea4a59ccee815}
+      \strng{authornamehash}{88d00363e1018b78cd4ea4a59ccee815}
+      \strng{authorfullhash}{88d00363e1018b78cd4ea4a59ccee815}
+      \strng{authorfullhashraw}{88d00363e1018b78cd4ea4a59ccee815}
+      \field{extraname}{2}
+      \field{sortinit}{1}
+      \field{sortinithash}{4f6aaa89bab872aa0999fec09ff8e98a}
+      \field{extradatescope}{labelyear}
+      \field{labeldatesource}{}
+      \true{uniqueprimaryauthor}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{title}{Minimum wages and employment: A case study of the fast food industry in New Jersey and Pennsylvania}
+      \field{year}{1993}
+    \endentry
+    \entry{neumark1992employment}{article}{}{}
+      \name{author}{2}{}{%
+        {{un=0,uniquepart=base,hash=17b0d070068575315bd7fa38f68880e8}{%
+           family={Neumark},
+           familyi={N\bibinitperiod},
+           given={David},
+           giveni={D\bibinitperiod},
+           givenun=0}}%
+        {{un=0,uniquepart=base,hash=d2cd8b10133c3539c0fec8f2ce3867db}{%
+           family={Wascher},
+           familyi={W\bibinitperiod},
+           given={William},
+           giveni={W\bibinitperiod},
+           givenun=0}}%
+      }
+      \list{publisher}{1}{%
+        {SAGE Publications Sage CA: Los Angeles, CA}%
+      }
+      \strng{namehash}{4bc2f70ace646cdca216591da6c7e22d}
+      \strng{fullhash}{4bc2f70ace646cdca216591da6c7e22d}
+      \strng{fullhashraw}{4bc2f70ace646cdca216591da6c7e22d}
+      \strng{bibnamehash}{4bc2f70ace646cdca216591da6c7e22d}
+      \strng{authorbibnamehash}{4bc2f70ace646cdca216591da6c7e22d}
+      \strng{authornamehash}{4bc2f70ace646cdca216591da6c7e22d}
+      \strng{authorfullhash}{4bc2f70ace646cdca216591da6c7e22d}
+      \strng{authorfullhashraw}{4bc2f70ace646cdca216591da6c7e22d}
+      \field{extraname}{2}
+      \field{sortinit}{1}
+      \field{sortinithash}{4f6aaa89bab872aa0999fec09ff8e98a}
+      \field{extradatescope}{labelyear}
+      \field{labeldatesource}{}
+      \true{uniqueprimaryauthor}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{journaltitle}{ILR Review}
+      \field{number}{1}
+      \field{title}{Employment effects of minimum and subminimum wages: panel data on state minimum wage laws}
+      \field{volume}{46}
+      \field{year}{1992}
+      \field{pages}{55\bibrangedash 81}
+      \range{pages}{27}
+    \endentry
+    \entry{hamermesh1982minimum}{article}{}{}
+      \name{author}{1}{}{%
+        {{un=0,uniquepart=base,hash=f540474dfc0cc8fdc36c8e9cfaf11453}{%
+           family={Hamermesh},
+           familyi={H\bibinitperiod},
+           given={Daniel\bibnamedelima S},
+           giveni={D\bibinitperiod\bibinitdelim S\bibinitperiod},
+           givenun=0}}%
+      }
+      \list{publisher}{1}{%
+        {Wiley Online Library}%
+      }
+      \strng{namehash}{f540474dfc0cc8fdc36c8e9cfaf11453}
+      \strng{fullhash}{f540474dfc0cc8fdc36c8e9cfaf11453}
+      \strng{fullhashraw}{f540474dfc0cc8fdc36c8e9cfaf11453}
+      \strng{bibnamehash}{f540474dfc0cc8fdc36c8e9cfaf11453}
+      \strng{authorbibnamehash}{f540474dfc0cc8fdc36c8e9cfaf11453}
+      \strng{authornamehash}{f540474dfc0cc8fdc36c8e9cfaf11453}
+      \strng{authorfullhash}{f540474dfc0cc8fdc36c8e9cfaf11453}
+      \strng{authorfullhashraw}{f540474dfc0cc8fdc36c8e9cfaf11453}
+      \field{sortinit}{1}
+      \field{sortinithash}{4f6aaa89bab872aa0999fec09ff8e98a}
+      \field{extradatescope}{labelyear}
+      \field{labeldatesource}{}
+      \true{uniqueprimaryauthor}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{journaltitle}{Economic Inquiry}
+      \field{number}{3}
+      \field{title}{Minimum wages and the demand for labor}
+      \field{volume}{20}
+      \field{year}{1982}
+      \field{pages}{365\bibrangedash 380}
+      \range{pages}{16}
+    \endentry
+    \entry{lester1960employment}{article}{}{}
+      \name{author}{1}{}{%
+        {{un=0,uniquepart=base,hash=e3a952ace4e7ac5342da3da4d2183c46}{%
+           family={Lester},
+           familyi={L\bibinitperiod},
+           given={Richard\bibnamedelima A},
+           giveni={R\bibinitperiod\bibinitdelim A\bibinitperiod},
+           givenun=0}}%
+      }
+      \list{publisher}{1}{%
+        {SAGE Publications Sage CA: Los Angeles, CA}%
+      }
+      \strng{namehash}{e3a952ace4e7ac5342da3da4d2183c46}
+      \strng{fullhash}{e3a952ace4e7ac5342da3da4d2183c46}
+      \strng{fullhashraw}{e3a952ace4e7ac5342da3da4d2183c46}
+      \strng{bibnamehash}{e3a952ace4e7ac5342da3da4d2183c46}
+      \strng{authorbibnamehash}{e3a952ace4e7ac5342da3da4d2183c46}
+      \strng{authornamehash}{e3a952ace4e7ac5342da3da4d2183c46}
+      \strng{authorfullhash}{e3a952ace4e7ac5342da3da4d2183c46}
+      \strng{authorfullhashraw}{e3a952ace4e7ac5342da3da4d2183c46}
+      \field{sortinit}{1}
+      \field{sortinithash}{4f6aaa89bab872aa0999fec09ff8e98a}
+      \field{extradatescope}{labelyear}
+      \field{labeldatesource}{}
+      \true{uniqueprimaryauthor}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{journaltitle}{ILR Review}
+      \field{number}{2}
+      \field{title}{Employment effects of minimum wages}
+      \field{volume}{13}
+      \field{year}{1960}
+      \field{pages}{254\bibrangedash 264}
+      \range{pages}{11}
+    \endentry
+    \entry{stigler1946economics}{article}{}{}
+      \name{author}{1}{}{%
+        {{un=0,uniquepart=base,hash=3e27ef99bf72db975408034556b655be}{%
+           family={Stigler},
+           familyi={S\bibinitperiod},
+           given={George\bibnamedelima J},
+           giveni={G\bibinitperiod\bibinitdelim J\bibinitperiod},
+           givenun=0}}%
+      }
+      \list{publisher}{1}{%
+        {JSTOR}%
+      }
+      \strng{namehash}{3e27ef99bf72db975408034556b655be}
+      \strng{fullhash}{3e27ef99bf72db975408034556b655be}
+      \strng{fullhashraw}{3e27ef99bf72db975408034556b655be}
+      \strng{bibnamehash}{3e27ef99bf72db975408034556b655be}
+      \strng{authorbibnamehash}{3e27ef99bf72db975408034556b655be}
+      \strng{authornamehash}{3e27ef99bf72db975408034556b655be}
+      \strng{authorfullhash}{3e27ef99bf72db975408034556b655be}
+      \strng{authorfullhashraw}{3e27ef99bf72db975408034556b655be}
+      \field{sortinit}{1}
+      \field{sortinithash}{4f6aaa89bab872aa0999fec09ff8e98a}
+      \field{extradatescope}{labelyear}
+      \field{labeldatesource}{}
+      \true{uniqueprimaryauthor}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{journaltitle}{The American Economic Review}
+      \field{number}{3}
+      \field{title}{The economics of minimum wage legislation}
+      \field{volume}{36}
+      \field{year}{1946}
+      \field{pages}{358\bibrangedash 365}
+      \range{pages}{8}
+    \endentry
+  \enddatalist
+  \datalist[entry]{ydnt/global//global/global/global}
+    \entry{clemens2023important}{article}{}{}
+      \name{author}{2}{}{%
+        {{un=0,uniquepart=base,hash=b3fb95c1dd2e407afc01cf9068f7705d}{%
+           family={Clemens},
+           familyi={C\bibinitperiod},
+           given={Jeffrey},
+           giveni={J\bibinitperiod},
+           givenun=0}}%
+        {{un=0,uniquepart=base,hash=4f44770e07ad143b91b94bbe880b0c33}{%
+           family={Strain},
+           familyi={S\bibinitperiod},
+           given={Michael\bibnamedelima R},
+           giveni={M\bibinitperiod\bibinitdelim R\bibinitperiod},
+           givenun=0}}%
+      }
+      \list{publisher}{1}{%
+        {Wiley Online Library}%
+      }
+      \strng{namehash}{d8047aecf5be926833de9c820d8d6af9}
+      \strng{fullhash}{d8047aecf5be926833de9c820d8d6af9}
+      \strng{fullhashraw}{d8047aecf5be926833de9c820d8d6af9}
+      \strng{bibnamehash}{d8047aecf5be926833de9c820d8d6af9}
+      \strng{authorbibnamehash}{d8047aecf5be926833de9c820d8d6af9}
+      \strng{authornamehash}{d8047aecf5be926833de9c820d8d6af9}
+      \strng{authorfullhash}{d8047aecf5be926833de9c820d8d6af9}
+      \strng{authorfullhashraw}{d8047aecf5be926833de9c820d8d6af9}
+      \field{sortinit}{2}
+      \field{sortinithash}{8b555b3791beccb63322c22f3320aa9a}
+      \field{extradatescope}{labelyear}
+      \field{labeldatesource}{}
+      \true{uniqueprimaryauthor}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{journaltitle}{Contemporary Economic Policy}
+      \field{number}{4}
+      \field{title}{How important are minimum wage increases in increasing the wages of minimum wage workers?}
+      \field{volume}{41}
+      \field{year}{2023}
+      \field{pages}{594\bibrangedash 612}
+      \range{pages}{19}
+    \endentry
+    \entry{dai2023minimum}{article}{}{}
+      \name{author}{2}{}{%
+        {{un=0,uniquepart=base,hash=c1cab1cde1ac78f0d57872bb433f073c}{%
+           family={Dai},
+           familyi={D\bibinitperiod},
+           given={Xin},
+           giveni={X\bibinitperiod},
+           givenun=0}}%
+        {{un=0,uniquepart=base,hash=86969dc6f0a15b4fd948fc0bb56d9171}{%
+           family={Qiu},
+           familyi={Q\bibinitperiod},
+           given={Yue},
+           giveni={Y\bibinitperiod},
+           givenun=0}}%
+      }
+      \strng{namehash}{41072171801d39ef6c43c639f59bbf81}
+      \strng{fullhash}{41072171801d39ef6c43c639f59bbf81}
+      \strng{fullhashraw}{41072171801d39ef6c43c639f59bbf81}
+      \strng{bibnamehash}{41072171801d39ef6c43c639f59bbf81}
+      \strng{authorbibnamehash}{41072171801d39ef6c43c639f59bbf81}
+      \strng{authornamehash}{41072171801d39ef6c43c639f59bbf81}
+      \strng{authorfullhash}{41072171801d39ef6c43c639f59bbf81}
+      \strng{authorfullhashraw}{41072171801d39ef6c43c639f59bbf81}
+      \field{sortinit}{2}
+      \field{sortinithash}{8b555b3791beccb63322c22f3320aa9a}
+      \field{extradatescope}{labelyear}
+      \field{labeldatesource}{}
+      \true{uniqueprimaryauthor}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{journaltitle}{Journal of Financial and Quantitative Analysis}
+      \field{title}{Minimum wage hikes and technology adoption: Evidence from US establishments}
+      \field{year}{2023}
+      \field{pages}{1\bibrangedash 39}
+      \range{pages}{39}
+    \endentry
+    \entry{li2023does}{article}{}{}
+      \name{author}{3}{}{%
+        {{un=1,uniquepart=given,hash=541cc418b6ae5b4415bb19d0ac80bc5e}{%
+           family={Li},
+           familyi={L\bibinitperiod},
+           given={Houjian},
+           giveni={H\bibinitperiod},
+           givenun=1}}%
+        {{un=0,uniquepart=base,hash=2ed35cd2b77dd47718c13bf764aa6527}{%
+           family={Li},
+           familyi={L\bibinitperiod},
+           given={Yanjiao},
+           giveni={Y\bibinitperiod},
+           givenun=0}}%
+        {{un=0,uniquepart=base,hash=be5d03f58577f4fe7e5d098a7769f7c1}{%
+           family={Guo},
+           familyi={G\bibinitperiod},
+           given={Lili},
+           giveni={L\bibinitperiod},
+           givenun=0}}%
+      }
+      \list{publisher}{1}{%
+        {Elsevier}%
+      }
+      \strng{namehash}{388cefd61b3628fed9cb41bfd6f76d2f}
+      \strng{fullhash}{17939e857a937e1500d2898254a7d04c}
+      \strng{fullhashraw}{17939e857a937e1500d2898254a7d04c}
+      \strng{bibnamehash}{17939e857a937e1500d2898254a7d04c}
+      \strng{authorbibnamehash}{17939e857a937e1500d2898254a7d04c}
+      \strng{authornamehash}{388cefd61b3628fed9cb41bfd6f76d2f}
+      \strng{authorfullhash}{17939e857a937e1500d2898254a7d04c}
+      \strng{authorfullhashraw}{17939e857a937e1500d2898254a7d04c}
+      \field{sortinit}{2}
+      \field{sortinithash}{8b555b3791beccb63322c22f3320aa9a}
+      \field{extradatescope}{labelyear}
+      \field{labeldatesource}{}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{journaltitle}{Journal of Cleaner Production}
+      \field{title}{How does minimum wage affect firm pollution discharges: Evidence from China}
+      \field{volume}{414}
+      \field{year}{2023}
+      \field{pages}{137504}
+      \range{pages}{1}
+    \endentry
+    \entry{medrano2023minimum}{article}{}{}
+      \name{author}{2}{}{%
+        {{un=0,uniquepart=base,hash=02bd3f2b532cb57d7f1ef872b6327c16}{%
+           family={Medrano-Adán},
+           familyi={M\bibinithyphendelim A\bibinitperiod},
+           given={Luis},
+           giveni={L\bibinitperiod},
+           givenun=0}}%
+        {{un=0,uniquepart=base,hash=5f3d03eca87de8fd25d963c912d4cedc}{%
+           family={Salas-Fumás},
+           familyi={S\bibinithyphendelim F\bibinitperiod},
+           given={Vicente},
+           giveni={V\bibinitperiod},
+           givenun=0}}%
+      }
+      \list{publisher}{1}{%
+        {Elsevier}%
+      }
+      \strng{namehash}{53617efff27110e627d2dd9252af104e}
+      \strng{fullhash}{53617efff27110e627d2dd9252af104e}
+      \strng{fullhashraw}{53617efff27110e627d2dd9252af104e}
+      \strng{bibnamehash}{53617efff27110e627d2dd9252af104e}
+      \strng{authorbibnamehash}{53617efff27110e627d2dd9252af104e}
+      \strng{authornamehash}{53617efff27110e627d2dd9252af104e}
+      \strng{authorfullhash}{53617efff27110e627d2dd9252af104e}
+      \strng{authorfullhashraw}{53617efff27110e627d2dd9252af104e}
+      \field{sortinit}{2}
+      \field{sortinithash}{8b555b3791beccb63322c22f3320aa9a}
+      \field{extradatescope}{labelyear}
+      \field{labeldatesource}{}
+      \true{uniqueprimaryauthor}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{journaltitle}{Economic Analysis and Policy}
+      \field{title}{Do minimum wages deliver what they promise? Effects of minimum wage on employment, output, and income inequality from occupational choice theory}
+      \field{volume}{80}
+      \field{year}{2023}
+      \field{pages}{366\bibrangedash 383}
+      \range{pages}{18}
+    \endentry
+    \entry{meer2023effects}{report}{}{}
+      \name{author}{2}{}{%
+        {{un=0,uniquepart=base,hash=8fb4e48c24a1b591e7cbe2306bed97fb}{%
+           family={Meer},
+           familyi={M\bibinitperiod},
+           given={Jonathan},
+           giveni={J\bibinitperiod},
+           givenun=0}}%
+        {{un=0,uniquepart=base,hash=39d9f8c32be2e818eb7bbe095715eff5}{%
+           family={Tajali},
+           familyi={T\bibinitperiod},
+           given={Hedieh},
+           giveni={H\bibinitperiod},
+           givenun=0}}%
+      }
+      \list{institution}{1}{%
+        {National Bureau of Economic Research}%
+      }
+      \strng{namehash}{2d0075292e127d0ec022a315250a6dcc}
+      \strng{fullhash}{2d0075292e127d0ec022a315250a6dcc}
+      \strng{fullhashraw}{2d0075292e127d0ec022a315250a6dcc}
+      \strng{bibnamehash}{2d0075292e127d0ec022a315250a6dcc}
+      \strng{authorbibnamehash}{2d0075292e127d0ec022a315250a6dcc}
+      \strng{authornamehash}{2d0075292e127d0ec022a315250a6dcc}
+      \strng{authorfullhash}{2d0075292e127d0ec022a315250a6dcc}
+      \strng{authorfullhashraw}{2d0075292e127d0ec022a315250a6dcc}
+      \field{sortinit}{2}
+      \field{sortinithash}{8b555b3791beccb63322c22f3320aa9a}
+      \field{extradatescope}{labelyear}
+      \field{labeldatesource}{}
+      \true{uniqueprimaryauthor}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{title}{Effects of the Minimum Wage on the Nonprofit Sector}
+      \field{type}{techreport}
+      \field{year}{2023}
+    \endentry
+    \entry{zhang2023unintended}{article}{}{}
+      \name{author}{4}{}{%
+        {{un=1,uniquepart=given,hash=8d5fab7fcae144537165fa0325fc15c9}{%
+           family={Zhang},
+           familyi={Z\bibinitperiod},
+           given={Ming-ang},
+           giveni={M\bibinithyphendelim a\bibinitperiod},
+           givenun=1}}%
+        {{un=0,uniquepart=base,hash=08f9320f27fcd1c76e271022eb88d554}{%
+           family={Lu},
+           familyi={L\bibinitperiod},
+           given={Shuling},
+           giveni={S\bibinitperiod},
+           givenun=0}}%
+        {{un=0,uniquepart=base,hash=42df3449e0bf3550e0a78db8566645d4}{%
+           family={Zhang},
+           familyi={Z\bibinitperiod},
+           given={Sihan},
+           giveni={S\bibinitperiod},
+           givenun=0}}%
+        {{un=0,uniquepart=base,hash=d6267a627b095270e2f9c997f6695750}{%
+           family={Bai},
+           familyi={B\bibinitperiod},
+           given={Yanfeng},
+           giveni={Y\bibinitperiod},
+           givenun=0}}%
+      }
+      \list{publisher}{1}{%
+        {Elsevier}%
+      }
+      \strng{namehash}{8602cf13095bbe30362fb8bc84c60e21}
+      \strng{fullhash}{d3047ffe85aa148a999e8781fc89c491}
+      \strng{fullhashraw}{d3047ffe85aa148a999e8781fc89c491}
+      \strng{bibnamehash}{d3047ffe85aa148a999e8781fc89c491}
+      \strng{authorbibnamehash}{d3047ffe85aa148a999e8781fc89c491}
+      \strng{authornamehash}{8602cf13095bbe30362fb8bc84c60e21}
+      \strng{authorfullhash}{d3047ffe85aa148a999e8781fc89c491}
+      \strng{authorfullhashraw}{d3047ffe85aa148a999e8781fc89c491}
+      \field{sortinit}{2}
+      \field{sortinithash}{8b555b3791beccb63322c22f3320aa9a}
+      \field{extradatescope}{labelyear}
+      \field{labeldatesource}{}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{journaltitle}{Energy Economics}
+      \field{title}{The unintended consequence of minimum wage hikes: Evidence based on firms' pollution emission}
+      \field{volume}{125}
+      \field{year}{2023}
+      \field{pages}{106857}
+      \range{pages}{1}
+    \endentry
+    \entry{alexandre2022minimum}{article}{}{}
+      \name{author}{5}{}{%
+        {{un=0,uniquepart=base,hash=260457b681e94022763466cbfc2f286f}{%
+           family={Alexandre},
+           familyi={A\bibinitperiod},
+           given={Fernando},
+           giveni={F\bibinitperiod},
+           givenun=0}}%
+        {{un=0,uniquepart=base,hash=904f1384889e9bc6af5ed18dd6de229b}{%
+           family={Bação},
+           familyi={B\bibinitperiod},
+           given={Pedro},
+           giveni={P\bibinitperiod},
+           givenun=0}}%
+        {{un=0,uniquepart=base,hash=47df996ee2b6d2d732c27447a4c0d8c1}{%
+           family={Cerejeira},
+           familyi={C\bibinitperiod},
+           given={João},
+           giveni={J\bibinitperiod},
+           givenun=0}}%
+        {{un=0,uniquepart=base,hash=d75defd2c0c1d9a2d17fa2183df6bd56}{%
+           family={Costa},
+           familyi={C\bibinitperiod},
+           given={Hélder},
+           giveni={H\bibinitperiod},
+           givenun=0}}%
+        {{un=0,uniquepart=base,hash=022e1a2f66d47195fb619cafd6a64a24}{%
+           family={Portela},
+           familyi={P\bibinitperiod},
+           given={Miguel},
+           giveni={M\bibinitperiod},
+           givenun=0}}%
+      }
+      \list{publisher}{1}{%
+        {Elsevier}%
+      }
+      \strng{namehash}{e058653cdcecc92529288e7245d72a44}
+      \strng{fullhash}{ae8196d2bfdcb9c32577ad62474d3049}
+      \strng{fullhashraw}{ae8196d2bfdcb9c32577ad62474d3049}
+      \strng{bibnamehash}{ae8196d2bfdcb9c32577ad62474d3049}
+      \strng{authorbibnamehash}{ae8196d2bfdcb9c32577ad62474d3049}
+      \strng{authornamehash}{e058653cdcecc92529288e7245d72a44}
+      \strng{authorfullhash}{ae8196d2bfdcb9c32577ad62474d3049}
+      \strng{authorfullhashraw}{ae8196d2bfdcb9c32577ad62474d3049}
+      \field{sortinit}{2}
+      \field{sortinithash}{8b555b3791beccb63322c22f3320aa9a}
+      \field{extradatescope}{labelyear}
+      \field{labeldatesource}{}
+      \true{uniqueprimaryauthor}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{journaltitle}{Labour Economics}
+      \field{title}{Minimum wage and financially distressed firms: another one bites the dust}
+      \field{volume}{74}
+      \field{year}{2022}
+      \field{pages}{102088}
+      \range{pages}{1}
+    \endentry
+    \entry{coviello2022minimum}{article}{}{}
+      \name{author}{3}{}{%
+        {{un=0,uniquepart=base,hash=b9757bedb2b070b3963b86a854a4d283}{%
+           family={Coviello},
+           familyi={C\bibinitperiod},
+           given={Decio},
+           giveni={D\bibinitperiod},
+           givenun=0}}%
+        {{un=0,uniquepart=base,hash=e779a96f04b4eb6f6bad49af2b1780da}{%
+           family={Deserranno},
+           familyi={D\bibinitperiod},
+           given={Erika},
+           giveni={E\bibinitperiod},
+           givenun=0}}%
+        {{un=0,uniquepart=base,hash=67d45f86f0f8778a1acf4a1aab06092e}{%
+           family={Persico},
+           familyi={P\bibinitperiod},
+           given={Nicola},
+           giveni={N\bibinitperiod},
+           givenun=0}}%
+      }
+      \list{publisher}{1}{%
+        {The University of Chicago Press Chicago, IL}%
+      }
+      \strng{namehash}{37bb5e0f385d3e6e3e29b3090c0ae30b}
+      \strng{fullhash}{8407c7fa493146c9276e3279798d77c4}
+      \strng{fullhashraw}{8407c7fa493146c9276e3279798d77c4}
+      \strng{bibnamehash}{8407c7fa493146c9276e3279798d77c4}
+      \strng{authorbibnamehash}{8407c7fa493146c9276e3279798d77c4}
+      \strng{authornamehash}{37bb5e0f385d3e6e3e29b3090c0ae30b}
+      \strng{authorfullhash}{8407c7fa493146c9276e3279798d77c4}
+      \strng{authorfullhashraw}{8407c7fa493146c9276e3279798d77c4}
+      \field{sortinit}{2}
+      \field{sortinithash}{8b555b3791beccb63322c22f3320aa9a}
+      \field{extradatescope}{labelyear}
+      \field{labeldatesource}{}
+      \true{uniqueprimaryauthor}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{journaltitle}{Journal of Political Economy}
+      \field{number}{9}
+      \field{title}{Minimum wage and individual worker productivity: Evidence from a large US retailer}
+      \field{volume}{130}
+      \field{year}{2022}
+      \field{pages}{2315\bibrangedash 2360}
+      \range{pages}{46}
+    \endentry
+    \entry{du2022minimum}{article}{}{}
+      \name{author}{3}{}{%
+        {{un=0,uniquepart=base,hash=4797d5c0f892bb7929c77b658b38eb3a}{%
+           family={Du},
+           familyi={D\bibinitperiod},
+           given={Pengcheng},
+           giveni={P\bibinitperiod},
+           givenun=0}}%
+        {{un=0,uniquepart=base,hash=9e6af3ce4c5063ff98977528f367e685}{%
+           family={Zheng},
+           familyi={Z\bibinitperiod},
+           given={Yi},
+           giveni={Y\bibinitperiod},
+           givenun=0}}%
+        {{un=0,uniquepart=base,hash=e308ebde0289180922257aed19f88d71}{%
+           family={Wang},
+           familyi={W\bibinitperiod},
+           given={Shuxun},
+           giveni={S\bibinitperiod},
+           givenun=0}}%
+      }
+      \list{publisher}{1}{%
+        {Elsevier}%
+      }
+      \strng{namehash}{942b199134b6ba113a1abdb8c84e30df}
+      \strng{fullhash}{4ee3a214cf1eb0a45c097b2f171fe342}
+      \strng{fullhashraw}{4ee3a214cf1eb0a45c097b2f171fe342}
+      \strng{bibnamehash}{4ee3a214cf1eb0a45c097b2f171fe342}
+      \strng{authorbibnamehash}{4ee3a214cf1eb0a45c097b2f171fe342}
+      \strng{authornamehash}{942b199134b6ba113a1abdb8c84e30df}
+      \strng{authorfullhash}{4ee3a214cf1eb0a45c097b2f171fe342}
+      \strng{authorfullhashraw}{4ee3a214cf1eb0a45c097b2f171fe342}
+      \field{sortinit}{2}
+      \field{sortinithash}{8b555b3791beccb63322c22f3320aa9a}
+      \field{extradatescope}{labelyear}
+      \field{labeldatesource}{}
+      \true{uniqueprimaryauthor}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{journaltitle}{China Economic Review}
+      \field{title}{The minimum wage and the financialization of firms: Evidence from China}
+      \field{volume}{76}
+      \field{year}{2022}
+      \field{pages}{101870}
+      \range{pages}{1}
+    \endentry
+    \entry{dustmann2022reallocation}{article}{}{}
+      \name{author}{5}{}{%
+        {{un=0,uniquepart=base,hash=e26258e53a5d323c8365d750c1a63e0e}{%
+           family={Dustmann},
+           familyi={D\bibinitperiod},
+           given={Christian},
+           giveni={C\bibinitperiod},
+           givenun=0}}%
+        {{un=0,uniquepart=base,hash=c5a38268ae1913d5e53d45cc5513ad57}{%
+           family={Lindner},
+           familyi={L\bibinitperiod},
+           given={Attila},
+           giveni={A\bibinitperiod},
+           givenun=0}}%
+        {{un=0,uniquepart=base,hash=de9dd0ae65d941ab9ad256586913605b}{%
+           family={Schönberg},
+           familyi={S\bibinitperiod},
+           given={Uta},
+           giveni={U\bibinitperiod},
+           givenun=0}}%
+        {{un=0,uniquepart=base,hash=a25acc5d0d1bf54c829daadc217b21e0}{%
+           family={Umkehrer},
+           familyi={U\bibinitperiod},
+           given={Matthias},
+           giveni={M\bibinitperiod},
+           givenun=0}}%
+        {{un=0,uniquepart=base,hash=0f81a63ae788e27d5c97d5202645a2b4}{%
+           family={Vom\bibnamedelima Berge},
+           familyi={V\bibinitperiod\bibinitdelim B\bibinitperiod},
+           given={Philipp},
+           giveni={P\bibinitperiod},
+           givenun=0}}%
+      }
+      \list{publisher}{1}{%
+        {Oxford University Press}%
+      }
+      \strng{namehash}{b65f96d02e15a1266fd660628b37efdf}
+      \strng{fullhash}{366f75f96b23a479ccc7bd83ac805ee0}
+      \strng{fullhashraw}{366f75f96b23a479ccc7bd83ac805ee0}
+      \strng{bibnamehash}{366f75f96b23a479ccc7bd83ac805ee0}
+      \strng{authorbibnamehash}{366f75f96b23a479ccc7bd83ac805ee0}
+      \strng{authornamehash}{b65f96d02e15a1266fd660628b37efdf}
+      \strng{authorfullhash}{366f75f96b23a479ccc7bd83ac805ee0}
+      \strng{authorfullhashraw}{366f75f96b23a479ccc7bd83ac805ee0}
+      \field{sortinit}{2}
+      \field{sortinithash}{8b555b3791beccb63322c22f3320aa9a}
+      \field{extradatescope}{labelyear}
+      \field{labeldatesource}{}
+      \true{uniqueprimaryauthor}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{journaltitle}{The Quarterly Journal of Economics}
+      \field{number}{1}
+      \field{title}{Reallocation effects of the minimum wage}
+      \field{volume}{137}
+      \field{year}{2022}
+      \field{pages}{267\bibrangedash 328}
+      \range{pages}{62}
+    \endentry
+    \entry{geng2022minimum}{article}{}{}
+      \name{author}{4}{}{%
+        {{un=0,uniquepart=base,hash=0013fd3d29765295341e7dbc24b3ff68}{%
+           family={Geng},
+           familyi={G\bibinitperiod},
+           given={Heng\bibnamedelima Griffin},
+           giveni={H\bibinitperiod\bibinitdelim G\bibinitperiod},
+           givenun=0}}%
+        {{un=0,uniquepart=base,hash=1fd5ec8bcbaf30b0eeea16e2e3c528d0}{%
+           family={Huang},
+           familyi={H\bibinitperiod},
+           given={Yi},
+           giveni={Y\bibinitperiod},
+           givenun=0}}%
+        {{un=0,uniquepart=base,hash=090fc57e7cf4e1ae02f7f6063dcef65d}{%
+           family={Lin},
+           familyi={L\bibinitperiod},
+           given={Chen},
+           giveni={C\bibinitperiod},
+           givenun=0}}%
+        {{un=0,uniquepart=base,hash=051b4ec96f6ee1d1b648394353f11718}{%
+           family={Liu},
+           familyi={L\bibinitperiod},
+           given={Sibo},
+           giveni={S\bibinitperiod},
+           givenun=0}}%
+      }
+      \list{publisher}{1}{%
+        {Cambridge University Press}%
+      }
+      \strng{namehash}{805d8486ac8998c35814d79894086885}
+      \strng{fullhash}{43a6a1245c30e14cf7a678b684e24975}
+      \strng{fullhashraw}{43a6a1245c30e14cf7a678b684e24975}
+      \strng{bibnamehash}{43a6a1245c30e14cf7a678b684e24975}
+      \strng{authorbibnamehash}{43a6a1245c30e14cf7a678b684e24975}
+      \strng{authornamehash}{805d8486ac8998c35814d79894086885}
+      \strng{authorfullhash}{43a6a1245c30e14cf7a678b684e24975}
+      \strng{authorfullhashraw}{43a6a1245c30e14cf7a678b684e24975}
+      \field{sortinit}{2}
+      \field{sortinithash}{8b555b3791beccb63322c22f3320aa9a}
+      \field{extradatescope}{labelyear}
+      \field{labeldatesource}{}
+      \true{uniqueprimaryauthor}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{journaltitle}{Journal of Financial and Quantitative Analysis}
+      \field{number}{1}
+      \field{title}{Minimum wage and corporate investment: Evidence from manufacturing firms in China}
+      \field{volume}{57}
+      \field{year}{2022}
+      \field{pages}{94\bibrangedash 126}
+      \range{pages}{33}
+    \endentry
+    \entry{gregory2022minimum}{article}{}{}
+      \name{author}{2}{}{%
+        {{un=0,uniquepart=base,hash=933476e5e8b47b8644f20feded88f3c8}{%
+           family={Gregory},
+           familyi={G\bibinitperiod},
+           given={Terry},
+           giveni={T\bibinitperiod},
+           givenun=0}}%
+        {{un=0,uniquepart=base,hash=581b44bec06143c42d9c73230b3c183f}{%
+           family={Zierahn},
+           familyi={Z\bibinitperiod},
+           given={Ulrich},
+           giveni={U\bibinitperiod},
+           givenun=0}}%
+      }
+      \list{publisher}{1}{%
+        {Elsevier}%
+      }
+      \strng{namehash}{38b178ab9d98f0b676cfb0a10d6eb8cc}
+      \strng{fullhash}{38b178ab9d98f0b676cfb0a10d6eb8cc}
+      \strng{fullhashraw}{38b178ab9d98f0b676cfb0a10d6eb8cc}
+      \strng{bibnamehash}{38b178ab9d98f0b676cfb0a10d6eb8cc}
+      \strng{authorbibnamehash}{38b178ab9d98f0b676cfb0a10d6eb8cc}
+      \strng{authornamehash}{38b178ab9d98f0b676cfb0a10d6eb8cc}
+      \strng{authorfullhash}{38b178ab9d98f0b676cfb0a10d6eb8cc}
+      \strng{authorfullhashraw}{38b178ab9d98f0b676cfb0a10d6eb8cc}
+      \field{sortinit}{2}
+      \field{sortinithash}{8b555b3791beccb63322c22f3320aa9a}
+      \field{extradatescope}{labelyear}
+      \field{labeldatesource}{}
+      \true{uniqueprimaryauthor}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{journaltitle}{Journal of Public Economics}
+      \field{title}{When the minimum wage really bites hard: The negative spillover effect on high-skilled workers}
+      \field{volume}{206}
+      \field{year}{2022}
+      \field{pages}{104582}
+      \range{pages}{1}
+    \endentry
+    \entry{ku2022does}{article}{}{}
+      \name{author}{1}{}{%
+        {{un=0,uniquepart=base,hash=527b2709dc95e2f0cac25f57a911ee94}{%
+           family={Ku},
+           familyi={K\bibinitperiod},
+           given={Hyejin},
+           giveni={H\bibinitperiod},
+           givenun=0}}%
+      }
+      \list{publisher}{1}{%
+        {The University of Chicago Press Chicago, IL}%
+      }
+      \strng{namehash}{527b2709dc95e2f0cac25f57a911ee94}
+      \strng{fullhash}{527b2709dc95e2f0cac25f57a911ee94}
+      \strng{fullhashraw}{527b2709dc95e2f0cac25f57a911ee94}
+      \strng{bibnamehash}{527b2709dc95e2f0cac25f57a911ee94}
+      \strng{authorbibnamehash}{527b2709dc95e2f0cac25f57a911ee94}
+      \strng{authornamehash}{527b2709dc95e2f0cac25f57a911ee94}
+      \strng{authorfullhash}{527b2709dc95e2f0cac25f57a911ee94}
+      \strng{authorfullhashraw}{527b2709dc95e2f0cac25f57a911ee94}
+      \field{sortinit}{2}
+      \field{sortinithash}{8b555b3791beccb63322c22f3320aa9a}
+      \field{extradatescope}{labelyear}
+      \field{labeldatesource}{}
+      \true{uniqueprimaryauthor}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{journaltitle}{Journal of Labor Economics}
+      \field{number}{2}
+      \field{title}{Does minimum wage increase labor productivity? Evidence from piece rate workers}
+      \field{volume}{40}
+      \field{year}{2022}
+      \field{pages}{325\bibrangedash 359}
+      \range{pages}{35}
+    \endentry
+    \entry{seok2022macroeconomic}{article}{}{}
+      \name{author}{2}{}{%
+        {{un=0,uniquepart=base,hash=42b6bd4520be2b72c6865670592f5396}{%
+           family={Seok},
+           familyi={S\bibinitperiod},
+           given={Byoung\bibnamedelima Hoon},
+           giveni={B\bibinitperiod\bibinitdelim H\bibinitperiod},
+           givenun=0}}%
+        {{un=0,uniquepart=base,hash=65b94c7bc0f99332b33dd309aa769905}{%
+           family={You},
+           familyi={Y\bibinitperiod},
+           given={Hye\bibnamedelima Mi},
+           giveni={H\bibinitperiod\bibinitdelim M\bibinitperiod},
+           givenun=0}}%
+      }
+      \list{publisher}{1}{%
+        {Elsevier}%
+      }
+      \strng{namehash}{275f1dbb467214c0cff209714268ddd3}
+      \strng{fullhash}{275f1dbb467214c0cff209714268ddd3}
+      \strng{fullhashraw}{275f1dbb467214c0cff209714268ddd3}
+      \strng{bibnamehash}{275f1dbb467214c0cff209714268ddd3}
+      \strng{authorbibnamehash}{275f1dbb467214c0cff209714268ddd3}
+      \strng{authornamehash}{275f1dbb467214c0cff209714268ddd3}
+      \strng{authorfullhash}{275f1dbb467214c0cff209714268ddd3}
+      \strng{authorfullhashraw}{275f1dbb467214c0cff209714268ddd3}
+      \field{sortinit}{2}
+      \field{sortinithash}{8b555b3791beccb63322c22f3320aa9a}
+      \field{extradatescope}{labelyear}
+      \field{labeldatesource}{}
+      \true{uniqueprimaryauthor}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{journaltitle}{Economic Modelling}
+      \field{title}{Macroeconomic impacts of increasing the minimum wage: The case of Korea}
+      \field{volume}{113}
+      \field{year}{2022}
+      \field{pages}{105880}
+      \range{pages}{1}
+    \endentry
+    \entry{baek2021impact}{article}{}{}
+      \name{author}{3}{}{%
+        {{un=0,uniquepart=base,hash=87b100316b7afef254ce8f8f9821b5ce}{%
+           family={Baek},
+           familyi={B\bibinitperiod},
+           given={Jisun},
+           giveni={J\bibinitperiod},
+           givenun=0}}%
+        {{un=0,uniquepart=base,hash=3364ca12b693459a342ae99d951f24d2}{%
+           family={Lee},
+           familyi={L\bibinitperiod},
+           given={Changkeun},
+           giveni={C\bibinitperiod},
+           givenun=0}}%
+        {{un=0,uniquepart=base,hash=79672880a52ced3f2301467e58d2f2c1}{%
+           family={Park},
+           familyi={P\bibinitperiod},
+           given={WooRam},
+           giveni={W\bibinitperiod},
+           givenun=0}}%
+      }
+      \list{publisher}{1}{%
+        {Elsevier}%
+      }
+      \strng{namehash}{604d45687aada0769636f349bba8aad5}
+      \strng{fullhash}{7eba2b864d235a6335ee8f5c5b2ca1e2}
+      \strng{fullhashraw}{7eba2b864d235a6335ee8f5c5b2ca1e2}
+      \strng{bibnamehash}{7eba2b864d235a6335ee8f5c5b2ca1e2}
+      \strng{authorbibnamehash}{7eba2b864d235a6335ee8f5c5b2ca1e2}
+      \strng{authornamehash}{604d45687aada0769636f349bba8aad5}
+      \strng{authorfullhash}{7eba2b864d235a6335ee8f5c5b2ca1e2}
+      \strng{authorfullhashraw}{7eba2b864d235a6335ee8f5c5b2ca1e2}
+      \field{sortinit}{2}
+      \field{sortinithash}{8b555b3791beccb63322c22f3320aa9a}
+      \field{extradatescope}{labelyear}
+      \field{labeldatesource}{}
+      \true{uniqueprimaryauthor}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{journaltitle}{Labour Economics}
+      \field{title}{The impact of the minimum wage on the characteristics of new establishments: Evidence from South Korea}
+      \field{volume}{72}
+      \field{year}{2021}
+      \field{pages}{102059}
+      \range{pages}{1}
+    \endentry
+    \entry{baines2021linking}{article}{}{}
+      \true{moreauthor}
+      \true{morelabelname}
+      \name{author}{10}{}{%
+        {{un=0,uniquepart=base,hash=74ef491bf2f681efddfba155e06bf47e}{%
+           family={Baines},
+           familyi={B\bibinitperiod},
+           given={Ciara},
+           giveni={C\bibinitperiod},
+           givenun=0}}%
+        {{un=0,uniquepart=base,hash=a0a733d0047a56f5ea0f3c72b6588fcd}{%
+           family={Lerebours},
+           familyi={L\bibinitperiod},
+           given={Adelaide},
+           giveni={A\bibinitperiod},
+           givenun=0}}%
+        {{un=0,uniquepart=base,hash=fcc74d0bc4d75c2c90ce8c01ef7f774f}{%
+           family={Thomas},
+           familyi={T\bibinitperiod},
+           given={Frederic},
+           giveni={F\bibinitperiod},
+           givenun=0}}%
+        {{un=0,uniquepart=base,hash=d9e14f84f96c4f107a241919c8104636}{%
+           family={Fort},
+           familyi={F\bibinitperiod},
+           given={Jerome},
+           giveni={J\bibinitperiod},
+           givenun=0}}%
+        {{un=0,uniquepart=base,hash=b603ce8d4da84cb0de8d2ba6f3362dd3}{%
+           family={Kreitsberg},
+           familyi={K\bibinitperiod},
+           given={Randel},
+           giveni={R\bibinitperiod},
+           givenun=0}}%
+        {{un=0,uniquepart=base,hash=d9c7ce18ef811f9d8072387c73b0bb82}{%
+           family={Gentes},
+           familyi={G\bibinitperiod},
+           given={Sophie},
+           giveni={S\bibinitperiod},
+           givenun=0}}%
+        {{un=0,uniquepart=base,hash=49ef283787a304970d836bc880d59743}{%
+           family={Meitern},
+           familyi={M\bibinitperiod},
+           given={Richard},
+           giveni={R\bibinitperiod},
+           givenun=0}}%
+        {{un=0,uniquepart=base,hash=d3854c16ba521f130bc6ef8dd8ddc8f3}{%
+           family={Saks},
+           familyi={S\bibinitperiod},
+           given={Lauri},
+           giveni={L\bibinitperiod},
+           givenun=0}}%
+        {{un=0,uniquepart=base,hash=fd4f7211fd8f294288748d3912335210}{%
+           family={Ujvari},
+           familyi={U\bibinitperiod},
+           given={Beata},
+           giveni={B\bibinitperiod},
+           givenun=0}}%
+        {{un=0,uniquepart=base,hash=4aa49b6eb575a9eb804162da54b88a13}{%
+           family={Giraudeau},
+           familyi={G\bibinitperiod},
+           given={Mathieu},
+           giveni={M\bibinitperiod},
+           givenun=0}}%
+      }
+      \list{publisher}{1}{%
+        {Elsevier}%
+      }
+      \strng{namehash}{74eda7cf3dfdfe029a4dda8273b0c5c1}
+      \strng{fullhash}{62718b92f57e595eab050be4dcbbceb3}
+      \strng{fullhashraw}{62718b92f57e595eab050be4dcbbceb3}
+      \strng{bibnamehash}{62718b92f57e595eab050be4dcbbceb3}
+      \strng{authorbibnamehash}{62718b92f57e595eab050be4dcbbceb3}
+      \strng{authornamehash}{74eda7cf3dfdfe029a4dda8273b0c5c1}
+      \strng{authorfullhash}{62718b92f57e595eab050be4dcbbceb3}
+      \strng{authorfullhashraw}{62718b92f57e595eab050be4dcbbceb3}
+      \field{sortinit}{2}
+      \field{sortinithash}{8b555b3791beccb63322c22f3320aa9a}
+      \field{extradatescope}{labelyear}
+      \field{labeldatesource}{}
+      \true{uniqueprimaryauthor}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{journaltitle}{Environment International}
+      \field{title}{Linking pollution and cancer in aquatic environments: A review}
+      \field{volume}{149}
+      \field{year}{2021}
+      \field{pages}{106391}
+      \range{pages}{1}
+    \endentry
+    \entry{gopalan2021state}{article}{}{}
+      \name{author}{4}{}{%
+        {{un=0,uniquepart=base,hash=e607a4be3c98da061396ec70764ea39b}{%
+           family={Gopalan},
+           familyi={G\bibinitperiod},
+           given={Radhakrishnan},
+           giveni={R\bibinitperiod},
+           givenun=0}}%
+        {{un=0,uniquepart=base,hash=70f6319cea6641f628a943af5a802449}{%
+           family={Hamilton},
+           familyi={H\bibinitperiod},
+           given={Barton\bibnamedelima H},
+           giveni={B\bibinitperiod\bibinitdelim H\bibinitperiod},
+           givenun=0}}%
+        {{un=0,uniquepart=base,hash=0cccd38e5c25e8e701ea21e2b6a162ea}{%
+           family={Kalda},
+           familyi={K\bibinitperiod},
+           given={Ankit},
+           giveni={A\bibinitperiod},
+           givenun=0}}%
+        {{un=0,uniquepart=base,hash=416bd791b127288d84af8ee0da981f17}{%
+           family={Sovich},
+           familyi={S\bibinitperiod},
+           given={David},
+           giveni={D\bibinitperiod},
+           givenun=0}}%
+      }
+      \list{publisher}{1}{%
+        {The University of Chicago Press Chicago, IL}%
+      }
+      \strng{namehash}{b3e3460a34918b93f69d0885f90a1235}
+      \strng{fullhash}{021de5ed58cf739b48ced8888888a40c}
+      \strng{fullhashraw}{021de5ed58cf739b48ced8888888a40c}
+      \strng{bibnamehash}{021de5ed58cf739b48ced8888888a40c}
+      \strng{authorbibnamehash}{021de5ed58cf739b48ced8888888a40c}
+      \strng{authornamehash}{b3e3460a34918b93f69d0885f90a1235}
+      \strng{authorfullhash}{021de5ed58cf739b48ced8888888a40c}
+      \strng{authorfullhashraw}{021de5ed58cf739b48ced8888888a40c}
+      \field{sortinit}{2}
+      \field{sortinithash}{8b555b3791beccb63322c22f3320aa9a}
+      \field{extradatescope}{labelyear}
+      \field{labeldatesource}{}
+      \true{uniqueprimaryauthor}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{journaltitle}{Journal of Labor Economics}
+      \field{number}{3}
+      \field{title}{State minimum wages, employment, and wage spillovers: Evidence from administrative payroll data}
+      \field{volume}{39}
+      \field{year}{2021}
+      \field{pages}{673\bibrangedash 707}
+      \range{pages}{35}
+    \endentry
+    \entry{lathrop2021raises}{article}{}{}
+      \name{author}{1}{}{%
+        {{un=0,uniquepart=base,hash=0c4e5593704a229e45d4e026299cfa31}{%
+           family={Lathrop},
+           familyi={L\bibinitperiod},
+           given={Yannet},
+           giveni={Y\bibinitperiod},
+           givenun=0}}%
+      }
+      \strng{namehash}{0c4e5593704a229e45d4e026299cfa31}
+      \strng{fullhash}{0c4e5593704a229e45d4e026299cfa31}
+      \strng{fullhashraw}{0c4e5593704a229e45d4e026299cfa31}
+      \strng{bibnamehash}{0c4e5593704a229e45d4e026299cfa31}
+      \strng{authorbibnamehash}{0c4e5593704a229e45d4e026299cfa31}
+      \strng{authornamehash}{0c4e5593704a229e45d4e026299cfa31}
+      \strng{authorfullhash}{0c4e5593704a229e45d4e026299cfa31}
+      \strng{authorfullhashraw}{0c4e5593704a229e45d4e026299cfa31}
+      \field{sortinit}{2}
+      \field{sortinithash}{8b555b3791beccb63322c22f3320aa9a}
+      \field{extradatescope}{labelyear}
+      \field{labeldatesource}{}
+      \true{uniqueprimaryauthor}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{journaltitle}{National Employment Law Project (December 2021), available at https://www. nelp. org/publication/raises-from-coast-to-coast-in-2022/, also showing that, in all}
+      \field{title}{Raises from Coast to Coast in 2022}
+      \field{volume}{33}
+      \field{year}{2021}
+    \endentry
+    \entry{zhao2021effects}{article}{}{}
+      \name{author}{2}{}{%
+        {{un=0,uniquepart=base,hash=e01469d987bf81a4e00e68a3f3d40827}{%
+           family={Zhao},
+           familyi={Z\bibinitperiod},
+           given={Naibao},
+           giveni={N\bibinitperiod},
+           givenun=0}}%
+        {{un=0,uniquepart=base,hash=7b8f28a51717b34b499e8a1ffca1df90}{%
+           family={Sun},
+           familyi={S\bibinitperiod},
+           given={Meng},
+           giveni={M\bibinitperiod},
+           givenun=0}}%
+      }
+      \list{publisher}{1}{%
+        {Elsevier}%
+      }
+      \strng{namehash}{479f162f9cc3cd4c2af1689e96872659}
+      \strng{fullhash}{479f162f9cc3cd4c2af1689e96872659}
+      \strng{fullhashraw}{479f162f9cc3cd4c2af1689e96872659}
+      \strng{bibnamehash}{479f162f9cc3cd4c2af1689e96872659}
+      \strng{authorbibnamehash}{479f162f9cc3cd4c2af1689e96872659}
+      \strng{authornamehash}{479f162f9cc3cd4c2af1689e96872659}
+      \strng{authorfullhash}{479f162f9cc3cd4c2af1689e96872659}
+      \strng{authorfullhashraw}{479f162f9cc3cd4c2af1689e96872659}
+      \field{sortinit}{2}
+      \field{sortinithash}{8b555b3791beccb63322c22f3320aa9a}
+      \field{extradatescope}{labelyear}
+      \field{labeldatesource}{}
+      \true{uniqueprimaryauthor}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{journaltitle}{Economic Modelling}
+      \field{title}{Effects of minimum wage on workers’ on-the-job effort and labor market outcomes}
+      \field{volume}{95}
+      \field{year}{2021}
+      \field{pages}{453\bibrangedash 461}
+      \range{pages}{9}
+    \endentry
+    \entry{hau2020firm}{article}{}{}
+      \name{author}{3}{}{%
+        {{un=0,uniquepart=base,hash=450afd072be9c78389a22f3d7eaceb4b}{%
+           family={Hau},
+           familyi={H\bibinitperiod},
+           given={Harald},
+           giveni={H\bibinitperiod},
+           givenun=0}}%
+        {{un=0,uniquepart=base,hash=1fd5ec8bcbaf30b0eeea16e2e3c528d0}{%
+           family={Huang},
+           familyi={H\bibinitperiod},
+           given={Yi},
+           giveni={Y\bibinitperiod},
+           givenun=0}}%
+        {{un=0,uniquepart=base,hash=a01bd9f90dae4038bb9d6a65ff7e60d1}{%
+           family={Wang},
+           familyi={W\bibinitperiod},
+           given={Gewei},
+           giveni={G\bibinitperiod},
+           givenun=0}}%
+      }
+      \list{publisher}{1}{%
+        {Oxford University Press}%
+      }
+      \strng{namehash}{c2605543a8e5d58f41bde9fbb39343e3}
+      \strng{fullhash}{c03ec834e8769c85716448512fb5d944}
+      \strng{fullhashraw}{c03ec834e8769c85716448512fb5d944}
+      \strng{bibnamehash}{c03ec834e8769c85716448512fb5d944}
+      \strng{authorbibnamehash}{c03ec834e8769c85716448512fb5d944}
+      \strng{authornamehash}{c2605543a8e5d58f41bde9fbb39343e3}
+      \strng{authorfullhash}{c03ec834e8769c85716448512fb5d944}
+      \strng{authorfullhashraw}{c03ec834e8769c85716448512fb5d944}
+      \field{sortinit}{2}
+      \field{sortinithash}{8b555b3791beccb63322c22f3320aa9a}
+      \field{extradatescope}{labelyear}
+      \field{labeldatesource}{}
+      \true{uniqueprimaryauthor}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{journaltitle}{The Review of Economic Studies}
+      \field{number}{6}
+      \field{title}{Firm response to competitive shocks: Evidence from China’s minimum wage policy}
+      \field{volume}{87}
+      \field{year}{2020}
+      \field{pages}{2639\bibrangedash 2671}
+      \range{pages}{33}
+    \endentry
+    \entry{li2020labor}{article}{}{}
+      \name{author}{4}{}{%
+        {{un=1,uniquepart=given,hash=044e3ce31698740e52346ad0aadea689}{%
+           family={Li},
+           familyi={L\bibinitperiod},
+           given={Jianqiang},
+           giveni={J\bibinitperiod},
+           givenun=1}}%
+        {{un=0,uniquepart=base,hash=295953abbce6ca5ea5613b0b195bc3e7}{%
+           family={Shan},
+           familyi={S\bibinitperiod},
+           given={Yaowen},
+           giveni={Y\bibinitperiod},
+           givenun=0}}%
+        {{un=0,uniquepart=base,hash=46ff66faf6eb8c27427948491495268d}{%
+           family={Tian},
+           familyi={T\bibinitperiod},
+           given={Gary},
+           giveni={G\bibinitperiod},
+           givenun=0}}%
+        {{un=0,uniquepart=base,hash=b8a92d7dddf06451b7b6cbaf583ff9c6}{%
+           family={Hao},
+           familyi={H\bibinitperiod},
+           given={Xiangchao},
+           giveni={X\bibinitperiod},
+           givenun=0}}%
+      }
+      \list{publisher}{1}{%
+        {Elsevier}%
+      }
+      \strng{namehash}{3c8f9e3749c8affb6782d4f17b24d4a7}
+      \strng{fullhash}{a381039ad5f0678148ba4cc9424a3251}
+      \strng{fullhashraw}{a381039ad5f0678148ba4cc9424a3251}
+      \strng{bibnamehash}{a381039ad5f0678148ba4cc9424a3251}
+      \strng{authorbibnamehash}{a381039ad5f0678148ba4cc9424a3251}
+      \strng{authornamehash}{3c8f9e3749c8affb6782d4f17b24d4a7}
+      \strng{authorfullhash}{a381039ad5f0678148ba4cc9424a3251}
+      \strng{authorfullhashraw}{a381039ad5f0678148ba4cc9424a3251}
+      \field{sortinit}{2}
+      \field{sortinithash}{8b555b3791beccb63322c22f3320aa9a}
+      \field{extradatescope}{labelyear}
+      \field{labeldatesource}{}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{journaltitle}{Journal of Corporate Finance}
+      \field{title}{Labor cost, government intervention, and corporate innovation: Evidence from China}
+      \field{volume}{64}
+      \field{year}{2020}
+      \field{pages}{101668}
+      \range{pages}{1}
+    \endentry
+    \entry{turner2020outdoor}{article}{}{}
+      \name{author}{10}{}{%
+        {{un=0,uniquepart=base,hash=37c9dcb6fb18a5a3f18b0453f694b5d6}{%
+           family={Turner},
+           familyi={T\bibinitperiod},
+           given={Michelle\bibnamedelima C},
+           giveni={M\bibinitperiod\bibinitdelim C\bibinitperiod},
+           givenun=0}}%
+        {{un=0,uniquepart=base,hash=be36a1f3c688e893d8f6d20c4b29f8d8}{%
+           family={Andersen},
+           familyi={A\bibinitperiod},
+           given={Zorana\bibnamedelima J},
+           giveni={Z\bibinitperiod\bibinitdelim J\bibinitperiod},
+           givenun=0}}%
+        {{un=0,uniquepart=base,hash=ddb58cbb4cca3f830eb5010d16278a0a}{%
+           family={Baccarelli},
+           familyi={B\bibinitperiod},
+           given={Andrea},
+           giveni={A\bibinitperiod},
+           givenun=0}}%
+        {{un=0,uniquepart=base,hash=5ba27b1e299c8c0e201a6c7e3dc91b9d}{%
+           family={Diver},
+           familyi={D\bibinitperiod},
+           given={W\bibnamedelima Ryan},
+           giveni={W\bibinitperiod\bibinitdelim R\bibinitperiod},
+           givenun=0}}%
+        {{un=0,uniquepart=base,hash=8f2ffc395d885b406f06c5bdb1c1bcd1}{%
+           family={Gapstur},
+           familyi={G\bibinitperiod},
+           given={Susan\bibnamedelima M},
+           giveni={S\bibinitperiod\bibinitdelim M\bibinitperiod},
+           givenun=0}}%
+        {{un=0,uniquepart=base,hash=80373fbf04d8e2d5e387c7eb5c4c9456}{%
+           family={Pope\bibnamedelima III},
+           familyi={P\bibinitperiod\bibinitdelim I\bibinitperiod},
+           given={C\bibnamedelima Arden},
+           giveni={C\bibinitperiod\bibinitdelim A\bibinitperiod},
+           givenun=0}}%
+        {{un=0,uniquepart=base,hash=e8c203ff0730aa076277145b54f1401c}{%
+           family={Prada},
+           familyi={P\bibinitperiod},
+           given={Diddier},
+           giveni={D\bibinitperiod},
+           givenun=0}}%
+        {{un=0,uniquepart=base,hash=13a1f43aa6393d12a865308c965cca12}{%
+           family={Samet},
+           familyi={S\bibinitperiod},
+           given={Jonathan},
+           giveni={J\bibinitperiod},
+           givenun=0}}%
+        {{un=0,uniquepart=base,hash=4c3171c337841f8cabae2103799638be}{%
+           family={Thurston},
+           familyi={T\bibinitperiod},
+           given={George},
+           giveni={G\bibinitperiod},
+           givenun=0}}%
+        {{un=0,uniquepart=base,hash=61c4d9e122ef2150a9e75d26baabdc5e}{%
+           family={Cohen},
+           familyi={C\bibinitperiod},
+           given={Aaron},
+           giveni={A\bibinitperiod},
+           givenun=0}}%
+      }
+      \list{publisher}{1}{%
+        {Wiley Online Library}%
+      }
+      \strng{namehash}{380b4fc6297586a46f10c7562d42b685}
+      \strng{fullhash}{56a33fff5a56b85aca065f6b4fe5aa71}
+      \strng{fullhashraw}{56a33fff5a56b85aca065f6b4fe5aa71}
+      \strng{bibnamehash}{56a33fff5a56b85aca065f6b4fe5aa71}
+      \strng{authorbibnamehash}{56a33fff5a56b85aca065f6b4fe5aa71}
+      \strng{authornamehash}{380b4fc6297586a46f10c7562d42b685}
+      \strng{authorfullhash}{56a33fff5a56b85aca065f6b4fe5aa71}
+      \strng{authorfullhashraw}{56a33fff5a56b85aca065f6b4fe5aa71}
+      \field{extraname}{1}
+      \field{sortinit}{2}
+      \field{sortinithash}{8b555b3791beccb63322c22f3320aa9a}
+      \field{extradatescope}{labelyear}
+      \field{labeldatesource}{}
+      \true{uniqueprimaryauthor}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{journaltitle}{CA: a cancer journal for clinicians}
+      \field{number}{6}
+      \field{title}{Outdoor air pollution and cancer: An overview of the current evidence and public health recommendations}
+      \field{volume}{70}
+      \field{year}{2020}
+      \field{pages}{460\bibrangedash 479}
+      \range{pages}{20}
+    \endentry
+    \entry{cengiz2019effect}{article}{}{}
+      \name{author}{4}{}{%
+        {{un=0,uniquepart=base,hash=288fda1d982b59074055775aefeaa70d}{%
+           family={Cengiz},
+           familyi={C\bibinitperiod},
+           given={Doruk},
+           giveni={D\bibinitperiod},
+           givenun=0}}%
+        {{un=0,uniquepart=base,hash=806312e86adad46015daebe215cb2c39}{%
+           family={Dube},
+           familyi={D\bibinitperiod},
+           given={Arindrajit},
+           giveni={A\bibinitperiod},
+           givenun=0}}%
+        {{un=0,uniquepart=base,hash=c5a38268ae1913d5e53d45cc5513ad57}{%
+           family={Lindner},
+           familyi={L\bibinitperiod},
+           given={Attila},
+           giveni={A\bibinitperiod},
+           givenun=0}}%
+        {{un=0,uniquepart=base,hash=86ef88841e63d7c69a12b35e6c0db2c1}{%
+           family={Zipperer},
+           familyi={Z\bibinitperiod},
+           given={Ben},
+           giveni={B\bibinitperiod},
+           givenun=0}}%
+      }
+      \list{publisher}{1}{%
+        {Oxford Academic}%
+      }
+      \strng{namehash}{9d1d264d4c040b3bdd52304301fbb73e}
+      \strng{fullhash}{d192571910f235584fc016c161a9cdce}
+      \strng{fullhashraw}{d192571910f235584fc016c161a9cdce}
+      \strng{bibnamehash}{d192571910f235584fc016c161a9cdce}
+      \strng{authorbibnamehash}{d192571910f235584fc016c161a9cdce}
+      \strng{authornamehash}{9d1d264d4c040b3bdd52304301fbb73e}
+      \strng{authorfullhash}{d192571910f235584fc016c161a9cdce}
+      \strng{authorfullhashraw}{d192571910f235584fc016c161a9cdce}
+      \field{sortinit}{2}
+      \field{sortinithash}{8b555b3791beccb63322c22f3320aa9a}
+      \field{extradatescope}{labelyear}
+      \field{labeldatesource}{}
+      \true{uniqueprimaryauthor}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{journaltitle}{The Quarterly Journal of Economics}
+      \field{number}{3}
+      \field{title}{The effect of minimum wages on low-wage jobs}
+      \field{volume}{134}
+      \field{year}{2019}
+      \field{pages}{1405\bibrangedash 1454}
+      \range{pages}{50}
+    \endentry
+    \entry{dube2019fairness}{article}{}{}
+      \name{author}{3}{}{%
+        {{un=0,uniquepart=base,hash=806312e86adad46015daebe215cb2c39}{%
+           family={Dube},
+           familyi={D\bibinitperiod},
+           given={Arindrajit},
+           giveni={A\bibinitperiod},
+           givenun=0}}%
+        {{un=0,uniquepart=base,hash=63ca5566435f365e906109384fd645b1}{%
+           family={Giuliano},
+           familyi={G\bibinitperiod},
+           given={Laura},
+           giveni={L\bibinitperiod},
+           givenun=0}}%
+        {{un=0,uniquepart=base,hash=c4130b35acb781f9bace509afcadcb0e}{%
+           family={Leonard},
+           familyi={L\bibinitperiod},
+           given={Jonathan},
+           giveni={J\bibinitperiod},
+           givenun=0}}%
+      }
+      \list{publisher}{1}{%
+        {American Economic Association 2014 Broadway, Suite 305, Nashville, TN 37203}%
+      }
+      \strng{namehash}{d6a778cb7c4aad590812f7e0d2e98c00}
+      \strng{fullhash}{47d4a9d33ed2d306bf1507e2e702900c}
+      \strng{fullhashraw}{47d4a9d33ed2d306bf1507e2e702900c}
+      \strng{bibnamehash}{47d4a9d33ed2d306bf1507e2e702900c}
+      \strng{authorbibnamehash}{47d4a9d33ed2d306bf1507e2e702900c}
+      \strng{authornamehash}{d6a778cb7c4aad590812f7e0d2e98c00}
+      \strng{authorfullhash}{47d4a9d33ed2d306bf1507e2e702900c}
+      \strng{authorfullhashraw}{47d4a9d33ed2d306bf1507e2e702900c}
+      \field{extraname}{1}
+      \field{sortinit}{2}
+      \field{sortinithash}{8b555b3791beccb63322c22f3320aa9a}
+      \field{extradatescope}{labelyear}
+      \field{labeldatesource}{}
+      \true{uniqueprimaryauthor}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{journaltitle}{American Economic Review}
+      \field{number}{2}
+      \field{title}{Fairness and frictions: The impact of unequal raises on quit behavior}
+      \field{volume}{109}
+      \field{year}{2019}
+      \field{pages}{620\bibrangedash 663}
+      \range{pages}{44}
+    \endentry
+    \entry{harasztosi2019pays}{article}{}{}
+      \name{author}{2}{}{%
+        {{un=0,uniquepart=base,hash=705479fcbdb97b914628d48e7bdfb070}{%
+           family={Harasztosi},
+           familyi={H\bibinitperiod},
+           given={Péter},
+           giveni={P\bibinitperiod},
+           givenun=0}}%
+        {{un=0,uniquepart=base,hash=c5a38268ae1913d5e53d45cc5513ad57}{%
+           family={Lindner},
+           familyi={L\bibinitperiod},
+           given={Attila},
+           giveni={A\bibinitperiod},
+           givenun=0}}%
+      }
+      \list{publisher}{1}{%
+        {American Economic Association 2014 Broadway, Suite 305, Nashville, TN 37203}%
+      }
+      \strng{namehash}{9c2334c911ce4f1cd45547a73cbcc2c5}
+      \strng{fullhash}{9c2334c911ce4f1cd45547a73cbcc2c5}
+      \strng{fullhashraw}{9c2334c911ce4f1cd45547a73cbcc2c5}
+      \strng{bibnamehash}{9c2334c911ce4f1cd45547a73cbcc2c5}
+      \strng{authorbibnamehash}{9c2334c911ce4f1cd45547a73cbcc2c5}
+      \strng{authornamehash}{9c2334c911ce4f1cd45547a73cbcc2c5}
+      \strng{authorfullhash}{9c2334c911ce4f1cd45547a73cbcc2c5}
+      \strng{authorfullhashraw}{9c2334c911ce4f1cd45547a73cbcc2c5}
+      \field{sortinit}{2}
+      \field{sortinithash}{8b555b3791beccb63322c22f3320aa9a}
+      \field{extradatescope}{labelyear}
+      \field{labeldatesource}{}
+      \true{uniqueprimaryauthor}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{journaltitle}{American Economic Review}
+      \field{number}{8}
+      \field{title}{Who pays for the minimum wage?}
+      \field{volume}{109}
+      \field{year}{2019}
+      \field{pages}{2693\bibrangedash 2727}
+      \range{pages}{35}
+    \endentry
+    \entry{kim2019minimum}{article}{}{}
+      \name{author}{2}{}{%
+        {{un=0,uniquepart=base,hash=cc42d57d6f19d25b4e145a7d09ef6ee8}{%
+           family={Kim},
+           familyi={K\bibinitperiod},
+           given={Hong\bibnamedelima Soon},
+           giveni={H\bibinitperiod\bibinitdelim S\bibinitperiod},
+           givenun=0}}%
+        {{un=0,uniquepart=base,hash=135dbb91de7a44f26ff2dbdf0a6d200b}{%
+           family={Jang},
+           familyi={J\bibinitperiod},
+           given={SooCheong\bibnamedelima Shawn},
+           giveni={S\bibinitperiod\bibinitdelim S\bibinitperiod},
+           givenun=0}}%
+      }
+      \list{publisher}{1}{%
+        {Elsevier}%
+      }
+      \strng{namehash}{3ea3ddc62a15118fce43b74032080a65}
+      \strng{fullhash}{3ea3ddc62a15118fce43b74032080a65}
+      \strng{fullhashraw}{3ea3ddc62a15118fce43b74032080a65}
+      \strng{bibnamehash}{3ea3ddc62a15118fce43b74032080a65}
+      \strng{authorbibnamehash}{3ea3ddc62a15118fce43b74032080a65}
+      \strng{authornamehash}{3ea3ddc62a15118fce43b74032080a65}
+      \strng{authorfullhash}{3ea3ddc62a15118fce43b74032080a65}
+      \strng{authorfullhashraw}{3ea3ddc62a15118fce43b74032080a65}
+      \field{sortinit}{2}
+      \field{sortinithash}{8b555b3791beccb63322c22f3320aa9a}
+      \field{extradatescope}{labelyear}
+      \field{labeldatesource}{}
+      \true{uniqueprimaryauthor}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{journaltitle}{Tourism Management}
+      \field{title}{Minimum wage increase and firm productivity: Evidence from the restaurant industry}
+      \field{volume}{71}
+      \field{year}{2019}
+      \field{pages}{378\bibrangedash 388}
+      \range{pages}{11}
+    \endentry
+    \entry{okudaira2019minimum}{article}{}{}
+      \name{author}{3}{}{%
+        {{un=0,uniquepart=base,hash=74de29c0ecb6864598984d005dbbed74}{%
+           family={Okudaira},
+           familyi={O\bibinitperiod},
+           given={Hiroko},
+           giveni={H\bibinitperiod},
+           givenun=0}}%
+        {{un=0,uniquepart=base,hash=8d159e48f462267a3ee8b09a1c4fb599}{%
+           family={Takizawa},
+           familyi={T\bibinitperiod},
+           given={Miho},
+           giveni={M\bibinitperiod},
+           givenun=0}}%
+        {{un=0,uniquepart=base,hash=d28a828b669e13e061de1c390f755990}{%
+           family={Yamanouchi},
+           familyi={Y\bibinitperiod},
+           given={Kenta},
+           giveni={K\bibinitperiod},
+           givenun=0}}%
+      }
+      \list{publisher}{1}{%
+        {Elsevier}%
+      }
+      \strng{namehash}{52eb9a33c053f9bf8f195a80427b4532}
+      \strng{fullhash}{bc392d84f47e36a9e7b506e5ec68e7f8}
+      \strng{fullhashraw}{bc392d84f47e36a9e7b506e5ec68e7f8}
+      \strng{bibnamehash}{bc392d84f47e36a9e7b506e5ec68e7f8}
+      \strng{authorbibnamehash}{bc392d84f47e36a9e7b506e5ec68e7f8}
+      \strng{authornamehash}{52eb9a33c053f9bf8f195a80427b4532}
+      \strng{authorfullhash}{bc392d84f47e36a9e7b506e5ec68e7f8}
+      \strng{authorfullhashraw}{bc392d84f47e36a9e7b506e5ec68e7f8}
+      \field{sortinit}{2}
+      \field{sortinithash}{8b555b3791beccb63322c22f3320aa9a}
+      \field{extradatescope}{labelyear}
+      \field{labeldatesource}{}
+      \true{uniqueprimaryauthor}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{journaltitle}{Labour Economics}
+      \field{title}{Minimum wage effects across heterogeneous markets}
+      \field{volume}{59}
+      \field{year}{2019}
+      \field{pages}{110\bibrangedash 122}
+      \range{pages}{13}
+    \endentry
+    \entry{wong2019minimum}{article}{}{}
+      \name{author}{1}{}{%
+        {{un=0,uniquepart=base,hash=7b1267de9dcc121504954af90026cb19}{%
+           family={Wong},
+           familyi={W\bibinitperiod},
+           given={Sara\bibnamedelima A},
+           giveni={S\bibinitperiod\bibinitdelim A\bibinitperiod},
+           givenun=0}}%
+      }
+      \list{publisher}{1}{%
+        {Elsevier}%
+      }
+      \strng{namehash}{7b1267de9dcc121504954af90026cb19}
+      \strng{fullhash}{7b1267de9dcc121504954af90026cb19}
+      \strng{fullhashraw}{7b1267de9dcc121504954af90026cb19}
+      \strng{bibnamehash}{7b1267de9dcc121504954af90026cb19}
+      \strng{authorbibnamehash}{7b1267de9dcc121504954af90026cb19}
+      \strng{authornamehash}{7b1267de9dcc121504954af90026cb19}
+      \strng{authorfullhash}{7b1267de9dcc121504954af90026cb19}
+      \strng{authorfullhashraw}{7b1267de9dcc121504954af90026cb19}
+      \field{sortinit}{2}
+      \field{sortinithash}{8b555b3791beccb63322c22f3320aa9a}
+      \field{extradatescope}{labelyear}
+      \field{labeldatesource}{}
+      \true{uniqueprimaryauthor}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{journaltitle}{World Development}
+      \field{title}{Minimum wage impacts on wages and hours worked of low-income workers in Ecuador}
+      \field{volume}{116}
+      \field{year}{2019}
+      \field{pages}{77\bibrangedash 99}
+      \range{pages}{23}
+    \endentry
+    \entry{zhang2019distributional}{article}{}{}
+      \name{author}{1}{}{%
+        {{un=1,uniquepart=given,hash=f2a08e7a352978d95afbc21de72fcdb2}{%
+           family={Zhang},
+           familyi={Z\bibinitperiod},
+           given={Weilong},
+           giveni={W\bibinitperiod},
+           givenun=1}}%
+      }
+      \strng{namehash}{f2a08e7a352978d95afbc21de72fcdb2}
+      \strng{fullhash}{f2a08e7a352978d95afbc21de72fcdb2}
+      \strng{fullhashraw}{f2a08e7a352978d95afbc21de72fcdb2}
+      \strng{bibnamehash}{f2a08e7a352978d95afbc21de72fcdb2}
+      \strng{authorbibnamehash}{f2a08e7a352978d95afbc21de72fcdb2}
+      \strng{authornamehash}{f2a08e7a352978d95afbc21de72fcdb2}
+      \strng{authorfullhash}{f2a08e7a352978d95afbc21de72fcdb2}
+      \strng{authorfullhashraw}{f2a08e7a352978d95afbc21de72fcdb2}
+      \field{sortinit}{2}
+      \field{sortinithash}{8b555b3791beccb63322c22f3320aa9a}
+      \field{extradatescope}{labelyear}
+      \field{labeldatesource}{}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{journaltitle}{Available at SSRN 3309362}
+      \field{title}{Distributional effects of local minimum wage hikes: A spatial job search approach}
+      \field{year}{2019}
+    \endentry
+    \entry{aaronson2018industry}{article}{}{}
+      \name{author}{4}{}{%
+        {{un=0,uniquepart=base,hash=dd47dcaf0c8ed65a0cfbad07e74f5058}{%
+           family={Aaronson},
+           familyi={A\bibinitperiod},
+           given={Daniel},
+           giveni={D\bibinitperiod},
+           givenun=0}}%
+        {{un=0,uniquepart=base,hash=5390653651b76118812d836185ae842b}{%
+           family={French},
+           familyi={F\bibinitperiod},
+           given={Eric},
+           giveni={E\bibinitperiod},
+           givenun=0}}%
+        {{un=0,uniquepart=base,hash=95a4c478dc1f368c14f4a266def33da7}{%
+           family={Sorkin},
+           familyi={S\bibinitperiod},
+           given={Isaac},
+           giveni={I\bibinitperiod},
+           givenun=0}}%
+        {{un=0,uniquepart=base,hash=7c54146c86f682d93623f28863e037fa}{%
+           family={To},
+           familyi={T\bibinitperiod},
+           given={Ted},
+           giveni={T\bibinitperiod},
+           givenun=0}}%
+      }
+      \list{publisher}{1}{%
+        {Wiley Online Library}%
+      }
+      \strng{namehash}{e43ba15c36477588de062a5504453e2f}
+      \strng{fullhash}{733c7340407c9ed79705267a8ad9dfc6}
+      \strng{fullhashraw}{733c7340407c9ed79705267a8ad9dfc6}
+      \strng{bibnamehash}{733c7340407c9ed79705267a8ad9dfc6}
+      \strng{authorbibnamehash}{733c7340407c9ed79705267a8ad9dfc6}
+      \strng{authornamehash}{e43ba15c36477588de062a5504453e2f}
+      \strng{authorfullhash}{733c7340407c9ed79705267a8ad9dfc6}
+      \strng{authorfullhashraw}{733c7340407c9ed79705267a8ad9dfc6}
+      \field{sortinit}{2}
+      \field{sortinithash}{8b555b3791beccb63322c22f3320aa9a}
+      \field{extradatescope}{labelyear}
+      \field{labeldatesource}{}
+      \true{uniqueprimaryauthor}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{journaltitle}{International Economic Review}
+      \field{number}{1}
+      \field{title}{Industry dynamics and the minimum wage: a putty-clay approach}
+      \field{volume}{59}
+      \field{year}{2018}
+      \field{pages}{51\bibrangedash 84}
+      \range{pages}{34}
+    \endentry
+    \entry{bell2018minimum}{article}{}{}
+      \name{author}{2}{}{%
+        {{un=0,uniquepart=base,hash=ad0e4319e00f0c7882fccbe05e05c091}{%
+           family={Bell},
+           familyi={B\bibinitperiod},
+           given={Brian},
+           giveni={B\bibinitperiod},
+           givenun=0}}%
+        {{un=0,uniquepart=base,hash=d805cb2e720d45cb623715f0750f64b0}{%
+           family={Machin},
+           familyi={M\bibinitperiod},
+           given={Stephen},
+           giveni={S\bibinitperiod},
+           givenun=0}}%
+      }
+      \list{publisher}{1}{%
+        {University of Chicago Press Chicago, IL}%
+      }
+      \strng{namehash}{7018da8858dd362a99d5f32b8f1317e5}
+      \strng{fullhash}{7018da8858dd362a99d5f32b8f1317e5}
+      \strng{fullhashraw}{7018da8858dd362a99d5f32b8f1317e5}
+      \strng{bibnamehash}{7018da8858dd362a99d5f32b8f1317e5}
+      \strng{authorbibnamehash}{7018da8858dd362a99d5f32b8f1317e5}
+      \strng{authornamehash}{7018da8858dd362a99d5f32b8f1317e5}
+      \strng{authorfullhash}{7018da8858dd362a99d5f32b8f1317e5}
+      \strng{authorfullhashraw}{7018da8858dd362a99d5f32b8f1317e5}
+      \field{sortinit}{2}
+      \field{sortinithash}{8b555b3791beccb63322c22f3320aa9a}
+      \field{extradatescope}{labelyear}
+      \field{labeldatesource}{}
+      \true{uniqueprimaryauthor}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{journaltitle}{Journal of Labor Economics}
+      \field{number}{1}
+      \field{title}{Minimum wages and firm value}
+      \field{volume}{36}
+      \field{year}{2018}
+      \field{pages}{159\bibrangedash 195}
+      \range{pages}{37}
+    \endentry
+    \entry{jardim2018minimum}{misc}{}{}
+      \name{author}{6}{}{%
+        {{un=0,uniquepart=base,hash=a52a02ef9b2ea3ffb6e159ca79aa5d95}{%
+           family={Jardim},
+           familyi={J\bibinitperiod},
+           given={E},
+           giveni={E\bibinitperiod},
+           givenun=0}}%
+        {{un=0,uniquepart=base,hash=4ed0826dd4912e0cb01967e9626702eb}{%
+           family={Long},
+           familyi={L\bibinitperiod},
+           given={M},
+           giveni={M\bibinitperiod},
+           givenun=0}}%
+        {{un=0,uniquepart=base,hash=7e706522b4c7806255be2792dfbae8c5}{%
+           family={Plotnick},
+           familyi={P\bibinitperiod},
+           given={R},
+           giveni={R\bibinitperiod},
+           givenun=0}}%
+        {{un=0,uniquepart=base,hash=b7cc65848ffd44b46a23c9a07406f91f}{%
+           family={Inwegen},
+           familyi={I\bibinitperiod},
+           given={E},
+           giveni={E\bibinitperiod},
+           givenun=0,
+           prefix={van},
+           prefixi={v\bibinitperiod}}}%
+        {{un=0,uniquepart=base,hash=9758b57f94120df96c19d6237ce979e5}{%
+           family={Vigdor},
+           familyi={V\bibinitperiod},
+           given={J},
+           giveni={J\bibinitperiod},
+           givenun=0}}%
+        {{un=0,uniquepart=base,hash=42ec59fb765a45e7cf7ee2f15885edc3}{%
+           family={Wething},
+           familyi={W\bibinitperiod},
+           given={H},
+           giveni={H\bibinitperiod},
+           givenun=0}}%
+      }
+      \list{publisher}{1}{%
+        {National Bureau of Economic Research. https://doi. org/10.3386/w23532}%
+      }
+      \strng{namehash}{c8ee52c911a50108cf7f027c5a0bda9d}
+      \strng{fullhash}{1fad47a982f4daee1cb964defb2f1945}
+      \strng{fullhashraw}{1fad47a982f4daee1cb964defb2f1945}
+      \strng{bibnamehash}{1fad47a982f4daee1cb964defb2f1945}
+      \strng{authorbibnamehash}{1fad47a982f4daee1cb964defb2f1945}
+      \strng{authornamehash}{c8ee52c911a50108cf7f027c5a0bda9d}
+      \strng{authorfullhash}{1fad47a982f4daee1cb964defb2f1945}
+      \strng{authorfullhashraw}{1fad47a982f4daee1cb964defb2f1945}
+      \field{sortinit}{2}
+      \field{sortinithash}{8b555b3791beccb63322c22f3320aa9a}
+      \field{extradatescope}{labelyear}
+      \field{labeldatesource}{}
+      \true{uniqueprimaryauthor}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{title}{Minimum wage increases, wages, and low-wage employment: Evidence from Seattle (NBRE Working Paper 23532)}
+      \field{year}{2018}
+    \endentry
+    \entry{shapiro2018pollution}{article}{}{}
+      \name{author}{2}{}{%
+        {{un=0,uniquepart=base,hash=5b6cfcad3f781db23a02e4d7e6f50f62}{%
+           family={Shapiro},
+           familyi={S\bibinitperiod},
+           given={Joseph\bibnamedelima S},
+           giveni={J\bibinitperiod\bibinitdelim S\bibinitperiod},
+           givenun=0}}%
+        {{un=0,uniquepart=base,hash=16bbc59bc9faa239c748fa1ea9f22a54}{%
+           family={Walker},
+           familyi={W\bibinitperiod},
+           given={Reed},
+           giveni={R\bibinitperiod},
+           givenun=0}}%
+      }
+      \list{publisher}{1}{%
+        {American Economic Association 2014 Broadway, Suite 305, Nashville, TN 37203}%
+      }
+      \strng{namehash}{b873193b2f76d873e339f5f541de3a93}
+      \strng{fullhash}{b873193b2f76d873e339f5f541de3a93}
+      \strng{fullhashraw}{b873193b2f76d873e339f5f541de3a93}
+      \strng{bibnamehash}{b873193b2f76d873e339f5f541de3a93}
+      \strng{authorbibnamehash}{b873193b2f76d873e339f5f541de3a93}
+      \strng{authornamehash}{b873193b2f76d873e339f5f541de3a93}
+      \strng{authorfullhash}{b873193b2f76d873e339f5f541de3a93}
+      \strng{authorfullhashraw}{b873193b2f76d873e339f5f541de3a93}
+      \field{sortinit}{2}
+      \field{sortinithash}{8b555b3791beccb63322c22f3320aa9a}
+      \field{extradatescope}{labelyear}
+      \field{labeldatesource}{}
+      \true{uniqueprimaryauthor}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{journaltitle}{American Economic Review}
+      \field{number}{12}
+      \field{title}{Why is pollution from US manufacturing declining? The roles of environmental regulation, productivity, and trade}
+      \field{volume}{108}
+      \field{year}{2018}
+      \field{pages}{3814\bibrangedash 3854}
+      \range{pages}{41}
+    \endentry
+    \entry{riley2017raising}{article}{}{}
+      \name{author}{2}{}{%
+        {{un=0,uniquepart=base,hash=dbb52826011d042d3db8692c6d489189}{%
+           family={Riley},
+           familyi={R\bibinitperiod},
+           given={Rebecca},
+           giveni={R\bibinitperiod},
+           givenun=0}}%
+        {{un=0,uniquepart=base,hash=59bd8a3d8de80af083b9e22ec5115f37}{%
+           family={Bondibene},
+           familyi={B\bibinitperiod},
+           given={Chiara\bibnamedelima Rosazza},
+           giveni={C\bibinitperiod\bibinitdelim R\bibinitperiod},
+           givenun=0}}%
+      }
+      \list{publisher}{1}{%
+        {Elsevier}%
+      }
+      \strng{namehash}{dd114429960ed037e44279fc86b9f5ce}
+      \strng{fullhash}{dd114429960ed037e44279fc86b9f5ce}
+      \strng{fullhashraw}{dd114429960ed037e44279fc86b9f5ce}
+      \strng{bibnamehash}{dd114429960ed037e44279fc86b9f5ce}
+      \strng{authorbibnamehash}{dd114429960ed037e44279fc86b9f5ce}
+      \strng{authornamehash}{dd114429960ed037e44279fc86b9f5ce}
+      \strng{authorfullhash}{dd114429960ed037e44279fc86b9f5ce}
+      \strng{authorfullhashraw}{dd114429960ed037e44279fc86b9f5ce}
+      \field{sortinit}{2}
+      \field{sortinithash}{8b555b3791beccb63322c22f3320aa9a}
+      \field{extradatescope}{labelyear}
+      \field{labeldatesource}{}
+      \true{uniqueprimaryauthor}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{journaltitle}{Labour Economics}
+      \field{title}{Raising the standard: Minimum wages and firm productivity}
+      \field{volume}{44}
+      \field{year}{2017}
+      \field{pages}{27\bibrangedash 50}
+      \range{pages}{24}
+    \endentry
+    \entry{turner2017ambient}{article}{}{}
+      \name{author}{8}{}{%
+        {{un=0,uniquepart=base,hash=37c9dcb6fb18a5a3f18b0453f694b5d6}{%
+           family={Turner},
+           familyi={T\bibinitperiod},
+           given={Michelle\bibnamedelima C},
+           giveni={M\bibinitperiod\bibinitdelim C\bibinitperiod},
+           givenun=0}}%
+        {{un=0,uniquepart=base,hash=7675577cd229a2cd14a4182e7a5bb60f}{%
+           family={Krewski},
+           familyi={K\bibinitperiod},
+           given={Daniel},
+           giveni={D\bibinitperiod},
+           givenun=0}}%
+        {{un=0,uniquepart=base,hash=5ba27b1e299c8c0e201a6c7e3dc91b9d}{%
+           family={Diver},
+           familyi={D\bibinitperiod},
+           given={W\bibnamedelima Ryan},
+           giveni={W\bibinitperiod\bibinitdelim R\bibinitperiod},
+           givenun=0}}%
+        {{un=0,uniquepart=base,hash=80373fbf04d8e2d5e387c7eb5c4c9456}{%
+           family={Pope\bibnamedelima III},
+           familyi={P\bibinitperiod\bibinitdelim I\bibinitperiod},
+           given={C\bibnamedelima Arden},
+           giveni={C\bibinitperiod\bibinitdelim A\bibinitperiod},
+           givenun=0}}%
+        {{un=0,uniquepart=base,hash=8958f6db72862a94d4268f8cf88388d1}{%
+           family={Burnett},
+           familyi={B\bibinitperiod},
+           given={Richard\bibnamedelima T},
+           giveni={R\bibinitperiod\bibinitdelim T\bibinitperiod},
+           givenun=0}}%
+        {{un=0,uniquepart=base,hash=cb5b97dd5de4623bf250880fe7e9e0e5}{%
+           family={Jerrett},
+           familyi={J\bibinitperiod},
+           given={Michael},
+           giveni={M\bibinitperiod},
+           givenun=0}}%
+        {{un=0,uniquepart=base,hash=28e8449e4dcb4577316e06ac651bed7d}{%
+           family={Marshall},
+           familyi={M\bibinitperiod},
+           given={Julian\bibnamedelima D},
+           giveni={J\bibinitperiod\bibinitdelim D\bibinitperiod},
+           givenun=0}}%
+        {{un=0,uniquepart=base,hash=8f2ffc395d885b406f06c5bdb1c1bcd1}{%
+           family={Gapstur},
+           familyi={G\bibinitperiod},
+           given={Susan\bibnamedelima M},
+           giveni={S\bibinitperiod\bibinitdelim M\bibinitperiod},
+           givenun=0}}%
+      }
+      \strng{namehash}{380b4fc6297586a46f10c7562d42b685}
+      \strng{fullhash}{633cb40ea2a071c29ef6da938c3b5cfc}
+      \strng{fullhashraw}{633cb40ea2a071c29ef6da938c3b5cfc}
+      \strng{bibnamehash}{633cb40ea2a071c29ef6da938c3b5cfc}
+      \strng{authorbibnamehash}{633cb40ea2a071c29ef6da938c3b5cfc}
+      \strng{authornamehash}{380b4fc6297586a46f10c7562d42b685}
+      \strng{authorfullhash}{633cb40ea2a071c29ef6da938c3b5cfc}
+      \strng{authorfullhashraw}{633cb40ea2a071c29ef6da938c3b5cfc}
+      \field{extraname}{2}
+      \field{sortinit}{2}
+      \field{sortinithash}{8b555b3791beccb63322c22f3320aa9a}
+      \field{extradatescope}{labelyear}
+      \field{labeldatesource}{}
+      \true{uniqueprimaryauthor}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{journaltitle}{Environmental health perspectives}
+      \field{number}{8}
+      \field{title}{Ambient air pollution and cancer mortality in the cancer prevention study II}
+      \field{volume}{125}
+      \field{year}{2017}
+      \field{pages}{087013}
+      \range{pages}{1}
+    \endentry
+    \entry{coneus2012pollution}{article}{}{}
+      \name{author}{2}{}{%
+        {{un=0,uniquepart=base,hash=d027ebdeef069a09e1fd5a72f06620ee}{%
+           family={Coneus},
+           familyi={C\bibinitperiod},
+           given={Katja},
+           giveni={K\bibinitperiod},
+           givenun=0}}%
+        {{un=0,uniquepart=base,hash=b7c9d9a89f88db587015b5de34e1319a}{%
+           family={Spiess},
+           familyi={S\bibinitperiod},
+           given={C\bibnamedelima Katharina},
+           giveni={C\bibinitperiod\bibinitdelim K\bibinitperiod},
+           givenun=0}}%
+      }
+      \list{publisher}{1}{%
+        {Elsevier}%
+      }
+      \strng{namehash}{e89d95b1c9156ef58ca823a3b90c5b7e}
+      \strng{fullhash}{e89d95b1c9156ef58ca823a3b90c5b7e}
+      \strng{fullhashraw}{e89d95b1c9156ef58ca823a3b90c5b7e}
+      \strng{bibnamehash}{e89d95b1c9156ef58ca823a3b90c5b7e}
+      \strng{authorbibnamehash}{e89d95b1c9156ef58ca823a3b90c5b7e}
+      \strng{authornamehash}{e89d95b1c9156ef58ca823a3b90c5b7e}
+      \strng{authorfullhash}{e89d95b1c9156ef58ca823a3b90c5b7e}
+      \strng{authorfullhashraw}{e89d95b1c9156ef58ca823a3b90c5b7e}
+      \field{sortinit}{2}
+      \field{sortinithash}{8b555b3791beccb63322c22f3320aa9a}
+      \field{extradatescope}{labelyear}
+      \field{labeldatesource}{}
+      \true{uniqueprimaryauthor}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{journaltitle}{Journal of Health Economics}
+      \field{number}{1}
+      \field{title}{Pollution exposure and child health: Evidence for infants and toddlers in Germany}
+      \field{volume}{31}
+      \field{year}{2012}
+      \field{pages}{180\bibrangedash 196}
+      \range{pages}{17}
+    \endentry
+    \entry{draca2011minimum}{article}{}{}
+      \name{author}{3}{}{%
+        {{un=0,uniquepart=base,hash=8cfc610d435bcb6775e963b21a8b9e29}{%
+           family={Draca},
+           familyi={D\bibinitperiod},
+           given={Mirko},
+           giveni={M\bibinitperiod},
+           givenun=0}}%
+        {{un=0,uniquepart=base,hash=d805cb2e720d45cb623715f0750f64b0}{%
+           family={Machin},
+           familyi={M\bibinitperiod},
+           given={Stephen},
+           giveni={S\bibinitperiod},
+           givenun=0}}%
+        {{un=0,uniquepart=base,hash=f70553b3e26946f6aa958883ea10f035}{%
+           family={Van\bibnamedelima Reenen},
+           familyi={V\bibinitperiod\bibinitdelim R\bibinitperiod},
+           given={John},
+           giveni={J\bibinitperiod},
+           givenun=0}}%
+      }
+      \list{publisher}{1}{%
+        {American Economic Association}%
+      }
+      \strng{namehash}{cd7fb7f1e54b4ec329312394dcdd0970}
+      \strng{fullhash}{c82b1df38239dbd7d21bc6ec56210ec7}
+      \strng{fullhashraw}{c82b1df38239dbd7d21bc6ec56210ec7}
+      \strng{bibnamehash}{c82b1df38239dbd7d21bc6ec56210ec7}
+      \strng{authorbibnamehash}{c82b1df38239dbd7d21bc6ec56210ec7}
+      \strng{authornamehash}{cd7fb7f1e54b4ec329312394dcdd0970}
+      \strng{authorfullhash}{c82b1df38239dbd7d21bc6ec56210ec7}
+      \strng{authorfullhashraw}{c82b1df38239dbd7d21bc6ec56210ec7}
+      \field{sortinit}{2}
+      \field{sortinithash}{8b555b3791beccb63322c22f3320aa9a}
+      \field{extradatescope}{labelyear}
+      \field{labeldatesource}{}
+      \true{uniqueprimaryauthor}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{journaltitle}{American economic journal: applied economics}
+      \field{number}{1}
+      \field{title}{Minimum wages and firm profitability}
+      \field{volume}{3}
+      \field{year}{2011}
+      \field{pages}{129\bibrangedash 151}
+      \range{pages}{23}
+    \endentry
+    \entry{acemoglu2010does}{article}{}{}
+      \name{author}{1}{}{%
+        {{un=0,uniquepart=base,hash=d849e6f8de178bfb18aa67341c9f8d38}{%
+           family={Acemoglu},
+           familyi={A\bibinitperiod},
+           given={Daron},
+           giveni={D\bibinitperiod},
+           givenun=0}}%
+      }
+      \list{publisher}{1}{%
+        {University of Chicago Press Chicago, IL}%
+      }
+      \strng{namehash}{d849e6f8de178bfb18aa67341c9f8d38}
+      \strng{fullhash}{d849e6f8de178bfb18aa67341c9f8d38}
+      \strng{fullhashraw}{d849e6f8de178bfb18aa67341c9f8d38}
+      \strng{bibnamehash}{d849e6f8de178bfb18aa67341c9f8d38}
+      \strng{authorbibnamehash}{d849e6f8de178bfb18aa67341c9f8d38}
+      \strng{authornamehash}{d849e6f8de178bfb18aa67341c9f8d38}
+      \strng{authorfullhash}{d849e6f8de178bfb18aa67341c9f8d38}
+      \strng{authorfullhashraw}{d849e6f8de178bfb18aa67341c9f8d38}
+      \field{sortinit}{2}
+      \field{sortinithash}{8b555b3791beccb63322c22f3320aa9a}
+      \field{extradatescope}{labelyear}
+      \field{labeldatesource}{}
+      \true{uniqueprimaryauthor}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{journaltitle}{Journal of Political Economy}
+      \field{number}{6}
+      \field{title}{When does labor scarcity encourage innovation?}
+      \field{volume}{118}
+      \field{year}{2010}
+      \field{pages}{1037\bibrangedash 1078}
+      \range{pages}{42}
+    \endentry
+    \entry{borjas2010labor}{book}{}{}
+      \name{author}{2}{}{%
+        {{un=0,uniquepart=base,hash=2bbc4693cc6e25946b1ae21cf51483a4}{%
+           family={Borjas},
+           familyi={B\bibinitperiod},
+           given={George\bibnamedelima J},
+           giveni={G\bibinitperiod\bibinitdelim J\bibinitperiod},
+           givenun=0}}%
+        {{un=0,uniquepart=base,hash=b9406716af121997f2144175e27462d4}{%
+           family={Van\bibnamedelima Ours},
+           familyi={V\bibinitperiod\bibinitdelim O\bibinitperiod},
+           given={Jan\bibnamedelima C},
+           giveni={J\bibinitperiod\bibinitdelim C\bibinitperiod},
+           givenun=0}}%
+      }
+      \list{publisher}{1}{%
+        {McGraw-Hill/Irwin Boston}%
+      }
+      \strng{namehash}{964596247e19a055f3729143388b8c1a}
+      \strng{fullhash}{964596247e19a055f3729143388b8c1a}
+      \strng{fullhashraw}{964596247e19a055f3729143388b8c1a}
+      \strng{bibnamehash}{964596247e19a055f3729143388b8c1a}
+      \strng{authorbibnamehash}{964596247e19a055f3729143388b8c1a}
+      \strng{authornamehash}{964596247e19a055f3729143388b8c1a}
+      \strng{authorfullhash}{964596247e19a055f3729143388b8c1a}
+      \strng{authorfullhashraw}{964596247e19a055f3729143388b8c1a}
+      \field{sortinit}{2}
+      \field{sortinithash}{8b555b3791beccb63322c22f3320aa9a}
+      \field{extradatescope}{labelyear}
+      \field{labeldatesource}{}
+      \true{uniqueprimaryauthor}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{title}{Labor economics}
+      \field{year}{2010}
+    \endentry
+    \entry{dube2010minimum}{article}{}{}
+      \name{author}{3}{}{%
+        {{un=0,uniquepart=base,hash=806312e86adad46015daebe215cb2c39}{%
+           family={Dube},
+           familyi={D\bibinitperiod},
+           given={Arindrajit},
+           giveni={A\bibinitperiod},
+           givenun=0}}%
+        {{un=0,uniquepart=base,hash=0a1bef0d9204ca5b85e8a87e1861d595}{%
+           family={Lester},
+           familyi={L\bibinitperiod},
+           given={T\bibnamedelima William},
+           giveni={T\bibinitperiod\bibinitdelim W\bibinitperiod},
+           givenun=0}}%
+        {{un=0,uniquepart=base,hash=1c3fe015d34b5591836f431ee1d7fcb3}{%
+           family={Reich},
+           familyi={R\bibinitperiod},
+           given={Michael},
+           giveni={M\bibinitperiod},
+           givenun=0}}%
+      }
+      \list{publisher}{1}{%
+        {The MIT Press}%
+      }
+      \strng{namehash}{d6a778cb7c4aad590812f7e0d2e98c00}
+      \strng{fullhash}{b5b521035c69bc10107862cf67a736ac}
+      \strng{fullhashraw}{b5b521035c69bc10107862cf67a736ac}
+      \strng{bibnamehash}{b5b521035c69bc10107862cf67a736ac}
+      \strng{authorbibnamehash}{b5b521035c69bc10107862cf67a736ac}
+      \strng{authornamehash}{d6a778cb7c4aad590812f7e0d2e98c00}
+      \strng{authorfullhash}{b5b521035c69bc10107862cf67a736ac}
+      \strng{authorfullhashraw}{b5b521035c69bc10107862cf67a736ac}
+      \field{extraname}{2}
+      \field{sortinit}{2}
+      \field{sortinithash}{8b555b3791beccb63322c22f3320aa9a}
+      \field{extradatescope}{labelyear}
+      \field{labeldatesource}{}
+      \true{uniqueprimaryauthor}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{journaltitle}{The review of economics and statistics}
+      \field{number}{4}
+      \field{title}{Minimum wage effects across state borders: Estimates using contiguous counties}
+      \field{volume}{92}
+      \field{year}{2010}
+      \field{pages}{945\bibrangedash 964}
+      \range{pages}{20}
+    \endentry
+    \entry{machin2004minimum}{report}{}{}
+      \name{author}{2}{}{%
+        {{un=0,uniquepart=base,hash=d805cb2e720d45cb623715f0750f64b0}{%
+           family={Machin},
+           familyi={M\bibinitperiod},
+           given={Stephen},
+           giveni={S\bibinitperiod},
+           givenun=0}}%
+        {{un=0,uniquepart=base,hash=5eb91b82bc6aee8e456fa46a5c09c2a2}{%
+           family={Wilson},
+           familyi={W\bibinitperiod},
+           given={Joan},
+           giveni={J\bibinitperiod},
+           givenun=0}}%
+      }
+      \list{institution}{1}{%
+        {Oxford University Press Oxford, UK}%
+      }
+      \strng{namehash}{a6bf11ad8c8fe2ffe6e520235f90af3c}
+      \strng{fullhash}{a6bf11ad8c8fe2ffe6e520235f90af3c}
+      \strng{fullhashraw}{a6bf11ad8c8fe2ffe6e520235f90af3c}
+      \strng{bibnamehash}{a6bf11ad8c8fe2ffe6e520235f90af3c}
+      \strng{authorbibnamehash}{a6bf11ad8c8fe2ffe6e520235f90af3c}
+      \strng{authornamehash}{a6bf11ad8c8fe2ffe6e520235f90af3c}
+      \strng{authorfullhash}{a6bf11ad8c8fe2ffe6e520235f90af3c}
+      \strng{authorfullhashraw}{a6bf11ad8c8fe2ffe6e520235f90af3c}
+      \field{sortinit}{2}
+      \field{sortinithash}{8b555b3791beccb63322c22f3320aa9a}
+      \field{extradatescope}{labelyear}
+      \field{labeldatesource}{}
+      \true{uniqueprimaryauthor}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{title}{Minimum wages in a low-wage labour market: care homes in the UK}
+      \field{type}{techreport}
+      \field{year}{2004}
+    \endentry
+    \entry{card2000minimum}{article}{}{}
+      \name{author}{2}{}{%
+        {{un=0,uniquepart=base,hash=a9e88233ec6ce30d2d31e294961e3e76}{%
+           family={Card},
+           familyi={C\bibinitperiod},
+           given={David},
+           giveni={D\bibinitperiod},
+           givenun=0}}%
+        {{un=0,uniquepart=base,hash=34526c3bf548080921683822747fad7e}{%
+           family={Krueger},
+           familyi={K\bibinitperiod},
+           given={Alan\bibnamedelima B},
+           giveni={A\bibinitperiod\bibinitdelim B\bibinitperiod},
+           givenun=0}}%
+      }
+      \list{publisher}{1}{%
+        {American Economic Association}%
+      }
+      \strng{namehash}{88d00363e1018b78cd4ea4a59ccee815}
+      \strng{fullhash}{88d00363e1018b78cd4ea4a59ccee815}
+      \strng{fullhashraw}{88d00363e1018b78cd4ea4a59ccee815}
+      \strng{bibnamehash}{88d00363e1018b78cd4ea4a59ccee815}
+      \strng{authorbibnamehash}{88d00363e1018b78cd4ea4a59ccee815}
+      \strng{authornamehash}{88d00363e1018b78cd4ea4a59ccee815}
+      \strng{authorfullhash}{88d00363e1018b78cd4ea4a59ccee815}
+      \strng{authorfullhashraw}{88d00363e1018b78cd4ea4a59ccee815}
+      \field{extraname}{1}
+      \field{sortinit}{2}
+      \field{sortinithash}{8b555b3791beccb63322c22f3320aa9a}
+      \field{extradatescope}{labelyear}
+      \field{labeldatesource}{}
+      \true{uniqueprimaryauthor}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{journaltitle}{American Economic Review}
+      \field{number}{5}
+      \field{title}{Minimum wages and employment: a case study of the fast-food industry in New Jersey and Pennsylvania: reply}
+      \field{volume}{90}
+      \field{year}{2000}
+      \field{pages}{1397\bibrangedash 1420}
+      \range{pages}{24}
+    \endentry
+    \entry{neumark2000minimum}{article}{}{}
+      \name{author}{2}{}{%
+        {{un=0,uniquepart=base,hash=17b0d070068575315bd7fa38f68880e8}{%
+           family={Neumark},
+           familyi={N\bibinitperiod},
+           given={David},
+           giveni={D\bibinitperiod},
+           givenun=0}}%
+        {{un=0,uniquepart=base,hash=d2cd8b10133c3539c0fec8f2ce3867db}{%
+           family={Wascher},
+           familyi={W\bibinitperiod},
+           given={William},
+           giveni={W\bibinitperiod},
+           givenun=0}}%
+      }
+      \list{publisher}{1}{%
+        {American Economic Association}%
+      }
+      \strng{namehash}{4bc2f70ace646cdca216591da6c7e22d}
+      \strng{fullhash}{4bc2f70ace646cdca216591da6c7e22d}
+      \strng{fullhashraw}{4bc2f70ace646cdca216591da6c7e22d}
+      \strng{bibnamehash}{4bc2f70ace646cdca216591da6c7e22d}
+      \strng{authorbibnamehash}{4bc2f70ace646cdca216591da6c7e22d}
+      \strng{authornamehash}{4bc2f70ace646cdca216591da6c7e22d}
+      \strng{authorfullhash}{4bc2f70ace646cdca216591da6c7e22d}
+      \strng{authorfullhashraw}{4bc2f70ace646cdca216591da6c7e22d}
+      \field{extraname}{1}
+      \field{sortinit}{2}
+      \field{sortinithash}{8b555b3791beccb63322c22f3320aa9a}
+      \field{extradatescope}{labelyear}
+      \field{labeldatesource}{}
+      \true{uniqueprimaryauthor}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{journaltitle}{American Economic Review}
+      \field{number}{5}
+      \field{title}{Minimum wages and employment: A case study of the fast-food industry in New Jersey and Pennsylvania: Comment}
+      \field{volume}{90}
+      \field{year}{2000}
+      \field{pages}{1362\bibrangedash 1396}
+      \range{pages}{35}
+    \endentry
+    \entry{brown1999minimum}{article}{}{}
+      \name{author}{1}{}{%
+        {{un=0,uniquepart=base,hash=62ce1b47717048647a682cd9521d189c}{%
+           family={Brown},
+           familyi={B\bibinitperiod},
+           given={Charles},
+           giveni={C\bibinitperiod},
+           givenun=0}}%
+      }
+      \list{publisher}{1}{%
+        {Elsevier}%
+      }
+      \strng{namehash}{62ce1b47717048647a682cd9521d189c}
+      \strng{fullhash}{62ce1b47717048647a682cd9521d189c}
+      \strng{fullhashraw}{62ce1b47717048647a682cd9521d189c}
+      \strng{bibnamehash}{62ce1b47717048647a682cd9521d189c}
+      \strng{authorbibnamehash}{62ce1b47717048647a682cd9521d189c}
+      \strng{authornamehash}{62ce1b47717048647a682cd9521d189c}
+      \strng{authorfullhash}{62ce1b47717048647a682cd9521d189c}
+      \strng{authorfullhashraw}{62ce1b47717048647a682cd9521d189c}
+      \field{sortinit}{1}
+      \field{sortinithash}{4f6aaa89bab872aa0999fec09ff8e98a}
+      \field{extradatescope}{labelyear}
+      \field{labeldatesource}{}
+      \true{uniqueprimaryauthor}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{journaltitle}{Handbook of labor economics}
+      \field{title}{Minimum wages, employment, and the distribution of income}
+      \field{volume}{3}
+      \field{year}{1999}
+      \field{pages}{2101\bibrangedash 2163}
+      \range{pages}{63}
+    \endentry
+    \entry{card1993minimum}{misc}{}{}
+      \name{author}{2}{}{%
+        {{un=0,uniquepart=base,hash=a9e88233ec6ce30d2d31e294961e3e76}{%
+           family={Card},
+           familyi={C\bibinitperiod},
+           given={David},
+           giveni={D\bibinitperiod},
+           givenun=0}}%
+        {{un=0,uniquepart=base,hash=34526c3bf548080921683822747fad7e}{%
+           family={Krueger},
+           familyi={K\bibinitperiod},
+           given={Alan\bibnamedelima B},
+           giveni={A\bibinitperiod\bibinitdelim B\bibinitperiod},
+           givenun=0}}%
+      }
+      \list{publisher}{1}{%
+        {National Bureau of Economic Research Cambridge, Mass., USA}%
+      }
+      \strng{namehash}{88d00363e1018b78cd4ea4a59ccee815}
+      \strng{fullhash}{88d00363e1018b78cd4ea4a59ccee815}
+      \strng{fullhashraw}{88d00363e1018b78cd4ea4a59ccee815}
+      \strng{bibnamehash}{88d00363e1018b78cd4ea4a59ccee815}
+      \strng{authorbibnamehash}{88d00363e1018b78cd4ea4a59ccee815}
+      \strng{authornamehash}{88d00363e1018b78cd4ea4a59ccee815}
+      \strng{authorfullhash}{88d00363e1018b78cd4ea4a59ccee815}
+      \strng{authorfullhashraw}{88d00363e1018b78cd4ea4a59ccee815}
+      \field{extraname}{2}
+      \field{sortinit}{1}
+      \field{sortinithash}{4f6aaa89bab872aa0999fec09ff8e98a}
+      \field{extradatescope}{labelyear}
+      \field{labeldatesource}{}
+      \true{uniqueprimaryauthor}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{title}{Minimum wages and employment: A case study of the fast food industry in New Jersey and Pennsylvania}
+      \field{year}{1993}
+    \endentry
+    \entry{neumark1992employment}{article}{}{}
+      \name{author}{2}{}{%
+        {{un=0,uniquepart=base,hash=17b0d070068575315bd7fa38f68880e8}{%
+           family={Neumark},
+           familyi={N\bibinitperiod},
+           given={David},
+           giveni={D\bibinitperiod},
+           givenun=0}}%
+        {{un=0,uniquepart=base,hash=d2cd8b10133c3539c0fec8f2ce3867db}{%
+           family={Wascher},
+           familyi={W\bibinitperiod},
+           given={William},
+           giveni={W\bibinitperiod},
+           givenun=0}}%
+      }
+      \list{publisher}{1}{%
+        {SAGE Publications Sage CA: Los Angeles, CA}%
+      }
+      \strng{namehash}{4bc2f70ace646cdca216591da6c7e22d}
+      \strng{fullhash}{4bc2f70ace646cdca216591da6c7e22d}
+      \strng{fullhashraw}{4bc2f70ace646cdca216591da6c7e22d}
+      \strng{bibnamehash}{4bc2f70ace646cdca216591da6c7e22d}
+      \strng{authorbibnamehash}{4bc2f70ace646cdca216591da6c7e22d}
+      \strng{authornamehash}{4bc2f70ace646cdca216591da6c7e22d}
+      \strng{authorfullhash}{4bc2f70ace646cdca216591da6c7e22d}
+      \strng{authorfullhashraw}{4bc2f70ace646cdca216591da6c7e22d}
+      \field{extraname}{2}
+      \field{sortinit}{1}
+      \field{sortinithash}{4f6aaa89bab872aa0999fec09ff8e98a}
+      \field{extradatescope}{labelyear}
+      \field{labeldatesource}{}
+      \true{uniqueprimaryauthor}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{journaltitle}{ILR Review}
+      \field{number}{1}
+      \field{title}{Employment effects of minimum and subminimum wages: panel data on state minimum wage laws}
+      \field{volume}{46}
+      \field{year}{1992}
+      \field{pages}{55\bibrangedash 81}
+      \range{pages}{27}
+    \endentry
+    \entry{hamermesh1982minimum}{article}{}{}
+      \name{author}{1}{}{%
+        {{un=0,uniquepart=base,hash=f540474dfc0cc8fdc36c8e9cfaf11453}{%
+           family={Hamermesh},
+           familyi={H\bibinitperiod},
+           given={Daniel\bibnamedelima S},
+           giveni={D\bibinitperiod\bibinitdelim S\bibinitperiod},
+           givenun=0}}%
+      }
+      \list{publisher}{1}{%
+        {Wiley Online Library}%
+      }
+      \strng{namehash}{f540474dfc0cc8fdc36c8e9cfaf11453}
+      \strng{fullhash}{f540474dfc0cc8fdc36c8e9cfaf11453}
+      \strng{fullhashraw}{f540474dfc0cc8fdc36c8e9cfaf11453}
+      \strng{bibnamehash}{f540474dfc0cc8fdc36c8e9cfaf11453}
+      \strng{authorbibnamehash}{f540474dfc0cc8fdc36c8e9cfaf11453}
+      \strng{authornamehash}{f540474dfc0cc8fdc36c8e9cfaf11453}
+      \strng{authorfullhash}{f540474dfc0cc8fdc36c8e9cfaf11453}
+      \strng{authorfullhashraw}{f540474dfc0cc8fdc36c8e9cfaf11453}
+      \field{sortinit}{1}
+      \field{sortinithash}{4f6aaa89bab872aa0999fec09ff8e98a}
+      \field{extradatescope}{labelyear}
+      \field{labeldatesource}{}
+      \true{uniqueprimaryauthor}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{journaltitle}{Economic Inquiry}
+      \field{number}{3}
+      \field{title}{Minimum wages and the demand for labor}
+      \field{volume}{20}
+      \field{year}{1982}
+      \field{pages}{365\bibrangedash 380}
+      \range{pages}{16}
+    \endentry
+    \entry{lester1960employment}{article}{}{}
+      \name{author}{1}{}{%
+        {{un=0,uniquepart=base,hash=e3a952ace4e7ac5342da3da4d2183c46}{%
+           family={Lester},
+           familyi={L\bibinitperiod},
+           given={Richard\bibnamedelima A},
+           giveni={R\bibinitperiod\bibinitdelim A\bibinitperiod},
+           givenun=0}}%
+      }
+      \list{publisher}{1}{%
+        {SAGE Publications Sage CA: Los Angeles, CA}%
+      }
+      \strng{namehash}{e3a952ace4e7ac5342da3da4d2183c46}
+      \strng{fullhash}{e3a952ace4e7ac5342da3da4d2183c46}
+      \strng{fullhashraw}{e3a952ace4e7ac5342da3da4d2183c46}
+      \strng{bibnamehash}{e3a952ace4e7ac5342da3da4d2183c46}
+      \strng{authorbibnamehash}{e3a952ace4e7ac5342da3da4d2183c46}
+      \strng{authornamehash}{e3a952ace4e7ac5342da3da4d2183c46}
+      \strng{authorfullhash}{e3a952ace4e7ac5342da3da4d2183c46}
+      \strng{authorfullhashraw}{e3a952ace4e7ac5342da3da4d2183c46}
+      \field{sortinit}{1}
+      \field{sortinithash}{4f6aaa89bab872aa0999fec09ff8e98a}
+      \field{extradatescope}{labelyear}
+      \field{labeldatesource}{}
+      \true{uniqueprimaryauthor}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{journaltitle}{ILR Review}
+      \field{number}{2}
+      \field{title}{Employment effects of minimum wages}
+      \field{volume}{13}
+      \field{year}{1960}
+      \field{pages}{254\bibrangedash 264}
+      \range{pages}{11}
+    \endentry
+    \entry{stigler1946economics}{article}{}{}
+      \name{author}{1}{}{%
+        {{un=0,uniquepart=base,hash=3e27ef99bf72db975408034556b655be}{%
+           family={Stigler},
+           familyi={S\bibinitperiod},
+           given={George\bibnamedelima J},
+           giveni={G\bibinitperiod\bibinitdelim J\bibinitperiod},
+           givenun=0}}%
+      }
+      \list{publisher}{1}{%
+        {JSTOR}%
+      }
+      \strng{namehash}{3e27ef99bf72db975408034556b655be}
+      \strng{fullhash}{3e27ef99bf72db975408034556b655be}
+      \strng{fullhashraw}{3e27ef99bf72db975408034556b655be}
+      \strng{bibnamehash}{3e27ef99bf72db975408034556b655be}
+      \strng{authorbibnamehash}{3e27ef99bf72db975408034556b655be}
+      \strng{authornamehash}{3e27ef99bf72db975408034556b655be}
+      \strng{authorfullhash}{3e27ef99bf72db975408034556b655be}
+      \strng{authorfullhashraw}{3e27ef99bf72db975408034556b655be}
+      \field{sortinit}{1}
+      \field{sortinithash}{4f6aaa89bab872aa0999fec09ff8e98a}
+      \field{extradatescope}{labelyear}
+      \field{labeldatesource}{}
+      \true{uniqueprimaryauthor}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{journaltitle}{The American Economic Review}
+      \field{number}{3}
+      \field{title}{The economics of minimum wage legislation}
+      \field{volume}{36}
+      \field{year}{1946}
+      \field{pages}{358\bibrangedash 365}
+      \range{pages}{8}
+    \endentry
+  \enddatalist
+\endrefsection
+\endinput
+

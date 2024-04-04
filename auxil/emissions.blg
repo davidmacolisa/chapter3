@@ -1,0 +1,19 @@
+[0] Config.pm:308> INFO - This is Biber 2.20
+[1] Config.pm:311> INFO - Logfile is 'emissions.blg'
+[223] biber-MSWIN64:340> INFO - === 
+[309] Biber.pm:420> INFO - Reading 'emissions.bcf'
+[465] Biber.pm:994> INFO - Found 49 citekeys in bib section 0
+[491] Biber.pm:4463> INFO - Processing section 0
+[521] Biber.pm:4654> INFO - Looking for bibtex file 'emissions.bib' for section 0
+[626] bibtex.pm:1713> INFO - LaTeX decoding ...
+[833] bibtex.pm:1519> INFO - Found BibTeX data source 'C:\Users\david\OneDrive\Documents\ULMS\PhD\Thesis\chapter3\src\climate_change\latex\emissions.bib'
+[1289] UCollate.pm:68> INFO - Overriding locale 'en-US' defaults 'variable = shifted' with 'variable = non-ignorable'
+[1290] UCollate.pm:68> INFO - Overriding locale 'en-US' defaults 'normalization = NFD' with 'normalization = prenormalized'
+[1290] Biber.pm:4283> INFO - Sorting list 'ydnt/apasortcite//global/global/global' of type 'entry' with template 'ydnt' and locale 'en-US'
+[1290] Biber.pm:4289> INFO - No sort tailoring available for locale 'en-US'
+[1442] UCollate.pm:68> INFO - Overriding locale 'en-US' defaults 'variable = shifted' with 'variable = non-ignorable'
+[1442] UCollate.pm:68> INFO - Overriding locale 'en-US' defaults 'normalization = NFD' with 'normalization = prenormalized'
+[1442] Biber.pm:4283> INFO - Sorting list 'ydnt/global//global/global/global' of type 'entry' with template 'ydnt' and locale 'en-US'
+[1443] Biber.pm:4289> INFO - No sort tailoring available for locale 'en-US'
+[1523] bbl.pm:676> INFO - Writing 'emissions.bbl' with encoding 'UTF-8'
+[1634] bbl.pm:779> INFO - Output to emissions.bbl

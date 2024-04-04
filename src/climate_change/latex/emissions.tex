@@ -1,0 +1,165 @@
+\documentclass[12pt, english]{article}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Preamble
+\usepackage[
+    backend = biber,
+    style = apa,
+    citestyle = authoryear-comp,
+    sorting = ydnt,
+    mincitenames = 1,
+    maxcitenames = 2,
+    uniquelist = minyear
+]{biblatex}
+\addbibresource{emissions.bib}
+%\AtBeginBibliography{\small}
+
+\usepackage{hyperref}
+\hypersetup{colorlinks = true, citecolor = blue, linkcolor = blue, urlcolor = blue, hypertexnames = true}
+\newcommand{\shortlink}[1]{\href{https://www.#1}{\texttt{#1}}}
+
+\DeclareCiteCommand{\cite} % Ensures author-year hyperlink applies to \cite
+{\usebibmacro{prenote}}
+{\usebibmacro{citeindex}%
+\printtext[bibhyperref]{\usebibmacro{cite}}}
+{\multicitedelim}
+{\usebibmacro{postnote}}
+
+\DeclareCiteCommand{\parencite}[\mkbibparens] % Ensures author-year hyperlink applies to \parencite
+{\usebibmacro{prenote}}
+{\usebibmacro{citeindex}%
+\printtext[bibhyperref]{\usebibmacro{cite}}}
+{\multicitedelim}
+{\usebibmacro{postnote}}
+
+\DeclareCiteCommand{\cite} % Ensures that year appears in parentheses
+{\usebibmacro{prenote}}
+{\usebibmacro{citeindex}%
+\printtext[bibhyperref]{\printnames{labelname} \mkbibparens{\printfield{year}}}}
+{\multicitedelim}
+{\usebibmacro{postnote}}
+
+\usepackage{authblk}
+\usepackage{times}
+\usepackage{parskip}
+\usepackage{graphicx}
+\usepackage{amsmath}
+\usepackage{amsfonts}
+\usepackage{mathrsfs}
+\usepackage{float}
+\usepackage{geometry}
+\usepackage{scrextend}
+\geometry{papersize = {9in, 11in}, left = 2.5cm, right = 2.5cm, top = 2.5cm, bottom = 2.5cm}
+\usepackage[doublespacing]{setspace}
+\usepackage{textcomp}
+\usepackage{csquotes}
+\usepackage{appendix}
+
+% Tables Packages
+\usepackage{booktabs}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Title Page
+\title{{Unforeseen Minimum Wage Consequences}}
+\author[1]{D.O. Ekeocha}
+%\author[2]{D.F. Giuseppe}
+%\author[3]{J. Lonsky}
+\affil[1]{
+    University of Liverpool Management School
+    \\ \texttt{davidmac.ekeocha@liverpool.ac.uk}
+%    \\ \texttt{giuseppe.de-feo@liverpool.ac.uk}
+%    \\ \texttt{jakub.lonsky@liverpool.ac.uk}
+}
+%\affil[2]{University of Liverpool Management School}
+%\affil[3]{University of Liverpool Management School}
+
+\date{\today}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{document}
+    \maketitle
+%    \newpage
+%    \tableofcontents
+%    \newpage
+%    \listoffigures
+%    \newpage
+%    \listoftables
+%    \newpage
+
+
+    \section{Introduction}\label{sec:introduction}
+    The effects of raising the minimum wage (MW) have garnered interest in the literature, reaching mixed conclusions for employment given assumed labour market conditions. For perfect competition, some studies have recorded disemployment effects of a MW raise on low-wage workers~\parencite{stigler1946economics, hamermesh1982minimum, neumark1992employment, brown1999minimum, machin2004minimum, neumark2000minimum, borjas2010labor}, whereas in monopsonistic markets, limited or a sharp null employment effects~\parencite{lester1960employment, card1993minimum, card2000minimum,aaronson2018industry, cengiz2019effect, wong2019minimum, dustmann2022reallocation}. Other studies have recorded heterogeneous employment effects~\parencite{okudaira2019minimum, medrano2023minimum, meer2023effects, gregory2022minimum}.
+
+    On the other hand, the symmetry between raising MW and labour costs or wages of low-wage workers is well established~\parencite{medrano2023minimum,clemens2023important}. Career progressions and high labour demand, higher job/worker effort and labour productivity, especially for incumbent workers in the $40th$ percentile of the wage distribution relative to workers in higher percentiles, largely drive the increase in wages of low-wage workers~\parencite{riley2017raising, kim2019minimum, wong2019minimum, baek2021impact, zhao2021effects, seok2022macroeconomic, ku2022does, coviello2022minimum, alexandre2022minimum}. They argued that firms' adjustments in total factor productivity, lower hiring and layoff and monitoring incentive explain the increased labour productivity, and that the increase in workers effort can offset about $50\%$ of projected rise in labour cost. Furthermore,~\cite{harasztosi2019pays} argued that the cost-effect of raising MW is not only borne by employers and workers, but that firms tend to pass some of these burdens to consumers via higher prices.
+
+    Interestingly, the question regarding the existence of other pathways through which firms pass-through the burdens of higher-cost-induced MW is still nascent. These studies focused on Chinese manufacturing firms to document higher emissions and pollution intensity induced MW raise~\parencite{li2023does, zhang2023unintended}~\footnote{\tiny Two hypotheses present opposing views on the direction of environmental impact of MW. The labour-technology mix which argues that firms react to labour cost induced MW by adopting clean production/operation technologies and labour-savings to increase energy efficiency, labour productivity thereby decreasing their pollution intensity. Conversely, the crowding-out effect hypothesis argues in favour of increased firms' pollution intensity. Given MW, firms struggle financially and to maintain pre-reform operation/production capacity while managing cost, it crowds-out clean production technologies and green innovative practices leading to increased pollution intensity. Thus, to understand how labour-market shocks translate to environmental consequences becomes an empirical exercise.}. They argued that this effect is more prominent in financially constrained firms such that the labour cost pass-through of MW shifts firms energy usage towards cost-effective but crude energy sources, as well as reduced pollution abatement inputs and declining green innovation in their production functions. Albeit these studies used border-county design, they identified their effect using endogenous changes in MW possibly indexed to inflation, thereby masking their causal claims of rising pollution emissions intensity due to MW raise. Hence, their results are indeed not causal as it is not clear whether the documented pollution responses are due to a MW raise or inflation.
+
+    However, this study leverages state-level exogenous changes in MW over time and administrative plant-level toxic emissions data (including air, land and water) from the environmental protection agency (EPA) to examine toxic responses of manufacturing firms in the United States (US) to the MW policy. The evidence on the environmental consequences of labour market shocks is particularly important for better environmental and labour market policy designs in the US.~\cite{shapiro2018pollution} developed a model to historically explain the fall in the US pollution emissions in the manufacturing sector and revealed several findings including outsourcing the production of pollution-intensive goods to other countries like China and Mexico; environmental regulations such as pollution tax have the most significant negative impact on US pollution intensity through increased investment in effective abatement technologies; and rising labour productivity decreases pollution intensity, thus decreasing pollution emissions. Moreover, several literature have found causal evidence on the effects of air pollution $(PM_{2.5})$ and water pollution on cancer in humans and aquatic animals, respectively~\parencite{turner2020outdoor, turner2017ambient, baines2021linking}. \cite{coneus2012pollution} found reductions in infant birth weights and increasing bronchitis and respiratory illnesses in toddlers due to increasing carbon monoxides and $O_{3}$ emissions in Germany.
+
+    Two hypotheses exist on possible transmission mechanisms of environmental consequences of MW raise: the factor substitution and crowding out effect hypotheses~\parencite{zhang2023unintended}. The factor substitution hypothesis argues for the reductions in firms pollution emissions intensity. To maximize profits amid rising labour costs due to raised MW floor, firms adjust their factor inputs by switching to automated production processes from labour intensive manual processes. Thus, replacing manual labour with machines and technologies and increasing capital per worker while prioritizing resource allocations toward improving production functions through research~\parencite{harasztosi2019pays,hau2020firm, geng2022minimum,dai2023minimum, li2020labor}. This will further increase labour productivity and total factor productivity~\parencite{riley2017raising}. Thus, raising MW will cause firms to use efficient capital intensive methods, reducing energy intensity and ultimately decreasing emissions per unit of output~\footnote{\tiny Similarly, the possiblity exists that firms may replace expensive factor inputs with cheaper but crude energy inputs with higher pollution emission potentials, in their production process, which in turn increases energy and pollution emission intensities.}. Conversely, the crowding out effect hypothesis argues in favour of increased firms' pollution intensity. These studies have evinced that this effect is attributed to the declining pressure on firms' profitability and heavier financial constraints resulting from wage hikes~\parencite{draca2011minimum, bell2018minimum, du2022minimum}. Consequently, constrained financial resources limit firms' investment in pollution abatement activities (as they focus on core production), leading to reduced pollution removal and higher emission intensity~\footnote{\tiny In a different way, innovation is influenced by resource scarcity, leading to a preference for certain types of solutions. Technological advancement continues unabated, but resource constraints necessitate a balance between different types of solutions. Labour deficits, often caused by increases in the minimum wage, promote the development of labour-saving technologies, which can impede the progress of labour-intensive green technologies~\parencite{acemoglu2010does}. Firms often prioritize improvements in procution efficiency over environmental considerations due to limited resources for innovation. Interestingly, some environmentally friendly technologies, such as end-of-pipe treatments, require significant labour. This emphasis on efficient automation could divert resources away from the development of clean energy and waste management technologies, potentially resulting in increased pollution emissions intensity.}.
+
+    To document the causal effect of raising MW on pollution, I use a difference-in-differences framework exploiting copious exogenous changes in state-level MW ($\geq \$0.5$ per hour) with clearly defined before- and after-periods. I exploit increases in Arkansas, California, Delaware, Maine, Massachusetts, Maryland, Michigan, Minnesota, Nebraska, New York, and West Virginia in $2014$, $2015$ and $2017$. I match each treated state to a set of adjacent control states that never implemented a MW policy from $2012-2017$~\parencite{gopalan2021state}. I further restrict the sample to border-counties~\parencite{dube2010minimum}. The identifying assumption is that in the absence of a MW policy, economic conditions in adjacent cross-border counties would have evolved in parallel. In view of this assumption, I show that the pre-treatment trends in the treated and control states are similar prior to the MW policy.
+
+    
+%    Third, following the results from the above exercises, I revisit the nascent literature on the impact of MW on firms output per capita and profitability~\parencite{van2006minimum, draca2011minimum, bell2018minimum} documenting declined profits and firms overall value in the UK. To date, the methods used in the literature is the traditional difference-in-differences design which under-performs especially in multiple period settings that the studies cover~\parencite{callaway2021difference, goodman2021difference}. I extend this literature by considering firms in the US and employing the advantages of a staggered design to account for the dynamic raising of MW across US states and dynamic firms adjustment as a result. This has not been accounted for before in the literature.
+
+    The following sections are organized as follows. Section $2$ provides the policy context of the study. Section $3$ discusses the data. Section $4$ presents the methods and discussion of empirical findings. Section $5$ conducts some robustness exercises on the results. Section $6$ discusses the transmission mechanisms of the findings. Section $7$ investigates the heterogeneous effects. Section $8$ concludes with policy implications.
+
+
+    \section{Policy Context}\label{sec:policy-context}
+    This section discusses the exogenous state minimum wage changes exploited for the causal identification for the covered sample period $(2011-2017)$.
+
+    \subsection{Minimum Wage Changes across States}\label{subsec:minimum-wage-changes-across-states}
+    About $28$ states raised MW between $2011$ and $2017$. Except for Nevada, the majority of the changes in MW between $2011-2013$ are attributed to inflation. However, following the labour union protests in $2012$ for higher MW, many states responded by instituting a one- or multiphase large MW changes~\parencite{lathrop2021raises}. Specifically, $16$ states implemented a statutory MW raise of at least $\$0.5$ in $2014$, $2015$ and $2017$. Pertinently, there was no federal MW raise in the covered sample period. Table~\ref{tab:states-mw-changes} presents the state-level changes in MW for the sample period.
+
+    \subsection{Selection of the Treated and Control States}\label{subsec:selection-of-the-treated-and-control-states}
+    The identification strategy focuses on the copious state-level MW changes. Particularly, I restrict the sample to MW changes that meet the following conditions: $(i)$ states with a large MW raise of $\geq$ $\$0.5/hour$ and never raised their MW since $2011$; $(ii)$ subsequent raises must either be equal to $\$0.5/hour$ in the next year, or the sum of post-multiphase raises (in any $2$-years) must be equal or greater than the first initial raise for that state. These conditions ensure that the exploited MW changes are not indexed to inflation but statutorily driven. Eleven $(11)$ states meet the above conditions, and they are Arkansas, California, Delaware, Maine, Massachusetts, Maryland, Michigan, Minnesota, Nebraska, New York, and West Virginia. Table\ref{tab:states-mw-adjustments-t-and-c} provides a summary of the minimum wage adjustments in the sample.
+
+    Furthermore, I match each treated state to an adjacent control states that never raised their MW between $2012$ and $2017$ and follow~\cite{dube2010minimum} to limit the sample to border counties in treated and control states. Other papers to use this identification strategy include~\cite{aaronson2018industry},~\cite{dube2019fairness},~\cite{jardim2018minimum},~\cite{zhang2019distributional} and~\cite{gopalan2021state}. A total of $20$ cross-state counties were further removed from the sample~\parencite{zhang2023unintended}, thus reducing the final sample to
+    \input{treated_control_states}
+
+
+    \section{The Data}\label{sec:data-and-methods}
+    I use five different sources to build a novel dataset for the US. These are the US geographic dataset used for the county-border pairs, TRI data for the toxic releases, BEA data for county-level macroeconomic conditions, BLS-QCEW data for county-level wage data, national bureau of economic research-centre for economic studies (NBER-CES) data for industry-level wage and output data.
+
+
+    \section{Empirical Methods and Results Discussion}\label{sec:empirical-methods-and-results-discussion}
+
+
+    \section{Robustness Exercises}\label{sec:robustness-exercises}
+
+
+    \section{Mechanism Analysis}\label{sec:mechanism-analysis}
+
+
+    \section{Heterogeneous Effects}\label{sec:heterogeneous-effects}
+
+
+    \section{Conclusions}\label{sec:conclusions}
+
+    \newpage
+    \begin{appendices}
+        \section*{Appendix I}\label{sec:appendix-i}
+        \input{state_mw_changes}
+    \end{appendices}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+%    \section{Literature Gaps}\label{sec1:literature-gaps}
+%    The minimum wage policy and its effect on employment has been contentious since history~\parencite{neumark1992employment, card1993minimum}. Following the $2007$ federal wage floor, the arguments on the subject has proliferated. Many arguments favour the negative effects on employment while other scholars found sharp null zero effects. For example,~\cite{cengiz2019effect} used event study bunching analysis to study the effect of minimum wage rise on low wages in different wage bins, and further examined its effect on employment. They document that earnings rose but overall employment remained unchanged following a minimum wage rise in the US. Moreover, they find that minimum wage reduced employment of workers in tradable sectors such as restaurant and retail. However, one major drawback of this study is the event study-bunching analysis design. It used a federal wage floor and grouped states into treated and untreated units without accounting for specific years that each state actually raised its minimum wage. This type of setting has been criticised in the literature to recover at best a volume weighted ATT on each wage bin without accounting for new entrant low-wage workers and subsequent increases in minimum wage by different states. Even worse, it ignores the fact that some untreated states may have raised their minimum wage in the future, the later treated states, as well as new entrant low-wage workers that subsequent wage increases may have induced. Because of this, it is possible that the recovered ATT may suffer from attenuation bias, and worst case, have a wrong sign in the event study analysis~\parencite{goodman2021difference}. Furthermore,~\cite{riley2017raising} examined the effect of minimum wage on labour productivity in Britain using traditional difference-in-differences method. They proxied wage with labour cost and found that minimum wage raised labour costs for low-wage workers, and persisted during and after the global financial crisis. Consequently, they show that firms tend to raise their labour productivity as a result of minimum wage. They explained that this increased productivity is driven by changes in total factor productivity rather than decline in firms labour force or capital-labour substitution. One concern here is that it is not clear how the total factor productivity was combined to drive labour productivity. Is it more energy intensive or energy efficient? How does firms adjust the energy intensity in their production process in reaction to the raised minimum wage? And is this adjustment behaviour pro-environment?
+%
+%    ~\cite{li2023does} attempted to investigate a related question by looking at the effect of minimum wage standard on pollutions in China's manufacturing sector. Using panel FE and hierarchical modelling they evince that increase in minimum wage increases manufacturing firm's emissions. They further argued that the increase in pollutions is driven by manufacturing firms shifting investments to cost-effective traditional energy sources such as fossil fuel energy as they adjust their production functions for the wage-induced labour costs. They also argue that firms have less inputs of pollution treatments in their production process. The shortcomings of this study is that they failed to present a causal link between minimum wage and pollution from firms, rather they evince a correlation. This kind of evidence can be biased in many ways. One of which is that the effect may be driven by other employees in the higher end of the wage distribution for whom minimum wage is not targeted. That is, it will pick up effects from high-wage employee groups other than those that minimum wage affect directly - low-wage workers. Thus, confounding the effect of raising minimum wage on emissions. Further, suppose there is indeed evidence that minimum wage raises firm's pollution through increased crude energy use or investment, as well as using less pollution treatment in their production process. It is still not clear how this new firm adjustment behaviour transmits to pollution. One possible reason would be the energy intensity of the firms. How much energy are firms using to produce one unit of good following a minimum wage raise? To answer this kind of question requires a more precise method, to investigate the effects on pollution post minimum wage raise. And it may be possible that firms invest in more energy efficient production technologies to increase their productivity given the new higher labour cost. In this setting, we should expect a reduced energy intensity following a raise in minimum wage, and an opposite effect on emissions. But this subject is yet to be explored.
+%
+%    \section*{Contribution}\label{sec:contribution}
+%    Given the above literature gaps, I adopt a more robust approach to investigate the effects of minimum wage in the US. First, revist the effect on wages and employment - first stage. Second, examine the effect on labour productivity. Third, investigate the effect on emissions. Fourth, trace the channels of the effects, by decomposing total factor productivity and narrow in on firm's energy intensity to evidence the channel of effect of minimum wage on emissions.
+
+
+%    \section{Considered identification}\label{sec:considered-identification}
+%    The US federal government raised the minimum wage for low-wage workers from $\$5.15$ in $1997$ to $5.85$ in $2007$ and by $2009$ they had raised it to $\$7.25$. However, different states raised their state minimum wages in different years since $2004$. I exploit this time variations in state minimum wage to identify the effect of minimum wage on emissions. This provides for a staggered adoption of minimum wage raise across US states. Between $2004-2019$, a total of $12$ states raised their minimum wage in $2005$ and $2006$, $6$ different states first raising minimum wage each year. Another $12$ states raised theirs in $2007$; $17$ states raised theirs in $2008$; $2$ states in $2009$; and another $2$ states in $2010$ and $2019$, one in each year. A total of $5$ states has no minimum wage policy (Alabama, Louisiana, Mississippi, South Carolina, and Tennessee).
+
+
+
+
+    \newpage
+    \printbibliography
+\end{document}
