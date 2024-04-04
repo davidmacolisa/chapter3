@@ -11,10 +11,12 @@ library(statar)
 library(usgeogr)
 # install.packages("remotes")
 # remotes::install_github("davidsovich/usgeogr")
+library(usmap)
 #======================================================================================================================#
 ### Working Directory
 #======================================================================================================================#
 setwd(dir = "C:/Users/david/OneDrive/Documents/ULMS/PhD/")
+gc()
 #======================================================================================================================#
 ### Loading Data
 #======================================================================================================================#
@@ -102,6 +104,7 @@ table(triQ.manu$chemical.classification)
 #======================================================================================================================#
 ### Experimental Design---matching counties in treated states to adjacent border counties in the control states
 ### Onsite
+gc()
 #======================================================================================================================#
 sort(unique(triQ.manu$facility.state))
 sort(unique(triQ.manu$state_border_id))
@@ -143,7 +146,6 @@ triQ.on <- triQ.manu %>%
 
 # Selecting the cross-border treated and control states
 triQ.oncb <- triQ.manu %>%
-  filter(!facility.state %in% c("Massachusetts", "Maine")) %>%
   # Selecting only the states that share a border
   # filter(
   # state_border_id %in% c(
@@ -167,8 +169,6 @@ triQ.oncb <- triQ.manu %>%
 	  facility.state == "Arkansas" ~ 2015,
 	  facility.state == "California" ~ 2014,
 	  facility.state == "Delaware" ~ 2014,
-	  # facility.state == "Maine" ~ 2017,
-	  # facility.state == "Massachusetts" ~ 2015,
 	  facility.state == "Maryland" ~ 2015,
 	  facility.state == "Michigan" ~ 2014,
 	  facility.state == "Minnesota" ~ 2014,
@@ -310,6 +310,28 @@ triQ.oncb %>%
   summarise(count = n()) %>%
   arrange(desc(count)) %>%
   print(n = nrow(.))
+#======================================================================================================================#
+### Mapping the geographic units
+#======================================================================================================================#
+# triQ.map <- triQ.oncb %>%
+#   select(facility.state, fips_code, facility.county, facility.latitude, facility.longitude) %>%
+#   lapply(., as.character) %>%
+#   data.frame()
+
+library(maps)
+library(mapproj)
+library(ggplot2)
+
+triQ.oncb <- triQ.oncb[order(triQ.oncb$state_border_id),]
+
+ggplot(
+	data = triQ.oncb,
+	aes(x = facility.longitude, y = facility.latitude),
+	color = "black"
+  ) +
+  geom_polygon(aes(group = facility.state)) +
+  coord_map()
+
 #======================================================================================================================#
 ### Offsite and Offsite
 #======================================================================================================================#

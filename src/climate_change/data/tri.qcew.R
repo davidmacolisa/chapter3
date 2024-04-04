@@ -1,3 +1,4 @@
+gc()
 #======================================================================================================================#
 ### Packages
 #======================================================================================================================#
@@ -63,16 +64,12 @@ setwd(dir = "C:/Users/david/OneDrive/Documents/ULMS/PhD/")
 ### getting zip and county codes and names from the usgeogr file
 ### County-border pairs and assign each border county to a unique state border pair strip.
 #======================================================================================================================#
-data(zip_df)
-data(county_df)
-data(cbcounty_df)
-data(sbscp_df)
-data(state_df)
-cbcounty_df <- as.data.frame(cbcounty_df)
-county_df <- as.data.frame(county_df)
-zip_df <- as.data.frame(zip_df)
-sbscp_df <- as.data.frame(sbscp_df)
-state_df <- as.data.frame(state_df)
+data(zip_df) %>% data.frame()
+data(county_df) %>% data.frame()
+data(cbcp_df) %>% data.frame()
+data(cbcounty_df) %>% data.frame()
+data(sbscp_df) %>% data.frame()
+data(state_df) %>% data.frame()
 
 county_data <- county_df %>%
   select(-c(lat, long)) %>%
@@ -80,6 +77,9 @@ county_data <- county_df %>%
 	y = state_df %>% rename(county_state = state_code),
 	by = c("county_state" = "county_state")
   ) %>%
+  # Get the neighbouring states
+  # left_join(
+  # y = )
   # Joining zip_codes
   right_join(
 	y = zip_df %>%
@@ -118,6 +118,7 @@ county_data$state <- gsub(pattern = "(^|\\s)([a-z])", replacement = "\\1\\U\\2",
 
 #======================================================================================================================#
 ### Loading Data: TRI---Form R---and merging GHGP from EPA
+gc()
 #======================================================================================================================#
 filepath <- "./Data_PhD/US/EPA/AQS/toxic_release_inventory/triR.rds"
 start_time <- Sys.time()
@@ -154,7 +155,7 @@ tri$potw.county <- tolower(tri$potw.county)
 tri$potw.county <- stringi::stri_trans_totitle(tri$potw.county)
 end_time <- Sys.time()
 end_time - start_time
-
+gc()
 #======================================================================================================================#
 ### Merge county_data with tri data
 #======================================================================================================================#
@@ -170,12 +171,13 @@ triM <- tri %>%
 	y = county_data %>%
 	  select(-zip_code) %>%
 	  rename(facility.state = county_state, facility.county = county_name),
-	by = c("facility.state" = "facility.state", "facility.county" = "facility.county")
+	by = c("fips_code" = "fips_code", "facility.county" = "facility.county", "facility.state" = "facility.state")
   ) %>%
   data.frame()
 end_time <- Sys.time()
 end_time - start_time
 
+gc()
 start_time <- Sys.time()
 triM <- triM[complete.cases(triM$facility.id),]
 triM <- triM[complete.cases(triM$facility.county),]
@@ -348,6 +350,7 @@ sort(unique(triM$state))
 #======================================================================================================================#
 ### Loading QCEW---County Levels
 #======================================================================================================================#
+gc()
 start_time <- Sys.time()
 qcew <- read_rds(file = "./Data_PhD/US/BLS/qcew.rds") %>%
   filter(year >= 2011 & year <= 2017) %>%
@@ -419,6 +422,7 @@ end_time - start_time
 n_distinct(triQ.manu$facility.state)
 sort(unique(triQ.manu$facility.state))
 
+gc()
 start_time <- Sys.time()
 write_rds(x = triQ.manu, file = "./Data_PhD/US/BLS/triQ.manu.rds", compress = "xz")
 end_time <- Sys.time()
