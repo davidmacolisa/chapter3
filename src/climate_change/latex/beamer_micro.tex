@@ -1,7 +1,15 @@
 \documentclass[aspectratio = 169]{beamer}
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\usepackage[backend = biber, style = authoryear, citestyle = apa, mincitenames = 1, maxcitenames = 2, uniquelist = minyear]{biblatex}
-\addbibresource{emissions.bib}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Preamble
+\usepackage[
+    backend = biber,
+    style = apa,
+    citestyle = authoryear-comp,
+    sorting = ydnt,
+    mincitenames = 1,
+    maxcitenames = 2,
+    uniquelist = minyear
+]{biblatex}\addbibresource{emissions.bib}
 \AtBeginBibliography{\small}
 
 \usepackage{hyperref}

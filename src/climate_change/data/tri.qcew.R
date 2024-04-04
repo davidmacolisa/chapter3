@@ -135,15 +135,18 @@ tri$facility.county <- stringi::stri_trans_totitle(tri$facility.county)
 tri$facility.city <- tolower(tri$facility.city)
 tri$facility.city <- stringi::stri_trans_totitle(tri$facility.city)
 
+tri$offsite.city <- iconv(tri$offsite.city, to = "UTF-8")
 tri$offsite.city <- tolower(tri$offsite.city)
 tri$offsite.city <- stringi::stri_trans_totitle(tri$offsite.city)
 
 tri$offsite.county <- tolower(tri$offsite.county)
 tri$offsite.county <- stringi::stri_trans_totitle(tri$offsite.county)
 
+tri$offsite.province <- iconv(tri$offsite.province, to = "UTF-8")
 tri$offsite.province <- tolower(tri$offsite.province)
 tri$offsite.province <- stringi::stri_trans_totitle(tri$offsite.province)
 
+tri$potw.city <- iconv(tri$potw.city, to = "UTF-8")
 tri$potw.city <- tolower(tri$potw.city)
 tri$potw.city <- stringi::stri_trans_totitle(tri$potw.city)
 
@@ -165,10 +168,10 @@ triM <- tri %>%
   ) %>%
   left_join(
 	y = county_data %>%
-	  # select(-zip_code) %>%
-	  rename(facility.state = county_state, facility.county = county_name, facility.zipcode = zip_code),
-	by = c("facility.zipcode" = "facility.zipcode", "facility.state" = "facility.state",
-		   "facility.county" = "facility.county")
+	  select(-zip_code) %>%
+	  rename(facility.state = county_state, facility.county = county_name),
+	by = c("facility.state" = "facility.state", "facility.county" = "facility.county")
+	#by = c("facility.zipcode" = "facility.zipcode")
   ) %>%
   data.frame()
 end_time <- Sys.time()
@@ -211,10 +214,10 @@ triM <- triM %>%
   filter(year >= 2011 & year <= 2017) %>%
   filter(
 	state %in% c( #treated states
-	  "Arkansas", "California", "Delaware", "Maryland", "Massachusetts", "Maine", "Michigan", "Minnesota",
+	  "Arkansas", "California", "Delaware", "Maryland", "Michigan", "Minnesota",
 	  "Nebraska", "New York", "West Virginia",
 	  #control states
-	  "Georgia", "Iowa", "Idaho", "Illinois", "Indiana", "Kansas", "Kentucky", "New Mexico", "New Hampshire",
+	  "Georgia", "Iowa", "Idaho", "Illinois", "Indiana", "Kansas", "Kentucky", "New Mexico",
 	  "Nevada", "North Carolina", "North Dakota", "Oklahoma", "Pennsylvania", "Texas", "Utah", "Virginia",
 	  "Wisconsin", "Wyoming"
 	)
