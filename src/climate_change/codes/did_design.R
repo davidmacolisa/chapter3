@@ -114,8 +114,8 @@ triQ.on <- triQ.manu %>%
 	  facility.state == "Arkansas" ~ 2015,
 	  facility.state == "California" ~ 2014,
 	  facility.state == "Delaware" ~ 2014,
-	  facility.state == "Maine" ~ 2017,
-	  facility.state == "Massachusetts" ~ 2015,
+	  #facility.state == "Maine" ~ 2017,
+	  #facility.state == "Massachusetts" ~ 2015,
 	  facility.state == "Maryland" ~ 2015,
 	  facility.state == "Michigan" ~ 2014,
 	  facility.state == "Minnesota" ~ 2014,
@@ -242,8 +242,17 @@ sum_up(triQ.oncb %>% filter(mw.year == Inf),
 	   c(oty_total_annual_wages_chg, oty_total_annual_wages_pct_chg,
 		 oty_avg_annual_pay_chg, oty_avg_annual_pay_pct_chg))
 
+
 triQ.oncb %>%
-  filter(facility.state == "Pennsylvania") %>%
+  filter(facility.state == "Minnesota") %>%
+  group_by(facility.state, state_border_id, facility.county) %>%
+  filter(mw.year != Inf) %>%
+  summarise(county = facility.county %>% n_distinct()) %>%
+  arrange(desc(county)) %>%
+  print(., n = nrow(.))
+
+triQ.oncb %>%
+  filter(facility.state == "Wisconsin") %>%
   group_by(facility.state, state_border_id, facility.county) %>%
   filter(mw.year == Inf) %>%
   summarise(county = facility.county %>% n_distinct()) %>%

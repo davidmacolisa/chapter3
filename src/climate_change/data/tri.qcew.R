@@ -171,7 +171,6 @@ triM <- tri %>%
 	  select(-zip_code) %>%
 	  rename(facility.state = county_state, facility.county = county_name),
 	by = c("facility.state" = "facility.state", "facility.county" = "facility.county")
-	#by = c("facility.zipcode" = "facility.zipcode")
   ) %>%
   data.frame()
 end_time <- Sys.time()
