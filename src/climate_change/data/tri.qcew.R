@@ -8,7 +8,7 @@ library(usgeogr)
 #======================================================================================================================#
 ### Working Directory
 #======================================================================================================================#
-setwd(dir = "C:/Users/Davidmac.Ekeocha/OneDrive/Documents/ULMS/PhD/")
+setwd(dir = "C:/Users/david/OneDrive/Documents/ULMS/PhD/")
 #======================================================================================================================#
 ### Loading QCEW Data
 #======================================================================================================================#
@@ -77,32 +77,32 @@ state_df <- as.data.frame(state_df)
 county_data <- county_df %>%
   select(-c(lat, long)) %>%
   left_join(
-    y = state_df %>% rename(county_state = state_code),
-    by = c("county_state" = "county_state")
+	y = state_df %>% rename(county_state = state_code),
+	by = c("county_state" = "county_state")
   ) %>%
   # Joining zip_codes
   right_join(
-    y = zip_df %>%
-      select(c(fips_code, zip_code, state)) %>%
-      rename(county_state = state),
-    by = c("fips_code" = "fips_code", "county_state" = "county_state")
+	y = zip_df %>%
+	  select(c(fips_code, zip_code, state)) %>%
+	  rename(county_state = state),
+	by = c("fips_code" = "fips_code", "county_state" = "county_state")
   ) %>%
   # Assigns each within border county to a distinct "cross-border cluster"
   right_join(
-    y = cbcounty_df %>%
-      rename(county_dist_to_border = dist_to_border, county_dist_to_segment = dist_to_segment) %>%
-      select(fips_code, county_state, state_border_id, relaxed_cpcp_id, cpcp_id, county_dist_to_border,
-             county_dist_to_segment),
-    by = c("fips_code" = "fips_code", "county_state" = "county_state")
+	y = cbcounty_df %>%
+	  rename(county_dist_to_border = dist_to_border, county_dist_to_segment = dist_to_segment) %>%
+	  select(fips_code, county_state, state_border_id, relaxed_cpcp_id, cpcp_id, county_dist_to_border,
+			 county_dist_to_segment),
+	by = c("fips_code" = "fips_code", "county_state" = "county_state")
   ) %>%
   # Assigns each border county to a unique state border pair strip
   right_join(
-    y = sbscp_df %>% select(fips_code, county_state, num_counties_in_strip, num_states_in_strip),
-    by = c("fips_code" = "fips_code", "county_state" = "county_state")
+	y = sbscp_df %>% select(fips_code, county_state, num_counties_in_strip, num_states_in_strip),
+	by = c("fips_code" = "fips_code", "county_state" = "county_state")
   ) %>%
   select(
-    c(zip_code, fips_code, county_name, county_state, state, relaxed_cpcp_id, state_border_id,
-      county_dist_to_border, county_dist_to_segment, num_counties_in_strip, num_states_in_strip, population)
+	c(zip_code, fips_code, county_name, county_state, state, relaxed_cpcp_id, state_border_id,
+	  county_dist_to_border, county_dist_to_segment, num_counties_in_strip, num_states_in_strip, population)
   ) %>%
   # remove DC as it is not a state.
   filter(!county_state %in% "DC") %>%
@@ -113,7 +113,8 @@ county_data$county_name <- sub(pattern = "\\s+\\w+$", replacement = "", county_d
 
 # Making first letters uppercase
 county_data$state <- tolower(county_data$state)  # Convert entire column to lowercase
-county_data$state <- gsub(pattern = "(^|\\s)([a-z])", replacement = "\\1\\U\\2", county_data$state, perl = TRUE)  # Capitalize first letter of each word
+county_data$state <- gsub(pattern = "(^|\\s)([a-z])", replacement = "\\1\\U\\2", county_data$state, perl = TRUE)  #
+# Capitalize first letter of each word
 
 #======================================================================================================================#
 ### Loading Data: TRI---Form R---and merging GHGP from EPA
@@ -127,26 +128,27 @@ tri <- readRDS(file = filepath) %>%
   data.frame()
 
 # Making first letters uppercase
-tri$facility.county <- tolower(tri$facility.county)  # Convert entire column to lowercase
-tri$facility.county <- gsub(pattern = "(^|\\s)([a-z])", replacement = "\\1\\U\\2", tri$facility.county, perl = TRUE)  # Capitalize first letter of each word
+
+tri$facility.county <- tolower(tri$facility.county)
+tri$facility.county <- stringi::stri_trans_totitle(tri$facility.county)
 
 tri$facility.city <- tolower(tri$facility.city)
-tri$facility.city <- gsub(pattern = "(^|\\s)([a-z])", replacement = "\\1\\U\\2", tri$facility.city, perl = TRUE)  # Capitalize first letter of each word
+tri$facility.city <- stringi::stri_trans_totitle(tri$facility.city)
 
 tri$offsite.city <- tolower(tri$offsite.city)
-tri$offsite.city <- gsub(pattern = "(^|\\s)([a-z])", replacement = "\\1\\U\\2", tri$offsite.city, perl = TRUE)  # Capitalize first letter of each word
+tri$offsite.city <- stringi::stri_trans_totitle(tri$offsite.city)
 
 tri$offsite.county <- tolower(tri$offsite.county)
-tri$offsite.county <- gsub(pattern = "(^|\\s)([a-z])", replacement = "\\1\\U\\2", tri$offsite.county, perl = TRUE)  # Capitalize first letter of each word
+tri$offsite.county <- stringi::stri_trans_totitle(tri$offsite.county)
 
 tri$offsite.province <- tolower(tri$offsite.province)
-tri$offsite.province <- gsub(pattern = "(^|\\s)([a-z])", replacement = "\\1\\U\\2", tri$offsite.province, perl = TRUE)  # Capitalize first letter of each word
+tri$offsite.province <- stringi::stri_trans_totitle(tri$offsite.province)
 
 tri$potw.city <- tolower(tri$potw.city)
-tri$potw.city <- gsub(pattern = "(^|\\s)([a-z])", replacement = "\\1\\U\\2", tri$potw.city, perl = TRUE)  # Capitalize first letter of each word
+tri$potw.city <- stringi::stri_trans_totitle(tri$potw.city)
 
 tri$potw.county <- tolower(tri$potw.county)
-tri$potw.county <- gsub(pattern = "(^|\\s)([a-z])", replacement = "\\1\\U\\2", tri$potw.county, perl = TRUE)  # Capitalize first letter of each word
+tri$potw.county <- stringi::stri_trans_totitle(tri$potw.county)
 end_time <- Sys.time()
 end_time - start_time
 
@@ -158,16 +160,25 @@ start_time <- Sys.time()
 triM <- tri %>%
   group_by(naics.code, facility.zipcode, facility.county) %>%
   mutate(
-    facility.longitude = as.numeric(facility.longitude),
-    facility.latitude = as.numeric(facility.latitude)
+	facility.longitude = as.numeric(facility.longitude),
+	facility.latitude = as.numeric(facility.latitude)
   ) %>%
   left_join(
-    y = county_data %>%
-      select(-zip_code) %>%
-      rename(facility.state = county_state, facility.county = county_name),
-    by = c("facility.state" = "facility.state", "facility.county" = "facility.county")
+	y = county_data %>%
+	  # select(-zip_code) %>%
+	  rename(facility.state = county_state, facility.county = county_name, facility.zipcode = zip_code),
+	by = c("facility.zipcode" = "facility.zipcode", "facility.state" = "facility.state",
+		   "facility.county" = "facility.county")
   ) %>%
   data.frame()
+end_time <- Sys.time()
+end_time - start_time
+
+start_time <- Sys.time()
+triM <- triM[complete.cases(triM$facility.id),]
+triM <- triM[complete.cases(triM$facility.county),]
+triM <- triM[complete.cases(triM$fips_code),]
+triM <- triM[complete.cases(triM$relaxed_cpcp_id),]
 end_time <- Sys.time()
 end_time - start_time
 
@@ -187,13 +198,6 @@ n_distinct(triM$facility.state)
 n_distinct(triM$naics.code)
 n_distinct(triM$industry.name)
 
-start_time <- Sys.time()
-triM <- triM[complete.cases(triM$facility.id),]
-triM <- triM[complete.cases(triM$facility.county),]
-triM <- triM[complete.cases(triM$fips_code),]
-triM <- triM[complete.cases(triM$relaxed_cpcp_id),]
-end_time <- Sys.time()
-end_time - start_time
 #======================================================================================================================#
 ### Getting the treated and controls states
 #======================================================================================================================#
@@ -206,14 +210,14 @@ start_time <- Sys.time()
 triM <- triM %>%
   filter(year >= 2011 & year <= 2017) %>%
   filter(
-    state %in% c( #treated states
-      "Arkansas", "California", "Delaware", "Maryland", "Massachusetts", "Maine", "Michigan", "Minnesota",
-      "Nebraska", "New York", "West Virginia",
-      #control states
-      "Georgia", "Iowa", "Idaho", "Illinois", "Indiana", "Kansas", "Kentucky", "New Mexico", "New Hampshire",
-      "Nevada", "North Carolina", "North Dakota", "Oklahoma", "Pennsylvania", "Texas", "Utah", "Virginia",
-      "Wisconsin", "Wyoming"
-    )
+	state %in% c( #treated states
+	  "Arkansas", "California", "Delaware", "Maryland", "Massachusetts", "Maine", "Michigan", "Minnesota",
+	  "Nebraska", "New York", "West Virginia",
+	  #control states
+	  "Georgia", "Iowa", "Idaho", "Illinois", "Indiana", "Kansas", "Kentucky", "New Mexico", "New Hampshire",
+	  "Nevada", "North Carolina", "North Dakota", "Oklahoma", "Pennsylvania", "Texas", "Utah", "Virginia",
+	  "Wisconsin", "Wyoming"
+	)
   )
 end_time <- Sys.time()
 end_time - start_time
@@ -292,10 +296,12 @@ sort(unique(triM$state))
 #
 # # Making first letters uppercase
 # sec$name <- tolower(sec$name)  # Convert entire column to lowercase
-# sec$name <- gsub(pattern = "(^|\\s)([a-z])", replacement = "\\1\\U\\2", sec$name, perl = TRUE)  # Capitalize first letter of each word
+# sec$name <- gsub(pattern = "(^|\\s)([a-z])", replacement = "\\1\\U\\2", sec$name, perl = TRUE)  # Capitalize first
+# letter of each word
 #
 # sec$cityba <- tolower(sec$cityba)
-# sec$cityba <- gsub(pattern = "(^|\\s)([a-z])", replacement = "\\1\\U\\2", sec$cityba, perl = TRUE)  # Capitalize first letter of each word
+# sec$cityba <- gsub(pattern = "(^|\\s)([a-z])", replacement = "\\1\\U\\2", sec$cityba, perl = TRUE)  # Capitalize
+# first letter of each word
 # #======================================================================================================================#
 # ### Assets
 # #======================================================================================================================#
@@ -346,7 +352,7 @@ qcew <- read_rds(file = "./Data_PhD/US/BLS/qcew.rds") %>%
   filter(own_code %in% c("1", "2", "3", "4", "5")) %>% # Ownership codes
   filter(agglvl_code %in% "78") %>% #county level 6-digits naics code, aggreagation level codes
   select(area_fips:avg_annual_pay, oty_total_annual_wages_chg, oty_total_annual_wages_pct_chg,
-         oty_avg_annual_pay_chg, oty_avg_annual_pay_pct_chg) %>%
+		 oty_avg_annual_pay_chg, oty_avg_annual_pay_pct_chg) %>%
   rename(naics.code = industry_code, fips_code = area_fips)
 end_time <- Sys.time()
 end_time - start_time
@@ -361,21 +367,21 @@ start_time <- Sys.time()
 triQ <- triM %>%
   group_by(fips_code, naics.code, year) %>%
   mutate(
-    year = as.numeric(year),
+	year = as.numeric(year),
   ) %>%
   # Join BEA data for county level macro data
   left_join(
-    y = bea %>%
-      # select(-c(county_name)) %>%
-      rename(facility.state = county_state, facility.county = county_name) %>%
-      mutate(year = as.numeric(year)),
-    by = c("fips_code" = "fips_code", "facility.county" = "facility.county", "facility.state" = "facility.state",
-           "year" = "year"),
+	y = bea %>%
+	  # select(-c(county_name)) %>%
+	  rename(facility.state = county_state, facility.county = county_name) %>%
+	  mutate(year = as.numeric(year)),
+	by = c("fips_code" = "fips_code", "facility.county" = "facility.county", "facility.state" = "facility.state",
+		   "year" = "year"),
   ) %>%
   left_join(
-    y = qcew %>%
-      mutate(year = as.numeric(year)),
-    by = c("naics.code" = "naics.code", "fips_code" = "fips_code", "year" = "year"),
+	y = qcew %>%
+	  mutate(year = as.numeric(year)),
+	by = c("naics.code" = "naics.code", "fips_code" = "fips_code", "year" = "year"),
   ) %>%
   select(-c(qtr, disclosure_code)) %>%
   data.frame()
@@ -395,13 +401,13 @@ start_time <- Sys.time()
 triQ.manu <- triQ %>%
   filter(industry.category == "Manufacturing") %>%
   right_join(
-    # y = read_csv(file = "./Data_PhD/US/NBER/nberces5818v1_n1997.csv") %>%
-    y = read_csv(file = "./Data_PhD/US/NBER/nberces5818v1_n2012.csv") %>%
-      filter(year >= 2011 & year <= 2017) %>%
-      mutate(naics.code = as.character(naics)) %>%
-      select(c(naics.code, year:plant, dtfp5)) %>%
-      data.frame(),
-    by = c("year" = "year", "naics.code" = "naics.code")
+	# y = read_csv(file = "./Data_PhD/US/NBER/nberces5818v1_n1997.csv") %>%
+	y = read_csv(file = "./Data_PhD/US/NBER/nberces5818v1_n2012.csv") %>%
+	  filter(year >= 2011 & year <= 2017) %>%
+	  mutate(naics.code = as.character(naics)) %>%
+	  select(c(naics.code, year:plant, dtfp5)) %>%
+	  data.frame(),
+	by = c("year" = "year", "naics.code" = "naics.code")
   ) %>%
   rename(facility.state.code = facility.state, facility.state = state) %>%
   data.frame()
