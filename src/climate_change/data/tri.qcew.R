@@ -64,12 +64,18 @@ setwd(dir = "C:/Users/david/OneDrive/Documents/ULMS/PhD/")
 ### getting zip and county codes and names from the usgeogr file
 ### County-border pairs and assign each border county to a unique state border pair strip.
 #======================================================================================================================#
-data(zip_df) %>% data.frame()
-data(county_df) %>% data.frame()
-data(cbcp_df) %>% data.frame()
-data(cbcounty_df) %>% data.frame()
-data(sbscp_df) %>% data.frame()
-data(state_df) %>% data.frame()
+data(zip_df, package = "usgeogr")
+data(county_df, package = "usgeogr")
+data(cbcp_df, package = "usgeogr")
+data(cbcounty_df, package = "usgeogr")
+data(sbscp_df, package = "usgeogr")
+data(state_df, package = "usgeogr")
+zip_df <- zip_df %>% data.frame()
+county_df <- county_df %>% data.frame()
+cbcp_df <- cbcp_df %>% data.frame()
+cbcounty_df <- cbcounty_df %>% data.frame()
+sbscp_df <- sbscp_df %>% data.frame()
+state_df <- state_df %>% data.frame()
 
 county_data <- county_df %>%
   select(-c(lat, long)) %>%
@@ -78,8 +84,10 @@ county_data <- county_df %>%
 	by = c("county_state" = "county_state")
   ) %>%
   # Get the neighbouring states
-  # left_join(
-  # y = )
+  left_join(
+	y = cbcp_df %>% select(county_state, neighbor_state, neighbor_fips_code),
+	by = c("county_state" = "county_state")
+  ) %>%
   # Joining zip_codes
   right_join(
 	y = zip_df %>%
@@ -101,8 +109,9 @@ county_data <- county_df %>%
 	by = c("fips_code" = "fips_code", "county_state" = "county_state")
   ) %>%
   select(
-	c(zip_code, fips_code, county_name, county_state, state, relaxed_cpcp_id, state_border_id,
-	  county_dist_to_border, county_dist_to_segment, num_counties_in_strip, num_states_in_strip, population)
+	c(zip_code, fips_code, county_name, county_state, state, neighbor_state, neighbor_fips_code, relaxed_cpcp_id,
+	  state_border_id, county_dist_to_border, county_dist_to_segment, num_counties_in_strip, num_states_in_strip,
+	  population)
   ) %>%
   # remove DC as it is not a state.
   filter(!county_state %in% "DC") %>%
