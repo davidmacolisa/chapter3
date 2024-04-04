@@ -1,7 +1,7 @@
-gc()
 #======================================================================================================================#
 ### Packages
 #======================================================================================================================#
+gc()
 library(tidyverse)
 library(stringr)
 library(statar)
@@ -171,7 +171,7 @@ triM <- tri %>%
 	y = county_data %>%
 	  select(-zip_code) %>%
 	  rename(facility.state = county_state, facility.county = county_name),
-	by = c("fips_code" = "fips_code", "facility.county" = "facility.county", "facility.state" = "facility.state")
+	by = c("facility.county" = "facility.county", "facility.state" = "facility.state")
   ) %>%
   data.frame()
 end_time <- Sys.time()
@@ -210,12 +210,13 @@ sort(unique(triM$facility.state))
 sort(unique(triM$state_border_id))
 
 # Selecting the treated and control states
+gc()
 start_time <- Sys.time()
 triM <- triM %>%
   filter(year >= 2011 & year <= 2017) %>%
   filter(
 	state %in% c( #treated states
-	  "Arkansas", "California", "Delaware", "Maryland", "Michigan", "Minnesota",
+	  "Arkansas", "California", "Delaware", "Maine", "Massachusetts", "Maryland", "Michigan", "Minnesota",
 	  "Nebraska", "New York", "West Virginia",
 	  #control states
 	  "Georgia", "Iowa", "Idaho", "Illinois", "Indiana", "Kansas", "Kentucky", "New Mexico",
@@ -226,6 +227,7 @@ triM <- triM %>%
 end_time <- Sys.time()
 end_time - start_time
 sort(unique(triM$state))
+gc()
 #======================================================================================================================#
 ### Subsetting common facility states across years---Panelize the facility.state
 #======================================================================================================================#
@@ -241,6 +243,7 @@ print(common_facility.state)
 # Keep only common facility ids across years in the dataframe
 triM <- triM %>% filter(facility.state %in% common_facility.state)
 sort(unique(triM$state))
+gc()
 #======================================================================================================================#
 ### Subsetting common facility.id across years---Panelize the facility.ids
 #======================================================================================================================#
@@ -258,6 +261,7 @@ sort(unique(triM$state))
 #======================================================================================================================#
 ### Subsetting common chemicals between the treated and the control states
 #======================================================================================================================#
+gc()
 # Split the chemicals column into a list of vectors by state
 chemicals_by_state <- split(triM$chemical.name, triM$facility.state)
 
@@ -270,6 +274,7 @@ print(common_chemicals)
 # Keep common chemicals in the dataframe
 triM <- triM %>% filter(chemical.name %in% common_chemicals)
 sort(unique(triM$state))
+gc()
 #======================================================================================================================#
 ### Merge ghgp with tri
 #======================================================================================================================#
@@ -361,6 +366,7 @@ qcew <- read_rds(file = "./Data_PhD/US/BLS/qcew.rds") %>%
   rename(naics.code = industry_code, fips_code = area_fips)
 end_time <- Sys.time()
 end_time - start_time
+gc()
 #======================================================================================================================#
 ### Merging TRI, BEA and QCEW Data
 #======================================================================================================================#
@@ -392,6 +398,7 @@ triQ <- triM %>%
   data.frame()
 end_time <- Sys.time()
 end_time - start_time
+gc()
 
 sort(unique(triQ$state))
 sort(unique(triM$facility.state))
@@ -402,6 +409,7 @@ sort(unique(triM$nearest_border))
 ### Merging NBER-CES DATA---Manufacturing Industry Database
 ### Based NAICS 2012
 #======================================================================================================================#
+gc()
 start_time <- Sys.time()
 triQ.manu <- triQ %>%
   filter(industry.category == "Manufacturing") %>%
@@ -418,6 +426,7 @@ triQ.manu <- triQ %>%
   data.frame()
 end_time <- Sys.time()
 end_time - start_time
+gc()
 
 n_distinct(triQ.manu$facility.state)
 sort(unique(triQ.manu$facility.state))
@@ -427,4 +436,6 @@ start_time <- Sys.time()
 write_rds(x = triQ.manu, file = "./Data_PhD/US/BLS/triQ.manu.rds", compress = "xz")
 end_time <- Sys.time()
 end_time - start_time
+gc()
 sum_up(triQ.manu, c(total.fug.air.emissions.onsite, total.point.air.emissions.onsite, total.air.emissions.onsite))
+gc()
