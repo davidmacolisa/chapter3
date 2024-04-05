@@ -22,14 +22,15 @@ setwd(dir = "C:/Users/david/OneDrive/Documents/ULMS/PhD/")
 gc()
 start_time <- Sys.time()
 triQ.manu <- read_rds(file = "./Data_PhD/US/BLS/triQ.manu.rds") %>%
-  group_by(facility.id, year) %>%
+  group_by(facility.id, year)
   select(
 	c(
 	  year, facility.id, facility.zipcode, facility.city, facility.county, facility.state.code, facility.state,
 	  facility.latitude, facility.longitude, offsite.id, offsite.facility.id, offsite.zipcode, offsite.city,
 	  offsite.county, offsite.state, offsite.countryid, potw.id, potw.zipcode, potw.city, potw.county, potw.state,
-	  fips_code, relaxed_cpcp_id:num_states_in_strip, naics.code:chemical.name, mixture,
-	  chemical.classification:chemical.ancilliary.use, population, personal_income:vadd, invent, energy
+	  fips_code, relaxed_cpcp_id:county_dist_to_segment, naics.code:chemical.name, mixture,
+	  chemical.classification:chemical.ancilliary.use, population, neighbor_population, personal_income:vadd,
+	  invent, energy
 	)
   ) %>%
   data.frame()
@@ -77,9 +78,9 @@ triQ.manu <- triQ.manu %>%
 	naics.code = as.numeric(naics.code),
   )
 
-triQ.manu[160:162] <- lapply(triQ.manu[160:162], as.numeric)
-triQ.manu[164] <- lapply(triQ.manu[164], as.numeric)
-triQ.manu[166:179] <- lapply(triQ.manu[166:179], as.numeric)
+triQ.manu[158:160] <- lapply(triQ.manu[158:160], as.numeric)
+triQ.manu[162] <- lapply(triQ.manu[162], as.numeric)
+triQ.manu[164:177] <- lapply(triQ.manu[164:177], as.numeric)
 #======================================================================================================================#
 ### Getting air emissions chemicals
 #======================================================================================================================#
@@ -118,8 +119,6 @@ triQ.on <- triQ.manu %>%
 	  facility.state == "Arkansas" ~ 2015,
 	  facility.state == "California" ~ 2014,
 	  facility.state == "Delaware" ~ 2014,
-	  facility.state == "Maine" ~ 2017,
-	  facility.state == "Massachusetts" ~ 2015,
 	  facility.state == "Maryland" ~ 2015,
 	  facility.state == "Michigan" ~ 2014,
 	  facility.state == "Minnesota" ~ 2014,
@@ -129,11 +128,11 @@ triQ.on <- triQ.manu %>%
 	),
 	mw.raise = case_when(
 	  facility.state %in%
-		c("Arkansas", "California", "Delaware", "Maine", "Massachusetts", "Maryland",
-		  "Michigan", "Minnesota", "Nebraska", "New York", "West Virginia")
+		c("Arkansas", "California", "Delaware", "Maryland", "Michigan", "Minnesota",
+		  "Nebraska", "New York", "West Virginia")
 		~ 1, T ~ 0
 	),
-	post = case_when(year == 2014 | year == 2015 | year == 2017 ~ 1, T ~ 0)
+	post = case_when(year == 2014 | year == 2015 ~ 1, T ~ 0)
   ) %>%
   select(
 	c(
@@ -145,23 +144,21 @@ triQ.on <- triQ.manu %>%
   ) %>%
   data.frame()
 
+sort(unique(triQ.on$facility.state))
+
+# relative years
+triQ.on <- triQ.on %>% mutate(rel_year = year - mw.year + 2014)
+sort(unique(triQ.on$rel_year))
+sort(unique(triQ.on$facility.state))
+
 # Selecting the cross-border treated and control states
 triQ.oncb <- triQ.manu %>%
   # Selecting only the states that share a border
-  # filter(
-  # state_border_id %in% c(
-  #   "AR-OK", "AR-TX", "CA-NV", "DE-MD", "DE-PA", "ME-NH", "MD-PA", "MD-VA", "MD-WV",
-  #   "MA-NH", "MA-NY", "IN-MI", "IL-MI", "IN-MN", "MI-WI", "IA-MN", "MN-ND",
-  #   "MN-WI", "IA-NE", "KS-NE", "NE-WY", "NY-PA", "KY-WV", "PA-WV", "VA-WV",
-  #   "IA-IL", "IA-WI", "IL-KY", "IL-WI", "IL-IN", "IN-KY", "KS-OK", "OK-TX"
-  # )
   filter(
-	state_border_id %in% c(
-	  "AR-OK", "AR-TX", "CA-NV", "DE-PA", "MD-PA", "MD-VA",
-	  # "MA-NH", "ME-NH",
-	  "IN-MI", "IL-MI", "IN-MN", "MI-WI", "IA-MN", "MN-ND",
-	  "MN-WI", "IA-NE", "KS-NE", "NE-WY", "NY-PA", "KY-WV", "PA-WV", "VA-WV"
-	  # "IA-IL", "IA-WI", "IL-KY", "IL-WI", "IL-IN", "IN-KY", "KS-OK", "OK-TX"
+	c(
+	  facility.state %in%
+		c("Arkansas", "California", "Delaware", "Maryland", "Michigan", "Minnesota",
+		  "Nebraska", "New York", "West Virginia")
 	)
   ) %>%
   mutate(
@@ -194,16 +191,6 @@ triQ.oncb <- triQ.manu %>%
 	)
   ) %>%
   data.frame()
-
-sort(unique(triQ.oncb$facility.state))
-sort(unique(triQ.oncb$state_border_id))
-
-# relative years
-triQ.oncb <- triQ.oncb %>% mutate(rel_year = year - mw.year + 2014)
-sort(unique(triQ.oncb$rel_year))
-sort(unique(triQ.oncb$facility.state))
-sort(unique(triQ.oncb$state_border_id))
-
 #----------------------------------------------------------------------------------------------------------------------#
 # Removing common counties in both treated and control states
 #----------------------------------------------------------------------------------------------------------------------#

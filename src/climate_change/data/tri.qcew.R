@@ -80,7 +80,7 @@ state_df <- state_df %>% data.frame()
 adjacent_county_df <- adjacent_county_df %>% data.frame()
 
 adj_county_data <- adjacent_county_df %>%
- select(-c(lat, long)) %>%
+  select(-c(lat, long)) %>%
   left_join(
 	y = state_df %>% rename(county_state = state_code),
 	by = c("county_state" = "county_state")
@@ -106,8 +106,9 @@ adj_county_data <- adjacent_county_df %>%
 	by = c("fips_code" = "fips_code", "county_state" = "county_state")
   ) %>%
   select(
-	c(zip_code, fips_code, county_name, county_state, state, neighbor_state, neighbor_fips_code, relaxed_cpcp_id,
-	  county_dist_to_border, county_dist_to_segment, population, neighbor_population)
+	c(zip_code, fips_code, county_name, county_state, state, neighbor_state, neighbor_fips_code,
+	  neighbor_lat, neighbor_long, relaxed_cpcp_id, county_dist_to_border, county_dist_to_segment,
+	  population, neighbor_population)
   ) %>%
   # remove DC as it is not a state.
   filter(!county_state %in% "DC") %>%
@@ -118,7 +119,8 @@ adj_county_data$county_name <- sub(pattern = "\\s+\\w+$", replacement = "", adj_
 
 # Making first letters uppercase
 adj_county_data$state <- tolower(adj_county_data$state)  # Convert entire column to lowercase
-adj_county_data$state <- gsub(pattern = "(^|\\s)([a-z])", replacement = "\\1\\U\\2", adj_county_data$state, perl = TRUE)  #
+adj_county_data$state <- gsub(pattern = "(^|\\s)([a-z])", replacement = "\\1\\U\\2", adj_county_data$state, perl =
+  TRUE)  #
 # Capitalize first letter of each word
 
 #======================================================================================================================#
@@ -177,7 +179,8 @@ triM <- tri %>%
 	y = adj_county_data %>%
 	  #select(-zip_code) %>%
 	  rename(facility.state = county_state, facility.county = county_name, facility.zipcode = zip_code),
-	by = c("facility.zipcode" = "facility.zipcode", "facility.county" = "facility.county", "facility.state" = "facility.state")
+	by = c("facility.zipcode" = "facility.zipcode", "facility.county" = "facility.county", "facility.state" =
+	  "facility.state")
   ) %>%
   data.frame()
 end_time <- Sys.time()
