@@ -70,26 +70,23 @@ data(cbcp_df, package = "usgeogr")
 data(cbcounty_df, package = "usgeogr")
 data(sbscp_df, package = "usgeogr")
 data(state_df, package = "usgeogr")
+data(adjacent_county_df, package = "usgeogr")
 zip_df <- zip_df %>% data.frame()
 county_df <- county_df %>% data.frame()
 cbcp_df <- cbcp_df %>% data.frame()
 cbcounty_df <- cbcounty_df %>% data.frame()
 sbscp_df <- sbscp_df %>% data.frame()
 state_df <- state_df %>% data.frame()
+adjacent_county_df <- adjacent_county_df %>% data.frame()
 
-county_data <- county_df %>%
-  select(-c(lat, long)) %>%
+adj_county_data <- adjacent_county_df %>%
+ select(-c(lat, long)) %>%
   left_join(
 	y = state_df %>% rename(county_state = state_code),
 	by = c("county_state" = "county_state")
   ) %>%
-  # Get the neighbouring states
-  left_join(
-	y = cbcp_df %>% select(county_state, neighbor_state, neighbor_fips_code),
-	by = c("county_state" = "county_state")
-  ) %>%
   # Joining zip_codes
-  right_join(
+  left_join(
 	y = zip_df %>%
 	  select(c(fips_code, zip_code, state)) %>%
 	  rename(county_state = state),
@@ -110,19 +107,18 @@ county_data <- county_df %>%
   ) %>%
   select(
 	c(zip_code, fips_code, county_name, county_state, state, neighbor_state, neighbor_fips_code, relaxed_cpcp_id,
-	  state_border_id, county_dist_to_border, county_dist_to_segment, num_counties_in_strip, num_states_in_strip,
-	  population)
+	  county_dist_to_border, county_dist_to_segment, population, neighbor_population)
   ) %>%
   # remove DC as it is not a state.
   filter(!county_state %in% "DC") %>%
   data.frame()
 
 # Remove last word in county labels
-county_data$county_name <- sub(pattern = "\\s+\\w+$", replacement = "", county_data$county_name)
+adj_county_data$county_name <- sub(pattern = "\\s+\\w+$", replacement = "", adj_county_data$county_name)
 
 # Making first letters uppercase
-county_data$state <- tolower(county_data$state)  # Convert entire column to lowercase
-county_data$state <- gsub(pattern = "(^|\\s)([a-z])", replacement = "\\1\\U\\2", county_data$state, perl = TRUE)  #
+adj_county_data$state <- tolower(adj_county_data$state)  # Convert entire column to lowercase
+adj_county_data$state <- gsub(pattern = "(^|\\s)([a-z])", replacement = "\\1\\U\\2", adj_county_data$state, perl = TRUE)  #
 # Capitalize first letter of each word
 
 #======================================================================================================================#
@@ -169,6 +165,7 @@ gc()
 ### Merge county_data with tri data
 #======================================================================================================================#
 # merging zip_df with tri data to get the fips codes.
+gc()
 start_time <- Sys.time()
 triM <- tri %>%
   group_by(naics.code, facility.zipcode, facility.county) %>%
@@ -177,14 +174,15 @@ triM <- tri %>%
 	facility.latitude = as.numeric(facility.latitude)
   ) %>%
   left_join(
-	y = county_data %>%
-	  select(-zip_code) %>%
-	  rename(facility.state = county_state, facility.county = county_name),
-	by = c("facility.county" = "facility.county", "facility.state" = "facility.state")
+	y = adj_county_data %>%
+	  #select(-zip_code) %>%
+	  rename(facility.state = county_state, facility.county = county_name, facility.zipcode = zip_code),
+	by = c("facility.zipcode" = "facility.zipcode", "facility.county" = "facility.county", "facility.state" = "facility.state")
   ) %>%
   data.frame()
 end_time <- Sys.time()
 end_time - start_time
+gc()
 
 gc()
 start_time <- Sys.time()
@@ -194,15 +192,9 @@ triM <- triM[complete.cases(triM$fips_code),]
 triM <- triM[complete.cases(triM$relaxed_cpcp_id),]
 end_time <- Sys.time()
 end_time - start_time
+gc()
 
-sort(unique(triM$facility.id))
-sort(unique(triM$fips_code))
-sort(unique(triM$relaxed_cpcp_id))
-sort(unique(triM$facility.state))
-sort(unique(triM$naics.code))
-sort(unique(triM$industry.name))
-sort(unique(triM$chemical.name))
-
+gc()
 n_distinct(triM$facility.id)
 n_distinct(triM$facility.county)
 n_distinct(triM$facility.zipcode)
@@ -211,12 +203,21 @@ n_distinct(triM$facility.state)
 n_distinct(triM$naics.code)
 n_distinct(triM$industry.name)
 
+gc()
+sort(unique(triM$facility.id))
+sort(unique(triM$fips_code))
+sort(unique(triM$relaxed_cpcp_id))
+sort(unique(triM$state))
+sort(unique(triM$naics.code))
+sort(unique(triM$industry.name))
+sort(unique(triM$chemical.name))
+gc()
+
 #======================================================================================================================#
 ### Getting the treated and controls states
 #======================================================================================================================#
 sort(unique(triM$state))
 sort(unique(triM$facility.state))
-sort(unique(triM$state_border_id))
 
 # Selecting the treated and control states
 gc()
@@ -225,7 +226,7 @@ triM <- triM %>%
   filter(year >= 2011 & year <= 2017) %>%
   filter(
 	state %in% c( #treated states
-	  "Arkansas", "California", "Delaware", "Maine", "Massachusetts", "Maryland", "Michigan", "Minnesota",
+	  "Arkansas", "California", "Delaware", "Maryland", "Michigan", "Minnesota",
 	  "Nebraska", "New York", "West Virginia",
 	  #control states
 	  "Georgia", "Iowa", "Idaho", "Illinois", "Indiana", "Kansas", "Kentucky", "New Mexico",
@@ -240,6 +241,7 @@ gc()
 #======================================================================================================================#
 ### Subsetting common facility states across years---Panelize the facility.state
 #======================================================================================================================#
+gc()
 # Split the facility id column into a list of vectors by year
 facility.state_by_year <- split(triM$facility.state, triM$year)
 
@@ -365,6 +367,7 @@ gc()
 ### Loading QCEW---County Levels
 #======================================================================================================================#
 gc()
+gc()
 start_time <- Sys.time()
 qcew <- read_rds(file = "./Data_PhD/US/BLS/qcew.rds") %>%
   filter(year >= 2011 & year <= 2017) %>%
@@ -375,6 +378,7 @@ qcew <- read_rds(file = "./Data_PhD/US/BLS/qcew.rds") %>%
   rename(naics.code = industry_code, fips_code = area_fips)
 end_time <- Sys.time()
 end_time - start_time
+gc()
 gc()
 #======================================================================================================================#
 ### Merging TRI, BEA and QCEW Data

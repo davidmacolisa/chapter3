@@ -2,7 +2,7 @@
 ### PhD Chapter 3
 ### Indirect Consequences of a Raising Minimum Wage
 ### 30 November 2023
-### Use Regression Discontinuity Analysis
+### Using Border-County Designs
 #======================================================================================================================#
 ### Packages
 #======================================================================================================================#
@@ -16,10 +16,10 @@ library(usmap)
 ### Working Directory
 #======================================================================================================================#
 setwd(dir = "C:/Users/david/OneDrive/Documents/ULMS/PhD/")
-gc()
 #======================================================================================================================#
 ### Loading Data
 #======================================================================================================================#
+gc()
 start_time <- Sys.time()
 triQ.manu <- read_rds(file = "./Data_PhD/US/BLS/triQ.manu.rds") %>%
   group_by(facility.id, year) %>%
@@ -36,6 +36,7 @@ triQ.manu <- read_rds(file = "./Data_PhD/US/BLS/triQ.manu.rds") %>%
 triQ.manu <- triQ.manu[complete.cases(triQ.manu$total_annual_wages),]
 end_time <- Sys.time()
 end_time - start_time
+gc()
 #======================================================================================================================#
 ### Check if dataframe is a panel data
 #======================================================================================================================#
@@ -117,8 +118,8 @@ triQ.on <- triQ.manu %>%
 	  facility.state == "Arkansas" ~ 2015,
 	  facility.state == "California" ~ 2014,
 	  facility.state == "Delaware" ~ 2014,
-	  #facility.state == "Maine" ~ 2017,
-	  #facility.state == "Massachusetts" ~ 2015,
+	  facility.state == "Maine" ~ 2017,
+	  facility.state == "Massachusetts" ~ 2015,
 	  facility.state == "Maryland" ~ 2015,
 	  facility.state == "Michigan" ~ 2014,
 	  facility.state == "Minnesota" ~ 2014,
@@ -325,10 +326,10 @@ library(ggplot2)
 triQ.oncb <- triQ.oncb[order(triQ.oncb$state_border_id),]
 
 ggplot(
-	data = triQ.oncb,
-	aes(x = facility.longitude, y = facility.latitude),
-	color = "black"
-  ) +
+  data = triQ.oncb,
+  aes(x = facility.longitude, y = facility.latitude),
+  color = "black"
+) +
   geom_polygon(aes(group = facility.state)) +
   coord_map()
 
