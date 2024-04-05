@@ -204,7 +204,7 @@ triQ.oncb <- triQ.manu %>%
   select(
 	c(
 	  year, facility.id, facility.zipcode, facility.city, facility.county, facility.state.code, facility.state,
-	  facility.latitude, facility.longitude, fips_code, neighbor_state, neighbor_lat, neighbor_long,
+	  facility.latitude, facility.longitude, fips_code, neighbor_state, neighbor_fips_code, neighbor_lat, neighbor_long,
 	  relaxed_cpcp_id:chemical.name, chemical.classification, unit.of.measure, contains(match = "onsite"),
 	  material.subandmod:intro.inline.productquality.process.analysis.opt, trade.secret:post
 	)
@@ -246,7 +246,7 @@ sum_up(triQ.oncb %>% filter(treated == 0),
 
 
 triQ.oncb %>%
-  group_by(facility.state) %>%
+  group_by(facility.state, neighbor_state) %>%
   filter(treated == 1) %>%
   summarise(county = facility.county %>% n_distinct()) %>%
   arrange(desc(county)) %>%
