@@ -22,13 +22,14 @@ setwd(dir = "C:/Users/david/OneDrive/Documents/ULMS/PhD/")
 gc()
 start_time <- Sys.time()
 triQ.manu <- read_rds(file = "./Data_PhD/US/BLS/triQ.manu.rds") %>%
-  group_by(facility.id, year)
+  group_by(facility.id, year) %>%
   select(
 	c(
 	  year, facility.id, facility.zipcode, facility.city, facility.county, facility.state.code, facility.state,
 	  facility.latitude, facility.longitude, offsite.id, offsite.facility.id, offsite.zipcode, offsite.city,
 	  offsite.county, offsite.state, offsite.countryid, potw.id, potw.zipcode, potw.city, potw.county, potw.state,
-	  fips_code, relaxed_cpcp_id:county_dist_to_segment, naics.code:chemical.name, mixture,
+	  fips_code, neighbor_state, neighbor_fips_code, neighbor_lat, neighbor_long,
+	  relaxed_cpcp_id:county_dist_to_segment, naics.code:chemical.name, mixture,
 	  chemical.classification:chemical.ancilliary.use, population, neighbor_population, personal_income:vadd,
 	  invent, energy
 	)
@@ -71,16 +72,14 @@ triQ.manu <- triQ.manu %>%
   mutate(
 	facility.id = as.numeric(facility.id),
 	facility.zipcode = as.numeric(facility.zipcode),
-	# offsite.facility.id = as.numeric(offsite.facility.id),
-	# potw.id = as.numeric(potw.id),
 	fips_code = as.numeric(fips_code),
 	facility.state.id = as.numeric(as.factor(facility.state)),
 	naics.code = as.numeric(naics.code),
   )
 
-triQ.manu[158:160] <- lapply(triQ.manu[158:160], as.numeric)
-triQ.manu[162] <- lapply(triQ.manu[162], as.numeric)
-triQ.manu[164:177] <- lapply(triQ.manu[164:177], as.numeric)
+triQ.manu[162:164] <- lapply(triQ.manu[162:164], as.numeric)
+triQ.manu[166] <- lapply(triQ.manu[166], as.numeric)
+triQ.manu[168:181] <- lapply(triQ.manu[168:181], as.numeric)
 #======================================================================================================================#
 ### Getting air emissions chemicals
 #======================================================================================================================#
@@ -109,7 +108,6 @@ table(triQ.manu$chemical.classification)
 gc()
 #======================================================================================================================#
 sort(unique(triQ.manu$facility.state))
-sort(unique(triQ.manu$state_border_id))
 
 # Selecting the treated and control states
 triQ.on <- triQ.manu %>%
@@ -137,9 +135,9 @@ triQ.on <- triQ.manu %>%
   select(
 	c(
 	  year, facility.id, facility.zipcode, facility.city, facility.county, facility.state.code, facility.state,
-	  facility.latitude, facility.longitude, fips_code, relaxed_cpcp_id:chemical.name, chemical.classification,
-	  unit.of.measure, contains(match = "onsite"), material.subandmod:intro.inline.productquality.process.analysis.opt,
-	  trade.secret:post
+	  facility.latitude, facility.longitude, fips_code, neighbor_state, neighbor_lat, neighbor_long,
+	  relaxed_cpcp_id:chemical.name, chemical.classification, unit.of.measure, contains(match = "onsite"),
+	  material.subandmod:intro.inline.productquality.process.analysis.opt, trade.secret:post
 	)
   ) %>%
   data.frame()
@@ -151,15 +149,36 @@ triQ.on <- triQ.on %>% mutate(rel_year = year - mw.year + 2014)
 sort(unique(triQ.on$rel_year))
 sort(unique(triQ.on$facility.state))
 
+triQ.on %>%
+  group_by(facility.state, neighbor_state) %>%
+  filter(mw.year != Inf) %>%
+  summarise(count = facility.county %>% n_distinct()) %>%
+  arrange(desc(count)) %>%
+  print(n = nrow(.))
+
+triQ.on %>%
+  group_by(facility.state, neighbor_state) %>%
+  filter(mw.year == Inf) %>%
+  summarise(count = facility.county %>% n_distinct()) %>%
+  arrange(desc(count)) %>%
+  print(n = nrow(.))
+
+#======================================================================================================================#
 # Selecting the cross-border treated and control states
+gc()
+#======================================================================================================================#
 triQ.oncb <- triQ.manu %>%
   # Selecting only the states that share a border
   filter(
-	c(
-	  facility.state %in%
-		c("Arkansas", "California", "Delaware", "Maryland", "Michigan", "Minnesota",
-		  "Nebraska", "New York", "West Virginia")
-	)
+	facility.state %in%
+	  c("Arkansas", "California", "Delaware", "Maryland", "Michigan", "Minnesota",
+		"Nebraska", "New York", "West Virginia", "Oklahoma", "Texas", "Nevada",
+		"Pennsylvania", "Virginia", "Wisconsin", "Indiana", "Illinois", "Iowa", "Kansas",
+		"Wyoming", "Kentucky")
+	  &
+	  neighbor_state %in%
+		c("AR", "OK", "TX", "CA", "NV", "DE", "MD", "PA", "MD", "VA", "WV", "MI",
+		  "WI", "IN", "IL", "MN", "IA", "NE", "KS", "WY", "NY", "KY", "ND")
   ) %>%
   mutate(
 	# Year of first MW raise >= $0.5
@@ -176,18 +195,18 @@ triQ.oncb <- triQ.manu %>%
 	),
 	mw.raise = case_when(
 	  facility.state %in%
-		c("Arkansas", "California", "Delaware", "Maine", "Massachusetts", "Maryland",
-		  "Michigan", "Minnesota", "Nebraska", "New York", "West Virginia")
+		c("Arkansas", "California", "Delaware", "Maryland", "Michigan",
+		  "Minnesota", "Nebraska", "New York", "West Virginia")
 		~ 1, T ~ 0
 	),
-	post = case_when(year == 2014 | year == 2015 | year == 2017 ~ 1, T ~ 0)
+	post = case_when(year == 2014 | year == 2015 ~ 1, T ~ 0)
   ) %>%
   select(
 	c(
 	  year, facility.id, facility.zipcode, facility.city, facility.county, facility.state.code, facility.state,
-	  facility.latitude, facility.longitude, fips_code, relaxed_cpcp_id:chemical.name, chemical.classification,
-	  unit.of.measure, contains(match = "onsite"), material.subandmod:intro.inline.productquality.process.analysis.opt,
-	  trade.secret:post
+	  facility.latitude, facility.longitude, fips_code, neighbor_state, neighbor_lat, neighbor_long,
+	  relaxed_cpcp_id:chemical.name, chemical.classification, unit.of.measure, contains(match = "onsite"),
+	  material.subandmod:intro.inline.productquality.process.analysis.opt, trade.secret:post
 	)
   ) %>%
   data.frame()
@@ -204,13 +223,11 @@ common_counties <- intersect(
 triQ.oncb <- triQ.oncb[!triQ.oncb$facility.county %in% common_counties,]
 
 sort(unique(triQ.oncb$facility.state))
-sort(unique(triQ.oncb$state_border_id))
 n_distinct(triQ.oncb$facility.state)
-n_distinct(triQ.oncb$state_border_id)
 
-table(triQ.on$year)
-table(triQ.on$mw.year)
-table(triQ.on$year, triQ.on$mw.year)
+table(triQ.oncb$year)
+table(triQ.oncb$mw.year)
+table(triQ.oncb$year, triQ.oncb$mw.year)
 
 # Creating group G dummy: states treated by period g
 triQ.oncb$treated <- as.numeric(triQ.oncb$year >= triQ.oncb$mw.year)
@@ -219,44 +236,25 @@ triQ.oncb %>%
   group_by(year) %>%
   summarise(treated = sum(treated))
 
-# remove the never treated states
-triQ.oncb.nonever <- triQ.oncb[triQ.oncb$mw.year != Inf,]
-
-sum_up(triQ.oncb %>% filter(mw.year != Inf),
+sum_up(triQ.oncb %>% filter(treated == 1),
 	   c(oty_total_annual_wages_chg, oty_total_annual_wages_pct_chg,
 		 oty_avg_annual_pay_chg, oty_avg_annual_pay_pct_chg))
 
-sum_up(triQ.oncb %>% filter(mw.year == Inf),
+sum_up(triQ.oncb %>% filter(treated == 0),
 	   c(oty_total_annual_wages_chg, oty_total_annual_wages_pct_chg,
 		 oty_avg_annual_pay_chg, oty_avg_annual_pay_pct_chg))
 
 
 triQ.oncb %>%
-  filter(facility.state == "Minnesota") %>%
-  group_by(facility.state, state_border_id, facility.county) %>%
-  filter(mw.year != Inf) %>%
+  group_by(facility.state) %>%
+  filter(treated == 1) %>%
   summarise(county = facility.county %>% n_distinct()) %>%
   arrange(desc(county)) %>%
   print(., n = nrow(.))
 
 triQ.oncb %>%
-  filter(facility.state == "Wisconsin") %>%
-  group_by(facility.state, state_border_id, facility.county) %>%
-  filter(mw.year == Inf) %>%
-  summarise(county = facility.county %>% n_distinct()) %>%
-  arrange(desc(county)) %>%
-  print(., n = nrow(.))
-
-triQ.oncb %>%
-  group_by(facility.state, state_border_id) %>%
-  filter(mw.year != Inf) %>%
-  summarise(county = facility.county %>% n_distinct()) %>%
-  arrange(desc(county)) %>%
-  print(., n = nrow(.))
-
-triQ.oncb %>%
-  group_by(facility.state, state_border_id) %>%
-  filter(mw.year == Inf) %>%
+  group_by(facility.state, neighbor_state) %>%
+  filter(treated == 0) %>%
   summarise(county = facility.county %>% n_distinct()) %>%
   arrange(desc(county)) %>%
   print(., n = nrow(.))
