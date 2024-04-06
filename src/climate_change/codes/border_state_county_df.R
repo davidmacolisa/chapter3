@@ -10,11 +10,17 @@ setwd(dir = "C:/Users/david/OneDrive/Documents/ULMS/PhD/")
 #======================================================================================================================#
 ### Loading Data
 #======================================================================================================================#
+# for the state-level design
 data(state_df, package = "usgeogr")
 state_df <- state_df %>% data.frame()
 names(state_df$state) <- tolower(state_df$state)
 state_df$state <- stringi::stri_trans_totitle(state_df$state)
+# data(adjacent_county_df, package = "usgeogr")
+# adjacent_county_df <- adjacent_county_df %>% data.frame()
 
+# for border-county design
+data(cbcp_df, package = "usgeogr")
+cbcp_df <- cbcp_df %>% data.frame()
 #======================================================================================================================#
 ### Experiment Design: State-level MW >= $0.5 for Border States
 #======================================================================================================================#
@@ -129,11 +135,89 @@ fac_states <- state_df %>%
 	),
   ) %>%
   distinct()
+#======================================================================================================================#
+### Experiment Design: Border-county MW changes
+#======================================================================================================================#
+fac_county <- fac_states %>%
+  rename(treated.match = match.state) %>%
+  left_join(
+	y = adjacent_county_df %>%
+	  filter(neighbor_state %in% c("AR", "CA", "DE", "ME", "MA", "MD", "MI", "MN", "NE", "NY", "WV")),
+	by = c("state.code" = "county_state", "treated.match" = "neighbor_state")
+  ) %>%
+  rename(treated.cluster.name = neighbor_name, treated.cluster.id = neighbor_fips_code,
+		 treated.cluster.population = neighbor_population, treated.cluster.lat = neighbor_lat,
+		 treated.cluster.long = neighbor_long) %>%
+  select(
+	c(fips_code, county_name, state, state.code, population, lat, long, treated, treated.match, treated.cluster.name,
+	  treated.cluster.id, ch.year:start.mw, match.ch.amt, match.ch.year, treated.cluster.population,
+	  treated.cluster.lat, treated.cluster.long)
+  ) %>%
+  distinct()
 
-data(adjacent_county_df, package = "usgeogr")
-adjacent_county_df <- adjacent_county_df %>% data.frame()
+# Add state codes to treated cluster names/labels
+fac_county[fac_county$treated.match == "AR",]$treated.cluster.name <-
+  gsub(pattern = "\\b(\\w+)$", replacement = " AR",
+	   fac_county[fac_county$treated.match == "AR",]$treated.cluster.name)
 
+fac_county[fac_county$treated.match == "CA",]$treated.cluster.name <-
+  gsub(pattern = "\\b(\\w+)$", replacement = " CA",
+	   fac_county[fac_county$treated.match == "CA",]$treated.cluster.name)
 
-data(cbcp_df, package = "usgeogr")
-cbcp_df <- cbcp_df %>% data.frame()
+fac_county[fac_county$treated.match == "DE",]$treated.cluster.name <-
+  gsub(pattern = "\\b(\\w+)$", replacement = " DE",
+	   fac_county[fac_county$treated.match == "DE",]$treated.cluster.name)
 
+fac_county[fac_county$treated.match == "ME",]$treated.cluster.name <-
+  gsub(pattern = "\\b(\\w+)$", replacement = " ME",
+	   fac_county[fac_county$treated.match == "ME",]$treated.cluster.name)
+
+fac_county[fac_county$treated.match == "MA",]$treated.cluster.name <-
+  gsub(pattern = "\\b(\\w+)$", replacement = " MA",
+	   fac_county[fac_county$treated.match == "MA",]$treated.cluster.name)
+
+fac_county[fac_county$treated.match == "MD",]$treated.cluster.name <-
+  gsub(pattern = "\\b(\\w+)$", replacement = " MD",
+	   fac_county[fac_county$treated.match == "MD",]$treated.cluster.name)
+
+fac_county[fac_county$treated.match == "MI",]$treated.cluster.name <-
+  gsub(pattern = "\\b(\\w+)$", replacement = " MI",
+	   fac_county[fac_county$treated.match == "MI",]$treated.cluster.name)
+
+fac_county[fac_county$treated.match == "MN",]$treated.cluster.name <-
+  gsub(pattern = "\\b(\\w+)$", replacement = " MN",
+	   fac_county[fac_county$treated.match == "MN",]$treated.cluster.name)
+
+fac_county[fac_county$treated.match == "NE",]$treated.cluster.name <-
+  gsub(pattern = "\\b(\\w+)$", replacement = " NE",
+	   fac_county[fac_county$treated.match == "NE",]$treated.cluster.name)
+
+fac_county[fac_county$treated.match == "NY",]$treated.cluster.name <-
+  gsub(pattern = "\\b(\\w+)$", replacement = " NY",
+	   fac_county[fac_county$treated.match == "NY",]$treated.cluster.name)
+
+fac_county[fac_county$treated.match == "WV",]$treated.cluster.name <-
+  gsub(pattern = "\\b(\\w+)$", replacement = " WV",
+	   fac_county[fac_county$treated.match == "WV",]$treated.cluster.name)
+
+fac_counties <- fac_county %>%
+  left_join(
+	# merging the cross-border counties
+	y = cbcp_df %>%
+	  rename(control.match = neighbor_state, control.cluster.id = neighbor_fips_code) %>%
+	  filter(control.match %in% c("IA", "IL", "IN", "KS", "KY", "NH", "NV",
+								  "ND", "OK", "PA", "TX", "VA", "WI", "WY")),
+	by = c("fips_code" = "fips_code", "state.code" = "county_state")
+  ) %>%
+  filter(!is.na(cbcp_id) |
+		   !is.na(state_border_id) |
+		   !is.na(control.cluster.id) |
+		   !is.na(control.match) |
+		   !is.na(dist_bt_centers)) %>%
+  select(
+	c(fips_code, county_name, state, state.code, population, lat, long, treated, treated.match, control.match,
+	  state_border_id, treated.cluster.name, treated.cluster.id, control.cluster.id, cbcp_id, ch.year:start.mw,
+	  match.ch.amt, match.ch.year, treated.cluster.population, treated.cluster.lat, treated.cluster.long,
+	  dist_bt_centers)
+  ) %>%
+  distinct()
