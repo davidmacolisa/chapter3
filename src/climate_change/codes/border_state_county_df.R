@@ -98,31 +98,20 @@ fac_states_df <- state_df %>%
 	  state.code == "NE" ~ 7.25,
 	  state.code == "NY" ~ 7.25,
 	  state.code == "WV" ~ 7.25,
-
-	  state.code == "WV" ~ 7.25,
-	  state.code == "WV" ~ 7.25,
-	  state.code == "WV" ~ 7.25,
-	  state.code == "WV" ~ 7.25,
-	  state.code == "WV" ~ 7.25,
-	  state.code == "WV" ~ 7.25,
-	  state.code == "WV" ~ 7.25,
-	  state.code == "WV" ~ 7.25,
-	  state.code == "WV" ~ 7.25,
-	  state.code == "WV" ~ 7.25,
-	  state.code == "WV" ~ 7.25,
-	  state.code == "WV" ~ 7.25,
-	  state.code == "WV" ~ 7.25,
-	  state.code == "WV" ~ 7.25,
-	  state.code == "WV" ~ 7.25,
-	  state.code == "WV" ~ 7.25,
-	  state.code == "WV" ~ 7.25,
-	  state.code == "WV" ~ 7.25,
-	  state.code == "WV" ~ 7.25,
-	  state.code == "WV" ~ 7.25,
-	  state.code == "WV" ~ 7.25,
-	  state.code == "WV" ~ 7.25,
-
-	),
+	  state.code == "IA" ~ 7.25,
+	  state.code == "IL" ~ 8.25,
+	  state.code == "IN" ~ 7.25,
+	  state.code == "KS" ~ 7.25,
+	  state.code == "KY" ~ 7.25,
+	  state.code == "NH" ~ 7.25,
+	  state.code == "NV" ~ 8.25,
+	  state.code == "ND" ~ 7.25,
+	  state.code == "OK" ~ 7.25,
+	  state.code == "PA" ~ 7.25,
+	  state.code == "TX" ~ 7.25,
+	  state.code == "VA" ~ 7.25,
+	  state.code == "WI" ~ 7.25,
+	  state.code == "WY" ~ 7.25),
   ) %>%
   # Match with adjacent neighbor states
   left_join(
@@ -292,7 +281,64 @@ fac_county_df[fac_county_df$treated.match == "WV",]$treated.cluster.name <-
 	   fac_county_df[fac_county_df$treated.match == "WV",]$treated.cluster.name)
 
 # Remove "County" at the back county_name labels, for the state codes
-fac_county_df$county_name <- gsub(pattern = "\\b(\\w+)$", replacement = "", fac_county_df$county_name)
+fac_county_df$county.name <- gsub(pattern = "\\b(\\w+)$", replacement = "", fac_county_df$county.name)
+
+# Add state codes to control cluster names/labels
+fac_county_df[fac_county_df$control.match == "IA",]$control.cluster.name <-
+  gsub(pattern = "\\b(\\w+)$", replacement = " IA",
+	   fac_county_df[fac_county_df$control.match == "IA",]$control.cluster.name)
+
+fac_county_df[fac_county_df$control.match == "IL",]$control.cluster.name <-
+  gsub(pattern = "\\b(\\w+)$", replacement = " IL",
+	   fac_county_df[fac_county_df$control.match == "IL",]$control.cluster.name)
+
+fac_county_df[fac_county_df$control.match == "IN",]$control.cluster.name <-
+  gsub(pattern = "\\b(\\w+)$", replacement = " IN",
+	   fac_county_df[fac_county_df$control.match == "IN",]$control.cluster.name)
+
+fac_county_df[fac_county_df$control.match == "KS",]$control.cluster.name <-
+  gsub(pattern = "\\b(\\w+)$", replacement = " KS",
+	   fac_county_df[fac_county_df$control.match == "KS",]$control.cluster.name)
+
+fac_county_df[fac_county_df$control.match == "KY",]$control.cluster.name <-
+  gsub(pattern = "\\b(\\w+)$", replacement = " KY",
+	   fac_county_df[fac_county_df$control.match == "KY",]$control.cluster.name)
+
+fac_county_df[fac_county_df$control.match == "NH",]$control.cluster.name <-
+  gsub(pattern = "\\b(\\w+)$", replacement = " NH",
+	   fac_county_df[fac_county_df$control.match == "NH",]$control.cluster.name)
+
+fac_county_df[fac_county_df$control.match == "NV",]$control.cluster.name <-
+  gsub(pattern = "\\b(\\w+)$", replacement = " NV",
+	   fac_county_df[fac_county_df$control.match == "NV",]$control.cluster.name)
+
+fac_county_df[fac_county_df$control.match == "ND",]$control.cluster.name <-
+  gsub(pattern = "\\b(\\w+)$", replacement = " ND",
+	   fac_county_df[fac_county_df$control.match == "ND",]$control.cluster.name)
+
+fac_county_df[fac_county_df$control.match == "OK",]$control.cluster.name <-
+  gsub(pattern = "\\b(\\w+)$", replacement = " OK",
+	   fac_county_df[fac_county_df$control.match == "OK",]$control.cluster.name)
+
+fac_county_df[fac_county_df$control.match == "PA",]$control.cluster.name <-
+  gsub(pattern = "\\b(\\w+)$", replacement = " PA",
+	   fac_county_df[fac_county_df$control.match == "PA",]$control.cluster.name)
+
+fac_county_df[fac_county_df$control.match == "TX",]$control.cluster.name <-
+  gsub(pattern = "\\b(\\w+)$", replacement = " TX",
+	   fac_county_df[fac_county_df$control.match == "TX",]$control.cluster.name)
+
+fac_county_df[fac_county_df$control.match == "VA",]$control.cluster.name <-
+  gsub(pattern = "\\b(\\w+)$", replacement = " VA",
+	   fac_county_df[fac_county_df$control.match == "VA",]$control.cluster.name)
+
+fac_county_df[fac_county_df$control.match == "WI",]$control.cluster.name <-
+  gsub(pattern = "\\b(\\w+)$", replacement = " WI",
+	   fac_county_df[fac_county_df$control.match == "WI",]$control.cluster.name)
+
+fac_county_df[fac_county_df$control.match == "WY",]$control.cluster.name <-
+  gsub(pattern = "\\b(\\w+)$", replacement = " WY",
+	   fac_county_df[fac_county_df$control.match == "WY",]$control.cluster.name)
 #======================================================================================================================#
 ### Selection of Treated and Control States Table
 #======================================================================================================================#
@@ -308,7 +354,7 @@ border_mw_ch_tbl <- fac_states_df %>%
 	  filter(treated == 1) %>%
 	  group_by(state.code) %>%
 	  summarise(
-		treated.border.counties = n_distinct(.)
+		treated.border.counties = sum(!is.na(unique(treated.cluster.name)))
 	  ),
 	by = c("state.code" = "state.code")
   )
@@ -333,12 +379,12 @@ border_mw_ch_tbl <- border_mw_ch_tbl %>%
 	  filter(treated == 0) %>%
 	  group_by(treated.match) %>%
 	  summarise(
-		control.border.counties = county_name %>% n_distinct()
+		control.border.counties = sum(!is.na(unique(control.cluster.name)))
 	  ),
 	by = c("state.code" = "treated.match")
-  ) %>%
-  select(
-	c(match.state, match.ch.year, match.ch.amt, tot.ch.amt, start.mw, end.mw, control.state.codes,
-	  treated.border.counties, control.border.counties)
-  ) %>%
+  )
+select(
+  c(match.state, match.ch.year, match.ch.amt, tot.ch.amt, start.mw, end.mw, control.state.codes,
+	treated.border.counties, control.border.counties)
+) %>%
   arrange(match.state, match.ch.year)
