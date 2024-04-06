@@ -3,6 +3,8 @@
 #======================================================================================================================#
 library(tidyverse)
 library(usgeogr)
+devtools::install_github(repo = "haozhu233/kableExtra")
+library(kableExtra)
 #======================================================================================================================#
 ### Working Directory
 #======================================================================================================================#
@@ -75,11 +77,11 @@ fac_states_df <- state_df %>%
 	sum2.sub.mw.ch = case_when(
 	  state.code == "AR" ~ 1,
 	  state.code == "CA" ~ 1.5,
-	  state.code == "DE" ~ 0,
+	  state.code == "DE" ~ 0.5,
 	  state.code == "ME" ~ 0,
 	  state.code == "MA" ~ 2,
 	  state.code == "MD" ~ 1,
-	  state.code == "MI" ~ 0.7,
+	  state.code == "MI" ~ 0.75,
 	  state.code == "MN" ~ 1.5,
 	  state.code == "NE" ~ 1,
 	  state.code == "NY" ~ 1.7,
@@ -235,6 +237,8 @@ sort(unique(fac_county_df$treated.match))
 sort(unique(fac_county_df$control.match))
 
 #======================================================================================================================#
+### Label the counties
+#======================================================================================================================#
 # Add state codes to treated cluster names/labels
 fac_county_df[fac_county_df$treated.match == "AR",]$treated.cluster.name <-
   gsub(pattern = "\\b(\\w+)$", replacement = " AR",
@@ -339,57 +343,3 @@ fac_county_df[fac_county_df$control.match == "WI",]$control.cluster.name <-
 fac_county_df[fac_county_df$control.match == "WY",]$control.cluster.name <-
   gsub(pattern = "\\b(\\w+)$", replacement = " WY",
 	   fac_county_df[fac_county_df$control.match == "WY",]$control.cluster.name)
-#======================================================================================================================#
-### Selection of Treated and Control States Table
-#======================================================================================================================#
-# Treated state information
-border_mw_ch_tbl <- fac_states_df %>%
-  filter(treated == 1) %>%
-  mutate(
-	tot.ch.amt = ch.amt + sum2.sub.mw.ch,
-	end.mw = start.mw + tot.ch.amt
-  ) %>%
-  left_join(
-	y = fac_county_df %>%
-	  filter(treated == 1) %>%
-	  group_by(state.code) %>%
-	  summarise(
-		# treated.border.counties = sum(!is.na(unique(treated.cluster.name)))
-		treated.border.counties = n_distinct(treated.cluster.name)
-	  ),
-	by = c("state.code" = "state.code")
-  )
-
-# Control state information
-border_mw_ch_tbl <- border_mw_ch_tbl %>%
-  left_join(
-	y = fac_states_df %>%
-	  filter(treated == 0) %>%
-	  group_by(match.state) %>%
-	  summarise(
-		control.state.codes = paste0("(", paste0(
-		  unique(state.code),
-		  sep = "",
-		  collapse = ", "
-		), ")")
-	  ),
-	by = c("state.code" = "match.state")
-  ) %>%
-  left_join(
-	y = fac_county_df %>%
-	  filter(treated == 0) %>%
-	  group_by(treated.match) %>%
-	  summarise(
-		# control.border.counties = sum(!is.na(unique(control.cluster.name)))
-		control.border.counties = n_distinct(control.cluster.name)
-	  ),
-	by = c("state.code" = "treated.match")
-  ) %>%
-  select(
-	c(state.code, match.ch.year, match.ch.amt, sum2.sub.mw.ch, tot.ch.amt, start.mw, end.mw, control.state.codes,
-	  treated.border.counties, control.border.counties)
-  ) %>%
-  arrange(desc(tot.ch.amt))
-
-n_distinct(fac_county_df[fac_county_df$treated == 1,]$treated.cluster.name)
-n_distinct(fac_county_df[fac_county_df$treated == 0,]$control.cluster.name)
