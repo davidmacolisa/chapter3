@@ -354,7 +354,8 @@ border_mw_ch_tbl <- fac_states_df %>%
 	  filter(treated == 1) %>%
 	  group_by(state.code) %>%
 	  summarise(
-		treated.border.counties = sum(!is.na(unique(treated.cluster.name)))
+		# treated.border.counties = sum(!is.na(unique(treated.cluster.name)))
+		treated.border.counties = n_distinct(treated.cluster.name)
 	  ),
 	by = c("state.code" = "state.code")
   )
@@ -379,12 +380,16 @@ border_mw_ch_tbl <- border_mw_ch_tbl %>%
 	  filter(treated == 0) %>%
 	  group_by(treated.match) %>%
 	  summarise(
-		control.border.counties = sum(!is.na(unique(control.cluster.name)))
+		# control.border.counties = sum(!is.na(unique(control.cluster.name)))
+		control.border.counties = n_distinct(control.cluster.name)
 	  ),
 	by = c("state.code" = "treated.match")
-  )
-select(
-  c(match.state, match.ch.year, match.ch.amt, tot.ch.amt, start.mw, end.mw, control.state.codes,
-	treated.border.counties, control.border.counties)
-) %>%
-  arrange(match.state, match.ch.year)
+  ) %>%
+  select(
+	c(state.code, match.ch.year, match.ch.amt, sum2.sub.mw.ch, tot.ch.amt, start.mw, end.mw, control.state.codes,
+	  treated.border.counties, control.border.counties)
+  ) %>%
+  arrange(desc(tot.ch.amt))
+
+n_distinct(fac_county_df[fac_county_df$treated == 1,]$treated.cluster.name)
+n_distinct(fac_county_df[fac_county_df$treated == 0,]$control.cluster.name)
