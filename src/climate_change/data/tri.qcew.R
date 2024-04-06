@@ -119,10 +119,9 @@ adj_county_data$county_name <- sub(pattern = "\\s+\\w+$", replacement = "", adj_
 
 # Making first letters uppercase
 adj_county_data$state <- tolower(adj_county_data$state)  # Convert entire column to lowercase
-adj_county_data$state <- gsub(pattern = "(^|\\s)([a-z])", replacement = "\\1\\U\\2", adj_county_data$state, perl =
-  TRUE)  #
-# Capitalize first letter of each word
-
+adj_county_data$state <- stringi::stri_trans_totitle(adj_county_data$state)
+# adj_county_data$state <- gsub(pattern = "(^|\\s)([a-z])", replacement = "\\1\\U\\2", adj_county_data$state, perl =
+#   TRUE)
 #======================================================================================================================#
 ### Loading Data: TRI---Form R---and merging GHGP from EPA
 gc()
