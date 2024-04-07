@@ -133,26 +133,6 @@ manufacturing <- filter(bdsm, naics_label == "Manufacturing")
 sort(unique(bdsm$year))
 
 write_rds(x = bdsm, file = "Data_PhD/US/BDS/bdsm.rds", compress = "xz")
-
-filepath <- "../../../../../Data_PhD/US/BDS/bdsm.rds"
-bds <- readRDS(file = filepath)
-bdsm <- bds %>% filter(state == "California" | state == "Oregon") #county level
-
-tri.bdsm <- merge(x = tri, y = bdsm)
-unique(tri.bdsm$state)
-unique(tri.bdsm$facility.state)
-sum_up()
-
-#======================================================================================================================#
-tri.qcew.manu <- read_rds(file = "./Data_PhD/US/BLS/tri_qcew_manu.rds")
-manu <- tri.qcew.manu %>%
-  select(
-    c(year, triid:industry.category, naics.code, chemical.id:chemical.ancilliary.use,
-      area_fips:agglvl_code, annual_avg_estabs:avg_annual_pay, lq_annual_avg_estabs:lq_avg_annual_pay,
-      oty_annual_avg_estabs_chg:oty_avg_annual_pay_pct_chg)
-  ) %>%
-  filter(year <= 2020)
-sort(unique(manu$year))
 #======================================================================================================================#
 # base_url <- ""
 patent_url <- "https://developer.uspto.gov/api-catalog/bdss/"
@@ -181,3 +161,4 @@ filepath <- "Data_PhD/US/ad19800101-20221231-08.xml"
 df <- xml2::read_xml(filepath)
 
 df <- xml2::as_list(df) %>% purrr::flatten_dfc()
+#======================================================================================================================#

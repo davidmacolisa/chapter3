@@ -8,7 +8,7 @@ library(usgeogr)
 #======================================================================================================================#
 setwd(dir = "C:/Users/Davidmac.Ekeocha/OneDrive/Documents/ULMS/PhD/")
 #======================================================================================================================#
-### Loading QCEW Data
+### Loading GHGP Data
 #======================================================================================================================#
 filepath2011 <- "./Data_PhD/US/EPA/AQS/ghg/ghgp2011.csv"
 filepath2012 <- "./Data_PhD/US/EPA/AQS/ghg/ghgp2012.csv"
@@ -62,10 +62,10 @@ ghgp <- ghgp %>%
 
 # Making first letters uppercase
 ghgp$facility.county <- tolower(ghgp$facility.county)  # Convert entire column to lowercase
-ghgp$facility.county <- gsub(pattern = "(^|\\s)([a-z])", replacement = "\\1\\U\\2", ghgp$facility.county, perl = T)  # Capitalize first letter of each word
+ghgp$facility.county <- gsub(pattern = "(^|\\s)([a-z])", replacement = "\\1\\U\\2", ghgp$facility.county, perl = T)
 
 ghgp$facility.city <- tolower(ghgp$facility.city)  # Convert entire column to lowercase
-ghgp$facility.city <- gsub(pattern = "(^|\\s)([a-z])", replacement = "\\1\\U\\2", ghgp$facility.city, perl = T)  # Capitalize first letter of each word
+ghgp$facility.city <- gsub(pattern = "(^|\\s)([a-z])", replacement = "\\1\\U\\2", ghgp$facility.city, perl = T)
 write_rds(ghgp, file = "./Data_PhD/US/EPA/AQS/ghg/ghgp.rds", compress = "xz")
 ghgp <- read_rds(file = "./Data_PhD/US/EPA/AQS/ghg/ghgp.rds")
 
@@ -73,5 +73,5 @@ ghgp <- read_rds(file = "./Data_PhD/US/EPA/AQS/ghg/ghgp.rds")
 ### HAPS
 #======================================================================================================================#
 filepath <- "C:/Users/Davidmac.Ekeocha/Downloads/Compressed/2017_ama_haps/2017_AMA_HAPS.txt"
-
 data <- data.table::fread(file = filepath, header = T)
+#======================================================================================================================#

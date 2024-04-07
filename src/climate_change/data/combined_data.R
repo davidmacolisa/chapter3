@@ -11,66 +11,17 @@ library(usgeogr)
 #======================================================================================================================#
 setwd(dir = "C:/Users/david/OneDrive/Documents/ULMS/PhD/")
 #======================================================================================================================#
-### Loading QCEW Data
-#======================================================================================================================#
-# filepath2005 <- "./Data_PhD/US/BLS/qcew/A/2005.annual.singlefile.csv"
-# filepath2006 <- "./Data_PhD/US/BLS/qcew/A/2006.annual.singlefile.csv"
-# filepath2007 <- "./Data_PhD/US/BLS/qcew/A/2007.annual.singlefile.csv"
-# filepath2008 <- "./Data_PhD/US/BLS/qcew/A/2008.annual.singlefile.csv"
-# filepath2009 <- "./Data_PhD/US/BLS/qcew/A/2009.annual.singlefile.csv"
-# filepath2010 <- "./Data_PhD/US/BLS/qcew/A/2010.annual.singlefile.csv"
-# filepath2011 <- "./Data_PhD/US/BLS/qcew/A/2011.annual.singlefile.csv"
-# filepath2012 <- "./Data_PhD/US/BLS/qcew/A/2012.annual.singlefile.csv"
-# filepath2013 <- "./Data_PhD/US/BLS/qcew/A/2013.annual.singlefile.csv"
-# filepath2014 <- "./Data_PhD/US/BLS/qcew/A/2014.annual.singlefile.csv"
-# filepath2015 <- "./Data_PhD/US/BLS/qcew/A/2015.annual.singlefile.csv"
-# filepath2016 <- "./Data_PhD/US/BLS/qcew/A/2016.annual.singlefile.csv"
-# filepath2017 <- "./Data_PhD/US/BLS/qcew/A/2017.annual.singlefile.csv"
-# filepath2018 <- "./Data_PhD/US/BLS/qcew/A/2018.annual.singlefile.csv"
-# filepath2019 <- "./Data_PhD/US/BLS/qcew/A/2019.annual.singlefile.csv"
-# filepath2020 <- "./Data_PhD/US/BLS/qcew/A/2020.annual.singlefile.csv"
-# filepath2021 <- "./Data_PhD/US/BLS/qcew/A/2021.annual.singlefile.csv"
-# filepath2022 <- "./Data_PhD/US/BLS/qcew/A/2022.annual.singlefile.csv"
-#
-# qcew05 <- read.csv(file = filepath2005, header = T) %>% lapply(., as.character)
-# qcew06 <- read.csv(file = filepath2006, header = T) %>% lapply(., as.character)
-# qcew07 <- read.csv(file = filepath2007, header = T) %>% lapply(., as.character)
-# qcew08 <- read.csv(file = filepath2008, header = T) %>% lapply(., as.character)
-# qcew09 <- read.csv(file = filepath2009, header = T) %>% lapply(., as.character)
-# qcew10 <- read.csv(file = filepath2010, header = T) %>% lapply(., as.character)
-# qcew11 <- read.csv(file = filepath2011, header = T) %>% lapply(., as.character)
-# qcew12 <- read.csv(file = filepath2012, header = T) %>% lapply(., as.character)
-# qcew13 <- read.csv(file = filepath2013, header = T) %>% lapply(., as.character)
-# qcew14 <- read.csv(file = filepath2014, header = T) %>% lapply(., as.character)
-# qcew15 <- read.csv(file = filepath2015, header = T) %>% lapply(., as.character)
-# qcew16 <- read.csv(file = filepath2016, header = T) %>% lapply(., as.character)
-# qcew17 <- read.csv(file = filepath2017, header = T) %>% lapply(., as.character)
-# qcew18 <- read.csv(file = filepath2018, header = T) %>% lapply(., as.character)
-# qcew19 <- read.csv(file = filepath2019, header = T) %>% lapply(., as.character)
-# qcew20 <- read.csv(file = filepath2020, header = T) %>% lapply(., as.character)
-# qcew21 <- read.csv(file = filepath2021, header = T) %>% lapply(., as.character)
-# qcew22 <- read.csv(file = filepath2022, header = T) %>% lapply(., as.character)
-
-# qcew <- bind_rows(
-#   qcew05, qcew06, qcew07, qcew08,
-#   qcew09, qcew10, qcew11, qcew12, qcew13, qcew14,
-#   qcew15, qcew16, qcew17, qcew18, qcew19,
-#   qcew20, qcew21, qcew22
-# ) %>% data.frame()
-#
-# sort(unique(qcew$year))
-# write_rds(qcew, file = "./Data_PhD/US/BLS/qcew.rds", compress = "xz")
-#======================================================================================================================#
-### getting zip and county codes and names from the usgeogr file
-### County-border pairs and assign each border county to a unique state border pair strip.
-#======================================================================================================================#
-data(county_df, package = "usgeogr")
-county_df <- county_df %>% data.frame()
-county_df$county_name <- gsub(pattern = "\\b(\\w+)$", replacement = "", x = county_df$county_name)
-#======================================================================================================================#
 ### Loading shapefiles---State and County borders
 #======================================================================================================================#
 source(file = "./Thesis/chapter3/src/climate_change/data/border_state_county_df.R", echo = T)
+#======================================================================================================================#
+### Loading US county data
+#======================================================================================================================#
+data(county_df, package = "usgeogr")
+county_df <- county_df %>%
+  select(fips_code, county_name, county_state) %>%
+  data.frame()
+county_df$county_name <- gsub(pattern = "\\b(\\w+)$", replacement = "", x = county_df$county_name)
 #======================================================================================================================#
 ### Loading Data: TRI---Form R---and merging GHGP from EPA
 gc()
@@ -111,49 +62,80 @@ end_time <- Sys.time()
 end_time - start_time
 gc()
 #======================================================================================================================#
-### Merge county_df with tri data by fips_code and county_state
+### Merge zip_df and county_df with tri data to get the fips_code
 #======================================================================================================================#
-# merging zip_df with tri data to get the fips codes.
 gc()
 start_time <- Sys.time()
 triM <- tri %>%
-  group_by(naics.code, facility.zipcode, facility.county) %>%
+  filter(year >= 2011 & year <= 2017) %>%
+  filter(
+    facility.state %in% c(
+      #treated states
+      "AR", "CA", "DE", "ME", "MA", "MD", "MI", "MN", "NE", "NY", "WV",
+      #control states
+      "GA", "IA", "ID", "IL", "IN", "KS", "KY", "NH", "NM", "NV", "NC",
+      "ND", "OK", "PA", "TX", "UT", "VA", "WI", "WY"
+    )
+  ) %>%
+  group_by(facility.state, facility.county) %>%
   mutate(
     facility.longitude = as.numeric(facility.longitude),
     facility.latitude = as.numeric(facility.latitude)
   ) %>%
   left_join(
-    y = fac_county_df,
-    # rename(facility.state = county_state, facility.county = county_name, facility.zipcode = zip_code),
-    # by = c("facility.zipcode" = "facility.zipcode", "facility.county" = "facility.county", "facility.state" =
-    #   "facility.state")
-    by = c("facility.county" = "treated.cluster.name", "facility.state" = "state.code")
+    y = zip_df %>% select(c(fips_code, zip_code)),
+    by = c("facility.zipcode" = "zip_code")
   ) %>%
-  data.frame()
+  left_join(
+    y = county_df,
+    by = c("facility.state" = "county_state", "facility.county" = "county_name")
+  ) %>%
+  # mutate(fips_code = ifelse(is.na(fips_code.x), fips_code.y, fips_code.x)) %>%
+  # select(-c(fips_code.x, fips_code.y))  # Remove extra columns
+data.frame()
 end_time <- Sys.time()
 end_time - start_time
 gc()
+#======================================================================================================================#
+### Fixing fips codes in triM
+#======================================================================================================================
+## 1. Create a temporary data frame with full information for matching:
+library(dplyr)
 
-gc()
-start_time <- Sys.time()
-triM <- triM[complete.cases(triM$facility.id),]
-triM <- triM[complete.cases(triM$facility.county),]
-triM <- triM[complete.cases(triM$fips_code),]
-triM <- triM[complete.cases(triM$relaxed_cpcp_id),]
-end_time <- Sys.time()
-end_time - start_time
-gc()
+# Assuming 'df1' and 'df2' are your dataframes
 
-gc()
+# Fill NAs in df1$fips_code with corresponding values from df2$fips_code based on matching county_state and county_name
+triM <- triM %>%
+  mutate(fips_code = coalesce(fips_code, county_df$fips_code[match(paste(triM$facility.state, triM$facility.name),
+                                                                   paste(county_df$county_state, county_df$county_name))]))
+
+# Now df1$fips_code will contain the NAs filled with corresponding values from df2$fips_code based on matching county_state and county_name.
+
+n_distinct(triM$fips_code)
+
+triM$fips_code[triM$facility.state == "MA" & triM$facility.county == "Berkshire"] <- 25003
+triM$fips_code[triM$facility.state == "MA" & triM$facility.county == "Essex"] <- 25009
+triM$fips_code[triM$facility.state == "MA" & triM$facility.county == "Franklin"] <- 25011
+triM$fips_code[triM$facility.state == "MA" & triM$facility.county == "Hampshire"] <- 25015
+triM$fips_code[triM$facility.state == "MA" & triM$facility.county == "Hampden"] <- 25013
+triM$fips_code[triM$facility.state == "MA" & triM$facility.county == "Middlesex"] <- 25017
+triM$fips_code[triM$facility.state == "MA" & triM$facility.county == "Norfolk"] <- 25021
+triM$fips_code[triM$facility.state == "MA" & triM$facility.county == "Suffolk"] <- 25025
+triM$fips_code[triM$facility.state == "MA" & triM$facility.county == "Worcester"] <- 25027
+
+
+triM$fips_code[triM$facility.state == "MA" & triM$facility.county == "Worcester"] <- 25027
+triM$fips_code[triM$facility.state == "MA" & triM$facility.county == "Worcester"] <- 25027
+triM$fips_code[triM$facility.state == "MA" & triM$facility.county == "Worcester"] <- 25027
+n_distinct(triM$fips_code)
+n_distinct(triM$facility.state)
 n_distinct(triM$facility.id)
 n_distinct(triM$facility.county)
 n_distinct(triM$facility.zipcode)
-n_distinct(triM$fips_code)
-n_distinct(triM$facility.state)
 n_distinct(triM$naics.code)
 n_distinct(triM$industry.name)
 
-gc()
+sort(unique(triM$facility.state))
 sort(unique(triM$facility.id))
 sort(unique(triM$fips_code))
 sort(unique(triM$relaxed_cpcp_id))
@@ -162,34 +144,8 @@ sort(unique(triM$naics.code))
 sort(unique(triM$industry.name))
 sort(unique(triM$chemical.name))
 gc()
-
 #======================================================================================================================#
-### Getting the treated and controls states
-#======================================================================================================================#
-sort(unique(triM$state))
-sort(unique(triM$facility.state))
-
-# Selecting the treated and control states
-gc()
-start_time <- Sys.time()
-triM <- triM %>%
-  filter(year >= 2011 & year <= 2017) %>%
-  filter(
-    state %in% c( #treated states
-      "Arkansas", "California", "Delaware", "Maryland", "Michigan", "Minnesota",
-      "Nebraska", "New York", "West Virginia",
-      #control states
-      "Georgia", "Iowa", "Idaho", "Illinois", "Indiana", "Kansas", "Kentucky", "New Mexico",
-      "Nevada", "North Carolina", "North Dakota", "Oklahoma", "Pennsylvania", "Texas", "Utah", "Virginia",
-      "Wisconsin", "Wyoming"
-    )
-  )
-end_time <- Sys.time()
-end_time - start_time
-sort(unique(triM$state))
-gc()
-#======================================================================================================================#
-### Subsetting common facility states across years---Panelize the facility.state
+### Keeping only common facility states across years---Panelize the facility.state
 #======================================================================================================================#
 gc()
 # Split the facility id column into a list of vectors by year
@@ -206,21 +162,21 @@ triM <- triM %>% filter(facility.state %in% common_facility.state)
 sort(unique(triM$state))
 gc()
 #======================================================================================================================#
-### Subsetting common facility.id across years---Panelize the facility.ids
+### Keeping only common facility.id across years---Panelize the facility.ids
 #======================================================================================================================#
-# # Split the facility id column into a list of vectors by year
-# facility.id_by_year <- split(triM$facility.id, triM$year)
-#
-# # Find the common chemicals across all states
-# common_facility.id <- Reduce(f = intersect, x = facility.id_by_year)
-#
-# # Output the common chemicals
-# print(common_facility.id)
-#
-# # Keep only common facility ids across years in the dataframe
-# triM <- triM %>% filter(!facility.id %in% common_facility.id)
+# Split the facility id column into a list of vectors by year
+facility.id_by_year <- split(triM$facility.id, triM$year)
+
+# Find the common chemicals across all states
+common_facility.id <- Reduce(f = intersect, x = facility.id_by_year)
+
+# Output the common chemicals
+print(common_facility.id)
+
+# Keep only common facility ids across years in the dataframe
+triM <- triM %>% filter(!facility.id %in% common_facility.id)
 #======================================================================================================================#
-### Subsetting common chemicals between the treated and the control states
+### Keeping only the common chemicals between the treated and the control states---Panelize the chemicals
 #======================================================================================================================#
 gc()
 # Split the chemicals column into a list of vectors by state
@@ -402,3 +358,24 @@ end_time - start_time
 gc()
 sum_up(triQ.manu, c(total.fug.air.emissions.onsite, total.point.air.emissions.onsite, total.air.emissions.onsite))
 gc()
+
+#======================================================================================================================#
+### Merging triM to fac_county_df or fac_states_df for county level and state level analysis.
+#======================================================================================================================#
+triM <- triM[complete.cases(triM$treated.match),]
+
+n_distinct(triM$fips_code)
+n_distinct(triM$facility.id)
+n_distinct(triM$state.code)
+sort(unique(triM$state))
+
+n_distinct(triM$facility.state)
+triM <- triM[complete.cases(triM$treated.match),]
+
+n_distinct(triM$fips_code)
+n_distinct(triM$facility.id)
+n_distinct(triM$state.code)
+sort(unique(triM$state))
+
+n_distinct(triM$facility.state)
+#======================================================================================================================#
