@@ -138,7 +138,7 @@ fac_states_df <- state_df %>%
       match.state == "MN" ~ 1.85,
       match.state == "NE" ~ 0.75,
       match.state == "NY" ~ 0.75,
-      match.state == "WV" ~ 0.75, T ~ 0
+      match.state == "WV" ~ 0.75
     ),
     match.ch.year = case_when(
       match.state == "AR" ~ 2015,
