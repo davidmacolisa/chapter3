@@ -15,16 +15,18 @@ setwd(dir = "C:/Users/david/OneDrive/Documents/ULMS/PhD/")
 #======================================================================================================================#
 source(file = "./Thesis/chapter3/src/climate_change/data/border_state_county_df.R", echo = T)
 #======================================================================================================================#
-### Loading US county data
+### Loading US county and zipcode data
 #======================================================================================================================#
 data(county_df, package = "usgeogr")
 county_df <- county_df %>%
   select(fips_code, county_name, county_state) %>%
   data.frame()
 county_df$county_name <- gsub(pattern = "\\b(\\w+)$", replacement = "", x = county_df$county_name)
+
+data(zip_df, package = "usgeogr")
+zip_df <- zip_df %>% data.frame()
 #======================================================================================================================#
-### Loading Data: TRI---Form R---and merging GHGP from EPA
-gc()
+### Loading Data: TRI---Form R from EPA
 #======================================================================================================================#
 filepath <- "./Data_PhD/US/EPA/AQS/toxic_release_inventory/triR.rds"
 start_time <- Sys.time()
@@ -62,7 +64,103 @@ end_time <- Sys.time()
 end_time - start_time
 gc()
 #======================================================================================================================#
-### Merge zip_df and county_df with tri data to get the fips_code
+### Sorting zipcodes
+#======================================================================================================================#
+county_data_df <- county_df %>%
+  select(county_state, county_name, fips_code) %>%
+  left_join(
+    y = zip_df %>% select(c(fips_code, zip_code)),
+    by = c("fips_code" = "fips_code")
+  )
+
+sort(unique(tri$facility.zipcode))
+sort(unique(tri[tri$facility.state == "MA",]$facility.zipcode))
+sort(unique(tri[tri$facility.state == "ME",]$facility.zipcode))
+tri[tri$facility.zipcode == "982783500",]$facility.county
+tri[tri$facility.zipcode == "3904",]$facility.county
+
+# Count the number of characters in each zipcode
+tri <- tri %>% mutate(zip.length = nchar(x = facility.zipcode))
+sort(unique(tri$zip.length))
+
+# Group by state and count the number of unique zipcode lengths
+states_with_four_char_zip <- tri %>%
+  filter(zip.length == 4) %>%
+  group_by(facility.state) %>%
+  summarise(num_four_char_zips = facility.zipcode %>% n_distinct())
+
+states_with_five_char_zip <- tri %>%
+  filter(zip.length == 5) %>%
+  group_by(facility.state) %>%
+  summarise(num_five_char_zips = facility.zipcode %>% n_distinct())
+
+states_with_eight_char_zip <- tri %>%
+  filter(zip.length == 8) %>%
+  group_by(facility.state) %>%
+  summarise(num_eight_char_zips = facility.zipcode %>% n_distinct())
+
+states_with_nine_char_zip <- tri %>%
+  filter(zip.length == 9) %>%
+  group_by(facility.state) %>%
+  summarise(num_nine_char_zips = facility.zipcode %>% n_distinct())
+
+# Count the number of states with only 4,5,8 and 9-character zipcodes
+num_states_with_four_char_zip <- nrow(states_with_four_char_zip)
+num_states_with_five_char_zip <- nrow(states_with_five_char_zip)
+num_states_with_eight_char_zip <- nrow(states_with_eight_char_zip)
+num_states_with_nine_char_zip <- nrow(states_with_nine_char_zip)
+
+# Print the result
+cat("Number of states with only four-character zipcodes:", num_states_with_four_char_zip)
+cat("Number of states with only five-character zipcodes:", num_states_with_five_char_zip)
+cat("Number of states with only eight-character zipcodes:", num_states_with_eight_char_zip)
+cat("Number of states with only nine-character zipcodes:", num_states_with_nine_char_zip)
+#----------------------------------------------------------------------------------------------------------------------#
+### Fixing zipcodes for states having 4,5,8 and 9-character zipcodes
+#----------------------------------------------------------------------------------------------------------------------#
+states_with_four_char_zip
+sort(unique(tri[tri$facility.state == "NH",]$facility.zipcode))
+tri[tri$facility.zipcode == "3839",]$facility.county
+# Add 0 to the front of the zipcode to make a 5-digit zipcode
+tri$facility.zipcode <- ifelse(
+  test = tri$zip.length == 4,
+  yes = paste0("0", tri$facility.zipcode),
+  no = tri$facility.zipcode
+)
+
+states_with_eight_char_zip
+sort(unique(tri[tri$facility.state == "ME",]$facility.zipcode))
+tri[tri$facility.zipcode == "46056031",]$facility.county
+# Keep the first 4 characters of the zipcode
+tri$facility.zipcode <- ifelse(
+  test = tri$zip.length == 8,
+  yes = substr(x = tri$facility.zipcode, start = 1, stop = 4),
+  no = tri$facility.zipcode
+)
+# Count the number of characters in each zipcode
+tri <- tri %>% mutate(zip.length = nchar(x = facility.zipcode))
+# Add 0 to the front of the zipcode
+tri$facility.zipcode <- ifelse(
+  test = tri$zip.length == 4,
+  yes = paste0("0", tri$facility.zipcode),
+  no = tri$facility.zipcode
+)
+
+states_with_nine_char_zip
+sort(unique(tri[tri$facility.state == "AL",]$facility.zipcode))
+tri[tri$facility.zipcode == "359012027",]$facility.county
+# Keep the first 5 characters of the zipcode
+tri$facility.zipcode <- ifelse(
+  test = tri$zip.length == 9,
+  yes = substr(x = tri$facility.zipcode, start = 1, stop = 5),
+  no = tri$facility.zipcode
+)
+
+tri <- tri %>% mutate(zip.length = nchar(x = facility.zipcode))
+sort(unique(tri$zip.length))
+sort(unique(tri$facility.zipcode))
+#======================================================================================================================#
+### Merge county_data_df with tri data to get the fips_code
 #======================================================================================================================#
 gc()
 start_time <- Sys.time()
@@ -83,67 +181,76 @@ triM <- tri %>%
     facility.latitude = as.numeric(facility.latitude)
   ) %>%
   left_join(
-    y = zip_df %>% select(c(fips_code, zip_code)),
+    y = county_data_df,
     by = c("facility.zipcode" = "zip_code")
   ) %>%
   left_join(
     y = county_df,
-    by = c("facility.state" = "county_state", "facility.county" = "county_name")
+    by = c("fips_code" = "fips_code")
   ) %>%
-  # mutate(fips_code = ifelse(is.na(fips_code.x), fips_code.y, fips_code.x)) %>%
-  # select(-c(fips_code.x, fips_code.y))  # Remove extra columns
-data.frame()
+  data.frame()
 end_time <- Sys.time()
 end_time - start_time
 gc()
-#======================================================================================================================#
-### Fixing fips codes in triM
-#======================================================================================================================
-## 1. Create a temporary data frame with full information for matching:
-library(dplyr)
 
-# Assuming 'df1' and 'df2' are your dataframes
-
-# Fill NAs in df1$fips_code with corresponding values from df2$fips_code based on matching county_state and county_name
-triM <- triM %>%
-  mutate(fips_code = coalesce(fips_code, county_df$fips_code[match(paste(triM$facility.state, triM$facility.name),
-                                                                   paste(county_df$county_state, county_df$county_name))]))
-
-# Now df1$fips_code will contain the NAs filled with corresponding values from df2$fips_code based on matching county_state and county_name.
-
-n_distinct(triM$fips_code)
-
-triM$fips_code[triM$facility.state == "MA" & triM$facility.county == "Berkshire"] <- 25003
-triM$fips_code[triM$facility.state == "MA" & triM$facility.county == "Essex"] <- 25009
-triM$fips_code[triM$facility.state == "MA" & triM$facility.county == "Franklin"] <- 25011
-triM$fips_code[triM$facility.state == "MA" & triM$facility.county == "Hampshire"] <- 25015
-triM$fips_code[triM$facility.state == "MA" & triM$facility.county == "Hampden"] <- 25013
-triM$fips_code[triM$facility.state == "MA" & triM$facility.county == "Middlesex"] <- 25017
-triM$fips_code[triM$facility.state == "MA" & triM$facility.county == "Norfolk"] <- 25021
-triM$fips_code[triM$facility.state == "MA" & triM$facility.county == "Suffolk"] <- 25025
-triM$fips_code[triM$facility.state == "MA" & triM$facility.county == "Worcester"] <- 25027
-
-
-triM$fips_code[triM$facility.state == "MA" & triM$facility.county == "Worcester"] <- 25027
-triM$fips_code[triM$facility.state == "MA" & triM$facility.county == "Worcester"] <- 25027
-triM$fips_code[triM$facility.state == "MA" & triM$facility.county == "Worcester"] <- 25027
-n_distinct(triM$fips_code)
-n_distinct(triM$facility.state)
+sum(is.na(triM$fips_code))
 n_distinct(triM$facility.id)
+n_distinct(triM$fips_code)
 n_distinct(triM$facility.county)
-n_distinct(triM$facility.zipcode)
-n_distinct(triM$naics.code)
-n_distinct(triM$industry.name)
-
 sort(unique(triM$facility.state))
-sort(unique(triM$facility.id))
-sort(unique(triM$fips_code))
-sort(unique(triM$relaxed_cpcp_id))
-sort(unique(triM$state))
-sort(unique(triM$naics.code))
-sort(unique(triM$industry.name))
-sort(unique(triM$chemical.name))
-gc()
+#======================================================================================================================#
+### Second round of sorting zipcodes
+#======================================================================================================================#
+triM_na <- triM[is.na(triM$fips_code),]
+sort(unique(triM_na$facility.state))
+triM_na[triM_na$facility.state == "CA",]$facility.zipcode
+triM_na[triM_na$facility.state == "CA",]$facility.county
+triM_na %>%
+  group_by(facility.state, facility.county, facility.zipcode) %>%
+  summarise(n = n()) %>%
+  distinct() %>%
+  print(n = nrow(.))
+
+# CA: Replace the zipcode with the closest zipcode in the same county of county_data_df
+tri$facility.zipcode <- ifelse(
+  test = tri$facility.state == "CA" & tri$facility.zipcode == "93607",
+  yes = "93602",
+  no = tri$facility.zipcode
+)
+tri[tri$facility.state == "CA",]$facility.zipcode
+tri[tri$facility.zipcode == "93602",]$facility.state
+
+states_with_eight_char_zip
+sort(unique(tri[tri$facility.state == "ME",]$facility.zipcode))
+tri[tri$facility.zipcode == "46056031",]$facility.county
+# Keep the first 4 characters of the zipcode
+tri$facility.zipcode <- ifelse(
+  test = tri$zip.length == 8,
+  yes = substr(x = tri$facility.zipcode, start = 1, stop = 4),
+  no = tri$facility.zipcode
+)
+# Count the number of characters in each zipcode
+tri <- tri %>% mutate(zip.length = nchar(x = facility.zipcode))
+# Add 0 to the front of the zipcode
+tri$facility.zipcode <- ifelse(
+  test = tri$zip.length == 4,
+  yes = paste0("0", tri$facility.zipcode),
+  no = tri$facility.zipcode
+)
+
+states_with_nine_char_zip
+sort(unique(tri[tri$facility.state == "AL",]$facility.zipcode))
+tri[tri$facility.zipcode == "359012027",]$facility.county
+# Keep the first 5 characters of the zipcode
+tri$facility.zipcode <- ifelse(
+  test = tri$zip.length == 9,
+  yes = substr(x = tri$facility.zipcode, start = 1, stop = 5),
+  no = tri$facility.zipcode
+)
+
+tri <- tri %>% mutate(zip.length = nchar(x = facility.zipcode))
+sort(unique(tri$zip.length))
+sort(unique(tri$facility.zipcode))
 #======================================================================================================================#
 ### Keeping only common facility states across years---Panelize the facility.state
 #======================================================================================================================#
