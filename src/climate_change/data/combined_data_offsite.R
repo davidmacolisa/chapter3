@@ -389,6 +389,7 @@ end_time - start_time
 gc()
 
 sum(is.na(triM$fips_code))
+sum(is.na(triM$facility.zipcode))
 n_distinct(triM$facility.id)
 n_distinct(triM$fips_code)
 n_distinct(triM$facility.county)
@@ -592,78 +593,124 @@ gc()
 
 n_distinct(triQ_manu$facility.state)
 sort(unique(triQ_manu$facility.state))
+glimpse(triQ_manu)
+triQ_manu <- triQ_manu %>%
+  select(-c(triid, mixture)) %>%
+  mutate(
+    facility.latitude = as.character(facility.latitude),
+    facility.longitude = as.character(facility.longitude),
+    industrial.kiln.onsite = as.character(industrial.kiln.onsite),
+    industrial.furnace.onsite = as.character(industrial.furnace.onsite),
+    industrial.boiler.onsite = as.character(industrial.boiler.onsite),
+    metal.recovery.onsite = as.character(metal.recovery.onsite),
+    solvent.recovery.onsite = as.character(solvent.recovery.onsite),
+    reuse.onsite = as.character(reuse.onsite),
+    biological.treatment.onsite = as.character(biological.treatment.onsite),
+    chemical.treatment.onsite = as.character(chemical.treatment.onsite),
+    incineration.thermal.treatment.onsite = as.character(incineration.thermal.treatment.onsite),
+    physical.treatment.onsite = as.character(physical.treatment.onsite),
+    material.subandmod = as.character(material.subandmod),
+    sub.fuel.matsubmod = as.character(sub.fuel.matsubmod),
+    sub.organic.solvent.matsubmod = as.character(sub.organic.solvent.matsubmod),
+    sub.rawm.feedstock.reactchem.matsubmod = as.character(sub.rawm.feedstock.reactchem.matsubmod),
+    sub.manu.proccess.ancilliary.chems.matsubmod = as.character(sub.manu.proccess.ancilliary.chems.matsubmod),
+    mod.content.grade.purity.chems.matsubmod = as.character(mod.content.grade.purity.chems.matsubmod),
+    other.matmods.matsubmod = as.character(other.matmods.matsubmod),
+    product.modification = as.character(product.modification),
+    devd.newproductline.pmod = as.character(devd.newproductline.pmod),
+    alt.dim.comp.design.pmod = as.character(alt.dim.comp.design.pmod),
+    mod.packaging.pmod = as.character(mod.packaging.pmod),
+    other.pmods.pmod = as.character(other.pmods.pmod),
+    process.equip.modification = as.character(process.equip.modification),
+    optimised.process.efficiency.pequipmod = as.character(optimised.process.efficiency.pequipmod),
+    recirculationinprocess.pequipmod = as.character(recirculationinprocess.pequipmod),
+    newtech.technique.process.pequipmod = as.character(newtech.technique.process.pequipmod),
+    equipment.upgrade.update.pequipmod = as.character(equipment.upgrade.update.pequipmod),
+    other.pequipmods.pequipmod = as.character(other.pequipmods.pequipmod),
+    inventory.material.mgt = as.character(inventory.material.mgt),
+    better.labelling.testing.immgt = as.character(better.labelling.testing.immgt),
+    containers.sizechange.immgt = as.character(containers.sizechange.immgt),
+    improved.materialhandling.operations.immgt = as.character(improved.materialhandling.operations.immgt),
+    improved.monitoring.immgt = as.character(improved.monitoring.immgt),
+    other.immgts.immgt = as.character(other.immgts.immgt),
+    operating.practices.training = as.character(operating.practices.training),
+    improved.schdule.operation.procedures.opt = as.character(improved.schdule.operation.procedures.opt),
+    changed.production.schedule.opt = as.character(changed.production.schedule.opt),
+    intro.inline.productquality.process.analysis.opt = as.character(intro.inline.productquality.process.analysis.opt),
+    trade.secret = as.character(trade.secret),
+    sanitised = as.character(sanitised),
+    entire.facility = as.character(entire.facility),
+    federal.facility = as.character(federal.facility),
+    govt.owned.facility = as.character(govt.owned.facility),
+    elemental.metal.included = as.character(elemental.metal.included),
+    clean.air.act.chems = as.character(clean.air.act.chems),
+    carcinogenic.chems = as.character(carcinogenic.chems),
+    pfas.chems = as.character(pfas.chems),
+    metal.restrict.tri = as.character(metal.restrict.tri),
+    produced.chem.facility = as.character(produced.chem.facility),
+    imported.chem.facility = as.character(imported.chem.facility),
+    pi.chem.facility = as.character(pi.chem.facility),
+    chemical.intermediate.uses = as.character(chemical.intermediate.uses),
+    chemical.formulation.component = as.character(chemical.formulation.component),
+    chemical.article.component = as.character(chemical.article.component),
+    chemical.manufacturing.aid = as.character(chemical.manufacturing.aid),
+    chemical.ancilliary.use = as.character(chemical.ancilliary.use),
+    zip.length = as.character(zip.length),
+    personal_income = as.numeric(personal_income),
+    gdp = as.numeric(gdp),
+    compensation_to_employees = as.numeric(compensation_to_employees),
+    regional_price_parity = as.numeric(regional_price_parity),
+    annual_avg_estabs = as.numeric(annual_avg_estabs),
+    annual_avg_emplvl = as.numeric(annual_avg_emplvl),
+    total_annual_wages = as.numeric(total_annual_wages),
+    taxable_annual_wages = as.numeric(taxable_annual_wages),
+    annual_contributions = as.numeric(annual_contributions),
+    annual_avg_wkly_wage = as.numeric(annual_avg_wkly_wage),
+    avg_annual_pay = as.numeric(avg_annual_pay)
+  )
 #======================================================================================================================#
 ### Merging triQ_manu with the US shapfile for border county design.
 # Merging to fac_county_df or fac_states_df for county level and state level analysis.
+# Keep only onsite variables
 #======================================================================================================================#
-glimpse(triQ_manu)
-triQ_manu <- triQ_manu %>% select(-c(triid, facility.state, mixture))
-
 # Border-County Design: Onsite
-triQc_on <- triQ.manu %>%
+triQc_on <- triQ_manu %>%
   right_join(
     y = fac_county_df,
     by = c("fips_code" = "fips_code")
   ) %>%
   select(
     c(
-      year, facility.id:facility.zipcode, zip.length, fips_code, lat:dist.to.border, naics.code, industry.name,
-      chemical.id:intro.inline.productquality.process.analysis.opt, total.release.onsite.catastrophicevents,
+      year, facility.id:facility.zipcode, zip.length, fips_code, state, lat:dist.to.border, naics.code,
+      industry.name, chemical.id:intro.inline.productquality.process.analysis.opt, total.release.onsite.catastrophicevents,
       maxnum.chem.onsite:production.ratio.activity.index, produced.chem.facility:chemical.ancilliary.use,
       personal_income:dtfp5
     )
+  ) %>%
+  mutate(
+    lat = as.character(lat),
+    long = as.character(long)
   )
 glimpse(triQc_on)
-
+triQc_na <- triQc_on[is.na(triQc_on$facility.zipcode),]
+triQc_on <- triQc_on[complete.cases(triQc_on$facility.zipcode),]
 sum(is.na(triQc_on))
-sum(is.na(triQc$fips_code))
-n_distinct(triQc$fips_code)
-n_distinct(triQc$facility.id)
-n_distinct(triQc$state.code)
-sort(unique(triQc$state))
-
-# Border-County Design: Offsite
-triQc_off <- triQ.manu %>%
-  right_join(
-    y = fac_county_df,
-    by = c("fips_code" = "fips_code")
-  )
-
-# Border-County Design: POTW
-triQc_potw <- triQ.manu %>%
-  right_join(
-    y = fac_county_df,
-    by = c("fips_code" = "fips_code")
-  )
+sum(is.na(triQc_on$fips_code))
+sum(is.na(triQc_on$facility.zipcode))
+sum(is.na(triQc_on$facility.city))
+n_distinct(triQc_on$fips_code)
+n_distinct(triQc_on$facility.id)
+n_distinct(triQc_on$state.code)
+n_distinct(triQc_on$facility.state)
+sort(unique(triQc_on$state))
+glimpse(triQc_on)
 
 gc()
 start_time <- Sys.time()
-write_rds(x = triQ_manu, file = "./Data_PhD/US/BLS/triQ_manu.rds", compress = "xz")
 write_rds(x = triQc_on, file = "./Data_PhD/US/BLS/triQc_on.rds", compress = "xz")
 end_time <- Sys.time()
 end_time - start_time
 gc()
-sum_up(triQc, c(total.fug.air.emissions.onsite, total.point.air.emissions.onsite, total.air.emissions.onsite))
-gc()
-#======================================================================================================================#
-### For the state-level analysis
-### Collapse triQ.manu to state level
-#======================================================================================================================#
-library(collapse)
-triQs <- triQ.manu %>%
-  collap(
-    X = .,
-    by = ~facility.state + year,
-    FUN = fsum(na.rm = T),
-    catFUN = fmode,
-    keep.col.order = T,
-    return = "long"
-  )
-
-
-start_time <- Sys.time()
-write_rds(x = triQ, file = "./Data_PhD/US/BLS/triQ.rds", compress = "xz")
-end_time <- Sys.time()
-end_time - start_time
+sum_up(triQc_on, c(total.fug.air.emissions.onsite, total.point.air.emissions.onsite, total.air.emissions.onsite))
 gc()
 #======================================================================================================================#

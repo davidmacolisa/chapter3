@@ -15,7 +15,7 @@ library(did)
 #======================================================================================================================#
 setwd(dir = "C:/Users/Davidmac.Ekeocha/OneDrive/Documents/ULMS/PhD/")
 #======================================================================================================================#
-source(file = "./Thesis/chapter3/src/climate_change/codes/did_design.R", echo = T)
+source(file = "did_design_onsite.R", echo = T)
 #======================================================================================================================#
 reg.treat <- fixest::feols(
   total.air.emissions.onsite.intensity ~

@@ -8,45 +8,12 @@ round_df <- function(df, digits) {
 #======================================================================================================================#
 ### Plots
 #======================================================================================================================#
-triQ.on %>%
-  filter(mw.year != Inf) %>%
-  group_by(year) %>%
-  summarise(mean(total.air.emissions.onsite.intensity, na.rm = TRUE))
+triQ %>%
+  filter(treated == 1) %>%
+  group_by(facility.state, year) %>%
+  summarise(count = end.mw %>% unique()) %>%
+  print(n = nrow(.))
 
-triQ.on %>%
-  filter(mw.year == Inf) %>%
-  group_by(year) %>%
-  summarise(mean(total.air.emissions.onsite.intensity, na.rm = TRUE))
-
-triQ.on %>%
-  filter(mw.year != Inf & chemical.classification == "TRI") %>%
-  group_by(year) %>%
-  summarise(mean(total.air.emissions.onsite.intensity, na.rm = TRUE))
-
-triQ.on %>%
-  filter(mw.year == Inf & chemical.classification == "TRI") %>%
-  group_by(year) %>%
-  summarise(mean(total.air.emissions.onsite.intensity, na.rm = TRUE))
-
-triQ.on %>%
-  filter(mw.year != Inf & chemical.classification == "PBT") %>%
-  group_by(year) %>%
-  summarise(mean(total.air.emissions.onsite.intensity, na.rm = TRUE))
-
-triQ.on %>%
-  filter(mw.year == Inf & chemical.classification == "PBT") %>%
-  group_by(year) %>%
-  summarise(mean(total.air.emissions.onsite.intensity, na.rm = TRUE))
-
-triQ.on %>%
-  filter(mw.year != Inf & chemical.classification == "DIOXIN") %>%
-  group_by(year) %>%
-  summarise(mean(total.air.emissions.onsite.intensity, na.rm = TRUE))
-
-triQ.on %>%
-  filter(mw.year == Inf & chemical.classification == "DIOXIN") %>%
-  group_by(year) %>%
-  summarise(mean(total.air.emissions.onsite.intensity, na.rm = TRUE))
 
 #======================================================================================================================#
 plot.df <- data.frame(
