@@ -622,21 +622,35 @@ n_distinct(triQc$facility.id)
 n_distinct(triQc$state.code)
 sort(unique(triQc$state))
 
+# Border-County Design: Offsite
+triQc_off <- triQ.manu %>%
+  right_join(
+    y = fac_county_df,
+    by = c("fips_code" = "fips_code")
+  )
+
+# Border-County Design: POTW
+triQc_potw <- triQ.manu %>%
+  right_join(
+    y = fac_county_df,
+    by = c("fips_code" = "fips_code")
+  )
+
 gc()
 start_time <- Sys.time()
-write_rds(x = triQ_manu, file = "./Data_PhD/US/BLS/triQ_on_manu.rds", compress = "xz")
+write_rds(x = triQ_manu, file = "./Data_PhD/US/BLS/triQ_manu.rds", compress = "xz")
 write_rds(x = triQc_on, file = "./Data_PhD/US/BLS/triQc_on.rds", compress = "xz")
 end_time <- Sys.time()
 end_time - start_time
 gc()
-sum_up(triQc_on, c(total.fug.air.emissions.onsite, total.point.air.emissions.onsite, total.air.emissions.onsite))
+sum_up(triQc, c(total.fug.air.emissions.onsite, total.point.air.emissions.onsite, total.air.emissions.onsite))
 gc()
 #======================================================================================================================#
 ### For the state-level analysis
-### Collapse triQ_manu to state level
+### Collapse triQ.manu to state level
 #======================================================================================================================#
 library(collapse)
-triQs <- triQ_manu %>%
+triQs <- triQ.manu %>%
   collap(
     X = .,
     by = ~facility.state + year,
@@ -646,10 +660,6 @@ triQs <- triQ_manu %>%
     return = "long"
   )
 
-triQs <- triQs %>%
-  right_join(
-    y = fac_states_df
-  )
 
 start_time <- Sys.time()
 write_rds(x = triQ, file = "./Data_PhD/US/BLS/triQ.rds", compress = "xz")

@@ -3,7 +3,7 @@
 #======================================================================================================================#
 library(tidyverse)
 library(usgeogr)
-devtools::install_github(repo = "haozhu233/kableExtra")
+# devtools::install_github(repo = "haozhu233/kableExtra")
 library(kableExtra)
 #======================================================================================================================#
 ### Working Directory
@@ -120,7 +120,7 @@ fac_states_df <- state_df %>%
       filter(match.state %in% c("AR", "CA", "DE", "ME", "MA", "MD", "MI", "MN", "NE", "NY", "WV")),
     by = c("state.code" = "county_state")
   ) %>%
-  # Removing GA, ID, NM, NC and UT are removed for they didn't match to any treated states
+  # Removing GA, ID, NM, NC and UT for they didn't match to any treated states
   filter(!is.na(match.state)) %>%
   # Removing a treated state matched to another treated state
   mutate(overlap = paste(state.code, match.state, sep = "-")) %>%
@@ -160,19 +160,12 @@ fac_states_df <- state_df %>%
 #======================================================================================================================#
 fac_county_df <- fac_states_df %>%
   left_join(
-    county_df %>%
-      select(fips_code, county_name, county_state, population, lat, long) %>%
-      rename(county.name = county_name),
-    by = c("state.code" = "county_state")
-  ) %>%
-  left_join(
-    # Merging adjacent treated border states
     y = adjacent_county_df %>%
-      select(c(fips_code, neighbor_name:neighbor_long)) %>%
+      rename(county.name = county_name) %>%
       filter(
         neighbor_state %in% c("AR", "CA", "DE", "ME", "MA", "MD", "MI", "MN", "NE", "NY", "WV")
       ),
-    by = c("fips_code" = "fips_code")
+    by = c("state.code" = "county_state")
   ) %>%
   filter(
     !is.na(neighbor_name) |
@@ -191,7 +184,6 @@ fac_county_df <- fac_states_df %>%
     # merging the cross-border counties
     y = adjacent_county_df %>%
       select(c(fips_code, neighbor_name:neighbor_long)) %>%
-      # select(c(fips_code, cbcp_id, state_border_id, neighbor_state, neighbor_fips_code)) %>%
       filter(
         neighbor_state %in% c("IA", "IL", "IN", "KS", "KY", "NH", "NV", "ND", "OK", "PA", "TX", "VA", "WI", "WY")
       ),
@@ -228,11 +220,11 @@ fac_county_df <- fac_states_df %>%
   distinct()
 
 sum(is.na(fac_county_df))
+sort(unique(fac_county_df$state.border.id))
 n_distinct(fac_county_df$state.code)
 sort(unique(fac_county_df$state.code))
 sort(unique(fac_county_df$treated.match))
 sort(unique(fac_county_df$control.match))
-
 #======================================================================================================================#
 ### Label the counties
 #======================================================================================================================#
