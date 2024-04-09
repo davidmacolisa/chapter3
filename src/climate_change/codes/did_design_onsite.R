@@ -20,11 +20,20 @@ setwd(dir = "C:/Users/david/OneDrive/Documents/ULMS/PhD/")
 ### Loading Data---Onsite
 #======================================================================================================================#
 start_time <- Sys.time()
-triQ <- read_rds(file = "./Data_PhD/US/BLS/onsite/triQc_on.rds") %>%
+triQ <- read_rds(file = "./Data_PhD/US/BLS/triQ.rds") %>%
   group_by(facility.state, year) %>%
+  select(
+    c(
+      year, facility.id:facility.zipcode, zip.length, fips_code, state, lat:dist.to.border, naics.code,
+      industry.name, chemical.id:intro.inline.productquality.process.analysis.opt,
+      total.release.onsite.catastrophicevents, maxnum.chem.onsite:production.ratio.activity.index,
+      produced.chem.facility:chemical.ancilliary.use, personal_income:dtfp5
+    )) %>%
   mutate(
     tot.ch.amt = ch.amt + sum2.sub.mw.ch,
-    end.mw = start.mw + tot.ch.amt
+    end.mw = start.mw + tot.ch.amt,
+    lat = as.character(lat),
+    long = as.character(long)
   ) %>%
   data.frame()
 end_time <- Sys.time()
@@ -34,16 +43,21 @@ gc()
 triQc <- triQ %>%
   select(
     -c(comment.type, comment.type.description, comment.text, classification,
-       total.release.onsite.catastrophicevents, cap:dtfp5)
+       total.release.onsite.catastrophicevents)
   )
 
 sum(is.na(triQc))
 triQc <- triQc[complete.cases(triQc),]
+sum_up(triQc, c(total.fug.air.emissions.onsite, total.point.air.emissions.onsite, total.air.emissions.onsite))
+
 sort(unique(triQc$state))
 n_distinct(triQc$state)
+n_distinct(triQc$facility.city)
+n_distinct(triQc$facility.zipcode)
+n_distinct(triQc$facility.county)
 n_distinct(triQc$chemical.name)
+n_distinct(triQc$industry.name)
 n_distinct(triQc$naics.code)
-sum_up(triQc, c(total.fug.air.emissions.onsite, total.point.air.emissions.onsite, total.air.emissions.onsite))
 sum_up(triQc %>% filter(treated == 0), c(ch.amt, sum2.sub.mw.ch, end.mw))
 
 #======================================================================================================================#
@@ -65,10 +79,10 @@ triQs <- triQc %>%
       control.match +
       overlap +
       state.border.id +
-      treated.cluster.lat +
-      treated.cluster.long +
-      control.cluster.lat +
-      control.cluster.long +
+      # treated.cluster.lat +
+      # treated.cluster.long +
+      # control.cluster.lat +
+      # control.cluster.long +
       ch.year +
       ch.amt +
       sum2.sub.mw.ch +
@@ -333,8 +347,8 @@ triQs <- triQs %>%
 ### Save data
 #======================================================================================================================#
 start_time <- Sys.time()
-write_rds(triQc, file = "./Data_PhD/US/BLS/onsite/triQc.rds", compress = "xz")
-write_rds(triQs, file = "./Data_PhD/US/BLS/onsite/triQs.rds", compress = "xz")
+# write_rds(triQc, file = "./Data_PhD/US/BLS/onsite/triQc.rds", compress = "xz")
+# write_rds(triQs, file = "./Data_PhD/US/BLS/onsite/triQs.rds", compress = "xz")
 end_time <- Sys.time()
 end_time - start_time
 #======================================================================================================================#

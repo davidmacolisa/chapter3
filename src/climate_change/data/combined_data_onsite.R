@@ -32,9 +32,24 @@ filepath <- "./Data_PhD/US/EPA/AQS/toxic_release_inventory/triR.rds"
 start_time <- Sys.time()
 tri <- readRDS(file = filepath) %>%
   filter(year >= 2011 & year <= 2017) %>%
-  select(., -c(facility.state.code, naics, naics.sector.code)) %>%
-  filter(!facility.state %in% c("AK", "HI")) %>%
+  filter(
+    facility.state %in% c(
+      #treated states
+      "AR", "CA", "DE", "ME", "MA", "MD", "MI", "MN", "NE", "NY", "WV",
+      #control states
+      "GA", "IA", "ID", "IL", "IN", "KS", "KY", "NH", "NM", "NV", "NC",
+      "ND", "OK", "PA", "TX", "UT", "VA", "WI", "WY"
+    )
+  ) %>%
+  select(
+    -c(facility.state.code, naics, naics.sector.code, offsite.province, offsite.countryid, mixture)
+  ) %>%
   data.frame()
+
+sort(unique(tri$facility.state))
+sort(unique(tri$offsite.state))
+sort(unique(tri$potw.state))
+
 
 # Making first letters uppercase
 tri$facility.county <- tolower(tri$facility.county)
@@ -46,7 +61,7 @@ end_time <- Sys.time()
 end_time - start_time
 gc()
 #======================================================================================================================#
-### Sorting zipcodes
+### Sorting onsite zipcodes
 #======================================================================================================================#
 county_data_df <- county_df %>%
   select(county_state, county_name, fips_code) %>%
@@ -98,7 +113,7 @@ cat("Number of states with only five-character zipcodes:", num_states_with_five_
 cat("Number of states with only eight-character zipcodes:", num_states_with_eight_char_zip)
 cat("Number of states with only nine-character zipcodes:", num_states_with_nine_char_zip)
 #----------------------------------------------------------------------------------------------------------------------#
-### Fixing zipcodes for states having 4,5,8 and 9-character zipcodes
+### Fixing zipcodes for states having 4,5,8 and 9-character zipcodes---Onsite
 #----------------------------------------------------------------------------------------------------------------------#
 states_with_four_char_zip
 sort(unique(tri[tri$facility.state == "NH",]$facility.zipcode))
@@ -142,21 +157,11 @@ tri <- tri %>% mutate(zip.length = nchar(x = facility.zipcode))
 sort(unique(tri$zip.length))
 sort(unique(tri$facility.zipcode))
 #======================================================================================================================#
-### First merge county_data_df with tri data to get the fips_code
+### First merge county_data_df with tri data to get the fips_code for onsite
 #======================================================================================================================#
 gc()
 start_time <- Sys.time()
 triM <- tri %>%
-  filter(year >= 2011 & year <= 2017) %>%
-  filter(
-    facility.state %in% c(
-      #treated states
-      "AR", "CA", "DE", "ME", "MA", "MD", "MI", "MN", "NE", "NY", "WV",
-      #control states
-      "GA", "IA", "ID", "IL", "IN", "KS", "KY", "NH", "NM", "NV", "NC",
-      "ND", "OK", "PA", "TX", "UT", "VA", "WI", "WY"
-    )
-  ) %>%
   group_by(facility.state, facility.county) %>%
   mutate(
     facility.longitude = as.numeric(facility.longitude),
@@ -181,7 +186,7 @@ n_distinct(triM$fips_code)
 n_distinct(triM$facility.county)
 sort(unique(triM$facility.state))
 #======================================================================================================================#
-### Second round of sorting zipcodes
+### Second round of sorting onsite zipcodes
 #======================================================================================================================#
 triM_na <- triM[is.na(triM$fips_code),]
 sort(unique(triM_na$facility.state))
@@ -337,21 +342,11 @@ tri$facility.zipcode <- ifelse(
   no = tri$facility.zipcode
 )
 #======================================================================================================================#
-### Final merge county_data_df with tri data to get the fips_code
+### Final merge county_data_df with tri data to get the fips_code onsite
 #======================================================================================================================#
 gc()
 start_time <- Sys.time()
 triM <- tri %>%
-  filter(year >= 2011 & year <= 2017) %>%
-  filter(
-    facility.state %in% c(
-      #treated states
-      "AR", "CA", "DE", "ME", "MA", "MD", "MI", "MN", "NE", "NY", "WV",
-      #control states
-      "GA", "IA", "ID", "IL", "IN", "KS", "KY", "NH", "NM", "NV", "NC",
-      "ND", "OK", "PA", "TX", "UT", "VA", "WI", "WY"
-    )
-  ) %>%
   group_by(facility.state, facility.county) %>%
   mutate(
     facility.longitude = as.numeric(facility.longitude),
@@ -377,6 +372,15 @@ n_distinct(triM$fips_code)
 n_distinct(triM$facility.county)
 sort(unique(triM$facility.state))
 #======================================================================================================================#
+### Sorting offsite and potw zipcodes
+#======================================================================================================================#
+# Count the number of characters in each zipcode
+triM <- triM %>% mutate(offsite.zip.length = nchar(x = offsite.zipcode))
+triM <- triM %>% mutate(potw.zip.length = nchar(x = potw.zipcode))
+
+sort(unique(triM$offsite.zip.length))
+sort(unique(triM$potw.zip.length))
+#======================================================================================================================#
 ### Keeping only common facility states across years---Panelize the facility.state
 #======================================================================================================================#
 gc()
@@ -396,31 +400,34 @@ gc()
 ### Keeping only common facility.id across years---Panelize the facility.ids
 #======================================================================================================================#
 # Split the facility id column into a list of vectors by year
-facility.id_by_year <- split(triM$facility.id, triM$year)
-
-# Find the common chemicals across all states
-common_facility.id <- Reduce(f = intersect, x = facility.id_by_year)
-
-# Output the common chemicals
-print(common_facility.id)
-
-# Keep only common facility ids across years in the dataframe
-triM_fac <- triM %>% filter(!facility.id %in% common_facility.id)
+# facility.id_by_year <- split(triM$facility.id, triM$year)
+#
+# # Find the common chemicals across all states
+# common_facility.id <- Reduce(f = intersect, x = facility.id_by_year)
+#
+# # Output the common chemicals
+# print(common_facility.id)
+#
+# # Keep only common facility ids across years in the dataframe
+# triM <- triM %>% filter(!facility.id %in% common_facility.id)
+n_distinct(triM$facility.id)
 #======================================================================================================================#
 ### Keeping only the common chemicals between the treated and the control states---Panelize the chemicals
 #======================================================================================================================#
 gc()
+n_distinct(triM$chemical.id)
+sort(unique(triM$chemical.name))
 # Split the chemicals column into a list of vectors by state
-chemicals_by_state <- split(triM$chemical.name, triM$facility.state)
-
-# Find the common chemicals across all states
-common_chemicals <- Reduce(f = intersect, x = chemicals_by_state)
-
-# Output the common chemicals
-print(common_chemicals)
-
-# Keep common chemicals in the dataframe
-triM <- triM %>% filter(chemical.name %in% common_chemicals)
+# chemicals_by_state <- split(triM$chemical.name, triM$facility.state)
+#
+# # Find the common chemicals across all states
+# common_chemicals <- Reduce(f = intersect, x = chemicals_by_state)
+#
+# # Output the common chemicals
+# print(common_chemicals)
+#
+# # Keep common chemicals in the dataframe
+# triM <- triM %>% filter(chemical.name %in% common_chemicals)
 gc()
 #======================================================================================================================#
 ### Merge ghgp with tri, both from EPA
@@ -559,7 +566,7 @@ gc()
 start_time <- Sys.time()
 triQ_manu <- triQ %>%
   filter(industry.category == "Manufacturing") %>%
-  right_join(
+  left_join(
     # y = read_csv(file = "./Data_PhD/US/NBER/nberces5818v1_n1997.csv") %>%
     y = read_csv(file = "./Data_PhD/US/NBER/nberces5818v1_n2012.csv") %>%
       filter(year >= 2011 & year <= 2017) %>%
@@ -577,7 +584,6 @@ n_distinct(triQ_manu$facility.state)
 sort(unique(triQ_manu$facility.state))
 glimpse(triQ_manu)
 triQ_manu <- triQ_manu %>%
-  select(-c(triid, mixture)) %>%
   mutate(
     facility.latitude = as.character(facility.latitude),
     facility.longitude = as.character(facility.longitude),
@@ -638,6 +644,8 @@ triQ_manu <- triQ_manu %>%
     chemical.manufacturing.aid = as.character(chemical.manufacturing.aid),
     chemical.ancilliary.use = as.character(chemical.ancilliary.use),
     zip.length = as.character(zip.length),
+    offsite.zip.length = as.character(offsite.zip.length),
+    potw.zip.length = as.character(potw.zip.length),
     personal_income = as.numeric(personal_income),
     gdp = as.numeric(gdp),
     compensation_to_employees = as.numeric(compensation_to_employees),
@@ -656,43 +664,31 @@ triQ_manu <- triQ_manu %>%
 # Keep only onsite variables
 #======================================================================================================================#
 # Border-County Design: Onsite
-triQc_on <- triQ_manu %>%
+triQ <- triQ_manu %>%
   right_join(
     y = fac_county_df,
     by = c("fips_code" = "fips_code")
-  ) %>%
-  select(
-    c(
-      year, facility.id:facility.zipcode, zip.length, fips_code, state, lat:dist.to.border, naics.code,
-      industry.name, chemical.id:intro.inline.productquality.process.analysis.opt, total.release.onsite.catastrophicevents,
-      maxnum.chem.onsite:production.ratio.activity.index, produced.chem.facility:chemical.ancilliary.use,
-      personal_income:dtfp5
-    )
-  ) %>%
-  mutate(
-    lat = as.character(lat),
-    long = as.character(long)
   )
-glimpse(triQc_on)
-triQc_na <- triQc_on[is.na(triQc_on$facility.zipcode),]
-triQc_on <- triQc_on[complete.cases(triQc_on$facility.zipcode),]
-sum(is.na(triQc_on))
-sum(is.na(triQc_on$fips_code))
-sum(is.na(triQc_on$facility.zipcode))
-sum(is.na(triQc_on$facility.city))
-n_distinct(triQc_on$fips_code)
-n_distinct(triQc_on$facility.id)
-n_distinct(triQc_on$state.code)
-n_distinct(triQc_on$facility.state)
-sort(unique(triQc_on$state))
-glimpse(triQc_on)
+glimpse(triQ)
+triQ_na <- triQ[is.na(triQ$facility.zipcode),]
+triQ <- triQ[complete.cases(triQ$facility.zipcode),]
+sum(is.na(triQ))
+sum(is.na(triQ$fips_code))
+sum(is.na(triQ$facility.zipcode))
+sum(is.na(triQ$facility.city))
+n_distinct(triQ$fips_code)
+n_distinct(triQ$facility.id)
+n_distinct(triQ$state.code)
+n_distinct(triQ$facility.state)
+sort(unique(triQ$state))
+glimpse(triQ)
 
 gc()
 start_time <- Sys.time()
-write_rds(x = triQc_on, file = "./Data_PhD/US/BLS/onsite/triQc_on.rds", compress = "xz")
+write_rds(x = triQ, file = "./Data_PhD/US/BLS/triQ.rds", compress = "xz")
 end_time <- Sys.time()
 end_time - start_time
 gc()
-sum_up(triQc_on, c(total.fug.air.emissions.onsite, total.point.air.emissions.onsite, total.air.emissions.onsite))
+sum_up(triQ, c(total.fug.air.emissions.onsite, total.point.air.emissions.onsite, total.air.emissions.onsite))
 gc()
 #======================================================================================================================#

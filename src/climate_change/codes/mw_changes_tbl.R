@@ -6,7 +6,7 @@ setwd(dir = "C:/Users/Davidmac.Ekeocha/OneDrive/Documents/ULMS/PhD/")
 ### Importing shapefiles
 #======================================================================================================================#
 source(file = "./Thesis/chapter3/src/climate_change/data/border_state_county_df.R", echo = T)
-source(file = "./Thesis/chapter3/src/climate_change/data/did_design.R", echo = T)
+source(file = "./Thesis/chapter3/src/climate_change/codes/did_design_onsite.R", echo = T)
 #======================================================================================================================#
 ### Summarize the number of treated and control states
 #======================================================================================================================#
