@@ -42,24 +42,6 @@ tri$facility.county <- stringi::stri_trans_totitle(tri$facility.county)
 
 tri$facility.city <- tolower(tri$facility.city)
 tri$facility.city <- stringi::stri_trans_totitle(tri$facility.city)
-
-tri$offsite.city <- iconv(tri$offsite.city, to = "UTF-8")
-tri$offsite.city <- tolower(tri$offsite.city)
-tri$offsite.city <- stringi::stri_trans_totitle(tri$offsite.city)
-
-tri$offsite.county <- tolower(tri$offsite.county)
-tri$offsite.county <- stringi::stri_trans_totitle(tri$offsite.county)
-
-tri$offsite.province <- iconv(tri$offsite.province, to = "UTF-8")
-tri$offsite.province <- tolower(tri$offsite.province)
-tri$offsite.province <- stringi::stri_trans_totitle(tri$offsite.province)
-
-tri$potw.city <- iconv(tri$potw.city, to = "UTF-8")
-tri$potw.city <- tolower(tri$potw.city)
-tri$potw.city <- stringi::stri_trans_totitle(tri$potw.city)
-
-tri$potw.county <- tolower(tri$potw.county)
-tri$potw.county <- stringi::stri_trans_totitle(tri$potw.county)
 end_time <- Sys.time()
 end_time - start_time
 gc()
