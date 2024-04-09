@@ -534,6 +534,11 @@ tri$offsite.zipcode <- ifelse(
 
 # KS: Replace the zipcode with the matching zipcode for the same county name in county_data_df
 tri$offsite.zipcode <- ifelse(
+  test = tri$offsite.state == "KS" & tri$offsite.zipcode == "67946",
+  yes = "67846",
+  no = tri$offsite.zipcode
+)
+tri$offsite.zipcode <- ifelse(
   test = tri$offsite.state == "KS" & tri$offsite.zipcode == "66727",
   yes = "66010",
   no = tri$offsite.zipcode
@@ -789,8 +794,8 @@ tri$offsite.zipcode <- ifelse(
 
 # NH: Replace the zipcode with the matching zipcode for the same county name in county_data_df
 tri$offsite.zipcode <- ifelse(
-  test = tri$offsite.state == "NH" & tri$offsite.zipcode == "89446",
-  yes = "89801",
+  test = tri$offsite.state == "NH" & tri$offsite.zipcode == "03805",
+  yes = "03032",
   no = tri$offsite.zipcode
 )
 
@@ -1136,6 +1141,11 @@ tri$offsite.zipcode <- ifelse(
   yes = "24415",
   no = tri$offsite.zipcode
 )
+tri$offsite.zipcode <- ifelse(
+  test = tri$offsite.state == "VA" & tri$offsite.zipcode == "24143",
+  yes = "24060",
+  no = tri$offsite.zipcode
+)
 
 # WI: Replace the zipcode with the matching zipcode for the same county name in county_data_df
 tri$offsite.zipcode <- ifelse(
@@ -1191,24 +1201,10 @@ tri$offsite.zipcode <- ifelse(
 gc()
 start_time <- Sys.time()
 triM <- tri %>%
-  filter(year >= 2011 & year <= 2017) %>%
-  filter(
-    facility.state %in% c(
-      #treated states
-      "AR", "CA", "DE", "ME", "MA", "MD", "MI", "MN", "NE", "NY", "WV",
-      #control states
-      "GA", "IA", "ID", "IL", "IN", "KS", "KY", "NH", "NM", "NV", "NC",
-      "ND", "OK", "PA", "TX", "UT", "VA", "WI", "WY"
-    )
-  ) %>%
-  group_by(facility.state, facility.county) %>%
-  mutate(
-    facility.longitude = as.numeric(facility.longitude),
-    facility.latitude = as.numeric(facility.latitude)
-  ) %>%
+  group_by(offsite.state, offsite.county) %>%
   left_join(
     y = county_data_df %>% select(-c(county_state, county_name)),
-    by = c("facility.zipcode" = "zip_code")
+    by = c("offsite.zipcode" = "zip_code")
   ) %>%
   left_join(
     y = county_df %>% select(-c(county_state, county_name)),
@@ -1220,47 +1216,49 @@ end_time - start_time
 gc()
 
 sum(is.na(triM$fips_code))
-sum(is.na(triM$facility.zipcode))
-n_distinct(triM$facility.id)
+triM_na <- triM[is.na(triM$fips_code),]
+sum(is.na(triM$offsite.zipcode))
+n_distinct(triM$offsite.id)
+n_distinct(triM$offsite.facility.id)
 n_distinct(triM$fips_code)
-n_distinct(triM$facility.county)
-sort(unique(triM$facility.state))
+n_distinct(triM$offsite.county)
+sort(unique(triM$offsite.state))
 #======================================================================================================================#
-### Keeping only common facility states across years---Panelize the facility.state
+### Keeping only common offsite states across years---Panelize the offsite.state
 #======================================================================================================================#
 gc()
-# Split the facility id column into a list of vectors by year
-facility.state_by_year <- split(triM$facility.state, triM$year)
+# Split the offsite id column into a list of vectors by year
+offsite.state_by_year <- split(triM$offsite.state, triM$year)
 
 # Find the common chemicals across all states
-common_facility.state <- Reduce(f = intersect, x = facility.state_by_year)
+common_offsite.state <- Reduce(f = intersect, x = offsite.state_by_year)
 
 # Output the common chemicals
-print(common_facility.state)
+print(common_offsite.state)
 
-# Keep only common facility ids across years in the dataframe
-triM <- triM %>% filter(facility.state %in% common_facility.state)
+# Keep only common offsite ids across years in the dataframe
+triM <- triM %>% filter(offsite.state %in% common_offsite.state)
 gc()
 #======================================================================================================================#
-### Keeping only common facility.id across years---Panelize the facility.ids
+### Keeping only common offsite.facility.id across years---Panelize the offsite.facility.ids
 #======================================================================================================================#
-# Split the facility id column into a list of vectors by year
-facility.id_by_year <- split(triM$facility.id, triM$year)
+# Split the offsite id column into a list of vectors by year
+offsite.fac.id_by_year <- split(triM$offsite.facility.id, triM$year)
 
 # Find the common chemicals across all states
-common_facility.id <- Reduce(f = intersect, x = facility.id_by_year)
+common_offsite.fac.id <- Reduce(f = intersect, x = offsite.fac.id_by_year)
 
 # Output the common chemicals
-print(common_facility.id)
+print(common_offsite.fac.id)
 
-# Keep only common facility ids across years in the dataframe
-triM_fac <- triM %>% filter(!facility.id %in% common_facility.id)
+# Keep only common offsite facility ids across years in the dataframe
+triM_fac <- triM %>% filter(!offsite.facility.id %in% common_offsite.fac.id)
 #======================================================================================================================#
 ### Keeping only the common chemicals between the treated and the control states---Panelize the chemicals
 #======================================================================================================================#
 gc()
 # Split the chemicals column into a list of vectors by state
-chemicals_by_state <- split(triM$chemical.name, triM$facility.state)
+chemicals_by_state <- split(triM$chemical.name, triM$offsite.state)
 
 # Find the common chemicals across all states
 common_chemicals <- Reduce(f = intersect, x = chemicals_by_state)
@@ -1292,7 +1290,7 @@ triM_ghgp <- triM %>%
       mutate(year = as.numeric(year), ghgp.unit = "tons") %>%
       select(c(year, facility.frs.id, fips_code, ghgp.unit, naics.code, co2.emissions,
                methane.emissions, nitrousoxide.emissions)),
-    by = c("year" = "year", "fips_code" = "fips_code", "facility.id" = "facility.frs.id")
+    by = c("year" = "year", "fips_code" = "fips_code", "offsite.facility.id" = "facility.frs.id")
   )
 end_time <- Sys.time()
 end_time - start_time
@@ -1345,8 +1343,8 @@ end_time - start_time
 # sec.Assets <- sec.Assets[complete.cases(sec.Assets),]
 #
 # sec.Assets <- sec.Assets %>%
-#   rename(zip_code = zipba, facility.name = name) %>%
-#   select(c(facility.name, zip_code, sic, assets, year)) %>%
+#   rename(zip_code = zipba, offsite.name = name) %>%
+#   select(c(offsite.name, zip_code, sic, assets, year)) %>%
 #   left_join(
 #     y = zip_df %>% select(c(fips_code, zip_code)),
 #     by = ("zip_code" = "zip_code")
@@ -1385,7 +1383,7 @@ triQ <- triM %>%
     y = bea %>%
       # select(-c(county_name)) %>%
       mutate(year = as.numeric(year)),
-    by = c("fips_code" = "fips_code", "facility.county" = "county_name", "facility.state" = "county_state",
+    by = c("fips_code" = "fips_code", "offsite.county" = "county_name", "offsite.state" = "county_state",
            "year" = "year"),
   ) %>%
   left_join(
@@ -1399,7 +1397,7 @@ end_time <- Sys.time()
 end_time - start_time
 gc()
 
-sort(unique(triM$facility.state))
+sort(unique(triM$offsite.state))
 #======================================================================================================================#
 ### Merging NBER-CES DATA---Manufacturing Industry Database
 ### Based on NAICS 2012
@@ -1422,66 +1420,19 @@ end_time <- Sys.time()
 end_time - start_time
 gc()
 
-n_distinct(triQ_manu$facility.state)
-sort(unique(triQ_manu$facility.state))
+n_distinct(triQ_manu$offsite.state)
+sort(unique(triQ_manu$offsite.state))
 glimpse(triQ_manu)
 triQ_manu <- triQ_manu %>%
-  select(-c(triid, mixture)) %>%
   mutate(
-    facility.latitude = as.character(facility.latitude),
-    facility.longitude = as.character(facility.longitude),
-    industrial.kiln.onsite = as.character(industrial.kiln.onsite),
-    industrial.furnace.onsite = as.character(industrial.furnace.onsite),
-    industrial.boiler.onsite = as.character(industrial.boiler.onsite),
-    metal.recovery.onsite = as.character(metal.recovery.onsite),
-    solvent.recovery.onsite = as.character(solvent.recovery.onsite),
-    reuse.onsite = as.character(reuse.onsite),
-    biological.treatment.onsite = as.character(biological.treatment.onsite),
-    chemical.treatment.onsite = as.character(chemical.treatment.onsite),
-    incineration.thermal.treatment.onsite = as.character(incineration.thermal.treatment.onsite),
-    physical.treatment.onsite = as.character(physical.treatment.onsite),
-    material.subandmod = as.character(material.subandmod),
-    sub.fuel.matsubmod = as.character(sub.fuel.matsubmod),
-    sub.organic.solvent.matsubmod = as.character(sub.organic.solvent.matsubmod),
-    sub.rawm.feedstock.reactchem.matsubmod = as.character(sub.rawm.feedstock.reactchem.matsubmod),
-    sub.manu.proccess.ancilliary.chems.matsubmod = as.character(sub.manu.proccess.ancilliary.chems.matsubmod),
-    mod.content.grade.purity.chems.matsubmod = as.character(mod.content.grade.purity.chems.matsubmod),
-    other.matmods.matsubmod = as.character(other.matmods.matsubmod),
-    product.modification = as.character(product.modification),
-    devd.newproductline.pmod = as.character(devd.newproductline.pmod),
-    alt.dim.comp.design.pmod = as.character(alt.dim.comp.design.pmod),
-    mod.packaging.pmod = as.character(mod.packaging.pmod),
-    other.pmods.pmod = as.character(other.pmods.pmod),
-    process.equip.modification = as.character(process.equip.modification),
-    optimised.process.efficiency.pequipmod = as.character(optimised.process.efficiency.pequipmod),
-    recirculationinprocess.pequipmod = as.character(recirculationinprocess.pequipmod),
-    newtech.technique.process.pequipmod = as.character(newtech.technique.process.pequipmod),
-    equipment.upgrade.update.pequipmod = as.character(equipment.upgrade.update.pequipmod),
-    other.pequipmods.pequipmod = as.character(other.pequipmods.pequipmod),
-    inventory.material.mgt = as.character(inventory.material.mgt),
-    better.labelling.testing.immgt = as.character(better.labelling.testing.immgt),
-    containers.sizechange.immgt = as.character(containers.sizechange.immgt),
-    improved.materialhandling.operations.immgt = as.character(improved.materialhandling.operations.immgt),
-    improved.monitoring.immgt = as.character(improved.monitoring.immgt),
-    other.immgts.immgt = as.character(other.immgts.immgt),
-    operating.practices.training = as.character(operating.practices.training),
-    improved.schdule.operation.procedures.opt = as.character(improved.schdule.operation.procedures.opt),
-    changed.production.schedule.opt = as.character(changed.production.schedule.opt),
-    intro.inline.productquality.process.analysis.opt = as.character(intro.inline.productquality.process.analysis.opt),
     trade.secret = as.character(trade.secret),
     sanitised = as.character(sanitised),
     entire.facility = as.character(entire.facility),
     federal.facility = as.character(federal.facility),
     govt.owned.facility = as.character(govt.owned.facility),
-    elemental.metal.included = as.character(elemental.metal.included),
     clean.air.act.chems = as.character(clean.air.act.chems),
     carcinogenic.chems = as.character(carcinogenic.chems),
-    pfas.chems = as.character(pfas.chems),
     metal.restrict.tri = as.character(metal.restrict.tri),
-    produced.chem.facility = as.character(produced.chem.facility),
-    imported.chem.facility = as.character(imported.chem.facility),
-    pi.chem.facility = as.character(pi.chem.facility),
-    chemical.intermediate.uses = as.character(chemical.intermediate.uses),
     chemical.formulation.component = as.character(chemical.formulation.component),
     chemical.article.component = as.character(chemical.article.component),
     chemical.manufacturing.aid = as.character(chemical.manufacturing.aid),
@@ -1505,43 +1456,32 @@ triQ_manu <- triQ_manu %>%
 # Keep only onsite variables
 #======================================================================================================================#
 # Border-County Design: Onsite
-triQc_on <- triQ_manu %>%
+triQc_off <- triQ_manu %>%
   right_join(
     y = fac_county_df,
     by = c("fips_code" = "fips_code")
-  ) %>%
-  select(
-    c(
-      year, facility.id:facility.zipcode, zip.length, fips_code, state, lat:dist.to.border, naics.code,
-      industry.name, chemical.id:intro.inline.productquality.process.analysis.opt, total.release.onsite.catastrophicevents,
-      maxnum.chem.onsite:production.ratio.activity.index, produced.chem.facility:chemical.ancilliary.use,
-      personal_income:dtfp5
-    )
-  ) %>%
-  mutate(
-    lat = as.character(lat),
-    long = as.character(long)
   )
-glimpse(triQc_on)
-triQc_na <- triQc_on[is.na(triQc_on$facility.zipcode),]
-triQc_on <- triQc_on[complete.cases(triQc_on$facility.zipcode),]
-sum(is.na(triQc_on))
-sum(is.na(triQc_on$fips_code))
-sum(is.na(triQc_on$facility.zipcode))
-sum(is.na(triQc_on$facility.city))
-n_distinct(triQc_on$fips_code)
-n_distinct(triQc_on$facility.id)
-n_distinct(triQc_on$state.code)
-n_distinct(triQc_on$facility.state)
-sort(unique(triQc_on$state))
+glimpse(triQc_off)
+triQc_na <- triQc_off[is.na(triQc_off$offsite.zipcode),]
+triQc_off <- triQc_off[complete.cases(triQc_off$offsite.zipcode),]
+sum(is.na(triQc_off))
+sum(is.na(triQc_off$fips_code))
+sum(is.na(triQc_off$offsite.zipcode))
+sum(is.na(triQc_off$offsite.city))
+n_distinct(triQc_off$fips_code)
+n_distinct(triQc_off$offsite.facility.id)
+n_distinct(triQc_off$state.code)
+n_distinct(triQc_off$offsite.state)
+n_distinct(triQc_off$chemical.id)
+sort(unique(triQc_off$state))
 glimpse(triQc_on)
 
 gc()
 start_time <- Sys.time()
-write_rds(x = triQc_on, file = "./Data_PhD/US/BLS/onsite/triQc_on.rds", compress = "xz")
+write_rds(x = triQc_off, file = "./Data_PhD/US/BLS/offsite/triQc_off.rds", compress = "xz")
 end_time <- Sys.time()
 end_time - start_time
 gc()
-sum_up(triQc_on, c(total.fug.air.emissions.onsite, total.point.air.emissions.onsite, total.air.emissions.onsite))
+sum_up(triQc_off, c(total.underground.injection.offsite))
 gc()
 #======================================================================================================================#
