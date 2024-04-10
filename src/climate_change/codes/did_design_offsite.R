@@ -1,9 +1,4 @@
 #======================================================================================================================#
-### PhD Chapter 3
-### Indirect Consequences of a Raising Minimum Wage
-### 30 November 2023
-### Using Border-County Designs
-#======================================================================================================================#
 ### Packages
 #======================================================================================================================#
 library(tidyverse)
@@ -17,19 +12,17 @@ library(usmap)
 #======================================================================================================================#
 setwd(dir = "C:/Users/david/OneDrive/Documents/ULMS/PhD/")
 #======================================================================================================================#
-### Loading Data---Onsite
+### Loading Data---Offsite
 #======================================================================================================================#
 start_time <- Sys.time()
 triQ <- read_rds(file = "./Data_PhD/US/BLS/triQ.rds") %>%
   group_by(facility.state, year) %>%
-  select(-c(
-    pid, triid, facility.state.code, offsite.province, offsite.countryid, naics, naics.sector.code
-  )) %>%
+  filter(offsite.zip.length == 5) %>%
   select(c(
-    year, facility.id:facility.longitude, facility.state, offsite.id:chemical.name, chemical.classification,
-    unit.of.measure, contains(match = "offsite"), trade.secret, sanitised, entire.facility, federal.facility,
-    govt.owned.facility, comment.type, comment.type.description, comment.text, classification,
-    elemental.metal.included:chemical.ancilliary.use
+    year, facility.id:facility.longitude, fips_code, county.name, facility.state, state, offsite.id:offsite.zipcode,
+    naics.code:unit.of.measure, contains(match = "offsite"), trade.secret, sanitised, entire.facility,
+    federal.facility, govt.owned.facility, comment.type, comment.type.description, comment.text, classification,
+    elemental.metal.included:chemical.ancilliary.use, personal_income:dtfp5, population:dist.to.border
   )) %>%
   mutate(
     tot.ch.amt = ch.amt + sum2.sub.mw.ch,
@@ -51,8 +44,9 @@ sum(is.na(triQc))
 triQc <- triQc[complete.cases(triQc),]
 sort(unique(triQc$facility.state))
 n_distinct(triQc$facility.state)
-n_distinct(triQc$facility.state)
-n_distinct(triQc$facility.state)
+n_distinct(triQc$offsite.state)
+n_distinct(triQc$treated.match)
+n_distinct(triQc$control.match)
 sum_up(triQc %>% filter(treated == 0), c(ch.amt, sum2.sub.mw.ch, end.mw))
 
 #======================================================================================================================#
@@ -64,8 +58,7 @@ triQs <- triQc %>%
   collap(
     X = .,
     by = ~
-      offsite.facility.id +
-        facility.state +
+      facility.state +
         offsite.state +
         state +
         year +
@@ -110,9 +103,11 @@ triQs <- triQc %>%
     keep.col.order = T,
     return = "long"
   ) %>%
-  select(-c(Function, offsite.id, offsite.sequence.number:offsite.county, offsite.zipcode, zip.length,
-            industry.category, fips_code, state.code, county.name, treated.cluster.name:cbcp.id,
-            treated.cluster.lat:control.cluster.long, dist.to.border, lat, long)) %>%
+  select(
+    -c(Function, offsite.id, offsite.sequence.number:offsite.county, offsite.zipcode, offsite.zip.length,
+       industry.category, fips_code, county.name, treated.cluster.name:cbcp.id,
+       treated.cluster.lat:control.cluster.long, dist.to.border, lat, long)
+  ) %>%
   mutate(
     entire.facility = as.numeric(entire.facility),
     govt.owned.facility = as.numeric(govt.owned.facility),
@@ -247,8 +242,8 @@ triQs <- triQs %>%
 ### Save data
 #======================================================================================================================#
 start_time <- Sys.time()
-write_rds(triQc, file = "./Data_PhD/US/BLS/onsite/triQc.rds", compress = "xz")
-write_rds(triQs, file = "./Data_PhD/US/BLS/onsite/triQs.rds", compress = "xz")
+write_rds(triQc, file = "./Data_PhD/US/BLS/offsite/triQc_off.rds", compress = "xz")
+write_rds(triQs, file = "./Data_PhD/US/BLS/offsite/triQs_off.rds", compress = "xz")
 end_time <- Sys.time()
 end_time - start_time
 #======================================================================================================================#

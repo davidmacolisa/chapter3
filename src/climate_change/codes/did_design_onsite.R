@@ -27,7 +27,7 @@ triQ <- read_rds(file = "./Data_PhD/US/BLS/triQ.rds") %>%
       year, facility.id:facility.zipcode, zip.length, fips_code, state, lat:dist.to.border, naics.code,
       industry.name, chemical.id:intro.inline.productquality.process.analysis.opt,
       total.release.onsite.catastrophicevents, maxnum.chem.onsite:production.ratio.activity.index,
-      produced.chem.facility:chemical.ancilliary.use, personal_income:dtfp5
+      produced.chem.facility:chemical.ancilliary.use, personal_income:dtfp5, population:dist.to.border
     )) %>%
   mutate(
     tot.ch.amt = ch.amt + sum2.sub.mw.ch,
