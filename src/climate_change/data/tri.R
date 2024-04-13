@@ -2325,7 +2325,7 @@ write_rds(x = tri, file = "./Data_PhD/US/EPA/AQS/toxic_release_inventory/tri.rds
 #=========================#
 ### Loading dataset
 #=========================#
-filepath = "./Data_PhD/US/EPA/AQS/toxic_release_inventory/tri.rds"
+filepath <- "./Data_PhD/US/EPA/AQS/toxic_release_inventory/tri.rds"
 # filepathghg = "./Data_PhD/US/EPA/AQS/ghg/envirofacts/national_single/NATIONAL_SINGLE.CSV"
 tri <- readRDS(file = filepath)
 # ghg <- read.csv(file = filepathghg, header = T)
@@ -3482,22 +3482,6 @@ tri$naics.sector.code[grepl(pattern = "^62", tri$naics.code)] <- "62"
 tri$naics.sector.code[grepl(pattern = "^71", tri$naics.code)] <- "71"
 tri$naics.sector.code[grepl(pattern = "^81", tri$naics.code)] <- "81"
 tri$naics.sector.code[grepl(pattern = "^92", tri$naics.code)] <- "92"
-
-# subsetting states
-# tri <- tri[tri$facility.state %in%
-#     c("AK", "AL", "AR", "AZ", "CA", "CO", "CT", "DE", "FL", "GA",
-#       "HI", "ID", "IL", "IN", "IA", "KS", "KY", "LA", "ME", "MD",
-#       "MA", "MI", "MN", "MS", "MO", "MT", "NE", "NV", "NH", "NJ",
-#       "NM", "NY", "NC", "ND", "OH", "OK", "OR", "PA", "RI", "SC",
-#       "SD", "TN", "TX", "UT", "VT", "VA", "WA", "WV", "WI", "WY"),]
-
-# tri[, state.code := .GRP, by = facility.state] # creating unique state ID
-tri <- tri %>%
-  group_by(facility.state) %>%
-  mutate(facility.state.code = row_number()) # creating unique state ID
-bdsm <- bdsm %>%
-  group_by(state) %>%
-  mutate(state.code = row_number()) # creating unique state ID
 
 write_rds(x = tri, file = "./Data_PhD/US/EPA/AQS/toxic_release_inventory/triR.rds", compress = "xz")
 

@@ -3,6 +3,12 @@
 #======================================================================================================================#
 setwd(dir = "C:/Users/Davidmac.Ekeocha/OneDrive/Documents/ULMS/PhD/")
 #======================================================================================================================#
+### Install packages
+#======================================================================================================================#
+install.packages(pkgs = "kableExtra")
+# For dev version
+devtools::install_github("haozhu233/kableExtra")
+#======================================================================================================================#
 ### Importing shapefiles
 #======================================================================================================================#
 source(file = "./Thesis/chapter3/src/climate_change/data/border_state_county_df.R", echo = T)
@@ -99,6 +105,7 @@ sum(border_county$treated.border.counties, na.rm = TRUE)
 sum(border_county$control.border.counties, na.rm = TRUE)
 
 # Convert data frame to LaTeX table
+library(KableExtra)
 border_county_tex <- border_county %>%
   kable(., format = "latex", booktabs = TRUE) %>%
   kable_styling()

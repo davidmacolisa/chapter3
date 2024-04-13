@@ -73,6 +73,9 @@ tri$potw.county <- tolower(tri$potw.county)
 tri$potw.county <- stringi::stri_trans_totitle(tri$potw.county)
 end_time <- Sys.time()
 end_time - start_time
+
+na_columns <- colnames(tri)[colSums(is.na(tri)) > 0]
+
 gc()
 #======================================================================================================================#
 ### Sorting onsite zipcodes
@@ -93,6 +96,7 @@ tri[tri$facility.zipcode == "3904",]$facility.county
 # Count the number of characters in each zipcode
 tri <- tri %>% mutate(zip.length = nchar(x = facility.zipcode))
 sort(unique(tri$zip.length))
+#tri <- tri[tri$zip.length==5,]
 
 # Group by state and count the number of unique zipcode lengths
 states_with_four_char_zip <- tri %>%
@@ -173,6 +177,9 @@ sort(unique(tri$facility.zipcode))
 #======================================================================================================================#
 ### First merge county_data_df with tri data to get the fips_code for onsite
 #======================================================================================================================#
+n_distinct(tri$facility.zipcode)
+n_distinct(tri$facility.id)
+n_distinct(county_data_df$zip_code)
 gc()
 start_time <- Sys.time()
 triM <- tri %>%
@@ -405,7 +412,7 @@ facility.state_by_year <- split(triM$facility.state, triM$year)
 common_facility.state <- Reduce(f = intersect, x = facility.state_by_year)
 
 # Output the common chemicals
-print(common_facility.state)
+print(sort(common_facility.state))
 
 # Keep only common facility ids across years in the dataframe
 triM <- triM %>% filter(facility.state %in% common_facility.state)
@@ -539,12 +546,18 @@ qcew <- read_rds(file = "./Data_PhD/US/BLS/qcew.rds") %>%
 end_time <- Sys.time()
 end_time - start_time
 gc()
+
+sum(is.na(triM$qcew))
+n_distinct(triM$fips_code)
+n_distinct(qcew$fips_code)
 #======================================================================================================================#
 ### Merging TRI, BEA and QCEW Data
 #======================================================================================================================#
 bea <- read_rds(file = "./Data_PhD/US/BEA/bea.rds") %>% filter(year >= 2011 & year <= 2017)
 # Remove last word in county labels
 bea$county_name <- sub(pattern = "\\s+\\w+$", replacement = "", bea$county_name)
+n_distinct(bea$fips_code)
+
 
 start_time <- Sys.time()
 triQ <- triM %>%
@@ -572,6 +585,8 @@ end_time - start_time
 gc()
 
 sort(unique(triM$facility.state))
+sum(is.na(triM$fips_code))
+n_distinct(triQ$naics.code)
 #======================================================================================================================#
 ### Merging NBER-CES DATA---Manufacturing Industry Database
 ### Based on NAICS 2012
@@ -582,10 +597,10 @@ triQ_manu <- triQ %>%
   filter(industry.category == "Manufacturing") %>%
   left_join(
     # y = read_csv(file = "./Data_PhD/US/NBER/nberces5818v1_n1997.csv") %>%
-    y = read_csv(file = "./Data_PhD/US/NBER/nberces5818v1_n2012.csv") %>%
+    y = read_rds(file = "./Data_PhD/US/NBER/nber_ces.rds") %>%
       filter(year >= 2011 & year <= 2017) %>%
       mutate(naics.code = as.character(naics)) %>%
-      select(c(naics.code, year:plant, dtfp5)) %>%
+      select(c(naics.code, year:plant, tfp4, tfp5)) %>%
       data.frame(),
     by = c("year" = "year", "naics.code" = "naics.code")
   ) %>%
@@ -594,6 +609,7 @@ end_time <- Sys.time()
 end_time - start_time
 gc()
 
+n_distinct(triQ_manu$naics.code)
 n_distinct(triQ_manu$facility.state)
 sort(unique(triQ_manu$facility.state))
 glimpse(triQ_manu)
@@ -678,6 +694,7 @@ triQ_manu <- triQ_manu %>%
 # Keep only onsite variables
 #======================================================================================================================#
 # Border-County Design: Onsite
+n_distinct(fac_county_df$fips_code)
 triQ <- triQ_manu %>%
   right_join(
     y = fac_county_df,
@@ -687,6 +704,7 @@ glimpse(triQ)
 triQ_na <- triQ[is.na(triQ$facility.zipcode),]
 triQ <- triQ[complete.cases(triQ$facility.zipcode),]
 sum(is.na(triQ))
+sum(is.na(triQ %>% select(-c(contains(match = "offsite"), contains(match = "potw")))))
 sum(is.na(triQ$fips_code))
 sum(is.na(triQ$facility.zipcode))
 sum(is.na(triQ$facility.city))

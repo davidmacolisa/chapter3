@@ -21,20 +21,56 @@ setwd(dir = "C:/Users/david/OneDrive/Documents/ULMS/PhD/")
 #======================================================================================================================#
 start_time <- Sys.time()
 triQ <- read_rds(file = "./Data_PhD/US/BLS/triQ.rds") %>%
-  group_by(facility.state, year) %>%
-  select(
-    c(
-      year, facility.id:facility.zipcode, zip.length, fips_code, state, lat:dist.to.border, naics.code,
-      industry.name, chemical.id:intro.inline.productquality.process.analysis.opt,
-      total.release.onsite.catastrophicevents, maxnum.chem.onsite:production.ratio.activity.index,
-      produced.chem.facility:chemical.ancilliary.use, personal_income:dtfp5, population:dist.to.border
-    )) %>%
+  group_by(facility.county, year) %>%
   mutate(
     tot.ch.amt = ch.amt + sum2.sub.mw.ch,
     end.mw = start.mw + tot.ch.amt,
     lat = as.character(lat),
     long = as.character(long)
   ) %>%
+  select(
+    c(
+      year, facility.id, facility.zipcode, facility.city, facility.county, fips_code, facility.state, state,
+      lat, long, zip.length, naics.code, industry.name, chemical.id, chemical.name, chemical.classification,
+      unit.of.measure,
+      # air pollution emissions
+      total.fug.air.emissions.onsite, total.point.air.emissions.onsite, total.air.emissions.onsite,
+      # water pollution
+      total.num.receiving.streams.onsite, total.surface.water.discharge.onsite,
+      # land pollution
+      total.underground.injection.I.wells.onsite, total.underground.injection.I.IV.wells.onsite,
+      total.underground.injection.onsite, total.landfills.onsite, total.releases.toland.treatment.onsite,
+      total.surface.impoundment.onsite, total.land.releases.other.onsite, total.land.releases.onsite,
+      # all releases onsite
+      total.releases.onsite,
+
+      # onsite waste management
+      energy.recovery.onsite, industrial.kiln.onsite, industrial.furnace.onsite, industrial.boiler.onsite,
+      # recycling
+      recycling.onsite, metal.recovery.onsite, solvent.recovery.onsite, reuse.onsite,
+      # reuse
+      reuse.onsite, biological.treatment.onsite, chemical.treatment.onsite,
+      incineration.thermal.treatment.onsite, physical.treatment.onsite, material.subandmod,
+      # onsite chemical production
+      produced.chem.facility, imported.chem.facility, pi.chem.facility,
+      # treatment onsite
+      treatment.onsite, air.emissions.treatment.onsite, biological.treatment.onsite, chemical.treatment.onsite,
+      incineration.thermal.treatment.onsite, physical.treatment.onsite,
+      # overall onsite treatment: sum of energy reovery, recycling and treatment.onsite
+      total.waste.management.onsite,
+      # Other onsite mechanisms - onsite Source or Pollution Reduction Activities
+      material.subandmod:intro.inline.productquality.process.analysis.opt,
+      # placebo---when included, keep only complete cases in the dataset. This would reduce sample size
+      total.release.onsite.catastrophicevents,
+      # control variables
+      maxnum.chem.onsite:chemical.ancilliary.use,
+      # macro controls (including state-level regional price parity and population), county level wages and contributions,
+      # establishments, employment, and industry-level variables (total employment, pay, production workers,
+      # production worker hours, production workers wages, value of shipments, material cost, value added,
+      # investments, inventories, energy cost, capital, equipment, plant, and total factor productivity growth rate)
+      personal_income:tfp5, population, treated:sum2.sub.mw.ch, tot.ch.amt, start.mw, end.mw, match.ch.amt,
+      match.ch.year, dist.to.border
+    )) %>%
   data.frame()
 end_time <- Sys.time()
 end_time - start_time
@@ -42,24 +78,86 @@ gc()
 
 triQc <- triQ %>%
   select(
-    -c(comment.type, comment.type.description, comment.text, classification,
-       total.release.onsite.catastrophicevents)
+    -c(comment.type, comment.type.description, comment.text, classification, total.release.onsite.catastrophicevents,
+       production.or.activity)
   )
 
 sum(is.na(triQc))
+na_columns <- colnames(triQc)[colSums(is.na(triQc)) > 0]
 triQc <- triQc[complete.cases(triQc),]
-sum_up(triQc, c(total.fug.air.emissions.onsite, total.point.air.emissions.onsite, total.air.emissions.onsite))
+sort(unique(triQc$year))
+sum(is.na(triQc))
 
+# sum(is.na(triQc$facility.id))
+# triQc_na <- triQc[triQc$facility.id == "NA",]
+# triQc <- triQc[complete.cases(triQc$facility.id),]
+# na_columns <- colnames(triQc)[colSums(is.na(triQc)) > 0]
+# sort(unique(triQc$year))
+#
+# sum(is.na(triQc$production.ratio.activity.index))
+# triQc_na <- triQc[triQc$production.ratio.activity.index == "NA",]
+# triQc <- triQc[complete.cases(triQc$production.ratio.activity.index),]
+# na_columns <- colnames(triQc)[colSums(is.na(triQc)) > 0]
+# sort(unique(triQc$year))
+#
+# sum(is.na(triQc$maxnum.chem.onsite))
+# triQc_na <- triQc[triQc$maxnum.chem.onsite == "NA",]
+# triQc <- triQc[complete.cases(triQc$maxnum.chem.onsite),]
+# na_columns <- colnames(triQc)[colSums(is.na(triQc)) > 0]
+# sort(unique(triQc$year))
+#
+# sum(is.na(triQc$personal_income))
+# triQc_na <- triQc[triQc$personal_income == "NA",]
+# triQc <- triQc[complete.cases(triQc$personal_income),]
+# na_columns <- colnames(triQc)[colSums(is.na(triQc)) > 0]
+# sort(unique(triQc$year))
+#
+# sum(is.na(triQc$own_code))
+# triQc_na <- triQc[triQc$own_code == "NA",]
+# triQc <- triQc[complete.cases(triQc$own_code),]
+# na_columns <- colnames(triQc)[colSums(is.na(triQc)) > 0]
+# sort(unique(triQc$year))
+#
+# sum(is.na(triQc$emp))
+# triQc_na <- triQc[triQc$emp == "NA",]
+# triQc <- triQc[complete.cases(triQc$emp),]
+# na_columns <- colnames(triQc)[colSums(is.na(triQc)) > 0]
+# sort(unique(triQc$year))
+
+sum(is.na(triQc))
+sum_up(triQc %>% filter(treated == 0),
+       c(total.fug.air.emissions.onsite, total.point.air.emissions.onsite, total.air.emissions.onsite,
+         total.num.receiving.streams.onsite, total.surface.water.discharge.onsite,
+         total.underground.injection.I.wells.onsite, total.underground.injection.I.IV.wells.onsite,
+         total.underground.injection.onsite, total.landfills.onsite, total.releases.toland.treatment.onsite,
+         total.surface.impoundment.onsite, total.land.releases.other.onsite, total.land.releases.onsite))
+
+sort(unique(triQc$year))
 sort(unique(triQc$state))
 n_distinct(triQc$state)
+n_distinct(triQc$facility.id)
 n_distinct(triQc$facility.city)
 n_distinct(triQc$facility.zipcode)
 n_distinct(triQc$facility.county)
 n_distinct(triQc$chemical.name)
 n_distinct(triQc$industry.name)
 n_distinct(triQc$naics.code)
-sum_up(triQc %>% filter(treated == 0), c(ch.amt, sum2.sub.mw.ch, end.mw))
 
+#======================================================================================================================#
+### Check if the facility ID column is the same for all years
+#======================================================================================================================#
+# Get unique facility IDs for each year
+unique_facility_ids <- lapply(unique(triQc$year), function(y) unique(triQc$facility.id[triQc$year == y]))
+
+# Check if all unique facility IDs are the same across all years
+same_facility_id <- all(sapply(unique_facility_ids, function(ids) identical(ids, unique_facility_ids[[1]])))
+
+# Print the result
+if(same_facility_id) {
+  print("The facility ID column is the same for all years.")
+} else {
+  print("The facility ID column is not the same for all years.")
+}
 #======================================================================================================================#
 ### For the state-level analysis---Onsite
 ### Collapse triQc to state level
@@ -79,10 +177,6 @@ triQs <- triQc %>%
       control.match +
       overlap +
       state.border.id +
-      # treated.cluster.lat +
-      # treated.cluster.long +
-      # control.cluster.lat +
-      # control.cluster.long +
       ch.year +
       ch.amt +
       sum2.sub.mw.ch +
@@ -96,6 +190,10 @@ triQs <- triQc %>%
       chemical.name +
       chemical.classification +
       unit.of.measure +
+      treated.cluster.lat +
+      treated.cluster.long +
+      control.cluster.lat +
+      control.cluster.long +
       industrial.kiln.onsite +
       industrial.furnace.onsite +
       industrial.boiler.onsite +
@@ -154,15 +252,18 @@ triQs <- triQc %>%
       chemical.ancilliary.use +
       bea_unit +
       bea_rpp_unit +
-      own_code,
+      own_code
+    ,
     na.rm = T,
     FUN = fsum,
     catFUN = fmode,
     keep.col.order = T,
     return = "long"
   ) %>%
-  select(-c(Function, facility.city:facility.county, facility.zipcode:fips_code,
-            treated.cluster.name:cbcp.id, treated.cluster.name:cbcp.id)) %>%
+  select(
+    -c(Function, facility.city:facility.county, facility.zipcode:fips_code, zip.length,
+       treated.cluster.name:cbcp.id)
+  ) %>%
   mutate(
     lat = as.numeric(lat),
     long = as.numeric(long),
@@ -310,39 +411,80 @@ glimpse(triQs)
 # hazardous air pollutants (benzene, 1,3-Butadiene, Hexachloro-1,3-butadiene)
 #======================================================================================================================#
 ### Variables Creation
+### Log Transformations with x + 1 to correct for 0
 #======================================================================================================================#
 triQc <- triQc %>%
   mutate(
     ind.output = vadd + prodh + matcost + energy,
-    output.perworker = (ind.output / emp),
-    output.perhr = (ind.output / prodh),
-    wage.perhr = prodw / (prodh),
-    energy.intensity = (energy / ind.output),
-
-    total.air.emissions.onsite.intensity = (total.air.emissions.onsite / ind.output),
-    total.fug.air.emissions.onsite.intensity = (total.fug.air.emissions.onsite / ind.output),
-    total.point.air.emissions.onsite.intensity = (total.point.air.emissions.onsite / ind.output),
-    total.landfills.onsite.intensity = (total.landfills.onsite / ind.output),
-    total.land.releases.onsite.intensity = (total.land.releases.onsite / ind.output),
-    total.surface.water.discharge.onsite.intensity = (total.surface.water.discharge.onsite / ind.output),
-    total.releases.onsite.intensity = (total.releases.onsite / ind.output)
+    l.ind.output = log(ind.output),
+    l.output.perworker = log((ind.output / emp) + 1),
+    l.output.perhr = log((ind.output / prodh) + 1),
+    l.wage.perhr = log((prodw / prodh) + 1),
+    l.energy.intensity = log((energy / ind.output) + 1),
+    l.total.air.emissions.onsite.intensity = log((total.air.emissions.onsite / ind.output) + 1),
+    l.total.fug.air.emissions.onsite.intensity = log((total.fug.air.emissions.onsite / ind.output) + 1),
+    l.total.point.air.emissions.onsite.intensity = log((total.point.air.emissions.onsite / ind.output) + 1),
+    l.total.landfills.onsite.intensity = log((total.landfills.onsite / ind.output) + 1),
+    l.total.land.releases.onsite.intensity = log((total.land.releases.onsite / ind.output) + 1),
+    l.total.surface.water.discharge.onsite.intensity = log((total.surface.water.discharge.onsite / ind.output) + 1),
+    l.total.releases.onsite.intensity = log((total.releases.onsite / ind.output) + 1),
+    l.total_annual_wages = log(total_annual_wages + 1),
+    l.annual_avg_wkly_wage = log(annual_avg_wkly_wage + 1),
+    l.avg_annual_pay = log(avg_annual_pay + 1),
+    l.annual_avg_emplvl = log(annual_avg_emplvl + 1),
+    l.emp = log(emp),
+    l.pay = log(pay),
+    l.prode = log(prode),
+    l.prodh = log(prodh),
+    l.prodw = log(prodw),
+    l.revenue = log(vship),
+    l.matcost = log(matcost),
+    l.invest = log(invest),
+    l.invent = log(invent),
+    l.revenue = log(vship),
+    l.cap = log(cap),
+    l.equip = log(equip),
+    l.plant = log(plant),
+    l.tfp4 = log(tfp4),
+    l.tfp5 = log(tfp5),
   )
 
-triQs <- triQs %>%
+triQc <- triQc %>%
   mutate(
     ind.output = vadd + prodh + matcost + energy,
-    output.perworker = (ind.output / emp),
-    output.perhr = (ind.output / prodh),
-    wage.perhr = prodw / (prodh),
-    energy.intensity = (energy / ind.output),
-    total.air.emissions.onsite.intensity = (total.air.emissions.onsite / ind.output),
-    total.fug.air.emissions.onsite.intensity = (total.fug.air.emissions.onsite / ind.output),
-    total.point.air.emissions.onsite.intensity = (total.point.air.emissions.onsite / ind.output),
-    total.landfills.onsite.intensity = (total.landfills.onsite / ind.output),
-    total.land.releases.onsite.intensity = (total.land.releases.onsite / ind.output),
-    total.surface.water.discharge.onsite.intensity = (total.surface.water.discharge.onsite / ind.output),
-    total.releases.onsite.intensity = (total.releases.onsite / ind.output)
+    l.ind.output = log(ind.output),
+    l.output.perworker = log((ind.output / emp) + 1),
+    l.output.perhr = log((ind.output / prodh) + 1),
+    l.wage.perhr = log((prodw / prodh) + 1),
+    l.energy.intensity = log((energy / ind.output) + 1),
+    l.total.air.emissions.onsite.intensity = log((total.air.emissions.onsite / ind.output) + 1),
+    l.total.fug.air.emissions.onsite.intensity = log((total.fug.air.emissions.onsite / ind.output) + 1),
+    l.total.point.air.emissions.onsite.intensity = log((total.point.air.emissions.onsite / ind.output) + 1),
+    l.total.landfills.onsite.intensity = log((total.landfills.onsite / ind.output) + 1),
+    l.total.land.releases.onsite.intensity = log((total.land.releases.onsite / ind.output) + 1),
+    l.total.surface.water.discharge.onsite.intensity = log((total.surface.water.discharge.onsite / ind.output) + 1),
+    l.total.releases.onsite.intensity = log((total.releases.onsite / ind.output) + 1),
+    l.total_annual_wages = log(total_annual_wages + 1),
+    l.annual_avg_wkly_wage = log(annual_avg_wkly_wage + 1),
+    l.avg_annual_pay = log(avg_annual_pay + 1),
+    l.annual_avg_emplvl = log(annual_avg_emplvl + 1),
+    l.emp = log(emp),
+    l.pay = log(pay),
+    l.prode = log(prode),
+    l.prodh = log(prodh),
+    l.prodw = log(prodw),
+    l.revenue = log(vship),
+    l.matcost = log(matcost),
+    l.invest = log(invest),
+    l.invent = log(invent),
+    l.revenue = log(vship),
+    l.cap = log(cap),
+    l.equip = log(equip),
+    l.plant = log(plant),
+    l.tfp4 = log(tfp4),
+    l.tfp5 = log(tfp5),
   )
+
 #======================================================================================================================#
 ### Save data
 #======================================================================================================================#
