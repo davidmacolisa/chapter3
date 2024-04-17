@@ -40,6 +40,10 @@ fac_states_df <- state_df %>%
     )
   ) %>%
   mutate(
+    # Treated states
+    treated = case_when(
+      state.code %in% c("AR", "CA", "DE", "ME", "MA", "MD", "MI", "MN", "NE", "NY", "WV") ~ 1, T ~ 0
+    ),
     # Year of first MW raise >= $0.5
     ch.year = case_when(
       state.code == "AR" ~ 2015,
@@ -55,7 +59,7 @@ fac_states_df <- state_df %>%
       state.code == "WV" ~ 2015, T ~ Inf
     ),
     # Treated states
-    treated = case_when(ch.year != Inf ~ 1, T ~ 0),
+    # treated = case_when(ch.year != Inf ~ 1, T ~ 0),
     # Exogenous first MW raise
     ch.amt = case_when(
       state.code == "AR" ~ 1.25,

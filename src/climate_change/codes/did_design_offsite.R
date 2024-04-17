@@ -63,6 +63,7 @@ n_distinct(triQc$facility.state)
 n_distinct(triQc$offsite.state)
 n_distinct(triQc$treated.match)
 n_distinct(triQc$control.match)
+n_distinct(triQc$chemical.name)
 sum_up(triQc %>% filter(treated == 0), c(ch.amt, sum2.sub.mw.ch, end.mw))
 
 table(triQc$govt.owned.facility)

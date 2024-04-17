@@ -125,6 +125,13 @@ sum(is.na(triQc))
 # sort(unique(triQc$year))
 
 sum(is.na(triQc))
+sum_up(triQc %>% filter(treated == 1),
+       c(total.fug.air.emissions.onsite, total.point.air.emissions.onsite, total.air.emissions.onsite,
+         total.num.receiving.streams.onsite, total.surface.water.discharge.onsite,
+         total.underground.injection.I.wells.onsite, total.underground.injection.I.IV.wells.onsite,
+         total.underground.injection.onsite, total.landfills.onsite, total.releases.toland.treatment.onsite,
+         total.surface.impoundment.onsite, total.land.releases.other.onsite, total.land.releases.onsite))
+
 sum_up(triQc %>% filter(treated == 0),
        c(total.fug.air.emissions.onsite, total.point.air.emissions.onsite, total.air.emissions.onsite,
          total.num.receiving.streams.onsite, total.surface.water.discharge.onsite,
@@ -134,6 +141,7 @@ sum_up(triQc %>% filter(treated == 0),
 
 sort(unique(triQc$year))
 sort(unique(triQc$state))
+sort(unique(triQc$chemical.name))
 n_distinct(triQc$state)
 n_distinct(triQc$facility.id)
 n_distinct(triQc$facility.city)
@@ -153,7 +161,7 @@ unique_facility_ids <- lapply(unique(triQc$year), function(y) unique(triQc$facil
 same_facility_id <- all(sapply(unique_facility_ids, function(ids) identical(ids, unique_facility_ids[[1]])))
 
 # Print the result
-if(same_facility_id) {
+if (same_facility_id) {
   print("The facility ID column is the same for all years.")
 } else {
   print("The facility ID column is not the same for all years.")
@@ -424,9 +432,14 @@ triQc <- triQc %>%
     l.total.air.emissions.onsite.intensity = log((total.air.emissions.onsite / ind.output) + 1),
     l.total.fug.air.emissions.onsite.intensity = log((total.fug.air.emissions.onsite / ind.output) + 1),
     l.total.point.air.emissions.onsite.intensity = log((total.point.air.emissions.onsite / ind.output) + 1),
-    l.total.landfills.onsite.intensity = log((total.landfills.onsite / ind.output) + 1),
-    l.total.land.releases.onsite.intensity = log((total.land.releases.onsite / ind.output) + 1),
     l.total.surface.water.discharge.onsite.intensity = log((total.surface.water.discharge.onsite / ind.output) + 1),
+    l.total.underground.injection.I.wells.onsite.intensity = log((total.underground.injection.I.wells.onsite / ind.output) + 1),
+    l.total.underground.injection.I.IV.wells.onsite.intensity = log((total.underground.injection.I.IV.wells.onsite / ind.output) + 1),
+    l.total.landfills.onsite.intensity = log((total.landfills.onsite / ind.output) + 1),
+    l.total.releases.toland.treatment.onsite.intensity = log((total.releases.toland.treatment.onsite / ind.output) + 1),
+    l.total.surface.impoundment.onsite.intensity = log((total.surface.impoundment.onsite / ind.output) + 1),
+    l.total.land.releases.other.onsite.intensity = log((total.land.releases.other.onsite / ind.output) + 1),
+    l.total.land.releases.onsite.intensity = log((total.land.releases.onsite / ind.output) + 1),
     l.total.releases.onsite.intensity = log((total.releases.onsite / ind.output) + 1),
     l.total_annual_wages = log(total_annual_wages + 1),
     l.annual_avg_wkly_wage = log(annual_avg_wkly_wage + 1),
@@ -460,9 +473,14 @@ triQc <- triQc %>%
     l.total.air.emissions.onsite.intensity = log((total.air.emissions.onsite / ind.output) + 1),
     l.total.fug.air.emissions.onsite.intensity = log((total.fug.air.emissions.onsite / ind.output) + 1),
     l.total.point.air.emissions.onsite.intensity = log((total.point.air.emissions.onsite / ind.output) + 1),
-    l.total.landfills.onsite.intensity = log((total.landfills.onsite / ind.output) + 1),
-    l.total.land.releases.onsite.intensity = log((total.land.releases.onsite / ind.output) + 1),
     l.total.surface.water.discharge.onsite.intensity = log((total.surface.water.discharge.onsite / ind.output) + 1),
+    l.total.underground.injection.I.wells.onsite.intensity = log((total.underground.injection.I.wells.onsite / ind.output) + 1),
+    l.total.underground.injection.I.IV.wells.onsite.intensity = log((total.underground.injection.I.IV.wells.onsite / ind.output) + 1),
+    l.total.landfills.onsite.intensity = log((total.landfills.onsite / ind.output) + 1),
+    l.total.releases.toland.treatment.onsite.intensity = log((total.releases.toland.treatment.onsite / ind.output) + 1),
+    l.total.surface.impoundment.onsite.intensity = log((total.surface.impoundment.onsite / ind.output) + 1),
+    l.total.land.releases.other.onsite.intensity = log((total.land.releases.other.onsite / ind.output) + 1),
+    l.total.land.releases.onsite.intensity = log((total.land.releases.onsite / ind.output) + 1),
     l.total.releases.onsite.intensity = log((total.releases.onsite / ind.output) + 1),
     l.total_annual_wages = log(total_annual_wages + 1),
     l.annual_avg_wkly_wage = log(annual_avg_wkly_wage + 1),
@@ -484,7 +502,28 @@ triQc <- triQc %>%
     l.tfp4 = log(tfp4),
     l.tfp5 = log(tfp5),
   )
+n_distinct(triQc$chemical.name)
+n_distinct(triQc$facility.id)
+sort(unique(triQc$chemical.name))
+#======================================================================================================================#
+### Experiment Design
+#======================================================================================================================#
+sort(unique(triQc$industry.name))
 
+triQc <- triQc %>%
+  mutate(
+    e.treated = case_when(year >= ch.year ~ 1, T ~ 0), #states e-years away from the initial treatment year
+    treated = case_when(treated.match %in% facility.state ~ 1, TRUE ~ 0),
+    post = case_when(year == 2014 | year == 2015 | year == 2017 ~ 1, T ~ 0),
+    rel.year = year - ch.year + 2014,
+    state.id = as.numeric(as.factor(facility.state)),
+    treated.cluster.year.fe = as.numeric(treated.cluster.id) * year,
+    county.year.fe = as.numeric(fips_code) * year,
+    fips_code = as.numeric(fips_code),
+    facility.zipcode = as.numeric(facility.zipcode),
+    gdp.1 = stats::lag(gdp, k = 1),
+    pinc.1 = stats::lag(personal_income, k = 1),
+  )
 #======================================================================================================================#
 ### Save data
 #======================================================================================================================#

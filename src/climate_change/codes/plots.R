@@ -8,20 +8,18 @@ round_df <- function(df, digits) {
 #======================================================================================================================#
 ### Plots
 #======================================================================================================================#
-triQ %>%
-  filter(treated == 1) %>%
-  group_by(facility.state, year) %>%
-  summarise(count = end.mw %>% unique()) %>%
+triQc %>%
+  # filter(treated == 1) %>%
+  group_by(year) %>%
+  summarise(avg = sd(ch.amt, na.rm = T) %>% unique()) %>%
   print(n = nrow(.))
 
 
 #======================================================================================================================#
 plot.df <- data.frame(
   year = 2011:2017,
-  air.emiss.onsite.treated.tri = c(0.102, 0.067, 0.122, 0.226, 0.192, 0.151, 0.117),
-  air.emiss.onsite.ntreated.tri = c(0.164, 0.130, 0.112, 0.074, 0.068, 0.076, 0.096),
-  # air.emiss.onsite.treated.tri = c(20.5, 14.6, 12.9, 16.5, 12.8, 10.7, 11.7),
-  # air.emiss.onsite.ntreated.tri = c(23.1, 25.0, 24.4, 14.9, 13.1, 14.4, 15.2),
+  air.emiss.onsite.treated.tri = c(0.114, 0.044, 0.094, 0.112, 0.102, 0.107, 0.133),
+  air.emiss.onsite.ntreated.tri = c(0.085, 0.097, 0.103, 0.074, 0.072, 0.064, 0.081),
   air.emiss.onsite.treated.pbt = c(0.23, 0.26, 0.26, 0.13, 0.12, 0.10, 0.09),
   air.emiss.onsite.ntreated.pbt = c(0.58, 0.49, 0.37, 0.28, 0.23, 0.28, 0.19),
   air.emiss.onsite.treated.dio = c(0.02, 0.11, 0.02, 0.01, 0.01, 0.01, 0.06),

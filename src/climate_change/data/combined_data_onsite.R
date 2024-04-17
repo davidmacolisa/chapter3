@@ -405,17 +405,33 @@ sort(unique(triM$potw.zip.length))
 ### Keeping only common facility states across years---Panelize the facility.state
 #======================================================================================================================#
 gc()
-# Split the facility id column into a list of vectors by year
+# Split the facility states column into a list of vectors by year
 facility.state_by_year <- split(triM$facility.state, triM$year)
 
-# Find the common chemicals across all states
+# Find the common states across all years
 common_facility.state <- Reduce(f = intersect, x = facility.state_by_year)
 
-# Output the common chemicals
+# Output the common states
 print(sort(common_facility.state))
 
 # Keep only common facility ids across years in the dataframe
 triM <- triM %>% filter(facility.state %in% common_facility.state)
+gc()
+#======================================================================================================================#
+### Keeping only common chemical across years---Panelize the chemicals
+#======================================================================================================================#
+gc()
+# Split the chemical name column into a list of vectors by year
+chemical_by_year <- split(triM$chemical.name, triM$year)
+
+# Find the common chemicals across all years
+common_chemical.name <- Reduce(f = intersect, x = chemical_by_year)
+
+# Output the common chemicals
+print(sort(common_chemical.name))
+
+# Keep only common chemicals across years in the dataframe
+triM <- triM %>% filter(chemical.name %in% common_chemical.name)
 gc()
 #======================================================================================================================#
 ### Keeping only common facility.id across years---Panelize the facility.ids
@@ -423,33 +439,15 @@ gc()
 # Split the facility id column into a list of vectors by year
 # facility.id_by_year <- split(triM$facility.id, triM$year)
 #
-# # Find the common chemicals across all states
+# # Find the common facility ids across all states
 # common_facility.id <- Reduce(f = intersect, x = facility.id_by_year)
 #
-# # Output the common chemicals
+# # Output the common facility ids
 # print(common_facility.id)
 #
 # # Keep only common facility ids across years in the dataframe
-# triM <- triM %>% filter(!facility.id %in% common_facility.id)
+# triM <- triM %>% filter(facility.id %in% common_facility.id)
 n_distinct(triM$facility.id)
-#======================================================================================================================#
-### Keeping only the common chemicals between the treated and the control states---Panelize the chemicals
-#======================================================================================================================#
-gc()
-n_distinct(triM$chemical.id)
-sort(unique(triM$chemical.name))
-# Split the chemicals column into a list of vectors by state
-# chemicals_by_state <- split(triM$chemical.name, triM$facility.state)
-#
-# # Find the common chemicals across all states
-# common_chemicals <- Reduce(f = intersect, x = chemicals_by_state)
-#
-# # Output the common chemicals
-# print(common_chemicals)
-#
-# # Keep common chemicals in the dataframe
-# triM <- triM %>% filter(chemical.name %in% common_chemicals)
-gc()
 #======================================================================================================================#
 ### Merge ghgp with tri, both from EPA
 #======================================================================================================================#
@@ -587,6 +585,8 @@ gc()
 sort(unique(triM$facility.state))
 sum(is.na(triM$fips_code))
 n_distinct(triQ$naics.code)
+n_distinct(triQ$facility.id)
+n_distinct(triQ$chemical.id)
 #======================================================================================================================#
 ### Merging NBER-CES DATA---Manufacturing Industry Database
 ### Based on NAICS 2012
@@ -610,6 +610,8 @@ end_time - start_time
 gc()
 
 n_distinct(triQ_manu$naics.code)
+n_distinct(triQ_manu$facility.id)
+n_distinct(triQ_manu$chemical.id)
 n_distinct(triQ_manu$facility.state)
 sort(unique(triQ_manu$facility.state))
 glimpse(triQ_manu)
