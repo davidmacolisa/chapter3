@@ -3,6 +3,7 @@
 #======================================================================================================================#
 library(tidyverse)
 library(statar)
+library(kableExtra)
 #======================================================================================================================#
 ## Working Directory
 #======================================================================================================================#
@@ -16,6 +17,47 @@ file <- "./Data_PhD/US/BLS/offsite/triQc_off.rds"
 triQc_off <- read_rds(file = file)
 file <- "./Data_PhD/US/BLS/offsite/triQc_potw.rds"
 triQc_potw <- read_rds(file = file)
+#======================================================================================================================#
+### The samples
+#======================================================================================================================#
+# Onsite
+n_distinct(triQc$facility.id)
+n_distinct(triQc$facility.zipcode)
+n_distinct(triQc[triQc$treated == 0,]$facility.state)
+n_distinct(triQc[triQc$treated == 1,]$facility.state)
+sort(unique((triQc[triQc$treated == 0,]$facility.state)))
+sort(unique((triQc[triQc$treated == 1,]$facility.state)))
+n_distinct(triQc$facility.state)
+n_distinct(triQc$chemical.name)
+n_distinct(triQc$naics.code)
+
+# Offsite
+n_distinct(triQc_off$offsite.id)
+n_distinct(triQc_off$offsite.facility.id)
+n_distinct(triQc_off$offsite.zipcode)
+n_distinct(triQc_off$offsite.city)
+n_distinct(triQc_off$offsite.county)
+n_distinct(triQc_off$offsite.state)
+n_distinct(triQc_off$chemical.name)
+n_distinct(triQc_off$naics.code)
+n_distinct(triQc_off[triQc_off$treated == 0,]$facility.state)
+n_distinct(triQc_off[triQc_off$treated == 1,]$facility.state)
+sort(unique((triQc_off$offsite.state)))
+
+# POTW
+n_distinct(triQc_potw$potw.id)
+n_distinct(triQc_potw$potw.zipcode)
+n_distinct(triQc_potw$potw.city)
+n_distinct(triQc_potw$potw.county)
+n_distinct(triQc_potw$potw.state)
+n_distinct(triQc_potw$chemical.name)
+n_distinct(triQc_potw$naics.code)
+n_distinct(triQc_potw[triQc_potw$treated == 0,]$facility.state)
+n_distinct(triQc_potw[triQc_potw$treated == 1,]$facility.state)
+sort(unique((triQc_potw[triQc_potw$treated == 0,]$facility.state)))
+sort(unique((triQc_potw$potw.state)))
+#======================================================================================================================#
+### List of the chemicals---Table
 #======================================================================================================================#
 chemicals_onsite <- triQc %>%
   select(chemical.id, chemical.name, chemical.classification, carcinogenic.chems,
@@ -65,9 +107,7 @@ chemicals.offsite <- triQc_off %>%
     dioxin.chem.class = sum(dioxin, na.rm = TRUE),
     n.carcinogen = sum(carcinogenic.chems, na.rm = TRUE),
     n.caa = sum(clean.air.act.chems, na.rm = TRUE),
-    # n.pfas = sum(pfas.chems, na.rm = TRUE),
     n.met.restr.tri = sum(metal.restrict.tri, na.rm = TRUE),
-    # n.met.incl.tri = sum(elemental.metal.included, na.rm = TRUE),
     n.chem.form.comp = sum(chemical.formulation.component, na.rm = TRUE),
     n.chem.art.comp = sum(chemical.article.component, na.rm = TRUE),
     n.chem.manu.aid = sum(chemical.manufacturing.aid, na.rm = TRUE),
@@ -93,9 +133,7 @@ chemicals_potw <- triQc_potw %>%
     dioxin.chem.class = sum(dioxin, na.rm = TRUE),
     n.carcinogen = sum(carcinogenic.chems, na.rm = TRUE),
     n.caa = sum(clean.air.act.chems, na.rm = TRUE),
-    # n.pfas = sum(pfas.chems, na.rm = TRUE),
     n.met.restr.tri = sum(metal.restrict.tri, na.rm = TRUE),
-    # n.met.incl.tri = sum(elemental.metal.included, na.rm = TRUE),
     n.chem.form.comp = sum(chemical.formulation.component, na.rm = TRUE),
     n.chem.art.comp = sum(chemical.article.component, na.rm = TRUE),
     n.chem.manu.aid = sum(chemical.manufacturing.aid, na.rm = TRUE),
@@ -139,8 +177,6 @@ chemicals <- chemicals_onsite %>%
         n.chem.art.comp == 0 |
         n.chem.manu.aid == 0 |
         n.chem.anci.use == 0 ~ "others",
-      # n.chem.trade.secret > 0 ~ "trade secret",
-      # n.chem.sanitised > 0 ~ "trade secret",
     ),
     location = case_when(
       onsite == "yes" ~ "onsite",
@@ -157,7 +193,6 @@ chemicals216 <- slice(chemicals, 109:216)
 chems <- cbind(chemicals108, chemicals216) %>% data.frame()
 
 # Convert data frame to LaTeX table
-library(kableExtra)
 chemicals_tex <- chems %>%
   kable(., format = "latex", booktabs = TRUE) %>%
   kable_styling()
