@@ -11,7 +11,7 @@ setwd(dir = "C:/Users/david/OneDrive/Documents/ULMS/PhD/")
 #======================================================================================================================#
 ### Loading Data
 #======================================================================================================================#
-file <- "./Data_PhD/US/BLS/onsite/triQc.rds"
+file <- "./Data_PhD/US/BLS/onsite/triQc_on.rds"
 triQc <- read_rds(file = file)
 file <- "./Data_PhD/US/BLS/offsite/triQc_off.rds"
 triQc_off <- read_rds(file = file)
@@ -23,6 +23,8 @@ triQc_potw <- read_rds(file = file)
 # Onsite
 n_distinct(triQc$facility.id)
 n_distinct(triQc$facility.zipcode)
+n_distinct(triQc$facility.city)
+n_distinct(triQc$facility.county)
 n_distinct(triQc[triQc$treated == 0,]$facility.state)
 n_distinct(triQc[triQc$treated == 1,]$facility.state)
 sort(unique((triQc[triQc$treated == 0,]$facility.state)))
@@ -154,7 +156,7 @@ chemicals <- chemicals_onsite %>%
     classification = case_when(
       tri.chem.class > 0 ~ "TRI",
       pbt.chem.class > 0 ~ "PBT",
-      dioxin.chem.class > 0 ~ "TRI",
+      dioxin.chem.class > 0 ~ "DIOXIN",
     ),
     attribute = case_when(
       n.carcinogen > 0 ~ "carcinogenic",
@@ -186,11 +188,13 @@ chemicals <- chemicals_onsite %>%
   ) %>%
   select(c(chemical.name, classification, attribute, onsite, offsite, potw))
 
+n_distinct(chemicals$chemical.name)
 chemicals <- chemicals[order(chemicals$chemical.name),]
-chemicals108 <- slice(chemicals, 1:108)
-chemicals216 <- slice(chemicals, 109:216)
-
-chems <- cbind(chemicals108, chemicals216) %>% data.frame()
+chemicals83 <- slice(chemicals, 1:83)
+chemicals167 <- slice(chemicals, 84:167)
+nrow(chemicals83)
+nrow(chemicals167)
+chems <- cbind(chemicals84, chemicals167) %>% data.frame()
 
 # Convert data frame to LaTeX table
 chemicals_tex <- chems %>%
@@ -206,3 +210,173 @@ writeLines(chemicals_tex, con = "./Thesis/chapter3/src/climate_change/latex/tbl_
 var_def <- triQc %>% select(c(facility.id, treated, ind.output:l.tfp5))
 var_def1 <- triQc_off %>% select(c(facility.id, treated, ind.output:l.tfp5))
 var_def2 <- triQc_potw %>% select(c(facility.id, treated, ind.output:l.tfp5))
+#======================================================================================================================#
+### Descriptive Statistics
+#======================================================================================================================#
+# Distribution of NAICS industries
+triQc %>%
+  select(industry.name, naics.code) %>%
+  group_by(industry.name) %>%
+  summarise(naics.code = n()) %>%
+  ggplot(aes(x = industry.name, y = naics.code)) +
+  geom_bar(stat = "identity", fill = "blue") +
+  labs(title = "Distribution of NAICS Industries", x = "NAICS Industries", y = "counts") +
+  theme_bw() +
+  theme(axis.text.x = element_text(angle = 90, vjust = 0.5, hjust = 1, size = 18),
+        axis.title.x = element_text(size = 18))
+#======================================================================================================================#
+# Distribution of total releases onsite by NAICS industries
+triQc %>%
+  select(industry.name, naics.code, total.releases.onsite.intensity) %>%
+  group_by(industry.name) %>%
+  summarise(naics.code = n(),
+            total.releases.onsite.intensity = sum(total.releases.onsite.intensity, na.rm = TRUE)) %>%
+  ggplot(aes(x = industry.name, y = total.releases.onsite.intensity)) +
+  geom_bar(stat = "identity", fill = "blue") +
+  labs(
+    title = "Total Releases Onsite",
+    x = "NAICS Industries",
+    y = "total releases Intensity (onsite)"
+  ) +
+  theme_bw() +
+  theme(axis.text.x = element_text(angle = 90, vjust = 0.5, hjust = 1, size = 18),
+        axis.title.x = element_text(size = 20))
+#======================================================================================================================#
+triQc %>%
+  select(facility.state, industry.name, naics.code, treated, total.releases.onsite.intensity) %>%
+  group_by(facility.state) %>%
+  summarise(
+    naics.code = n(),
+    total.releases.onsite.intensity = mean(total.releases.onsite.intensity, na.rm = TRUE),
+    treated = treated %>% unique()
+  ) %>%
+  ggplot(aes(x = facility.state, y = total.releases.onsite.intensity, fill = treated)) +
+  geom_bar(stat = "identity") +
+  labs(
+    title = "Total Releases Intensity (Onsite)",
+    x = "facility states",
+    y = "total releases (onsite)"
+  ) +
+  theme_bw() +
+  theme(axis.text.x = element_text(angle = 0, vjust = 0.0, hjust = 0.5, size = 18),
+        axis.title.x = element_text(size = 12))
+#======================================================================================================================#
+triQc %>%
+  select(facility.state, industry.name, naics.code, treated, total.air.emissions.onsite.intensity) %>%
+  group_by(facility.state) %>%
+  summarise(
+    naics.code = n(),
+    total.air.emissions.onsite.intensity = sum(total.air.emissions.onsite.intensity, na.rm = TRUE),
+    treated = treated %>% unique()
+  ) %>%
+  ggplot(aes(x = facility.state, y = total.air.emissions.onsite.intensity, fill = treated)) +
+  geom_bar(stat = "identity") +
+  labs(
+    title = "Total Air Emissions Intensity (Onsite)",
+    x = "facility states",
+    y = "total air emissions (onsite)"
+  ) +
+  theme_bw() +
+  theme(axis.text.x = element_text(angle = 0, vjust = 0.0, hjust = 0.5, size = 18),
+        axis.title.x = element_text(size = 12))
+#======================================================================================================================#
+triQc %>%
+  select(facility.state, industry.name, naics.code, treated, total.land.releases.onsite.intensity) %>%
+  group_by(facility.state) %>%
+  summarise(
+    naics.code = n(),
+    total.land.releases.onsite.intensity = sum(total.land.releases.onsite.intensity, na.rm = TRUE),
+    treated = treated %>% unique()
+  ) %>%
+  ggplot(aes(x = facility.state, y = total.land.releases.onsite.intensity, fill = treated)) +
+  geom_bar(stat = "identity") +
+  labs(
+    title = "Total land releases intensity (onsite)",
+    x = "facility states",
+    y = "total land releases intensity (onsite)"
+  ) +
+  theme_bw() +
+  theme(axis.text.x = element_text(angle = 0, vjust = 0.0, hjust = 0.5, size = 18),
+        axis.title.x = element_text(size = 12))
+#======================================================================================================================#
+triQc %>%
+  select(facility.state, industry.name, naics.code, treated, total.surface.water.discharge.onsite.intensity) %>%
+  group_by(facility.state) %>%
+  summarise(
+    naics.code = n(),
+    total.surface.water.discharge.onsite.intensity = sum(total.surface.water.discharge.onsite.intensity, na.rm = TRUE),
+    treated = treated %>% unique()
+  ) %>%
+  ggplot(aes(x = facility.state, y = total.surface.water.discharge.onsite.intensity, fill = treated)) +
+  geom_bar(stat = "identity") +
+  labs(
+    title = "Total Surface Water Discharge Intensity Onsite",
+    x = "facility states",
+    y = "total surface water discharge intensity (onsite)"
+  ) +
+  theme_bw() +
+  theme(axis.text.x = element_text(angle = 0, vjust = 0.0, hjust = 0.5, size = 18),
+        axis.title.x = element_text(size = 12))
+#======================================================================================================================#
+triQc %>%
+  select(
+    facility.state, industry.name, naics.code, own_code, federal.facility,
+    govt.owned.facility, total.releases.onsite,
+  ) %>%
+  mutate(
+    ownership = case_when(
+      federal.facility == 1 ~ "federal",
+      govt.owned.facility == 1 ~ "state",
+      own_code == 5 ~ "private"
+    )
+  ) %>%
+  filter(!is.na(ownership)) %>%  # Filter out rows where ownership is NA
+  group_by(ownership) %>%
+  summarise(
+    naics.code = n(),
+    own.code = own_code %>% unique()
+  ) %>%
+  ggplot(aes(x = ownership, y = naics.code)) +
+  geom_bar(stat = "identity", fill = "blue") +
+  labs(
+    title = "Distribution of Industries by Ownership Type",
+    x = "Ownership Types",
+    y = "counts"
+  ) +
+  theme_bw() +
+  theme(axis.text.x = element_text(angle = 90, vjust = 0.5, hjust = 1, size = 18),
+        axis.title.x = element_text(size = 20))
+#======================================================================================================================#
+### Balance Test
+#======================================================================================================================#
+library(tableone)
+
+b_test <- CreateTableOne(
+  vars = c("treated", "trade.secret"),
+  strata = "treated",
+  factorVars = c("treated, trade.secret"),
+  test = T,
+  data = triQc
+)
+
+print(b_test, smd = T)
+# Define treatment variable and covariates
+
+library(vtable)
+triQc %>%
+  select(treated, trade.secret) %>%
+  sumtable(group = "treated", group.test = T)
+
+library(cobalt)
+triQc$p.score <- glm(treated ~ wage.perhr, data = triQc,
+                     family = "binomial")$fitted.values
+covariates <- subset(triQc, select = c(wage.perhr))
+
+## Propensity score weighting using IPTW
+triQc$iptw.weights <- ifelse(test = triQc$treated == 1,
+                             yes = 1 / triQc$p.score,
+                             no = 1 / (1 - triQc$p.score))
+
+bal.tab(x = covariates, treat = "treated", data = triQc,
+        weights = "iptw.weights", s.d.denom = "pooled")
+

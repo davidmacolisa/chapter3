@@ -21,7 +21,7 @@ setwd(dir = "C:/Users/david/OneDrive/Documents/ULMS/PhD/")
 #======================================================================================================================#
 start_time <- Sys.time()
 triQ <- read_rds(file = "./Data_PhD/US/BLS/triQ.rds") %>%
-  group_by(facility.county, year) %>%
+  group_by(fips_code, year) %>%
   mutate(
     tot.ch.amt = ch.amt + sum2.sub.mw.ch,
     end.mw = start.mw + tot.ch.amt,
@@ -68,7 +68,7 @@ triQ <- read_rds(file = "./Data_PhD/US/BLS/triQ.rds") %>%
       # establishments, employment, and industry-level variables (total employment, pay, production workers,
       # production worker hours, production workers wages, value of shipments, material cost, value added,
       # investments, inventories, energy cost, capital, equipment, plant, and total factor productivity growth rate)
-      personal_income:tfp5, population, treated:sum2.sub.mw.ch, tot.ch.amt, start.mw, end.mw, match.ch.amt,
+      cpi:tfp5, population, treated:sum2.sub.mw.ch, tot.ch.amt, start.mw, end.mw, match.ch.amt,
       match.ch.year, dist.to.border
     )) %>%
   data.frame()
@@ -123,8 +123,92 @@ sum(is.na(triQc))
 # triQc <- triQc[complete.cases(triQc$emp),]
 # na_columns <- colnames(triQc)[colSums(is.na(triQc)) > 0]
 # sort(unique(triQc$year))
+#======================================================================================================================#
+### Functions to panelize the IDs
+#======================================================================================================================#
+# Function to get unique IDs across years
+get_unique_ids <- function(df, id_var, year_var) {
+  # order the df by year
+  df <- df[order(df[[year_var]]),]
 
-sum(is.na(triQc))
+  # Get unique IDs for each year
+  unique_ids_by_year <- split(df[[id_var]], df[[year_var]])
+  unique_ids <- lapply(unique_ids_by_year, unique)
+
+  # Get the IDs from the first year
+  ids_year1 <- unique_ids[[1]]
+
+  # Check if these IDs are in all other years
+  ids_in_all_years <- Reduce(f = intersect, x = unique_ids)
+
+  # Subset the data frame to keep only these IDs
+  df_subset <- df[df[[id_var]] %in% ids_in_all_years,]
+
+  return(df_subset)
+}
+
+# Function to check if IDs in the first year are the same across all years
+check_ids <- function(df, id_var, year_var) {
+  # order the df by year
+  df <- df[order(df[[year_var]]),]
+
+  # Get unique IDs for each year
+  unique_ids <- split(df[[id_var]], df[[year_var]])
+  unique_ids <- lapply(unique_ids, unique)
+
+  # Get the IDs from the first year
+  ids_year1 <- unique_ids[[1]]
+
+  # Check if these IDs are in all other years
+  ids_in_all_years <- Reduce(intersect, unique_ids)
+
+  # Check if the IDs from the first year are the same as the IDs in all years
+  same_ids <- all(ids_year1 %in% ids_in_all_years)
+
+  # Print a statement saying whether or not the IDs are the same across years
+  if (same_ids) {
+    print("The IDs in the first year are the same across all other years.")
+  } else {
+    print("The IDs in the first year are not the same across all other years.")
+  }
+}
+#======================================================================================================================#
+### Keeping only common facility.id across years---Panelize the facility.ids
+#======================================================================================================================#
+triQc <- get_unique_ids(df = triQc, id_var = "facility.id", year_var = "year")
+check_ids(df = triQc, id_var = "facility.id", year_var = "year")
+n_distinct(triQc$facility.id)
+#======================================================================================================================#
+### Keeping only common facility.city across years---Panelize the facility.city
+#======================================================================================================================#
+triQc <- get_unique_ids(df = triQc, id_var = "facility.city", year_var = "year")
+check_ids(df = triQc, id_var = "facility.city", year_var = "year")
+n_distinct(triQc$facility.city)
+#======================================================================================================================#
+### Keeping only common naics.code across years---Panelize the naics.code
+#======================================================================================================================#
+triQc <- get_unique_ids(df = triQc, id_var = "naics.code", year_var = "year")
+check_ids(df = triQc, id_var = "naics.code", year_var = "year")
+n_distinct(triQc$naics.code)
+#======================================================================================================================#
+### Keeping only common chemical across years---Panelize the chemicals
+#======================================================================================================================#
+triQc <- get_unique_ids(df = triQc, id_var = "chemical.id", year_var = "year")
+check_ids(df = triQc, id_var = "chemical.id", year_var = "year")
+n_distinct(triQc$chemical.id)
+#======================================================================================================================#
+### Keeping only common facility states across years---Panelize the facility.state
+#======================================================================================================================#
+#triQc <- get_unique_ids(df = triQc, id_var = "facility.state", year_var = "year")
+check_ids(df = triQc, id_var = "facility.state", year_var = "year")
+#======================================================================================================================#
+check_ids(df = triQc, id_var = "facility.id", year_var = "year")
+check_ids(df = triQc, id_var = "facility.city", year_var = "year")
+check_ids(df = triQc, id_var = "naics.code", year_var = "year")
+check_ids(df = triQc, id_var = "naics.code", year_var = "year")
+check_ids(df = triQc, id_var = "chemical.id", year_var = "year")
+check_ids(df = triQc, id_var = "facility.state", year_var = "year")
+#======================================================================================================================#
 sum_up(triQc %>% filter(treated == 1),
        c(total.fug.air.emissions.onsite, total.point.air.emissions.onsite, total.air.emissions.onsite,
          total.num.receiving.streams.onsite, total.surface.water.discharge.onsite,
@@ -144,28 +228,13 @@ sort(unique(triQc$state))
 sort(unique(triQc$chemical.name))
 n_distinct(triQc$state)
 n_distinct(triQc$facility.id)
-n_distinct(triQc$facility.city)
 n_distinct(triQc$facility.zipcode)
+n_distinct(triQc$facility.city)
+n_distinct(triQc$fips_code)
 n_distinct(triQc$facility.county)
 n_distinct(triQc$chemical.name)
-n_distinct(triQc$industry.name)
 n_distinct(triQc$naics.code)
-
-#======================================================================================================================#
-### Check if the facility ID column is the same for all years
-#======================================================================================================================#
-# Get unique facility IDs for each year
-unique_facility_ids <- lapply(unique(triQc$year), function(y) unique(triQc$facility.id[triQc$year == y]))
-
-# Check if all unique facility IDs are the same across all years
-same_facility_id <- all(sapply(unique_facility_ids, function(ids) identical(ids, unique_facility_ids[[1]])))
-
-# Print the result
-if (same_facility_id) {
-  print("The facility ID column is the same for all years.")
-} else {
-  print("The facility ID column is not the same for all years.")
-}
+n_distinct(triQc$industry.name)
 #======================================================================================================================#
 ### For the state-level analysis---Onsite
 ### Collapse triQc to state level
@@ -429,8 +498,8 @@ triQc <- triQc %>%
     l.output.perworker = log(x = output.perworker),
     output.perhr = ind.output / prodh,
     l.output.perhr = log(x = output.perhr),
-    tot.ind.wages = prodw * prode,
-    l.tot.ind.wages = log(x = tot.ind.wages),
+    wage.perworker = prodw / prode,
+    l.wage.perworker = log(x = wage.perworker),
     wage.perhr = prodw / prodh,
     l.wage.perhr = log(x = wage.perhr),
     energy.intensity = energy / ind.output,
@@ -458,11 +527,22 @@ triQc <- triQc %>%
     l.total.land.releases.onsite.intensity = log(x = (total.land.releases.onsite.intensity + 1)),
     total.releases.onsite.intensity = total.releases.onsite / ind.output,
     l.total.releases.onsite.intensity = log(x = (total.releases.onsite.intensity + 1)),
-    l.total_annual_wages = log(total_annual_wages + 1),
-    l.annual_avg_wkly_wage = log(annual_avg_wkly_wage + 1),
-    l.avg_annual_pay = log(avg_annual_pay + 1),
-    l.annual_avg_emplvl = log(x = (annual_avg_emplvl + 1)),
+    l.annual.avg.emplvl = log(x = (annual_avg_emplvl + 1)),
+    l.total.annual.wages = log(x = (total_annual_wages + 1)),
+    l.taxable.annual.wages = log(x = (taxable_annual_wages + 1)),
+    l.annual.contributions = log(x = (annual_contributions + 1)),
+    l.annual.avg.wkly.wages = log(x = (annual_avg_wkly_wage + 1)),
+    l.avg.annual.pay = log(x = (avg_annual_pay + 1)),
+    l.cpi = log(x = (cpi)),
     private.naics = ifelse(test = own_code == 5, yes = 1, no = 0),
+    annual.avg.emplvl.1 = stats::lag(annual_avg_emplvl, k = 1),
+    total.annual.wages.1 = stats::lag(total_annual_wages, k = 1),
+    taxable.annual.wages.1 = stats::lag(taxable_annual_wages, k = 1),
+    annual.contributions.1 = stats::lag(annual_contributions, k = 1),
+    annual.avg.wkly.wages.1 = stats::lag(annual_avg_wkly_wage, k = 1),
+    avg.annual.pay.1 = stats::lag(avg_annual_pay, k = 1),
+    cpi.1 = stats::lag(cpi, k = 1),
+    emp.1 = stats::lag(emp, k = 1),
     l.emp = log(emp),
     l.pay = log(pay),
     l.prode = log(prode),
@@ -478,6 +558,8 @@ triQc <- triQc %>%
     l.plant = log(plant),
     l.tfp4 = log(tfp4),
     l.tfp5 = log(tfp5),
+    gdp.pc = gdp / population,
+    gdppc.1 = stats::lag(gdp.pc, k = 1),
     gdp.1 = stats::lag(gdp, k = 1),
     pinc.1 = stats::lag(personal_income, k = 1),
     annual.avg.estabs.1 = stats::lag(annual_avg_estabs, k = 1),
@@ -499,8 +581,8 @@ triQs <- triQs %>%
     l.output.perworker = log(x = output.perworker),
     output.perhr = ind.output / prodh,
     l.output.perhr = log(x = output.perhr),
-    tot.ind.wages = prodw * prode,
-    l.tot.ind.wages = log(x = tot.ind.wages),
+    wage.perworker = prodw / prode,
+    l.wage.perworker = log(x = wage.perworker),
     wage.perhr = prodw / prodh,
     l.wage.perhr = log(x = wage.perhr),
     energy.intensity = energy / ind.output,
@@ -528,11 +610,22 @@ triQs <- triQs %>%
     l.total.land.releases.onsite.intensity = log(x = (total.land.releases.onsite.intensity + 1)),
     total.releases.onsite.intensity = total.releases.onsite / ind.output,
     l.total.releases.onsite.intensity = log(x = (total.releases.onsite.intensity + 1)),
-    l.total_annual_wages = log(total_annual_wages + 1),
-    l.annual_avg_wkly_wage = log(annual_avg_wkly_wage + 1),
-    l.avg_annual_pay = log(avg_annual_pay + 1),
-    l.annual_avg_emplvl = log(x = (annual_avg_emplvl + 1)),
+    l.annual.avg.emplvl = log(x = (annual_avg_emplvl + 1)),
+    l.total.annual.wages = log(x = (total_annual_wages + 1)),
+    l.taxable.annual.wages = log(x = (taxable_annual_wages + 1)),
+    l.annual.contributions = log(x = (annual_contributions + 1)),
+    l.annual.avg.wkly.wages = log(x = (annual_avg_wkly_wage + 1)),
+    l.avg.annual.pay = log(x = (avg_annual_pay + 1)),
+    l.cpi = log(x = (cpi)),
     private.naics = ifelse(test = own_code == 5, yes = 1, no = 0),
+    annual.avg.emplvl.1 = stats::lag(annual_avg_emplvl, k = 1),
+    total.annual.wages.1 = stats::lag(total_annual_wages, k = 1),
+    taxable.annual.wages.1 = stats::lag(taxable_annual_wages, k = 1),
+    annual.contributions.1 = stats::lag(annual_contributions, k = 1),
+    annual.avg.wkly.wages.1 = stats::lag(annual_avg_wkly_wage, k = 1),
+    avg.annual.pay.1 = stats::lag(avg_annual_pay, k = 1),
+    cpi.1 = stats::lag(cpi, k = 1),
+    emp.1 = stats::lag(emp, k = 1),
     l.emp = log(emp),
     l.pay = log(pay),
     l.prode = log(prode),
@@ -548,6 +641,8 @@ triQs <- triQs %>%
     l.plant = log(plant),
     l.tfp4 = log(tfp4),
     l.tfp5 = log(tfp5),
+    gdp.pc = gdp / population,
+    gdppc.1 = stats::lag(gdp.pc, k = 1),
     gdp.1 = stats::lag(gdp, k = 1),
     pinc.1 = stats::lag(personal_income, k = 1),
     annual.avg.estabs.1 = stats::lag(annual_avg_estabs, k = 1),
@@ -574,29 +669,31 @@ triQc <- triQc %>%
     e.treated = case_when(year >= ch.year ~ 1, T ~ 0), #states e-years away from the initial treatment year
     post = case_when(year == 2014 | year == 2015 | year == 2017 ~ 1, T ~ 0),
     rel.year = year - ch.year + 2014,
+    facility.id = as.numeric(facility.id),
     facility.zipcode = as.numeric(facility.zipcode),
     naics.code = as.numeric(naics.code),
     fips.code = as.numeric(fips.code),
     state.id = as.numeric(as.factor(facility.state)),
     treated.cluster.id = as.numeric(treated.cluster.id),
     control.cluster.id = as.numeric(control.cluster.id),
-    zip.naics.fe = as.numeric(facility.zipcode) * as.numeric(naics.code),
-    zip.fips.fe = as.numeric(facility.zipcode) * as.numeric(fips.code),
+    facility.year.fe = as.numeric(facility.id) * year,
     zip.year.fe = as.numeric(facility.zipcode) * year,
+    naics.year.fe = as.numeric(naics.code) * year,
     fips.year.fe = as.numeric(fips.code) * year,
+    state.year.fe = as.numeric(state.id) * year,
     treated.cluster.year.fe = as.numeric(treated.cluster.id) * year,
     control.cluster.year.fe = as.numeric(control.cluster.id) * year,
-    naics.fips.fe = as.numeric(naics.code) * as.numeric(fips.code),
-    naics.year.fe = as.numeric(naics.code) * year,
     fips.state.fe = as.numeric(fips.code) * as.numeric(state.id),
-    state.year.fe = as.numeric(state.id) * year,
+    zip.naics.fe = as.numeric(facility.zipcode) * as.numeric(naics.code),
+    zip.fips.fe = as.numeric(facility.zipcode) * as.numeric(fips.code),
+    naics.fips.fe = as.numeric(naics.code) * as.numeric(fips.code),
   )
 #======================================================================================================================#
 ### Save data
 #======================================================================================================================#
 start_time <- Sys.time()
-write_rds(triQc, file = "./Data_PhD/US/BLS/onsite/triQc.rds", compress = "xz")
-write_rds(triQs, file = "./Data_PhD/US/BLS/onsite/triQs.rds", compress = "xz")
+write_rds(triQc, file = "./Data_PhD/US/BLS/onsite/triQc_on.rds", compress = "xz")
+write_rds(triQs, file = "./Data_PhD/US/BLS/onsite/triQs_on.rds", compress = "xz")
 end_time <- Sys.time()
 end_time - start_time
 #======================================================================================================================#

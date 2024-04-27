@@ -6,7 +6,6 @@ library(statar)
 library(usgeogr)
 # install.packages("remotes")
 # remotes::install_github("davidsovich/usgeogr")
-library(usmap)
 #======================================================================================================================#
 ### Working Directory
 #======================================================================================================================#
@@ -23,14 +22,13 @@ triQ <- read_rds(file = "./Data_PhD/US/BLS/triQ.rds") %>%
     end.mw = start.mw + tot.ch.amt
   ) %>%
   select(c(
-    year, facility.id, facility.zipcode, facility.city, facility.county, fips_code, facility.state, state,
-    lat, long, potw.id, potw.zipcode, potw.city, potw.county, naics.code:unit.of.measure, potw.state, potw.zip.length,
-    contains(match = "potw"), entire.facility, govt.owned.facility, clean.air.act.chems,
-    carcinogenic.chems, metal.restrict.tri, produced.chem.facility, production.ratio.activity.index,
-    production.or.activity, imported.chem.facility, pi.chem.facility, chemical.formulation.component,
-    chemical.article.component, chemical.manufacturing.aid, chemical.ancilliary.use, comment.type,
-    comment.type.description, comment.text, classification, personal_income:tfp5, population,
-    treated:sum2.sub.mw.ch, tot.ch.amt, start.mw, end.mw, match.ch.amt, match.ch.year, dist.to.border
+    year, offsite.state, facility.state, facility.county, state, lat, long, potw.id, potw.zipcode, potw.city,
+    potw.county, naics.code:unit.of.measure, potw.state, potw.zip.length, contains(match = "potw"), entire.facility,
+    govt.owned.facility, clean.air.act.chems, carcinogenic.chems, metal.restrict.tri, produced.chem.facility,
+    production.ratio.activity.index, production.or.activity, imported.chem.facility, pi.chem.facility,
+    chemical.formulation.component, chemical.article.component, chemical.manufacturing.aid, chemical.ancilliary.use,
+    comment.type, comment.type.description, comment.text, classification, cpi:tfp5, population, treated:sum2.sub.mw.ch,
+    tot.ch.amt, start.mw, end.mw, match.ch.amt, match.ch.year, dist.to.border
   )) %>%
   data.frame()
 end_time <- Sys.time()
@@ -48,13 +46,6 @@ sort(unique(triQc$year))
 sum(is.na(triQc))
 
 sum_up(triQc, potw.releases.underground.Iwells.offsite:total.potw.management.offsite)
-
-sum(is.na(triQc$facility.id))
-triQc_na <- triQc[triQc$facility.id == "NA",]
-triQc <- triQc[complete.cases(triQc$facility.id),]
-na_columns <- colnames(triQc)[colSums(is.na(triQc)) > 0]
-sort(unique(triQc$year))
-
 #======================================================================================================================#
 ### Imputation with before and after ids
 #======================================================================================================================#
@@ -66,14 +57,14 @@ triQc_na <- triQc[triQc$potw.id == "NA",]
 if (!requireNamespace(package = "zoo", quietly = TRUE)) {
   install.packages(pkgs = "zoo")
 }
-library(zoo)
 
+library(zoo)
 # Fill missing values with the last observed value (before) and next observed value (after)
 filled_data <- zoo::na.locf(triQc$potw.id, na.rm = FALSE) # before
 filled_data_after <- zoo::na.locf(triQc$potw.id, fromLast = TRUE, na.rm = FALSE) # after
 
 # Combine before and after to get filled values
-filled_data <- ifelse(is.na(filled_data), filled_data_after, filled_data)
+filled_data <- ifelse(test = is.na(filled_data), yes = filled_data_after, no = filled_data)
 
 # Replace the original column with filled values
 triQc$potw.id <- filled_data
@@ -119,12 +110,84 @@ sum_up(triQc %>% filter(treated == 0), c(ch.amt, sum2.sub.mw.ch, end.mw))
 glimpse(triQc)
 str(triQc)
 #======================================================================================================================#
+### Functions to panelize the IDs
+#======================================================================================================================#
+# Function to get unique IDs across years
+get_unique_ids <- function(df, id_var, year_var) {
+  # order the df by year
+  df <- df[order(df[[year_var]]),]
+
+  # Get unique IDs for each year
+  unique_ids_by_year <- split(df[[id_var]], df[[year_var]])
+  unique_ids <- lapply(unique_ids_by_year, unique)
+
+  # Get the IDs from the first year
+  ids_year1 <- unique_ids[[1]]
+
+  # Check if these IDs are in all other years
+  ids_in_all_years <- Reduce(f = intersect, x = unique_ids)
+
+  # Subset the data frame to keep only these IDs
+  df_subset <- df[df[[id_var]] %in% ids_in_all_years,]
+
+  return(df_subset)
+}
+
+# Function to check if IDs in the first year are the same across all years
+check_ids <- function(df, id_var, year_var) {
+  # order the df by year
+  df <- df[order(df[[year_var]]),]
+
+  # Get unique IDs for each year
+  unique_ids <- split(df[[id_var]], df[[year_var]])
+  unique_ids <- lapply(unique_ids, unique)
+
+  # Get the IDs from the first year
+  ids_year1 <- unique_ids[[1]]
+
+  # Check if these IDs are in all other years
+  ids_in_all_years <- Reduce(intersect, unique_ids)
+
+  # Check if the IDs from the first year are the same as the IDs in all years
+  same_ids <- all(ids_year1 %in% ids_in_all_years)
+
+  # Print a statement saying whether or not the IDs are the same across years
+  if (same_ids) {
+    print("The IDs in the first year are the same across all other years.")
+  } else {
+    print("The IDs in the first year are not the same across all other years.")
+  }
+}
+
+#======================================================================================================================#
+### Keeping only common offsite potw.ids across years---Panelize the potw.ids
+#======================================================================================================================#
+triQc <- get_unique_ids(df = triQc, id_var = "potw.id", year_var = "year")
+check_ids(df = triQc, id_var = "potw.id", year_var = "year")
+n_distinct(triQc$potw.id)
+#======================================================================================================================#
+### Keeping only common facility states across years---Panelize the facility.state
+#======================================================================================================================#
+triQc <- get_unique_ids(df = triQc, id_var = "facility.state", year_var = "year")
+check_ids(df = triQc, id_var = "facility.state", year_var = "year")
+n_distinct(triQc$facility.state)
+sort(unique(triQc$facility.state))
+#======================================================================================================================#
+### Keeping only common chemical across years---Panelize the chemicals
+#======================================================================================================================#
+triQc <- get_unique_ids(df = triQc, id_var = "chemical.id", year_var = "year")
+check_ids(df = triQc, id_var = "chemical.id", year_var = "year")
+n_distinct(triQc$chemical.id)
+#======================================================================================================================#
+check_ids(df = triQc, id_var = "potw.id", year_var = "year")
+check_ids(df = triQc, id_var = "facility.state", year_var = "year")
+check_ids(df = triQc, id_var = "chemical.id", year_var = "year")
+#======================================================================================================================#
 ### For the state-level analysis---Onsite
 ### Collapse triQc to state level
 #======================================================================================================================#
 library(collapse)
 triQs <- triQc %>%
-  # group_by(facility.state) %>%
   collap(
     X = .,
     by = ~potw.id +
@@ -174,12 +237,10 @@ triQs <- triQc %>%
     return = "long"
   ) %>%
   select(
-    -c(Function, facility.id:fips_code, lat:long, potw.zipcode:potw.county, industry.category,
+    -c(Function, lat:long, potw.zipcode:potw.county, industry.category,
        treated.cluster.name:cbcp.id, treated.cluster.lat:control.cluster.long)
   ) %>%
   mutate(
-    # lat = as.numeric(lat),
-    # long = as.numeric(long),
     entire.facility = as.numeric(entire.facility),
     govt.owned.facility = as.numeric(govt.owned.facility),
     clean.air.act.chems = as.numeric(clean.air.act.chems),
@@ -198,8 +259,6 @@ triQs <- triQc %>%
 #======================================================================================================================#
 triQc <- triQc %>%
   mutate(
-    # lat = as.numeric(lat),
-    # long = as.numeric(long),
     entire.facility = as.numeric(entire.facility),
     govt.owned.facility = as.numeric(govt.owned.facility),
     clean.air.act.chems = as.numeric(clean.air.act.chems),

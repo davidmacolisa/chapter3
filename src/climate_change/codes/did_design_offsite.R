@@ -23,13 +23,13 @@ triQ <- read_rds(file = "./Data_PhD/US/BLS/triQ.rds") %>%
     end.mw = start.mw + tot.ch.amt
   ) %>%
   select(c(
-    year, facility.id, facility.zipcode, facility.city, facility.county, fips_code, facility.state, state, lat, long,
-    offsite.id, offsite.facility.id, offsite.sequence.number, offsite.zipcode, offsite.city, offsite.county,
-    offsite.state, offsite.zip.length, naics.code, industry.name, chemical.id, chemical.name, chemical.classification,
-    unit.of.measure, contains(match = "offsite"), entire.facility, federal.facility, govt.owned.facility, comment.type,
-    comment.type.description, comment.text, classification, clean.air.act.chems, carcinogenic.chems,
-    metal.restrict.tri:pi.chem.facility, chemical.formulation.component:chemical.ancilliary.use, personal_income:tfp5,
-    population, treated:sum2.sub.mw.ch, tot.ch.amt, start.mw, end.mw, match.ch.amt, match.ch.year, dist.to.border
+    year, facility.state, state, lat, long, offsite.id, offsite.facility.id, offsite.sequence.number, offsite.zipcode,
+    offsite.city, offsite.county, offsite.state, offsite.zip.length, naics.code, industry.name, chemical.id,
+    chemical.name, chemical.classification, unit.of.measure, contains(match = "offsite"), entire.facility,
+    federal.facility, govt.owned.facility, comment.type, comment.type.description, comment.text, classification,
+    clean.air.act.chems, carcinogenic.chems, metal.restrict.tri:pi.chem.facility,
+    chemical.formulation.component:chemical.ancilliary.use, cpi:tfp5, population, treated:sum2.sub.mw.ch, tot.ch.amt,
+    start.mw, end.mw, match.ch.amt, match.ch.year, dist.to.border
   )) %>%
   select(-contains(match = "potw")) %>%
   data.frame()
@@ -39,7 +39,6 @@ gc()
 
 unique(triQ$chemical.ancilliary.use)
 sum_up(triQ, total.releases.offsite)
-
 
 triQc <- triQ %>%
   select(
@@ -51,6 +50,123 @@ na_columns <- colnames(triQc)[colSums(is.na(triQc)) > 0]
 triQc <- triQc[complete.cases(triQc),]
 sort(unique(triQc$year))
 sum(is.na(triQc))
+#======================================================================================================================#
+### Functions to panelize the IDs
+#======================================================================================================================#
+# Function to get unique IDs across years
+get_unique_ids <- function(df, id_var, year_var) {
+  # order the df by year
+  df <- df[order(df[[year_var]]),]
+
+  # Get unique IDs for each year
+  unique_ids_by_year <- split(df[[id_var]], df[[year_var]])
+  unique_ids <- lapply(unique_ids_by_year, unique)
+
+  # Get the IDs from the first year
+  ids_year1 <- unique_ids[[1]]
+
+  # Check if these IDs are in all other years
+  ids_in_all_years <- Reduce(f = intersect, x = unique_ids)
+
+  # Subset the data frame to keep only these IDs
+  df_subset <- df[df[[id_var]] %in% ids_in_all_years,]
+
+  return(df_subset)
+}
+
+# Function to check if IDs in the first year are the same across all years
+check_ids <- function(df, id_var, year_var) {
+  # order the df by year
+  df <- df[order(df[[year_var]]),]
+
+  # Get unique IDs for each year
+  unique_ids <- split(df[[id_var]], df[[year_var]])
+  unique_ids <- lapply(unique_ids, unique)
+
+  # Get the IDs from the first year
+  ids_year1 <- unique_ids[[1]]
+
+  # Check if these IDs are in all other years
+  ids_in_all_years <- Reduce(intersect, unique_ids)
+
+  # Check if the IDs from the first year are the same as the IDs in all years
+  same_ids <- all(ids_year1 %in% ids_in_all_years)
+
+  # Print a statement saying whether or not the IDs are the same across years
+  if (same_ids) {
+    print("The IDs in the first year are the same across all other years.")
+  } else {
+    print("The IDs in the first year are not the same across all other years.")
+  }
+}
+
+#======================================================================================================================#
+### Keeping only common facility states across years---Panelize the facility.state
+#======================================================================================================================#
+triQc <- get_unique_ids(df = triQc, id_var = "facility.state", year_var = "year")
+check_ids(df = triQc, id_var = "facility.state", year_var = "year")
+n_distinct(triQc$facility.state)
+sort(unique(triQc$facility.state))
+#======================================================================================================================#
+### Keeping only common offsite ids and offsite facility.id across years---Panelize the offsite facility.ids
+#======================================================================================================================#
+triQc <- get_unique_ids(df = triQc, id_var = "offsite.id", year_var = "year")
+check_ids(df = triQc, id_var = "offsite.id", year_var = "year")
+n_distinct(triQc$offsite.id)
+
+triQc <- get_unique_ids(df = triQc, id_var = "offsite.facility.id", year_var = "year")
+check_ids(df = triQc, id_var = "offsite.facility.id", year_var = "year")
+n_distinct(triQc$offsite.facility.id)
+#======================================================================================================================#
+### Keeping only common offsite.zipcode across years---Panelize the offsite.zipcode
+#======================================================================================================================#
+triQc <- get_unique_ids(df = triQc, id_var = "offsite.zipcode", year_var = "year")
+check_ids(df = triQc, id_var = "offsite.zipcode", year_var = "year")
+n_distinct(triQc$offsite.zipcode)
+#======================================================================================================================#
+### Keeping only common offsite.city across years---Panelize the offsite.city
+#======================================================================================================================#
+triQc <- get_unique_ids(df = triQc, id_var = "offsite.city", year_var = "year")
+check_ids(df = triQc, id_var = "offsite.city", year_var = "year")
+n_distinct(triQc$offsite.city)
+#======================================================================================================================#
+### Keeping only common offsite.county across years---Panelize the offsite.county
+#======================================================================================================================#
+triQc <- get_unique_ids(df = triQc, id_var = "offsite.county", year_var = "year")
+check_ids(df = triQc, id_var = "offsite.county", year_var = "year")
+n_distinct(triQc$offsite.county)
+#======================================================================================================================#
+### Keeping only common naics.code across years---Panelize the naics.code
+#======================================================================================================================#
+triQc <- get_unique_ids(df = triQc, id_var = "naics.code", year_var = "year")
+check_ids(df = triQc, id_var = "naics.code", year_var = "year")
+n_distinct(triQc$naics.code)
+#======================================================================================================================#
+### Keeping only common chemical across years---Panelize the chemicals
+#======================================================================================================================#
+triQc <- get_unique_ids(df = triQc, id_var = "chemical.id", year_var = "year")
+check_ids(df = triQc, id_var = "chemical.id", year_var = "year")
+n_distinct(triQc$chemical.id)
+#======================================================================================================================#
+check_ids(df = triQc, id_var = "offsite.id", year_var = "year")
+check_ids(df = triQc, id_var = "offsite.facility.id", year_var = "year")
+check_ids(df = triQc, id_var = "offsite.zipcode", year_var = "year")
+check_ids(df = triQc, id_var = "offsite.city", year_var = "year")
+check_ids(df = triQc, id_var = "offsite.county", year_var = "year")
+check_ids(df = triQc, id_var = "naics.code", year_var = "year")
+check_ids(df = triQc, id_var = "chemical.id", year_var = "year")
+#======================================================================================================================#
+sum_up(triQc, c(total.underground.injection.offsite, total.landfills.offsite, total.releases.toland.treatment.offsite,
+                total.surface.impoundment.offsite, total.land.releases.other.offsite, total.land.releases.offsite,
+                total.releases.storage.offsite, total.releases.metalsolidify.offsite, total.releases.other.mgt.offsite,
+                total.releases.wastebroker.offsite, total.releases.unknown.offsite, total.releases.offsite,
+                energy.recovery.offsite))
+
+sum_up(triQc, c(total.underground.injection.offsite, total.landfills.offsite, total.releases.toland.treatment.offsite,
+                total.surface.impoundment.offsite, total.land.releases.other.offsite, total.land.releases.offsite,
+                total.releases.storage.offsite, total.releases.metalsolidify.offsite, total.releases.other.mgt.offsite,
+                total.releases.wastebroker.offsite, total.releases.unknown.offsite, total.releases.offsite,
+                energy.recovery.offsite))
 
 sum_up(triQc, c(total.underground.injection.offsite, total.landfills.offsite, total.releases.toland.treatment.offsite,
                 total.surface.impoundment.offsite, total.land.releases.other.offsite, total.land.releases.offsite,
@@ -59,6 +175,8 @@ sum_up(triQc, c(total.underground.injection.offsite, total.landfills.offsite, to
                 energy.recovery.offsite))
 
 sort(unique(triQc$facility.state))
+sort(unique(triQc[triQc$treated == 1,]$facility.state))
+sort(unique(triQc[triQc$treated == 0,]$facility.state))
 n_distinct(triQc$facility.state)
 n_distinct(triQc$offsite.state)
 n_distinct(triQc$treated.match)
@@ -66,7 +184,7 @@ n_distinct(triQc$control.match)
 n_distinct(triQc$chemical.name)
 sum_up(triQc %>% filter(treated == 0), c(ch.amt, sum2.sub.mw.ch, end.mw))
 
-table(triQc$govt.owned.facility)
+table(triQc$chemical.name)
 #======================================================================================================================#
 ### For the state-level analysis---Onsite
 ### Collapse triQc to state level
@@ -76,6 +194,7 @@ triQs <- triQc %>%
   collap(
     X = .,
     by = ~
+      offsite.sequence.number +
       offsite.facility.id +
         facility.state +
         offsite.state +
@@ -99,10 +218,8 @@ triQs <- triQc %>%
         chemical.name +
         chemical.classification +
         unit.of.measure +
-        entire.facility +
-        federal.facility +
-        govt.owned.facility +
-        clean.air.act.chems +
+      entire.facility +
+      clean.air.act.chems +
         carcinogenic.chems +
         metal.restrict.tri +
         produced.chem.facility +
@@ -122,13 +239,12 @@ triQs <- triQc %>%
     return = "long"
   ) %>%
   select(
-    -c(Function, facility.id:facility.county, offsite.id, offsite.sequence.number:offsite.county,
-       offsite.zipcode, offsite.zip.length, fips_code, treated.cluster.name:cbcp.id,
-       treated.cluster.lat:control.cluster.long, dist.to.border, lat, long)
+    -c(Function, offsite.id, offsite.zipcode:offsite.county, offsite.zipcode, offsite.zip.length,
+       treated.cluster.name:cbcp.id, treated.cluster.lat:control.cluster.long, dist.to.border, lat, long,
+       federal.facility, govt.owned.facility)
   ) %>%
   mutate(
     entire.facility = as.numeric(entire.facility),
-    govt.owned.facility = as.numeric(govt.owned.facility),
     clean.air.act.chems = as.numeric(clean.air.act.chems),
     carcinogenic.chems = as.numeric(carcinogenic.chems),
     metal.restrict.tri = as.numeric(metal.restrict.tri),
@@ -140,6 +256,7 @@ triQs <- triQc %>%
     chemical.manufacturing.aid = as.numeric(chemical.manufacturing.aid),
     chemical.ancilliary.use = as.numeric(chemical.ancilliary.use)
   )
+table(triQs$chemical.ancilliary.use)
 
 #======================================================================================================================#
 ### Converting variables in triQc to numeric
@@ -149,7 +266,6 @@ triQc <- triQc %>%
     lat = as.numeric(lat),
     long = as.numeric(long),
     entire.facility = as.numeric(entire.facility),
-    govt.owned.facility = as.numeric(govt.owned.facility),
     clean.air.act.chems = as.numeric(clean.air.act.chems),
     carcinogenic.chems = as.numeric(carcinogenic.chems),
     metal.restrict.tri = as.numeric(metal.restrict.tri),
@@ -163,7 +279,7 @@ triQc <- triQc %>%
   )
 glimpse(triQc)
 glimpse(triQs)
-sum(is.na(triQs$federal.facility))
+table(triQs$chemical.ancilliary.use)
 #======================================================================================================================#
 ### TRI for researchers: source - https://shorturl.at/kqvy7
 ### CAUSING CANCER: source- https://ntp.niehs.nih.gov/whatwestudy/assessments/cancer/roc#toc1
@@ -231,9 +347,9 @@ triQc <- triQc %>%
     l.total.landfills.offsite = log((total.landfills.offsite / ind.output) + 1),
     l.total.landfills.offsite = log((total.landfills.offsite / ind.output) + 1),
     l.total.landfills.offsite = log((total.landfills.offsite / ind.output) + 1),
-    l.total_annual_wages = log(total_annual_wages + 1),
-    l.annual_avg_wkly_wage = log(annual_avg_wkly_wage + 1),
-    l.avg_annual_pay = log(avg_annual_pay + 1),
+    # l.total_annual_wages = log(total_annual_wages + 1),
+    # l.annual_avg_wkly_wage = log(annual_avg_wkly_wage + 1),
+    # l.avg_annual_pay = log(avg_annual_pay + 1),
     l.annual_avg_emplvl = log(annual_avg_emplvl + 1),
     l.emp = log(emp),
     l.pay = log(pay),
@@ -322,7 +438,6 @@ triQs <- triQs %>%
     l.tfp4 = log(tfp4),
     l.tfp5 = log(tfp5),
   )
-
 #======================================================================================================================#
 ### Save data
 #======================================================================================================================#

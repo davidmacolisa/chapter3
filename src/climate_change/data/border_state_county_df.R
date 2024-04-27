@@ -33,18 +33,18 @@ fac_states_df <- state_df %>%
   filter(
     state.code %in% c(
       #treated states
-      "AR", "CA", "DE", "ME", "MA", "MD", "MI", "MN", "NE", "NY", "WV",
+      "AR", "CA", "DE", "ME", "MA", "MD", "MI", "MN", "NE", "NJ", "NY", "SD", "WV",
       #control states
-      "GA", "IA", "ID", "IL", "IN", "KS", "KY", "NH", "NM", "NV", "NC",
-      "ND", "OK", "PA", "TX", "UT", "VA", "WI", "WY"
+      "GA", "IA", "ID", "IL", "IN", "KS", "KY", "NH", "NM", "NV", "NC", "ND", "OK",
+      "PA", "TX", "UT", "VA", "WI", "WY"
     )
   ) %>%
   mutate(
     # Treated states
     treated = case_when(
-      state.code %in% c("AR", "CA", "DE", "ME", "MA", "MD", "MI", "MN", "NE", "NY", "WV") ~ 1, T ~ 0
+      state.code %in% c("AR", "CA", "DE", "ME", "MA", "MD", "MI", "MN", "NE", "NJ", "NY", "SD", "WV") ~ 1, T ~ 0
     ),
-    # Year of first MW raise >= $0.5
+    # Year of first MW raise >= $0.45
     ch.year = case_when(
       state.code == "AR" ~ 2015,
       state.code == "CA" ~ 2014,
@@ -55,7 +55,9 @@ fac_states_df <- state_df %>%
       state.code == "MI" ~ 2014,
       state.code == "MN" ~ 2014,
       state.code == "NE" ~ 2015,
+      state.code == "NJ" ~ 2014,
       state.code == "NY" ~ 2014,
+      state.code == "SD" ~ 2015,
       state.code == "WV" ~ 2015, T ~ Inf
     ),
     # Treated states
@@ -71,7 +73,9 @@ fac_states_df <- state_df %>%
       state.code == "MI" ~ 0.75,
       state.code == "MN" ~ 1.85,
       state.code == "NE" ~ 0.75,
+      state.code == "NJ" ~ 1,
       state.code == "NY" ~ 0.75,
+      state.code == "SD" ~ 1.25,
       state.code == "WV" ~ 0.75, T ~ 0
     ),
     # Exogenous subsequent MW raise
@@ -85,7 +89,9 @@ fac_states_df <- state_df %>%
       state.code == "MI" ~ 0.75,
       state.code == "MN" ~ 1.5,
       state.code == "NE" ~ 1,
+      state.code == "NJ" ~ 0.19,
       state.code == "NY" ~ 1.7,
+      state.code == "SD" ~ 0.15,
       state.code == "WV" ~ 0.75, T ~ 0
     ),
     # Starting MW
@@ -99,7 +105,9 @@ fac_states_df <- state_df %>%
       state.code == "MI" ~ 7.4,
       state.code == "MN" ~ 6.16,
       state.code == "NE" ~ 7.25,
+      state.code == "NJ" ~ 7.25,
       state.code == "NY" ~ 7.25,
+      state.code == "SD" ~ 7.25,
       state.code == "WV" ~ 7.25,
       state.code == "IA" ~ 7.25,
       state.code == "IL" ~ 8.25,
@@ -121,14 +129,15 @@ fac_states_df <- state_df %>%
     y = adjacent_county_df %>%
       select(c(county_state, neighbor_state)) %>%
       rename(match.state = neighbor_state) %>%
-      filter(match.state %in% c("AR", "CA", "DE", "ME", "MA", "MD", "MI", "MN", "NE", "NY", "WV")),
+      filter(match.state %in% c("AR", "CA", "DE", "ME", "MA", "MD", "MI", "MN", "NE", "NJ", "NY", "SD", "WV")),
     by = c("state.code" = "county_state")
   ) %>%
   # Removing GA, ID, NM, NC and UT for they didn't match to any treated states
   filter(!is.na(match.state)) %>%
   # Removing a treated state matched to another treated state
   mutate(overlap = paste(state.code, match.state, sep = "-")) %>%
-  filter(!overlap %in% c("DE-MD", "MA-NY", "MD-DE", "MD-WV", "MI-MN", "MN-MI", "NY-MA", "WV-MD")) %>%
+  filter(!overlap %in% c("DE-MD", "DE-NJ", "MA-NY", "MD-DE", "MD-WV", "MI-MN", "MN-MI", "MN-SD",
+                         "NE-SD", "NJ-DE", "NJ-NY", "NY-MA", "NY-NJ", "SD-MN", "SD-NE", "WV-MD")) %>%
   mutate(
     # Exogenous first MW raise
     match.ch.amt = case_when(
@@ -141,7 +150,9 @@ fac_states_df <- state_df %>%
       match.state == "MI" ~ 0.75,
       match.state == "MN" ~ 1.85,
       match.state == "NE" ~ 0.75,
+      match.state == "NJ" ~ 1,
       match.state == "NY" ~ 0.75,
+      match.state == "SD" ~ 1.25,
       match.state == "WV" ~ 0.75
     ),
     match.ch.year = case_when(
@@ -154,7 +165,9 @@ fac_states_df <- state_df %>%
       match.state == "MI" ~ 2014,
       match.state == "MN" ~ 2014,
       match.state == "NE" ~ 2015,
+      match.state == "NJ" ~ 2014,
       match.state == "NY" ~ 2014,
+      match.state == "SD" ~ 2015,
       match.state == "WV" ~ 2015
     ),
   ) %>%
@@ -167,7 +180,7 @@ fac_county_df <- fac_states_df %>%
     y = adjacent_county_df %>%
       rename(county.name = county_name) %>%
       filter(
-        neighbor_state %in% c("AR", "CA", "DE", "ME", "MA", "MD", "MI", "MN", "NE", "NY", "WV")
+        neighbor_state %in% c("AR", "CA", "DE", "ME", "MA", "MD", "MI", "MN", "NE", "NJ", "NY", "SD", "WV")
       ),
     by = c("state.code" = "county_state")
   ) %>%
@@ -224,11 +237,11 @@ fac_county_df <- fac_states_df %>%
   distinct()
 
 sum(is.na(fac_county_df))
-sort(unique(fac_county_df$state.border.id))
 n_distinct(fac_county_df$state.code)
-sort(unique(fac_county_df$state.code))
 sort(unique(fac_county_df$treated.match))
 sort(unique(fac_county_df$control.match))
+sort(unique(fac_county_df$state.border.id))
+sort(unique(fac_county_df$state.code))
 #======================================================================================================================#
 ### Label the counties
 #======================================================================================================================#
@@ -269,9 +282,17 @@ fac_county_df[fac_county_df$treated.match == "NE",]$treated.cluster.name <-
   gsub(pattern = "\\b(\\w+)$", replacement = " NE",
        fac_county_df[fac_county_df$treated.match == "NE",]$treated.cluster.name)
 
+fac_county_df[fac_county_df$treated.match == "NJ",]$treated.cluster.name <-
+  gsub(pattern = "\\b(\\w+)$", replacement = " NJ",
+       fac_county_df[fac_county_df$treated.match == "NJ",]$treated.cluster.name)
+
 fac_county_df[fac_county_df$treated.match == "NY",]$treated.cluster.name <-
   gsub(pattern = "\\b(\\w+)$", replacement = " NY",
        fac_county_df[fac_county_df$treated.match == "NY",]$treated.cluster.name)
+
+fac_county_df[fac_county_df$treated.match == "SD",]$treated.cluster.name <-
+  gsub(pattern = "\\b(\\w+)$", replacement = " SD",
+       fac_county_df[fac_county_df$treated.match == "SD",]$treated.cluster.name)
 
 fac_county_df[fac_county_df$treated.match == "WV",]$treated.cluster.name <-
   gsub(pattern = "\\b(\\w+)$", replacement = " WV",
