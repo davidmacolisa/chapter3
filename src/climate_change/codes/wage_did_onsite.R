@@ -42,14 +42,14 @@ treat_sel <- fixest::feols(
       population.1 +
       annual.avg.estabs.1 +
       cpi.1 +
-      private.naics
+      federal.facility
   )
     |
     csw(
       year,
       treated.cluster.id,
-      treated.cluster.year.fe,
-      state.id
+      state.id,
+      treated.cluster.year.fe
     )
   ,
   data = triQc,
@@ -59,22 +59,21 @@ fixest::etable(treat_sel)
 #======================================================================================================================#
 ### Labour cost: Industry production workers' wages
 #======================================================================================================================#
-sum_up(triQc, prodw)
+sum_up(triQf, prodw)
 reg_wage <- fixest::feols(
   prodw ~ e.treated +
     sw0(
       gdppc.1 +
-        population.1 +
         annual.avg.estabs.1 +
         cpi.1 +
-        private.naics
+        federal.facility
     )
     |
     csw(,
       year,
       treated.cluster.id,
-      treated.cluster.year.fe,
-      state.id
+      state.id,
+      treated.cluster.year.fe
     )
   ,
   data = triQc,
@@ -86,17 +85,16 @@ reg_wage <- fixest::feols(
   l.prodw ~ e.treated +
     sw0(
       gdppc.1 +
-        population.1 +
         annual.avg.estabs.1 +
         cpi.1 +
-        private.naics
+        federal.facility
     )
     |
     csw(,
       year,
       treated.cluster.id,
-      treated.cluster.year.fe,
-      state.id
+      state.id,
+      treated.cluster.year.fe
     )
   ,
   data = triQc,
@@ -108,15 +106,14 @@ reg_wage <- fixest::feols(
   l.prodw ~
     i(rel.year, ref = c(2013, Inf)) +
       gdppc.1 +
-      population.1 +
       annual.avg.estabs.1 +
       cpi.1 +
-      private.naics
+      federal.facility
       |
       year +
         treated.cluster.id +
-        treated.cluster.year.fe +
-        state.id
+        state.id +
+        treated.cluster.year.fe
   ,
   data = triQc,
   cluster = ~state.id,
@@ -137,17 +134,16 @@ reg_wage_pw <- fixest::feols(
   wage.perworker ~ e.treated +
     sw0(
       gdppc.1 +
-        population.1 +
         annual.avg.estabs.1 +
         cpi.1 +
-        private.naics
+        federal.facility
     )
     |
     csw(,
       year,
       treated.cluster.id,
-      treated.cluster.year.fe,
-      state.id
+      state.id,
+      treated.cluster.year.fe
     )
   ,
   data = triQc,
@@ -159,17 +155,16 @@ reg_wage_pw <- fixest::feols(
   l.wage.perworker ~ e.treated +
     sw0(
       gdppc.1 +
-        population.1 +
         annual.avg.estabs.1 +
         cpi.1 +
-        private.naics
+        federal.facility
     )
     |
     csw(,
       year,
       treated.cluster.id,
-      treated.cluster.year.fe,
-      state.id
+      state.id,
+      treated.cluster.year.fe
     )
   ,
   data = triQc,
@@ -181,15 +176,14 @@ reg_wage_pw <- fixest::feols(
   l.wage.perworker ~
     i(rel.year, ref = c(2013, Inf)) +
       gdppc.1 +
-      population.1 +
       annual.avg.estabs.1 +
       cpi.1 +
-      private.naics
+      federal.facility
       |
       year +
         treated.cluster.id +
-        treated.cluster.year.fe +
-        state.id
+        state.id +
+        treated.cluster.year.fe
   ,
   data = triQc,
   cluster = ~state.id,
@@ -210,17 +204,16 @@ reg_wagephr <- fixest::feols(
   wage.perhr ~ e.treated +
     sw0(
       gdppc.1 +
-        population.1 +
         annual.avg.estabs.1 +
         cpi.1 +
-        private.naics
+        federal.facility
     )
     |
     csw(,
       year,
       treated.cluster.id,
-      treated.cluster.year.fe,
-      state.id
+      state.id,
+      treated.cluster.year.fe
     )
   ,
   data = triQc,
@@ -232,17 +225,16 @@ reg_wagephr <- fixest::feols(
   l.wage.perhr ~ e.treated +
     sw0(
       gdppc.1 +
-        population.1 +
         annual.avg.estabs.1 +
         cpi.1 +
-        private.naics
+        federal.facility
     )
     |
     csw(,
       year,
       treated.cluster.id,
-      treated.cluster.year.fe,
-      state.id
+      state.id,
+      treated.cluster.year.fe
     )
   ,
   data = triQc,
@@ -255,15 +247,14 @@ reg_wagephr <- fixest::feols(
   l.wage.perhr ~
     i(rel.year, ref = c(2013, Inf)) +
       gdppc.1 +
-      population.1 +
       annual.avg.estabs.1 +
       cpi.1 +
-      private.naics
+      federal.facility
       |
       year +
         treated.cluster.id +
-        treated.cluster.year.fe +
-        state.id
+        state.id +
+        treated.cluster.year.fe
   ,
   data = triQc,
   cluster = ~state.id,
@@ -284,17 +275,16 @@ reg_pay <- fixest::feols(
   pay ~ e.treated +
     sw0(
       gdppc.1 +
-        population.1 +
         annual.avg.estabs.1 +
         cpi.1 +
-        private.naics
+        federal.facility
     )
     |
     csw(,
       year,
       treated.cluster.id,
-      treated.cluster.year.fe,
-      state.id
+      state.id,
+      treated.cluster.year.fe
     )
   ,
   data = triQc,
@@ -307,17 +297,16 @@ reg_pay <- fixest::feols(
   l.pay ~ e.treated +
     sw0(
       gdppc.1 +
-        population.1 +
         annual.avg.estabs.1 +
         cpi.1 +
-        private.naics
+        federal.facility
     )
     |
     csw(,
       year,
       treated.cluster.id,
-      treated.cluster.year.fe,
-      state.id
+      state.id,
+      treated.cluster.year.fe
     )
   ,
   data = triQc,
@@ -329,15 +318,14 @@ fixest::etable(reg_pay)
 reg_pay <- fixest::feols(
   l.pay ~ i(rel.year, ref = c(2013, Inf)) +
     gdppc.1 +
-    population.1 +
     annual.avg.estabs.1 +
     cpi.1 +
-    private.naics
+    federal.facility
     |
     year +
       treated.cluster.id +
-      treated.cluster.year.fe +
-      state.id
+      state.id +
+      treated.cluster.year.fe
   ,
   data = triQc,
   cluster = ~state.id,
@@ -358,17 +346,16 @@ reg_matcost <- fixest::feols(
   l.matcost ~ e.treated +
     sw0(
       gdppc.1 +
-        population.1 +
         annual.avg.estabs.1 +
         cpi.1 +
-        private.naics
+        federal.facility
     )
     |
     csw(,
       year,
       treated.cluster.id,
-      treated.cluster.year.fe,
-      state.id
+      state.id,
+      treated.cluster.year.fe
     )
   ,
   data = triQc,
@@ -380,15 +367,14 @@ fixest::etable(reg_matcost)
 reg_matcost <- fixest::feols(
   l.matcost ~ i(rel.year, ref = c(2013, Inf)) +
     gdppc.1 +
-    population.1 +
     annual.avg.estabs.1 +
     cpi.1 +
-    private.naics
+    federal.facility
     |
     year +
       treated.cluster.id +
-      treated.cluster.year.fe +
-      state.id
+      state.id +
+      treated.cluster.year.fe
   ,
   data = triQc,
   cluster = ~state.id,
@@ -409,17 +395,16 @@ reg_emp <- fixest::feols(
   l.emp ~ e.treated +
     sw0(
       gdppc.1 +
-        population.1 +
         annual.avg.estabs.1 +
         cpi.1 +
-        private.naics
+        federal.facility
     )
     |
     csw(,
       year,
       treated.cluster.id,
-      treated.cluster.year.fe,
-      state.id
+      state.id,
+      treated.cluster.year.fe
     )
   ,
   data = triQc,
@@ -431,15 +416,14 @@ fixest::etable(reg_emp)
 reg_emp <- fixest::feols(
   l.emp ~ i(rel.year, ref = c(2013, Inf)) +
     gdppc.1 +
-    population.1 +
     annual.avg.estabs.1 +
     cpi.1 +
-    private.naics
+    federal.facility
     |
     year +
       treated.cluster.id +
-      treated.cluster.year.fe +
-      state.id
+      state.id +
+      treated.cluster.year.fe
   ,
   data = triQc,
   cluster = ~state.id,

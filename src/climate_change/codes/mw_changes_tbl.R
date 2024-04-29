@@ -108,6 +108,12 @@ border_county <- triQc %>%
 sum(border_county$treated.border.counties, na.rm = TRUE)
 sum(border_county$control.border.counties, na.rm = TRUE)
 
+# Post-initial MW average
+sum(border_county$match.ch.amt, na.rm = TRUE) / nrow(border_county)
+1.02 / sum(border_county$match.ch.amt, na.rm = TRUE)
+sum(border_county$tot.ch.amt, na.rm = TRUE) / nrow(border_county)
+1.95 / sum(border_county$tot.ch.amt, na.rm = TRUE)
+
 # Convert data frame to LaTeX table
 library(kableExtra)
 border_county_tex <- border_county %>%

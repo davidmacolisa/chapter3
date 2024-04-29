@@ -21,6 +21,7 @@ triQc_potw <- read_rds(file = file)
 ### The samples
 #======================================================================================================================#
 # Onsite
+nrow(triQc)
 n_distinct(triQc$facility.id)
 n_distinct(triQc$facility.zipcode)
 n_distinct(triQc$facility.city)
@@ -32,6 +33,7 @@ sort(unique((triQc[triQc$treated == 1,]$facility.state)))
 n_distinct(triQc$facility.state)
 n_distinct(triQc$chemical.name)
 n_distinct(triQc$naics.code)
+n_distinct(triQc$industry.name)
 
 # Offsite
 n_distinct(triQc_off$offsite.id)
