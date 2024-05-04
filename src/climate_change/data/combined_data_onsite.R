@@ -42,7 +42,7 @@ tri <- readRDS(file = filepath) %>%
     )
   ) %>%
   select(
-    -c(facility.state.code, naics, naics.sector.code, offsite.province, offsite.countryid, mixture)
+    -c(naics.sector.code, offsite.province, offsite.countryid, mixture)
   ) %>%
   data.frame()
 

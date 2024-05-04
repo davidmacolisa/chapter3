@@ -1,11 +1,4 @@
 #======================================================================================================================#
-### PhD Chapter 3
-### Indirect Consequences of a Raising Minimum Wage
-### 30 October 2023
-### Use Regression Discontinuity Analysis
-#======================================================================================================================#
-### Packages
-#======================================================================================================================#
 library(tidyverse)
 library(statar)
 library(fixest)
@@ -21,100 +14,27 @@ setwd(dir = "C:/Users/david/OneDrive/Documents/ULMS/PhD/")
 file <- "./Data_PhD/US/BLS/onsite/triQc_on.rds"
 triQc <- read_rds(file = file)
 #======================================================================================================================#
-### Labour Cost---Wage per hr, weekly wages, and  total wages
+### Summary
 #======================================================================================================================#
-table(triQc$facility.state, triQc$ch.year)
-n_distinct(triQc$chemical.name)
-sort(unique(triQc$chemical.name))
-sort(unique(triQc$facility.state.id))
-sort(unique(triQc$year))
-sort(unique(triQc$rel.year))
+sum_up(triQc, c(energy.recovery.onsite, industrial.kiln.onsite, industrial.furnace.onsite, industrial.boiler.onsite,
+                recycling.onsite, metal.recovery.onsite, solvent.recovery.onsite, reuse.onsite,
+                biological.treatment.onsite, chemical.treatment.onsite, incineration.thermal.treatment.onsite,
+                physical.treatment.onsite, treatment.onsite, air.emissions.treatment.onsite,
+                total.waste.management.onsite, material.subandmod, sub.fuel.matsubmod, sub.organic.solvent.matsubmod,
+                sub.rawm.feedstock.reactchem.matsubmod, sub.manu.proccess.ancilliary.chems.matsubmod,
+                mod.content.grade.purity.chems.matsubmod, other.matmods.matsubmod, product.modification,
+                devd.newproductline.pmod, mod.packaging.pmod, other.pmods.pmod, process.equip.modification,
+                optimised.process.efficiency.pequipmod, recirculationinprocess.pequipmod,
+                newtech.technique.process.pequipmod, other.pequipmods.pequipmod, inventory.material.mgt,
+                better.labelling.testing.immgt, containers.sizechange.immgt, improved.materialhandling.operations.immgt,
+                improved.monitoring.immgt, other.immgts.immgt, operating.practices.training,
+                improved.schdule.operation.procedures.opt, changed.production.schedule.opt,
+                intro.inline.productquality.process.analysis.opt, r.and.d, waste.water.treatment, recycling.dummy))
 #======================================================================================================================#
-### Onsite: Total releases intensity
+### Raw Material Substitution
 #======================================================================================================================#
-start_time <- Sys.time()
-did_total_releases <- fixest::feols(
-  l.total.releases.onsite.intensity ~ e.treated +
-    sw0(
-      gdppc.1 +
-        annual.avg.estabs.1 +
-        cpi.1 +
-        federal.facility +
-        produced.chem.facility +
-        imported.chem.facility +
-        chemical.formulation.component +
-        chemical.article.component +
-        chemical.manufacturing.aid +
-        chemical.ancilliary.use +
-        production.ratio.activity.index +
-        maxnum.chem.onsite +
-        trade.secret
-    )
-    |
-    csw(,
-      year,
-      facility.id,
-      fips.code,
-      facility.county,
-      treated.cluster.id,
-      facility.state.id,
-      chemical.id,
-      chemical.year.fe,
-    )
-  ,
-  data = triQc,
-  cluster = ~c(chemical.id, naics.code, facility.state.id)
-)
-end_time <- Sys.time()
-end_time - start_time
-fixest::etable(did_total_releases, digits = 4, digits.stats = 4)
-
-did_total_releases <- fixest::feols(
-  l.total.releases.onsite.intensity ~
-    i(rel.year, ref = c(2013, Inf)) +
-      gdppc.1 +
-      annual.avg.estabs.1 +
-      cpi.1 +
-      federal.facility +
-      produced.chem.facility +
-      imported.chem.facility +
-      chemical.formulation.component +
-      chemical.article.component +
-      chemical.manufacturing.aid +
-      chemical.ancilliary.use +
-      production.ratio.activity.index +
-      maxnum.chem.onsite +
-      trade.secret
-      |
-      year +
-        facility.id +
-        fips.code +
-        facility.county +
-        treated.cluster.id +
-        facility.state.id +
-        chemical.id +
-        chemical.year.fe
-  ,
-  data = triQc,
-  cluster = ~c(chemical.id, naics.code, facility.state.id),
-)
-fixest::etable(did_total_releases, digits = 4, digits.stats = 4)
-fixest::iplot(did_total_releases, xlim = c(2011, 2017), ylim = c(-0.5, 0.5), col = "blue",
-              main = "Total Onsite Releases Intensity", xlab = "relative year") %>%
-  abline(v = 2013, col = "red", lty = 2, lwd = 2)
-### Testing for pre-trends
-pre.treat.coef <- coef(did_total_releases)[grep(pattern = "rel.year", names(coef(did_total_releases)))]
-pre.treat.coef <- pre.treat.coef[4:5]
-linearHypothesis(did_total_releases, paste0(names(pre.treat.coef), " = 0"), test = "F")
-#======================================================================================================================#
-### Onsite: Total air emissions intensity
-#======================================================================================================================#
-sum_up(triQc, c(total.point.air.emissions.onsite, total.fug.air.emissions.onsite, total.air.emissions.onsite))
-sum_up(triQc, c(total.point.air.emissions.onsite.intensity, total.fug.air.emissions.onsite.intensity,
-                total.air.emissions.onsite.intensity, l.total.surface.water.discharge.onsite.intensity))
-
-did_air <- fixest::feols(
-  l.total.air.emissions.onsite.intensity ~ e.treated +
+did_mat_submod <- fixest::feols(
+  material.subandmod ~ e.treated +
     sw0(
       gdppc.1 +
         annual.avg.estabs.1 +
@@ -145,50 +65,12 @@ did_air <- fixest::feols(
   data = triQc,
   cluster = ~c(chemical.id, naics.code, facility.state.id)
 )
-fixest::etable(did_air, digits = 4, digits.stats = 4)
-
-did_air <- fixest::feols(
-  l.total.air.emissions.onsite.intensity ~
-    i(rel.year, ref = c(2013, Inf)) +
-      gdppc.1 +
-      annual.avg.estabs.1 +
-      cpi.1 +
-      federal.facility +
-      produced.chem.facility +
-      imported.chem.facility +
-      chemical.formulation.component +
-      chemical.article.component +
-      chemical.manufacturing.aid +
-      chemical.ancilliary.use +
-      production.ratio.activity.index +
-      maxnum.chem.onsite +
-      trade.secret
-      |
-      year +
-        facility.id +
-        fips.code +
-        facility.county +
-        treated.cluster.id +
-        facility.state.id +
-        chemical.id +
-        chemical.year.fe
-  ,
-  data = triQc,
-  cluster = ~c(chemical.id, naics.code, facility.state.id),
-)
-fixest::etable(did_air, digits = 4, digits.stats = 4)
-fixest::iplot(did_air, xlim = c(2011, 2017), ylim = c(-0.4, 0.4), col = "blue",
-              main = "Total Onsite Air Emissions Intensity", xlab = "relative year") %>%
-  abline(v = 2013, col = "red", lty = 2, lwd = 2)
-### Testing for pre-trends
-pre.treat.coef <- coef(did_air)[grep(pattern = "rel.year", names(coef(did_air)))]
-pre.treat.coef <- pre.treat.coef[4:5]
-linearHypothesis(did_air, paste0(names(pre.treat.coef), " = 0"), test = "F")
+fixest::etable(did_mat_submod, digits = 4, digits.stats = 4)
 #======================================================================================================================#
-### Onsite: Total point air emissions intensity
+### Raw Material: Organic Solvent Substitution
 #======================================================================================================================#
-did_point_air <- fixest::feols(
-  l.total.point.air.emissions.onsite.intensity ~ e.treated +
+did_organic_solvent <- fixest::feols(
+  sub.organic.solvent.matsubmod ~ e.treated +
     sw0(
       gdppc.1 +
         annual.avg.estabs.1 +
@@ -219,50 +101,12 @@ did_point_air <- fixest::feols(
   data = triQc,
   cluster = ~c(chemical.id, naics.code, facility.state.id)
 )
-fixest::etable(did_point_air, digits = 4, digits.stats = 4)
-
-did_point_air <- fixest::feols(
-  l.total.point.air.emissions.onsite.intensity ~
-    i(rel.year, ref = c(2013, Inf)) +
-      gdppc.1 +
-      annual.avg.estabs.1 +
-      cpi.1 +
-      federal.facility +
-      produced.chem.facility +
-      imported.chem.facility +
-      chemical.formulation.component +
-      chemical.article.component +
-      chemical.manufacturing.aid +
-      chemical.ancilliary.use +
-      production.ratio.activity.index +
-      maxnum.chem.onsite +
-      trade.secret
-      |
-      year +
-        facility.id +
-        fips.code +
-        facility.county +
-        treated.cluster.id +
-        facility.state.id +
-        chemical.id +
-        chemical.year.fe
-  ,
-  data = triQc,
-  cluster = ~c(chemical.id, naics.code, facility.state.id),
-)
-fixest::etable(did_point_air, digits = 4, digits.stats = 4)
-fixest::iplot(did_point_air, xlim = c(2011, 2017), ylim = c(-0.4, 0.4), col = "blue",
-              main = "Total Onsite Point Air Emissions Intensity", xlab = "relative year") %>%
-  abline(v = 2013, col = "red", lty = 2, lwd = 2)
-### Testing for pre-trends
-pre.treat.coef <- coef(did_point_air)[grep(pattern = "rel.year", names(coef(did_point_air)))]
-pre.treat.coef <- pre.treat.coef[4:5]
-linearHypothesis(did_point_air, paste0(names(pre.treat.coef), " = 0"), test = "F")
+fixest::etable(did_organic_solvent, digits = 4, digits.stats = 4)
 #======================================================================================================================#
-### Onsite: Total fugitive air emissions intensity
+### Raw Material: Feedstock and Reactive Chemical Substitution
 #======================================================================================================================#
-did_fug_air <- fixest::feols(
-  l.total.fug.air.emissions.onsite.intensity ~ e.treated +
+did_feedstock_reactchems <- fixest::feols(
+  sub.rawm.feedstock.reactchem.matsubmod ~ e.treated +
     sw0(
       gdppc.1 +
         annual.avg.estabs.1 +
@@ -293,53 +137,12 @@ did_fug_air <- fixest::feols(
   data = triQc,
   cluster = ~c(chemical.id, naics.code, facility.state.id)
 )
-fixest::etable(did_fug_air, digits = 4, digits.stats = 4)
-
-did_fug_air <- fixest::feols(
-  l.total.fug.air.emissions.onsite.intensity ~
-    i(rel.year, ref = c(2013, Inf)) +
-      gdppc.1 +
-      annual.avg.estabs.1 +
-      cpi.1 +
-      federal.facility +
-      produced.chem.facility +
-      imported.chem.facility +
-      chemical.formulation.component +
-      chemical.article.component +
-      chemical.manufacturing.aid +
-      chemical.ancilliary.use +
-      production.ratio.activity.index +
-      maxnum.chem.onsite +
-      trade.secret
-      |
-      year +
-        facility.id +
-        fips.code +
-        facility.county +
-        treated.cluster.id +
-        facility.state.id +
-        chemical.id +
-        chemical.year.fe
-  ,
-  data = triQc,
-  cluster = ~c(chemical.id, naics.code, facility.state.id),
-)
-fixest::etable(did_fug_air, digits = 4, digits.stats = 4)
-fixest::iplot(did_fug_air, xlim = c(2011, 2017), ylim = c(-0.4, 0.4), col = "blue",
-              main = "Total Onsite Fugitive Air Emissions Intensity", xlab = "relative year") %>%
-  abline(v = 2013, col = "red", lty = 2, lwd = 2)
-### Testing for pre-trends
-pre.treat.coef <- coef(did_fug_air)[grep(pattern = "rel.year", names(coef(did_fug_air)))]
-pre.treat.coef <- pre.treat.coef[4:5]
-linearHypothesis(did_fug_air, paste0(names(pre.treat.coef), " = 0"), test = "F")
+fixest::etable(did_feedstock_reactchems, digits = 4, digits.stats = 4)
 #======================================================================================================================#
-### Onsite: Total surface water discharge intensity
+### Raw Material: manufacturing, processing and ancillary chemical aid Substitution
 #======================================================================================================================#
-sum_up(triQc, c(total.num.receiving.streams.onsite, total.surface.water.discharge.onsite))
-sum_up(triQc, c(total.num.receiving.streams.onsite.intensity, total.surface.water.discharge.onsite.intensity))
-
-did_water_disc <- fixest::feols(
-  l.total.surface.water.discharge.onsite.intensity ~ e.treated +
+did_manu_aid <- fixest::feols(
+  sub.manu.proccess.ancilliary.chems.matsubmod ~ e.treated +
     sw0(
       gdppc.1 +
         annual.avg.estabs.1 +
@@ -370,50 +173,12 @@ did_water_disc <- fixest::feols(
   data = triQc,
   cluster = ~c(chemical.id, naics.code, facility.state.id)
 )
-fixest::etable(did_water_disc, digits = 4, digits.stats = 4)
-
-did_water_disc <- fixest::feols(
-  l.total.surface.water.discharge.onsite.intensity ~
-    i(rel.year, ref = c(2013, Inf)) +
-      gdppc.1 +
-      annual.avg.estabs.1 +
-      cpi.1 +
-      federal.facility +
-      produced.chem.facility +
-      imported.chem.facility +
-      chemical.formulation.component +
-      chemical.article.component +
-      chemical.manufacturing.aid +
-      chemical.ancilliary.use +
-      production.ratio.activity.index +
-      maxnum.chem.onsite +
-      trade.secret
-      |
-      year +
-        facility.id +
-        fips.code +
-        facility.county +
-        treated.cluster.id +
-        facility.state.id +
-        chemical.id +
-        chemical.year.fe
-  ,
-  data = triQc,
-  cluster = ~c(chemical.id, naics.code, facility.state.id),
-)
-fixest::etable(did_water_disc, digits = 4, digits.stats = 4)
-fixest::iplot(did_water_disc, xlim = c(2011, 2017), ylim = c(-0.4, 0.4), col = "blue",
-              main = "Total Onsite Surface Water Discharge Intensity", xlab = "relative year") %>%
-  abline(v = 2013, col = "red", lty = 2, lwd = 2)
-### Testing for pre-trends
-pre.treat.coef <- coef(did_water_disc)[grep(pattern = "rel.year", names(coef(did_water_disc)))]
-pre.treat.coef <- pre.treat.coef[4:5]
-linearHypothesis(did_water_disc, paste0(names(pre.treat.coef), " = 0"), test = "F")
+fixest::etable(did_manu_aid, digits = 4, digits.stats = 4)
 #======================================================================================================================#
-### Onsite: Number of receiving streams intensity
+### Raw Material: Increase Purity of Chemicals
 #======================================================================================================================#
-did_receiving_streams <- fixest::feols(
-  total.num.receiving.streams.onsite ~ e.treated +
+did_mat_purity <- fixest::feols(
+  mod.content.grade.purity.chems.matsubmod ~ e.treated +
     sw0(
       gdppc.1 +
         annual.avg.estabs.1 +
@@ -444,55 +209,12 @@ did_receiving_streams <- fixest::feols(
   data = triQc,
   cluster = ~c(chemical.id, naics.code, facility.state.id)
 )
-fixest::etable(did_receiving_streams, digits = 4, digits.stats = 4)
-
-did_receiving_streams <- fixest::feols(
-  total.num.receiving.streams.onsite ~
-    i(rel.year, ref = c(2013, Inf)) +
-      gdppc.1 +
-      annual.avg.estabs.1 +
-      cpi.1 +
-      federal.facility +
-      produced.chem.facility +
-      imported.chem.facility +
-      chemical.formulation.component +
-      chemical.article.component +
-      chemical.manufacturing.aid +
-      chemical.ancilliary.use +
-      production.ratio.activity.index +
-      maxnum.chem.onsite +
-      trade.secret
-      |
-      year +
-        facility.id +
-        fips.code +
-        facility.county +
-        treated.cluster.id +
-        facility.state.id +
-        chemical.id +
-        chemical.year.fe
-  ,
-  data = triQc,
-  cluster = ~c(chemical.id, naics.code, facility.state.id),
-)
-fixest::etable(did_receiving_streams, digits = 4, digits.stats = 4)
-fixest::iplot(did_receiving_streams, xlim = c(2011, 2017), ylim = c(-0.4, 0.4), col = "blue",
-              main = "Total Onsite Number of Receiving Streams", xlab = "relative year") %>%
-  abline(v = 2013, col = "red", lty = 2, lwd = 2)
-### Testing for pre-trends
-pre.treat.coef <- coef(did_receiving_streams)[grep(pattern = "rel.year", names(coef(did_receiving_streams)))]
-pre.treat.coef <- pre.treat.coef[4:5]
-linearHypothesis(did_receiving_streams, paste0(names(pre.treat.coef), " = 0"), test = "F")
+fixest::etable(did_mat_purity, digits = 4, digits.stats = 4)
 #======================================================================================================================#
-### Onsite: Total land releases intensity
+### Raw Material: Other material modification
 #======================================================================================================================#
-sum_up(triQc, c(total.land.releases.onsite.intensity, total.underground.injection.onsite.intensity,
-                total.underground.injection.I.wells.onsite.intensity,
-                total.underground.injection.I.IV.wells.onsite.intensity, total.landfills.onsite.intensity,
-                total.releases.toland.treatment.onsite.intensity, total.surface.impoundment.onsite.intensity,))
-
-did_land_releases <- fixest::feols(
-  l.total.land.releases.onsite.intensity ~ e.treated +
+did_mat_others <- fixest::feols(
+  other.matmods.matsubmod ~ e.treated +
     sw0(
       gdppc.1 +
         annual.avg.estabs.1 +
@@ -523,50 +245,12 @@ did_land_releases <- fixest::feols(
   data = triQc,
   cluster = ~c(chemical.id, naics.code, facility.state.id)
 )
-fixest::etable(did_land_releases, digits = 4, digits.stats = 4)
-
-did_land_releases <- fixest::feols(
-  l.total.land.releases.onsite.intensity ~
-    i(rel.year, ref = c(2013, Inf)) +
-      gdppc.1 +
-      annual.avg.estabs.1 +
-      cpi.1 +
-      federal.facility +
-      produced.chem.facility +
-      imported.chem.facility +
-      chemical.formulation.component +
-      chemical.article.component +
-      chemical.manufacturing.aid +
-      chemical.ancilliary.use +
-      production.ratio.activity.index +
-      maxnum.chem.onsite +
-      trade.secret
-      |
-      year +
-        facility.id +
-        fips.code +
-        facility.county +
-        treated.cluster.id +
-        facility.state.id +
-        chemical.id +
-        chemical.year.fe
-  ,
-  data = triQc,
-  cluster = ~c(chemical.id, naics.code, facility.state.id),
-)
-fixest::etable(did_land_releases, digits = 4, digits.stats = 4)
-fixest::iplot(did_land_releases, xlim = c(2011, 2017), ylim = c(-0.4, 0.4), col = "blue",
-              main = "Total Onsite Land Releases Intensity", xlab = "relative year") %>%
-  abline(v = 2013, col = "red", lty = 2, lwd = 2)
-### Testing for pre-trends
-pre.treat.coef <- coef(did_land_releases)[grep(pattern = "rel.year", names(coef(did_land_releases)))]
-pre.treat.coef <- pre.treat.coef[4:5]
-linearHypothesis(did_land_releases, paste0(names(pre.treat.coef), " = 0"), test = "F")
+fixest::etable(did_mat_others, digits = 4, digits.stats = 4)
 #======================================================================================================================#
-### Onsite: Total underground injection intensity
+### Clean Fuel
 #======================================================================================================================#
-did_undground_inject <- fixest::feols(
-  l.total.underground.injection.onsite.intensity ~ e.treated +
+did_clean_fuel <- fixest::feols(
+  sub.fuel.matsubmod ~ e.treated +
     sw0(
       gdppc.1 +
         annual.avg.estabs.1 +
@@ -597,50 +281,12 @@ did_undground_inject <- fixest::feols(
   data = triQc,
   cluster = ~c(chemical.id, naics.code, facility.state.id)
 )
-fixest::etable(did_undground_inject, digits = 4, digits.stats = 4)
-
-did_undground_inject <- fixest::feols(
-  l.total.underground.injection.onsite.intensity ~
-    i(rel.year, ref = c(2013, Inf)) +
-      gdppc.1 +
-      annual.avg.estabs.1 +
-      cpi.1 +
-      federal.facility +
-      produced.chem.facility +
-      imported.chem.facility +
-      chemical.formulation.component +
-      chemical.article.component +
-      chemical.manufacturing.aid +
-      chemical.ancilliary.use +
-      production.ratio.activity.index +
-      maxnum.chem.onsite +
-      trade.secret
-      |
-      year +
-        facility.id +
-        fips.code +
-        facility.county +
-        treated.cluster.id +
-        facility.state.id +
-        chemical.id +
-        chemical.year.fe
-  ,
-  data = triQc,
-  cluster = ~c(chemical.id, naics.code, facility.state.id),
-)
-fixest::etable(did_undground_inject, digits = 4, digits.stats = 4)
-fixest::iplot(did_undground_inject, xlim = c(2011, 2017), ylim = c(-0.02, 0.025), col = "blue",
-              main = "Total Onsite Underground Injection Intensity", xlab = "relative year") %>%
-  abline(v = 2013, col = "red", lty = 2, lwd = 2)
-### Testing for pre-trends
-pre.treat.coef <- coef(did_undground_inject)[grep(pattern = "rel.year", names(coef(did_undground_inject)))]
-pre.treat.coef <- pre.treat.coef[4:5]
-linearHypothesis(did_undground_inject, paste0(names(pre.treat.coef), " = 0"), test = "F")
+fixest::etable(did_clean_fuel, digits = 4, digits.stats = 4)
 #======================================================================================================================#
-### Onsite: Total landfills intensity
+### Energy Intensity
 #======================================================================================================================#
-did_landfills <- fixest::feols(
-  l.total.landfills.onsite.intensity ~ e.treated +
+did_energy_intensity <- fixest::feols(
+  l.energy.intensity ~ e.treated +
     sw0(
       gdppc.1 +
         annual.avg.estabs.1 +
@@ -671,50 +317,12 @@ did_landfills <- fixest::feols(
   data = triQc,
   cluster = ~c(chemical.id, naics.code, facility.state.id)
 )
-fixest::etable(did_landfills, digits = 4, digits.stats = 4)
-
-did_landfills <- fixest::feols(
-  l.total.landfills.onsite.intensity ~
-    i(rel.year, ref = c(2013, Inf)) +
-      gdppc.1 +
-      annual.avg.estabs.1 +
-      cpi.1 +
-      federal.facility +
-      produced.chem.facility +
-      imported.chem.facility +
-      chemical.formulation.component +
-      chemical.article.component +
-      chemical.manufacturing.aid +
-      chemical.ancilliary.use +
-      production.ratio.activity.index +
-      maxnum.chem.onsite +
-      trade.secret
-      |
-      year +
-        facility.id +
-        fips.code +
-        facility.county +
-        treated.cluster.id +
-        facility.state.id +
-        chemical.id +
-        chemical.year.fe
-  ,
-  data = triQc,
-  cluster = ~c(chemical.id, naics.code, facility.state.id),
-)
-fixest::etable(did_landfills, digits = 4, digits.stats = 4)
-fixest::iplot(did_landfills, xlim = c(2011, 2017), ylim = c(-0.15, 0.15), col = "blue",
-              main = "Total Onsite Landfills Intensity", xlab = "relative year") %>%
-  abline(v = 2013, col = "red", lty = 2, lwd = 2)
-### Testing for pre-trends
-pre.treat.coef <- coef(did_landfills)[grep(pattern = "rel.year", names(coef(did_landfills)))]
-pre.treat.coef <- pre.treat.coef[4:5]
-linearHypothesis(did_landfills, paste0(names(pre.treat.coef), " = 0"), test = "F")
+fixest::etable(did_energy_intensity, digits = 4, digits.stats = 4)
 #======================================================================================================================#
-### Onsite: Total releases to land treatment intensity
+### Product modification
 #======================================================================================================================#
-did_release_toland <- fixest::feols(
-  l.total.releases.toland.treatment.onsite.intensity ~ e.treated +
+did_prod_mod <- fixest::feols(
+  product.modification ~ e.treated +
     sw0(
       gdppc.1 +
         annual.avg.estabs.1 +
@@ -745,50 +353,12 @@ did_release_toland <- fixest::feols(
   data = triQc,
   cluster = ~c(chemical.id, naics.code, facility.state.id)
 )
-fixest::etable(did_release_toland, digits = 4, digits.stats = 4)
-
-did_release_toland <- fixest::feols(
-  l.total.releases.toland.treatment.onsite.intensity ~
-    i(rel.year, ref = c(2013, Inf)) +
-      gdppc.1 +
-      annual.avg.estabs.1 +
-      cpi.1 +
-      federal.facility +
-      produced.chem.facility +
-      imported.chem.facility +
-      chemical.formulation.component +
-      chemical.article.component +
-      chemical.manufacturing.aid +
-      chemical.ancilliary.use +
-      production.ratio.activity.index +
-      maxnum.chem.onsite +
-      trade.secret
-      |
-      year +
-        facility.id +
-        fips.code +
-        facility.county +
-        treated.cluster.id +
-        facility.state.id +
-        chemical.id +
-        chemical.year.fe
-  ,
-  data = triQc,
-  cluster = ~c(chemical.id, naics.code, facility.state.id),
-)
-fixest::etable(did_release_toland, digits = 4, digits.stats = 4)
-fixest::iplot(did_release_toland, xlim = c(2011, 2017), ylim = c(-0.15, 0.15), col = "blue",
-              main = "Total Onsite Releases to Land Treatment Intensity", xlab = "relative year") %>%
-  abline(v = 2013, col = "red", lty = 2, lwd = 2)
-### Testing for pre-trends
-pre.treat.coef <- coef(did_release_toland)[grep(pattern = "rel.year", names(coef(did_release_toland)))]
-pre.treat.coef <- pre.treat.coef[4:5]
-linearHypothesis(did_release_toland, paste0(names(pre.treat.coef), " = 0"), test = "F")
+fixest::etable(did_prod_mod, digits = 4, digits.stats = 4)
 #======================================================================================================================#
-### Onsite: Total surface impoundment intensity
+### Product modification: New Product Line
 #======================================================================================================================#
-did_surface_impoundment <- fixest::feols(
-  l.total.surface.impoundment.onsite.intensity ~ e.treated +
+did_new_prod_line <- fixest::feols(
+  devd.newproductline.pmod ~ e.treated +
     sw0(
       gdppc.1 +
         annual.avg.estabs.1 +
@@ -819,50 +389,12 @@ did_surface_impoundment <- fixest::feols(
   data = triQc,
   cluster = ~c(chemical.id, naics.code, facility.state.id)
 )
-fixest::etable(did_surface_impoundment, digits = 4, digits.stats = 4)
-
-did_surface_impoundment <- fixest::feols(
-  l.total.surface.impoundment.onsite.intensity ~
-    i(rel.year, ref = c(2013, Inf)) +
-      gdppc.1 +
-      annual.avg.estabs.1 +
-      cpi.1 +
-      federal.facility +
-      produced.chem.facility +
-      imported.chem.facility +
-      chemical.formulation.component +
-      chemical.article.component +
-      chemical.manufacturing.aid +
-      chemical.ancilliary.use +
-      production.ratio.activity.index +
-      maxnum.chem.onsite +
-      trade.secret
-      |
-      year +
-        facility.id +
-        fips.code +
-        facility.county +
-        treated.cluster.id +
-        facility.state.id +
-        chemical.id +
-        chemical.year.fe
-  ,
-  data = triQc,
-  cluster = ~c(chemical.id, naics.code, facility.state.id),
-)
-fixest::etable(did_surface_impoundment, digits = 4, digits.stats = 4)
-fixest::iplot(did_surface_impoundment, xlim = c(2011, 2017), ylim = c(-0.15, 0.15), col = "blue",
-              main = "Total Onsite Surface Impoundment Intensity", xlab = "relative year") %>%
-  abline(v = 2013, col = "red", lty = 2, lwd = 2)
-### Testing for pre-trends
-pre.treat.coef <- coef(did_surface_impoundment)[grep(pattern = "rel.year", names(coef(did_surface_impoundment)))]
-pre.treat.coef <- pre.treat.coef[4:5]
-linearHypothesis(did_surface_impoundment, paste0(names(pre.treat.coef), " = 0"), test = "F")
+fixest::etable(did_new_prod_line, digits = 4, digits.stats = 4)
 #======================================================================================================================#
-### Onsite: Total land releases others intensity
+### Product modification: Modified Packaging
 #======================================================================================================================#
-did_land_releases_others <- fixest::feols(
-  l.total.land.releases.other.onsite.intensity ~ e.treated +
+did_mod_packaging <- fixest::feols(
+  mod.packaging.pmod ~ e.treated +
     sw0(
       gdppc.1 +
         annual.avg.estabs.1 +
@@ -893,52 +425,48 @@ did_land_releases_others <- fixest::feols(
   data = triQc,
   cluster = ~c(chemical.id, naics.code, facility.state.id)
 )
-fixest::etable(did_land_releases_others, digits = 4, digits.stats = 4)
-
-did_land_releases_others <- fixest::feols(
-  l.total.land.releases.other.onsite.intensity ~
-    i(rel.year, ref = c(2013, Inf)) +
+fixest::etable(did_mod_packaging, digits = 4, digits.stats = 4)
+#======================================================================================================================#
+### Product modification: Other Product Modification
+#======================================================================================================================#
+did_prod_mod_others <- fixest::feols(
+  other.pmods.pmod ~ e.treated +
+    sw0(
       gdppc.1 +
-      annual.avg.estabs.1 +
-      cpi.1 +
-      federal.facility +
-      produced.chem.facility +
-      imported.chem.facility +
-      chemical.formulation.component +
-      chemical.article.component +
-      chemical.manufacturing.aid +
-      chemical.ancilliary.use +
-      production.ratio.activity.index +
-      maxnum.chem.onsite +
-      trade.secret
-      |
-      year +
-        facility.id +
-        fips.code +
-        facility.county +
-        treated.cluster.id +
-        facility.state.id +
-        chemical.id +
-        chemical.year.fe
+        annual.avg.estabs.1 +
+        cpi.1 +
+        federal.facility +
+        produced.chem.facility +
+        imported.chem.facility +
+        chemical.formulation.component +
+        chemical.article.component +
+        chemical.manufacturing.aid +
+        chemical.ancilliary.use +
+        production.ratio.activity.index +
+        maxnum.chem.onsite +
+        trade.secret
+    )
+    |
+    csw(,
+      year,
+      facility.id,
+      fips.code,
+      facility.county,
+      treated.cluster.id,
+      facility.state.id,
+      chemical.id,
+      chemical.year.fe
+    )
   ,
   data = triQc,
-  cluster = ~c(chemical.id, naics.code, facility.state.id),
+  cluster = ~c(chemical.id, naics.code, facility.state.id)
 )
-fixest::etable(did_land_releases_others, digits = 4, digits.stats = 4)
-fixest::iplot(did_land_releases_others, xlim = c(2011, 2017), ylim = c(-0.15, 0.15), col = "blue",
-              main = "Toal Onsite Land Releases Intensity, Others", xlab = "relative year") %>%
-  abline(v = 2013, col = "red", lty = 2, lwd = 2)
-### Testing for pre-trends
-pre.treat.coef <- coef(did_land_releases_others)[grep(pattern = "rel.year", names(coef(did_land_releases_others)))]
-pre.treat.coef <- pre.treat.coef[4:5]
-linearHypothesis(did_land_releases_others, paste0(names(pre.treat.coef), " = 0"), test = "F")
+fixest::etable(did_prod_mod_others, digits = 4, digits.stats = 4)
 #======================================================================================================================#
-### Is the MW Policy Carcinogenic?
+### Process modification: Process and Equipment Modification
 #======================================================================================================================#
-### Onsite: Total releases intensity (carcinonogenic chemicals)
-#======================================================================================================================#
-did_total_releases <- fixest::feols(
-  l.total.releases.onsite.intensity ~ e.treated +
+did_process_equip_mod <- fixest::feols(
+  process.equip.modification ~ e.treated +
     sw0(
       gdppc.1 +
         annual.avg.estabs.1 +
@@ -966,15 +494,15 @@ did_total_releases <- fixest::feols(
       chemical.year.fe
     )
   ,
-  data = triQc %>% filter(carcinogenic.chems == 1),
+  data = triQc,
   cluster = ~c(chemical.id, naics.code, facility.state.id)
 )
-fixest::etable(did_total_releases, digits = 4, digits.stats = 4)
+fixest::etable(did_process_equip_mod, digits = 4, digits.stats = 4)
 #======================================================================================================================#
-### Onsite: Total air emissions intensity (carcinogenic chemicals)
+### Process modification: Optimised Process Efficiency
 #======================================================================================================================#
-did_air <- fixest::feols(
-  l.total.air.emissions.onsite.intensity ~ e.treated +
+did_optimised_process_efficiency <- fixest::feols(
+  optimised.process.efficiency.pequipmod ~ e.treated +
     sw0(
       gdppc.1 +
         annual.avg.estabs.1 +
@@ -1002,15 +530,15 @@ did_air <- fixest::feols(
       chemical.year.fe
     )
   ,
-  data = triQc %>% filter(carcinogenic.chems == 1),
+  data = triQc,
   cluster = ~c(chemical.id, naics.code, facility.state.id)
 )
-fixest::etable(did_air, digits = 4, digits.stats = 4)
+fixest::etable(did_optimised_process_efficiency, digits = 4, digits.stats = 4)
 #======================================================================================================================#
-### Onsite: Total point air emissions intensity (carcinogenic chemicals)
+### Process modification: Recirculation in Process
 #======================================================================================================================#
-did_point_air <- fixest::feols(
-  l.total.point.air.emissions.onsite.intensity ~ e.treated +
+did_recirculate_inprocess <- fixest::feols(
+  recirculationinprocess.pequipmod ~ e.treated +
     sw0(
       gdppc.1 +
         annual.avg.estabs.1 +
@@ -1038,15 +566,15 @@ did_point_air <- fixest::feols(
       chemical.year.fe
     )
   ,
-  data = triQc %>% filter(carcinogenic.chems == 1),
+  data = triQc,
   cluster = ~c(chemical.id, naics.code, facility.state.id)
 )
-fixest::etable(did_point_air, digits = 4, digits.stats = 4)
+fixest::etable(did_recirculate_inprocess, digits = 4, digits.stats = 4)
 #======================================================================================================================#
-### Onsite: Total fugitive air emissions intensity (carcinogenic chemicals)
+### Process modification: New Technology and Technique in manufacturing process
 #======================================================================================================================#
-did_fug_air <- fixest::feols(
-  l.total.fug.air.emissions.onsite.intensity ~ e.treated +
+did_new_tech <- fixest::feols(
+  newtech.technique.process.pequipmod ~ e.treated +
     sw0(
       gdppc.1 +
         annual.avg.estabs.1 +
@@ -1074,15 +602,15 @@ did_fug_air <- fixest::feols(
       chemical.year.fe
     )
   ,
-  data = triQc %>% filter(carcinogenic.chems == 1),
+  data = triQc,
   cluster = ~c(chemical.id, naics.code, facility.state.id)
 )
-fixest::etable(did_fug_air, digits = 4, digits.stats = 4)
+fixest::etable(did_new_tech, digits = 4, digits.stats = 4)
 #======================================================================================================================#
-### Onsite: Total surface water discharge intensity (carcinogenic chemicals)
+### Process modification: Process Modification, Others
 #======================================================================================================================#
-did_water_disc <- fixest::feols(
-  l.total.surface.water.discharge.onsite.intensity ~ e.treated +
+did_process_mod_others <- fixest::feols(
+  other.pequipmods.pequipmod ~ e.treated +
     sw0(
       gdppc.1 +
         annual.avg.estabs.1 +
@@ -1110,15 +638,15 @@ did_water_disc <- fixest::feols(
       chemical.year.fe
     )
   ,
-  data = triQc %>% filter(carcinogenic.chems == 1),
+  data = triQc,
   cluster = ~c(chemical.id, naics.code, facility.state.id)
 )
-fixest::etable(did_water_disc, digits = 4, digits.stats = 4)
+fixest::etable(did_process_mod_others, digits = 4, digits.stats = 4)
 #======================================================================================================================#
-### Onsite: Total land releases intensity (carcinogenic chemicals)
+### Inventory management: Inventory Material Management
 #======================================================================================================================#
-did_land_releases <- fixest::feols(
-  l.total.land.releases.onsite.intensity ~ e.treated +
+did_inventory_mat_mgt <- fixest::feols(
+  inventory.material.mgt ~ e.treated +
     sw0(
       gdppc.1 +
         annual.avg.estabs.1 +
@@ -1146,15 +674,15 @@ did_land_releases <- fixest::feols(
       chemical.year.fe
     )
   ,
-  data = triQc %>% filter(carcinogenic.chems == 1),
+  data = triQc,
   cluster = ~c(chemical.id, naics.code, facility.state.id)
 )
-fixest::etable(did_land_releases, digits = 4, digits.stats = 4)
+fixest::etable(did_inventory_mat_mgt, digits = 4, digits.stats = 4)
 #======================================================================================================================#
-### Onsite: Total landfills intensity (carcinogenic chemicals)
+### Inventory management: Better Labelling and Testing
 #======================================================================================================================#
-did_landfills <- fixest::feols(
-  l.total.landfills.onsite.intensity ~ e.treated +
+did_better_labelling_testing <- fixest::feols(
+  better.labelling.testing.immgt ~ e.treated +
     sw0(
       gdppc.1 +
         annual.avg.estabs.1 +
@@ -1182,15 +710,15 @@ did_landfills <- fixest::feols(
       chemical.year.fe
     )
   ,
-  data = triQc %>% filter(carcinogenic.chems == 1),
+  data = triQc,
   cluster = ~c(chemical.id, naics.code, facility.state.id)
 )
-fixest::etable(did_landfills, digits = 4, digits.stats = 4)
+fixest::etable(did_better_labelling_testing, digits = 4, digits.stats = 4)
 #======================================================================================================================#
-### Onsite: Total releases to land treatment intensity (carcinogenic chemicals)
+### Inventory management: Containers size change
 #======================================================================================================================#
-did_release_toland <- fixest::feols(
-  l.total.releases.toland.treatment.onsite.intensity ~ e.treated +
+did_containers_sizechange <- fixest::feols(
+  containers.sizechange.immgt ~ e.treated +
     sw0(
       gdppc.1 +
         annual.avg.estabs.1 +
@@ -1218,15 +746,15 @@ did_release_toland <- fixest::feols(
       chemical.year.fe
     )
   ,
-  data = triQc %>% filter(carcinogenic.chems == 1),
+  data = triQc,
   cluster = ~c(chemical.id, naics.code, facility.state.id)
 )
-fixest::etable(did_release_toland, digits = 4, digits.stats = 4)
+fixest::etable(did_containers_sizechange, digits = 4, digits.stats = 4)
 #======================================================================================================================#
-### Onsite: Total surface impoundment intensity (carcinogenic chemicals)
+### Inventory management: Improved material handling operations
 #======================================================================================================================#
-did_surface_impoundment <- fixest::feols(
-  l.total.surface.impoundment.onsite.intensity ~ e.treated +
+did_mat_handling <- fixest::feols(
+  improved.materialhandling.operations.immgt ~ e.treated +
     sw0(
       gdppc.1 +
         annual.avg.estabs.1 +
@@ -1254,15 +782,15 @@ did_surface_impoundment <- fixest::feols(
       chemical.year.fe
     )
   ,
-  data = triQc %>% filter(carcinogenic.chems == 1),
+  data = triQc,
   cluster = ~c(chemical.id, naics.code, facility.state.id)
 )
-fixest::etable(did_surface_impoundment, digits = 4, digits.stats = 4)
+fixest::etable(did_mat_handling, digits = 4, digits.stats = 4)
 #======================================================================================================================#
-### Onsite: Total land releases others intensity (carcinogenic chemicals)
+### Inventory management: Improved monitoring
 #======================================================================================================================#
-did_land_releases_others <- fixest::feols(
-  l.total.land.releases.other.onsite.intensity ~ e.treated +
+did_improved_monitoring <- fixest::feols(
+  improved.monitoring.immgt ~ e.treated +
     sw0(
       gdppc.1 +
         annual.avg.estabs.1 +
@@ -1290,17 +818,15 @@ did_land_releases_others <- fixest::feols(
       chemical.year.fe
     )
   ,
-  data = triQc %>% filter(carcinogenic.chems == 1),
+  data = triQc,
   cluster = ~c(chemical.id, naics.code, facility.state.id)
 )
-fixest::etable(did_land_releases_others, digits = 4, digits.stats = 4)
+fixest::etable(did_improved_monitoring, digits = 4, digits.stats = 4)
 #======================================================================================================================#
-### Does the MW Policy affect emissions intensity of the clean air act regulated chemicals?
+### Inventory management: Inventory Management, Others
 #======================================================================================================================#
-### Onsite: Total releases intensity (clean air act regulated chemicals)
-#======================================================================================================================#
-did_total_releases <- fixest::feols(
-  l.total.releases.onsite.intensity ~ e.treated +
+did_inventory_mgt_others <- fixest::feols(
+  other.immgts.immgt ~ e.treated +
     sw0(
       gdppc.1 +
         annual.avg.estabs.1 +
@@ -1328,15 +854,15 @@ did_total_releases <- fixest::feols(
       chemical.year.fe
     )
   ,
-  data = triQc %>% filter(clean.air.act.chems == 1),
+  data = triQc,
   cluster = ~c(chemical.id, naics.code, facility.state.id)
 )
-fixest::etable(did_total_releases, digits = 4, digits.stats = 4)
+fixest::etable(did_inventory_mgt_others, digits = 4, digits.stats = 4)
 #======================================================================================================================#
-### Onsite: Total air emissions intensity (clean air act regulated chemicals)
+### Operations: Operating Practices & Training
 #======================================================================================================================#
-did_air <- fixest::feols(
-  l.total.air.emissions.onsite.intensity ~ e.treated +
+did_operating_practices_training <- fixest::feols(
+  operating.practices.training ~ e.treated +
     sw0(
       gdppc.1 +
         annual.avg.estabs.1 +
@@ -1364,15 +890,15 @@ did_air <- fixest::feols(
       chemical.year.fe
     )
   ,
-  data = triQc %>% filter(clean.air.act.chems == 1),
+  data = triQc,
   cluster = ~c(chemical.id, naics.code, facility.state.id)
 )
-fixest::etable(did_air, digits = 4, digits.stats = 4)
+fixest::etable(did_operating_practices_training, digits = 4, digits.stats = 4)
 #======================================================================================================================#
-### Onsite: Total point air emissions intensity (clean air act regulated chemicals)
+### Operations: Improved Scheduling Operation
 #======================================================================================================================#
-did_point_air <- fixest::feols(
-  l.total.point.air.emissions.onsite.intensity ~ e.treated +
+did_improved_schedule_operation <- fixest::feols(
+  improved.schdule.operation.procedures.opt ~ e.treated +
     sw0(
       gdppc.1 +
         annual.avg.estabs.1 +
@@ -1400,15 +926,15 @@ did_point_air <- fixest::feols(
       chemical.year.fe
     )
   ,
-  data = triQc %>% filter(clean.air.act.chems == 1),
+  data = triQc,
   cluster = ~c(chemical.id, naics.code, facility.state.id)
 )
-fixest::etable(did_point_air, digits = 4, digits.stats = 4)
+fixest::etable(did_improved_schedule_operation, digits = 4, digits.stats = 4)
 #======================================================================================================================#
-### Onsite: Total fugitive air emissions intensity (clean air act regulated chemicals)
+### Operations: Changed Production Schedule
 #======================================================================================================================#
-did_fug_air <- fixest::feols(
-  l.total.fug.air.emissions.onsite.intensity ~ e.treated +
+did_changed_prod_schedule <- fixest::feols(
+  changed.production.schedule.opt ~ e.treated +
     sw0(
       gdppc.1 +
         annual.avg.estabs.1 +
@@ -1436,15 +962,15 @@ did_fug_air <- fixest::feols(
       chemical.year.fe
     )
   ,
-  data = triQc %>% filter(carcinogenic.chems == 1),
+  data = triQc,
   cluster = ~c(chemical.id, naics.code, facility.state.id)
 )
-fixest::etable(did_fug_air, digits = 4, digits.stats = 4)
+fixest::etable(did_changed_prod_schedule, digits = 4, digits.stats = 4)
 #======================================================================================================================#
-### Onsite: Total surface water discharge intensity (clean air act regulated chemicals)
+### Operations: Inline Product Quality and Process Analysis
 #======================================================================================================================#
-did_water_disc <- fixest::feols(
-  l.total.surface.water.discharge.onsite.intensity ~ e.treated +
+did_inline_prod_quality_analysis <- fixest::feols(
+  intro.inline.productquality.process.analysis.opt ~ e.treated +
     sw0(
       gdppc.1 +
         annual.avg.estabs.1 +
@@ -1472,15 +998,15 @@ did_water_disc <- fixest::feols(
       chemical.year.fe
     )
   ,
-  data = triQc %>% filter(clean.air.act.chems == 1),
+  data = triQc,
   cluster = ~c(chemical.id, naics.code, facility.state.id)
 )
-fixest::etable(did_water_disc, digits = 4, digits.stats = 4)
+fixest::etable(did_inline_prod_quality_analysis, digits = 4, digits.stats = 4)
 #======================================================================================================================#
-### Onsite: Total land releases intensity (clean air act regulated chemicals)
+### Research & Development
 #======================================================================================================================#
-did_land_releases <- fixest::feols(
-  l.total.land.releases.onsite.intensity ~ e.treated +
+did_research <- fixest::feols(
+  r.and.d ~ e.treated +
     sw0(
       gdppc.1 +
         annual.avg.estabs.1 +
@@ -1508,15 +1034,15 @@ did_land_releases <- fixest::feols(
       chemical.year.fe
     )
   ,
-  data = triQc %>% filter(clean.air.act.chems == 1),
+  data = triQc,
   cluster = ~c(chemical.id, naics.code, facility.state.id)
 )
-fixest::etable(did_land_releases, digits = 4, digits.stats = 4)
+fixest::etable(did_research, digits = 4, digits.stats = 4)
 #======================================================================================================================#
-### Onsite: Total landfills intensity (clean air act regulated chemicals)
+### Waste Water Treatment
 #======================================================================================================================#
-did_landfills <- fixest::feols(
-  l.total.landfills.onsite.intensity ~ e.treated +
+did_waste_water_treatment <- fixest::feols(
+  waste.water.treatment ~ e.treated +
     sw0(
       gdppc.1 +
         annual.avg.estabs.1 +
@@ -1544,15 +1070,15 @@ did_landfills <- fixest::feols(
       chemical.year.fe
     )
   ,
-  data = triQc %>% filter(clean.air.act.chems == 1),
+  data = triQc,
   cluster = ~c(chemical.id, naics.code, facility.state.id)
 )
-fixest::etable(did_landfills, digits = 4, digits.stats = 4)
+fixest::etable(did_waste_water_treatment, digits = 4, digits.stats = 4)
 #======================================================================================================================#
-### Onsite: Total releases to land treatment intensity (clean air act regulated chemicals)
+### Recycling dummy
 #======================================================================================================================#
-did_release_toland <- fixest::feols(
-  l.total.releases.toland.treatment.onsite.intensity ~ e.treated +
+did_recylce_dummy <- fixest::feols(
+  recycling.dummy ~ e.treated +
     sw0(
       gdppc.1 +
         annual.avg.estabs.1 +
@@ -1580,15 +1106,15 @@ did_release_toland <- fixest::feols(
       chemical.year.fe
     )
   ,
-  data = triQc %>% filter(clean.air.act.chems == 1),
+  data = triQc,
   cluster = ~c(chemical.id, naics.code, facility.state.id)
 )
-fixest::etable(did_release_toland, digits = 4, digits.stats = 4)
+fixest::etable(did_recylce_dummy, digits = 4, digits.stats = 4)
 #======================================================================================================================#
-### Onsite: Total surface impoundment intensity (clean air act regulated chemicals)
+### Treatment onsite
 #======================================================================================================================#
-did_surface_impoundment <- fixest::feols(
-  l.total.surface.impoundment.onsite.intensity ~ e.treated +
+did_treatment_onsite <- fixest::feols(
+  l.treatment.onsite ~ e.treated +
     sw0(
       gdppc.1 +
         annual.avg.estabs.1 +
@@ -1616,15 +1142,15 @@ did_surface_impoundment <- fixest::feols(
       chemical.year.fe
     )
   ,
-  data = triQc %>% filter(clean.air.act.chems == 1),
+  data = triQc,
   cluster = ~c(chemical.id, naics.code, facility.state.id)
 )
-fixest::etable(did_surface_impoundment, digits = 4, digits.stats = 4)
+fixest::etable(did_treatment_onsite, digits = 4, digits.stats = 4)
 #======================================================================================================================#
-### Onsite: Total land releases others intensity (clean air act regulated chemicals)
+### Total waste management onsite
 #======================================================================================================================#
-did_land_releases_others <- fixest::feols(
-  l.total.land.releases.other.onsite.intensity ~ e.treated +
+did_waste_mgt_onsite <- fixest::feols(
+  l.total.waste.management.onsite ~ e.treated +
     sw0(
       gdppc.1 +
         annual.avg.estabs.1 +
@@ -1652,17 +1178,15 @@ did_land_releases_others <- fixest::feols(
       chemical.year.fe
     )
   ,
-  data = triQc %>% filter(clean.air.act.chems == 1),
+  data = triQc,
   cluster = ~c(chemical.id, naics.code, facility.state.id)
 )
-fixest::etable(did_land_releases_others, digits = 4, digits.stats = 4)
+fixest::etable(did_waste_mgt_onsite, digits = 4, digits.stats = 4)
 #======================================================================================================================#
-### Does the MW Policy affect emissions intensity of the Persistent Bioaccumulative Toxic Chemicals?
+### Energy recovery onsite
 #======================================================================================================================#
-### Onsite: Total releases intensity (Persistent Bioaccumulative Toxic Chemicals)
-#======================================================================================================================#
-did_total_releases <- fixest::feols(
-  l.total.releases.onsite.intensity ~ e.treated +
+did_energy_recovery <- fixest::feols(
+  l.energy.recovery.onsite ~ e.treated +
     sw0(
       gdppc.1 +
         annual.avg.estabs.1 +
@@ -1690,15 +1214,15 @@ did_total_releases <- fixest::feols(
       chemical.year.fe
     )
   ,
-  data = triQc %>% filter(pbt.chems == 1),
+  data = triQc,
   cluster = ~c(chemical.id, naics.code, facility.state.id)
 )
-fixest::etable(did_total_releases, digits = 4, digits.stats = 4)
+fixest::etable(did_energy_recovery, digits = 4, digits.stats = 4)
 #======================================================================================================================#
-### Onsite: Total air emissions intensity (Persistent Bioaccumulative Toxic Chemicals)
+### Energy recovery: Industrial kiln onsite
 #======================================================================================================================#
-did_air <- fixest::feols(
-  l.total.air.emissions.onsite.intensity ~ e.treated +
+did_ind_klin <- fixest::feols(
+  l.industrial.kiln.onsite ~ e.treated +
     sw0(
       gdppc.1 +
         annual.avg.estabs.1 +
@@ -1726,15 +1250,15 @@ did_air <- fixest::feols(
       chemical.year.fe
     )
   ,
-  data = triQc %>% filter(pbt.chems == 1),
+  data = triQc,
   cluster = ~c(chemical.id, naics.code, facility.state.id)
 )
-fixest::etable(did_air, digits = 4, digits.stats = 4)
+fixest::etable(did_ind_klin, digits = 4, digits.stats = 4)
 #======================================================================================================================#
-### Onsite: Total point air emissions intensity (Persistent Bioaccumulative Toxic Chemicals)
+### Energy recovery: Industrial boiler onsite
 #======================================================================================================================#
-did_point_air <- fixest::feols(
-  l.total.point.air.emissions.onsite.intensity ~ e.treated +
+did_ind_boiler <- fixest::feols(
+  l.industrial.boiler.onsite ~ e.treated +
     sw0(
       gdppc.1 +
         annual.avg.estabs.1 +
@@ -1762,15 +1286,15 @@ did_point_air <- fixest::feols(
       chemical.year.fe
     )
   ,
-  data = triQc %>% filter(pbt.chems == 1),
+  data = triQc,
   cluster = ~c(chemical.id, naics.code, facility.state.id)
 )
-fixest::etable(did_point_air, digits = 4, digits.stats = 4)
+fixest::etable(did_ind_boiler, digits = 4, digits.stats = 4)
 #======================================================================================================================#
-### Onsite: Total fugitive air emissions intensity (Persistent Bioaccumulative Toxic Chemicals)
+### Energy recovery: Industrial furnace onsite
 #======================================================================================================================#
-did_fug_air <- fixest::feols(
-  l.total.fug.air.emissions.onsite.intensity ~ e.treated +
+did_ind_furnace <- fixest::feols(
+  l.industrial.furnace.onsite ~ e.treated +
     sw0(
       gdppc.1 +
         annual.avg.estabs.1 +
@@ -1798,15 +1322,15 @@ did_fug_air <- fixest::feols(
       chemical.year.fe
     )
   ,
-  data = triQc %>% filter(pbt.chems == 1),
+  data = triQc,
   cluster = ~c(chemical.id, naics.code, facility.state.id)
 )
-fixest::etable(did_fug_air, digits = 4, digits.stats = 4)
+fixest::etable(did_ind_furnace, digits = 4, digits.stats = 4)
 #======================================================================================================================#
-### Onsite: Total surface water discharge intensity (Persistent Bioaccumulative Toxic Chemicals)
+### Recycling onsite
 #======================================================================================================================#
-did_water_disc <- fixest::feols(
-  l.total.surface.water.discharge.onsite.intensity ~ e.treated +
+did_recycle_onsite <- fixest::feols(
+  l.recycling.onsite ~ e.treated +
     sw0(
       gdppc.1 +
         annual.avg.estabs.1 +
@@ -1834,15 +1358,15 @@ did_water_disc <- fixest::feols(
       chemical.year.fe
     )
   ,
-  data = triQc %>% filter(pbt.chems == 1),
+  data = triQc,
   cluster = ~c(chemical.id, naics.code, facility.state.id)
 )
-fixest::etable(did_water_disc, digits = 4, digits.stats = 4)
+fixest::etable(did_recycle_onsite, digits = 4, digits.stats = 4)
 #======================================================================================================================#
-### Onsite: Total land releases intensity (Persistent Bioaccumulative Toxic Chemicals)
+### Recycling: Reuse onsite
 #======================================================================================================================#
-did_land_releases <- fixest::feols(
-  l.total.land.releases.onsite.intensity ~ e.treated +
+did_reuse_onsite <- fixest::feols(
+  l.reuse.onsite ~ e.treated +
     sw0(
       gdppc.1 +
         annual.avg.estabs.1 +
@@ -1870,15 +1394,15 @@ did_land_releases <- fixest::feols(
       chemical.year.fe
     )
   ,
-  data = triQc %>% filter(pbt.chems == 1),
+  data = triQc,
   cluster = ~c(chemical.id, naics.code, facility.state.id)
 )
-fixest::etable(did_land_releases, digits = 4, digits.stats = 4)
+fixest::etable(did_reuse_onsite, digits = 4, digits.stats = 4)
 #======================================================================================================================#
-### Onsite: Total landfills intensity (Persistent Bioaccumulative Toxic Chemicals)
+### Metal recovery onsite
 #======================================================================================================================#
-did_landfills <- fixest::feols(
-  l.total.landfills.onsite.intensity ~ e.treated +
+did_metal_recovery <- fixest::feols(
+  l.metal.recovery.onsite ~ e.treated +
     sw0(
       gdppc.1 +
         annual.avg.estabs.1 +
@@ -1906,15 +1430,15 @@ did_landfills <- fixest::feols(
       chemical.year.fe
     )
   ,
-  data = triQc %>% filter(pbt.chems == 1),
+  data = triQc,
   cluster = ~c(chemical.id, naics.code, facility.state.id)
 )
-fixest::etable(did_landfills, digits = 4, digits.stats = 4)
+fixest::etable(did_metal_recovery, digits = 4, digits.stats = 4)
 #======================================================================================================================#
-### Onsite: Total releases to land treatment intensity (Persistent Bioaccumulative Toxic Chemicals)
+### Solvent recovery onsite
 #======================================================================================================================#
-did_release_toland <- fixest::feols(
-  l.total.releases.toland.treatment.onsite.intensity ~ e.treated +
+did_solvent_recovery <- fixest::feols(
+  l.solvent.recovery.onsite ~ e.treated +
     sw0(
       gdppc.1 +
         annual.avg.estabs.1 +
@@ -1942,15 +1466,15 @@ did_release_toland <- fixest::feols(
       chemical.year.fe
     )
   ,
-  data = triQc %>% filter(pbt.chems == 1),
+  data = triQc,
   cluster = ~c(chemical.id, naics.code, facility.state.id)
 )
-fixest::etable(did_release_toland, digits = 4, digits.stats = 4)
+fixest::etable(did_solvent_recovery, digits = 4, digits.stats = 4)
 #======================================================================================================================#
-### Onsite: Total surface impoundment intensity (Persistent Bioaccumulative Toxic Chemicals)
+### Air emissions treatment onsite
 #======================================================================================================================#
-did_surface_impoundment <- fixest::feols(
-  l.total.surface.impoundment.onsite.intensity ~ e.treated +
+did_air_emissions_treatment <- fixest::feols(
+  l.air.emissions.treatment.onsite ~ e.treated +
     sw0(
       gdppc.1 +
         annual.avg.estabs.1 +
@@ -1978,15 +1502,15 @@ did_surface_impoundment <- fixest::feols(
       chemical.year.fe
     )
   ,
-  data = triQc %>% filter(pbt.chems == 1),
+  data = triQc,
   cluster = ~c(chemical.id, naics.code, facility.state.id)
 )
-fixest::etable(did_surface_impoundment, digits = 4, digits.stats = 4)
+fixest::etable(did_air_emissions_treatment, digits = 4, digits.stats = 4)
 #======================================================================================================================#
-### Onsite: Total land releases others intensity (Persistent Bioaccumulative Toxic Chemicals)
+### Biological treatment onsite
 #======================================================================================================================#
-did_land_releases_others <- fixest::feols(
-  l.total.land.releases.other.onsite.intensity ~ e.treated +
+did_bio_treatment <- fixest::feols(
+  l.biological.treatment.onsite ~ e.treated +
     sw0(
       gdppc.1 +
         annual.avg.estabs.1 +
@@ -2014,18 +1538,15 @@ did_land_releases_others <- fixest::feols(
       chemical.year.fe
     )
   ,
-  data = triQc %>% filter(pbt.chems == 1),
+  data = triQc,
   cluster = ~c(chemical.id, naics.code, facility.state.id)
 )
-fixest::etable(did_land_releases_others, digits = 4, digits.stats = 4)
+fixest::etable(did_bio_treatment, digits = 4, digits.stats = 4)
 #======================================================================================================================#
-### Does the MW Policy affect emissions intensity of the Hazaradous Air Pollutants?
-### TRI---General EPCRA Section 313 chemical
+### Chemical treatment onsite
 #======================================================================================================================#
-### Onsite: Total releases intensity (Hazaradous Air Pollutants)
-#======================================================================================================================#
-did_total_releases <- fixest::feols(
-  l.total.releases.onsite.intensity ~ e.treated +
+did_chem_treatment <- fixest::feols(
+  l.chemical.treatment.onsite ~ e.treated +
     sw0(
       gdppc.1 +
         annual.avg.estabs.1 +
@@ -2053,15 +1574,15 @@ did_total_releases <- fixest::feols(
       chemical.year.fe
     )
   ,
-  data = triQc %>% filter(hap.chems == 1),
+  data = triQc,
   cluster = ~c(chemical.id, naics.code, facility.state.id)
 )
-fixest::etable(did_total_releases, digits = 4, digits.stats = 4)
+fixest::etable(did_chem_treatment, digits = 4, digits.stats = 4)
 #======================================================================================================================#
-### Onsite: Total air emissions intensity (Hazaradous Air Pollutants)
+### Physical treatment onsite
 #======================================================================================================================#
-did_air <- fixest::feols(
-  l.total.air.emissions.onsite.intensity ~ e.treated +
+did_physical_treatment <- fixest::feols(
+  l.physical.treatment.onsite ~ e.treated +
     sw0(
       gdppc.1 +
         annual.avg.estabs.1 +
@@ -2089,15 +1610,15 @@ did_air <- fixest::feols(
       chemical.year.fe
     )
   ,
-  data = triQc %>% filter(hap.chems == 1),
+  data = triQc,
   cluster = ~c(chemical.id, naics.code, facility.state.id)
 )
-fixest::etable(did_air, digits = 4, digits.stats = 4)
+fixest::etable(did_physical_treatment, digits = 4, digits.stats = 4)
 #======================================================================================================================#
-### Onsite: Total point air emissions intensity (Hazaradous Air Pollutants)
+### Incineration thermal treatment onsite
 #======================================================================================================================#
-did_point_air <- fixest::feols(
-  l.total.point.air.emissions.onsite.intensity ~ e.treated +
+did_incineration_treatment <- fixest::feols(
+  l.incineration.thermal.treatment.onsite ~ e.treated +
     sw0(
       gdppc.1 +
         annual.avg.estabs.1 +
@@ -2125,260 +1646,8 @@ did_point_air <- fixest::feols(
       chemical.year.fe
     )
   ,
-  data = triQc %>% filter(hap.chems == 1),
+  data = triQc,
   cluster = ~c(chemical.id, naics.code, facility.state.id)
 )
-fixest::etable(did_point_air, digits = 4, digits.stats = 4)
-#======================================================================================================================#
-### Onsite: Total fugitive air emissions intensity (Hazaradous Air Pollutants)
-#======================================================================================================================#
-did_fug_air <- fixest::feols(
-  l.total.fug.air.emissions.onsite.intensity ~ e.treated +
-    sw0(
-      gdppc.1 +
-        annual.avg.estabs.1 +
-        cpi.1 +
-        federal.facility +
-        produced.chem.facility +
-        imported.chem.facility +
-        chemical.formulation.component +
-        chemical.article.component +
-        chemical.manufacturing.aid +
-        chemical.ancilliary.use +
-        production.ratio.activity.index +
-        maxnum.chem.onsite +
-        trade.secret
-    )
-    |
-    csw(,
-      year,
-      facility.id,
-      fips.code,
-      facility.county,
-      treated.cluster.id,
-      facility.state.id,
-      chemical.id,
-      chemical.year.fe
-    )
-  ,
-  data = triQc %>% filter(hap.chems == 1),
-  cluster = ~c(chemical.id, naics.code, facility.state.id)
-)
-fixest::etable(did_fug_air, digits = 4, digits.stats = 4)
-#======================================================================================================================#
-### Onsite: Total surface water discharge intensity (Hazaradous Air Pollutants)
-#======================================================================================================================#
-did_water_disc <- fixest::feols(
-  l.total.surface.water.discharge.onsite.intensity ~ e.treated +
-    sw0(
-      gdppc.1 +
-        annual.avg.estabs.1 +
-        cpi.1 +
-        federal.facility +
-        produced.chem.facility +
-        imported.chem.facility +
-        chemical.formulation.component +
-        chemical.article.component +
-        chemical.manufacturing.aid +
-        chemical.ancilliary.use +
-        production.ratio.activity.index +
-        maxnum.chem.onsite +
-        trade.secret
-    )
-    |
-    csw(,
-      year,
-      facility.id,
-      fips.code,
-      facility.county,
-      treated.cluster.id,
-      facility.state.id,
-      chemical.id,
-      chemical.year.fe
-    )
-  ,
-  data = triQc %>% filter(hap.chems == 1),
-  cluster = ~c(chemical.id, naics.code, facility.state.id)
-)
-fixest::etable(did_water_disc, digits = 4, digits.stats = 4)
-#======================================================================================================================#
-### Onsite: Total land releases intensity (Hazaradous Air Pollutants)
-#======================================================================================================================#
-did_land_releases <- fixest::feols(
-  l.total.land.releases.onsite.intensity ~ e.treated +
-    sw0(
-      gdppc.1 +
-        annual.avg.estabs.1 +
-        cpi.1 +
-        federal.facility +
-        produced.chem.facility +
-        imported.chem.facility +
-        chemical.formulation.component +
-        chemical.article.component +
-        chemical.manufacturing.aid +
-        chemical.ancilliary.use +
-        production.ratio.activity.index +
-        maxnum.chem.onsite +
-        trade.secret
-    )
-    |
-    csw(,
-      year,
-      facility.id,
-      fips.code,
-      facility.county,
-      treated.cluster.id,
-      facility.state.id,
-      chemical.id,
-      chemical.year.fe
-    )
-  ,
-  data = triQc %>% filter(hap.chems == 1),
-  cluster = ~c(chemical.id, naics.code, facility.state.id)
-)
-fixest::etable(did_land_releases, digits = 4, digits.stats = 4)
-#======================================================================================================================#
-### Onsite: Total landfills intensity (Hazaradous Air Pollutants)
-#======================================================================================================================#
-did_landfills <- fixest::feols(
-  l.total.landfills.onsite.intensity ~ e.treated +
-    sw0(
-      gdppc.1 +
-        annual.avg.estabs.1 +
-        cpi.1 +
-        federal.facility +
-        produced.chem.facility +
-        imported.chem.facility +
-        chemical.formulation.component +
-        chemical.article.component +
-        chemical.manufacturing.aid +
-        chemical.ancilliary.use +
-        production.ratio.activity.index +
-        maxnum.chem.onsite +
-        trade.secret
-    )
-    |
-    csw(,
-      year,
-      facility.id,
-      fips.code,
-      facility.county,
-      treated.cluster.id,
-      facility.state.id,
-      chemical.id,
-      chemical.year.fe
-    )
-  ,
-  data = triQc %>% filter(hap.chems == 1),
-  cluster = ~c(chemical.id, naics.code, facility.state.id)
-)
-fixest::etable(did_landfills, digits = 4, digits.stats = 4)
-#======================================================================================================================#
-### Onsite: Total releases to land treatment intensity (Hazaradous Air Pollutants)
-#======================================================================================================================#
-did_release_toland <- fixest::feols(
-  l.total.releases.toland.treatment.onsite.intensity ~ e.treated +
-    sw0(
-      gdppc.1 +
-        annual.avg.estabs.1 +
-        cpi.1 +
-        federal.facility +
-        produced.chem.facility +
-        imported.chem.facility +
-        chemical.formulation.component +
-        chemical.article.component +
-        chemical.manufacturing.aid +
-        chemical.ancilliary.use +
-        production.ratio.activity.index +
-        maxnum.chem.onsite +
-        trade.secret
-    )
-    |
-    csw(,
-      year,
-      facility.id,
-      fips.code,
-      facility.county,
-      treated.cluster.id,
-      facility.state.id,
-      chemical.id,
-      chemical.year.fe
-    )
-  ,
-  data = triQc %>% filter(hap.chems == 1),
-  cluster = ~c(chemical.id, naics.code, facility.state.id)
-)
-fixest::etable(did_release_toland, digits = 4, digits.stats = 4)
-#======================================================================================================================#
-### Onsite: Total surface impoundment intensity (Hazaradous Air Pollutants)
-#======================================================================================================================#
-did_surface_impoundment <- fixest::feols(
-  l.total.surface.impoundment.onsite.intensity ~ e.treated +
-    sw0(
-      gdppc.1 +
-        annual.avg.estabs.1 +
-        cpi.1 +
-        federal.facility +
-        produced.chem.facility +
-        imported.chem.facility +
-        chemical.formulation.component +
-        chemical.article.component +
-        chemical.manufacturing.aid +
-        chemical.ancilliary.use +
-        production.ratio.activity.index +
-        maxnum.chem.onsite +
-        trade.secret
-    )
-    |
-    csw(,
-      year,
-      facility.id,
-      fips.code,
-      facility.county,
-      treated.cluster.id,
-      facility.state.id,
-      chemical.id,
-      chemical.year.fe
-    )
-  ,
-  data = triQc %>% filter(hap.chems == 1),
-  cluster = ~c(chemical.id, naics.code, facility.state.id)
-)
-fixest::etable(did_surface_impoundment, digits = 4, digits.stats = 4)
-#======================================================================================================================#
-### Onsite: Total land releases others intensity (Hazaradous Air Pollutants)
-#======================================================================================================================#
-did_land_releases_others <- fixest::feols(
-  l.total.land.releases.other.onsite.intensity ~ e.treated +
-    sw0(
-      gdppc.1 +
-        annual.avg.estabs.1 +
-        cpi.1 +
-        federal.facility +
-        produced.chem.facility +
-        imported.chem.facility +
-        chemical.formulation.component +
-        chemical.article.component +
-        chemical.manufacturing.aid +
-        chemical.ancilliary.use +
-        production.ratio.activity.index +
-        maxnum.chem.onsite +
-        trade.secret
-    )
-    |
-    csw(,
-      year,
-      facility.id,
-      fips.code,
-      facility.county,
-      treated.cluster.id,
-      facility.state.id,
-      chemical.id,
-      chemical.year.fe
-    )
-  ,
-  data = triQc %>% filter(hap.chems == 1),
-  cluster = ~c(chemical.id, naics.code, facility.state.id)
-)
-fixest::etable(did_land_releases_others, digits = 4, digits.stats = 4)
+fixest::etable(did_incineration_treatment, digits = 4, digits.stats = 4)
 #======================================================================================================================#

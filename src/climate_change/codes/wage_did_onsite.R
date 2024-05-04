@@ -48,12 +48,12 @@ treat_sel <- fixest::feols(
     csw(
       year,
       treated.cluster.id,
-      state.id,
+      facility.state.id,
       treated.cluster.year.fe
     )
   ,
   data = triQc,
-  cluster = ~state.id,
+  cluster = ~facility.state.id,
 )
 fixest::etable(treat_sel)
 #======================================================================================================================#
@@ -72,12 +72,12 @@ reg_wage <- fixest::feols(
     csw(,
       year,
       treated.cluster.id,
-      state.id,
+      facility.state.id,
       treated.cluster.year.fe
     )
   ,
   data = triQc,
-  cluster = ~state.id,
+  cluster = ~facility.state.id,
 )
 fixest::etable(reg_wage)
 
@@ -93,12 +93,12 @@ reg_wage <- fixest::feols(
     csw(,
       year,
       treated.cluster.id,
-      state.id,
+      facility.state.id,
       treated.cluster.year.fe
     )
   ,
   data = triQc,
-  cluster = ~state.id,
+  cluster = ~facility.state.id,
 )
 fixest::etable(reg_wage)
 
@@ -112,11 +112,11 @@ reg_wage <- fixest::feols(
       |
       year +
         treated.cluster.id +
-        state.id +
+        facility.state.id +
         treated.cluster.year.fe
   ,
   data = triQc,
-  cluster = ~state.id,
+  cluster = ~facility.state.id,
 )
 
 fixest::etable(reg_wage)
@@ -124,9 +124,9 @@ fixest::iplot(reg_wage, xlim = c(2011, 2017), ylim = c(-0.4, 0.4), col = "blue",
               main = "Effect of MW Policy on Labour Cost", xlab = "relative year") %>%
   abline(v = 2013, col = "red", lty = 2, lwd = 2)
 ### Testing for pre-trends
-pre.treat.coef <- coef(reg_wage)[grep(pattern = "rel.year", names(coef(reg_wage)))]
-pre.treat.coef <- pre.treat.coef[5:6]
-linearHypothesis(reg_wage, paste0(names(pre.treat.coef), " = 0"), test = "F")
+pre_treat_coef <- coef(reg_wage)[grep(pattern = "rel.year", names(coef(reg_wage)))]
+pre_treat_coef <- pre_treat_coef[5:6]
+linearHypothesis(reg_wage, paste0(names(pre_treat_coef), " = 0"), test = "F")
 #======================================================================================================================#
 ### Labour cost: Industry production wages per worker
 #======================================================================================================================#
@@ -142,12 +142,12 @@ reg_wage_pw <- fixest::feols(
     csw(,
       year,
       treated.cluster.id,
-      state.id,
+      facility.state.id,
       treated.cluster.year.fe
     )
   ,
   data = triQc,
-  cluster = ~state.id,
+  cluster = ~facility.state.id,
 )
 fixest::etable(reg_wage_pw)
 
@@ -163,12 +163,12 @@ reg_wage_pw <- fixest::feols(
     csw(,
       year,
       treated.cluster.id,
-      state.id,
+      facility.state.id,
       treated.cluster.year.fe
     )
   ,
   data = triQc,
-  cluster = ~state.id,
+  cluster = ~facility.state.id,
 )
 fixest::etable(reg_wage_pw)
 
@@ -182,11 +182,11 @@ reg_wage_pw <- fixest::feols(
       |
       year +
         treated.cluster.id +
-        state.id +
+        facility.state.id +
         treated.cluster.year.fe
   ,
   data = triQc,
-  cluster = ~state.id,
+  cluster = ~facility.state.id,
 )
 
 fixest::etable(reg_wage_pw)
@@ -194,9 +194,9 @@ fixest::iplot(reg_wage_pw, xlim = c(2011, 2017), ylim = c(-0.2, 0.2), col = "blu
               main = "Effect of MW Policy on Labour Cost Per Worker", xlab = "relative year") %>%
   abline(v = 2013, col = "red", lty = 2, lwd = 2)
 ### Testing for pre-trends
-pre.treat.coef <- coef(reg_wage_pw)[grep(pattern = "rel.year", names(coef(reg_wage_pw)))]
-pre.treat.coef <- pre.treat.coef[5:6]
-linearHypothesis(reg_wage_pw, paste0(names(pre.treat.coef), " = 0"), test = "F")
+pre_treat_coef <- coef(reg_wage_pw)[grep(pattern = "rel.year", names(coef(reg_wage_pw)))]
+pre_treat_coef <- pre_treat_coef[5:6]
+linearHypothesis(reg_wage_pw, paste0(names(pre_treat_coef), " = 0"), test = "F")
 #======================================================================================================================#
 ### Wage per hour
 #======================================================================================================================#
@@ -212,12 +212,12 @@ reg_wagephr <- fixest::feols(
     csw(,
       year,
       treated.cluster.id,
-      state.id,
+      facility.state.id,
       treated.cluster.year.fe
     )
   ,
   data = triQc,
-  cluster = ~state.id,
+  cluster = ~facility.state.id,
 )
 fixest::etable(reg_wagephr)
 
@@ -233,12 +233,12 @@ reg_wagephr <- fixest::feols(
     csw(,
       year,
       treated.cluster.id,
-      state.id,
+      facility.state.id,
       treated.cluster.year.fe
     )
   ,
   data = triQc,
-  cluster = ~state.id,
+  cluster = ~facility.state.id,
 )
 
 fixest::etable(reg_wagephr)
@@ -253,11 +253,11 @@ reg_wagephr <- fixest::feols(
       |
       year +
         treated.cluster.id +
-        state.id +
+        facility.state.id +
         treated.cluster.year.fe
   ,
   data = triQc,
-  cluster = ~state.id,
+  cluster = ~facility.state.id,
 )
 
 fixest::etable(reg_wagephr)
@@ -265,9 +265,9 @@ fixest::iplot(reg_wagephr, xlim = c(2011, 2017), ylim = c(-0.2, 0.2), col = "blu
               main = "Effect of MW Policy on Labour Cost Per Hour", xlab = "relative year") %>%
   abline(v = 2013, col = "red", lty = 2, lwd = 2)
 ### Testing for pre-trends
-pre.treat.coef <- coef(reg_wagephr)[grep(pattern = "rel.year", names(coef(reg_wagephr)))]
-pre.treat.coef <- pre.treat.coef[5:6]
-linearHypothesis(reg_wagephr, paste0(names(pre.treat.coef), " = 0"), test = "F")
+pre_treat_coef <- coef(reg_wagephr)[grep(pattern = "rel.year", names(coef(reg_wagephr)))]
+pre_treat_coef <- pre_treat_coef[5:6]
+linearHypothesis(reg_wagephr, paste0(names(pre_treat_coef), " = 0"), test = "F")
 #======================================================================================================================#
 ### Labour cost: Industry Pay
 #======================================================================================================================#
@@ -283,12 +283,12 @@ reg_pay <- fixest::feols(
     csw(,
       year,
       treated.cluster.id,
-      state.id,
+      facility.state.id,
       treated.cluster.year.fe
     )
   ,
   data = triQc,
-  cluster = ~state.id,
+  cluster = ~facility.state.id,
 )
 
 fixest::etable(reg_pay)
@@ -305,12 +305,12 @@ reg_pay <- fixest::feols(
     csw(,
       year,
       treated.cluster.id,
-      state.id,
+      facility.state.id,
       treated.cluster.year.fe
     )
   ,
   data = triQc,
-  cluster = ~state.id,
+  cluster = ~facility.state.id,
 )
 
 fixest::etable(reg_pay)
@@ -324,11 +324,11 @@ reg_pay <- fixest::feols(
     |
     year +
       treated.cluster.id +
-      state.id +
+      facility.state.id +
       treated.cluster.year.fe
   ,
   data = triQc,
-  cluster = ~state.id,
+  cluster = ~facility.state.id,
 )
 
 fixest::etable(reg_pay)
@@ -336,9 +336,9 @@ fixest::iplot(reg_pay, xlim = c(2011, 2017), ylim = c(-0.4, 0.4), col = "blue",
               main = "Effect of MW Policy on Total Payroll", xlab = "relative year") %>%
   abline(v = 2013, col = "red", lty = 2, lwd = 2)
 ### Testing for pre-trends
-pre.treat.coef <- coef(reg_pay)[grep(pattern = "rel.year", names(coef(reg_pay)))]
-pre.treat.coef <- pre.treat.coef[5:6]
-linearHypothesis(reg_pay, paste0(names(pre.treat.coef), " = 0"), test = "F")
+pre_treat_coef <- coef(reg_pay)[grep(pattern = "rel.year", names(coef(reg_pay)))]
+pre_treat_coef <- pre_treat_coef[5:6]
+linearHypothesis(reg_pay, paste0(names(pre_treat_coef), " = 0"), test = "F")
 #======================================================================================================================#
 ### Material cost: Industry material cost
 #======================================================================================================================#
@@ -354,12 +354,12 @@ reg_matcost <- fixest::feols(
     csw(,
       year,
       treated.cluster.id,
-      state.id,
+      facility.state.id,
       treated.cluster.year.fe
     )
   ,
   data = triQc,
-  cluster = ~state.id,
+  cluster = ~facility.state.id,
 )
 
 fixest::etable(reg_matcost)
@@ -373,11 +373,11 @@ reg_matcost <- fixest::feols(
     |
     year +
       treated.cluster.id +
-      state.id +
+      facility.state.id +
       treated.cluster.year.fe
   ,
   data = triQc,
-  cluster = ~state.id,
+  cluster = ~facility.state.id,
 )
 
 fixest::etable(reg_matcost)
@@ -385,9 +385,9 @@ fixest::iplot(reg_matcost, xlim = c(2011, 2017), ylim = c(-0.6, 0.6), col = "blu
               main = "Effect of MW Policy on Material Cost", xlab = "relative year") %>%
   abline(v = 2013, col = "red", lty = 2, lwd = 2)
 ### Testing for pre-trends
-pre.treat.coef <- coef(reg_matcost)[grep(pattern = "rel.year", names(coef(reg_matcost)))]
-pre.treat.coef <- pre.treat.coef[5:6]
-linearHypothesis(reg_matcost, paste0(names(pre.treat.coef), " = 0"), test = "F")
+pre_treat_coef <- coef(reg_matcost)[grep(pattern = "rel.year", names(coef(reg_matcost)))]
+pre_treat_coef <- pre_treat_coef[5:6]
+linearHypothesis(reg_matcost, paste0(names(pre_treat_coef), " = 0"), test = "F")
 #======================================================================================================================#
 ### Industry: Employment
 #======================================================================================================================#
@@ -403,12 +403,12 @@ reg_emp <- fixest::feols(
     csw(,
       year,
       treated.cluster.id,
-      state.id,
+      facility.state.id,
       treated.cluster.year.fe
     )
   ,
   data = triQc,
-  cluster = ~state.id,
+  cluster = ~facility.state.id,
 )
 
 fixest::etable(reg_emp)
@@ -422,11 +422,11 @@ reg_emp <- fixest::feols(
     |
     year +
       treated.cluster.id +
-      state.id +
+      facility.state.id +
       treated.cluster.year.fe
   ,
   data = triQc,
-  cluster = ~state.id,
+  cluster = ~facility.state.id,
 )
 
 fixest::etable(reg_emp)
@@ -434,7 +434,7 @@ fixest::iplot(reg_emp, xlim = c(2011, 2017), ylim = c(-0.3, 0.3), col = "blue",
               main = "Effect of MW Policy on Employment", xlab = "relative year") %>%
   abline(v = 2013, col = "red", lty = 2, lwd = 2)
 ### Testing for pre-trends
-pre.treat.coef <- coef(reg_emp)[grep(pattern = "rel.year", names(coef(reg_emp)))]
-pre.treat.coef <- pre.treat.coef[5:6]
-linearHypothesis(reg_emp, paste0(names(pre.treat.coef), " = 0"), test = "F")
+pre_treat_coef <- coef(reg_emp)[grep(pattern = "rel.year", names(coef(reg_emp)))]
+pre_treat_coef <- pre_treat_coef[5:6]
+linearHypothesis(reg_emp, paste0(names(pre_treat_coef), " = 0"), test = "F")
 #======================================================================================================================#

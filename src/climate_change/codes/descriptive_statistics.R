@@ -59,15 +59,17 @@ n_distinct(triQc_potw$naics.code)
 n_distinct(triQc_potw[triQc_potw$treated == 0,]$facility.state)
 n_distinct(triQc_potw[triQc_potw$treated == 1,]$facility.state)
 sort(unique((triQc_potw[triQc_potw$treated == 0,]$facility.state)))
+sort(unique((triQc_potw[triQc_potw$treated == 1,]$facility.state)))
 sort(unique((triQc_potw$potw.state)))
 #======================================================================================================================#
 ### List of the chemicals---Table
 #======================================================================================================================#
 chemicals_onsite <- triQc %>%
-  select(chemical.id, chemical.name, chemical.classification, carcinogenic.chems,
-         clean.air.act.chems, pfas.chems, metal.restrict.tri, elemental.metal.included,
-         chemical.intermediate.uses, chemical.formulation.component, chemical.article.component,
-         chemical.manufacturing.aid, chemical.ancilliary.use, trade.secret, sanitised) %>%
+  select(
+    chemical.id, chemical.name, chemical.classification, carcinogenic.chems,
+    clean.air.act.chems, metal.restrict.tri, chemical.formulation.component, chemical.article.component,
+    chemical.manufacturing.aid, chemical.ancilliary.use, trade.secret, sanitised
+  ) %>%
   mutate(
     tri = ifelse(chemical.classification == "TRI", yes = 1, no = 0),
     pbt = ifelse(chemical.classification == "PBT", yes = 1, no = 0),
@@ -80,10 +82,7 @@ chemicals_onsite <- triQc %>%
     dioxin.chem.class = sum(dioxin, na.rm = TRUE),
     n.carcinogen = sum(carcinogenic.chems, na.rm = TRUE),
     n.caa = sum(clean.air.act.chems, na.rm = TRUE),
-    n.pfas = sum(pfas.chems, na.rm = TRUE),
     n.met.restr.tri = sum(metal.restrict.tri, na.rm = TRUE),
-    n.met.incl.tri = sum(elemental.metal.included, na.rm = TRUE),
-    n.chem.intm.uses = sum(chemical.intermediate.uses, na.rm = TRUE),
     n.chem.form.comp = sum(chemical.formulation.component, na.rm = TRUE),
     n.chem.art.comp = sum(chemical.article.component, na.rm = TRUE),
     n.chem.manu.aid = sum(chemical.manufacturing.aid, na.rm = TRUE),
@@ -163,20 +162,18 @@ chemicals <- chemicals_onsite %>%
     attribute = case_when(
       n.carcinogen > 0 ~ "carcinogenic",
       n.caa > 0 ~ "clean air act",
-      n.pfas > 0 ~ "polyfluoroalkyl",
+      # n.pfas > 0 ~ "polyfluoroalkyl",
       n.met.restr.tri > 0 ~ "metal restricted",
-      n.met.incl.tri > 0 ~ "elemental metal included",
-      n.chem.intm.uses > 0 ~ "intermediate uses",
+      # n.met.incl.tri > 0 ~ "elemental metal included",
+      # n.chem.intm.uses > 0 ~ "intermediate uses",
       n.chem.form.comp > 0 ~ "formulation component",
       n.chem.art.comp > 0 ~ "article component",
       n.chem.manu.aid > 0 ~ "manufacturing aid",
       n.chem.anci.use > 0 ~ "ancillary use",
       n.carcinogen == 0 |
         n.caa == 0 |
-        n.pfas == 0 |
         n.met.restr.tri == 0 |
-        n.met.incl.tri == 0 |
-        n.chem.intm.uses == 0 |
+        # n.met.incl.tri == 0 |
         n.chem.form.comp == 0 |
         n.chem.art.comp == 0 |
         n.chem.manu.aid == 0 |
@@ -192,9 +189,9 @@ chemicals <- chemicals_onsite %>%
 
 n_distinct(chemicals$chemical.name)
 chemicals <- chemicals[order(chemicals$chemical.name),]
-chemicals83 <- slice(chemicals, 1:83)
+chemicals84 <- slice(chemicals, 1:84)
 chemicals167 <- slice(chemicals, 84:167)
-nrow(chemicals83)
+nrow(chemicals84)
 nrow(chemicals167)
 chems <- cbind(chemicals84, chemicals167) %>% data.frame()
 
@@ -268,7 +265,7 @@ triQc %>%
   group_by(facility.state) %>%
   summarise(
     naics.code = n(),
-    total.air.emissions.onsite.intensity = sum(total.air.emissions.onsite.intensity, na.rm = TRUE),
+    total.air.emissions.onsite.intensity = mean(total.air.emissions.onsite.intensity, na.rm = TRUE),
     treated = treated %>% unique()
   ) %>%
   ggplot(aes(x = facility.state, y = total.air.emissions.onsite.intensity, fill = treated)) +
@@ -287,7 +284,7 @@ triQc %>%
   group_by(facility.state) %>%
   summarise(
     naics.code = n(),
-    total.land.releases.onsite.intensity = sum(total.land.releases.onsite.intensity, na.rm = TRUE),
+    total.land.releases.onsite.intensity = mean(total.land.releases.onsite.intensity, na.rm = TRUE),
     treated = treated %>% unique()
   ) %>%
   ggplot(aes(x = facility.state, y = total.land.releases.onsite.intensity, fill = treated)) +
@@ -306,7 +303,7 @@ triQc %>%
   group_by(facility.state) %>%
   summarise(
     naics.code = n(),
-    total.surface.water.discharge.onsite.intensity = sum(total.surface.water.discharge.onsite.intensity, na.rm = TRUE),
+    total.surface.water.discharge.onsite.intensity = mean(total.surface.water.discharge.onsite.intensity, na.rm = TRUE),
     treated = treated %>% unique()
   ) %>%
   ggplot(aes(x = facility.state, y = total.surface.water.discharge.onsite.intensity, fill = treated)) +

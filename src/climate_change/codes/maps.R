@@ -61,7 +61,7 @@ border_county_map <- plot_usmap(
   # labels = T
 ) +
   scale_fill_gradient(low = "azure", high = "pink") +
-  labs(title = "Treated vs. Control Border Counties") +
+  labs(title = "Treated vs. Control Counties") +
   theme(
     legend.position = c(x = 0.75, y = 0.08),
     legend.key.width = unit(x = 0.3, units = "in"),

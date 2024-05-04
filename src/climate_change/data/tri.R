@@ -12,7 +12,7 @@ library(statar)
 #======================================================#
 ## Working Directory
 #======================================================#
-setwd("C:/Users/Davidmac.Ekeocha/OneDrive/Documents/ULMS/PhD/")
+setwd(dir = "C:/Users/david/OneDrive/Documents/ULMS/PhD/")
 #=========================================#
 ### TOXIC RELEASE INVENTORY - TRI
 #=========================================#
@@ -2326,12 +2326,7 @@ write_rds(x = tri, file = "./Data_PhD/US/EPA/AQS/toxic_release_inventory/tri.rds
 ### Loading dataset
 #=========================#
 filepath <- "./Data_PhD/US/EPA/AQS/toxic_release_inventory/tri.rds"
-# filepathghg = "./Data_PhD/US/EPA/AQS/ghg/envirofacts/national_single/NATIONAL_SINGLE.CSV"
 tri <- readRDS(file = filepath)
-# ghg <- read.csv(file = filepathghg, header = T)
-# glimpse(tri)
-# str(tri)
-
 
 #==================================================================================================================#
 ### Sorting the columns
@@ -2343,7 +2338,6 @@ tri <- readRDS(file = filepath)
 tri.A <- tri %>% filter(X1..FORM.TYPE == "A")
 tri.R <- tri %>% filter(X1..FORM.TYPE == "R")
 tri <- tri.R
-
 
 tri <- tri %>%
   select(
@@ -3458,7 +3452,7 @@ tri <- tri %>%
            total.releases.wastebroker.offsite:chemical.ancilliary.use))
 
 #===============================================================#
-### Generating naics sector codes column. And merging with bdsm
+### Generating naics sector codes column.
 #===============================================================#
 tri$naics.sector.code[grepl(pattern = "^11", tri$naics.code)] <- "11"
 tri$naics.sector.code[grepl(pattern = "^21", tri$naics.code)] <- "21"
@@ -3483,5 +3477,19 @@ tri$naics.sector.code[grepl(pattern = "^71", tri$naics.code)] <- "71"
 tri$naics.sector.code[grepl(pattern = "^81", tri$naics.code)] <- "81"
 tri$naics.sector.code[grepl(pattern = "^92", tri$naics.code)] <- "92"
 
-write_rds(x = tri, file = "./Data_PhD/US/EPA/AQS/toxic_release_inventory/triR.rds", compress = "xz")
+sum_up(tri, c(energy.recovery.onsite, industrial.kiln.onsite, industrial.furnace.onsite, industrial.boiler.onsite,
+                recycling.onsite, metal.recovery.onsite, solvent.recovery.onsite, reuse.onsite,
+                biological.treatment.onsite, chemical.treatment.onsite, incineration.thermal.treatment.onsite,
+                physical.treatment.onsite, material.subandmod, treatment.onsite, air.emissions.treatment.onsite,
+                total.waste.management.onsite, sub.fuel.matsubmod, sub.organic.solvent.matsubmod,
+                sub.rawm.feedstock.reactchem.matsubmod, sub.manu.proccess.ancilliary.chems.matsubmod,
+                mod.content.grade.purity.chems.matsubmod, other.matmods.matsubmod, product.modification,
+                devd.newproductline.pmod, alt.dim.comp.design.pmod, mod.packaging.pmod, other.pmods.pmod,
+                process.equip.modification, optimised.process.efficiency.pequipmod, recirculationinprocess.pequipmod,
+                newtech.technique.process.pequipmod, equipment.upgrade.update.pequipmod, other.pequipmods.pequipmod,
+                inventory.material.mgt, better.labelling.testing.immgt, containers.sizechange.immgt,
+                improved.materialhandling.operations.immgt, improved.monitoring.immgt, other.immgts.immgt,
+                operating.practices.training, improved.schdule.operation.procedures.opt,
+                changed.production.schedule.opt, intro.inline.productquality.process.analysis.opt))
 
+write_rds(x = tri, file = "./Data_PhD/US/EPA/AQS/toxic_release_inventory/triR.rds", compress = "xz")
