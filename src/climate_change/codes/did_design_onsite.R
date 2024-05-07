@@ -70,6 +70,7 @@ triQ <- read_rds(file = "./Data_PhD/US/BLS/triQ.rds") %>%
       cpi:tfp5, population, treated:sum2.sub.mw.ch, tot.ch.amt, start.mw, end.mw, match.ch.amt,
       match.ch.year, dist.to.border
     )) %>%
+  mutate(private.facility = ifelse(test = own_code == 5, yes = 1, no = 0)) %>%
   data.frame()
 end_time <- Sys.time()
 end_time - start_time
@@ -801,6 +802,7 @@ triQs <- triQc %>%
         trade.secret +
         sanitised +
         entire.facility +
+        private.facility +
         federal.facility +
         govt.owned.facility +
         # elemental.metal.included +
@@ -871,7 +873,7 @@ triQs <- triQc %>%
     return = "long"
   ) %>%
   select(
-    -c(Function, facility.city:fips_code, lat, long, treated.cluster.name:cbcp.id,
+    -c(Function, facility.city:facility.county, lat, long, treated.cluster.name:cbcp.id,
        treated.cluster.lat:control.cluster.long, treated.cluster.population, control.cluster.population)
   ) %>%
   mutate(
@@ -1244,6 +1246,13 @@ triQs <- triQs %>%
     treated.match.year.fe = as.numeric(as.factor(treated.match)) * year,
     control.match.year.fe = as.numeric(as.factor(control.match)) * year
   )
+#======================================================================================================================#
+### check for zero columns
+#======================================================================================================================#
+zero_cols <- names(triQc)[colSums(triQc == 0) == nrow(triQc)]
+triQc <- triQc[, !names(triQc) %in% zero_cols]
+zero_cols <- names(triQs)[colSums(triQs == 0) == nrow(triQs)]
+triQs <- triQs[, !names(triQs) %in% zero_cols]
 #======================================================================================================================#
 ### Save data
 #======================================================================================================================#

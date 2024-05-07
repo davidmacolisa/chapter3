@@ -70,11 +70,11 @@ border_county_map <- plot_usmap(
   ) +
   theme_bw()
 
-pdf(file = "./Thesis/chapter3/src/climate_change/latex/border_state_map.pdf", width = 17, height = 10)
+pdf(file = "../latex/fig_border_state_map.pdf", width = 17, height = 10)
 border_state_map
 dev.off()
 
-pdf(file = "./Thesis/chapter3/src/climate_change/latex/border_county_map.pdf", width = 17, height = 10)
+pdf(file = "../latex/fig_border_county_map.pdf", width = 17, height = 10)
 border_county_map
 dev.off()
 #======================================================================================================================#

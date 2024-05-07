@@ -42,6 +42,8 @@ treat_sel <- fixest::feols(
       population.1 +
       annual.avg.estabs.1 +
       cpi.1 +
+      entire.facility +
+      private.facility +
       federal.facility
   )
     |
@@ -55,7 +57,7 @@ treat_sel <- fixest::feols(
   data = triQc,
   cluster = ~facility.state.id,
 )
-fixest::etable(treat_sel)
+fixest::etable(treat_sel, digits = 4, digits.stats = 4)
 #======================================================================================================================#
 ### Labour cost: Industry production workers' wages
 #======================================================================================================================#
@@ -66,6 +68,8 @@ reg_wage <- fixest::feols(
       gdppc.1 +
         annual.avg.estabs.1 +
         cpi.1 +
+        entire.facility +
+        private.facility +
         federal.facility
     )
     |
@@ -79,7 +83,7 @@ reg_wage <- fixest::feols(
   data = triQc,
   cluster = ~facility.state.id,
 )
-fixest::etable(reg_wage)
+fixest::etable(reg_wage, digits = 4, digits.stats = 4)
 
 reg_wage <- fixest::feols(
   l.prodw ~ e.treated +
@@ -87,6 +91,8 @@ reg_wage <- fixest::feols(
       gdppc.1 +
         annual.avg.estabs.1 +
         cpi.1 +
+        entire.facility +
+        private.facility +
         federal.facility
     )
     |
@@ -100,7 +106,7 @@ reg_wage <- fixest::feols(
   data = triQc,
   cluster = ~facility.state.id,
 )
-fixest::etable(reg_wage)
+fixest::etable(reg_wage, digits = 4, digits.stats = 4)
 
 reg_wage <- fixest::feols(
   l.prodw ~
@@ -108,6 +114,8 @@ reg_wage <- fixest::feols(
       gdppc.1 +
       annual.avg.estabs.1 +
       cpi.1 +
+      entire.facility +
+      private.facility +
       federal.facility
       |
       year +
@@ -119,9 +127,9 @@ reg_wage <- fixest::feols(
   cluster = ~facility.state.id,
 )
 
-fixest::etable(reg_wage)
+fixest::etable(reg_wage, digits = 4, digits.stats = 4)
 fixest::iplot(reg_wage, xlim = c(2011, 2017), ylim = c(-0.4, 0.4), col = "blue",
-              main = "Effect of MW Policy on Labour Cost", xlab = "relative year") %>%
+              main = "Labour Cost", xlab = "relative year") %>%
   abline(v = 2013, col = "red", lty = 2, lwd = 2)
 ### Testing for pre-trends
 pre_treat_coef <- coef(reg_wage)[grep(pattern = "rel.year", names(coef(reg_wage)))]
@@ -136,6 +144,8 @@ reg_wage_pw <- fixest::feols(
       gdppc.1 +
         annual.avg.estabs.1 +
         cpi.1 +
+        entire.facility +
+        private.facility +
         federal.facility
     )
     |
@@ -149,7 +159,7 @@ reg_wage_pw <- fixest::feols(
   data = triQc,
   cluster = ~facility.state.id,
 )
-fixest::etable(reg_wage_pw)
+fixest::etable(reg_wage_pw, digits = 4, digits.stats = 4)
 
 reg_wage_pw <- fixest::feols(
   l.wage.perworker ~ e.treated +
@@ -157,6 +167,8 @@ reg_wage_pw <- fixest::feols(
       gdppc.1 +
         annual.avg.estabs.1 +
         cpi.1 +
+        entire.facility +
+        private.facility +
         federal.facility
     )
     |
@@ -170,7 +182,7 @@ reg_wage_pw <- fixest::feols(
   data = triQc,
   cluster = ~facility.state.id,
 )
-fixest::etable(reg_wage_pw)
+fixest::etable(reg_wage_pw, digits = 4, digits.stats = 4)
 
 reg_wage_pw <- fixest::feols(
   l.wage.perworker ~
@@ -178,6 +190,8 @@ reg_wage_pw <- fixest::feols(
       gdppc.1 +
       annual.avg.estabs.1 +
       cpi.1 +
+      entire.facility +
+      private.facility +
       federal.facility
       |
       year +
@@ -189,9 +203,9 @@ reg_wage_pw <- fixest::feols(
   cluster = ~facility.state.id,
 )
 
-fixest::etable(reg_wage_pw)
+fixest::etable(reg_wage_pw, digits = 4, digits.stats = 4)
 fixest::iplot(reg_wage_pw, xlim = c(2011, 2017), ylim = c(-0.2, 0.2), col = "blue",
-              main = "Effect of MW Policy on Labour Cost Per Worker", xlab = "relative year") %>%
+              main = "Labour Cost Per Worker", xlab = "relative year") %>%
   abline(v = 2013, col = "red", lty = 2, lwd = 2)
 ### Testing for pre-trends
 pre_treat_coef <- coef(reg_wage_pw)[grep(pattern = "rel.year", names(coef(reg_wage_pw)))]
@@ -206,6 +220,8 @@ reg_wagephr <- fixest::feols(
       gdppc.1 +
         annual.avg.estabs.1 +
         cpi.1 +
+        entire.facility +
+        private.facility +
         federal.facility
     )
     |
@@ -219,7 +235,7 @@ reg_wagephr <- fixest::feols(
   data = triQc,
   cluster = ~facility.state.id,
 )
-fixest::etable(reg_wagephr)
+fixest::etable(reg_wagephr, digits = 4, digits.stats = 4)
 
 reg_wagephr <- fixest::feols(
   l.wage.perhr ~ e.treated +
@@ -227,6 +243,8 @@ reg_wagephr <- fixest::feols(
       gdppc.1 +
         annual.avg.estabs.1 +
         cpi.1 +
+        entire.facility +
+        private.facility +
         federal.facility
     )
     |
@@ -241,7 +259,7 @@ reg_wagephr <- fixest::feols(
   cluster = ~facility.state.id,
 )
 
-fixest::etable(reg_wagephr)
+fixest::etable(reg_wagephr, digits = 4, digits.stats = 4)
 
 reg_wagephr <- fixest::feols(
   l.wage.perhr ~
@@ -249,6 +267,8 @@ reg_wagephr <- fixest::feols(
       gdppc.1 +
       annual.avg.estabs.1 +
       cpi.1 +
+      entire.facility +
+      private.facility +
       federal.facility
       |
       year +
@@ -260,9 +280,9 @@ reg_wagephr <- fixest::feols(
   cluster = ~facility.state.id,
 )
 
-fixest::etable(reg_wagephr)
+fixest::etable(reg_wagephr, digits = 4, digits.stats = 4)
 fixest::iplot(reg_wagephr, xlim = c(2011, 2017), ylim = c(-0.2, 0.2), col = "blue",
-              main = "Effect of MW Policy on Labour Cost Per Hour", xlab = "relative year") %>%
+              main = "Labour Cost Per Hour", xlab = "relative year") %>%
   abline(v = 2013, col = "red", lty = 2, lwd = 2)
 ### Testing for pre-trends
 pre_treat_coef <- coef(reg_wagephr)[grep(pattern = "rel.year", names(coef(reg_wagephr)))]
@@ -277,6 +297,8 @@ reg_pay <- fixest::feols(
       gdppc.1 +
         annual.avg.estabs.1 +
         cpi.1 +
+        entire.facility +
+        private.facility +
         federal.facility
     )
     |
@@ -291,7 +313,7 @@ reg_pay <- fixest::feols(
   cluster = ~facility.state.id,
 )
 
-fixest::etable(reg_pay)
+fixest::etable(reg_pay, digits = 4, digits.stats = 4)
 
 reg_pay <- fixest::feols(
   l.pay ~ e.treated +
@@ -299,6 +321,8 @@ reg_pay <- fixest::feols(
       gdppc.1 +
         annual.avg.estabs.1 +
         cpi.1 +
+        entire.facility +
+        private.facility +
         federal.facility
     )
     |
@@ -313,13 +337,15 @@ reg_pay <- fixest::feols(
   cluster = ~facility.state.id,
 )
 
-fixest::etable(reg_pay)
+fixest::etable(reg_pay, digits = 4, digits.stats = 4)
 
 reg_pay <- fixest::feols(
   l.pay ~ i(rel.year, ref = c(2013, Inf)) +
     gdppc.1 +
     annual.avg.estabs.1 +
     cpi.1 +
+    entire.facility +
+    private.facility +
     federal.facility
     |
     year +
@@ -331,9 +357,9 @@ reg_pay <- fixest::feols(
   cluster = ~facility.state.id,
 )
 
-fixest::etable(reg_pay)
+fixest::etable(reg_pay, digits = 4, digits.stats = 4)
 fixest::iplot(reg_pay, xlim = c(2011, 2017), ylim = c(-0.4, 0.4), col = "blue",
-              main = "Effect of MW Policy on Total Payroll", xlab = "relative year") %>%
+              main = "Total Payroll", xlab = "relative year") %>%
   abline(v = 2013, col = "red", lty = 2, lwd = 2)
 ### Testing for pre-trends
 pre_treat_coef <- coef(reg_pay)[grep(pattern = "rel.year", names(coef(reg_pay)))]
@@ -348,6 +374,8 @@ reg_matcost <- fixest::feols(
       gdppc.1 +
         annual.avg.estabs.1 +
         cpi.1 +
+        entire.facility +
+        private.facility +
         federal.facility
     )
     |
@@ -362,13 +390,15 @@ reg_matcost <- fixest::feols(
   cluster = ~facility.state.id,
 )
 
-fixest::etable(reg_matcost)
+fixest::etable(reg_matcost, digits = 4, digits.stats = 4)
 
 reg_matcost <- fixest::feols(
   l.matcost ~ i(rel.year, ref = c(2013, Inf)) +
     gdppc.1 +
     annual.avg.estabs.1 +
     cpi.1 +
+    entire.facility +
+    private.facility +
     federal.facility
     |
     year +
@@ -380,9 +410,9 @@ reg_matcost <- fixest::feols(
   cluster = ~facility.state.id,
 )
 
-fixest::etable(reg_matcost)
+fixest::etable(reg_matcost, digits = 4, digits.stats = 4)
 fixest::iplot(reg_matcost, xlim = c(2011, 2017), ylim = c(-0.6, 0.6), col = "blue",
-              main = "Effect of MW Policy on Material Cost", xlab = "relative year") %>%
+              main = "Material Cost", xlab = "relative year") %>%
   abline(v = 2013, col = "red", lty = 2, lwd = 2)
 ### Testing for pre-trends
 pre_treat_coef <- coef(reg_matcost)[grep(pattern = "rel.year", names(coef(reg_matcost)))]
@@ -397,6 +427,8 @@ reg_emp <- fixest::feols(
       gdppc.1 +
         annual.avg.estabs.1 +
         cpi.1 +
+        entire.facility +
+        private.facility +
         federal.facility
     )
     |
@@ -411,13 +443,15 @@ reg_emp <- fixest::feols(
   cluster = ~facility.state.id,
 )
 
-fixest::etable(reg_emp)
+fixest::etable(reg_emp, digits = 4, digits.stats = 4)
 
 reg_emp <- fixest::feols(
   l.emp ~ i(rel.year, ref = c(2013, Inf)) +
     gdppc.1 +
     annual.avg.estabs.1 +
     cpi.1 +
+    entire.facility +
+    private.facility +
     federal.facility
     |
     year +
@@ -429,12 +463,64 @@ reg_emp <- fixest::feols(
   cluster = ~facility.state.id,
 )
 
-fixest::etable(reg_emp)
+fixest::etable(reg_emp, digits = 4, digits.stats = 4)
 fixest::iplot(reg_emp, xlim = c(2011, 2017), ylim = c(-0.3, 0.3), col = "blue",
-              main = "Effect of MW Policy on Employment", xlab = "relative year") %>%
+              main = "Industry Employment", xlab = "relative year") %>%
   abline(v = 2013, col = "red", lty = 2, lwd = 2)
 ### Testing for pre-trends
 pre_treat_coef <- coef(reg_emp)[grep(pattern = "rel.year", names(coef(reg_emp)))]
 pre_treat_coef <- pre_treat_coef[5:6]
 linearHypothesis(reg_emp, paste0(names(pre_treat_coef), " = 0"), test = "F")
+#======================================================================================================================#
+### Industry: Production hours
+#======================================================================================================================#
+reg_phours <- fixest::feols(
+  l.prodh ~ e.treated +
+    sw0(
+      gdppc.1 +
+        annual.avg.estabs.1 +
+        cpi.1 +
+        entire.facility +
+        private.facility +
+        federal.facility
+    )
+    |
+    csw(,
+      year,
+      treated.cluster.id,
+      facility.state.id,
+      treated.cluster.year.fe
+    )
+  ,
+  data = triQc,
+  cluster = ~facility.state.id,
+)
+
+fixest::etable(reg_phours, digits = 4, digits.stats = 4)
+
+reg_phours <- fixest::feols(
+  l.prodh ~ i(rel.year, ref = c(2013, Inf)) +
+    gdppc.1 +
+    annual.avg.estabs.1 +
+    cpi.1 +
+    entire.facility +
+    private.facility +
+    federal.facility
+    |
+    year +
+      treated.cluster.id +
+      facility.state.id +
+      treated.cluster.year.fe
+  ,
+  data = triQc,
+  cluster = ~facility.state.id,
+)
+fixest::etable(reg_phours, digits = 4, digits.stats = 4)
+fixest::iplot(reg_phours, xlim = c(2011, 2017), ylim = c(-0.3, 0.3), col = "blue",
+              main = "Workers' Hours", xlab = "relative year") %>%
+  abline(v = 2013, col = "red", lty = 2, lwd = 2)
+### Testing for pre-trends
+pre_treat_coef <- coef(reg_phours)[grep(pattern = "rel.year", names(coef(reg_phours)))]
+pre_treat_coef <- pre_treat_coef[5:6]
+linearHypothesis(reg_phours, paste0(names(pre_treat_coef), " = 0"), test = "F")
 #======================================================================================================================#

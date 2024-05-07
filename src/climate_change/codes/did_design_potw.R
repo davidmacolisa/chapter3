@@ -359,8 +359,11 @@ triQc <- triQc %>%
   mutate(
     ind.output.lb = vadd / 454,
     l.ind.output.lb = log(ind.output.lb),
+    potw.releases.underground.Iwells.offsite.intensity = potw.releases.underground.Iwells.offsite / ind.output.lb,
     l.potw.releases.underground.Iwells.offsite.intensity = log((potw.releases.underground.Iwells.offsite / ind.output.lb) + 1),
+    potw.releases.underground.other.offsite.intensity = potw.releases.underground.other.offsite / ind.output.lb,
     l.potw.releases.underground.other.offsite.intensity = log((potw.releases.underground.other.offsite / ind.output.lb) + 1),
+    total.potw.releases.offsite.intensity = total.potw.releases.offsite / ind.output.lb,
     l.total.potw.releases.offsite.intensity = log((total.potw.releases.offsite / ind.output.lb) + 1),
     l.potw.treatment.offsite = log(potw.treatment.offsite + 1),
     l.total.potw.management.offsite = log(total.potw.management.offsite + 1),
@@ -374,8 +377,11 @@ triQs <- triQs %>%
   mutate(
     ind.output.lb = vadd / 454,
     l.ind.output.lb = log(ind.output.lb),
+    potw.releases.underground.Iwells.offsite.intensity = potw.releases.underground.Iwells.offsite / ind.output.lb,
     l.potw.releases.underground.Iwells.offsite.intensity = log((potw.releases.underground.Iwells.offsite / ind.output.lb) + 1),
+    potw.releases.underground.other.offsite.intensity = potw.releases.underground.other.offsite / ind.output.lb,
     l.potw.releases.underground.other.offsite.intensity = log((potw.releases.underground.other.offsite / ind.output.lb) + 1),
+    total.potw.releases.offsite.intensity = total.potw.releases.offsite / ind.output.lb,
     l.total.potw.releases.offsite.intensity = log((total.potw.releases.offsite / ind.output.lb) + 1),
     l.potw.treatment.offsite = log(potw.treatment.offsite + 1),
     l.total.potw.management.offsite = log(total.potw.management.offsite + 1),
@@ -448,6 +454,9 @@ triQs <- triQs %>%
 #======================================================================================================================#
 zero_cols <- names(triQc)[colSums(triQc == 0) == nrow(triQc)]
 triQc <- triQc[, !names(triQc) %in% zero_cols]
+
+zero_cols <- names(triQs)[colSums(triQs == 0) == nrow(triQs)]
+triQs <- triQs[, !names(triQs) %in% zero_cols]
 #======================================================================================================================#
 ### Save data
 #======================================================================================================================#

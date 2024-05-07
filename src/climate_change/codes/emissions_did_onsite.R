@@ -39,6 +39,8 @@ did_total_releases <- fixest::feols(
       gdppc.1 +
         annual.avg.estabs.1 +
         cpi.1 +
+        entire.facility +
+        private.facility +
         federal.facility +
         produced.chem.facility +
         imported.chem.facility +
@@ -47,8 +49,7 @@ did_total_releases <- fixest::feols(
         chemical.manufacturing.aid +
         chemical.ancilliary.use +
         production.ratio.activity.index +
-        maxnum.chem.onsite +
-        trade.secret
+        maxnum.chem.onsite
     )
     |
     csw(,
@@ -75,6 +76,8 @@ did_total_releases <- fixest::feols(
       gdppc.1 +
       annual.avg.estabs.1 +
       cpi.1 +
+      entire.facility +
+      private.facility +
       federal.facility +
       produced.chem.facility +
       imported.chem.facility +
@@ -83,8 +86,7 @@ did_total_releases <- fixest::feols(
       chemical.manufacturing.aid +
       chemical.ancilliary.use +
       production.ratio.activity.index +
-      maxnum.chem.onsite +
-      trade.secret
+      maxnum.chem.onsite
       |
       year +
         facility.id +
@@ -119,6 +121,8 @@ did_air <- fixest::feols(
       gdppc.1 +
         annual.avg.estabs.1 +
         cpi.1 +
+        entire.facility +
+        private.facility +
         federal.facility +
         produced.chem.facility +
         imported.chem.facility +
@@ -127,8 +131,7 @@ did_air <- fixest::feols(
         chemical.manufacturing.aid +
         chemical.ancilliary.use +
         production.ratio.activity.index +
-        maxnum.chem.onsite +
-        trade.secret
+        maxnum.chem.onsite
     )
     |
     csw(,
@@ -149,10 +152,13 @@ fixest::etable(did_air, digits = 4, digits.stats = 4)
 
 did_air <- fixest::feols(
   l.total.air.emissions.onsite.intensity ~
-    i(rel.year, ref = c(2013, Inf)) +
+    i(treated * year, ref = c(2013, 0)) +
+      # i(rel.year, ref = c(2013, Inf)) +
       gdppc.1 +
       annual.avg.estabs.1 +
       cpi.1 +
+      entire.facility +
+      private.facility +
       federal.facility +
       produced.chem.facility +
       imported.chem.facility +
@@ -161,8 +167,7 @@ did_air <- fixest::feols(
       chemical.manufacturing.aid +
       chemical.ancilliary.use +
       production.ratio.activity.index +
-      maxnum.chem.onsite +
-      trade.secret
+      maxnum.chem.onsite
       |
       year +
         facility.id +
@@ -193,6 +198,8 @@ did_point_air <- fixest::feols(
       gdppc.1 +
         annual.avg.estabs.1 +
         cpi.1 +
+        entire.facility +
+        private.facility +
         federal.facility +
         produced.chem.facility +
         imported.chem.facility +
@@ -201,8 +208,7 @@ did_point_air <- fixest::feols(
         chemical.manufacturing.aid +
         chemical.ancilliary.use +
         production.ratio.activity.index +
-        maxnum.chem.onsite +
-        trade.secret
+        maxnum.chem.onsite
     )
     |
     csw(,
@@ -227,6 +233,8 @@ did_point_air <- fixest::feols(
       gdppc.1 +
       annual.avg.estabs.1 +
       cpi.1 +
+      entire.facility +
+      private.facility +
       federal.facility +
       produced.chem.facility +
       imported.chem.facility +
@@ -235,8 +243,7 @@ did_point_air <- fixest::feols(
       chemical.manufacturing.aid +
       chemical.ancilliary.use +
       production.ratio.activity.index +
-      maxnum.chem.onsite +
-      trade.secret
+      maxnum.chem.onsite
       |
       year +
         facility.id +
@@ -267,6 +274,8 @@ did_fug_air <- fixest::feols(
       gdppc.1 +
         annual.avg.estabs.1 +
         cpi.1 +
+        entire.facility +
+        private.facility +
         federal.facility +
         produced.chem.facility +
         imported.chem.facility +
@@ -275,8 +284,7 @@ did_fug_air <- fixest::feols(
         chemical.manufacturing.aid +
         chemical.ancilliary.use +
         production.ratio.activity.index +
-        maxnum.chem.onsite +
-        trade.secret
+        maxnum.chem.onsite
     )
     |
     csw(,
@@ -301,6 +309,8 @@ did_fug_air <- fixest::feols(
       gdppc.1 +
       annual.avg.estabs.1 +
       cpi.1 +
+      entire.facility +
+      private.facility +
       federal.facility +
       produced.chem.facility +
       imported.chem.facility +
@@ -309,8 +319,7 @@ did_fug_air <- fixest::feols(
       chemical.manufacturing.aid +
       chemical.ancilliary.use +
       production.ratio.activity.index +
-      maxnum.chem.onsite +
-      trade.secret
+      maxnum.chem.onsite
       |
       year +
         facility.id +
@@ -344,6 +353,8 @@ did_water_disc <- fixest::feols(
       gdppc.1 +
         annual.avg.estabs.1 +
         cpi.1 +
+        entire.facility +
+        private.facility +
         federal.facility +
         produced.chem.facility +
         imported.chem.facility +
@@ -352,8 +363,7 @@ did_water_disc <- fixest::feols(
         chemical.manufacturing.aid +
         chemical.ancilliary.use +
         production.ratio.activity.index +
-        maxnum.chem.onsite +
-        trade.secret
+        maxnum.chem.onsite
     )
     |
     csw(,
@@ -378,6 +388,8 @@ did_water_disc <- fixest::feols(
       gdppc.1 +
       annual.avg.estabs.1 +
       cpi.1 +
+      entire.facility +
+      private.facility +
       federal.facility +
       produced.chem.facility +
       imported.chem.facility +
@@ -386,8 +398,7 @@ did_water_disc <- fixest::feols(
       chemical.manufacturing.aid +
       chemical.ancilliary.use +
       production.ratio.activity.index +
-      maxnum.chem.onsite +
-      trade.secret
+      maxnum.chem.onsite
       |
       year +
         facility.id +
@@ -418,6 +429,8 @@ did_receiving_streams <- fixest::feols(
       gdppc.1 +
         annual.avg.estabs.1 +
         cpi.1 +
+        entire.facility +
+        private.facility +
         federal.facility +
         produced.chem.facility +
         imported.chem.facility +
@@ -426,8 +439,7 @@ did_receiving_streams <- fixest::feols(
         chemical.manufacturing.aid +
         chemical.ancilliary.use +
         production.ratio.activity.index +
-        maxnum.chem.onsite +
-        trade.secret
+        maxnum.chem.onsite
     )
     |
     csw(,
@@ -452,6 +464,8 @@ did_receiving_streams <- fixest::feols(
       gdppc.1 +
       annual.avg.estabs.1 +
       cpi.1 +
+      entire.facility +
+      private.facility +
       federal.facility +
       produced.chem.facility +
       imported.chem.facility +
@@ -460,8 +474,7 @@ did_receiving_streams <- fixest::feols(
       chemical.manufacturing.aid +
       chemical.ancilliary.use +
       production.ratio.activity.index +
-      maxnum.chem.onsite +
-      trade.secret
+      maxnum.chem.onsite
       |
       year +
         facility.id +
@@ -497,6 +510,8 @@ did_land_releases <- fixest::feols(
       gdppc.1 +
         annual.avg.estabs.1 +
         cpi.1 +
+        entire.facility +
+        private.facility +
         federal.facility +
         produced.chem.facility +
         imported.chem.facility +
@@ -505,8 +520,7 @@ did_land_releases <- fixest::feols(
         chemical.manufacturing.aid +
         chemical.ancilliary.use +
         production.ratio.activity.index +
-        maxnum.chem.onsite +
-        trade.secret
+        maxnum.chem.onsite
     )
     |
     csw(,
@@ -531,6 +545,8 @@ did_land_releases <- fixest::feols(
       gdppc.1 +
       annual.avg.estabs.1 +
       cpi.1 +
+      entire.facility +
+      private.facility +
       federal.facility +
       produced.chem.facility +
       imported.chem.facility +
@@ -539,8 +555,7 @@ did_land_releases <- fixest::feols(
       chemical.manufacturing.aid +
       chemical.ancilliary.use +
       production.ratio.activity.index +
-      maxnum.chem.onsite +
-      trade.secret
+      maxnum.chem.onsite
       |
       year +
         facility.id +
@@ -571,6 +586,8 @@ did_undground_inject <- fixest::feols(
       gdppc.1 +
         annual.avg.estabs.1 +
         cpi.1 +
+        entire.facility +
+        private.facility +
         federal.facility +
         produced.chem.facility +
         imported.chem.facility +
@@ -579,8 +596,7 @@ did_undground_inject <- fixest::feols(
         chemical.manufacturing.aid +
         chemical.ancilliary.use +
         production.ratio.activity.index +
-        maxnum.chem.onsite +
-        trade.secret
+        maxnum.chem.onsite
     )
     |
     csw(,
@@ -605,6 +621,8 @@ did_undground_inject <- fixest::feols(
       gdppc.1 +
       annual.avg.estabs.1 +
       cpi.1 +
+      entire.facility +
+      private.facility +
       federal.facility +
       produced.chem.facility +
       imported.chem.facility +
@@ -613,8 +631,7 @@ did_undground_inject <- fixest::feols(
       chemical.manufacturing.aid +
       chemical.ancilliary.use +
       production.ratio.activity.index +
-      maxnum.chem.onsite +
-      trade.secret
+      maxnum.chem.onsite
       |
       year +
         facility.id +
@@ -645,6 +662,8 @@ did_landfills <- fixest::feols(
       gdppc.1 +
         annual.avg.estabs.1 +
         cpi.1 +
+        entire.facility +
+        private.facility +
         federal.facility +
         produced.chem.facility +
         imported.chem.facility +
@@ -653,8 +672,7 @@ did_landfills <- fixest::feols(
         chemical.manufacturing.aid +
         chemical.ancilliary.use +
         production.ratio.activity.index +
-        maxnum.chem.onsite +
-        trade.secret
+        maxnum.chem.onsite
     )
     |
     csw(,
@@ -679,6 +697,8 @@ did_landfills <- fixest::feols(
       gdppc.1 +
       annual.avg.estabs.1 +
       cpi.1 +
+      entire.facility +
+      private.facility +
       federal.facility +
       produced.chem.facility +
       imported.chem.facility +
@@ -687,8 +707,7 @@ did_landfills <- fixest::feols(
       chemical.manufacturing.aid +
       chemical.ancilliary.use +
       production.ratio.activity.index +
-      maxnum.chem.onsite +
-      trade.secret
+      maxnum.chem.onsite
       |
       year +
         facility.id +
@@ -719,6 +738,8 @@ did_release_toland <- fixest::feols(
       gdppc.1 +
         annual.avg.estabs.1 +
         cpi.1 +
+        entire.facility +
+        private.facility +
         federal.facility +
         produced.chem.facility +
         imported.chem.facility +
@@ -727,8 +748,7 @@ did_release_toland <- fixest::feols(
         chemical.manufacturing.aid +
         chemical.ancilliary.use +
         production.ratio.activity.index +
-        maxnum.chem.onsite +
-        trade.secret
+        maxnum.chem.onsite
     )
     |
     csw(,
@@ -753,6 +773,8 @@ did_release_toland <- fixest::feols(
       gdppc.1 +
       annual.avg.estabs.1 +
       cpi.1 +
+      entire.facility +
+      private.facility +
       federal.facility +
       produced.chem.facility +
       imported.chem.facility +
@@ -761,8 +783,7 @@ did_release_toland <- fixest::feols(
       chemical.manufacturing.aid +
       chemical.ancilliary.use +
       production.ratio.activity.index +
-      maxnum.chem.onsite +
-      trade.secret
+      maxnum.chem.onsite
       |
       year +
         facility.id +
@@ -793,6 +814,8 @@ did_surface_impoundment <- fixest::feols(
       gdppc.1 +
         annual.avg.estabs.1 +
         cpi.1 +
+        entire.facility +
+        private.facility +
         federal.facility +
         produced.chem.facility +
         imported.chem.facility +
@@ -801,8 +824,7 @@ did_surface_impoundment <- fixest::feols(
         chemical.manufacturing.aid +
         chemical.ancilliary.use +
         production.ratio.activity.index +
-        maxnum.chem.onsite +
-        trade.secret
+        maxnum.chem.onsite
     )
     |
     csw(,
@@ -827,6 +849,8 @@ did_surface_impoundment <- fixest::feols(
       gdppc.1 +
       annual.avg.estabs.1 +
       cpi.1 +
+      entire.facility +
+      private.facility +
       federal.facility +
       produced.chem.facility +
       imported.chem.facility +
@@ -835,8 +859,7 @@ did_surface_impoundment <- fixest::feols(
       chemical.manufacturing.aid +
       chemical.ancilliary.use +
       production.ratio.activity.index +
-      maxnum.chem.onsite +
-      trade.secret
+      maxnum.chem.onsite
       |
       year +
         facility.id +
@@ -867,6 +890,8 @@ did_land_releases_others <- fixest::feols(
       gdppc.1 +
         annual.avg.estabs.1 +
         cpi.1 +
+        entire.facility +
+        private.facility +
         federal.facility +
         produced.chem.facility +
         imported.chem.facility +
@@ -875,8 +900,7 @@ did_land_releases_others <- fixest::feols(
         chemical.manufacturing.aid +
         chemical.ancilliary.use +
         production.ratio.activity.index +
-        maxnum.chem.onsite +
-        trade.secret
+        maxnum.chem.onsite
     )
     |
     csw(,
@@ -901,6 +925,8 @@ did_land_releases_others <- fixest::feols(
       gdppc.1 +
       annual.avg.estabs.1 +
       cpi.1 +
+      entire.facility +
+      private.facility +
       federal.facility +
       produced.chem.facility +
       imported.chem.facility +
@@ -909,8 +935,7 @@ did_land_releases_others <- fixest::feols(
       chemical.manufacturing.aid +
       chemical.ancilliary.use +
       production.ratio.activity.index +
-      maxnum.chem.onsite +
-      trade.secret
+      maxnum.chem.onsite
       |
       year +
         facility.id +
@@ -943,6 +968,8 @@ did_total_releases <- fixest::feols(
       gdppc.1 +
         annual.avg.estabs.1 +
         cpi.1 +
+        entire.facility +
+        private.facility +
         federal.facility +
         produced.chem.facility +
         imported.chem.facility +
@@ -951,8 +978,7 @@ did_total_releases <- fixest::feols(
         chemical.manufacturing.aid +
         chemical.ancilliary.use +
         production.ratio.activity.index +
-        maxnum.chem.onsite +
-        trade.secret
+        maxnum.chem.onsite
     )
     |
     csw(,
@@ -979,6 +1005,8 @@ did_air <- fixest::feols(
       gdppc.1 +
         annual.avg.estabs.1 +
         cpi.1 +
+        entire.facility +
+        private.facility +
         federal.facility +
         produced.chem.facility +
         imported.chem.facility +
@@ -987,8 +1015,7 @@ did_air <- fixest::feols(
         chemical.manufacturing.aid +
         chemical.ancilliary.use +
         production.ratio.activity.index +
-        maxnum.chem.onsite +
-        trade.secret
+        maxnum.chem.onsite
     )
     |
     csw(,
@@ -1015,6 +1042,8 @@ did_point_air <- fixest::feols(
       gdppc.1 +
         annual.avg.estabs.1 +
         cpi.1 +
+        entire.facility +
+        private.facility +
         federal.facility +
         produced.chem.facility +
         imported.chem.facility +
@@ -1023,8 +1052,7 @@ did_point_air <- fixest::feols(
         chemical.manufacturing.aid +
         chemical.ancilliary.use +
         production.ratio.activity.index +
-        maxnum.chem.onsite +
-        trade.secret
+        maxnum.chem.onsite
     )
     |
     csw(,
@@ -1051,6 +1079,8 @@ did_fug_air <- fixest::feols(
       gdppc.1 +
         annual.avg.estabs.1 +
         cpi.1 +
+        entire.facility +
+        private.facility +
         federal.facility +
         produced.chem.facility +
         imported.chem.facility +
@@ -1059,8 +1089,7 @@ did_fug_air <- fixest::feols(
         chemical.manufacturing.aid +
         chemical.ancilliary.use +
         production.ratio.activity.index +
-        maxnum.chem.onsite +
-        trade.secret
+        maxnum.chem.onsite
     )
     |
     csw(,
@@ -1087,6 +1116,8 @@ did_water_disc <- fixest::feols(
       gdppc.1 +
         annual.avg.estabs.1 +
         cpi.1 +
+        entire.facility +
+        private.facility +
         federal.facility +
         produced.chem.facility +
         imported.chem.facility +
@@ -1095,8 +1126,7 @@ did_water_disc <- fixest::feols(
         chemical.manufacturing.aid +
         chemical.ancilliary.use +
         production.ratio.activity.index +
-        maxnum.chem.onsite +
-        trade.secret
+        maxnum.chem.onsite
     )
     |
     csw(,
@@ -1123,6 +1153,8 @@ did_land_releases <- fixest::feols(
       gdppc.1 +
         annual.avg.estabs.1 +
         cpi.1 +
+        entire.facility +
+        private.facility +
         federal.facility +
         produced.chem.facility +
         imported.chem.facility +
@@ -1131,8 +1163,7 @@ did_land_releases <- fixest::feols(
         chemical.manufacturing.aid +
         chemical.ancilliary.use +
         production.ratio.activity.index +
-        maxnum.chem.onsite +
-        trade.secret
+        maxnum.chem.onsite
     )
     |
     csw(,
@@ -1159,6 +1190,8 @@ did_landfills <- fixest::feols(
       gdppc.1 +
         annual.avg.estabs.1 +
         cpi.1 +
+        entire.facility +
+        private.facility +
         federal.facility +
         produced.chem.facility +
         imported.chem.facility +
@@ -1167,8 +1200,7 @@ did_landfills <- fixest::feols(
         chemical.manufacturing.aid +
         chemical.ancilliary.use +
         production.ratio.activity.index +
-        maxnum.chem.onsite +
-        trade.secret
+        maxnum.chem.onsite
     )
     |
     csw(,
@@ -1195,6 +1227,8 @@ did_release_toland <- fixest::feols(
       gdppc.1 +
         annual.avg.estabs.1 +
         cpi.1 +
+        entire.facility +
+        private.facility +
         federal.facility +
         produced.chem.facility +
         imported.chem.facility +
@@ -1203,8 +1237,7 @@ did_release_toland <- fixest::feols(
         chemical.manufacturing.aid +
         chemical.ancilliary.use +
         production.ratio.activity.index +
-        maxnum.chem.onsite +
-        trade.secret
+        maxnum.chem.onsite
     )
     |
     csw(,
@@ -1231,6 +1264,8 @@ did_surface_impoundment <- fixest::feols(
       gdppc.1 +
         annual.avg.estabs.1 +
         cpi.1 +
+        entire.facility +
+        private.facility +
         federal.facility +
         produced.chem.facility +
         imported.chem.facility +
@@ -1239,8 +1274,7 @@ did_surface_impoundment <- fixest::feols(
         chemical.manufacturing.aid +
         chemical.ancilliary.use +
         production.ratio.activity.index +
-        maxnum.chem.onsite +
-        trade.secret
+        maxnum.chem.onsite
     )
     |
     csw(,
@@ -1267,6 +1301,8 @@ did_land_releases_others <- fixest::feols(
       gdppc.1 +
         annual.avg.estabs.1 +
         cpi.1 +
+        entire.facility +
+        private.facility +
         federal.facility +
         produced.chem.facility +
         imported.chem.facility +
@@ -1275,8 +1311,7 @@ did_land_releases_others <- fixest::feols(
         chemical.manufacturing.aid +
         chemical.ancilliary.use +
         production.ratio.activity.index +
-        maxnum.chem.onsite +
-        trade.secret
+        maxnum.chem.onsite
     )
     |
     csw(,
@@ -1305,6 +1340,8 @@ did_total_releases <- fixest::feols(
       gdppc.1 +
         annual.avg.estabs.1 +
         cpi.1 +
+        entire.facility +
+        private.facility +
         federal.facility +
         produced.chem.facility +
         imported.chem.facility +
@@ -1313,8 +1350,7 @@ did_total_releases <- fixest::feols(
         chemical.manufacturing.aid +
         chemical.ancilliary.use +
         production.ratio.activity.index +
-        maxnum.chem.onsite +
-        trade.secret
+        maxnum.chem.onsite
     )
     |
     csw(,
@@ -1341,6 +1377,8 @@ did_air <- fixest::feols(
       gdppc.1 +
         annual.avg.estabs.1 +
         cpi.1 +
+        entire.facility +
+        private.facility +
         federal.facility +
         produced.chem.facility +
         imported.chem.facility +
@@ -1349,8 +1387,7 @@ did_air <- fixest::feols(
         chemical.manufacturing.aid +
         chemical.ancilliary.use +
         production.ratio.activity.index +
-        maxnum.chem.onsite +
-        trade.secret
+        maxnum.chem.onsite
     )
     |
     csw(,
@@ -1377,6 +1414,8 @@ did_point_air <- fixest::feols(
       gdppc.1 +
         annual.avg.estabs.1 +
         cpi.1 +
+        entire.facility +
+        private.facility +
         federal.facility +
         produced.chem.facility +
         imported.chem.facility +
@@ -1385,8 +1424,7 @@ did_point_air <- fixest::feols(
         chemical.manufacturing.aid +
         chemical.ancilliary.use +
         production.ratio.activity.index +
-        maxnum.chem.onsite +
-        trade.secret
+        maxnum.chem.onsite
     )
     |
     csw(,
@@ -1413,6 +1451,8 @@ did_fug_air <- fixest::feols(
       gdppc.1 +
         annual.avg.estabs.1 +
         cpi.1 +
+        entire.facility +
+        private.facility +
         federal.facility +
         produced.chem.facility +
         imported.chem.facility +
@@ -1421,8 +1461,7 @@ did_fug_air <- fixest::feols(
         chemical.manufacturing.aid +
         chemical.ancilliary.use +
         production.ratio.activity.index +
-        maxnum.chem.onsite +
-        trade.secret
+        maxnum.chem.onsite
     )
     |
     csw(,
@@ -1449,6 +1488,8 @@ did_water_disc <- fixest::feols(
       gdppc.1 +
         annual.avg.estabs.1 +
         cpi.1 +
+        entire.facility +
+        private.facility +
         federal.facility +
         produced.chem.facility +
         imported.chem.facility +
@@ -1457,8 +1498,7 @@ did_water_disc <- fixest::feols(
         chemical.manufacturing.aid +
         chemical.ancilliary.use +
         production.ratio.activity.index +
-        maxnum.chem.onsite +
-        trade.secret
+        maxnum.chem.onsite
     )
     |
     csw(,
@@ -1485,6 +1525,8 @@ did_land_releases <- fixest::feols(
       gdppc.1 +
         annual.avg.estabs.1 +
         cpi.1 +
+        entire.facility +
+        private.facility +
         federal.facility +
         produced.chem.facility +
         imported.chem.facility +
@@ -1493,8 +1535,7 @@ did_land_releases <- fixest::feols(
         chemical.manufacturing.aid +
         chemical.ancilliary.use +
         production.ratio.activity.index +
-        maxnum.chem.onsite +
-        trade.secret
+        maxnum.chem.onsite
     )
     |
     csw(,
@@ -1521,6 +1562,8 @@ did_landfills <- fixest::feols(
       gdppc.1 +
         annual.avg.estabs.1 +
         cpi.1 +
+        entire.facility +
+        private.facility +
         federal.facility +
         produced.chem.facility +
         imported.chem.facility +
@@ -1529,8 +1572,7 @@ did_landfills <- fixest::feols(
         chemical.manufacturing.aid +
         chemical.ancilliary.use +
         production.ratio.activity.index +
-        maxnum.chem.onsite +
-        trade.secret
+        maxnum.chem.onsite
     )
     |
     csw(,
@@ -1557,6 +1599,8 @@ did_release_toland <- fixest::feols(
       gdppc.1 +
         annual.avg.estabs.1 +
         cpi.1 +
+        entire.facility +
+        private.facility +
         federal.facility +
         produced.chem.facility +
         imported.chem.facility +
@@ -1565,8 +1609,7 @@ did_release_toland <- fixest::feols(
         chemical.manufacturing.aid +
         chemical.ancilliary.use +
         production.ratio.activity.index +
-        maxnum.chem.onsite +
-        trade.secret
+        maxnum.chem.onsite
     )
     |
     csw(,
@@ -1593,6 +1636,8 @@ did_surface_impoundment <- fixest::feols(
       gdppc.1 +
         annual.avg.estabs.1 +
         cpi.1 +
+        entire.facility +
+        private.facility +
         federal.facility +
         produced.chem.facility +
         imported.chem.facility +
@@ -1601,8 +1646,7 @@ did_surface_impoundment <- fixest::feols(
         chemical.manufacturing.aid +
         chemical.ancilliary.use +
         production.ratio.activity.index +
-        maxnum.chem.onsite +
-        trade.secret
+        maxnum.chem.onsite
     )
     |
     csw(,
@@ -1629,6 +1673,8 @@ did_land_releases_others <- fixest::feols(
       gdppc.1 +
         annual.avg.estabs.1 +
         cpi.1 +
+        entire.facility +
+        private.facility +
         federal.facility +
         produced.chem.facility +
         imported.chem.facility +
@@ -1637,8 +1683,7 @@ did_land_releases_others <- fixest::feols(
         chemical.manufacturing.aid +
         chemical.ancilliary.use +
         production.ratio.activity.index +
-        maxnum.chem.onsite +
-        trade.secret
+        maxnum.chem.onsite
     )
     |
     csw(,
@@ -1667,6 +1712,8 @@ did_total_releases <- fixest::feols(
       gdppc.1 +
         annual.avg.estabs.1 +
         cpi.1 +
+        entire.facility +
+        private.facility +
         federal.facility +
         produced.chem.facility +
         imported.chem.facility +
@@ -1675,8 +1722,7 @@ did_total_releases <- fixest::feols(
         chemical.manufacturing.aid +
         chemical.ancilliary.use +
         production.ratio.activity.index +
-        maxnum.chem.onsite +
-        trade.secret
+        maxnum.chem.onsite
     )
     |
     csw(,
@@ -1703,6 +1749,8 @@ did_air <- fixest::feols(
       gdppc.1 +
         annual.avg.estabs.1 +
         cpi.1 +
+        entire.facility +
+        private.facility +
         federal.facility +
         produced.chem.facility +
         imported.chem.facility +
@@ -1711,8 +1759,7 @@ did_air <- fixest::feols(
         chemical.manufacturing.aid +
         chemical.ancilliary.use +
         production.ratio.activity.index +
-        maxnum.chem.onsite +
-        trade.secret
+        maxnum.chem.onsite
     )
     |
     csw(,
@@ -1739,6 +1786,8 @@ did_point_air <- fixest::feols(
       gdppc.1 +
         annual.avg.estabs.1 +
         cpi.1 +
+        entire.facility +
+        private.facility +
         federal.facility +
         produced.chem.facility +
         imported.chem.facility +
@@ -1747,8 +1796,7 @@ did_point_air <- fixest::feols(
         chemical.manufacturing.aid +
         chemical.ancilliary.use +
         production.ratio.activity.index +
-        maxnum.chem.onsite +
-        trade.secret
+        maxnum.chem.onsite
     )
     |
     csw(,
@@ -1775,6 +1823,8 @@ did_fug_air <- fixest::feols(
       gdppc.1 +
         annual.avg.estabs.1 +
         cpi.1 +
+        entire.facility +
+        private.facility +
         federal.facility +
         produced.chem.facility +
         imported.chem.facility +
@@ -1783,8 +1833,7 @@ did_fug_air <- fixest::feols(
         chemical.manufacturing.aid +
         chemical.ancilliary.use +
         production.ratio.activity.index +
-        maxnum.chem.onsite +
-        trade.secret
+        maxnum.chem.onsite
     )
     |
     csw(,
@@ -1811,6 +1860,8 @@ did_water_disc <- fixest::feols(
       gdppc.1 +
         annual.avg.estabs.1 +
         cpi.1 +
+        entire.facility +
+        private.facility +
         federal.facility +
         produced.chem.facility +
         imported.chem.facility +
@@ -1819,8 +1870,7 @@ did_water_disc <- fixest::feols(
         chemical.manufacturing.aid +
         chemical.ancilliary.use +
         production.ratio.activity.index +
-        maxnum.chem.onsite +
-        trade.secret
+        maxnum.chem.onsite
     )
     |
     csw(,
@@ -1847,6 +1897,8 @@ did_land_releases <- fixest::feols(
       gdppc.1 +
         annual.avg.estabs.1 +
         cpi.1 +
+        entire.facility +
+        private.facility +
         federal.facility +
         produced.chem.facility +
         imported.chem.facility +
@@ -1855,8 +1907,7 @@ did_land_releases <- fixest::feols(
         chemical.manufacturing.aid +
         chemical.ancilliary.use +
         production.ratio.activity.index +
-        maxnum.chem.onsite +
-        trade.secret
+        maxnum.chem.onsite
     )
     |
     csw(,
@@ -1883,6 +1934,8 @@ did_landfills <- fixest::feols(
       gdppc.1 +
         annual.avg.estabs.1 +
         cpi.1 +
+        entire.facility +
+        private.facility +
         federal.facility +
         produced.chem.facility +
         imported.chem.facility +
@@ -1891,8 +1944,7 @@ did_landfills <- fixest::feols(
         chemical.manufacturing.aid +
         chemical.ancilliary.use +
         production.ratio.activity.index +
-        maxnum.chem.onsite +
-        trade.secret
+        maxnum.chem.onsite
     )
     |
     csw(,
@@ -1919,6 +1971,8 @@ did_release_toland <- fixest::feols(
       gdppc.1 +
         annual.avg.estabs.1 +
         cpi.1 +
+        entire.facility +
+        private.facility +
         federal.facility +
         produced.chem.facility +
         imported.chem.facility +
@@ -1927,8 +1981,7 @@ did_release_toland <- fixest::feols(
         chemical.manufacturing.aid +
         chemical.ancilliary.use +
         production.ratio.activity.index +
-        maxnum.chem.onsite +
-        trade.secret
+        maxnum.chem.onsite
     )
     |
     csw(,
@@ -1955,6 +2008,8 @@ did_surface_impoundment <- fixest::feols(
       gdppc.1 +
         annual.avg.estabs.1 +
         cpi.1 +
+        entire.facility +
+        private.facility +
         federal.facility +
         produced.chem.facility +
         imported.chem.facility +
@@ -1963,8 +2018,7 @@ did_surface_impoundment <- fixest::feols(
         chemical.manufacturing.aid +
         chemical.ancilliary.use +
         production.ratio.activity.index +
-        maxnum.chem.onsite +
-        trade.secret
+        maxnum.chem.onsite
     )
     |
     csw(,
@@ -1991,6 +2045,8 @@ did_land_releases_others <- fixest::feols(
       gdppc.1 +
         annual.avg.estabs.1 +
         cpi.1 +
+        entire.facility +
+        private.facility +
         federal.facility +
         produced.chem.facility +
         imported.chem.facility +
@@ -1999,8 +2055,7 @@ did_land_releases_others <- fixest::feols(
         chemical.manufacturing.aid +
         chemical.ancilliary.use +
         production.ratio.activity.index +
-        maxnum.chem.onsite +
-        trade.secret
+        maxnum.chem.onsite
     )
     |
     csw(,
@@ -2030,6 +2085,8 @@ did_total_releases <- fixest::feols(
       gdppc.1 +
         annual.avg.estabs.1 +
         cpi.1 +
+        entire.facility +
+        private.facility +
         federal.facility +
         produced.chem.facility +
         imported.chem.facility +
@@ -2038,8 +2095,7 @@ did_total_releases <- fixest::feols(
         chemical.manufacturing.aid +
         chemical.ancilliary.use +
         production.ratio.activity.index +
-        maxnum.chem.onsite +
-        trade.secret
+        maxnum.chem.onsite
     )
     |
     csw(,
@@ -2066,6 +2122,8 @@ did_air <- fixest::feols(
       gdppc.1 +
         annual.avg.estabs.1 +
         cpi.1 +
+        entire.facility +
+        private.facility +
         federal.facility +
         produced.chem.facility +
         imported.chem.facility +
@@ -2074,8 +2132,7 @@ did_air <- fixest::feols(
         chemical.manufacturing.aid +
         chemical.ancilliary.use +
         production.ratio.activity.index +
-        maxnum.chem.onsite +
-        trade.secret
+        maxnum.chem.onsite
     )
     |
     csw(,
@@ -2102,6 +2159,8 @@ did_point_air <- fixest::feols(
       gdppc.1 +
         annual.avg.estabs.1 +
         cpi.1 +
+        entire.facility +
+        private.facility +
         federal.facility +
         produced.chem.facility +
         imported.chem.facility +
@@ -2110,8 +2169,7 @@ did_point_air <- fixest::feols(
         chemical.manufacturing.aid +
         chemical.ancilliary.use +
         production.ratio.activity.index +
-        maxnum.chem.onsite +
-        trade.secret
+        maxnum.chem.onsite
     )
     |
     csw(,
@@ -2138,6 +2196,8 @@ did_fug_air <- fixest::feols(
       gdppc.1 +
         annual.avg.estabs.1 +
         cpi.1 +
+        entire.facility +
+        private.facility +
         federal.facility +
         produced.chem.facility +
         imported.chem.facility +
@@ -2146,8 +2206,7 @@ did_fug_air <- fixest::feols(
         chemical.manufacturing.aid +
         chemical.ancilliary.use +
         production.ratio.activity.index +
-        maxnum.chem.onsite +
-        trade.secret
+        maxnum.chem.onsite
     )
     |
     csw(,
@@ -2174,6 +2233,8 @@ did_water_disc <- fixest::feols(
       gdppc.1 +
         annual.avg.estabs.1 +
         cpi.1 +
+        entire.facility +
+        private.facility +
         federal.facility +
         produced.chem.facility +
         imported.chem.facility +
@@ -2182,8 +2243,7 @@ did_water_disc <- fixest::feols(
         chemical.manufacturing.aid +
         chemical.ancilliary.use +
         production.ratio.activity.index +
-        maxnum.chem.onsite +
-        trade.secret
+        maxnum.chem.onsite
     )
     |
     csw(,
@@ -2210,6 +2270,8 @@ did_land_releases <- fixest::feols(
       gdppc.1 +
         annual.avg.estabs.1 +
         cpi.1 +
+        entire.facility +
+        private.facility +
         federal.facility +
         produced.chem.facility +
         imported.chem.facility +
@@ -2218,8 +2280,7 @@ did_land_releases <- fixest::feols(
         chemical.manufacturing.aid +
         chemical.ancilliary.use +
         production.ratio.activity.index +
-        maxnum.chem.onsite +
-        trade.secret
+        maxnum.chem.onsite
     )
     |
     csw(,
@@ -2246,6 +2307,8 @@ did_landfills <- fixest::feols(
       gdppc.1 +
         annual.avg.estabs.1 +
         cpi.1 +
+        entire.facility +
+        private.facility +
         federal.facility +
         produced.chem.facility +
         imported.chem.facility +
@@ -2254,8 +2317,7 @@ did_landfills <- fixest::feols(
         chemical.manufacturing.aid +
         chemical.ancilliary.use +
         production.ratio.activity.index +
-        maxnum.chem.onsite +
-        trade.secret
+        maxnum.chem.onsite
     )
     |
     csw(,
@@ -2282,6 +2344,8 @@ did_release_toland <- fixest::feols(
       gdppc.1 +
         annual.avg.estabs.1 +
         cpi.1 +
+        entire.facility +
+        private.facility +
         federal.facility +
         produced.chem.facility +
         imported.chem.facility +
@@ -2290,8 +2354,7 @@ did_release_toland <- fixest::feols(
         chemical.manufacturing.aid +
         chemical.ancilliary.use +
         production.ratio.activity.index +
-        maxnum.chem.onsite +
-        trade.secret
+        maxnum.chem.onsite
     )
     |
     csw(,
@@ -2318,6 +2381,8 @@ did_surface_impoundment <- fixest::feols(
       gdppc.1 +
         annual.avg.estabs.1 +
         cpi.1 +
+        entire.facility +
+        private.facility +
         federal.facility +
         produced.chem.facility +
         imported.chem.facility +
@@ -2326,8 +2391,7 @@ did_surface_impoundment <- fixest::feols(
         chemical.manufacturing.aid +
         chemical.ancilliary.use +
         production.ratio.activity.index +
-        maxnum.chem.onsite +
-        trade.secret
+        maxnum.chem.onsite
     )
     |
     csw(,
@@ -2354,6 +2418,8 @@ did_land_releases_others <- fixest::feols(
       gdppc.1 +
         annual.avg.estabs.1 +
         cpi.1 +
+        entire.facility +
+        private.facility +
         federal.facility +
         produced.chem.facility +
         imported.chem.facility +
@@ -2362,8 +2428,7 @@ did_land_releases_others <- fixest::feols(
         chemical.manufacturing.aid +
         chemical.ancilliary.use +
         production.ratio.activity.index +
-        maxnum.chem.onsite +
-        trade.secret
+        maxnum.chem.onsite
     )
     |
     csw(,

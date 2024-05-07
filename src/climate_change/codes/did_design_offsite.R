@@ -383,22 +383,39 @@ table(triQs$chemical.ancilliary.use)
 triQc <- triQc %>%
   mutate(
     ind.output.lb = vadd / 454,
+    total.underground.injection.offsite.intensity = total.underground.injection.offsite / ind.output.lb,
     l.total.underground.injection.offsite.intensity = log((total.underground.injection.offsite / ind.output.lb) + 1),
+    total.underground.injection.I.wells.offsite.intensity = total.underground.injection.I.wells.offsite / ind.output.lb,
     l.total.underground.injection.I.wells.offsite.intensity = log((total.underground.injection.I.wells.offsite / ind.output.lb) + 1),
+    total.underground.injection.I.IV.wells.offsite.intensity = total.underground.injection.I.IV.wells.offsite / ind.output.lb,
     l.total.underground.injection.I.IV.wells.offsite.intensity = log((total.underground.injection.I.IV.wells.offsite / ind.output.lb) + 1),
+    total.landfills.offsite.intensity =total.landfills.offsite / ind.output.lb,
     l.total.landfills.offsite.intensity = log((total.landfills.offsite / ind.output.lb) + 1),
+    total.releases.toland.treatment.offsite.intensity = total.releases.toland.treatment.offsite / ind.output.lb,
     l.total.releases.toland.treatment.offsite.intensity = log((total.releases.toland.treatment.offsite / ind.output.lb) + 1),
+    total.surface.impoundment.offsite.intensity = total.surface.impoundment.offsite / ind.output.lb,
     l.total.surface.impoundment.offsite.intensity = log((total.surface.impoundment.offsite / ind.output.lb) + 1),
+    total.surface.impoundment1.offsite.intensity = total.surface.impoundment1.offsite / ind.output.lb,
     l.total.surface.impoundment1.offsite.intensity = log((total.surface.impoundment1.offsite / ind.output.lb) + 1),
+    total.surface.impoundment2.offsite.intensity = total.surface.impoundment2.offsite / ind.output.lb,
     l.total.surface.impoundment2.offsite.intensity = log((total.surface.impoundment2.offsite / ind.output.lb) + 1),
+    total.land.releases.other.offsite.intensity = total.land.releases.other.offsite / ind.output.lb,
     l.total.land.releases.other.offsite.intensity = log((total.land.releases.other.offsite / ind.output.lb) + 1),
+    total.land.releases.offsite.intensity = total.land.releases.offsite / ind.output.lb,
     l.total.land.releases.offsite.intensity = log((total.land.releases.offsite / ind.output.lb) + 1),
+    total.wastewater.releases.offsite.intensity = total.wastewater.releases.offsite / ind.output.lb,
     l.total.wastewater.releases.offsite.intensity = log((total.wastewater.releases.offsite / ind.output.lb) + 1),
+    total.releases.storage.offsite.intensity = total.releases.storage.offsite / ind.output.lb,
     l.total.releases.storage.offsite.intensity = log((total.releases.storage.offsite / ind.output.lb) + 1),
+    total.releases.metalsolidify.offsite.intensity = total.releases.metalsolidify.offsite / ind.output.lb,
     l.total.releases.metalsolidify.offsite.intensity = log((total.releases.metalsolidify.offsite / ind.output.lb) + 1),
+    total.releases.other.mgt.offsite.intensity = total.releases.other.mgt.offsite / ind.output.lb,
     l.total.releases.other.mgt.offsite.intensity = log((total.releases.other.mgt.offsite / ind.output.lb) + 1),
+    total.releases.wastebroker.offsite.intensity = total.releases.wastebroker.offsite / ind.output.lb,
     l.total.releases.wastebroker.offsite.intensity = log((total.releases.wastebroker.offsite / ind.output.lb) + 1),
+    total.releases.unknown.offsite.intensity = total.releases.unknown.offsite / ind.output.lb,
     l.total.releases.unknown.offsite.intensity = log((total.releases.unknown.offsite / ind.output.lb) + 1),
+    total.releases.offsite.intensity = total.releases.offsite / ind.output.lb,
     l.total.releases.offsite.intensity = log((total.releases.offsite / ind.output.lb) + 1),
     l.energy.recovery.offsite = log(energy.recovery.offsite + 1),
     l.energy.recovery.wastebroker.offsite = log(energy.recovery.wastebroker.offsite + 1),
@@ -426,22 +443,39 @@ triQc <- triQc %>%
 triQs <- triQs %>%
   mutate(
     ind.output.lb = vadd / 454,
+    total.underground.injection.offsite.intensity = total.underground.injection.offsite / ind.output.lb,
     l.total.underground.injection.offsite.intensity = log((total.underground.injection.offsite / ind.output.lb) + 1),
+    total.underground.injection.I.wells.offsite.intensity = total.underground.injection.I.wells.offsite / ind.output.lb,
     l.total.underground.injection.I.wells.offsite.intensity = log((total.underground.injection.I.wells.offsite / ind.output.lb) + 1),
+    total.underground.injection.I.IV.wells.offsite.intensity = total.underground.injection.I.IV.wells.offsite / ind.output.lb,
     l.total.underground.injection.I.IV.wells.offsite.intensity = log((total.underground.injection.I.IV.wells.offsite / ind.output.lb) + 1),
+    total.landfills.offsite.intensity =total.landfills.offsite / ind.output.lb,
     l.total.landfills.offsite.intensity = log((total.landfills.offsite / ind.output.lb) + 1),
+    total.releases.toland.treatment.offsite.intensity = total.releases.toland.treatment.offsite / ind.output.lb,
     l.total.releases.toland.treatment.offsite.intensity = log((total.releases.toland.treatment.offsite / ind.output.lb) + 1),
+    total.surface.impoundment.offsite.intensity = total.surface.impoundment.offsite / ind.output.lb,
     l.total.surface.impoundment.offsite.intensity = log((total.surface.impoundment.offsite / ind.output.lb) + 1),
+    total.surface.impoundment1.offsite.intensity = total.surface.impoundment1.offsite / ind.output.lb,
     l.total.surface.impoundment1.offsite.intensity = log((total.surface.impoundment1.offsite / ind.output.lb) + 1),
+    total.surface.impoundment2.offsite.intensity = total.surface.impoundment2.offsite / ind.output.lb,
     l.total.surface.impoundment2.offsite.intensity = log((total.surface.impoundment2.offsite / ind.output.lb) + 1),
+    total.land.releases.other.offsite.intensity = total.land.releases.other.offsite / ind.output.lb,
     l.total.land.releases.other.offsite.intensity = log((total.land.releases.other.offsite / ind.output.lb) + 1),
+    total.land.releases.offsite.intensity = total.land.releases.offsite / ind.output.lb,
     l.total.land.releases.offsite.intensity = log((total.land.releases.offsite / ind.output.lb) + 1),
+    total.wastewater.releases.offsite.intensity = total.wastewater.releases.offsite / ind.output.lb,
     l.total.wastewater.releases.offsite.intensity = log((total.wastewater.releases.offsite / ind.output.lb) + 1),
+    total.releases.storage.offsite.intensity = total.releases.storage.offsite / ind.output.lb,
     l.total.releases.storage.offsite.intensity = log((total.releases.storage.offsite / ind.output.lb) + 1),
+    total.releases.metalsolidify.offsite.intensity = total.releases.metalsolidify.offsite / ind.output.lb,
     l.total.releases.metalsolidify.offsite.intensity = log((total.releases.metalsolidify.offsite / ind.output.lb) + 1),
+    total.releases.other.mgt.offsite.intensity = total.releases.other.mgt.offsite / ind.output.lb,
     l.total.releases.other.mgt.offsite.intensity = log((total.releases.other.mgt.offsite / ind.output.lb) + 1),
+    total.releases.wastebroker.offsite.intensity = total.releases.wastebroker.offsite / ind.output.lb,
     l.total.releases.wastebroker.offsite.intensity = log((total.releases.wastebroker.offsite / ind.output.lb) + 1),
+    total.releases.unknown.offsite.intensity = total.releases.unknown.offsite / ind.output.lb,
     l.total.releases.unknown.offsite.intensity = log((total.releases.unknown.offsite / ind.output.lb) + 1),
+    total.releases.offsite.intensity = total.releases.offsite / ind.output.lb,
     l.total.releases.offsite.intensity = log((total.releases.offsite / ind.output.lb) + 1),
     l.energy.recovery.offsite = log(energy.recovery.offsite + 1),
     l.energy.recovery.wastebroker.offsite = log(energy.recovery.wastebroker.offsite + 1),
@@ -521,6 +555,14 @@ triQs <- triQs %>%
     treated.match.year.fe = as.numeric(as.factor(treated.match)) * year,
     control.match.year.fe = as.numeric(as.factor(control.match)) * year
   )
+#======================================================================================================================#
+### check for zero columns
+#======================================================================================================================#
+zero_cols <- names(triQc)[colSums(triQc == 0) == nrow(triQc)]
+triQc <- triQc[, !names(triQc) %in% zero_cols]
+
+zero_cols <- names(triQs)[colSums(triQs == 0) == nrow(triQs)]
+triQs <- triQs[, !names(triQs) %in% zero_cols]
 #======================================================================================================================#
 ### Save data
 #======================================================================================================================#
