@@ -511,13 +511,15 @@ writeLines(bal_test_tex, con = "./Thesis/chapter3/src/climate_change/latex/tbl_b
 summ <- sum_up(df = triQc,
                c(total.releases.onsite.intensity, total.air.emissions.onsite.intensity,
                  total.fug.air.emissions.onsite.intensity, total.point.air.emissions.onsite.intensity,
-                 total.surface.water.discharge.onsite.intensity, total.num.receiving.streams.onsite.intensity,
+                 total.surface.water.discharge.onsite.intensity, total.num.receiving.streams.onsite,
                  total.underground.injection.onsite.intensity, total.landfills.onsite.intensity,
                  total.releases.toland.treatment.onsite.intensity, total.surface.impoundment.onsite.intensity,
-                 total.land.releases.onsite.intensity, gdp.pc, annual_avg_estabs, emp, entire.facility,
-                 private.facility, produced.chem.facility, imported.chem.facility, chemical.formulation.component,
+                 total.land.releases.onsite.intensity, gdp.pc, annual_avg_estabs, emp, population,
+                 produced.chem.facility, imported.chem.facility, chemical.formulation.component,
                  chemical.manufacturing.aid, chemical.ancilliary.use, production.ratio.activity.index,
-                 maxnum.chem.onsite),
+                 maxnum.chem.onsite, vadd, prode, prodw, prodh, matcost, output.perworker, output.perhr,
+                 wage.perworker, wage.perhr, cpi, pay, emp
+                 ),
                d = F) %>%
   select(-Missing) %>%
   mutate(across(where(is.numeric), ~round(., digits = 2)))

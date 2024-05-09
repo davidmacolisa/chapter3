@@ -38,6 +38,7 @@ did_total_releases <- fixest::feols(
     sw0(
       gdppc.1 +
         annual.avg.estabs.1 +
+        population.1 +
         cpi.1 +
         entire.facility +
         private.facility +
@@ -53,13 +54,13 @@ did_total_releases <- fixest::feols(
     )
     |
     csw(,
-      year,
+      # year,
       facility.id,
-      fips.code,
-      facility.county,
+      # fips.code,
+      # facility.county,
       treated.cluster.id,
-      facility.state.id,
-      chemical.id,
+      # facility.state.id,
+      # chemical.id,
       chemical.year.fe,
     )
   ,
@@ -75,6 +76,7 @@ did_total_releases <- fixest::feols(
     i(rel.year, ref = c(2013, Inf)) +
       gdppc.1 +
       annual.avg.estabs.1 +
+      population.1 +
       cpi.1 +
       entire.facility +
       private.facility +
@@ -88,13 +90,13 @@ did_total_releases <- fixest::feols(
       production.ratio.activity.index +
       maxnum.chem.onsite
       |
-      year +
+      # year +
         facility.id +
-        fips.code +
-        facility.county +
+        # fips.code +
+        # facility.county +
         treated.cluster.id +
-        facility.state.id +
-        chemical.id +
+        # facility.state.id +
+        # chemical.id +
         chemical.year.fe
   ,
   data = triQc,
@@ -102,24 +104,30 @@ did_total_releases <- fixest::feols(
 )
 fixest::etable(did_total_releases, digits = 4, digits.stats = 4)
 fixest::iplot(did_total_releases, xlim = c(2011, 2017), ylim = c(-0.5, 0.5), col = "blue",
-              main = "Total Onsite Releases Intensity", xlab = "relative year") %>%
+              main = "Total Onsite Releases Intensity", xlab = "relative year",
+              lwd = 1, cex = 4, pt.cex = 3, pt.col = "red", pt.join = T, ci.lwd = 5, ci.lty = 1) %>%
   abline(v = 2013, col = "red", lty = 2, lwd = 2)
 ### Testing for pre-trends
 pre.treat.coef <- coef(did_total_releases)[grep(pattern = "rel.year", names(coef(did_total_releases)))]
 pre.treat.coef <- pre.treat.coef[4:5]
 linearHypothesis(did_total_releases, paste0(names(pre.treat.coef), " = 0"), test = "F")
 #======================================================================================================================#
+pdf(file = "./Thesis/chapter3/src/climate_change/latex/fig_did_total_releases_onsite.pdf", width = 5, height = 4.5)
+# par(mfrow = c(1, 2))
+fixest::iplot(did_total_releases, xlim = c(2011, 2017), ylim = c(-0.5, 0.5), col = "blue",
+              main = "Total Onsite Releases Intensity", xlab = "relative year",
+              lwd = 1, cex = 4, pt.cex = 3, pt.col = "red", pt.join = T, ci.lwd = 5, ci.lty = 1) %>%
+  abline(v = 2013, col = "red", lty = 2, lwd = 2)
+dev.off()
+#======================================================================================================================#
 ### Onsite: Total air emissions intensity
 #======================================================================================================================#
-sum_up(triQc, c(total.point.air.emissions.onsite, total.fug.air.emissions.onsite, total.air.emissions.onsite))
-sum_up(triQc, c(total.point.air.emissions.onsite.intensity, total.fug.air.emissions.onsite.intensity,
-                total.air.emissions.onsite.intensity, l.total.surface.water.discharge.onsite.intensity))
-
 did_air <- fixest::feols(
   l.total.air.emissions.onsite.intensity ~ e.treated +
     sw0(
       gdppc.1 +
         annual.avg.estabs.1 +
+        population.1 +
         cpi.1 +
         entire.facility +
         private.facility +
@@ -152,8 +160,7 @@ fixest::etable(did_air, digits = 4, digits.stats = 4)
 
 did_air <- fixest::feols(
   l.total.air.emissions.onsite.intensity ~
-    i(treated * year, ref = c(2013, 0)) +
-      # i(rel.year, ref = c(2013, Inf)) +
+    i(rel.year, ref = c(2013, Inf)) +
       gdppc.1 +
       annual.avg.estabs.1 +
       cpi.1 +
@@ -183,7 +190,8 @@ did_air <- fixest::feols(
 )
 fixest::etable(did_air, digits = 4, digits.stats = 4)
 fixest::iplot(did_air, xlim = c(2011, 2017), ylim = c(-0.4, 0.4), col = "blue",
-              main = "Total Onsite Air Emissions Intensity", xlab = "relative year") %>%
+              main = "Total Onsite Air Emissions Intensity", xlab = "relative year",
+              lwd = 1, cex = 4, pt.cex = 3, pt.col = "red", pt.join = T, ci.lwd = 5, ci.lty = 1) %>%
   abline(v = 2013, col = "red", lty = 2, lwd = 2)
 ### Testing for pre-trends
 pre.treat.coef <- coef(did_air)[grep(pattern = "rel.year", names(coef(did_air)))]
@@ -197,6 +205,7 @@ did_point_air <- fixest::feols(
     sw0(
       gdppc.1 +
         annual.avg.estabs.1 +
+        population.1 +
         cpi.1 +
         entire.facility +
         private.facility +
@@ -232,6 +241,7 @@ did_point_air <- fixest::feols(
     i(rel.year, ref = c(2013, Inf)) +
       gdppc.1 +
       annual.avg.estabs.1 +
+      population.1 +
       cpi.1 +
       entire.facility +
       private.facility +
@@ -259,7 +269,8 @@ did_point_air <- fixest::feols(
 )
 fixest::etable(did_point_air, digits = 4, digits.stats = 4)
 fixest::iplot(did_point_air, xlim = c(2011, 2017), ylim = c(-0.4, 0.4), col = "blue",
-              main = "Total Onsite Point Air Emissions Intensity", xlab = "relative year") %>%
+              main = "Total Onsite Point Air Emissions Intensity", xlab = "relative year",
+              lwd = 1, cex = 4, pt.cex = 3, pt.col = "red", pt.join = T, ci.lwd = 5, ci.lty = 1) %>%
   abline(v = 2013, col = "red", lty = 2, lwd = 2)
 ### Testing for pre-trends
 pre.treat.coef <- coef(did_point_air)[grep(pattern = "rel.year", names(coef(did_point_air)))]
@@ -273,6 +284,7 @@ did_fug_air <- fixest::feols(
     sw0(
       gdppc.1 +
         annual.avg.estabs.1 +
+        population.1 +
         cpi.1 +
         entire.facility +
         private.facility +
@@ -308,6 +320,7 @@ did_fug_air <- fixest::feols(
     i(rel.year, ref = c(2013, Inf)) +
       gdppc.1 +
       annual.avg.estabs.1 +
+      population.1 +
       cpi.1 +
       entire.facility +
       private.facility +
@@ -335,7 +348,8 @@ did_fug_air <- fixest::feols(
 )
 fixest::etable(did_fug_air, digits = 4, digits.stats = 4)
 fixest::iplot(did_fug_air, xlim = c(2011, 2017), ylim = c(-0.4, 0.4), col = "blue",
-              main = "Total Onsite Fugitive Air Emissions Intensity", xlab = "relative year") %>%
+              main = "Total Onsite Fugitive Air Emissions Intensity", xlab = "relative year",
+              lwd = 1, cex = 4, pt.cex = 3, pt.col = "red", pt.join = T, ci.lwd = 5, ci.lty = 1) %>%
   abline(v = 2013, col = "red", lty = 2, lwd = 2)
 ### Testing for pre-trends
 pre.treat.coef <- coef(did_fug_air)[grep(pattern = "rel.year", names(coef(did_fug_air)))]
@@ -344,14 +358,12 @@ linearHypothesis(did_fug_air, paste0(names(pre.treat.coef), " = 0"), test = "F")
 #======================================================================================================================#
 ### Onsite: Total surface water discharge intensity
 #======================================================================================================================#
-sum_up(triQc, c(total.num.receiving.streams.onsite, total.surface.water.discharge.onsite))
-sum_up(triQc, c(total.num.receiving.streams.onsite.intensity, total.surface.water.discharge.onsite.intensity))
-
 did_water_disc <- fixest::feols(
   l.total.surface.water.discharge.onsite.intensity ~ e.treated +
     sw0(
       gdppc.1 +
         annual.avg.estabs.1 +
+        population.1 +
         cpi.1 +
         entire.facility +
         private.facility +
@@ -387,6 +399,7 @@ did_water_disc <- fixest::feols(
     i(rel.year, ref = c(2013, Inf)) +
       gdppc.1 +
       annual.avg.estabs.1 +
+      population.1 +
       cpi.1 +
       entire.facility +
       private.facility +
@@ -414,20 +427,22 @@ did_water_disc <- fixest::feols(
 )
 fixest::etable(did_water_disc, digits = 4, digits.stats = 4)
 fixest::iplot(did_water_disc, xlim = c(2011, 2017), ylim = c(-0.4, 0.4), col = "blue",
-              main = "Total Onsite Surface Water Discharge Intensity", xlab = "relative year") %>%
+              main = "Total Onsite Surface Water Discharge Intensity", xlab = "relative year",
+              lwd = 1, cex = 4, pt.cex = 3, pt.col = "red", pt.join = T, ci.lwd = 5, ci.lty = 1) %>%
   abline(v = 2013, col = "red", lty = 2, lwd = 2)
 ### Testing for pre-trends
 pre.treat.coef <- coef(did_water_disc)[grep(pattern = "rel.year", names(coef(did_water_disc)))]
 pre.treat.coef <- pre.treat.coef[4:5]
 linearHypothesis(did_water_disc, paste0(names(pre.treat.coef), " = 0"), test = "F")
 #======================================================================================================================#
-### Onsite: Number of receiving streams intensity
+### Onsite: Number of receiving streams
 #======================================================================================================================#
 did_receiving_streams <- fixest::feols(
   total.num.receiving.streams.onsite ~ e.treated +
     sw0(
       gdppc.1 +
         annual.avg.estabs.1 +
+        population.1 +
         cpi.1 +
         entire.facility +
         private.facility +
@@ -463,6 +478,7 @@ did_receiving_streams <- fixest::feols(
     i(rel.year, ref = c(2013, Inf)) +
       gdppc.1 +
       annual.avg.estabs.1 +
+      population.1 +
       cpi.1 +
       entire.facility +
       private.facility +
@@ -489,8 +505,9 @@ did_receiving_streams <- fixest::feols(
   cluster = ~c(chemical.id, naics.code, facility.state.id),
 )
 fixest::etable(did_receiving_streams, digits = 4, digits.stats = 4)
-fixest::iplot(did_receiving_streams, xlim = c(2011, 2017), ylim = c(-0.4, 0.4), col = "blue",
-              main = "Total Onsite Number of Receiving Streams", xlab = "relative year") %>%
+fixest::iplot(did_receiving_streams, xlim = c(2011, 2017), ylim = c(-0.2, 0.2), col = "blue",
+              main = "Total Onsite Number of Receiving Streams", xlab = "relative year",
+              lwd = 1, cex = 4, pt.cex = 3, pt.col = "red", pt.join = T, ci.lwd = 5, ci.lty = 1) %>%
   abline(v = 2013, col = "red", lty = 2, lwd = 2)
 ### Testing for pre-trends
 pre.treat.coef <- coef(did_receiving_streams)[grep(pattern = "rel.year", names(coef(did_receiving_streams)))]
@@ -499,16 +516,12 @@ linearHypothesis(did_receiving_streams, paste0(names(pre.treat.coef), " = 0"), t
 #======================================================================================================================#
 ### Onsite: Total land releases intensity
 #======================================================================================================================#
-sum_up(triQc, c(total.land.releases.onsite.intensity, total.underground.injection.onsite.intensity,
-                total.underground.injection.I.wells.onsite.intensity,
-                total.underground.injection.I.IV.wells.onsite.intensity, total.landfills.onsite.intensity,
-                total.releases.toland.treatment.onsite.intensity, total.surface.impoundment.onsite.intensity,))
-
 did_land_releases <- fixest::feols(
   l.total.land.releases.onsite.intensity ~ e.treated +
     sw0(
       gdppc.1 +
         annual.avg.estabs.1 +
+        population.1 +
         cpi.1 +
         entire.facility +
         private.facility +
@@ -544,6 +557,7 @@ did_land_releases <- fixest::feols(
     i(rel.year, ref = c(2013, Inf)) +
       gdppc.1 +
       annual.avg.estabs.1 +
+      population.1 +
       cpi.1 +
       entire.facility +
       private.facility +
@@ -570,8 +584,9 @@ did_land_releases <- fixest::feols(
   cluster = ~c(chemical.id, naics.code, facility.state.id),
 )
 fixest::etable(did_land_releases, digits = 4, digits.stats = 4)
-fixest::iplot(did_land_releases, xlim = c(2011, 2017), ylim = c(-0.4, 0.4), col = "blue",
-              main = "Total Onsite Land Releases Intensity", xlab = "relative year") %>%
+fixest::iplot(did_land_releases, xlim = c(2011, 2017), ylim = c(-0.2, 0.2), col = "blue",
+              main = "Total Onsite Land Releases Intensity", xlab = "relative year",
+              lwd = 1, cex = 4, pt.cex = 3, pt.col = "red", pt.join = T, ci.lwd = 5, ci.lty = 1) %>%
   abline(v = 2013, col = "red", lty = 2, lwd = 2)
 ### Testing for pre-trends
 pre.treat.coef <- coef(did_land_releases)[grep(pattern = "rel.year", names(coef(did_land_releases)))]
@@ -585,6 +600,7 @@ did_undground_inject <- fixest::feols(
     sw0(
       gdppc.1 +
         annual.avg.estabs.1 +
+        population.1 +
         cpi.1 +
         entire.facility +
         private.facility +
@@ -620,6 +636,7 @@ did_undground_inject <- fixest::feols(
     i(rel.year, ref = c(2013, Inf)) +
       gdppc.1 +
       annual.avg.estabs.1 +
+      population.1 +
       cpi.1 +
       entire.facility +
       private.facility +
@@ -646,8 +663,9 @@ did_undground_inject <- fixest::feols(
   cluster = ~c(chemical.id, naics.code, facility.state.id),
 )
 fixest::etable(did_undground_inject, digits = 4, digits.stats = 4)
-fixest::iplot(did_undground_inject, xlim = c(2011, 2017), ylim = c(-0.02, 0.025), col = "blue",
-              main = "Total Onsite Underground Injection Intensity", xlab = "relative year") %>%
+fixest::iplot(did_undground_inject, xlim = c(2011, 2017), ylim = c(-0.01, 0.01), col = "blue",
+              main = "Total Onsite Underground Injection Intensity", xlab = "relative year",
+              lwd = 1, cex = 4, pt.cex = 3, pt.col = "red", pt.join = T, ci.lwd = 5, ci.lty = 1) %>%
   abline(v = 2013, col = "red", lty = 2, lwd = 2)
 ### Testing for pre-trends
 pre.treat.coef <- coef(did_undground_inject)[grep(pattern = "rel.year", names(coef(did_undground_inject)))]
@@ -661,6 +679,7 @@ did_landfills <- fixest::feols(
     sw0(
       gdppc.1 +
         annual.avg.estabs.1 +
+        population.1 +
         cpi.1 +
         entire.facility +
         private.facility +
@@ -696,6 +715,7 @@ did_landfills <- fixest::feols(
     i(rel.year, ref = c(2013, Inf)) +
       gdppc.1 +
       annual.avg.estabs.1 +
+      population.1 +
       cpi.1 +
       entire.facility +
       private.facility +
@@ -722,8 +742,9 @@ did_landfills <- fixest::feols(
   cluster = ~c(chemical.id, naics.code, facility.state.id),
 )
 fixest::etable(did_landfills, digits = 4, digits.stats = 4)
-fixest::iplot(did_landfills, xlim = c(2011, 2017), ylim = c(-0.15, 0.15), col = "blue",
-              main = "Total Onsite Landfills Intensity", xlab = "relative year") %>%
+fixest::iplot(did_landfills, xlim = c(2011, 2017), ylim = c(-0.05, 0.05), col = "blue",
+              main = "Total Onsite Landfills Intensity", xlab = "relative year",
+              lwd = 1, cex = 4, pt.cex = 3, pt.col = "red", pt.join = T, ci.lwd = 5, ci.lty = 1) %>%
   abline(v = 2013, col = "red", lty = 2, lwd = 2)
 ### Testing for pre-trends
 pre.treat.coef <- coef(did_landfills)[grep(pattern = "rel.year", names(coef(did_landfills)))]
@@ -737,6 +758,7 @@ did_release_toland <- fixest::feols(
     sw0(
       gdppc.1 +
         annual.avg.estabs.1 +
+        population.1 +
         cpi.1 +
         entire.facility +
         private.facility +
@@ -772,6 +794,7 @@ did_release_toland <- fixest::feols(
     i(rel.year, ref = c(2013, Inf)) +
       gdppc.1 +
       annual.avg.estabs.1 +
+      population.1 +
       cpi.1 +
       entire.facility +
       private.facility +
@@ -798,8 +821,9 @@ did_release_toland <- fixest::feols(
   cluster = ~c(chemical.id, naics.code, facility.state.id),
 )
 fixest::etable(did_release_toland, digits = 4, digits.stats = 4)
-fixest::iplot(did_release_toland, xlim = c(2011, 2017), ylim = c(-0.15, 0.15), col = "blue",
-              main = "Total Onsite Releases to Land Treatment Intensity", xlab = "relative year") %>%
+fixest::iplot(did_release_toland, xlim = c(2011, 2017), ylim = c(-0.05, 0.05), col = "blue",
+              main = "Total Onsite Releases to Land Treatment Intensity", xlab = "relative year",
+              lwd = 1, cex = 4, pt.cex = 3, pt.col = "red", pt.join = T, ci.lwd = 5, ci.lty = 1) %>%
   abline(v = 2013, col = "red", lty = 2, lwd = 2)
 ### Testing for pre-trends
 pre.treat.coef <- coef(did_release_toland)[grep(pattern = "rel.year", names(coef(did_release_toland)))]
@@ -813,6 +837,7 @@ did_surface_impoundment <- fixest::feols(
     sw0(
       gdppc.1 +
         annual.avg.estabs.1 +
+        population.1 +
         cpi.1 +
         entire.facility +
         private.facility +
@@ -848,6 +873,7 @@ did_surface_impoundment <- fixest::feols(
     i(rel.year, ref = c(2013, Inf)) +
       gdppc.1 +
       annual.avg.estabs.1 +
+      population.1 +
       cpi.1 +
       entire.facility +
       private.facility +
@@ -874,8 +900,9 @@ did_surface_impoundment <- fixest::feols(
   cluster = ~c(chemical.id, naics.code, facility.state.id),
 )
 fixest::etable(did_surface_impoundment, digits = 4, digits.stats = 4)
-fixest::iplot(did_surface_impoundment, xlim = c(2011, 2017), ylim = c(-0.15, 0.15), col = "blue",
-              main = "Total Onsite Surface Impoundment Intensity", xlab = "relative year") %>%
+fixest::iplot(did_surface_impoundment, xlim = c(2011, 2017), ylim = c(-0.1, 0.1), col = "blue",
+              main = "Total Onsite Surface Impoundment Intensity", xlab = "relative year",
+              lwd = 1, cex = 4, pt.cex = 3, pt.col = "red", pt.join = T, ci.lwd = 5, ci.lty = 1) %>%
   abline(v = 2013, col = "red", lty = 2, lwd = 2)
 ### Testing for pre-trends
 pre.treat.coef <- coef(did_surface_impoundment)[grep(pattern = "rel.year", names(coef(did_surface_impoundment)))]
@@ -889,6 +916,7 @@ did_land_releases_others <- fixest::feols(
     sw0(
       gdppc.1 +
         annual.avg.estabs.1 +
+        population.1 +
         cpi.1 +
         entire.facility +
         private.facility +
@@ -924,6 +952,7 @@ did_land_releases_others <- fixest::feols(
     i(rel.year, ref = c(2013, Inf)) +
       gdppc.1 +
       annual.avg.estabs.1 +
+      population.1 +
       cpi.1 +
       entire.facility +
       private.facility +
@@ -950,8 +979,9 @@ did_land_releases_others <- fixest::feols(
   cluster = ~c(chemical.id, naics.code, facility.state.id),
 )
 fixest::etable(did_land_releases_others, digits = 4, digits.stats = 4)
-fixest::iplot(did_land_releases_others, xlim = c(2011, 2017), ylim = c(-0.15, 0.15), col = "blue",
-              main = "Toal Onsite Land Releases Intensity, Others", xlab = "relative year") %>%
+fixest::iplot(did_land_releases_others, xlim = c(2011, 2017), ylim = c(-0.1, 0.1), col = "blue",
+              main = "Toal Onsite Land Releases Intensity, Others", xlab = "relative year",
+              lwd = 1, cex = 4, pt.cex = 3, pt.col = "red", pt.join = T, ci.lwd = 5, ci.lty = 1) %>%
   abline(v = 2013, col = "red", lty = 2, lwd = 2)
 ### Testing for pre-trends
 pre.treat.coef <- coef(did_land_releases_others)[grep(pattern = "rel.year", names(coef(did_land_releases_others)))]
@@ -967,6 +997,7 @@ did_total_releases <- fixest::feols(
     sw0(
       gdppc.1 +
         annual.avg.estabs.1 +
+        population.1 +
         cpi.1 +
         entire.facility +
         private.facility +
@@ -1004,6 +1035,7 @@ did_air <- fixest::feols(
     sw0(
       gdppc.1 +
         annual.avg.estabs.1 +
+        population.1 +
         cpi.1 +
         entire.facility +
         private.facility +
@@ -1041,6 +1073,7 @@ did_point_air <- fixest::feols(
     sw0(
       gdppc.1 +
         annual.avg.estabs.1 +
+        population.1 +
         cpi.1 +
         entire.facility +
         private.facility +
@@ -1078,6 +1111,7 @@ did_fug_air <- fixest::feols(
     sw0(
       gdppc.1 +
         annual.avg.estabs.1 +
+        population.1 +
         cpi.1 +
         entire.facility +
         private.facility +
@@ -1115,6 +1149,7 @@ did_water_disc <- fixest::feols(
     sw0(
       gdppc.1 +
         annual.avg.estabs.1 +
+        population.1 +
         cpi.1 +
         entire.facility +
         private.facility +
@@ -1152,6 +1187,7 @@ did_land_releases <- fixest::feols(
     sw0(
       gdppc.1 +
         annual.avg.estabs.1 +
+        population.1 +
         cpi.1 +
         entire.facility +
         private.facility +
@@ -1189,6 +1225,7 @@ did_landfills <- fixest::feols(
     sw0(
       gdppc.1 +
         annual.avg.estabs.1 +
+        population.1 +
         cpi.1 +
         entire.facility +
         private.facility +
@@ -1226,6 +1263,7 @@ did_release_toland <- fixest::feols(
     sw0(
       gdppc.1 +
         annual.avg.estabs.1 +
+        population.1 +
         cpi.1 +
         entire.facility +
         private.facility +
@@ -1263,6 +1301,7 @@ did_surface_impoundment <- fixest::feols(
     sw0(
       gdppc.1 +
         annual.avg.estabs.1 +
+        population.1 +
         cpi.1 +
         entire.facility +
         private.facility +
@@ -1300,6 +1339,7 @@ did_land_releases_others <- fixest::feols(
     sw0(
       gdppc.1 +
         annual.avg.estabs.1 +
+        population.1 +
         cpi.1 +
         entire.facility +
         private.facility +
@@ -1339,6 +1379,7 @@ did_total_releases <- fixest::feols(
     sw0(
       gdppc.1 +
         annual.avg.estabs.1 +
+        population.1 +
         cpi.1 +
         entire.facility +
         private.facility +
@@ -1376,6 +1417,7 @@ did_air <- fixest::feols(
     sw0(
       gdppc.1 +
         annual.avg.estabs.1 +
+        population.1 +
         cpi.1 +
         entire.facility +
         private.facility +
@@ -1413,6 +1455,7 @@ did_point_air <- fixest::feols(
     sw0(
       gdppc.1 +
         annual.avg.estabs.1 +
+        population.1 +
         cpi.1 +
         entire.facility +
         private.facility +
@@ -1450,6 +1493,7 @@ did_fug_air <- fixest::feols(
     sw0(
       gdppc.1 +
         annual.avg.estabs.1 +
+        population.1 +
         cpi.1 +
         entire.facility +
         private.facility +
@@ -1487,6 +1531,7 @@ did_water_disc <- fixest::feols(
     sw0(
       gdppc.1 +
         annual.avg.estabs.1 +
+        population.1 +
         cpi.1 +
         entire.facility +
         private.facility +
@@ -1524,6 +1569,7 @@ did_land_releases <- fixest::feols(
     sw0(
       gdppc.1 +
         annual.avg.estabs.1 +
+        population.1 +
         cpi.1 +
         entire.facility +
         private.facility +
@@ -1561,6 +1607,7 @@ did_landfills <- fixest::feols(
     sw0(
       gdppc.1 +
         annual.avg.estabs.1 +
+        population.1 +
         cpi.1 +
         entire.facility +
         private.facility +
@@ -1598,6 +1645,7 @@ did_release_toland <- fixest::feols(
     sw0(
       gdppc.1 +
         annual.avg.estabs.1 +
+        population.1 +
         cpi.1 +
         entire.facility +
         private.facility +
@@ -1635,6 +1683,7 @@ did_surface_impoundment <- fixest::feols(
     sw0(
       gdppc.1 +
         annual.avg.estabs.1 +
+        population.1 +
         cpi.1 +
         entire.facility +
         private.facility +
@@ -1672,6 +1721,7 @@ did_land_releases_others <- fixest::feols(
     sw0(
       gdppc.1 +
         annual.avg.estabs.1 +
+        population.1 +
         cpi.1 +
         entire.facility +
         private.facility +
@@ -1711,6 +1761,7 @@ did_total_releases <- fixest::feols(
     sw0(
       gdppc.1 +
         annual.avg.estabs.1 +
+        population.1 +
         cpi.1 +
         entire.facility +
         private.facility +
@@ -1748,6 +1799,7 @@ did_air <- fixest::feols(
     sw0(
       gdppc.1 +
         annual.avg.estabs.1 +
+        population.1 +
         cpi.1 +
         entire.facility +
         private.facility +
@@ -1785,6 +1837,7 @@ did_point_air <- fixest::feols(
     sw0(
       gdppc.1 +
         annual.avg.estabs.1 +
+        population.1 +
         cpi.1 +
         entire.facility +
         private.facility +
@@ -1822,6 +1875,7 @@ did_fug_air <- fixest::feols(
     sw0(
       gdppc.1 +
         annual.avg.estabs.1 +
+        population.1 +
         cpi.1 +
         entire.facility +
         private.facility +
@@ -1859,6 +1913,7 @@ did_water_disc <- fixest::feols(
     sw0(
       gdppc.1 +
         annual.avg.estabs.1 +
+        population.1 +
         cpi.1 +
         entire.facility +
         private.facility +
@@ -1896,6 +1951,7 @@ did_land_releases <- fixest::feols(
     sw0(
       gdppc.1 +
         annual.avg.estabs.1 +
+        population.1 +
         cpi.1 +
         entire.facility +
         private.facility +
@@ -1933,6 +1989,7 @@ did_landfills <- fixest::feols(
     sw0(
       gdppc.1 +
         annual.avg.estabs.1 +
+        population.1 +
         cpi.1 +
         entire.facility +
         private.facility +
@@ -1970,6 +2027,7 @@ did_release_toland <- fixest::feols(
     sw0(
       gdppc.1 +
         annual.avg.estabs.1 +
+        population.1 +
         cpi.1 +
         entire.facility +
         private.facility +
@@ -2007,6 +2065,7 @@ did_surface_impoundment <- fixest::feols(
     sw0(
       gdppc.1 +
         annual.avg.estabs.1 +
+        population.1 +
         cpi.1 +
         entire.facility +
         private.facility +
@@ -2044,6 +2103,7 @@ did_land_releases_others <- fixest::feols(
     sw0(
       gdppc.1 +
         annual.avg.estabs.1 +
+        population.1 +
         cpi.1 +
         entire.facility +
         private.facility +
@@ -2084,6 +2144,7 @@ did_total_releases <- fixest::feols(
     sw0(
       gdppc.1 +
         annual.avg.estabs.1 +
+        population.1 +
         cpi.1 +
         entire.facility +
         private.facility +
@@ -2121,6 +2182,7 @@ did_air <- fixest::feols(
     sw0(
       gdppc.1 +
         annual.avg.estabs.1 +
+        population.1 +
         cpi.1 +
         entire.facility +
         private.facility +
@@ -2158,6 +2220,7 @@ did_point_air <- fixest::feols(
     sw0(
       gdppc.1 +
         annual.avg.estabs.1 +
+        population.1 +
         cpi.1 +
         entire.facility +
         private.facility +
@@ -2195,6 +2258,7 @@ did_fug_air <- fixest::feols(
     sw0(
       gdppc.1 +
         annual.avg.estabs.1 +
+        population.1 +
         cpi.1 +
         entire.facility +
         private.facility +
@@ -2232,6 +2296,7 @@ did_water_disc <- fixest::feols(
     sw0(
       gdppc.1 +
         annual.avg.estabs.1 +
+        population.1 +
         cpi.1 +
         entire.facility +
         private.facility +
@@ -2269,6 +2334,7 @@ did_land_releases <- fixest::feols(
     sw0(
       gdppc.1 +
         annual.avg.estabs.1 +
+        population.1 +
         cpi.1 +
         entire.facility +
         private.facility +
@@ -2306,6 +2372,7 @@ did_landfills <- fixest::feols(
     sw0(
       gdppc.1 +
         annual.avg.estabs.1 +
+        population.1 +
         cpi.1 +
         entire.facility +
         private.facility +
@@ -2343,6 +2410,7 @@ did_release_toland <- fixest::feols(
     sw0(
       gdppc.1 +
         annual.avg.estabs.1 +
+        population.1 +
         cpi.1 +
         entire.facility +
         private.facility +
@@ -2380,6 +2448,7 @@ did_surface_impoundment <- fixest::feols(
     sw0(
       gdppc.1 +
         annual.avg.estabs.1 +
+        population.1 +
         cpi.1 +
         entire.facility +
         private.facility +
@@ -2417,6 +2486,7 @@ did_land_releases_others <- fixest::feols(
     sw0(
       gdppc.1 +
         annual.avg.estabs.1 +
+        population.1 +
         cpi.1 +
         entire.facility +
         private.facility +

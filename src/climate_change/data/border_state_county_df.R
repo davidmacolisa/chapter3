@@ -25,6 +25,9 @@ adjacent_county_df <- adjacent_county_df %>% data.frame()
 
 data(county_df, package = "usgeogr")
 county_df <- county_df %>% data.frame()
+
+data(cbcp_df, package = "usgeogr")
+cbcp_df <- cbcp_df %>% data.frame()
 #======================================================================================================================#
 ### Experiment Design: State-level MW >= $0.5 for Border States
 #======================================================================================================================#
@@ -60,8 +63,6 @@ fac_states_df <- state_df %>%
       state.code == "SD" ~ 2015,
       state.code == "WV" ~ 2015, T ~ Inf
     ),
-    # Treated states
-    # treated = case_when(ch.year != Inf ~ 1, T ~ 0),
     # Exogenous first MW raise
     ch.amt = case_when(
       state.code == "AR" ~ 1.25,
@@ -227,17 +228,29 @@ fac_county_df <- fac_states_df %>%
     cbcp.id = paste(treated.cluster.id, control.cluster.id, sep = "-"),
     state.border.id = paste(treated.match, control.match, sep = "-")
   ) %>%
+  # left_join(
+  #   y = cbcp_df %>%
+  #     select(c(fips_code, neighbor_fips_code, county_state, neighbor_state, dist_bt_centers)) %>%
+  #     rename(dist.bt.centers = dist_bt_centers),
+  #   by = c("fips_code" = "fips_code", "treated.cluster.id" = "neighbor_fips_code",
+  #          "state.code" = "county_state", "treated.match" = "neighbor_state")
+  # ) %>%
   select(
     c(fips_code, county.name, state, state.code, population, lat, long, treated, treated.match, control.match,
       overlap, state.border.id, treated.cluster.name, control.cluster.name, treated.cluster.id, control.cluster.id,
       cbcp.id, treated.cluster.population, control.cluster.population, treated.cluster.lat, treated.cluster.long,
       control.cluster.lat, control.cluster.long, ch.year, ch.amt, sum2.sub.mw.ch, start.mw, match.ch.amt,
-      match.ch.year, dist.to.border)
+      match.ch.year, dist.to.border
+      # , dist.bt.centers
+    )
   ) %>%
   distinct()
 
+# fac_county_df <- fac_county_df[complete.cases(fac_county_df$dist.bt.centers),]
 sum(is.na(fac_county_df))
 n_distinct(fac_county_df$state.code)
+n_distinct(fac_county_df$treated.match)
+n_distinct(fac_county_df$control.match)
 sort(unique(fac_county_df$treated.match))
 sort(unique(fac_county_df$control.match))
 sort(unique(fac_county_df$state.border.id))

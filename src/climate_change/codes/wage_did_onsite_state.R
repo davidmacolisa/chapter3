@@ -1,8 +1,5 @@
 #======================================================================================================================#
-### PhD Chapter 3
-### Indirect Consequences of a Raising Minimum Wage
-### 30 October 2023
-### Use Regression Discontinuity Analysis
+### State-level Analysis
 #======================================================================================================================#
 ### Packages
 #======================================================================================================================#
@@ -26,6 +23,7 @@ triQc <- read_rds(file = file)
 table(triQc$facility.state, triQc$ch.year)
 n_distinct(triQc$chemical.name)
 sort(unique(triQc$chemical.name))
+sort(unique(triQc$state.id))
 sort(unique(triQc$year))
 sort(unique(triQc$rel.year))
 #======================================================================================================================#
@@ -48,9 +46,9 @@ treat_sel <- fixest::feols(
     |
     csw(
       year,
-      treated.cluster.id,
+      treated.match.fe,
       facility.state.id,
-      treated.cluster.year.fe
+      treated.match.year.fe
     )
   ,
   data = triQc,
@@ -74,9 +72,9 @@ reg_wage <- fixest::feols(
     |
     csw(,
       year,
-      treated.cluster.id,
+      treated.match.fe,
       facility.state.id,
-      treated.cluster.year.fe
+      treated.match.year.fe
     )
   ,
   data = triQc,
@@ -98,9 +96,9 @@ reg_wage <- fixest::feols(
     |
     csw(,
       year,
-      treated.cluster.id,
+      treated.match.fe,
       facility.state.id,
-      treated.cluster.year.fe
+      treated.match.year.fe
     )
   ,
   data = triQc,
@@ -120,9 +118,9 @@ reg_wage <- fixest::feols(
       federal.facility
       |
       year +
-        treated.cluster.id +
+        treated.match.fe +
         facility.state.id +
-        treated.cluster.year.fe
+        treated.match.year.fe
   ,
   data = triQc,
   cluster = ~facility.state.id,
@@ -154,9 +152,9 @@ reg_wage_pw <- fixest::feols(
     |
     csw(,
       year,
-      treated.cluster.id,
+      treated.match.fe,
       facility.state.id,
-      treated.cluster.year.fe
+      treated.match.year.fe
     )
   ,
   data = triQc,
@@ -178,9 +176,9 @@ reg_wage_pw <- fixest::feols(
     |
     csw(,
       year,
-      treated.cluster.id,
+      treated.match.fe,
       facility.state.id,
-      treated.cluster.year.fe
+      treated.match.year.fe
     )
   ,
   data = triQc,
@@ -200,9 +198,9 @@ reg_wage_pw <- fixest::feols(
       federal.facility
       |
       year +
-        treated.cluster.id +
+        treated.match.fe +
         facility.state.id +
-        treated.cluster.year.fe
+        treated.match.year.fe
   ,
   data = triQc,
   cluster = ~facility.state.id,
@@ -234,9 +232,9 @@ reg_wagephr <- fixest::feols(
     |
     csw(,
       year,
-      treated.cluster.id,
+      treated.match.fe,
       facility.state.id,
-      treated.cluster.year.fe
+      treated.match.year.fe
     )
   ,
   data = triQc,
@@ -258,9 +256,9 @@ reg_wagephr <- fixest::feols(
     |
     csw(,
       year,
-      treated.cluster.id,
+      treated.match.fe,
       facility.state.id,
-      treated.cluster.year.fe
+      treated.match.year.fe
     )
   ,
   data = triQc,
@@ -281,9 +279,9 @@ reg_wagephr <- fixest::feols(
       federal.facility
       |
       year +
-        treated.cluster.id +
+        treated.match.fe +
         facility.state.id +
-        treated.cluster.year.fe
+        treated.match.year.fe
   ,
   data = triQc,
   cluster = ~facility.state.id,
@@ -314,9 +312,9 @@ reg_pay <- fixest::feols(
     |
     csw(,
       year,
-      treated.cluster.id,
+      treated.match.fe,
       facility.state.id,
-      treated.cluster.year.fe
+      treated.match.year.fe
     )
   ,
   data = triQc,
@@ -339,9 +337,9 @@ reg_pay <- fixest::feols(
     |
     csw(,
       year,
-      treated.cluster.id,
+      treated.match.fe,
       facility.state.id,
-      treated.cluster.year.fe
+      treated.match.year.fe
     )
   ,
   data = triQc,
@@ -361,9 +359,9 @@ reg_pay <- fixest::feols(
     federal.facility
     |
     year +
-      treated.cluster.id +
+      treated.match.fe +
       facility.state.id +
-      treated.cluster.year.fe
+      treated.match.year.fe
   ,
   data = triQc,
   cluster = ~facility.state.id,
@@ -395,9 +393,9 @@ reg_matcost <- fixest::feols(
     |
     csw(,
       year,
-      treated.cluster.id,
+      treated.match.fe,
       facility.state.id,
-      treated.cluster.year.fe
+      treated.match.year.fe
     )
   ,
   data = triQc,
@@ -416,9 +414,9 @@ reg_matcost <- fixest::feols(
     federal.facility
     |
     year +
-      treated.cluster.id +
+      treated.match.fe +
       facility.state.id +
-      treated.cluster.year.fe
+      treated.match.year.fe
   ,
   data = triQc,
   cluster = ~facility.state.id,
@@ -446,21 +444,21 @@ fixest::iplot(reg_wage_pw, xlim = c(2011, 2017), ylim = c(-0.2, 0.2), col = "blu
   abline(v = 2013, col = "red", lty = 2, lwd = 2)
 dev.off()
 #======================================================================================================================#
-pdf(file = "./Thesis/chapter3/src/climate_change/latex/fig_did_total_prod_wages.pdf", width = 12, height = 4)
-par(mfrow = c(1, 3))
-fixest::iplot(reg_matcost, xlim = c(2011, 2017), ylim = c(-0.6, 0.6), col = "blue",
-              main = "Material Cost (log)", xlab = "relative year",
-              lwd = 1, cex = 4, pt.cex = 3, pt.col = "red", pt.join = T, ci.lwd = 5, ci.lty = 1) %>%
-  abline(v = 2013, col = "red", lty = 2, lwd = 2)
-fixest::iplot(reg_pay, xlim = c(2011, 2017), ylim = c(-0.4, 0.4), col = "blue",
-              main = "Total Payroll (log)", xlab = "relative year",
-              lwd = 1, cex = 4, pt.cex = 3, pt.col = "red", pt.join = T, ci.lwd = 5, ci.lty = 1) %>%
-  abline(v = 2013, col = "red", lty = 2, lwd = 2)
-fixest::iplot(reg_wage, xlim = c(2011, 2017), ylim = c(-0.4, 0.4), col = "blue",
-              main = "Total Production Workers' Wages (log)", xlab = "relative year",
-              lwd = 1, cex = 4, pt.cex = 3, pt.col = "red", pt.join = T, ci.lwd = 5, ci.lty = 1) %>%
-  abline(v = 2013, col = "red", lty = 2, lwd = 2)
-dev.off()
+# pdf(file = "./Thesis/chapter3/src/climate_change/latex/fig_did_total_prod_wages.pdf", width = 12, height = 4)
+# par(mfrow = c(1, 3))
+# fixest::iplot(reg_matcost, xlim = c(2011, 2017), ylim = c(-0.6, 0.6), col = "blue",
+#               main = "Material Cost (log)", xlab = "relative year",
+#               lwd = 1, cex = 4, pt.cex = 3, pt.col = "red", pt.join = T, ci.lwd = 5, ci.lty = 1) %>%
+#   abline(v = 2013, col = "red", lty = 2, lwd = 2)
+# fixest::iplot(reg_pay, xlim = c(2011, 2017), ylim = c(-0.4, 0.4), col = "blue",
+#               main = "Total Payroll (log)", xlab = "relative year",
+#               lwd = 1, cex = 4, pt.cex = 3, pt.col = "red", pt.join = T, ci.lwd = 5, ci.lty = 1) %>%
+#   abline(v = 2013, col = "red", lty = 2, lwd = 2)
+# fixest::iplot(reg_wage, xlim = c(2011, 2017), ylim = c(-0.4, 0.4), col = "blue",
+#               main = "Total Production Workers' Wages (log)", xlab = "relative year",
+#               lwd = 1, cex = 4, pt.cex = 3, pt.col = "red", pt.join = T, ci.lwd = 5, ci.lty = 1) %>%
+#   abline(v = 2013, col = "red", lty = 2, lwd = 2)
+# dev.off()
 #======================================================================================================================#
 ### Industry: Employment
 #======================================================================================================================#
@@ -478,9 +476,9 @@ reg_emp <- fixest::feols(
     |
     csw(,
       year,
-      treated.cluster.id,
+      treated.match.fe,
       facility.state.id,
-      treated.cluster.year.fe
+      treated.match.year.fe
     )
   ,
   data = triQc,
@@ -500,9 +498,9 @@ reg_emp <- fixest::feols(
     federal.facility
     |
     year +
-      treated.cluster.id +
+      treated.match.fe +
       facility.state.id +
-      treated.cluster.year.fe
+      treated.match.year.fe
   ,
   data = triQc,
   cluster = ~facility.state.id,
@@ -534,9 +532,9 @@ reg_phours <- fixest::feols(
     |
     csw(,
       year,
-      treated.cluster.id,
+      treated.match.fe,
       facility.state.id,
-      treated.cluster.year.fe
+      treated.match.year.fe
     )
   ,
   data = triQc,
@@ -555,9 +553,9 @@ reg_phours <- fixest::feols(
     federal.facility
     |
     year +
-      treated.cluster.id +
+      treated.match.fe +
       facility.state.id +
-      treated.cluster.year.fe
+      treated.match.year.fe
   ,
   data = triQc,
   cluster = ~facility.state.id,
@@ -600,9 +598,9 @@ reg_output <- fixest::feols(
     |
     csw(,
       year,
-      treated.cluster.id,
+      treated.match.fe,
       facility.state.id,
-      treated.cluster.year.fe
+      treated.match.year.fe
     )
   ,
   data = triQc,
@@ -621,9 +619,9 @@ reg_output <- fixest::feols(
     federal.facility
     |
     year +
-      treated.cluster.id +
+      treated.match.fe +
       facility.state.id +
-      treated.cluster.year.fe
+      treated.match.year.fe
   ,
   data = triQc,
   cluster = ~facility.state.id,
@@ -654,9 +652,9 @@ reg_outputprhr <- fixest::feols(
     |
     csw(,
       year,
-      treated.cluster.id,
+      treated.match.fe,
       facility.state.id,
-      treated.cluster.year.fe
+      treated.match.year.fe
     )
   ,
   data = triQc,
@@ -676,9 +674,9 @@ reg_outputprhr <- fixest::feols(
     federal.facility
     |
     year +
-      treated.cluster.id +
+      treated.match.fe +
       facility.state.id +
-      treated.cluster.year.fe
+      treated.match.year.fe
   ,
   data = triQc,
   cluster = ~facility.state.id,
@@ -709,9 +707,9 @@ reg_outputperworker <- fixest::feols(
     |
     csw(,
       year,
-      treated.cluster.id,
+      treated.match.fe,
       facility.state.id,
-      treated.cluster.year.fe
+      treated.match.year.fe
     )
   ,
   data = triQc,
@@ -731,9 +729,9 @@ reg_outputperworker <- fixest::feols(
     federal.facility
     |
     year +
-      treated.cluster.id +
+      treated.match.fe +
       facility.state.id +
-      treated.cluster.year.fe
+      treated.match.year.fe
   ,
   data = triQc,
   cluster = ~facility.state.id,
@@ -748,19 +746,19 @@ pre_treat_coef <- coef(reg_outputperworker)[grep(pattern = "rel.year", names(coe
 pre_treat_coef <- pre_treat_coef[5:6]
 linearHypothesis(reg_outputperworker, paste0(names(pre_treat_coef), " = 0"), test = "F")
 #======================================================================================================================#
-pdf(file = "./Thesis/chapter3/src/climate_change/latex/fig_did_output.pdf", width = 12, height = 4)
-par(mfrow = c(1, 3))
-fixest::iplot(reg_output, xlim = c(2011, 2017), ylim = c(-0.5, 0.5), col = "blue",
-              main = "Industry Output", xlab = "relative year",
-              lwd = 1, cex = 4, pt.cex = 3, pt.col = "red", pt.join = T, ci.lwd = 5, ci.lty = 1) %>%
-  abline(v = 2013, col = "red", lty = 2, lwd = 2)
-fixest::iplot(reg_outputprhr, xlim = c(2011, 2017), ylim = c(-0.5, 0.5), col = "blue",
-              main = "Output per Hour", xlab = "relative year",
-              lwd = 1, cex = 4, pt.cex = 3, pt.col = "red", pt.join = T, ci.lwd = 5, ci.lty = 1) %>%
-  abline(v = 2013, col = "red", lty = 2, lwd = 2)
-fixest::iplot(reg_outputperworker, xlim = c(2011, 2017), ylim = c(-0.5, 0.5), col = "blue",
-              main = "Output per Worker", xlab = "relative year",
-              lwd = 1, cex = 4, pt.cex = 3, pt.col = "red", pt.join = T, ci.lwd = 5, ci.lty = 1) %>%
-  abline(v = 2013, col = "red", lty = 2, lwd = 2)
-dev.off()
+# pdf(file = "./Thesis/chapter3/src/climate_change/latex/fig_did_output.pdf", width = 12, height = 4)
+# par(mfrow = c(1, 3))
+# fixest::iplot(reg_output, xlim = c(2011, 2017), ylim = c(-0.5, 0.5), col = "blue",
+#               main = "Industry Output", xlab = "relative year",
+#               lwd = 1, cex = 4, pt.cex = 3, pt.col = "red", pt.join = T, ci.lwd = 5, ci.lty = 1) %>%
+#   abline(v = 2013, col = "red", lty = 2, lwd = 2)
+# fixest::iplot(reg_outputprhr, xlim = c(2011, 2017), ylim = c(-0.5, 0.5), col = "blue",
+#               main = "Output per Hour", xlab = "relative year",
+#               lwd = 1, cex = 4, pt.cex = 3, pt.col = "red", pt.join = T, ci.lwd = 5, ci.lty = 1) %>%
+#   abline(v = 2013, col = "red", lty = 2, lwd = 2)
+# fixest::iplot(reg_outputperworker, xlim = c(2011, 2017), ylim = c(-0.5, 0.5), col = "blue",
+#               main = "Output per Worker", xlab = "relative year",
+#               lwd = 1, cex = 4, pt.cex = 3, pt.col = "red", pt.join = T, ci.lwd = 5, ci.lty = 1) %>%
+#   abline(v = 2013, col = "red", lty = 2, lwd = 2)
+# dev.off()
 #======================================================================================================================#
