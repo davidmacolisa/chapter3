@@ -154,12 +154,12 @@
     \subsection{Baseline Results: Industry Costs}\label{subsec:baseline-results-industry-costs}
     In what follows, I estimate wage, employment and output responses of manufacturing industry employees in the baseline. The baseline model is given by:
     \begin{equation}
-        C_{i,cp,s,t} = \beta Treated_{s,t}^e = \textbf{1}[t - G_{s,t}] + \delta X_{v,c,t-1} + \omega P_{f,t} + \lambda_{t} + \phi_{cp} + \sigma_{s} + \zeta_{cp,t} + \epsilon_{i,cp,s,t},\label{eq:baseline-wages}
+        C_{i,cp,s,t} = \beta Treated_{s,t}^e + \delta X_{v,c,t-1} + \omega P_{f,t} + \lambda_{t} + \phi_{cp} + \sigma_{s} + \zeta_{cp,t} + \epsilon_{i,cp,s,t},\label{eq:baseline-wages}
     \end{equation}
-    where $C_{i,cp,s,t}$ is the vector of industry costs (hourly wages, wages per worker, total payroll, total production workers wage and material costs) of manufacturing industry, $i$ in cross-border county pairs, $cp$ for the state, $s$ in the year, $t$. $Treated_{s,t}^e$ is unity for the treated states that are $e$-periods away from the vector of initial treatment dates, $G_{s,t}$ and zero for the control states. $X_{v,c,t-1}$ denotes lagged values of county-level GDP per capita, annual average establishments, population and city-region inflation~\parencite{gopalan2021state, dube2010minimum, clemens2019making}. $P_{f,t}$ contains facility-level dummies on industry ownership (federal, state and private). I control for year fixed effects, $\lambda_{t}$ to account for time varying differences in the MW policy as well as trending inflation. Cross-border county pair, $\phi_{cp}$ and state, $\sigma_{s}$ fixed effects are controlled for to account for within county pair and state differences that may affect the MW policy such as within county/state industry compositions and political climate. Finally, $\zeta_{cp,t}$ is the cross-border county pair linear trends to control for the evolution of common shocks in cross-border county pairs. Standard errors are clustered at the state level as there are possibilities that changes in MW may be correlated within a state.
+    where $C_{i,cp,s,t}$ is the vector of industry costs (hourly wages, wages per worker, total payroll, total production workers wage and material costs) of manufacturing industry, $i$ in cross-border county pairs, $cp$ for the state, $s$ in the year, $t$. $Treated_{s,t}^e = \textbf{1}[t - G_{s,t}]$ is unity for the treated states that are $e$-periods away from the vector of initial treatment dates, $G_{s,t}$ and zero for the control states. $X_{v,c,t-1}$ denotes lagged values of county-level GDP per capita, annual average establishments, population and city-region inflation~\parencite{gopalan2021state, dube2010minimum, clemens2019making}. $P_{f,t}$ contains facility-level dummies on industry ownership. I control for year fixed effects, $\lambda_{t}$ to account for time varying differences in the MW policy as well as trending inflation. Cross-border county pair, $\phi_{cp}$ and state, $\sigma_{s}$ fixed effects are controlled for to account for within county pair and state differences that may affect the MW policy such as within county/state industry compositions and political climate. Finally, $\zeta_{cp,t}$ is the cross-border county pair linear trends to control for the evolution of common shocks in cross-border county pairs. Standard errors are clustered at the state level as there are possibilities that changes in MW may be correlated within a state.
     \input{tbl_did_baseline_industry_costs}
 
-    The average treatment effect on the treated (ATT) is captured by $\beta$, which is the difference in the average effect of raising the MW floor on manufacturing industry costs in treated counties relative to adjacent control counties. The results on industry costs are reported in Table~\ref{tab:baseline-industry-costs}. I find that a higher MW policy increased industry labour costs in treated counties relative to adjacent control counties. Manufacturing industry wages per hour rose by $\$1.06$ while wages per worker are twice as large, $\$2.35$. This documented result on manufacturing industry wages per hour is larger than that documented in~\cite{gopalan2021state} for the industry-wide effect on hourly wages of $\$0.48$. This suggests that the manufacturing industry is strongly affected by the MW policy relative to the rest of the industries in the US. The effect size on wages per industry production worker suggests that some of them may receive excess amounts required to comply with the new MW floor. There are no statistically significant differences between the treated and control states in terms of material costs, total payroll, and total production workers wage.
+    The average treatment effect on the treated (ATT) is captured by $\beta$, which is the difference in the average effect of raising the MW floor on manufacturing industry costs in treated counties relative to adjacent control counties. The results on industry costs are reported in Table~\ref{tab:baseline-industry-costs}. I find that a higher MW policy increased industry labour costs in treated counties relative to adjacent control counties. Manufacturing industry wages per hour rose by $\$1.06$ while wages per worker are twice as large, $\$2.35$. This documented result on manufacturing industry wages per hour is larger than that documented in~\cite{gopalan2021state} for the industry-wide effect on hourly wages of $\$0.48$. This suggests that the manufacturing industry is strongly affected by the MW policy relative to the rest of the industries in the US. The effect size on wages per industry production worker suggests that some of them may receive excess amounts required to comply with the new MW floor. There are no statistically significant differences between the treated and control counties in terms of material costs, total payroll, and total production workers wage.
     \input{fig_did_wages_perhr_worker}
 
     Figure~\ref{fig:baseline-hourly-wages-and-wages-per-worker} reports the dynamic effects. It reports instantaneous increases in hourly wages and wages per worker and persists even three years after the treatment, in $2015-2016$. Moreover, I find no statistically significant evidence of pre-trends. The timing and size of the effect are consistent with my data and setting. Similarly, Figure~\ref{fig:baseline-total-production-worker-wages} reports evidence of an increase in industry payroll in the second year following an MW policy. Again, no effects are recorded for material cost and total production workers wages.
@@ -168,7 +168,7 @@
     \subsection{Baseline Results: Employment}\label{subsec:baseline-results-employment}
     This subsection estimates the effect of raising MW on employment of manufacturing industry workers and their production hours. The model is given by:
     \begin{equation}
-        E_{i,cp,s,t} = \beta Treated_{s,t}^e = \textbf{1}[t - G_{s,t}] + \delta X_{v,c,t-1} + \omega P_{f,t} + \lambda_{t} + \phi_{cp} + \sigma_{s} + \zeta_{cp,t} + \epsilon_{i,cp,s,t},\label{eq:baseline-emp-hours}
+        E_{i,cp,s,t} = \beta Treated_{s,t}^e + \delta X_{v,c,t-1} + \omega P_{f,t} + \lambda_{t} + \phi_{cp} + \sigma_{s} + \zeta_{cp,t} + \epsilon_{i,cp,s,t},\label{eq:baseline-emp-hours}
     \end{equation}
     where $E_{i,cp,s,t}$ is the vector of employment and production workers hours of manufacturing industry, $i$ in cross-border county pairs, $cp$ for the state, $s$ in the year, $t$. Standard errors are clustered at the state level.
     \input{tbl_did_baseline_employ_hours}
@@ -179,7 +179,7 @@
     \subsection{Baseline Results: Industrial Output}\label{subsec:baseline-results-industrial-output}
     This subsection estimates the effect of raising MW on outputs of the manufacturing industry. The model is given by:
     \begin{equation}
-        Y_{i,cp,s,t} = \beta Treated_{s,t}^e = \textbf{1}[t - G_{s,t}] + \delta X_{v,c,t-1} + \omega P_{f,t} + \lambda_{t} + \phi_{cp} + \sigma_{s} + \zeta_{cp,t} + \epsilon_{i,cp,s,t},\label{eq:baseline-output}
+        Y_{i,cp,s,t} = \beta Treated_{s,t}^e + \delta X_{v,c,t-1} + \omega P_{f,t} + \lambda_{t} + \phi_{cp} + \sigma_{s} + \zeta_{cp,t} + \epsilon_{i,cp,s,t},\label{eq:baseline-output}
     \end{equation}
     where $Y_{i,cp,s,t}$ is the vector of manufacturing industry output, output per hour and output per worker, in manufacturing industry, $i$ in cross-border county pairs, $cp$ for the state, $s$ in the year, $t$. Standard errors are clustered at the state level.
     \input{tbl_did_baseline_output}
@@ -194,38 +194,122 @@
 
     \paragraph{Standard Errors:} Standard errors are clustered at the facility, zipcode, industry NAICS codes, FIPs code and county levels. I document that the results are not sensitive to these alternative clustering. See Tables~\ref{tab:baseline-wage-ses},~\ref{tab:baseline-employ-ses} and~\ref{tab:baseline-industry-output-ses}.
 
-    \paragraph{Cross-County Mobility:}~\cite{neumark2019econometrics} argues that cross-border studies may be biased against detecting disemployment effects due to worker mobility spillovers. Hence, I test whether my results are driven by cross-county mobility (i.e., a violation of the stable unit treatment assumption), using the interaction of the difference-in-differences coefficient and the distance between population centres. The underlying assumption here is that worker mobility to a state with higher MW declines if the geographic distance to the state increases. Table~\ref{tab:baseline-mobility} reports that worker mobility does not drive our main results.
+    \paragraph{Cross-County Mobility:}~\cite{neumark2019econometrics} argues that cross-border studies may be biased against detecting disemployment effects due to worker mobility spillovers. Hence, I test whether my results are driven by cross-county mobility (i.e., a violation of the stable unit treatment assumption), using the interaction of the difference-in-differences coefficient and the distance between population centres. The underlying assumption here is that worker mobility to a state with higher MW declines if the geographic distance to the state increases. Table~\ref{tab:baseline-mobility} reports that worker mobility does not drive the baseline results.
 
     \paragraph{State-level Results:} I repeat all the above analysis at the state-level. The results persist even at this level, and are presented in the online supplementary material.
 
-    I have established that raising MW indeed increases industrial labour costs and output. In what follows, I examine the questions: are the burden of higher labour costs passed-through to the environment? And, does rising output imply higher pollution emissions per unit of output?
+    I have established that raising MW indeed increases industrial labour costs and output. In what follows, I examine the questions: are the burden of higher labour costs passed to the environment? And, does rising output imply higher pollution emissions per unit of output?
 
 
     \section{Onsite Toxic Releases}\label{sec:onsite-toxic-releases}
     I begin by estimating the effect of raising MW on total onsite toxic releases at manufacturing industry facilities. The baseline model is given by:
     \begin{equation}
-        P_{f,c,i,cp,s,t} = \beta Treated_{s,t}^e + \delta X_{v,c,t-1} + \omega F_{f,t} + \lambda_{t} + \gamma_{f} + \phi_{cp} + \left(\theta_{f,h}  + \sigma_{s} + \zeta_{c} \right) + \eta_{c,t} + \varepsilon_{f,c,i,cp,s,t},\label{eq:baseline-onsite-releases}
+        P_{f,c,i,cp,s,t} = \beta Treated_{s,t}^e + \delta X_{v,c,t-1} + \omega F_{f,t} + \gamma_{f} + \phi_{cp} + \eta_{c,t} + \left[\lambda_{t} + \theta_{h} + \sigma_{s} + \zeta_{c} \right] + \varepsilon_{f,c,i,cp,s,t},\label{eq:baseline-total-onsite-releases-intensity}
     \end{equation}
-    where $P_{f,c,i,cp,s,t}$ is the total onsite releases intensity from manufacturing facility, $f$ through toxic chemical, $c$ used in industry, $i$ in cross-border county pairs, $cp$ in state, $s$ in the year, $t$. Total onsite releases intensity is the sum of total onsite toxic air emissions, land releases, and surface water discharges. $Treated_{s,t}^e = \textbf{1}[t - G_{s,t}]$ and $X_{v,c,t-1}$ are as defined in subsection~\ref{subsec:baseline-results-industry-costs}. $P_{f,t}$ contains facility-level dummies on the number of toxic chemicals at the facility at any point in time, production/activity ratio index at the facility, industry ownership (federal, state and private), and toxic chemical attributes, that is, whether the chemical was produced at or imported to the facility, used as a formulation or article component, used as a manufacturing aid or for ancillary purposes. I control for year fixed effects, $\lambda_{t}$ to account for time varying differences in the MW policy as well as trending inflation. Cross-border county pair, $\phi_{cp}$ and state, $\sigma_{s}$ fixed effects are controlled for to account for within county pair and state differences that may affect the MW policy such as within county/state industry compositions and political climate. Finally, $\zeta_{cp,t}$ is the cross-border county pair linear trends to control for the evolution of common shocks in cross-border county pairs. Standard errors are clustered at the state level as there are possibilities that changes in MW may be correlated within a state.
-    \input{fig_did_total_releases_onsite}
+    where $P_{f,c,i,cp,s,t}$ is the total onsite releases intensity from manufacturing facility, $f$ through toxic chemical, $c$ used in industry, $i$ in cross-border county pairs, $cp$ in state, $s$ in the year, $t$. Total onsite releases intensity is the sum of weights of total onsite toxic air emissions, land releases, and surface water discharges. $Treated_{s,t}^e = \textbf{1}[t - G_{s,t}]$ and $X_{v,c,t-1}$ are as defined in subsection~\ref{subsec:baseline-results-industry-costs}. $P_{f,t}$ contains facility-level variables regarding the maximum number of toxic chemicals at the facility at any point in time, production/activity ratio index of the facility, and the following dummies: industry ownership, and toxic chemical attributes, that is, whether the chemical was produced at or imported to the facility, used as a formulation or article component, used as a manufacturing aid or for ancillary purposes. I control for facility-level fixed effect, $\gamma_{f}$ to account for within facility-level differences in the management of toxic releases at the facility due to the MW policy; cross-border county pairs, $\phi_{cp}$ fixed effect as in subsection~\ref{subsec:baseline-results-industry-costs}; and $\eta_{c,t}$ toxic chemical linear trends which control for the evolution of common time varying shocks that may affect the nature of chemical usage at manufacturing facilities. In my tightest estimation, I further control for year fixed effect, $\lambda_{t}$ and state, $\sigma_{s}$ fixed effects as in subsection~\ref{subsec:baseline-results-industry-costs}. Additionally,  $\theta_{h}$ is the FIPs and county-level fixed effects to control for within county differences such as between county geographic distance, natural resources or historical pollution patterns. And $\zeta_{c}$ is the toxic chemical-fixed effect that controls for within chemical usage or mixture or compound differences in manufacturing industries production functions given the MW policy. $\varepsilon_{f,c,i,cp,s,t}$ is the idiosyncratic error term. Finally, I employ a three-way clustering of the standard errors at the chemical use, industry, and state levels, as there are possibilities that changes in MW may be correlated within a state, and that the response to this change may also be correlated within manufacturing industries in the state and the nature of toxic chemical usage in the industry.
+    \input{tbl_did_baseline_tot_onsite_releases_int}
 
-    \subsection{Air Emission Intensity}\label{subsec:air-emission-intensity}
+    The average treatment effect on the treated (ATT) is captured by $\beta$, which is the difference in the average effect of raising the MW floor on total onsite releases in treated counties relative to adjacent control counties. The results on total onsite releases are reported in Table~\ref{tab:baseline-total-onsite-releases-intensity}. The results show that a higher MW policy increased total onsite releases per unit of manufacturing industry output by $16.9ppts$ in treated counties relative to adjacent control counties. This translates to a $67.5lbs$ additional increase in total onsite releases intensity for every $\$1.06/hr$ increase in the wages of manufacturing industry workers.~\footnote{\tiny Alternatively, this means that for every $\$2.35$ increase in the wage of a manufacturing industry worker, total onsite releases intensity increases by $67.5lbs$.}
+    \input{fig_did_total_releases_onsite_int}
 
-    \subsection{Water Pollution Intensity}\label{subsec:water-pollution-intensity}
+    Moreover, Figure~\ref{fig:baseline-total-onsite-releases-intensity} shows an instantaneous increase in total onsite releases, reaching $26.6ppts$ three years after the initial treatment date for treated counties relative to adjacent control counties. There is no significant evidence of pre-trends.
 
-    \subsection{Land pollution Intensity}\label{subsec:land-pollution-intensity}
+    \subsection{Air Emissions Intensity}\label{subsec:air-emission-intensity}
+    Here, I estimate the effect of raising MW on onsite air emission intensity. The model is given by:
+    \begin{equation}
+        A_{f,c,i,cp,s,t} = \beta Treated_{s,t}^e + \delta X_{v,c,t-1} + \omega F_{f,t} + \gamma_{f} + \phi_{cp} + \eta_{c,t} + \left[\lambda_{t} + \theta_{h} + \sigma_{s} + \zeta_{c} \right] + \varepsilon_{f,c,i,cp,s,t},\label{eq:baseline-onsite-air-emission-intensity}
+    \end{equation}
+    where $A_{f,c,i,cp,s,t}$ is the total onsite air emission intensity from manufacturing facility, $f$ through toxic chemical, $c$ used in industry, $i$ in cross-border county pairs, $cp$ in state, $s$ in the year, $t$. Total onsite air emission intensity is the sum of point/stack air emissions or fugitive air emissions. Point air emissions usually involve the release of pollutants or substances into the atmosphere from industrial or commercial sources through a designated stack, chimney, or venting mechanism. These emissions occur as a result of combustion processes, industrial operations, or other activities that involve the burning, processing, or handling of materials. Stack emissions are typically regulated and monitored to ensure compliance with environmental regulations and standards. Fugitive air emissions on the other hand, refer to the release of pollutants or substances into the atmosphere from various industrial, commercial, or other sources that are not captured by a stack, duct, or other venting mechanism. These emissions typically occur during the handling, storage, processing, or transportation of materials and can originate from leaks, spills, evaporation, or other unintended releases. Examples of emitted pollutants include volatile organic compounds, hazardous air pollutants (HAPs), and particulate matter, \textit{inter alia}. Monitoring and controlling stack emissions are critical for minimizing air pollution, protecting public health, and reducing environmental impacts.
+    \input{tbl_did_baseline_onsite_air_emissions_int}
+
+    The parameter of interest is $\beta$ which measures the ATT of the MW policy on air emissions intensity in treated counties relative to adjacent control counties. The results are presented in Table~\ref{tab:baseline-onsite-air-emissions-intensity}. I find that total air emissions intensity increases by $9.4ppts$ in treated counties relative to adjacent control counties. Albeit the reported effect size is smaller than the size of the effect in~\cite{zhang2023unintended}, the result is similar to their conclusions for Chinese manufacturing industries. The focus only specific toxic chemical air emission types may provide tangible insights regarding the distance in the effect size in the Chinese paper. Further this effect is substantially driven by the fugitive air emissions and remain unchanged even in the tightest estimation. Moreover, the results of the dynamic effects in Figure~\ref{fig:baseline-onsite-air-emission-intensity} show an instantaneous increase in air emissions intensity, reaching $16.2ppts$ three years after the initial treatment date. Similar patterns are recorded for the fugitive air emissions, where significant effect is found only three years post-treatment for the point air emissions. No significant pre-trends are found.
+    \input{fig_did_onsite_air_emissions_int}
+
+    \subsection{Water Discharge Intensity}\label{subsec:water-discharge-intensity}
+    Next, I estimate the effect of raising MW on total onsite surface water discharge intensity. The model is given by:
+    \begin{equation}
+        W_{f,c,i,cp,s,t} = \beta Treated_{s,t}^e + \delta X_{v,c,t-1} + \omega F_{f,t} + \gamma_{f} + \phi_{cp} + \eta_{c,t} + \left[\lambda_{t} + \theta_{h} + \sigma_{s} + \zeta_{c} \right] + \varepsilon_{f,c,i,cp,s,t},\label{eq:baseline-onsite-water-discharge-intensity}
+    \end{equation}
+    where $W_{f,c,i,cp,s,t}$ is the total onsite surface water discharge intensity from a manufacturing facility, $f$ through a toxic chemical, $c$ used in industry, $i$ in cross-border county pairs, $cp$ in state, $s$ in the year, $t$. Surface water discharge intensity is the total weight of toxic chemicals per unit of output in the form of contaminants, or wastewater from industrial or commercial facilities that are released into surface water bodies such as streams. This discharge can occur through various pathways, including direct discharge through pipes, drains, or outfalls, as well as through runoff from facility surfaces or surrounding areas. Surface water discharge at facilities is regulated by environmental agencies (the clean water act of $1972$) to protect water quality, safeguard human health, and preserve aquatic ecosystems. Facilities are often required to obtain permits, monitor their discharge, and implement pollution control measures to minimize the impact of their activities on surface water resources.
+    \input{tbl_did_baseline_onsite_water_discharge_int}
+
+    The average treatment effect on the treated (ATT) is captured by $\beta$, which is the difference in the average effect of raising the MW floor on total surface water discharge intensity in treated counties relative to adjacent control counties. The results on total surface water discharge are reported in Table~\ref{tab:baseline-onsite-water-disc-int}. This results show that due a higher MW policy, surface water discharge increases by $7.3ppts$ in treated counties relative to adjacent control counties. Further results in Figure~\ref{fig:baseline-onsite-water-discharge-intensity} show that this effect jumped to $13ppts$ three years after the treatment. I find no evidence of significant pre-trends nor any significant effect on the number of receiving streams.
+    \input{fig_did_onsite_water_discharge_int}
+
+    \subsection{Land Releases Intensity}\label{subsec:land-releases-intensity}
+    Lastly, I estimate the effect of raising MW on total onsite land releases intensity. The model is given by:
+    \begin{equation}
+        L_{f,c,i,cp,s,t} = \beta Treated_{s,t}^e + \delta X_{v,c,t-1} + \omega F_{f,t} + \gamma_{f} + \phi_{cp} + \eta_{c,t} + \left[\lambda_{t} + \theta_{h} + \sigma_{s} + \zeta_{c} \right] + \varepsilon_{f,c,i,cp,s,t},\label{eq:baseline-onsite-land-releases-intensity}
+    \end{equation}
+    where $L_{f,c,i,cp,s,t}$ is the total onsite land releases intensity from manufacturing facility, $f$ through toxic chemical, $c$ used in industry, $i$ in cross-border county pairs, $cp$ in state, $s$ in the year, $t$. Total onsite land releases intensity is the total weight of toxic chemicals per unit of output that are released to land.
+    \input{tbl_did_baseline_onsite_land_releases_int}
+
+    The average treatment effect on the treated (ATT) is captured by $\beta$, which is the difference in the average effect of raising the MW floor on total surface water discharge in treated counties relative to adjacent control counties. The results on total land releases intensity are reported in Table~\ref{tab:baseline-onsite-land-releases-intensity}. Except for the total surface impoundment intensity, I find no statistically and economically significant effect on the intensities of total land releases, underground injection, landfills, to-land treatment (used for land fertilization), and other land releases. A surface impoundment is a type of containment structure used for the storage and management of liquid wastes, such as industrial wastewater, hazardous chemicals, or contaminated water. It consists of an excavated depression or basin lined with impermeable materials such as clay or synthetic liners to prevent the leakage of liquids into the surrounding soil and groundwater. The results show that a higher MW floor increases surface impoundment intensity by $2.7ppts$ in treated counties relative to adjacent control counties. The event study shows an instantaneous effect which persists up to four years after the treatment, reaching $5ppts$. I record no significant evidence of pre-trends.
+    \input{fig_did_onsite_land_releases_int}
 
 
-    \section{Offsite Toxic Releases}\label{sec:offsite-toxic-releases}
+    \section{Offsite and POTWs Toxic Releases}\label{sec:offsite-and-potws-toxic-releases}
+    \input{fig_did_offsite_total_releases_int}
+    \input{fig_did_offsite_land_releases_int}
+    \input{fig_did_potws_total_releases}
 
 
     \section{Robustness Exercises}\label{sec:robustness-exercises}
+    I conduct several robustness exercises to raise the credibility of the above results. This ranges from placebo exercises, alternative clustering of the standard errors, economic growth effect on pollution emission intensity, and removal of states with the highest total emission intensity.
+
+    \subsection{Placebo Exercise}\label{subsec:placebo-exercise}
+    To increase the credibility in the reported emission intensity results; I model the placebo effect of raising the MW on total releases intensity using total onsite releases intensity from catastrophic events. Such events include chemical spills, fire, explosions and natural disasters at specific manufacturing facilities. Catastrophic events are expected to be uncorrelated with the MW policy. Hence, I do not expect to see any statistical significance in the releases per unit of output, from catastrophic events. I estimate the following model:
+    \begin{equation}
+        P_{f,c,i,cp,s,t}^{catastrophic} = \beta Treated_{s,t}^e + \delta X_{v,c,t-1} + \omega F_{f,t} + \gamma_{f} + \phi_{cp} + \eta_{c,t} + \left[\lambda_{t} + \theta_{h} + \sigma_{s} + \zeta_{c} \right] + \varepsilon_{f,c,i,cp,s,t},\label{eq:robustness-placebo}
+    \end{equation}
+    \input{tbl_did_robustness_placebo}
+
+    where $P_{f,c,i,cp,s,t}$ is the total onsite releases intensity from catastrophic events at manufacturing facility, $f$ through toxic chemical, $c$ used in industry, $i$ in cross-border county pairs, $cp$ in state, $s$ in the year, $t$. The results are presented in Table~\ref{tab:robustness-placebo}. Indeed, the result is consistent with the null effect of the MW policy on total releases, from catastrophic events. This effect remains unchanged even in my tightest estimation in column $2$. Additionally, Figure~\ref{fig:baseline-placebo} shows the dynamic placebo effect on total releases and evidence of significant pre-trends.
+    \input{fig_did_total_releases_placebo}
+
+    \subsection{Alternative Clustering of the SEs}\label{subsec:alternative-clustering-of-the-ses}
+    \input{tbl_did_robustness_total_releases_int_onsite}
+    \input{tbl_did_robustness_onsite_air_emissions_int}
+    \input{tbl_did_robustness_onsite_water_releases_int}
+    \input{tbl_did_robustness_onsite_land_releases_int}
+
+    \subsection{Removal of States with the Highest Total Emissions Intensity}\label{subsec:removal-of-states-with-the-highest-total-emissions-intensity}
+
+    \subsection{Alternative Specifications}\label{subsec:alternative-specifications}
 
 
     \section{Mechanism Analysis}\label{sec:mechanism-analysis}
 
 
     \section{Heterogeneous Effects}\label{sec:heterogeneous-effects}
+
+    \subsection{Economic Growth Patterns}\label{subsec:economic-growth-patterns}
+    In this subsection, I check whether the increasing onsite releases intensity due to a higher MW floor is peculiar to treated counties with high economic growth patterns. Theory suggests that economic growth patterns are correlated with pollutant emissions with a turning point at higher economic growth~\parencite{grossman1995economic, shapiro2018pollution}. To investigate the differential effect of higher MW on onsite total releases intensity, I estimate the following model:
+    \begin{align}
+        G_{f,c,i,cp,s,t} &= \beta (Treated \cdot Post \cdot D)_{h,s,t} + \psi (Treated \cdot Post)_{s,t} + \rho D_{h,s,t} + \delta X_{v,c,t-1} + \omega F_{f,t} \nonumber \\
+        &\quad + \gamma_{f} + \phi_{cp} + \eta_{c,t} + \left[\lambda_{t} + \theta_{h} + \sigma_{s} + \zeta_{c} \right] + \varepsilon_{f,c,i,cp,s,t},\label{eq:heterogeneous-onsite-releases-intensity-gdp}
+    \end{align}
+    where $G_{f,c,i,cp,s,t}$ is the vector of total onsite releases intensity (air, water and land) in a manufacturing facility, $f$ through a toxic chemical, $c$ used in industry, $i$ in a cross-border county pair, $cp$ in state, $s$ in the year, $t$. $Post_{t}$ is a dummy that is equal to $1$ if the year $t$ is a post-treatment year, and $0$ otherwise. And $D_{h,s,t}$ is a dummy that is unity for a high gross domestic product (GDP) of county, $h$ in state, $s$ in the year, $t$ and $0$ otherwise. High GDP is defined as those counties with GDP above the median quantile of the GDP distribution of all counties.
+    \input{tbl_did_heter_onsite_releases_int_GDP}
+
+    The parameter of interest here is the triple-differences parameter $\beta$ which measures the differential impact on onsite total releases intensity due to a higher MW policy in high GDP counties. $\psi$ measures the relative change in onsite total releases in low GDP counties. And $\beta + \psi$ measures the relative change in onsite total releases in high GDP counties. The results are presented in Table~\ref{tab:heterogeneous-onsite-releases-int-GDP}. It shows that the triple-difference coefficient is positive $(18.03ppts)$ suggesting that total onsite releases intensity increases by $18.03ppts$, on average, for counties with high GDP. This effect is slightly higher than the baseline estimate of $16.91ppts$. I find limited evidence of an increase in total onsite releases intensity for counties with low GDP. The coefficient sum is significantly positive $(\beta + \psi = 10.63ppts)$ which shows the size of the relative change in the increase in total onsite releases intensity for counties with high GDP. Further, Table~\ref{tab:heterogeneous-onsite-releases-int-GDP} also shows that the above effect is predominantly driven by increases in onsite air emissions and surface water discharge intensities in high GDP counties, by magnitudes of $10.29ppts$ and $10.02ppts$, respectively. Again, I find limited evidence in air emissions and water discharge intensities in low GDP counties. I further document that the coefficient sums for air emissions and water discharge intensities, on average, are significantly positive $(\beta + \psi) = 12.32ppts$ and $14.49ppts$, respectively. Thus, the increase in the relative change for water discharge is marginally higher than that for air emissions in high GDP counties. I find no significant differences in the effect on land releases intensity in both high and low GDP counties.
+    \input{fig_did_heter_onsite_releases_int_GDP}
+
+    Figure~\ref{fig:heterogeneous-onsite-releases-intensity} plots their dynamic trends across counties. It shows an instantaneous increase in total onsite releases intensity for high GDP counties. This effect persists up to four years after the initial treatment date, reaching a staggering magnitude of $49ppts$, on average. Similarly, I find instantaneous effect in water discharge intensity in high GDP counties, reaching a maximum size of $7.5ppts$ four years after the post-initial treatment date. Moreover, there are significant increases in air emissions intensity in the second year, reaching a maximum magnitude of $22ppts$ in the third year of post-treatment. Likewise, air emissions intensity decreases in the second year of post-treatment. There is little evidence of a significant decrease in land releases intensity in high GDP counties, a year after the initial treatment date. Likewise, for low GDP counties, there is little evidence of a decrease in land releases intensity in the second year, up to four years after the initial treatment date. There is no significant evidence of pre-trends.
+
+    \subsection{Financial Constraints}\label{subsec:financial-constraints}
+
+    \subsection{Industry Concentration}\label{subsec:industry-concentration}
+
+    \subsection{Labour Intensity}\label{subsec:labour-intensity}
+
+    \subsection{Clean Air Act Chemicals}\label{subsec:clean-air-act-chemicals}
+
+    \subsection{Carcinogenic Chemicals}\label{subsec:carcinogenic-chemicals}
+
+    \subsection{Hazardous Air Pollutants}\label{subsec:hazardous-air-pollutants}
+
+    \subsection{Persistent Bio-accumulative Toxic Chemicals}\label{subsec:persistent-bioaccumulative-toxic-chemicals}
 
 
     \section{Conclusions}\label{sec:conclusions}
@@ -239,7 +323,7 @@
         \section{State Minimum Wage and Balance Tests}\label{sec:state-minimum-wage-and-balance-tests}
         \input{tbl_state_mw_changes}
         \input{tbl_bal_test_tex}
-        \input{tbl_bal_test_state}
+%        \input{tbl_bal_test_state}
         \input{fig_pre_evolution}
         \input{fig_pre_evolution_state}
 

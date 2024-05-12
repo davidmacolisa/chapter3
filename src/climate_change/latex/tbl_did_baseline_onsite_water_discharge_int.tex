@@ -1,0 +1,33 @@
+% Please add the following required packages to your document preamble:
+% \usepackage{booktabs}
+% \usepackage{graphicx}
+\begin{table}[H]
+    \centering
+    \caption{Effect of the MW policy on Onsite Surface Water Discharge Intensity}
+    \label{tab:baseline-onsite-water-disc-int}
+    \resizebox{\columnwidth}{!}{%
+        \begin{tabular}{@{}lllll@{}}
+            \toprule\toprule
+            & \multicolumn{2}{c}{Total} & \multicolumn{2}{c}{Number of Receiving Streams} \\
+            \cmidrule(lr){2-3}  \cmidrule(lr){4-5}
+            surface water discharge intensity (log) & 1         & 2         & 3         & 4         \\ \midrule
+            treated                                 & 0.0727*   & 0.0727*   & 0.0096    & 0.0096    \\
+            & (0.0438)  & (0.0438)  & (0.0181)  & (0.0181)  \\
+            controls                                & Yes       & Yes       & Yes       & Yes       \\
+            year FE                                 & No        & Yes       & No        & Yes       \\
+            facility FE                             & Yes       & Yes       & Yes       & Yes       \\
+            county FE                               & No        & Yes       & No        & Yes       \\
+            county-pair FE                          & Yes       & Yes       & Yes       & Yes       \\
+            facility state FE                       & No        & Yes       & No        & Yes       \\
+            toxic chemical FE                       & No        & Yes       & No        & Yes       \\
+            toxic chemical LTs                      & Yes       & Yes       & Yes       & Yes       \\\midrule\midrule
+            Observations                            & 1,893,689 & 1,893,689 & 1,893,689 & 1,893,689 \\
+            $R^2$                                   & 0.5925    & 0.5925    & 0.7914    & 0.7914    \\
+            Baseline Mean                           & 90.98     & 90.98     & 0.39      & 0.39      \\ \bottomrule\bottomrule
+        \end{tabular}%
+    }
+    \begin{minipage}{18cm}
+        \vspace{0.05in}
+        These results are obtained from estimating model~\ref{eq:baseline-onsite-water-discharge-intensity}. Three-way clustered robust standard errors are reported in parentheses, and clustered at the toxic chemical, industry and state levels. ***, **, and * denote significance levels at the less than $1\%$, $5\%$ and $10\%$, respectively.
+    \end{minipage}
+\end{table}

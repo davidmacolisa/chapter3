@@ -1,0 +1,31 @@
+% Please add the following required packages to your document preamble:
+% \usepackage{booktabs}
+% \usepackage{graphicx}
+\begin{table}[H]
+    \centering
+    \caption{Total Onsite Air Emissions Intensity: Alternative clustering of the SEs}
+    \label{tab:robustness-ses-clustering-total-air-releases-onsite}
+    \resizebox{\columnwidth}{!}{%
+        \begin{tabular}{@{}lllllllllllll@{}}
+            \toprule \toprule
+            Total air emissions intensity (log) & 1         & 2         & 3         & 4         & 5         & 6         & 7                    & 8                    & 9                    & 10                & 11                & 12                \\ \midrule
+            treated                             & 0.0938    & 0.0938*   & 0.0938    & 0.0938*   & 0.0938*   & 0.0938    & 0.0938               & 0.0938               & 0.0938*              & 0.0938*           & 0.0938            & 0.0938*           \\
+            & (0.0605)  & (0.0565)  & (0.0630)  & (0.0561)  & (0.0534)  & (0.0586)  & (0.0605)             & (0.0605)             & (0.0533)             & (0.0534)          & (0.0605)          & (0.0561)          \\
+            controls                            & Yes       & Yes       & Yes       & Yes       & Yes       & Yes       & Yes                  & Yes                  & Yes                  & Yes               & Yes               & Yes               \\
+            year FE                             & Yes       & Yes       & Yes       & Yes       & Yes       & Yes       & Yes                  & Yes                  & Yes                  & Yes               & Yes               & Yes               \\
+            facility FE                         & Yes       & Yes       & Yes       & Yes       & Yes       & Yes       & Yes                  & Yes                  & Yes                  & Yes               & Yes               & Yes               \\
+            county FE                           & Yes       & Yes       & Yes       & Yes       & Yes       & Yes       & Yes                  & Yes                  & Yes                  & Yes               & Yes               & Yes               \\
+            county-pair FE                      & Yes       & Yes       & Yes       & Yes       & Yes       & Yes       & Yes                  & Yes                  & Yes                  & Yes               & Yes               & Yes               \\
+            facility state FE                   & Yes       & Yes       & Yes       & Yes       & Yes       & Yes       & Yes                  & Yes                  & Yes                  & Yes               & Yes               & Yes               \\
+            toxic chemical FE                   & Yes       & Yes       & Yes       & Yes       & Yes       & Yes       & Yes                  & Yes                  & Yes                  & Yes               & Yes               & Yes               \\
+            toxic chemical LTs                  & Yes       & Yes       & Yes       & Yes       & Yes       & Yes       & Yes                  & Yes                  & Yes                  & Yes               & Yes               & Yes               \\\midrule\midrule
+            clustered at the:                   & facility  & zipcode   & county    & industry  & chemical  & state     & facility \& chemical & facility \& industry & chemical \& industry & chemical \& state & facility \& state & industry \& state \\
+            Observations                        & 1,893,689 & 1,893,689 & 1,893,689 & 1,893,689 & 1,893,689 & 1,893,689 & 1,893,689            & 1,893,689            & 1,893,689            & 1,893,689         & 1,893,689         & 1,893,689         \\
+            $R^2$                               & 0.7675    & 0.7675    & 0.7675    & 0.7675    & 0.7675    & 0.7675    & 0.7675               & 0.7675               & 0.7675               & 0.7675            & 0.7675            & 0.7675            \\ \bottomrule\bottomrule
+        \end{tabular}%
+    }
+    \begin{minipage}{18cm}
+        \vspace{0.05in}
+        These results are obtained from estimating model~\ref{eq:baseline-onsite-air-emission-intensity}. ***, **, and * denote significance levels at the less than $1\%$, $5\%$ and $10\%$, respectively.
+    \end{minipage}
+\end{table}

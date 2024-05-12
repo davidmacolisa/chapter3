@@ -1254,7 +1254,7 @@ fixest::etable(reg_outputperworker, digits = 4, digits.stats = 4)
 ### Industry: Employment
 #======================================================================================================================#
 reg_emp <- fixest::feols(
-  l.emp ~ e.treated * dist.to.border +
+  l.emp ~ e.treated:dist.to.border +
     sw0(
       gdppc.1 +
         annual.avg.estabs.1 +

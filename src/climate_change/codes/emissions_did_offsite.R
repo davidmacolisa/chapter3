@@ -40,6 +40,30 @@ did_releases <- fixest::feols(
     )
     |
     csw(,
+      facility.id,
+      treated.cluster.id,
+      chemical.year.fe
+    )
+  ,
+  data = triQc,
+  cluster = ~c(chemical.id, naics.code, facility.state.id)
+)
+fixest::etable(did_releases, digits = 4, digits.stats = 4)
+
+did_releases <- fixest::feols(
+  l.total.releases.offsite.intensity ~ e.treated +
+    sw0(
+      gdppc.1 +
+        annual.avg.estabs.1 +
+        cpi.1 +
+        federal.facility +
+        produced.chem.facility +
+        imported.chem.facility +
+        production.ratio.activity.index +
+        maxnum.chem.onsite
+    )
+    |
+    csw(,
       year,
       facility.id,
       fips.code,
@@ -80,8 +104,9 @@ did_releases <- fixest::feols(
   cluster = ~c(chemical.id, naics.code, facility.state.id)
 )
 fixest::etable(did_releases, digits = 4, digits.stats = 4)
-fixest::iplot(did_releases, xlim = c(2011, 2017), ylim = c(-0.5, 0.5), col = "blue",
-              main = "Total Offsite Releases Intensity", xlab = "relative year") %>%
+fixest::iplot(did_releases, xlim = c(2011, 2017), ylim = c(-0.8, 0.8), col = "blue",
+              main = "Total Offsite Releases Intensity", xlab = "relative year",
+              lwd = 1, cex = 4, pt.cex = 3, pt.col = "red", pt.join = T, ci.lwd = 5, ci.lty = 1) %>%
   abline(v = 2013, col = "red", lty = 2, lwd = 2)
 ### Testing for pre-trends
 pre_treat_coef <- coef(did_releases)[grep(pattern = "rel.year", names(coef(did_releases)))]
@@ -90,6 +115,30 @@ linearHypothesis(did_releases, paste0(names(pre_treat_coef), " = 0"), test = "F"
 #======================================================================================================================#
 ### Offsite: Total releases, unknown
 #======================================================================================================================#
+did_releases_unknown <- fixest::feols(
+  l.total.releases.unknown.offsite.intensity ~ e.treated +
+    sw0(
+      gdppc.1 +
+        annual.avg.estabs.1 +
+        cpi.1 +
+        federal.facility +
+        produced.chem.facility +
+        imported.chem.facility +
+        production.ratio.activity.index +
+        maxnum.chem.onsite
+    )
+    |
+    csw(,
+      facility.id,
+      treated.cluster.id,
+      chemical.year.fe
+    )
+  ,
+  data = triQc,
+  cluster = ~c(chemical.id, naics.code, facility.state.id)
+)
+fixest::etable(did_releases_unknown, digits = 4, digits.stats = 4)
+
 did_releases_unknown <- fixest::feols(
   l.total.releases.unknown.offsite.intensity ~ e.treated +
     sw0(
@@ -145,7 +194,8 @@ did_releases_unknown <- fixest::feols(
 )
 fixest::etable(did_releases_unknown, digits = 4, digits.stats = 4)
 fixest::iplot(did_releases_unknown, xlim = c(2011, 2017), ylim = c(-0.5, 0.5), col = "blue",
-              main = "Total Offsite Releases Intensity, Unknown", xlab = "relative year") %>%
+              main = "Total Offsite Releases Intensity, Unknown", xlab = "relative year",
+              lwd = 1, cex = 4, pt.cex = 3, pt.col = "red", pt.join = T, ci.lwd = 5, ci.lty = 1) %>%
   abline(v = 2013, col = "red", lty = 2, lwd = 2)
 ### Testing for pre-trends
 pre_treat_coef <- coef(did_releases_unknown)[grep(pattern = "rel.year", names(coef(did_releases_unknown)))]
@@ -154,6 +204,30 @@ linearHypothesis(did_releases_unknown, paste0(names(pre_treat_coef), " = 0"), te
 #======================================================================================================================#
 ### Offsite: Total releases, waste broker
 #======================================================================================================================#
+did_releases_wastebroker <- fixest::feols(
+  l.total.releases.wastebroker.offsite.intensity ~ e.treated +
+    sw0(
+      gdppc.1 +
+        annual.avg.estabs.1 +
+        cpi.1 +
+        federal.facility +
+        produced.chem.facility +
+        imported.chem.facility +
+        production.ratio.activity.index +
+        maxnum.chem.onsite
+    )
+    |
+    csw(,
+      facility.id,
+      treated.cluster.id,
+      chemical.year.fe
+    )
+  ,
+  data = triQc,
+  cluster = ~c(chemical.id, naics.code, facility.state.id)
+)
+fixest::etable(did_releases_wastebroker, digits = 4, digits.stats = 4)
+
 did_releases_wastebroker <- fixest::feols(
   l.total.releases.wastebroker.offsite.intensity ~ e.treated +
     sw0(
@@ -209,7 +283,8 @@ did_releases_wastebroker <- fixest::feols(
 )
 fixest::etable(did_releases_wastebroker, digits = 4, digits.stats = 4)
 fixest::iplot(did_releases_wastebroker, xlim = c(2011, 2017), ylim = c(-0.5, 0.5), col = "blue",
-              main = "Total Offsite Releases Intensity, Waste Broker", xlab = "relative year") %>%
+              main = "Total Offsite Releases Intensity, Waste Broker", xlab = "relative year",
+              lwd = 1, cex = 4, pt.cex = 3, pt.col = "red", pt.join = T, ci.lwd = 5, ci.lty = 1) %>%
   abline(v = 2013, col = "red", lty = 2, lwd = 2)
 ### Testing for pre-trends
 pre_treat_coef <- coef(did_releases_wastebroker)[grep(pattern = "rel.year", names(coef(did_releases_wastebroker)))]
@@ -218,6 +293,30 @@ linearHypothesis(did_releases_wastebroker, paste0(names(pre_treat_coef), " = 0")
 #======================================================================================================================#
 ### Offsite: Total releases, others
 #======================================================================================================================#
+did_releases_others <- fixest::feols(
+  l.total.releases.other.mgt.offsite.intensity ~ e.treated +
+    sw0(
+      gdppc.1 +
+        annual.avg.estabs.1 +
+        cpi.1 +
+        federal.facility +
+        produced.chem.facility +
+        imported.chem.facility +
+        production.ratio.activity.index +
+        maxnum.chem.onsite
+    )
+    |
+    csw(,
+      facility.id,
+      treated.cluster.id,
+      chemical.year.fe
+    )
+  ,
+  data = triQc,
+  cluster = ~c(chemical.id, naics.code, facility.state.id)
+)
+fixest::etable(did_releases_others, digits = 4, digits.stats = 4)
+
 did_releases_others <- fixest::feols(
   l.total.releases.other.mgt.offsite.intensity ~ e.treated +
     sw0(
@@ -273,7 +372,8 @@ did_releases_others <- fixest::feols(
 )
 fixest::etable(did_releases_others, digits = 4, digits.stats = 4)
 fixest::iplot(did_releases_others, xlim = c(2011, 2017), ylim = c(-0.5, 0.5), col = "blue",
-              main = "Total Offsite Releases Intensity, Others", xlab = "relative year") %>%
+              main = "Total Offsite Releases Intensity, Others", xlab = "relative year",
+              lwd = 1, cex = 4, pt.cex = 3, pt.col = "red", pt.join = T, ci.lwd = 5, ci.lty = 1) %>%
   abline(v = 2013, col = "red", lty = 2, lwd = 2)
 ### Testing for pre-trends
 pre_treat_coef <- coef(did_releases_others)[grep(pattern = "rel.year", names(coef(did_releases_others)))]
@@ -282,6 +382,30 @@ linearHypothesis(did_releases_others, paste0(names(pre_treat_coef), " = 0"), tes
 #======================================================================================================================#
 ### Offsite: Total releases, metal solidification
 #======================================================================================================================#
+did_releases_metalsolidify <- fixest::feols(
+  l.total.releases.metalsolidify.offsite.intensity ~ e.treated +
+    sw0(
+      gdppc.1 +
+        annual.avg.estabs.1 +
+        cpi.1 +
+        federal.facility +
+        produced.chem.facility +
+        imported.chem.facility +
+        production.ratio.activity.index +
+        maxnum.chem.onsite
+    )
+    |
+    csw(,
+      facility.id,
+      treated.cluster.id,
+      chemical.year.fe
+    )
+  ,
+  data = triQc,
+  cluster = ~c(chemical.id, naics.code, facility.state.id)
+)
+fixest::etable(did_releases_metalsolidify, digits = 4, digits.stats = 4)
+
 did_releases_metalsolidify <- fixest::feols(
   l.total.releases.metalsolidify.offsite.intensity ~ e.treated +
     sw0(
@@ -337,7 +461,8 @@ did_releases_metalsolidify <- fixest::feols(
 )
 fixest::etable(did_releases_metalsolidify, digits = 4, digits.stats = 4)
 fixest::iplot(did_releases_metalsolidify, xlim = c(2011, 2017), ylim = c(-0.5, 0.5), col = "blue",
-              main = "Total Offsite Releases Intensity, Metal Solidification", xlab = "relative year") %>%
+              main = "Total Offsite Releases Intensity, Metal Solidification", xlab = "relative year",
+              lwd = 1, cex = 4, pt.cex = 3, pt.col = "red", pt.join = T, ci.lwd = 5, ci.lty = 1) %>%
   abline(v = 2013, col = "red", lty = 2, lwd = 2)
 ### Testing for pre-trends
 pre_treat_coef <- coef(did_releases_metalsolidify)[grep(pattern = "rel.year", names(coef(did_releases_metalsolidify)))]
@@ -346,6 +471,30 @@ linearHypothesis(did_releases_metalsolidify, paste0(names(pre_treat_coef), " = 0
 #======================================================================================================================#
 ### Offsite: Total releases, storage
 #======================================================================================================================#
+did_releases_storage <- fixest::feols(
+  l.total.releases.storage.offsite.intensity ~ e.treated +
+    sw0(
+      gdppc.1 +
+        annual.avg.estabs.1 +
+        cpi.1 +
+        federal.facility +
+        produced.chem.facility +
+        imported.chem.facility +
+        production.ratio.activity.index +
+        maxnum.chem.onsite
+    )
+    |
+    csw(,
+      facility.id,
+      treated.cluster.id,
+      chemical.year.fe
+    )
+  ,
+  data = triQc,
+  cluster = ~c(chemical.id, naics.code, facility.state.id)
+)
+fixest::etable(did_releases_storage, digits = 4, digits.stats = 4)
+
 did_releases_storage <- fixest::feols(
   l.total.releases.storage.offsite.intensity ~ e.treated +
     sw0(
@@ -401,15 +550,68 @@ did_releases_storage <- fixest::feols(
 )
 fixest::etable(did_releases_storage, digits = 4, digits.stats = 4)
 fixest::iplot(did_releases_storage, xlim = c(2011, 2017), ylim = c(-0.2, 0.2), col = "blue",
-              main = "Total Offsite Releases Intensity, Storage", xlab = "relative year") %>%
+              main = "Total Offsite Releases Intensity, Storage", xlab = "relative year",
+              lwd = 1, cex = 4, pt.cex = 3, pt.col = "red", pt.join = T, ci.lwd = 5, ci.lty = 1) %>%
   abline(v = 2013, col = "red", lty = 2, lwd = 2)
 ### Testing for pre-trends
 pre_treat_coef <- coef(did_releases_storage)[grep(pattern = "rel.year", names(coef(did_releases_storage)))]
 pre_treat_coef <- pre_treat_coef[5:6]
 linearHypothesis(did_releases_storage, paste0(names(pre_treat_coef), " = 0"), test = "F")
 #======================================================================================================================#
+pdf(file = "./Thesis/chapter3/src/climate_change/latex/fig_did_total_releases_offsite.pdf", width = 12, height = 7)
+par(mfrow = c(2, 3))
+fixest::iplot(did_releases, xlim = c(2011, 2017), ylim = c(-0.8, 0.8), col = "blue",
+              main = "Total Offsite Releases Intensity", xlab = "relative year",
+              lwd = 1, cex = 4, pt.cex = 3, pt.col = "red", pt.join = T, ci.lwd = 5, ci.lty = 1) %>%
+  abline(v = 2013, col = "red", lty = 2, lwd = 2)
+fixest::iplot(did_releases_unknown, xlim = c(2011, 2017), ylim = c(-0.5, 0.5), col = "blue",
+              main = "Total Offsite Releases Intensity, Unknown", xlab = "relative year",
+              lwd = 1, cex = 4, pt.cex = 3, pt.col = "red", pt.join = T, ci.lwd = 5, ci.lty = 1) %>%
+  abline(v = 2013, col = "red", lty = 2, lwd = 2)
+fixest::iplot(did_releases_wastebroker, xlim = c(2011, 2017), ylim = c(-0.5, 0.5), col = "blue",
+              main = "Total Offsite Releases Intensity, Waste Broker", xlab = "relative year",
+              lwd = 1, cex = 4, pt.cex = 3, pt.col = "red", pt.join = T, ci.lwd = 5, ci.lty = 1) %>%
+  abline(v = 2013, col = "red", lty = 2, lwd = 2)
+fixest::iplot(did_releases_others, xlim = c(2011, 2017), ylim = c(-0.5, 0.5), col = "blue",
+              main = "Total Offsite Releases Intensity, Others", xlab = "relative year",
+              lwd = 1, cex = 4, pt.cex = 3, pt.col = "red", pt.join = T, ci.lwd = 5, ci.lty = 1) %>%
+  abline(v = 2013, col = "red", lty = 2, lwd = 2)
+fixest::iplot(did_releases_metalsolidify, xlim = c(2011, 2017), ylim = c(-0.5, 0.5), col = "blue",
+              main = "Total Offsite Releases Intensity, Metal Solidification", xlab = "relative year",
+              lwd = 1, cex = 4, pt.cex = 3, pt.col = "red", pt.join = T, ci.lwd = 5, ci.lty = 1) %>%
+  abline(v = 2013, col = "red", lty = 2, lwd = 2)
+fixest::iplot(did_releases_storage, xlim = c(2011, 2017), ylim = c(-0.2, 0.2), col = "blue",
+              main = "Total Offsite Releases Intensity, Storage", xlab = "relative year",
+              lwd = 1, cex = 4, pt.cex = 3, pt.col = "red", pt.join = T, ci.lwd = 5, ci.lty = 1) %>%
+  abline(v = 2013, col = "red", lty = 2, lwd = 2)
+dev.off()
+#======================================================================================================================#
 ### Offsite: Total land releases
 #======================================================================================================================#
+did_land_releases <- fixest::feols(
+  l.total.land.releases.offsite.intensity ~ e.treated +
+    sw0(
+      gdppc.1 +
+        annual.avg.estabs.1 +
+        cpi.1 +
+        federal.facility +
+        produced.chem.facility +
+        imported.chem.facility +
+        production.ratio.activity.index +
+        maxnum.chem.onsite
+    )
+    |
+    csw(,
+      facility.id,
+      treated.cluster.id,
+      chemical.year.fe
+    )
+  ,
+  data = triQc,
+  cluster = ~c(chemical.id, naics.code, facility.state.id)
+)
+fixest::etable(did_land_releases, digits = 4, digits.stats = 4)
+
 did_land_releases <- fixest::feols(
   l.total.land.releases.offsite.intensity ~ e.treated +
     sw0(
@@ -465,7 +667,8 @@ did_land_releases <- fixest::feols(
 )
 fixest::etable(did_land_releases, digits = 4, digits.stats = 4)
 fixest::iplot(did_land_releases, xlim = c(2011, 2017), ylim = c(-0.5, 0.5), col = "blue",
-              main = "Total Offsite Land Releases Intensity", xlab = "relative year") %>%
+              main = "Total Offsite Land Releases Intensity", xlab = "relative year",
+              lwd = 1, cex = 4, pt.cex = 3, pt.col = "red", pt.join = T, ci.lwd = 5, ci.lty = 1) %>%
   abline(v = 2013, col = "red", lty = 2, lwd = 2)
 ### Testing for pre-trends
 pre_treat_coef <- coef(did_land_releases)[grep(pattern = "rel.year", names(coef(did_land_releases)))]
@@ -474,6 +677,30 @@ linearHypothesis(did_land_releases, paste0(names(pre_treat_coef), " = 0"), test 
 #======================================================================================================================#
 ### Offsite: Total land releases, others
 #======================================================================================================================#
+did_land_releases_others <- fixest::feols(
+  l.total.land.releases.other.offsite.intensity ~ e.treated +
+    sw0(
+      gdppc.1 +
+        annual.avg.estabs.1 +
+        cpi.1 +
+        federal.facility +
+        produced.chem.facility +
+        imported.chem.facility +
+        production.ratio.activity.index +
+        maxnum.chem.onsite
+    )
+    |
+    csw(,
+      facility.id,
+      treated.cluster.id,
+      chemical.year.fe
+    )
+  ,
+  data = triQc,
+  cluster = ~c(chemical.id, naics.code, facility.state.id)
+)
+fixest::etable(did_land_releases_others, digits = 4, digits.stats = 4)
+
 did_land_releases_others <- fixest::feols(
   l.total.land.releases.other.offsite.intensity ~ e.treated +
     sw0(
@@ -529,7 +756,8 @@ did_land_releases_others <- fixest::feols(
 )
 fixest::etable(did_land_releases_others, digits = 4, digits.stats = 4)
 fixest::iplot(did_land_releases_others, xlim = c(2011, 2017), ylim = c(-0.2, 0.2), col = "blue",
-              main = "Total Offsite Land Releases Intensity, Others", xlab = "relative year") %>%
+              main = "Total Offsite Land Releases Intensity, Others", xlab = "relative year",
+              lwd = 1, cex = 4, pt.cex = 3, pt.col = "red", pt.join = T, ci.lwd = 5, ci.lty = 1) %>%
   abline(v = 2013, col = "red", lty = 2, lwd = 2)
 ### Testing for pre-trends
 pre_treat_coef <- coef(did_land_releases_others)[grep(pattern = "rel.year", names(coef(did_land_releases_others)))]
@@ -538,6 +766,30 @@ linearHypothesis(did_land_releases_others, paste0(names(pre_treat_coef), " = 0")
 #======================================================================================================================#
 ### Offsite: Total waste water releases
 #======================================================================================================================#
+did_waste_water_releases <- fixest::feols(
+  l.total.wastewater.releases.offsite.intensity ~ e.treated +
+    sw0(
+      gdppc.1 +
+      annual.avg.estabs.1 +
+      cpi.1 +
+      federal.facility +
+      produced.chem.facility +
+      imported.chem.facility +
+      production.ratio.activity.index +
+      maxnum.chem.onsite
+    )
+    |
+    csw(,
+      facility.id,
+      treated.cluster.id,
+      chemical.year.fe
+    )
+  ,
+  data = triQc,
+  cluster = ~c(chemical.id, naics.code, facility.state.id)
+)
+fixest::etable(did_waste_water_releases, digits = 4, digits.stats = 4)
+
 did_waste_water_releases <- fixest::feols(
   l.total.wastewater.releases.offsite.intensity ~ e.treated +
     sw0(
@@ -593,7 +845,8 @@ did_waste_water_releases <- fixest::feols(
 )
 fixest::etable(did_waste_water_releases, digits = 4, digits.stats = 4)
 fixest::iplot(did_waste_water_releases, xlim = c(2011, 2017), ylim = c(-0.5, 0.5), col = "blue",
-              main = "Total Offsite Waste Water Releases Intensity", xlab = "relative year") %>%
+              main = "Total Offsite Waste Water Releases Intensity", xlab = "relative year",
+              lwd = 1, cex = 4, pt.cex = 3, pt.col = "red", pt.join = T, ci.lwd = 5, ci.lty = 1) %>%
   abline(v = 2013, col = "red", lty = 2, lwd = 2)
 ### Testing for pre-trends
 pre_treat_coef <- coef(did_waste_water_releases)[grep(pattern = "rel.year", names(coef(did_waste_water_releases)))]
@@ -602,6 +855,30 @@ linearHypothesis(did_waste_water_releases, paste0(names(pre_treat_coef), " = 0")
 #======================================================================================================================#
 ### Offsite: Total surface impoundment
 #======================================================================================================================#
+did_surface_impoundment <- fixest::feols(
+  l.total.surface.impoundment.offsite.intensity ~ e.treated +
+    sw0(
+      gdppc.1 +
+        annual.avg.estabs.1 +
+        cpi.1 +
+        federal.facility +
+        produced.chem.facility +
+        imported.chem.facility +
+        production.ratio.activity.index +
+        maxnum.chem.onsite
+    )
+    |
+    csw(,
+      facility.id,
+      treated.cluster.id,
+      chemical.year.fe
+    )
+  ,
+  data = triQc,
+  cluster = ~c(chemical.id, naics.code, facility.state.id)
+)
+fixest::etable(did_surface_impoundment, digits = 4, digits.stats = 4)
+
 did_surface_impoundment <- fixest::feols(
   l.total.surface.impoundment.offsite.intensity ~ e.treated +
     sw0(
@@ -656,8 +933,9 @@ did_surface_impoundment <- fixest::feols(
   cluster = ~c(chemical.id, naics.code, offsite.state.id),
 )
 fixest::etable(did_surface_impoundment, digits = 4, digits.stats = 4)
-fixest::iplot(did_releases_wastebroker, xlim = c(2011, 2017), ylim = c(-0.5, 0.5), col = "blue",
-              main = "Total Surface Impoundment Intensity, Offsite", xlab = "relative year") %>%
+fixest::iplot(did_surface_impoundment, xlim = c(2011, 2017), ylim = c(-0.05, 0.05), col = "blue",
+              main = "Total Surface Impoundment Intensity, Offsite", xlab = "relative year",
+              lwd = 1, cex = 4, pt.cex = 3, pt.col = "red", pt.join = T, ci.lwd = 5, ci.lty = 1) %>%
   abline(v = 2013, col = "red", lty = 2, lwd = 2)
 ### Testing for pre-trends
 pre_treat_coef <- coef(did_surface_impoundment)[grep(pattern = "rel.year", names(coef(did_surface_impoundment)))]
@@ -666,6 +944,30 @@ linearHypothesis(did_surface_impoundment, paste0(names(pre_treat_coef), " = 0"),
 #======================================================================================================================#
 ### Offsite: Total toland treatment
 #======================================================================================================================#
+did_toland_treatment <- fixest::feols(
+  l.total.releases.toland.treatment.offsite.intensity ~ e.treated +
+    sw0(
+      gdppc.1 +
+        annual.avg.estabs.1 +
+        cpi.1 +
+        federal.facility +
+        produced.chem.facility +
+        imported.chem.facility +
+        production.ratio.activity.index +
+        maxnum.chem.onsite
+    )
+    |
+    csw(,
+      facility.id,
+      treated.cluster.id,
+      chemical.year.fe
+    )
+  ,
+  data = triQc,
+  cluster = ~c(chemical.id, naics.code, facility.state.id)
+)
+fixest::etable(did_toland_treatment, digits = 4, digits.stats = 4)
+
 did_toland_treatment <- fixest::feols(
   l.total.releases.toland.treatment.offsite.intensity ~ e.treated +
     sw0(
@@ -721,7 +1023,8 @@ did_toland_treatment <- fixest::feols(
 )
 fixest::etable(did_toland_treatment, digits = 4, digits.stats = 4)
 fixest::iplot(did_toland_treatment, xlim = c(2011, 2017), ylim = c(-0.1, 0.1), col = "blue",
-              main = "Total toland treatment Intensity, Offsite", xlab = "relative year") %>%
+              main = "Total toland treatment Intensity, Offsite", xlab = "relative year",
+              lwd = 1, cex = 4, pt.cex = 3, pt.col = "red", pt.join = T, ci.lwd = 5, ci.lty = 1) %>%
   abline(v = 2013, col = "red", lty = 2, lwd = 2)
 ### Testing for pre-trends
 pre_treat_coef <- coef(did_toland_treatment)[grep(pattern = "rel.year", names(coef(did_toland_treatment)))]
@@ -730,6 +1033,30 @@ linearHypothesis(did_toland_treatment, paste0(names(pre_treat_coef), " = 0"), te
 #======================================================================================================================#
 ### Offsite: Total landfills
 #======================================================================================================================#
+did_landfills <- fixest::feols(
+  l.total.landfills.offsite.intensity ~ e.treated +
+    sw0(
+      gdppc.1 +
+        annual.avg.estabs.1 +
+        cpi.1 +
+        federal.facility +
+        produced.chem.facility +
+        imported.chem.facility +
+        production.ratio.activity.index +
+        maxnum.chem.onsite
+    )
+    |
+    csw(,
+      facility.id,
+      treated.cluster.id,
+      chemical.year.fe
+    )
+  ,
+  data = triQc,
+  cluster = ~c(chemical.id, naics.code, facility.state.id)
+)
+fixest::etable(did_landfills, digits = 4, digits.stats = 4)
+
 did_landfills <- fixest::feols(
   l.total.landfills.offsite.intensity ~ e.treated +
     sw0(
@@ -785,7 +1112,8 @@ did_landfills <- fixest::feols(
 )
 fixest::etable(did_landfills, digits = 4, digits.stats = 4)
 fixest::iplot(did_landfills, xlim = c(2011, 2017), ylim = c(-0.5, 0.5), col = "blue",
-              main = "Total Landfills Intensity, Offsite", xlab = "relative year") %>%
+              main = "Total Landfills Intensity, Offsite", xlab = "relative year",
+              lwd = 1, cex = 4, pt.cex = 3, pt.col = "red", pt.join = T, ci.lwd = 5, ci.lty = 1) %>%
   abline(v = 2013, col = "red", lty = 2, lwd = 2)
 ### Testing for pre-trends
 pre_treat_coef <- coef(did_landfills)[grep(pattern = "rel.year", names(coef(did_landfills)))]
@@ -794,6 +1122,30 @@ linearHypothesis(did_landfills, paste0(names(pre_treat_coef), " = 0"), test = "F
 #======================================================================================================================#
 ### Offsite: Total Underground injection
 #======================================================================================================================#
+did_underground_injection <- fixest::feols(
+  l.total.underground.injection.offsite.intensity ~ e.treated +
+    sw0(
+      gdppc.1 +
+        annual.avg.estabs.1 +
+        cpi.1 +
+        federal.facility +
+        produced.chem.facility +
+        imported.chem.facility +
+        production.ratio.activity.index +
+        maxnum.chem.onsite
+    )
+    |
+    csw(,
+      facility.id,
+      treated.cluster.id,
+      chemical.year.fe
+    )
+  ,
+  data = triQc,
+  cluster = ~c(chemical.id, naics.code, facility.state.id)
+)
+fixest::etable(did_underground_injection, digits = 4, digits.stats = 4)
+
 did_underground_injection <- fixest::feols(
   l.total.underground.injection.offsite.intensity ~ e.treated +
     sw0(
@@ -849,10 +1201,43 @@ did_underground_injection <- fixest::feols(
 )
 fixest::etable(did_underground_injection, digits = 4, digits.stats = 4)
 fixest::iplot(did_underground_injection, xlim = c(2011, 2017), ylim = c(-0.2, 0.2), col = "blue",
-              main = "Total Underground Injection Intensity, Offsite", xlab = "relative year") %>%
+              main = "Total Underground Injection Intensity, Offsite", xlab = "relative year",
+              lwd = 1, cex = 4, pt.cex = 3, pt.col = "red", pt.join = T, ci.lwd = 5, ci.lty = 1) %>%
   abline(v = 2013, col = "red", lty = 2, lwd = 2)
 ### Testing for pre-trends
 pre_treat_coef <- coef(did_underground_injection)[grep(pattern = "rel.year", names(coef(did_underground_injection)))]
 pre_treat_coef <- pre_treat_coef[5:6]
 linearHypothesis(did_underground_injection, paste0(names(pre_treat_coef), " = 0"), test = "F")
+#======================================================================================================================#
+pdf(file = "./Thesis/chapter3/src/climate_change/latex/fig_did_total_land_releases_offsite.pdf", width = 12, height = 10)
+par(mfrow = c(3, 3))
+fixest::iplot(did_waste_water_releases, xlim = c(2011, 2017), ylim = c(-0.5, 0.5), col = "blue",
+              main = "Total Offsite Waste Water Releases Intensity", xlab = "relative year",
+              lwd = 1, cex = 4, pt.cex = 3, pt.col = "red", pt.join = T, ci.lwd = 5, ci.lty = 1) %>%
+  abline(v = 2013, col = "red", lty = 2, lwd = 2)
+fixest::iplot(did_land_releases, xlim = c(2011, 2017), ylim = c(-0.7, 0.7), col = "blue",
+              main = "Total Offsite Land Releases Intensity", xlab = "relative year",
+              lwd = 1, cex = 4, pt.cex = 3, pt.col = "red", pt.join = T, ci.lwd = 5, ci.lty = 1) %>%
+  abline(v = 2013, col = "red", lty = 2, lwd = 2)
+fixest::iplot(did_land_releases_others, xlim = c(2011, 2017), ylim = c(-0.2, 0.2), col = "blue",
+              main = "Total Offsite Land Releases Intensity, Others", xlab = "relative year",
+              lwd = 1, cex = 4, pt.cex = 3, pt.col = "red", pt.join = T, ci.lwd = 5, ci.lty = 1) %>%
+  abline(v = 2013, col = "red", lty = 2, lwd = 2)
+fixest::iplot(did_surface_impoundment, xlim = c(2011, 2017), ylim = c(-0.05, 0.05), col = "blue",
+              main = "Total Surface Impoundment Intensity, Offsite", xlab = "relative year",
+              lwd = 1, cex = 4, pt.cex = 3, pt.col = "red", pt.join = T, ci.lwd = 5, ci.lty = 1) %>%
+  abline(v = 2013, col = "red", lty = 2, lwd = 2)
+fixest::iplot(did_toland_treatment, xlim = c(2011, 2017), ylim = c(-0.1, 0.1), col = "blue",
+              main = "Total toland treatment Intensity, Offsite", xlab = "relative year",
+              lwd = 1, cex = 4, pt.cex = 3, pt.col = "red", pt.join = T, ci.lwd = 5, ci.lty = 1) %>%
+  abline(v = 2013, col = "red", lty = 2, lwd = 2)
+fixest::iplot(did_landfills, xlim = c(2011, 2017), ylim = c(-0.5, 0.5), col = "blue",
+              main = "Total Landfills Intensity, Offsite", xlab = "relative year",
+              lwd = 1, cex = 4, pt.cex = 3, pt.col = "red", pt.join = T, ci.lwd = 5, ci.lty = 1) %>%
+  abline(v = 2013, col = "red", lty = 2, lwd = 2)
+fixest::iplot(did_underground_injection, xlim = c(2011, 2017), ylim = c(-0.2, 0.2), col = "blue",
+              main = "Total Underground Injection Intensity, Offsite", xlab = "relative year",
+              lwd = 1, cex = 4, pt.cex = 3, pt.col = "red", pt.join = T, ci.lwd = 5, ci.lty = 1) %>%
+  abline(v = 2013, col = "red", lty = 2, lwd = 2)
+dev.off()
 #======================================================================================================================#
