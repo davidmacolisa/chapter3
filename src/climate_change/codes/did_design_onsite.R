@@ -85,12 +85,14 @@ sort(unique(triQc$comment.type.description))
 sort(unique(triQc$classification))
 
 sorted_comments <- triQc %>%
+  # filter(classification == "Source Reduction") %>%
   group_by(classification, comment.type, comment.type.description) %>%
   summarize(
     comment.type = sort(unique(comment.type.description)),
     comment.text = sort(unique(comment.text))
   ) %>%
   data.frame()
+sort(unique(sorted_comments$comment.type.description))
 
 triQc <- triQc %>%
   mutate(

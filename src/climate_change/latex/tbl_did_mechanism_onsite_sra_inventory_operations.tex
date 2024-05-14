@@ -1,0 +1,30 @@
+% Please add the following required packages to your document preamble:
+% \usepackage{booktabs}
+% \usepackage{graphicx}
+\begin{table}[H]
+    \centering
+    \caption{Onsite SRA: Inventory Material Management and Operating and Training Activities}
+    \label{tab:mechanisms-onsite-sra-inventory-operating-and-training-activities}
+    \resizebox{\columnwidth}{!}{%
+        \begin{tabular}{@{}lllllllllll@{}}
+            \toprule\toprule
+            Onsite SRA         & inventory mgt & better labels & container size & mat handling & imp monitoring & others    & operating pract and training & imp schedule opt & changed prod schedule & imp prod quality \\ \midrule
+            treated            & 0.0057**      & -0.0002       & 0.0006         & -0.0046***   & -0.0006*       & 0.0113*** & -0.0026***                   & 0.0020           & 0.0040*               & 0.0003           \\
+            & (0.0025)      & (0.0001)      & (0.0005)       & (0.0018)     & (0.0003)       & (0.0032)  & (0.0008)                     & (0.0013)         & (0.0020)              & (0.0002)         \\
+            controls           & Yes           & Yes           & Yes            & Yes          & Yes            & Yes       & Yes                          & Yes              & Yes                   & Yes              \\
+            year FE            & Yes           & Yes           & Yes            & Yes          & Yes            & Yes       & Yes                          & Yes              & Yes                   & Yes              \\
+            facility FE        & Yes           & Yes           & Yes            & Yes          & Yes            & Yes       & Yes                          & Yes              & Yes                   & Yes              \\
+            county FE          & Yes           & Yes           & Yes            & Yes          & Yes            & Yes       & Yes                          & Yes              & Yes                   & Yes              \\
+            county-pair FE     & Yes           & Yes           & Yes            & Yes          & Yes            & Yes       & Yes                          & Yes              & Yes                   & Yes              \\
+            facility state FE  & Yes           & Yes           & Yes            & Yes          & Yes            & Yes       & Yes                          & Yes              & Yes                   & Yes              \\
+            toxic chemical FE  & Yes           & Yes           & Yes            & Yes          & Yes            & Yes       & Yes                          & Yes              & Yes                   & Yes              \\
+            toxic chemical LTs & Yes           & Yes           & Yes            & Yes          & Yes            & Yes       & Yes                          & Yes              & Yes                   & Yes              \\\midrule\midrule
+            Observations       & 1,893,689     & 1,893,689     & 1,893,689      & 1,893,689    & 1,893,689      & 1,893,689 & 1,893,689                    & 1,893,689        & 1,893,689             & 1,893,689        \\
+            $R^2$              & 0.1423        & 0.0320        & 0.2326         & 0.3752       & 0.1609         & 0.1736    & 0.1254                       & 0.1631           & 0.3495                & 0.1405           \\ \bottomrule \bottomrule
+        \end{tabular}%
+    }
+    \begin{minipage}{18cm}
+        \vspace{0.05in}
+        These results are obtained from estimating model~\ref{eq:mechanisms-source-reduction}. ***, **, and * denote significance levels at the less than $1\%$, $5\%$ and $10\%$, respectively.
+    \end{minipage}
+\end{table}

@@ -1,0 +1,30 @@
+% Please add the following required packages to your document preamble:
+% \usepackage{booktabs}
+% \usepackage{graphicx}
+\begin{table}[H]
+    \centering
+    \caption{Onsite SRA: Material Substitution and Product Modifications}
+    \label{tab:mechanisms-onsite-sra-material-substitution-product-modifications}
+    \resizebox{\columnwidth}{!}{%
+        \begin{tabular}{@{}lllllllllllll@{}}
+            \toprule \toprule
+            Onsite SRA         & mat submod & organic solvent sub & feedstock and reagents & ancillary chems & purity chems & clean fuel & others    & prod mod  & new prod line & mod packaging & energy intensity (log) & others    \\ \midrule
+            treated            & 0.0030     & -0.0010***          & 0.0005*                & 0.0002*         & -0.0002      & -0.0242*** & 0.0011    & -0.0011   & 0.0026***     & 0.0070**   & 0.0175**    & -0.0002   \\
+            & (0.0019)   & (0.0004)            & (0.0003)               & (9.31e-5)       & (0.0007)     & (0.0051)   & (0.0010)  & (0.0011)  & (0.0009)      & (0.0031)  & (0.0087)    & (0.0007)  \\
+            controls           & Yes        & Yes                 & Yes                    & Yes             & Yes          & Yes        & Yes       & Yes       & Yes           & Yes           & Yes              & Yes       \\
+            year FE            & Yes        & Yes                 & Yes                    & Yes             & Yes          & Yes        & Yes       & Yes       & Yes           & Yes           & Yes              & Yes       \\
+            facility FE        & Yes        & Yes                 & Yes                    & Yes             & Yes          & Yes        & Yes       & Yes       & Yes           & Yes           & Yes              & Yes       \\
+            county FE          & Yes        & Yes                 & Yes                    & Yes             & Yes          & Yes        & Yes       & Yes       & Yes           & Yes           & Yes              & Yes       \\
+            county-pair FE     & Yes        & Yes                 & Yes                    & Yes             & Yes          & Yes        & Yes       & Yes       & Yes           & Yes           & Yes              & Yes       \\
+            facility state FE  & Yes        & Yes                 & Yes                    & Yes             & Yes          & Yes        & Yes       & Yes       & Yes           & Yes           & Yes              & Yes       \\
+            toxic chemical FE  & Yes        & Yes                 & Yes                    & Yes             & Yes          & Yes        & Yes       & Yes       & Yes           & Yes           & Yes              & Yes       \\
+            toxic chemical LTs & Yes        & Yes                 & Yes                    & Yes             & Yes          & Yes        & Yes       & Yes       & Yes           & Yes           & Yes              & Yes       \\\midrule\midrule
+            Observations       & 1,893,689  & 1,893,689           & 1,893,689              & 1,893,689       & 1,893,689    & 1,893,689  & 1,893,689 & 1,893,689 & 1,893,689     & 1,893,689  & 1,893,689  & 1,893,689 \\
+            $R^2$              & 0.1490     & 0.0708              & 0.0520                 & 0.0284          & 0.1283       & 0.7078     & 0.1649    & 0.1264    & 0.1164        & 0.5309        & 0.9825  & 0.0693    \\ \bottomrule\bottomrule
+        \end{tabular}%
+    }
+    \begin{minipage}{18cm}
+        \vspace{0.05in}
+        These results are obtained from estimating model~\ref{eq:mechanisms-source-reduction}. ***, **, and * denote significance levels at the less than $1\%$, $5\%$ and $10\%$, respectively.
+    \end{minipage}
+\end{table}

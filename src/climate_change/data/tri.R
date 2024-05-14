@@ -3191,10 +3191,10 @@ tri <- tri %>%
         X102..STREAM.1...TRTMT.METHOD...SEQUENCE.7 == "P19" |
         X103..STREAM.1...TRTMT.METHOD...SEQUENCE.8 == "P19" ~ 1, T ~ 0),
 
-    ## overall onsite
+    ## overall onsite waste management
     total.waste.management.onsite = as.numeric(as.character(X267..TOTAL.ON.SITE.WASTE.MANAGEMENT)), #sum X264 through X266
 
-    ## Other onsite mechanisms - onsite Source or Pollution Reduction Activities
+    ## Source or Pollution Reduction Activities - Onsite
     material.subandmod = case_when(
       # Material Substitutions and Modifications refer to changing input purity or dimensions, or replacing a raw material,
       # feedstock, reagent, or other substance with environmentally preferable alternatives.

@@ -305,9 +305,9 @@ releases_distribution_states <- triQc %>%
     y = "total releases intensity (onsite)"
   ) +
   theme_bw() +
-  theme(axis.text.x = element_text(angle = 0, vjust = 0.0, hjust = 0.5, size = 18),
-        axis.title.x = element_text(size = 12))
-pdf(file = "./Thesis/chapter3/src/climate_change/latex/fig_releases_distribution_states.pdf", width = 15, height = 10)
+  theme(axis.text.x = element_text(angle = 0, vjust = 0.0, hjust = 0.5, size = 15),
+        axis.title.x = element_text(size = 10))
+pdf(file = "./Thesis/chapter3/src/climate_change/latex/fig_releases_distribution_states.pdf", width = 12, height = 5)
 releases_distribution_states
 dev.off()
 #======================================================================================================================#
@@ -328,9 +328,9 @@ air_emissions_distribution <- triQc %>%
     y = "total air emissions intensity (onsite)"
   ) +
   theme_bw() +
-  theme(axis.text.x = element_text(angle = 0, vjust = 0.0, hjust = 0.5, size = 18),
-        axis.title.x = element_text(size = 12))
-pdf(file = "./Thesis/chapter3/src/climate_change/latex/fig_air_emissions_distribution.pdf", width = 15, height = 10)
+  theme(axis.text.x = element_text(angle = 0, vjust = 0.0, hjust = 0.5, size = 15),
+        axis.title.x = element_text(size = 10))
+pdf(file = "./Thesis/chapter3/src/climate_change/latex/fig_air_emissions_distribution.pdf", width = 12, height = 5)
 air_emissions_distribution
 dev.off()
 #======================================================================================================================#
@@ -351,9 +351,9 @@ land_releases_distribution <- triQc %>%
     y = "total land releases intensity (onsite)"
   ) +
   theme_bw() +
-  theme(axis.text.x = element_text(angle = 0, vjust = 0.0, hjust = 0.5, size = 18),
-        axis.title.x = element_text(size = 12))
-pdf(file = "./Thesis/chapter3/src/climate_change/latex/fig_land_releases_distribution.pdf", width = 15, height = 10)
+  theme(axis.text.x = element_text(angle = 0, vjust = 0, hjust = 0.5, size = 15),
+        axis.title.x = element_text(size = 10))
+pdf(file = "./Thesis/chapter3/src/climate_change/latex/fig_land_releases_distribution.pdf", width = 12, height = 5)
 land_releases_distribution
 dev.off()
 #======================================================================================================================#
@@ -374,9 +374,9 @@ water_discharge_distribution <- triQc %>%
     y = "total surface water discharge intensity (onsite)"
   ) +
   theme_bw() +
-  theme(axis.text.x = element_text(angle = 0, vjust = 0.0, hjust = 0.5, size = 18),
-        axis.title.x = element_text(size = 12))
-pdf(file = "./Thesis/chapter3/src/climate_change/latex/fig_water_discharge_distribution.pdf", width = 15, height = 10)
+  theme(axis.text.x = element_text(angle = 0, vjust = 0, hjust = 0.5, size = 15),
+        axis.title.x = element_text(size = 10))
+pdf(file = "./Thesis/chapter3/src/climate_change/latex/fig_water_discharge_distribution.pdf", width = 12, height = 5)
 water_discharge_distribution
 dev.off()
 #======================================================================================================================#
@@ -407,8 +407,106 @@ triQc %>%
     y = "counts"
   ) +
   theme_bw() +
-  theme(axis.text.x = element_text(angle = 90, vjust = 0.5, hjust = 1, size = 18),
-        axis.title.x = element_text(size = 20))
+  theme(axis.text.x = element_text(angle = 90, vjust = 0.05, hjust = 1, size = 15),
+        axis.title.x = element_text(size = 10))
+#======================================================================================================================#
+### Distribution of total onsite releases by chemical heterogeneities
+#======================================================================================================================#
+# Distribution of total onsite releases intensity across states by carcinogenic chemicals
+releases_distribution_carcinogenic <- triQc %>%
+  filter(carcinogenic.chems == 1) %>%
+  select(facility.state, total.releases.onsite.intensity, treated) %>%
+  group_by(facility.state) %>%
+  summarise(
+    naics.code = n(),
+    total.releases.onsite.intensity = sum(total.releases.onsite.intensity, na.rm = TRUE),
+    treated = treated %>% unique()
+  ) %>%
+  ggplot(aes(x = facility.state, y = total.releases.onsite.intensity, fill = treated)) +
+  geom_bar(stat = "identity") +
+  labs(
+    title = "Total Releases Intensity (Onsite), Carcinogens",
+    x = "",
+    y = "total releases Intensity (onsite)"
+  ) +
+  theme_bw() +
+  theme(axis.text.x = element_text(angle = 0, vjust = 0, hjust = 0.5, size = 15),
+        axis.title.x = element_text(size = 10))
+pdf(file = "./Thesis/chapter3/src/climate_change/latex/fig_releases_distribution_carcinogenic.pdf", width = 12, height = 5)
+releases_distribution_carcinogenic
+dev.off()
+
+# Distribution of total onsite releases intensity across states by carcinogenic chemicals
+releases_distribution_caa <- triQc %>%
+  filter(clean.air.act.chems == 1) %>%
+  select(facility.state, total.releases.onsite.intensity, treated) %>%
+  group_by(facility.state) %>%
+  summarise(
+    naics.code = n(),
+    total.releases.onsite.intensity = sum(total.releases.onsite.intensity, na.rm = TRUE),
+    treated = treated %>% unique()
+  ) %>%
+  ggplot(aes(x = facility.state, y = total.releases.onsite.intensity, fill = treated)) +
+  geom_bar(stat = "identity") +
+  labs(
+    title = "Total Releases Intensity (Onsite), CAA chemicals",
+    x = "",
+    y = "total releases Intensity (onsite)"
+  ) +
+  theme_bw() +
+  theme(axis.text.x = element_text(angle = 0, vjust = 0.0, hjust = 0.5, size = 15),
+        axis.title.x = element_text(size = 10))
+pdf(file = "./Thesis/chapter3/src/climate_change/latex/fig_releases_distribution_caa.pdf", width = 12, height = 5)
+releases_distribution_caa
+dev.off()
+
+# Distribution of total onsite releases intensity across states by carcinogenic chemicals
+releases_distribution_haps <- triQc %>%
+  filter(hap.chems == 1) %>%
+  select(facility.state, total.releases.onsite.intensity, treated) %>%
+  group_by(facility.state) %>%
+  summarise(
+    naics.code = n(),
+    total.releases.onsite.intensity = sum(total.releases.onsite.intensity, na.rm = TRUE),
+    treated = treated %>% unique()
+  ) %>%
+  ggplot(aes(x = facility.state, y = total.releases.onsite.intensity, fill = treated)) +
+  geom_bar(stat = "identity") +
+  labs(
+    title = "Total Releases Intensity (Onsite), HAPs chemicals",
+    x = "",
+    y = "total releases Intensity (onsite)"
+  ) +
+  theme_bw() +
+  theme(axis.text.x = element_text(angle = 0, vjust = 0.0, hjust = 0.5, size = 15),
+        axis.title.x = element_text(size = 10))
+pdf(file = "./Thesis/chapter3/src/climate_change/latex/fig_releases_distribution_haps.pdf", width = 12, height = 5)
+releases_distribution_haps
+dev.off()
+
+# Distribution of total onsite releases intensity across states by carcinogenic chemicals
+releases_distribution_pbts <- triQc %>%
+  filter(pbt.chems == 1) %>%
+  select(facility.state, total.releases.onsite.intensity, treated) %>%
+  group_by(facility.state) %>%
+  summarise(
+    naics.code = n(),
+    total.releases.onsite.intensity = sum(total.releases.onsite.intensity, na.rm = TRUE),
+    treated = treated %>% unique()
+  ) %>%
+  ggplot(aes(x = facility.state, y = total.releases.onsite.intensity, fill = treated)) +
+  geom_bar(stat = "identity") +
+  labs(
+    title = "Total Releases Intensity (Onsite), PBT chemicals",
+    x = "",
+    y = "total releases Intensity (onsite)"
+  ) +
+  theme_bw() +
+  theme(axis.text.x = element_text(angle = 0, vjust = 0, hjust = 0.5, size = 15),
+        axis.title.x = element_text(size = 10))
+pdf(file = "./Thesis/chapter3/src/climate_change/latex/fig_releases_distribution_pbts.pdf", width = 12, height = 5)
+releases_distribution_pbts
+dev.off()
 #======================================================================================================================#
 ### Descriptive Statistics
 ### Balance Test: Using the year immediately preceding the first initial treatment date, which is 2013.
@@ -576,6 +674,36 @@ summ_potw_tex <- summ_potw %>%
 # Print or save the LaTeX table
 cat(summ_potw_tex)
 writeLines(summ_potw_tex, con = "./Thesis/chapter3/src/climate_change/latex/tbl_summ_potw_tex1.tex")
+#======================================================================================================================#
+### Summary Statistics - Mechanisms
+#======================================================================================================================#
+mech_onsite <- sum_up(
+  df = triQc,
+  c(total.waste.management.onsite, treatment.onsite, air.emissions.treatment.onsite,
+    biological.treatment.onsite, chemical.treatment.onsite, incineration.thermal.treatment.onsite,
+    physical.treatment.onsite, energy.recovery.onsite, industrial.kiln.onsite, industrial.furnace.onsite,
+    industrial.boiler.onsite, recycling.onsite, metal.recovery.onsite, solvent.recovery.onsite, reuse.onsite,
+    source.reduction, material.subandmod, sub.fuel.matsubmod, sub.organic.solvent.matsubmod,
+    sub.rawm.feedstock.reactchem.matsubmod, sub.manu.proccess.ancilliary.chems.matsubmod,
+    mod.content.grade.purity.chems.matsubmod, other.matmods.matsubmod, product.modification,
+    devd.newproductline.pmod, mod.packaging.pmod, other.pmods.pmod, process.equip.modification,
+    optimised.process.efficiency.pequipmod, recirculationinprocess.pequipmod,
+    newtech.technique.process.pequipmod, other.pequipmods.pequipmod, inventory.material.mgt,
+    better.labelling.testing.immgt, containers.sizechange.immgt, improved.materialhandling.operations.immgt,
+    improved.monitoring.immgt, other.immgts.immgt, operating.practices.training,
+    improved.schdule.operation.procedures.opt, changed.production.schedule.opt,
+    intro.inline.productquality.process.analysis.opt, r.and.d, waste.water.treatment, recycling.dummy)) %>%
+  select(-Missing) %>%
+  mutate(across(where(is.numeric), ~round(., digits = 2)))
+
+# Convert data frame to LaTeX table
+mech_onsite_tex <- mech_onsite %>%
+  kable(format = "latex", label = "Descriptive Statistics: Onsite Mechanisms", booktabs = TRUE) %>%
+  kable_styling()
+
+# Print or save the LaTeX table
+cat(mech_onsite_tex)
+writeLines(mech_onsite_tex, con = "./Thesis/chapter3/src/climate_change/latex/tbl_summ_onsite_mechanisms1.tex")
 #======================================================================================================================#
 ### Pre-period regressions --- County
 #======================================================================================================================#

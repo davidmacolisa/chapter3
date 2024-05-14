@@ -3,16 +3,16 @@
 % \usepackage{graphicx}
 \begin{table}[H]
     \centering
-    \caption{Onsite Releases Intensity given GDP Patterns}
-    \label{tab:heterogeneous-onsite-releases-int-gdp}
+    \caption{Onsite Releases Intensity for PBTs}
+    \label{tab:heterogeneous-onsite-releases-int-pbts}
     \resizebox{\columnwidth}{!}{%
         \begin{tabular}{@{}llllllll@{}}
             \toprule\toprule
             Onsite releases intensity (log) & total     & air emissions & point air & fugitive air & water discharge & land releases & surface impoundment \\ \midrule
-            $Treated \cdot Post \cdot D$    & 0.0797    & 0.1019        & 0.0772    & 0.1203       & 0.0050          & 0.0049        & 0.0069*             \\
-            & (0.0990)  & (0.0913)      & (0.0708)  & (0.0924)     & (0.0464)        & (0.0149)      & (0.0041)            \\
-            $Treated \cdot Post$            & 0.0858    & 0.0133        & -0.0163   & -0.0307      & 0.0575          & 0.0209        & 0.0085*             \\
-            & (0.0739)  & (0.0653)      & (0.0601)  & (0.0684)     & (0.0469)        & (0.0149)      & (0.0051)            \\
+            $Treated \cdot Post \cdot D$    & -0.2412   & -0.1003       & -0.0530   & 0.0577       & -0.1485         & -0.0417       & -0.0025             \\
+            & (0.1521)  & (0.1661)      & (0.1246)  & (0.1265)     & (0.1094)        & (0.0421)      & (0.0137)            \\
+            $Treated \cdot Post$            & 0.1860*** & 0.0800        & 0.0265    & 0.0120       & 0.1018*         & 0.0420***     & 0.0237*             \\
+            & (0.0704)  & (0.0527)      & (0.0541)  & (0.0481)     & (0.0518)        & (0.0151)      & (0.0129)            \\
             controls                        & Yes       & Yes           & Yes       & Yes          & Yes             & Yes           & Yes                 \\
             year FE                         & Yes       & Yes           & Yes       & Yes          & Yes             & Yes           & Yes                 \\
             facility FE                     & Yes       & Yes           & Yes       & Yes          & Yes             & Yes           & Yes                 \\
@@ -22,11 +22,11 @@
             toxic chemical FE               & Yes       & Yes           & Yes       & Yes          & Yes             & Yes           & Yes                 \\
             toxic chemical LTs              & Yes       & Yes           & Yes       & Yes          & Yes             & Yes           & Yes                 \\\midrule\midrule
             Observations                    & 1,893,689 & 1,893,689     & 1,893,689 & 1,893,689    & 1,893,689       & 1,893,689     & 1,893,689           \\
-            $R^2$                           & 0.7463    & 0.7676        & 0.7431    & 0.6970       & 0.5960          & 0.5273        & 0.1670              \\ \bottomrule \bottomrule
+            $R^2$                           & 0.7458    & 0.7675        & 0.7430    & 0.6970       & 0.5938          & 0.5260        & 0.1438              \\ \bottomrule\bottomrule
         \end{tabular}%
     }
     \begin{minipage}{18cm}
         \vspace{0.05in}
-        These results are obtained from estimating model~\ref{eq:heterogeneous-onsite-releases-intensity-gdp}. Three-way clustered robust standard errors are reported in parentheses, and clustered at the toxic chemical, industry and state levels. ***, **, and * denote significance levels at the less than $1\%$, $5\%$ and $10\%$, respectively.
+        These results are obtained from estimating model~\ref{eq:heterogeneous-onsite-releases-intensity-pbts}. Three-way clustered robust standard errors are reported in parentheses, and clustered at the toxic chemical, industry and state levels. ***, **, and * denote significance levels at the less than $1\%$, $5\%$ and $10\%$, respectively.
     \end{minipage}
 \end{table}
