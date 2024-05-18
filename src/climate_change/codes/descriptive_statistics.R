@@ -1396,7 +1396,7 @@ did_gdppc <- fixest::feols(
       year +
         treated.match.fe +
         treated.match.year.fe,
-  data = triQs %>% filter(year <= 2013),
+  data = triQc %>% filter(year <= 2013),
   cluster = ~facility.state.id,
 )
 fixest::etable(did_gdppc, digits = 4, digits.stats = 4)
@@ -1444,7 +1444,7 @@ did_gdp <- fixest::feols(
       year +
         treated.match.fe +
         treated.match.year.fe,
-  data = triQs %>% filter(year <= 2013),
+  data = triQc %>% filter(year <= 2013),
   cluster = ~facility.state.id,
 )
 fixest::etable(did_gdp, digits = 4, digits.stats = 4)
@@ -1492,7 +1492,7 @@ did_pop <- fixest::feols(
       year +
         treated.match.fe +
         treated.match.year.fe,
-  data = triQs %>% filter(year <= 2013),
+  data = triQc %>% filter(year <= 2013),
   cluster = ~facility.state.id,
 )
 fixest::etable(did_pop, digits = 4, digits.stats = 4)
@@ -1539,7 +1539,7 @@ did_emp <- fixest::feols(
       year +
         treated.match.fe +
         treated.match.year.fe,
-  data = triQs %>% filter(year <= 2013),
+  data = triQc %>% filter(year <= 2013),
   cluster = ~facility.state.id,
 )
 fixest::etable(did_emp, digits = 4, digits.stats = 4)
@@ -1586,7 +1586,7 @@ did_estabs <- fixest::feols(
       year +
         treated.match.fe +
         treated.match.year.fe,
-  data = triQs %>% filter(year <= 2013),
+  data = triQc %>% filter(year <= 2013),
   cluster = ~facility.state.id,
 )
 fixest::etable(did_estabs, digits = 4, digits.stats = 4)
@@ -1633,7 +1633,7 @@ did_cpi <- fixest::feols(
       year +
         treated.match.fe +
         treated.match.year.fe,
-  data = triQs %>% filter(year <= 2013),
+  data = triQc %>% filter(year <= 2013),
   cluster = ~facility.state.id,
 )
 fixest::etable(did_cpi, digits = 4, digits.stats = 4)
@@ -1668,7 +1668,7 @@ cpi_pre_state <- ggplot(cpi_data, aes(x = year, y = coefficients, color = "red",
   ) +
   theme_bw() +
   theme(legend.position = "none") +
-  ylim(-0.9, 0.9) +
+  ylim(-0.1, 0.1) +
   scale_x_continuous(breaks = seq(min(year), max(year), by = 1))
 
 #----------------------------------------------------------------------------------------------------------------------#
@@ -1680,7 +1680,7 @@ did_prod_chem_fac <- fixest::feols(
       year +
         treated.match.fe +
         treated.match.year.fe,
-  data = triQs %>% filter(year <= 2013),
+  data = triQc %>% filter(year <= 2013),
   cluster = ~facility.state.id,
 )
 fixest::etable(did_prod_chem_fac, digits = 4, digits.stats = 4)
@@ -1727,7 +1727,7 @@ did_imp_chem_fac <- fixest::feols(
       year +
         treated.match.fe +
         treated.match.year.fe,
-  data = triQs %>% filter(year <= 2013),
+  data = triQc %>% filter(year <= 2013),
   cluster = ~facility.state.id,
 )
 fixest::etable(did_imp_chem_fac, digits = 4, digits.stats = 4)
@@ -1774,7 +1774,7 @@ did_chem_form_comp <- fixest::feols(
       year +
         treated.match.fe +
         treated.match.year.fe,
-  data = triQs %>% filter(year <= 2013),
+  data = triQc %>% filter(year <= 2013),
   cluster = ~facility.state.id,
 )
 fixest::etable(did_chem_form_comp, digits = 4, digits.stats = 4)
@@ -1821,7 +1821,7 @@ did_chem_art_comp <- fixest::feols(
       year +
         treated.match.fe +
         treated.match.year.fe,
-  data = triQs %>% filter(year <= 2013),
+  data = triQc %>% filter(year <= 2013),
   cluster = ~facility.state.id,
 )
 fixest::etable(did_chem_art_comp, digits = 4, digits.stats = 4)
@@ -1868,7 +1868,7 @@ did_chem_manu_aid <- fixest::feols(
       year +
         treated.match.fe +
         treated.match.year.fe,
-  data = triQs %>% filter(year <= 2013),
+  data = triQc %>% filter(year <= 2013),
   cluster = ~facility.state.id,
 )
 fixest::etable(did_chem_manu_aid, digits = 4, digits.stats = 4)
@@ -1915,7 +1915,7 @@ did_chem_anc_use <- fixest::feols(
       year +
         treated.match.fe +
         treated.match.year.fe,
-  data = triQs %>% filter(year <= 2013),
+  data = triQc %>% filter(year <= 2013),
   cluster = ~facility.state.id,
 )
 fixest::etable(did_chem_anc_use, digits = 4, digits.stats = 4)
@@ -1950,7 +1950,7 @@ chem_anc_use_pre_state <- ggplot(did_chem_anc_use_data, aes(x = year, y = coeffi
   ) +
   theme_bw() +
   theme(legend.position = "none") +
-  ylim(-0.4, 0.4) +
+  ylim(-0.6, 0.6) +
   scale_x_continuous(breaks = seq(min(year), max(year), by = 1))
 
 #----------------------------------------------------------------------------------------------------------------------#
@@ -1962,7 +1962,7 @@ did_prod_activity <- fixest::feols(
       year +
         treated.match.fe +
         treated.match.year.fe,
-  data = triQs %>% filter(year <= 2013),
+  data = triQc %>% filter(year <= 2013),
   cluster = ~facility.state.id,
 )
 fixest::etable(did_prod_activity, digits = 4, digits.stats = 4)
@@ -2009,7 +2009,7 @@ did_max_num_chem <- fixest::feols(
       year +
         treated.match.fe +
         treated.match.year.fe,
-  data = triQs %>% filter(year <= 2013),
+  data = triQc %>% filter(year <= 2013),
   cluster = ~facility.state.id,
 )
 fixest::etable(did_max_num_chem, digits = 4, digits.stats = 4)
