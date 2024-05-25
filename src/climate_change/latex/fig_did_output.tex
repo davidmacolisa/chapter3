@@ -3,8 +3,8 @@
     \includegraphics[width=1\textwidth, keepaspectratio]{fig_did_output}
     \caption{Manufacturing Industry Output: Output per Hour and Output per Worker}
     \label{fig:baseline-industry-output}
-    \begin{minipage}{12cm}
+    \begin{minipage}{18cm}
         \vspace{0.05in}
-        NOTES: The event study model of equation~\ref{eq:baseline-wages} is $Y_{i,cp,s,t} = \sum_{{e = 2011},{e \neq 2013}}^{2017} \beta Treated_{s,t}^e = \textbf{1}[t - G_{s,t}] + \delta X_{v,c,t-1} + \omega P_{f,t} + \lambda_{t} + \phi_{cp} + \sigma_{s} + \zeta_{cp,t} + \epsilon_{i,cp,s,t}$. Standard errors are clustered at the state level.
+        NOTES: The event study model of equation~\ref{eq:baseline-wages} is $Y_{i,cp,t} = \sum_{{e = -3},{e \neq -1}}^{3} \beta Treated_{s,t}^e = \textbf{1}[t - G_{s,t}] + \delta X_{v,c,t-1} + \omega F_{f,t} + \lambda_{t} + \sigma_{c} + \phi_{cp} + \zeta_{cp,t} + \epsilon_{i,cp,t}$. Standard errors are clustered at the state level.
     \end{minipage}
 \end{figure}

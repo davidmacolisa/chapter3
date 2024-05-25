@@ -1,28 +1,27 @@
 % Please add the following required packages to your document preamble:
 % \usepackage{booktabs}
-% \usepackage{graphicx}
 \begin{table}[H]
     \centering
     \caption{Effect of the MW Policy on Industry Costs}
     \label{tab:baseline-industry-costs}
-    \resizebox{\columnwidth}{!}{%
-        \begin{tabular}{@{}llllll@{}}
-            \toprule\toprule
-            Industry costs  & hourly wage & wages per worker & total workers' wage & total payroll & material costs (log) \\ \midrule
-            treated         & 1.0560**    & 2.3450**         & 61.010              & 206.10        & 0.1174               \\
-            & (0.3977)    & (1.0680)         & (68.01)             & (126.90)      & (0.0944)             \\
-            controls        & Yes         & Yes              & Yes                 & Yes           & Yes                  \\
-            year FE         & Yes         & Yes              & Yes                 & Yes           & Yes                  \\
-            county-pair FE  & Yes         & Yes              & Yes                 & Yes           & Yes                  \\
-            state FE        & Yes         & Yes              & Yes                 & Yes           & Yes                  \\
-            county-pair LTs & Yes         & Yes              & Yes                 & Yes           & Yes                  \\\midrule\midrule
-            Observations    & 1,893,689   & 1,893,689        & 1,893,689           & 1,893,689     & 1,893,689            \\
-            $R^2$           & 0.5384      & 0.5631           & 0.3295              & 0.3456        & 0.5438               \\
-            Baseline Mean   & 26.56       & 55.28            & 1744.54             & 2962.68       & 61328.05             \\ \bottomrule\bottomrule
-        \end{tabular}%
-    }
-    \begin{minipage}{18cm}
+    \begin{tabular}{@{}lllllll@{}}
+        \toprule\toprule
+        Industry costs & \multicolumn{2}{c}{Hourly wage} & \multicolumn{2}{c}{Total payroll} & \multicolumn{2}{c}{Material cost (log)} \\
+        \cmidrule(lr){2-3}\cmidrule(lr){4-5}\cmidrule(lr){6-7}
+        & 1         & 2         & 3         & 4         & 5         & 6         \\ \midrule
+        treated           & 0.9382**  & 0.6065*   & 193.7**   & 122.9     & 0.0790    & 0.1054**  \\
+        & (0.3768)  & (0.3247)  & (80.44)   & (112.6)   & (0.0827)  & (0.0474)  \\
+        controls          & Yes       & Yes       & Yes       & Yes       & Yes       & Yes       \\
+        year FE           & Yes       & Yes       & Yes       & Yes       & Yes       & Yes       \\
+        county FE         & Yes       & Yes       & Yes       & Yes       & Yes       & Yes       \\
+        border-county FE  & No        & Yes       & No        & Yes       & No        & Yes       \\
+        border-county LTs & No        & Yes       & No        & Yes       & No        & Yes       \\ \midrule
+        Observations      & 1,893,689 & 1,893,689 & 1,893,689 & 1,893,689 & 1,893,689 & 1,893,689 \\
+        $R^2$             & 0.5380    & 0.6242    & 0.3528    & 0.4127    & 0.5243    & 0.6187    \\
+        Baseline Mean     & 26.56     & 26.56     & 2962.68   & 2962.68   & 61328.05  & 61328.05  \\ \bottomrule \bottomrule
+    \end{tabular}
+    \begin{minipage}{15.5cm}
         \vspace{0.05in}
-        These results are obtained from estimating model~\ref{eq:baseline-wages}. Robust standard errors clustered at the state level are reported in parentheses. ***, **, and * denote significance levels at the less than $1\%$, $5\%$ and $10\%$, respectively.
+        These results are obtained from estimating model~\ref{eq:baseline-wages}. Robust standard errors clustered at the state level are reported in parentheses. ***, **, and * denote significance levels at the less than $1\%$, $5\%$ and $10\%$, respectively. de Chaisemartin and D'Haultfoeuille Decomposition: $\sum dCDH_{ATTs}^{weights(+)} = 1$ and $\sum dCDH_{ATTs}^{weights(-)} = 0$.
     \end{minipage}
 \end{table}

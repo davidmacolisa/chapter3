@@ -579,17 +579,14 @@ did_source_reduction <- fixest::feols(
     |
     csw(,
       year,
-      facility.id,
-      fips.code,
-      facility.county,
-      treated.cluster.id,
-      facility.state.id,
-      chemical.id,
+      facility.id.fe,
+      chemical.id.fe,
+      border.county.fe,
       chemical.year.fe
     )
   ,
   data = triQc,
-  cluster = ~c(chemical.id, naics.code, facility.state.id)
+  cluster = ~c(chemical.id, naics.code, facility.state)
 )
 fixest::etable(did_source_reduction, digits = 4, digits.stats = 4)
 #======================================================================================================================#

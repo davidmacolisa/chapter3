@@ -74,12 +74,12 @@ treated_border <- triQc %>%
   select(
     c(
       facility.state, treated, treated.match, match.ch.year, match.ch.amt, sum2.sub.mw.ch, tot.ch.amt,
-      start.mw, end.mw, control.match, treated.cluster.name, control.cluster.name
+      tot.ch.percent, start.mw, end.mw, control.match, treated.cluster.name, control.cluster.name
     )
   ) %>%
   filter(treated == 1) %>%
   group_by(
-    facility.state, match.ch.year, match.ch.amt, sum2.sub.mw.ch, tot.ch.amt, start.mw, end.mw
+    facility.state, match.ch.year, match.ch.amt, sum2.sub.mw.ch, tot.ch.amt, tot.ch.percent, start.mw, end.mw
   ) %>%
   summarise(treated.border.counties = n_distinct(treated.cluster.name))
 
@@ -101,8 +101,8 @@ border_county <- triQc %>%
     by = c("treated.match" = "facility.state")
   ) %>%
   select(
-    c(treated.match, match.ch.year, match.ch.amt, sum2.sub.mw.ch, tot.ch.amt, start.mw,
-      end.mw, control.state.codes, treated.border.counties, control.border.counties)
+    c(treated.match, match.ch.year, match.ch.amt, sum2.sub.mw.ch, tot.ch.amt, tot.ch.percent,
+      start.mw, end.mw, control.state.codes, treated.border.counties, control.border.counties)
   ) %>%
   arrange(desc(tot.ch.amt))
 sum(border_county$treated.border.counties, na.rm = TRUE)

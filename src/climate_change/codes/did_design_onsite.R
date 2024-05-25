@@ -23,6 +23,7 @@ triQ <- read_rds(file = "./Data_PhD/US/BLS/triQ.rds") %>%
   group_by(fips_code, year) %>%
   mutate(
     tot.ch.amt = ch.amt + sum2.sub.mw.ch,
+    tot.ch.percent = (tot.ch.amt / start.mw) * 100,
     end.mw = start.mw + tot.ch.amt,
     lat = as.character(lat),
     long = as.character(long)
@@ -67,7 +68,7 @@ triQ <- read_rds(file = "./Data_PhD/US/BLS/triQ.rds") %>%
       # establishments, employment, and industry-level variables (total employment, pay, production workers,
       # production worker hours, production workers wages, value of shipments, material cost, value added,
       # investments, inventories, energy cost, capital, equipment, plant, and total factor productivity growth rate)
-      cpi:tfp5, population, treated:sum2.sub.mw.ch, tot.ch.amt, start.mw, end.mw, match.ch.amt,
+      cpi:tfp5, population, treated:sum2.sub.mw.ch, tot.ch.amt, tot.ch.percent, start.mw, end.mw, match.ch.amt,
       match.ch.year, dist.to.border
     )) %>%
   mutate(private.facility = ifelse(test = own_code == 5, yes = 1, no = 0)) %>%
@@ -363,7 +364,7 @@ get_unique_ids <- function(df, id_var, year_var) {
 
   # Get unique IDs for each year
   unique_ids_by_year <- split(df[[id_var]], df[[year_var]])
-  unique_ids <- lapply(unique_ids_by_year, unique)
+  unique_ids <- lapply(unique_ids_by_year, FUN = unique)
 
   # Get the IDs from the first year
   ids_year1 <- unique_ids[[1]]
@@ -384,13 +385,13 @@ check_ids <- function(df, id_var, year_var) {
 
   # Get unique IDs for each year
   unique_ids <- split(df[[id_var]], df[[year_var]])
-  unique_ids <- lapply(unique_ids, unique)
+  unique_ids <- lapply(unique_ids, FUN = unique)
 
   # Get the IDs from the first year
   ids_year1 <- unique_ids[[1]]
 
   # Check if these IDs are in all other years
-  ids_in_all_years <- Reduce(intersect, unique_ids)
+  ids_in_all_years <- Reduce(f = intersect, x = unique_ids)
 
   # Check if the IDs from the first year are the same as the IDs in all years
   same_ids <- all(ids_year1 %in% ids_in_all_years)
@@ -976,25 +977,7 @@ glimpse(triQc)
 #======================================================================================================================#
 ### Standardising variable formats
 #======================================================================================================================#
-sum_up(triQc, c(vadd, matcost, prodh, energy))
-# sum_up(triQs, c(vadd, matcost, prodh, energy))
-# triQf <- triQf %>%
-#   mutate(
-#     emp = emp * 1000,
-#     prode = prode * 1000,
-#     pay = pay * 1000000,
-#     prodh = prodh * 1000000,
-#     prodw = prodw * 1000000,
-#     vship = vship * 1000000,
-#     matcost = matcost * 1000000,
-#     vadd = vadd * 1000000,
-#     invest = invest * 1000000,
-#     invent = invent * 1000000,
-#     energy = energy * 1000000,
-#     cap = cap * 1000000,
-#     equip = equip * 1000000,
-#     plant = plant * 1000000
-#   )
+# triQc <- triQc %>% mutate(ind.output.lb = vadd * 1000)
 #======================================================================================================================#
 ### Variables Creation
 ### Log Transformations with x + 1 to correct for 0
@@ -1002,8 +985,8 @@ sum_up(triQc, c(vadd, matcost, prodh, energy))
 # If $1 bill weighs 1 gram; and 454 grams = 1lb. Then, $454 bills = 1lb. Thus, ind.output.lb = ind.output / 454
 triQc <- triQc %>%
   mutate(
-    # ind.output = vadd + prodh + matcost + energy,
-    ind.output.lb = vadd / 454,
+    vadd = vadd / 100,
+    l.vadd = log(x = vadd),
     output.perworker = vadd / emp,
     l.output.perworker = log(x = output.perworker),
     output.perhr = vadd / prodh,
@@ -1014,33 +997,33 @@ triQc <- triQc %>%
     l.wage.perhr = log(x = wage.perhr),
     energy.intensity = energy / vadd,
     l.energy.intensity = log(x = energy.intensity),
-    total.air.emissions.onsite.intensity = total.air.emissions.onsite / ind.output.lb,
+    total.air.emissions.onsite.intensity = total.air.emissions.onsite / vadd,
     l.total.air.emissions.onsite.intensity = log(x = total.air.emissions.onsite.intensity + 1),
-    total.fug.air.emissions.onsite.intensity = total.fug.air.emissions.onsite / ind.output.lb,
+    total.fug.air.emissions.onsite.intensity = total.fug.air.emissions.onsite / vadd,
     l.total.fug.air.emissions.onsite.intensity = log(x = total.fug.air.emissions.onsite.intensity + 1),
-    total.point.air.emissions.onsite.intensity = total.point.air.emissions.onsite / ind.output.lb,
+    total.point.air.emissions.onsite.intensity = total.point.air.emissions.onsite / vadd,
     l.total.point.air.emissions.onsite.intensity = log(x = total.point.air.emissions.onsite.intensity + 1),
-    total.surface.water.discharge.onsite.intensity = total.surface.water.discharge.onsite / ind.output.lb,
+    total.surface.water.discharge.onsite.intensity = total.surface.water.discharge.onsite / vadd,
     l.total.surface.water.discharge.onsite.intensity = log(x = total.surface.water.discharge.onsite.intensity + 1),
-    total.underground.injection.I.wells.onsite.intensity = total.underground.injection.I.wells.onsite / ind.output.lb,
+    total.underground.injection.I.wells.onsite.intensity = total.underground.injection.I.wells.onsite / vadd,
     l.total.underground.injection.I.wells.onsite.intensity = log(x = total.underground.injection.I.wells.onsite.intensity + 1),
-    total.underground.injection.I.IV.wells.onsite.intensity = total.underground.injection.I.IV.wells.onsite / ind.output.lb,
+    total.underground.injection.I.IV.wells.onsite.intensity = total.underground.injection.I.IV.wells.onsite / vadd,
     l.total.underground.injection.I.IV.wells.onsite.intensity = log(x = total.underground.injection.I.IV.wells.onsite.intensity + 1),
-    total.underground.injection.onsite.intensity = total.underground.injection.onsite / ind.output.lb,
+    total.underground.injection.onsite.intensity = total.underground.injection.onsite / vadd,
     l.total.underground.injection.onsite.intensity = log(x = total.underground.injection.onsite.intensity + 1),
-    total.landfills.onsite.intensity = total.landfills.onsite / ind.output.lb,
+    total.landfills.onsite.intensity = total.landfills.onsite / vadd,
     l.total.landfills.onsite.intensity = log(x = total.landfills.onsite.intensity + 1),
-    total.releases.toland.treatment.onsite.intensity = total.releases.toland.treatment.onsite / ind.output.lb,
+    total.releases.toland.treatment.onsite.intensity = total.releases.toland.treatment.onsite / vadd,
     l.total.releases.toland.treatment.onsite.intensity = log(x = total.releases.toland.treatment.onsite.intensity + 1),
-    total.surface.impoundment.onsite.intensity = total.surface.impoundment.onsite / ind.output.lb,
+    total.surface.impoundment.onsite.intensity = total.surface.impoundment.onsite / vadd,
     l.total.surface.impoundment.onsite.intensity = log(x = total.surface.impoundment.onsite.intensity + 1),
-    total.land.releases.other.onsite.intensity = total.land.releases.other.onsite / ind.output.lb,
+    total.land.releases.other.onsite.intensity = total.land.releases.other.onsite / vadd,
     l.total.land.releases.other.onsite.intensity = log(x = total.land.releases.other.onsite.intensity + 1),
-    total.land.releases.onsite.intensity = total.land.releases.onsite / ind.output.lb,
+    total.land.releases.onsite.intensity = total.land.releases.onsite / vadd,
     l.total.land.releases.onsite.intensity = log(x = total.land.releases.onsite.intensity + 1),
-    total.releases.onsite.intensity = total.releases.onsite / ind.output.lb,
+    total.releases.onsite.intensity = total.releases.onsite / vadd,
     l.total.releases.onsite.intensity = log(x = total.releases.onsite.intensity + 1),
-    total.release.onsite.catastrophicevents.intensity = total.release.onsite.catastrophicevents / ind.output.lb,
+    total.release.onsite.catastrophicevents.intensity = total.release.onsite.catastrophicevents / vadd,
     l.total.release.onsite.catastrophicevents.intensity = log(x = total.release.onsite.catastrophicevents.intensity + 1),
     l.industrial.kiln.onsite = log(x = (industrial.kiln.onsite + 1)),
     l.industrial.boiler.onsite = log(x = (industrial.boiler.onsite + 1)),
@@ -1096,127 +1079,17 @@ triQc <- triQc %>%
     pinc.1 = stats::lag(personal_income, k = 1),
     annual.avg.estabs.1 = stats::lag(annual_avg_estabs, k = 1),
     population.1 = stats::lag(population, k = 1),
-    # cap.1 = stats::lag(cap, k = 1),
-    # equip.1 = stats::lag(equip, k = 1),
-    # plant.1 = stats::lag(plant, k = 1),
-    # vadd.1 = stats::lag(vadd, k = 1),
-    # revenue.1 = stats::lag(vship, k = 1),
-    # invest.1 = stats::lag(invest, k = 1),
-    # invent.1 = stats::lag(invent, k = 1),
+    cap.1 = stats::lag(cap, k = 1),
+    equip.1 = stats::lag(equip, k = 1),
+    plant.1 = stats::lag(plant, k = 1),
+    vadd.1 = stats::lag(vadd, k = 1),
+    revenue.1 = stats::lag(vship, k = 1),
+    invest.1 = stats::lag(invest, k = 1),
+    invent.1 = stats::lag(invent, k = 1),
   )
-
-# triQs <- triQs %>%
-#   mutate(
-#     # ind.output = vadd + prodh + matcost + energy,
-#     ind.output.lb = vadd / 454,
-#     output.perworker = vadd / emp,
-#     l.output.perworker = log(x = output.perworker),
-#     output.perhr = vadd / prodh,
-#     l.output.perhr = log(x = output.perhr),
-#     wage.perworker = prodw / prode,
-#     l.wage.perworker = log(x = wage.perworker),
-#     wage.perhr = prodw / prodh,
-#     l.wage.perhr = log(x = wage.perhr),
-#     energy.intensity = energy / vadd,
-#     l.energy.intensity = log(x = energy.intensity),
-#     total.air.emissions.onsite.intensity = total.air.emissions.onsite / ind.output.lb,
-#     l.total.air.emissions.onsite.intensity = log(x = total.air.emissions.onsite.intensity + 1),
-#     total.fug.air.emissions.onsite.intensity = total.fug.air.emissions.onsite / ind.output.lb,
-#     l.total.fug.air.emissions.onsite.intensity = log(x = total.fug.air.emissions.onsite.intensity + 1),
-#     total.point.air.emissions.onsite.intensity = total.point.air.emissions.onsite / ind.output.lb,
-#     l.total.point.air.emissions.onsite.intensity = log(x = total.point.air.emissions.onsite.intensity + 1),
-#     total.surface.water.discharge.onsite.intensity = total.surface.water.discharge.onsite / ind.output.lb,
-#     l.total.surface.water.discharge.onsite.intensity = log(x = total.surface.water.discharge.onsite.intensity + 1),
-#     total.underground.injection.I.wells.onsite.intensity = total.underground.injection.I.wells.onsite / ind.output.lb,
-#     l.total.underground.injection.I.wells.onsite.intensity = log(x = total.underground.injection.I.wells.onsite.intensity + 1),
-#     total.underground.injection.I.IV.wells.onsite.intensity = total.underground.injection.I.IV.wells.onsite / ind.output.lb,
-#     l.total.underground.injection.I.IV.wells.onsite.intensity = log(x = total.underground.injection.I.IV.wells.onsite.intensity + 1),
-#     total.underground.injection.onsite.intensity = total.underground.injection.onsite / ind.output.lb,
-#     l.total.underground.injection.onsite.intensity = log(x = total.underground.injection.onsite.intensity + 1),
-#     total.landfills.onsite.intensity = total.landfills.onsite / ind.output.lb,
-#     l.total.landfills.onsite.intensity = log(x = total.landfills.onsite.intensity + 1),
-#     total.releases.toland.treatment.onsite.intensity = total.releases.toland.treatment.onsite / ind.output.lb,
-#     l.total.releases.toland.treatment.onsite.intensity = log(x = total.releases.toland.treatment.onsite.intensity + 1),
-#     total.surface.impoundment.onsite.intensity = total.surface.impoundment.onsite / ind.output.lb,
-#     l.total.surface.impoundment.onsite.intensity = log(x = total.surface.impoundment.onsite.intensity + 1),
-#     total.land.releases.other.onsite.intensity = total.land.releases.other.onsite / ind.output.lb,
-#     l.total.land.releases.other.onsite.intensity = log(x = total.land.releases.other.onsite.intensity + 1),
-#     total.land.releases.onsite.intensity = total.land.releases.onsite / ind.output.lb,
-#     l.total.land.releases.onsite.intensity = log(x = total.land.releases.onsite.intensity + 1),
-#     total.releases.onsite.intensity = total.releases.onsite / ind.output.lb,
-#     l.total.releases.onsite.intensity = log(x = total.releases.onsite.intensity + 1),
-#     l.industrial.kiln.onsite = log(x = (industrial.kiln.onsite + 1)),
-#     l.industrial.boiler.onsite = log(x = (industrial.boiler.onsite + 1)),
-#     l.industrial.furnace.onsite = log(x = (industrial.furnace.onsite + 1)),
-#     l.industrial.boiler.onsite = log(x = (industrial.boiler.onsite + 1)),
-#     l.recycling.onsite = log(x = (recycling.onsite + 1)),
-#     l.reuse.onsite = log(x = (reuse.onsite + 1)),
-#     l.energy.recovery.onsite = log(x = (energy.recovery.onsite + 1)),
-#     l.metal.recovery.onsite = log(x = (metal.recovery.onsite + 1)),
-#     l.solvent.recovery.onsite = log(x = (solvent.recovery.onsite + 1)),
-#     l.treatment.onsite = log(x = (treatment.onsite + 1)),
-#     l.biological.treatment.onsite = log(x = (biological.treatment.onsite + 1)),
-#     l.chemical.treatment.onsite = log(x = (chemical.treatment.onsite + 1)),
-#     l.physical.treatment.onsite = log(x = (physical.treatment.onsite + 1)),
-#     l.incineration.thermal.treatment.onsite = log(x = (incineration.thermal.treatment.onsite + 1)),
-#     l.air.emissions.treatment.onsite = log(x = (air.emissions.treatment.onsite + 1)),
-#     l.total.waste.management.onsite = log(x = (total.waste.management.onsite + 1)),
-#     l.annual.avg.emplvl = log(x = (annual_avg_emplvl + 1)),
-#     l.total.annual.wages = log(x = (total_annual_wages + 1)),
-#     l.taxable.annual.wages = log(x = (taxable_annual_wages + 1)),
-#     l.annual.contributions = log(x = (annual_contributions + 1)),
-#     l.annual.avg.wkly.wages = log(x = (annual_avg_wkly_wage + 1)),
-#     l.avg.annual.pay = log(x = (avg_annual_pay + 1)),
-#     l.cpi = log(x = (cpi)),
-#     annual.avg.emplvl.1 = stats::lag(annual_avg_emplvl, k = 1),
-#     total.annual.wages.1 = stats::lag(total_annual_wages, k = 1),
-#     taxable.annual.wages.1 = stats::lag(taxable_annual_wages, k = 1),
-#     annual.contributions.1 = stats::lag(annual_contributions, k = 1),
-#     annual.avg.wkly.wages.1 = stats::lag(annual_avg_wkly_wage, k = 1),
-#     avg.annual.pay.1 = stats::lag(avg_annual_pay, k = 1),
-#     private.naics = ifelse(test = own_code == 5, yes = 1, no = 0),
-#     cpi.1 = stats::lag(cpi, k = 1),
-#     emp.1 = stats::lag(emp, k = 1),
-#     l.emp = log(emp),
-#     l.pay = log(pay),
-#     l.prode = log(prode),
-#     l.prodh = log(prodh),
-#     l.prodw = log(prodw),
-#     l.revenue = log(vship),
-#     l.matcost = log(matcost),
-#     l.invest = log(invest),
-#     l.invent = log(invent),
-#     l.vadd = log(vadd),
-#     l.revenue = log(vship),
-#     l.cap = log(cap),
-#     l.equip = log(equip),
-#     l.plant = log(plant),
-#     l.tfp4 = log(tfp4),
-#     l.tfp5 = log(tfp5),
-#     gdp.pc = gdp / population,
-#     gdppc.1 = stats::lag(gdp.pc, k = 1),
-#     gdp.1 = stats::lag(gdp, k = 1),
-#     pinc.1 = stats::lag(personal_income, k = 1),
-#     annual.avg.estabs.1 = stats::lag(annual_avg_estabs, k = 1),
-#     population.1 = stats::lag(population, k = 1),
-#     # cap.1 = stats::lag(cap, k = 1),
-#     # equip.1 = stats::lag(equip, k = 1),
-#     # plant.1 = stats::lag(plant, k = 1),
-#     # vadd.1 = stats::lag(vadd, k = 1),
-#     # revenue.1 = stats::lag(vship, k = 1),
-#     # invest.1 = stats::lag(invest, k = 1),
-#     # invent.1 = stats::lag(invent, k = 1),
-#   )
-#
-#
-# sum_up(triQs, c(vadd, total.point.air.emissions.onsite.intensity,
-#                 total.fug.air.emissions.onsite.intensity, total.air.emissions.onsite.intensity,
-#                 total.surface.impoundment.onsite.intensity, total.surface.water.discharge.onsite))
 #======================================================================================================================#
 ### Experiment Design
 #======================================================================================================================#
-sort(unique(triQc$industry.name))
-
 triQc <- triQc %>%
   rename(fips.code = fips_code) %>%
   mutate(
@@ -1226,55 +1099,32 @@ triQc <- triQc %>%
   ) %>%
   mutate(
     e.treated = case_when(year >= ch.year ~ 1, T ~ 0), #states e-years away from the initial treatment year
+    rel.year = year - ch.year,
     post = case_when(year == 2014 | year == 2015 | year == 2017 ~ 1, T ~ 0),
-    rel.year = year - ch.year + 2014,
-    facility.id = as.numeric(facility.id),
-    facility.zipcode = as.numeric(facility.zipcode),
+    rel_year = year - 2014,
     naics.code = as.numeric(naics.code),
+    facility.id = as.numeric(facility.id),
+    facility.id.fe = as.numeric(as.factor(facility.id)),
+    chemical.id.fe = as.numeric(as.factor(chemical.id)),
+    facility.state.fe = as.numeric(as.factor(facility.state)),
+    fips.code.fe = as.numeric(as.factor(fips.code)),
     fips.code = as.numeric(fips.code),
-    facility.state.id = as.numeric(as.factor(facility.state)),
-    treated.match.fe = as.numeric(as.factor(treated.match)),
-    control.match.fe = as.numeric(as.factor(control.match)),
-    treated.cluster.id = as.numeric(treated.cluster.id),
-    control.cluster.id = as.numeric(control.cluster.id),
-    fips.state.fe = as.numeric(fips.code) * as.numeric(facility.state.id),
-    # zip.fips.fe = as.numeric(facility.zipcode) * as.numeric(fips.code),
-    fac.chem.fe = as.numeric(facility.id) * as.numeric(as.factor(chemical.id)),
-    facility.year.fe = as.numeric(facility.id) * year,
-    chemical.year.fe = as.numeric(as.factor(chemical.id)) * year,
-    # zip.year.fe = as.numeric(facility.zipcode) * year,
-    fips.year.fe = as.numeric(fips.code) * year,
-    state.year.fe = as.numeric(facility.state.id) * year,
-    treated.cluster.year.fe = as.numeric(treated.cluster.id) * year,
-    control.cluster.year.fe = as.numeric(control.cluster.id) * year,
-    treated.match.year.fe = as.numeric(as.factor(treated.match)) * year,
-    control.match.year.fe = as.numeric(as.factor(control.match)) * year
+    facility.county.fe = as.numeric(as.factor(facility.county)),
+    border.county = as.numeric(treated.cluster.id) * as.numeric(control.cluster.id),
+    border.county.fe = as.numeric(as.factor(border.county)),
+    border.state = as.numeric(as.factor(treated.match)) * as.numeric(as.factor(control.match)),
+    border.state.fe = as.numeric(as.factor(border.state)),
+    fac.chem.fe = facility.id.fe * chemical.id.fe,
+    fips.state.fe = fips.code.fe * facility.state.fe,
+    chem.ind.state = chemical.id.fe * as.numeric(as.factor(naics.code)) * facility.state.fe,
+    fips.year.fe = fips.code.fe * year,
+    facility.year.fe = facility.id.fe * year,
+    chemical.year.fe = chemical.id.fe * year,
+    border.county.year.fe = border.county.fe * year,
+    border.state.year.fe = border.state.fe * year,
+    state.year.fe = facility.state.fe * year,
+    fac.chem.year.fe = facility.id.fe * chemical.id.fe * year,
   )
-
-# triQs <- triQs %>%
-#   mutate(
-#     hap.chems = case_when(chemical.classification == "TRI" ~ 1, T ~ 0),
-#     dioxin.chems = case_when(chemical.classification == "Dioxin" ~ 1, T ~ 0),
-#     pbt.chems = case_when(chemical.classification == "PBT" ~ 1, T ~ 0),
-#   ) %>%
-#   mutate(
-#     e.treated = case_when(year >= ch.year ~ 1, T ~ 0), #states e-years away from the initial treatment year
-#     post = case_when(year == 2014 | year == 2015 | year == 2017 ~ 1, T ~ 0),
-#     rel.year = year - ch.year + 2014,
-#     facility.id = as.numeric(facility.id),
-#     facility.zipcode = as.numeric(facility.zipcode),
-#     naics.code = as.numeric(naics.code),
-#     facility.state.id = as.numeric(as.factor(facility.state)),
-#     treated.match.fe = as.numeric(as.factor(treated.match)),
-#     control.match.fe = as.numeric(as.factor(control.match)),
-#     fac.chem.fe = as.numeric(facility.id) * as.numeric(as.factor(chemical.id)),
-#     facility.year.fe = as.numeric(facility.id) * year,
-#     chemical.year.fe = as.numeric(as.factor(chemical.id)) * year,
-#     # zip.year.fe = as.numeric(facility.zipcode) * year,
-#     state.year.fe = as.numeric(facility.state.id) * year,
-#     treated.match.year.fe = as.numeric(as.factor(treated.match)) * year,
-#     control.match.year.fe = as.numeric(as.factor(control.match)) * year
-#   )
 #======================================================================================================================#
 ### check for zero columns
 #======================================================================================================================#

@@ -6,26 +6,24 @@
     \caption{Effect of the MW policy on Total Onsite Toxic Releases Intensity}
     \label{tab:baseline-total-onsite-releases-intensity}
     \resizebox{\columnwidth}{!}{%
-        \begin{tabular}{@{}lll@{}}
+        \begin{tabular}{@{}llll@{}}
             \toprule\toprule
-            Total releases intensity (log) & 1         & 2         \\ \midrule
-            treated                               & 0.1691*** & 0.1691*** \\
-            & (0.0601)  & (0.0601)  \\
-            controls                              & Yes       & Yes       \\
-            year FE                               & No        & Yes       \\
-            facility FE                           & Yes       & Yes       \\
-            county FE                             & No        & Yes       \\
-            county-pair FE                        & Yes       & Yes       \\
-            facility state FE                     & No        & Yes       \\
-            toxic chemical FE                     & No        & Yes       \\
-            toxic chemical LTs                    & Yes       & Yes       \\\midrule\midrule
-            Observations                          & 1,893,689 & 1,893,689 \\
-            $R^2$                                 & 0.7457    & 0.7457    \\
-            Baseline Mean                         & 399.49    & 399.49    \\ \bottomrule\bottomrule
+            Total releases intensity (log) & 1         & 2         & 3         \\ \midrule
+            treated                        & 0.1329*** & 0.1329*** & 0.1242**  \\
+            & (0.0413)  & (0.0413)  & (0.0499)  \\
+            controls                       & Yes       & Yes       & Yes       \\
+            year FE                        & Yes       & Yes       & Yes       \\
+            facility FE                    & Yes       & Yes       & Yes       \\
+            border-county FE               & No        & Yes       & Yes       \\
+            toxic chemical FE              & No        & No        & Yes       \\
+            toxic chemical LTs             & No        & No        & Yes       \\\midrule
+            Observations                   & 1,893,689 & 1,893,689 & 1,893,689 \\
+            $R^2$                          & 0.5199    & 0.5199    & 0.7194    \\
+            Baseline Mean                  & 87.99     & 87.99     & 87.99     \\ \bottomrule\bottomrule
         \end{tabular}%
     }
     \begin{minipage}{18cm}
         \vspace{0.05in}
-        These results are obtained from estimating model~\ref{eq:baseline-total-onsite-releases-intensity}. Three-way clustered robust standard errors are reported in parentheses, and clustered at the toxic chemical, industry and state levels. ***, **, and * denote significance levels at the less than $1\%$, $5\%$ and $10\%$, respectively.
+        These results are obtained from estimating model~\ref{eq:baseline-total-onsite-releases-intensity}. Three-way clustered robust standard errors are reported in parentheses, and clustered at the toxic chemical, industry and state levels. ***, **, and * denote significance levels at the less than $1\%$, $5\%$ and $10\%$, respectively. de Chaisemartin and D'Haultfoeuille Decomposition: $\sum dCDH_{ATTs}^{weights(+)} = 1$ and $\sum dCDH_{ATTs}^{weights(-)} = 0$.
     \end{minipage}
 \end{table}

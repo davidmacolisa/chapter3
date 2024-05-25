@@ -109,7 +109,7 @@ chemicals_onsite <- triQc %>%
   select(
     chemical.id, chemical.name, chemical.classification, carcinogenic.chems,
     clean.air.act.chems, metal.restrict.tri, chemical.formulation.component, chemical.article.component,
-    chemical.manufacturing.aid, chemical.ancilliary.use, trade.secret, sanitised
+    chemical.manufacturing.aid, chemical.ancilliary.use
   ) %>%
   mutate(
     tri = ifelse(chemical.classification == "TRI", yes = 1, no = 0),
@@ -128,7 +128,6 @@ chemicals_onsite <- triQc %>%
     n.chem.art.comp = sum(chemical.article.component, na.rm = TRUE),
     n.chem.manu.aid = sum(chemical.manufacturing.aid, na.rm = TRUE),
     n.chem.anci.use = sum(chemical.ancilliary.use, na.rm = TRUE),
-    n.chem.trade.secret = sum(trade.secret, na.rm = TRUE),
     n.chem.sanitised = sum(sanitised, na.rm = TRUE),
   ) %>%
   mutate(onsite = "yes") %>%
@@ -613,11 +612,11 @@ summ <- sum_up(df = triQc,
                  total.underground.injection.onsite.intensity, total.landfills.onsite.intensity,
                  total.releases.toland.treatment.onsite.intensity, total.surface.impoundment.onsite.intensity,
                  total.land.releases.onsite.intensity, total.land.releases.other.onsite.intensity,
-                 total.release.onsite.catastrophicevents.intensity, federal.facility,
-                 gdp.pc, annual_avg_estabs, emp, produced.chem.facility, imported.chem.facility,
-                 chemical.formulation.component, chemical.manufacturing.aid, chemical.ancilliary.use,
-                 production.ratio.activity.index, maxnum.chem.onsite, vadd, prode, prodw, prodh, matcost,
-                 output.perworker, output.perhr, wage.perworker, wage.perhr, cpi, pay, emp
+                 total.release.onsite.catastrophicevents.intensity, vadd, prode, prodw, prodh, matcost,
+                 output.perhr, output.perworker,wage.perhr, pay, federal.facility, gdp.pc, annual_avg_estabs, emp, cpi,
+                 produced.chem.facility, imported.chem.facility, chemical.formulation.component,
+                 chemical.manufacturing.aid, chemical.ancilliary.use, production.ratio.activity.index,
+                 maxnum.chem.onsite,
                ),
                d = F) %>%
   select(-Missing) %>%

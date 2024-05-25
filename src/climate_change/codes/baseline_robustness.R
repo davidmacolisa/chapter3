@@ -20,251 +20,7 @@ triQc <- read_rds(file = file)
 #======================================================================================================================#
 ### Alternative clustering of the SEs
 #======================================================================================================================#
-### Labour cost: Industry production workers' wages
-#======================================================================================================================#
-reg_wage <- fixest::feols(
-  prodw ~ e.treated +
-    sw0(
-      gdppc.1 +
-        annual.avg.estabs.1 +
-        population.1 +
-        cpi.1 +
-        entire.facility +
-        private.facility +
-        federal.facility
-    )
-    |
-    csw(,
-      year,
-      treated.cluster.id,
-      facility.state.id,
-      treated.cluster.year.fe
-    )
-  ,
-  data = triQc,
-  cluster = ~facility.county, # facility.county
-)
-fixest::etable(reg_wage, digits = 4, digits.stats = 4)
-
-reg_wage <- fixest::feols(
-  prodw ~ e.treated +
-    sw0(
-      gdppc.1 +
-        annual.avg.estabs.1 +
-        population.1 +
-        cpi.1 +
-        entire.facility +
-        private.facility +
-        federal.facility
-    )
-    |
-    csw(,
-      year,
-      treated.cluster.id,
-      facility.state.id,
-      treated.cluster.year.fe
-    )
-  ,
-  data = triQc,
-  cluster = ~fips.code, # fips.code
-)
-fixest::etable(reg_wage, digits = 4, digits.stats = 4)
-
-reg_wage <- fixest::feols(
-  prodw ~ e.treated +
-    sw0(
-      gdppc.1 +
-        annual.avg.estabs.1 +
-        population.1 +
-        cpi.1 +
-        entire.facility +
-        private.facility +
-        federal.facility
-    )
-    |
-    csw(,
-      year,
-      treated.cluster.id,
-      facility.state.id,
-      treated.cluster.year.fe
-    )
-  ,
-  data = triQc,
-  cluster = ~naics.code, # naics.code
-)
-fixest::etable(reg_wage, digits = 4, digits.stats = 4)
-
-reg_wage <- fixest::feols(
-  prodw ~ e.treated +
-    sw0(
-      gdppc.1 +
-        annual.avg.estabs.1 +
-        population.1 +
-        cpi.1 +
-        entire.facility +
-        private.facility +
-        federal.facility
-    )
-    |
-    csw(,
-      year,
-      treated.cluster.id,
-      facility.state.id,
-      treated.cluster.year.fe
-    )
-  ,
-  data = triQc,
-  cluster = ~facility.zipcode, # facility.zipcode
-)
-fixest::etable(reg_wage, digits = 4, digits.stats = 4)
-
-reg_wage <- fixest::feols(
-  prodw ~ e.treated +
-    sw0(
-      gdppc.1 +
-        annual.avg.estabs.1 +
-        population.1 +
-        cpi.1 +
-        entire.facility +
-        private.facility +
-        federal.facility
-    )
-    |
-    csw(,
-      year,
-      treated.cluster.id,
-      facility.state.id,
-      treated.cluster.year.fe
-    )
-  ,
-  data = triQc,
-  cluster = ~facility.id, # facility.id
-)
-fixest::etable(reg_wage, digits = 4, digits.stats = 4)
-#======================================================================================================================#
-### Labour cost: Industry production wages per worker
-#======================================================================================================================#
-reg_wage_pw <- fixest::feols(
-  wage.perworker ~ e.treated +
-    sw0(
-      gdppc.1 +
-        annual.avg.estabs.1 +
-        population.1 +
-        cpi.1 +
-        entire.facility +
-        private.facility +
-        federal.facility
-    )
-    |
-    csw(,
-      year,
-      treated.cluster.id,
-      facility.state.id,
-      treated.cluster.year.fe
-    )
-  ,
-  data = triQc,
-  cluster = ~facility.county, # facility.county
-)
-fixest::etable(reg_wage_pw, digits = 4, digits.stats = 4)
-
-reg_wage_pw <- fixest::feols(
-  wage.perworker ~ e.treated +
-    sw0(
-      gdppc.1 +
-        annual.avg.estabs.1 +
-        population.1 +
-        cpi.1 +
-        entire.facility +
-        private.facility +
-        federal.facility
-    )
-    |
-    csw(,
-      year,
-      treated.cluster.id,
-      facility.state.id,
-      treated.cluster.year.fe
-    )
-  ,
-  data = triQc,
-  cluster = ~fips.code, # fips.code
-)
-fixest::etable(reg_wage_pw, digits = 4, digits.stats = 4)
-
-reg_wage_pw <- fixest::feols(
-  wage.perworker ~ e.treated +
-    sw0(
-      gdppc.1 +
-        annual.avg.estabs.1 +
-        population.1 +
-        cpi.1 +
-        entire.facility +
-        private.facility +
-        federal.facility
-    )
-    |
-    csw(,
-      year,
-      treated.cluster.id,
-      facility.state.id,
-      treated.cluster.year.fe
-    )
-  ,
-  data = triQc,
-  cluster = ~naics.code, # naics.code
-)
-fixest::etable(reg_wage_pw, digits = 4, digits.stats = 4)
-
-reg_wage_pw <- fixest::feols(
-  wage.perworker ~ e.treated +
-    sw0(
-      gdppc.1 +
-        annual.avg.estabs.1 +
-        population.1 +
-        cpi.1 +
-        entire.facility +
-        private.facility +
-        federal.facility
-    )
-    |
-    csw(,
-      year,
-      treated.cluster.id,
-      facility.state.id,
-      treated.cluster.year.fe
-    )
-  ,
-  data = triQc,
-  cluster = ~facility.zipcode, # facility.zipcode
-)
-fixest::etable(reg_wage_pw, digits = 4, digits.stats = 4)
-
-reg_wage_pw <- fixest::feols(
-  wage.perworker ~ e.treated +
-    sw0(
-      gdppc.1 +
-        annual.avg.estabs.1 +
-        population.1 +
-        cpi.1 +
-        entire.facility +
-        private.facility +
-        federal.facility
-    )
-    |
-    csw(,
-      year,
-      treated.cluster.id,
-      facility.state.id,
-      treated.cluster.year.fe
-    )
-  ,
-  data = triQc,
-  cluster = ~facility.id, # facility.id
-)
-fixest::etable(reg_wage_pw, digits = 4, digits.stats = 4)
-#======================================================================================================================#
-### Wage per hour
+### Hourly Wage
 #======================================================================================================================#
 reg_wagephr <- fixest::feols(
   wage.perhr ~ e.treated +
@@ -280,9 +36,9 @@ reg_wagephr <- fixest::feols(
     |
     csw(,
       year,
-      treated.cluster.id,
-      facility.state.id,
-      treated.cluster.year.fe
+      fips.code,
+      border.county.fe,
+      border.county.year.fe
     )
   ,
   data = triQc,
@@ -304,9 +60,9 @@ reg_wagephr <- fixest::feols(
     |
     csw(,
       year,
-      treated.cluster.id,
-      facility.state.id,
-      treated.cluster.year.fe
+      fips.code,
+      border.county.fe,
+      border.county.year.fe
     )
   ,
   data = triQc,
@@ -328,9 +84,9 @@ reg_wagephr <- fixest::feols(
     |
     csw(,
       year,
-      treated.cluster.id,
-      facility.state.id,
-      treated.cluster.year.fe
+      fips.code,
+      border.county.fe,
+      border.county.year.fe
     )
   ,
   data = triQc,
@@ -352,9 +108,9 @@ reg_wagephr <- fixest::feols(
     |
     csw(,
       year,
-      treated.cluster.id,
-      facility.state.id,
-      treated.cluster.year.fe
+      fips.code,
+      border.county.fe,
+      border.county.year.fe
     )
   ,
   data = triQc,
@@ -376,9 +132,9 @@ reg_wagephr <- fixest::feols(
     |
     csw(,
       year,
-      treated.cluster.id,
-      facility.state.id,
-      treated.cluster.year.fe
+      fips.code,
+      border.county.fe,
+      border.county.year.fe
     )
   ,
   data = triQc,
@@ -386,7 +142,7 @@ reg_wagephr <- fixest::feols(
 )
 fixest::etable(reg_wagephr, digits = 4, digits.stats = 4)
 #======================================================================================================================#
-### Labour cost: Industry Pay
+### Labour cost: Industry Pay---Total payroll
 #======================================================================================================================#
 reg_pay <- fixest::feols(
   pay ~ e.treated +
@@ -402,9 +158,9 @@ reg_pay <- fixest::feols(
     |
     csw(,
       year,
-      treated.cluster.id,
-      facility.state.id,
-      treated.cluster.year.fe
+      fips.code,
+      border.county.fe,
+      border.county.year.fe
     )
   ,
   data = triQc,
@@ -426,9 +182,9 @@ reg_pay <- fixest::feols(
     |
     csw(,
       year,
-      treated.cluster.id,
-      facility.state.id,
-      treated.cluster.year.fe
+      fips.code,
+      border.county.fe,
+      border.county.year.fe
     )
   ,
   data = triQc,
@@ -450,9 +206,9 @@ reg_pay <- fixest::feols(
     |
     csw(,
       year,
-      treated.cluster.id,
-      facility.state.id,
-      treated.cluster.year.fe
+      fips.code,
+      border.county.fe,
+      border.county.year.fe
     )
   ,
   data = triQc,
@@ -474,9 +230,9 @@ reg_pay <- fixest::feols(
     |
     csw(,
       year,
-      treated.cluster.id,
-      facility.state.id,
-      treated.cluster.year.fe
+      fips.code,
+      border.county.fe,
+      border.county.year.fe
     )
   ,
   data = triQc,
@@ -498,9 +254,9 @@ reg_pay <- fixest::feols(
     |
     csw(,
       year,
-      treated.cluster.id,
-      facility.state.id,
-      treated.cluster.year.fe
+      fips.code,
+      border.county.fe,
+      border.county.year.fe
     )
   ,
   data = triQc,
@@ -525,9 +281,9 @@ reg_matcost <- fixest::feols(
     |
     csw(,
       year,
-      treated.cluster.id,
-      facility.state.id,
-      treated.cluster.year.fe
+      fips.code,
+      border.county.fe,
+      border.county.year.fe
     )
   ,
   data = triQc,
@@ -549,9 +305,9 @@ reg_matcost <- fixest::feols(
     |
     csw(,
       year,
-      treated.cluster.id,
-      facility.state.id,
-      treated.cluster.year.fe
+      fips.code,
+      border.county.fe,
+      border.county.year.fe
     )
   ,
   data = triQc,
@@ -573,9 +329,9 @@ reg_matcost <- fixest::feols(
     |
     csw(,
       year,
-      treated.cluster.id,
-      facility.state.id,
-      treated.cluster.year.fe
+      fips.code,
+      border.county.fe,
+      border.county.year.fe
     )
   ,
   data = triQc,
@@ -597,9 +353,9 @@ reg_matcost <- fixest::feols(
     |
     csw(,
       year,
-      treated.cluster.id,
-      facility.state.id,
-      treated.cluster.year.fe
+      fips.code,
+      border.county.fe,
+      border.county.year.fe
     )
   ,
   data = triQc,
@@ -621,9 +377,9 @@ reg_matcost <- fixest::feols(
     |
     csw(,
       year,
-      treated.cluster.id,
-      facility.state.id,
-      treated.cluster.year.fe
+      fips.code,
+      border.county.fe,
+      border.county.year.fe
     )
   ,
   data = triQc,
@@ -647,9 +403,9 @@ reg_emp <- fixest::feols(
     |
     csw(,
       year,
-      treated.cluster.id,
-      facility.state.id,
-      treated.cluster.year.fe
+      fips.code,
+      border.county.fe,
+      border.county.year.fe
     )
   ,
   data = triQc,
@@ -671,9 +427,9 @@ reg_emp <- fixest::feols(
     |
     csw(,
       year,
-      treated.cluster.id,
-      facility.state.id,
-      treated.cluster.year.fe
+      fips.code,
+      border.county.fe,
+      border.county.year.fe
     )
   ,
   data = triQc,
@@ -695,9 +451,9 @@ reg_emp <- fixest::feols(
     |
     csw(,
       year,
-      treated.cluster.id,
-      facility.state.id,
-      treated.cluster.year.fe
+      fips.code,
+      border.county.fe,
+      border.county.year.fe
     )
   ,
   data = triQc,
@@ -719,9 +475,9 @@ reg_emp <- fixest::feols(
     |
     csw(,
       year,
-      treated.cluster.id,
-      facility.state.id,
-      treated.cluster.year.fe
+      fips.code,
+      border.county.fe,
+      border.county.year.fe
     )
   ,
   data = triQc,
@@ -743,9 +499,9 @@ reg_emp <- fixest::feols(
     |
     csw(,
       year,
-      treated.cluster.id,
-      facility.state.id,
-      treated.cluster.year.fe
+      fips.code,
+      border.county.fe,
+      border.county.year.fe
     )
   ,
   data = triQc,
@@ -769,9 +525,9 @@ reg_phours <- fixest::feols(
     |
     csw(,
       year,
-      treated.cluster.id,
-      facility.state.id,
-      treated.cluster.year.fe
+      fips.code,
+      border.county.fe,
+      border.county.year.fe
     )
   ,
   data = triQc,
@@ -793,9 +549,9 @@ reg_phours <- fixest::feols(
     |
     csw(,
       year,
-      treated.cluster.id,
-      facility.state.id,
-      treated.cluster.year.fe
+      fips.code,
+      border.county.fe,
+      border.county.year.fe
     )
   ,
   data = triQc,
@@ -817,9 +573,9 @@ reg_phours <- fixest::feols(
     |
     csw(,
       year,
-      treated.cluster.id,
-      facility.state.id,
-      treated.cluster.year.fe
+      fips.code,
+      border.county.fe,
+      border.county.year.fe
     )
   ,
   data = triQc,
@@ -841,9 +597,9 @@ reg_phours <- fixest::feols(
     |
     csw(,
       year,
-      treated.cluster.id,
-      facility.state.id,
-      treated.cluster.year.fe
+      fips.code,
+      border.county.fe,
+      border.county.year.fe
     )
   ,
   data = triQc,
@@ -865,9 +621,9 @@ reg_phours <- fixest::feols(
     |
     csw(,
       year,
-      treated.cluster.id,
-      facility.state.id,
-      treated.cluster.year.fe
+      fips.code,
+      border.county.fe,
+      border.county.year.fe
     )
   ,
   data = triQc,
@@ -891,9 +647,9 @@ reg_output <- fixest::feols(
     |
     csw(,
       year,
-      treated.cluster.id,
-      facility.state.id,
-      treated.cluster.year.fe
+      fips.code,
+      border.county.fe,
+      border.county.year.fe
     )
   ,
   data = triQc,
@@ -915,9 +671,9 @@ reg_output <- fixest::feols(
     |
     csw(,
       year,
-      treated.cluster.id,
-      facility.state.id,
-      treated.cluster.year.fe
+      fips.code,
+      border.county.fe,
+      border.county.year.fe
     )
   ,
   data = triQc,
@@ -939,9 +695,9 @@ reg_output <- fixest::feols(
     |
     csw(,
       year,
-      treated.cluster.id,
-      facility.state.id,
-      treated.cluster.year.fe
+      fips.code,
+      border.county.fe,
+      border.county.year.fe
     )
   ,
   data = triQc,
@@ -963,9 +719,9 @@ reg_output <- fixest::feols(
     |
     csw(,
       year,
-      treated.cluster.id,
-      facility.state.id,
-      treated.cluster.year.fe
+      fips.code,
+      border.county.fe,
+      border.county.year.fe
     )
   ,
   data = triQc,
@@ -987,9 +743,9 @@ reg_output <- fixest::feols(
     |
     csw(,
       year,
-      treated.cluster.id,
-      facility.state.id,
-      treated.cluster.year.fe
+      fips.code,
+      border.county.fe,
+      border.county.year.fe
     )
   ,
   data = triQc,
@@ -1013,9 +769,9 @@ reg_outputprhr <- fixest::feols(
     |
     csw(,
       year,
-      treated.cluster.id,
-      facility.state.id,
-      treated.cluster.year.fe
+      fips.code,
+      border.county.fe,
+      border.county.year.fe
     )
   ,
   data = triQc,
@@ -1038,9 +794,9 @@ reg_outputprhr <- fixest::feols(
     |
     csw(,
       year,
-      treated.cluster.id,
-      facility.state.id,
-      treated.cluster.year.fe
+      fips.code,
+      border.county.fe,
+      border.county.year.fe
     )
   ,
   data = triQc,
@@ -1063,9 +819,9 @@ reg_outputprhr <- fixest::feols(
     |
     csw(,
       year,
-      treated.cluster.id,
-      facility.state.id,
-      treated.cluster.year.fe
+      fips.code,
+      border.county.fe,
+      border.county.year.fe
     )
   ,
   data = triQc,
@@ -1088,9 +844,9 @@ reg_outputprhr <- fixest::feols(
     |
     csw(,
       year,
-      treated.cluster.id,
-      facility.state.id,
-      treated.cluster.year.fe
+      fips.code,
+      border.county.fe,
+      border.county.year.fe
     )
   ,
   data = triQc,
@@ -1113,9 +869,9 @@ reg_outputprhr <- fixest::feols(
     |
     csw(,
       year,
-      treated.cluster.id,
-      facility.state.id,
-      treated.cluster.year.fe
+      fips.code,
+      border.county.fe,
+      border.county.year.fe
     )
   ,
   data = triQc,
@@ -1140,9 +896,9 @@ reg_outputperworker <- fixest::feols(
     |
     csw(,
       year,
-      treated.cluster.id,
-      facility.state.id,
-      treated.cluster.year.fe
+      fips.code,
+      border.county.fe,
+      border.county.year.fe
     )
   ,
   data = triQc,
@@ -1164,9 +920,9 @@ reg_outputperworker <- fixest::feols(
     |
     csw(,
       year,
-      treated.cluster.id,
-      facility.state.id,
-      treated.cluster.year.fe
+      fips.code,
+      border.county.fe,
+      border.county.year.fe
     )
   ,
   data = triQc,
@@ -1188,9 +944,9 @@ reg_outputperworker <- fixest::feols(
     |
     csw(,
       year,
-      treated.cluster.id,
-      facility.state.id,
-      treated.cluster.year.fe
+      fips.code,
+      border.county.fe,
+      border.county.year.fe
     )
   ,
   data = triQc,
@@ -1213,9 +969,9 @@ reg_outputperworker <- fixest::feols(
     |
     csw(,
       year,
-      treated.cluster.id,
-      facility.state.id,
-      treated.cluster.year.fe
+      fips.code,
+      border.county.fe,
+      border.county.year.fe
     )
   ,
   data = triQc,
@@ -1238,9 +994,9 @@ reg_outputperworker <- fixest::feols(
     |
     csw(,
       year,
-      treated.cluster.id,
-      facility.state.id,
-      treated.cluster.year.fe
+      fips.code,
+      border.county.fe,
+      border.county.year.fe
     )
   ,
   data = triQc,
@@ -1267,13 +1023,12 @@ reg_emp <- fixest::feols(
     |
     csw(,
       year,
-      treated.cluster.id,
-      facility.state.id,
-      treated.cluster.year.fe
+      fips.code,
+      border.county.fe,
+      border.county.year.fe
     )
   ,
   data = triQc,
-  cluster = ~facility.state.id,
+  cluster = ~facility.state,
 )
-
 fixest::etable(reg_emp, digits = 4, digits.stats = 4)

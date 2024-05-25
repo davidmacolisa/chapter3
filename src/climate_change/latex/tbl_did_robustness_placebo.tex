@@ -8,24 +8,22 @@
     \resizebox{\columnwidth}{!}{%
         \begin{tabular}{@{}lll@{}}
             \toprule\toprule
-            Onsite releases intensity from catastrophic events (log) & 1         & 2         \\ \midrule
-            treated                                                  & -0.0123   & -0.0123   \\
-            & (0.0284)  & (0.0284)  \\
+            Total releases intensity, from catastrophic events (log) & 1         & 2         \\ \midrule
+            treated                                                  & 0.0067    & -0.0211   \\
+            & (0.0242)  & (0.0192)  \\
             controls                                                 & Yes       & Yes       \\
-            year FE                                                  & No        & Yes       \\
+            year FE                                                  & Yes       & Yes       \\
             facility FE                                              & Yes       & Yes       \\
-            county FE                                                & No        & Yes       \\
-            county-pair FE                                           & Yes       & Yes       \\
-            facility state FE                                        & No        & Yes       \\
+            border-county FE                                         & Yes       & Yes       \\
             toxic chemical FE                                        & No        & Yes       \\
-            toxic chemical LTs                                       & Yes       & Yes       \\ \midrule \midrule
+            toxic chemical LTs                                       & No        & Yes       \\ \midrule
             Observations                                             & 1,893,689 & 1,893,689 \\
-            $R^2$                                                    & 0.4149    & 0.4149    \\
-            Baseline Mean                                            & 19.77     & 19.77     \\ \bottomrule \bottomrule
+            $R^2$                                                    & 0.1572    & 0.4331    \\
+            Baseline Mean                                            & 4.36      & 4.36      \\ \bottomrule \bottomrule
         \end{tabular}%
     }
     \begin{minipage}{18cm}
         \vspace{0.05in}
-        These results are obtained from estimating model~\ref{eq:robustness-placebo}. Three-way clustered robust standard errors are reported in parentheses, and clustered at the toxic chemical, industry and state levels. ***, **, and * denote significance levels at the less than $1\%$, $5\%$ and $10\%$, respectively.
+        These results are obtained from estimating model~\ref{eq:robustness-placebo}. Three-way clustered robust standard errors are reported in parentheses, and clustered at the toxic chemical, industry and state levels. ***, **, and * denote significance levels at the less than $1\%$, $5\%$ and $10\%$, respectively. de Chaisemartin and D'Haultfoeuille Decomposition: $\sum dCDH_{ATTs}^{weights(+)} = 1$ and $\sum dCDH_{ATTs}^{weights(-)} = 0$.
     \end{minipage}
 \end{table}

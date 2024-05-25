@@ -3,8 +3,8 @@
     \includegraphics[width=1\textwidth, height=0.5\textheight,keepaspectratio]{fig_did_total_onsite_releases_int_highlabint}
     \caption{Triple-Differences: Onsite Total Releases Intensity given Labour Intensity}
     \label{fig:heterogeneous-onsite-releases-intensity-liis}
-    \begin{minipage}{12cm}
+    \begin{minipage}{18cm}
         \vspace{0.05in}
-        NOTES: The event study model of equation~\ref{eq:heterogeneous-onsite-releases-intensity-liis} is $G_{f,c,i,cp,s,t}^{labour-intensity} = \sum_{{e = 2011},{e \neq 2013}}^{2017} \beta (Treated \cdot Post \cdot D)_{h,s,t} + \psi (Treated \cdot Post)_{s,t} + \delta X_{v,c,t-1} + \omega F_{f,t} + \gamma_{f} + \phi_{cp} + \eta_{c,t} + \left[\lambda_{t} + \theta_{f,h} + \sigma_{s} + \zeta_{c} \right] + \varepsilon_{f,c,i,cp,s,t}$$\beta (Treated \cdot Post \cdot D)_{h,s,t} + \psi (Treated \cdot Post)_{s,t} + \vartheta (Treated \cdot D)_{h,s,t} + \mu (Post \cdot D)_{h,s,t} + \tau Treated_{s,t} + \rho D_{h,s,t} + \alpha Post_{t} + \delta X_{v,c,t-1} + \omega F_{f,t} + \gamma_{f} + \phi_{cp} + \eta_{c,t} + \left[\lambda_{t} + \theta_{h} + \sigma_{s} + \zeta_{c} \right] + \varepsilon_{f,c,i,cp,s,t}$. Three-way clustered robust standard errors are reported in parentheses, and clustered at the toxic chemical, industry and state levels.
+        NOTES: The event study model of equation~\ref{eq:heterogeneous-onsite-releases-intensity-liis} is $G_{f,cp,c,t}^{labour-intensity} = \sum_{{e = 2011},{e \neq 2013}}^{2017} \beta (Treated \cdot Post \cdot D)_{f,s,t} + \psi (Treated \cdot Post)_{s,t} + \vartheta (Treated \cdot D)_{f,s,t} + \mu (Post \cdot D)_{f,s,t} + \tau Treated_{s,t} + \rho D_{f,s,t} + \alpha Post_{t} + \delta X_{v,c,t-1} + \omega F_{f,t} + \lambda_{t} + \gamma_{f} + \phi_{cp} + \zeta_{c} + \eta_{c,t} + \varepsilon_{f,cp,c,t}$. Three-way clustered robust standard errors are reported in parentheses, and clustered at the toxic chemical, industry and state levels.
     \end{minipage}
 \end{figure}

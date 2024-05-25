@@ -6,23 +6,25 @@
     \caption{Effect of the MW policy on Manufacturing Industry Output}
     \label{tab:baseline-industry-output}
     \resizebox{\columnwidth}{!}{%
-        \begin{tabular}{@{}llll@{}}
+        \begin{tabular}{@{}lllllll@{}}
             \toprule\toprule
-            Industry output (log) & output    & output per hour & output per worker \\ \midrule
-            treated               & 0.1222*   & 0.1333**        & 0.1214**          \\
-            & (0.0678)  & (0.0521)        & (0.0501)          \\
-            controls              & Yes       & Yes             & Yes               \\
-            year FE               & Yes       & Yes             & Yes               \\
-            county-pair FE        & Yes       & Yes             & Yes               \\
-            state FE              & Yes       & Yes             & Yes               \\
-            county-pair LTs       & Yes       & Yes             & Yes               \\ \midrule \midrule
-            Observations          & 1,893,689 & 1,893,689       & 1,893,689         \\
-            $R^2$                 & 0.4783    & 0.5515          & 0.5694            \\
-            Baseline Mean         & 17712.88  & 261.60          & 365.43            \\ \bottomrule \bottomrule
+            Industry outputs (log) & \multicolumn{2}{c}{Output} & \multicolumn{2}{c}{Output per Hour} & \multicolumn{2}{c}{Output per Worker} \\
+            \cmidrule(lr){2-3} \cmidrule(lr){4-5} \cmidrule(lr){6-7}
+            & 1         & 2         & 3         & 4         & 5         & 6         \\ \midrule
+            treated           & 0.0362    & 0.1175*** & 0.0825    & 0.1322*** & 0.0669    & 0.1170*** \\
+            & (0.0731)  & (0.0366)  & (0.0844)  & (0.0296)  & (0.0802)  & (0.0246)  \\
+            controls          & Yes       & Yes       & Yes       & Yes       & Yes       & Yes       \\
+            year FE           & Yes       & Yes       & Yes       & Yes       & Yes       & Yes       \\
+            county FE         & Yes       & Yes       & Yes       & Yes       & Yes       & Yes       \\
+            border-county FE  & No        & Yes       & No        & Yes       & No        & Yes       \\
+            border-county LTs & No        & Yes       & No        & Yes       & No        & Yes       \\ \midrule
+            Observations      & 1,893,689 & 1,893,689 & 1,893,689 & 1,893,689 & 1,893,689 & 1,893,689 \\
+            $R^2$             & 0.4678    & 0.5485    & 0.5587    & 0.6296    & 0.5571    & 0.6481    \\
+            Baseline Mean     & 177.13    & 177.13    & 2.62      & 2.62      & 3.65      & 3.65      \\ \bottomrule\bottomrule
         \end{tabular}%
     }
     \begin{minipage}{18cm}
         \vspace{0.05in}
-        These results are obtained from estimating model~\ref{eq:baseline-output}. Robust standard errors clustered at the state level are reported in parentheses. ***, **, and * denote significance levels at the less than $1\%$, $5\%$ and $10\%$, respectively.
+        These results are obtained from estimating model~\ref{eq:baseline-output}. Robust standard errors clustered at the state level are reported in parentheses. ***, **, and * denote significance levels at the less than $1\%$, $5\%$ and $10\%$, respectively. de Chaisemartin and D'Haultfoeuille Decomposition: $\sum dCDH_{ATTs}^{weights(+)} = 1$ and $\sum dCDH_{ATTs}^{weights(-)} = 0$.
     \end{minipage}
 \end{table}
