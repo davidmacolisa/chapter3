@@ -1106,7 +1106,6 @@ triQc <- triQc %>%
     e.treated = case_when(year >= ch.year ~ 1, T ~ 0), #states e-years away from the initial treatment year
     rel.year = year - ch.year,
     post = case_when(year == 2014 | year == 2015 | year == 2017 ~ 1, T ~ 0),
-    rel_year = year - 2014,
     naics.code = as.numeric(naics.code),
     facility.id = as.numeric(facility.id),
     facility.zipcode = as.numeric(facility.zipcode),

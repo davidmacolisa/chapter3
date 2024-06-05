@@ -195,152 +195,152 @@ table(triQc$chemical.name)
 ### For the state-level analysis---Onsite
 ### Collapse triQc to state level
 #======================================================================================================================#
-library(collapse)
-triQs <- triQc %>%
-  collap(
-    X = .,
-    by = ~
-      year +
-        facility.id +
-        facility.zipcode +
-        zip.length +
-        facility.city +
-        fips_code +
-        facility.county +
-        facility.state +
-        state +
-        offsite.id +
-        offsite.facility.id +
-        offsite.zipcode +
-        offsite.zip.length +
-        offsite.sequence.number +
-        offsite.state +
-        naics.code +
-        industry.name +
-        chemical.id +
-        chemical.name +
-        chemical.classification +
-        unit.of.measure +
-        total.underground.injection.I.wells.offsite +
-        total.underground.injection.I.IV.wells.offsite +
-        total.underground.injection.offsite +
-        total.landfills.offsite +
-        total.releases.toland.treatment.offsite +
-        total.surface.impoundment1.offsite +
-        total.surface.impoundment2.offsite +
-        total.surface.impoundment.offsite +
-        total.land.releases.other.offsite +
-        total.land.releases.offsite +
-        total.wastewater.releases.offsite +
-        total.releases.storage.offsite +
-        total.releases.metalsolidify.offsite +
-        total.releases.other.mgt.offsite +
-        total.releases.wastebroker.offsite +
-        total.releases.unknown.offsite +
-        total.releases.offsite +
-        energy.recovery.offsite +
-        energy.recovery.wastebroker.offsite +
-        total.energy.recovery.offsite +
-        recycling.solventsorganic.offsite +
-        recycling.metals.offsite +
-        recycling.reuse.offsite +
-        # recycling.acidgen.offsite +
-        recycling.wastebroker.offsite +
-        total.recycling.offsite +
-        treatment.nonmetalsolidify.offsite +
-        incineration.thermal.treatment.offsite +
-        incineration.thermal.treatment.heatvalue.offsite +
-        wastewater.treatment.nonmetals.offsite +
-        waste.treatment.other.offsite +
-        waste.treatment.wastebroker.offsite +
-        total.waste.treatment.offsite +
-        total.waste.management.offsite +
-        maxnum.chem.onsite +
-        entire.facility +
-        # govt.owned.facility +
-        clean.air.act.chems +
-        carcinogenic.chems +
-        metal.restrict.tri +
-        production.ratio.activity.index +
-        produced.chem.facility +
-        imported.chem.facility +
-        pi.chem.facility +
-        chemical.formulation.component +
-        chemical.article.component +
-        chemical.manufacturing.aid +
-        chemical.ancilliary.use +
-        cpi +
-        # personal_income +
-        gdp +
-        # compensation_to_employees +
-        # bea_unit +
-        # regional_price_parity +
-        # bea_rpp_unit +
-        # own_code +
-        annual_avg_estabs +
-        # annual_avg_emplvl +
-        # total_annual_wages +
-        # taxable_annual_wages +
-        # annual_contributions +
-        # annual_avg_wkly_wage +
-        # avg_annual_pay +
-        # emp +
-        # pay +
-        # prode +
-        # prodh +
-        # prodw +
-        # vship +
-        # matcost +
-        vadd +
-        # invest +
-        # invent +
-        # energy +
-        # cap +
-        # equip +
-        # plant +
-        # tfp4 +
-        # tfp5 +
-        population +
-        treated +
-        treated.match +
-        control.match +
-        overlap +
-        state.border.id +
-        ch.year +
-        ch.amt +
-        sum2.sub.mw.ch +
-        tot.ch.amt +
-        start.mw +
-        end.mw +
-        match.ch.amt +
-        match.ch.year +
-        dist.to.border,
-    na.rm = T,
-    FUN = fsum,
-    catFUN = fmode,
-    keep.col.order = T,
-    return = "long"
-  ) %>%
-  select(
-    -c(Function, facility.city, facility.county, fips_code, offsite.id, offsite.city:offsite.county,
-       treated.cluster.name:cbcp.id, treated.cluster.lat:control.cluster.long, dist.to.border, lat, long,
-       federal.facility, treated.cluster.population, control.cluster.population)
-  ) %>%
-  mutate(
-    entire.facility = as.numeric(entire.facility),
-    clean.air.act.chems = as.numeric(clean.air.act.chems),
-    carcinogenic.chems = as.numeric(carcinogenic.chems),
-    metal.restrict.tri = as.numeric(metal.restrict.tri),
-    produced.chem.facility = as.numeric(produced.chem.facility),
-    imported.chem.facility = as.numeric(imported.chem.facility),
-    pi.chem.facility = as.numeric(pi.chem.facility),
-    chemical.formulation.component = as.numeric(chemical.formulation.component),
-    chemical.article.component = as.numeric(chemical.article.component),
-    chemical.manufacturing.aid = as.numeric(chemical.manufacturing.aid),
-    chemical.ancilliary.use = as.numeric(chemical.ancilliary.use)
-  )
-sum(is.na(triQs))
-# na_columns <- colnames(triQs)[colSums(is.na(triQs)) > 0]
+# library(collapse)
+# triQs <- triQc %>%
+#   collap(
+#     X = .,
+#     by = ~
+#       year +
+#         facility.id +
+#         facility.zipcode +
+#         zip.length +
+#         facility.city +
+#         fips_code +
+#         facility.county +
+#         facility.state +
+#         state +
+#         offsite.id +
+#         offsite.facility.id +
+#         offsite.zipcode +
+#         offsite.zip.length +
+#         offsite.sequence.number +
+#         offsite.state +
+#         naics.code +
+#         industry.name +
+#         chemical.id +
+#         chemical.name +
+#         chemical.classification +
+#         unit.of.measure +
+#         total.underground.injection.I.wells.offsite +
+#         total.underground.injection.I.IV.wells.offsite +
+#         total.underground.injection.offsite +
+#         total.landfills.offsite +
+#         total.releases.toland.treatment.offsite +
+#         total.surface.impoundment1.offsite +
+#         total.surface.impoundment2.offsite +
+#         total.surface.impoundment.offsite +
+#         total.land.releases.other.offsite +
+#         total.land.releases.offsite +
+#         total.wastewater.releases.offsite +
+#         total.releases.storage.offsite +
+#         total.releases.metalsolidify.offsite +
+#         total.releases.other.mgt.offsite +
+#         total.releases.wastebroker.offsite +
+#         total.releases.unknown.offsite +
+#         total.releases.offsite +
+#         energy.recovery.offsite +
+#         energy.recovery.wastebroker.offsite +
+#         total.energy.recovery.offsite +
+#         recycling.solventsorganic.offsite +
+#         recycling.metals.offsite +
+#         recycling.reuse.offsite +
+#         # recycling.acidgen.offsite +
+#         recycling.wastebroker.offsite +
+#         total.recycling.offsite +
+#         treatment.nonmetalsolidify.offsite +
+#         incineration.thermal.treatment.offsite +
+#         incineration.thermal.treatment.heatvalue.offsite +
+#         wastewater.treatment.nonmetals.offsite +
+#         waste.treatment.other.offsite +
+#         waste.treatment.wastebroker.offsite +
+#         total.waste.treatment.offsite +
+#         total.waste.management.offsite +
+#         maxnum.chem.onsite +
+#         entire.facility +
+#         # govt.owned.facility +
+#         clean.air.act.chems +
+#         carcinogenic.chems +
+#         metal.restrict.tri +
+#         production.ratio.activity.index +
+#         produced.chem.facility +
+#         imported.chem.facility +
+#         pi.chem.facility +
+#         chemical.formulation.component +
+#         chemical.article.component +
+#         chemical.manufacturing.aid +
+#         chemical.ancilliary.use +
+#         cpi +
+#         # personal_income +
+#         gdp +
+#         # compensation_to_employees +
+#         # bea_unit +
+#         # regional_price_parity +
+#         # bea_rpp_unit +
+#         # own_code +
+#         annual_avg_estabs +
+#         # annual_avg_emplvl +
+#         # total_annual_wages +
+#         # taxable_annual_wages +
+#         # annual_contributions +
+#         # annual_avg_wkly_wage +
+#         # avg_annual_pay +
+#         # emp +
+#         # pay +
+#         # prode +
+#         # prodh +
+#         # prodw +
+#         # vship +
+#         # matcost +
+#         vadd +
+#         # invest +
+#         # invent +
+#         # energy +
+#         # cap +
+#         # equip +
+#         # plant +
+#         # tfp4 +
+#         # tfp5 +
+#         population +
+#         treated +
+#         treated.match +
+#         control.match +
+#         overlap +
+#         state.border.id +
+#         ch.year +
+#         ch.amt +
+#         sum2.sub.mw.ch +
+#         tot.ch.amt +
+#         start.mw +
+#         end.mw +
+#         match.ch.amt +
+#         match.ch.year +
+#         dist.to.border,
+#     na.rm = T,
+#     FUN = fsum,
+#     catFUN = fmode,
+#     keep.col.order = T,
+#     return = "long"
+#   ) %>%
+#   select(
+#     -c(Function, facility.city, facility.county, fips_code, offsite.id, offsite.city:offsite.county,
+#        treated.cluster.name:cbcp.id, treated.cluster.lat:control.cluster.long, dist.to.border, lat, long,
+#        federal.facility, treated.cluster.population, control.cluster.population)
+#   ) %>%
+#   mutate(
+#     entire.facility = as.numeric(entire.facility),
+#     clean.air.act.chems = as.numeric(clean.air.act.chems),
+#     carcinogenic.chems = as.numeric(carcinogenic.chems),
+#     metal.restrict.tri = as.numeric(metal.restrict.tri),
+#     produced.chem.facility = as.numeric(produced.chem.facility),
+#     imported.chem.facility = as.numeric(imported.chem.facility),
+#     pi.chem.facility = as.numeric(pi.chem.facility),
+#     chemical.formulation.component = as.numeric(chemical.formulation.component),
+#     chemical.article.component = as.numeric(chemical.article.component),
+#     chemical.manufacturing.aid = as.numeric(chemical.manufacturing.aid),
+#     chemical.ancilliary.use = as.numeric(chemical.ancilliary.use)
+#   )
+# sum(is.na(triQs))
+# # na_columns <- colnames(triQs)[colSums(is.na(triQs)) > 0]
 #======================================================================================================================#
 ### Converting variables in triQc to numeric
 #======================================================================================================================#
@@ -361,8 +361,8 @@ triQc <- triQc %>%
     chemical.ancilliary.use = as.numeric(chemical.ancilliary.use)
   )
 glimpse(triQc)
-glimpse(triQs)
-table(triQs$chemical.ancilliary.use)
+# glimpse(triQs)
+# table(triQs$chemical.ancilliary.use)
 #======================================================================================================================#
 ### TRI for researchers: source - https://shorturl.at/kqvy7
 ### CAUSING CANCER: source- https://ntp.niehs.nih.gov/whatwestudy/assessments/cancer/roc#toc1
@@ -382,41 +382,41 @@ table(triQs$chemical.ancilliary.use)
 #======================================================================================================================#
 triQc <- triQc %>%
   mutate(
-    ind.output.lb = vadd / 454,
-    total.underground.injection.offsite.intensity = total.underground.injection.offsite / ind.output.lb,
-    l.total.underground.injection.offsite.intensity = log((total.underground.injection.offsite / ind.output.lb) + 1),
-    total.underground.injection.I.wells.offsite.intensity = total.underground.injection.I.wells.offsite / ind.output.lb,
-    l.total.underground.injection.I.wells.offsite.intensity = log((total.underground.injection.I.wells.offsite / ind.output.lb) + 1),
-    total.underground.injection.I.IV.wells.offsite.intensity = total.underground.injection.I.IV.wells.offsite / ind.output.lb,
-    l.total.underground.injection.I.IV.wells.offsite.intensity = log((total.underground.injection.I.IV.wells.offsite / ind.output.lb) + 1),
-    total.landfills.offsite.intensity =total.landfills.offsite / ind.output.lb,
-    l.total.landfills.offsite.intensity = log((total.landfills.offsite / ind.output.lb) + 1),
-    total.releases.toland.treatment.offsite.intensity = total.releases.toland.treatment.offsite / ind.output.lb,
-    l.total.releases.toland.treatment.offsite.intensity = log((total.releases.toland.treatment.offsite / ind.output.lb) + 1),
-    total.surface.impoundment.offsite.intensity = total.surface.impoundment.offsite / ind.output.lb,
-    l.total.surface.impoundment.offsite.intensity = log((total.surface.impoundment.offsite / ind.output.lb) + 1),
-    total.surface.impoundment1.offsite.intensity = total.surface.impoundment1.offsite / ind.output.lb,
-    l.total.surface.impoundment1.offsite.intensity = log((total.surface.impoundment1.offsite / ind.output.lb) + 1),
-    total.surface.impoundment2.offsite.intensity = total.surface.impoundment2.offsite / ind.output.lb,
-    l.total.surface.impoundment2.offsite.intensity = log((total.surface.impoundment2.offsite / ind.output.lb) + 1),
-    total.land.releases.other.offsite.intensity = total.land.releases.other.offsite / ind.output.lb,
-    l.total.land.releases.other.offsite.intensity = log((total.land.releases.other.offsite / ind.output.lb) + 1),
-    total.land.releases.offsite.intensity = total.land.releases.offsite / ind.output.lb,
-    l.total.land.releases.offsite.intensity = log((total.land.releases.offsite / ind.output.lb) + 1),
-    total.wastewater.releases.offsite.intensity = total.wastewater.releases.offsite / ind.output.lb,
-    l.total.wastewater.releases.offsite.intensity = log((total.wastewater.releases.offsite / ind.output.lb) + 1),
-    total.releases.storage.offsite.intensity = total.releases.storage.offsite / ind.output.lb,
-    l.total.releases.storage.offsite.intensity = log((total.releases.storage.offsite / ind.output.lb) + 1),
-    total.releases.metalsolidify.offsite.intensity = total.releases.metalsolidify.offsite / ind.output.lb,
-    l.total.releases.metalsolidify.offsite.intensity = log((total.releases.metalsolidify.offsite / ind.output.lb) + 1),
-    total.releases.other.mgt.offsite.intensity = total.releases.other.mgt.offsite / ind.output.lb,
-    l.total.releases.other.mgt.offsite.intensity = log((total.releases.other.mgt.offsite / ind.output.lb) + 1),
-    total.releases.wastebroker.offsite.intensity = total.releases.wastebroker.offsite / ind.output.lb,
-    l.total.releases.wastebroker.offsite.intensity = log((total.releases.wastebroker.offsite / ind.output.lb) + 1),
-    total.releases.unknown.offsite.intensity = total.releases.unknown.offsite / ind.output.lb,
-    l.total.releases.unknown.offsite.intensity = log((total.releases.unknown.offsite / ind.output.lb) + 1),
-    total.releases.offsite.intensity = total.releases.offsite / ind.output.lb,
-    l.total.releases.offsite.intensity = log((total.releases.offsite / ind.output.lb) + 1),
+    vadd = vadd / 100,
+    total.underground.injection.offsite.intensity = total.underground.injection.offsite / vadd,
+    l.total.underground.injection.offsite.intensity = log((total.underground.injection.offsite / vadd) + 1),
+    total.underground.injection.I.wells.offsite.intensity = total.underground.injection.I.wells.offsite / vadd,
+    l.total.underground.injection.I.wells.offsite.intensity = log((total.underground.injection.I.wells.offsite / vadd) + 1),
+    total.underground.injection.I.IV.wells.offsite.intensity = total.underground.injection.I.IV.wells.offsite / vadd,
+    l.total.underground.injection.I.IV.wells.offsite.intensity = log((total.underground.injection.I.IV.wells.offsite / vadd) + 1),
+    total.landfills.offsite.intensity =total.landfills.offsite / vadd,
+    l.total.landfills.offsite.intensity = log((total.landfills.offsite / vadd) + 1),
+    total.releases.toland.treatment.offsite.intensity = total.releases.toland.treatment.offsite / vadd,
+    l.total.releases.toland.treatment.offsite.intensity = log((total.releases.toland.treatment.offsite / vadd) + 1),
+    total.surface.impoundment.offsite.intensity = total.surface.impoundment.offsite / vadd,
+    l.total.surface.impoundment.offsite.intensity = log((total.surface.impoundment.offsite / vadd) + 1),
+    total.surface.impoundment1.offsite.intensity = total.surface.impoundment1.offsite / vadd,
+    l.total.surface.impoundment1.offsite.intensity = log((total.surface.impoundment1.offsite / vadd) + 1),
+    total.surface.impoundment2.offsite.intensity = total.surface.impoundment2.offsite / vadd,
+    l.total.surface.impoundment2.offsite.intensity = log((total.surface.impoundment2.offsite / vadd) + 1),
+    total.land.releases.other.offsite.intensity = total.land.releases.other.offsite / vadd,
+    l.total.land.releases.other.offsite.intensity = log((total.land.releases.other.offsite / vadd) + 1),
+    total.land.releases.offsite.intensity = total.land.releases.offsite / vadd,
+    l.total.land.releases.offsite.intensity = log((total.land.releases.offsite / vadd) + 1),
+    total.wastewater.releases.offsite.intensity = total.wastewater.releases.offsite / vadd,
+    l.total.wastewater.releases.offsite.intensity = log((total.wastewater.releases.offsite / vadd) + 1),
+    total.releases.storage.offsite.intensity = total.releases.storage.offsite / vadd,
+    l.total.releases.storage.offsite.intensity = log((total.releases.storage.offsite / vadd) + 1),
+    total.releases.metalsolidify.offsite.intensity = total.releases.metalsolidify.offsite / vadd,
+    l.total.releases.metalsolidify.offsite.intensity = log((total.releases.metalsolidify.offsite / vadd) + 1),
+    total.releases.other.mgt.offsite.intensity = total.releases.other.mgt.offsite / vadd,
+    l.total.releases.other.mgt.offsite.intensity = log((total.releases.other.mgt.offsite / vadd) + 1),
+    total.releases.wastebroker.offsite.intensity = total.releases.wastebroker.offsite / vadd,
+    l.total.releases.wastebroker.offsite.intensity = log((total.releases.wastebroker.offsite / vadd) + 1),
+    total.releases.unknown.offsite.intensity = total.releases.unknown.offsite / vadd,
+    l.total.releases.unknown.offsite.intensity = log((total.releases.unknown.offsite / vadd) + 1),
+    total.releases.offsite.intensity = total.releases.offsite / vadd,
+    l.total.releases.offsite.intensity = log((total.releases.offsite / vadd) + 1),
     l.energy.recovery.offsite = log(energy.recovery.offsite + 1),
     l.energy.recovery.wastebroker.offsite = log(energy.recovery.wastebroker.offsite + 1),
     l.total.energy.recovery.offsite = log(total.energy.recovery.offsite + 1),
@@ -453,32 +453,41 @@ triQc <- triQc %>%
   ) %>%
   mutate(
     e.treated = case_when(year >= ch.year ~ 1, T ~ 0), #states e-years away from the initial treatment year
+    rel.year = year - ch.year,
     post = case_when(year == 2014 | year == 2015 | year == 2017 ~ 1, T ~ 0),
-    rel.year = year - ch.year + 2014,
-    facility.id = as.numeric(facility.id),
     naics.code = as.numeric(naics.code),
+    facility.id = as.numeric(facility.id),
+    facility.zipcode = as.numeric(facility.zipcode),
+    facility.id.fe = as.numeric(as.factor(facility.id)),
+    chemical.id.fe = as.numeric(as.factor(chemical.id)),
+    facility.state.fe = as.numeric(as.factor(facility.state)),
+    fips.code.fe = as.numeric(as.factor(fips.code)),
     fips.code = as.numeric(fips.code),
-    offsite.state.id = as.numeric(as.factor(offsite.state)),
-    facility.state.id = as.numeric(as.factor(facility.state)),
-    treated.cluster.id = as.numeric(treated.cluster.id),
-    control.cluster.id = as.numeric(control.cluster.id),
-    fips.state.fe = as.numeric(fips.code) * as.numeric(facility.state.id),
-    fac.chem.fe = as.numeric(facility.id) * as.numeric(as.factor(chemical.id)),
-    facility.year.fe = as.numeric(facility.id) * year,
-    chemical.year.fe = as.numeric(as.factor(chemical.id)) * year,
-    fips.year.fe = as.numeric(fips.code) * year,
-    state.year.fe = as.numeric(facility.state.id) * year,
-    treated.cluster.year.fe = as.numeric(treated.cluster.id) * year,
-    control.cluster.year.fe = as.numeric(control.cluster.id) * year
+    facility.county.fe = as.numeric(as.factor(facility.county)),
+    border.county = as.numeric(treated.cluster.id) * as.numeric(control.cluster.id),
+    border.county.fe = as.numeric(as.factor(border.county)),
+    border.state = as.numeric(as.factor(treated.match)) * as.numeric(as.factor(control.match)),
+    border.state.fe = as.numeric(as.factor(border.state)),
+    fac.chem.fe = facility.id.fe * chemical.id.fe,
+    fips.state.fe = fips.code.fe * facility.state.fe,
+    chem.ind.state = chemical.id.fe *
+      as.numeric(as.factor(naics.code)) *
+      facility.state.fe,
+    fips.year.fe = fips.code.fe * year,
+    facility.year.fe = facility.id.fe * year,
+    chemical.year.fe = chemical.id.fe * year,
+    border.county.year.fe = border.county.fe * year,
+    border.state.year.fe = border.state.fe * year,
+    state.year.fe = facility.state.fe * year,
+    fac.chem.year.fe = facility.id.fe * chemical.id.fe * year,
   )
 #======================================================================================================================#
 ### check for zero columns
 #======================================================================================================================#
 zero_cols <- names(triQc)[colSums(triQc == 0) == nrow(triQc)]
 triQc <- triQc[, !names(triQc) %in% zero_cols]
-
-zero_cols <- names(triQs)[colSums(triQs == 0) == nrow(triQs)]
-triQs <- triQs[, !names(triQs) %in% zero_cols]
+# zero_cols <- names(triQs)[colSums(triQs == 0) == nrow(triQs)]
+# triQs <- triQs[, !names(triQs) %in% zero_cols]
 #======================================================================================================================#
 ### Save data
 #======================================================================================================================#
