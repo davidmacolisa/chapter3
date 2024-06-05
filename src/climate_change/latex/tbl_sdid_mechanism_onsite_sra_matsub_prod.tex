@@ -1,0 +1,36 @@
+% Please add the following required packages to your document preamble:
+% \usepackage{booktabs}
+% \usepackage{graphicx}
+\begin{table}[H]
+    \centering
+    \caption{Source Reductions: Material Substitution and Product Modifications}
+    \label{tab:mechanisms-onsite-sra-material-substitution-product-modifications}
+    \resizebox{\columnwidth}{!}{%
+        \begin{tabular}{@{}lllllllllllll@{}}
+            \toprule \toprule
+            Source Reductions & \multicolumn{6}{c}{Material Substitutions} & \multicolumn{6}{c}{Product Modifications} \\
+            \cmidrule(lr){2-7}\cmidrule(lr){8-13}
+            & mat submod & organic solvent sub & feedstock and reagents & ancillary chems & purity chems & clean fuel & others    & prod mod  & new prod line & mod packaging & energy intensity (log) & others    \\ \midrule
+            $Treated^{e}$      & 0.010**    & -0.001***           & -0.000                 & 0.001**         & 0.002***     & -0.014*    & 0.004     & -0.001    & -0.003**     & 0.011**   & 0.011    & -0.000   \\
+            & (0.004)    & (0.000)             & (0.000)                & (0.001)         & (0.001)      & (0.008)    & (0.003)   & (0.002)   & (0.001)       & (0.004)  & (0.007)    & (0.001)  \\
+            cohort 2014        & 0.018***   & -0.001***           & 0.000                  & -0.000**        & 0.003***     & -0.007     & 0.007**   & -0.002    & -0.000     & 0.016***   & 0.032***    & -0.000   \\
+            & (0.006)    & (0.000)             & (0.000)                & (0.001)         & (0.001)      & (0.011)    & (0.003)   & (0.002)   & (0.001)       & (0.006)  & (0.010)    & (0.001)  \\
+            cohort 2015        & -0.005***  & -0.001*             & -0.000                 & 0.003**         & 0.001        & -0.025***  & -0.002    & 0.002     & -0.007***     & 0.001   & -0.024**    & -0.000   \\
+            & (0.002)    & (0.000)             & (0.000)                & (0.001)         & (0.001)      & (0.006)    & (0.003)   & (0.001)   & (0.003)       & (0.002)  & (0.011)    & (0.002)  \\
+            cohort 2017        & 0.001      & -0.000              & -0.000                 & -0.000**        & -0.001       & -0.109***  & 0.001     & 0.003     & -0.000        & 0.004   & 0.132***    & 0.017   \\
+            & (0.002)    & (0.000)             & (0.000)                & (0.000)         & (0.000)      & (0.028)    & (0.001)   & (0.002)   & (0.001)       & (0.005)  & (0.051)    & (0.015)  \\
+            controls           & Yes        & Yes                 & Yes                    & Yes             & Yes          & Yes        & Yes       & Yes       & Yes           & Yes           & Yes                    & Yes       \\
+            year FE            & Yes        & Yes                 & Yes                    & Yes             & Yes          & Yes        & Yes       & Yes       & Yes           & Yes           & Yes                    & Yes       \\
+            facility FE        & Yes        & Yes                 & Yes                    & Yes             & Yes          & Yes        & Yes       & Yes       & Yes           & Yes           & Yes                    & Yes       \\
+            border-county FE   & Yes        & Yes                 & Yes                    & Yes             & Yes          & Yes        & Yes       & Yes       & Yes           & Yes           & Yes                    & Yes       \\
+            toxic chemical FE  & Yes        & Yes                 & Yes                    & Yes             & Yes          & Yes        & Yes       & Yes       & Yes           & Yes           & Yes                    & Yes       \\
+            toxic chemical LTs & Yes        & Yes                 & Yes                    & Yes             & Yes          & Yes        & Yes       & Yes       & Yes           & Yes           & Yes                    & Yes       \\\midrule
+            Observations       & 1,893,689  & 1,893,689           & 1,893,689              & 1,893,689       & 1,893,689    & 1,893,689  & 1,893,689 & 1,893,689 & 1,893,689     & 1,893,689  & 1,893,689  & 1,893,689 \\
+            $R^2$              & 0.150      & 0.071               & 0.064                  & 0.029           & 0.130        & 0.712      & 0.165     & 0.127     & 0.117         & 0.532         & 0.983                  & 0.070     \\ \bottomrule\bottomrule
+        \end{tabular}%
+    }
+    \begin{minipage}{18cm}
+        \vspace{0.05in}
+        These results are obtained from estimating model~\ref{eq:mechanisms-source-reduction}. ***, **, and * denote significance levels at the less than $1\%$, $5\%$ and $10\%$, respectively.
+    \end{minipage}
+\end{table}

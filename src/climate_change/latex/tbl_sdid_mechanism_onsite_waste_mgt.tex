@@ -1,0 +1,36 @@
+% Please add the following required packages to your document preamble:
+% \usepackage{booktabs}
+% \usepackage{graphicx}
+\begin{table}[H]
+    \centering
+    \caption{Onsite Waste Management Activities}
+    \label{tab:mechanisms-onsite-waste-management-activities}
+    \resizebox{\columnwidth}{!}{%
+        \begin{tabular}{@{}llllllllllllllll@{}}
+            \toprule\toprule
+            \multicolumn{6}{r}{Treatment} & \multicolumn{4}{r}{Energy Recovery} & \multicolumn{4}{r}{Recycling} \\
+            \cmidrule(lr){3-8}\cmidrule(lr){9-12}\cmidrule(lr){13-16}
+            Onsite WMA         & total     & treatment & air       & biological & chemical  & physical  & thermal   & energy recovery & kiln      & boiler    & furnace   & recycling & reuse     & metal recovery & solvent recovery \\ \midrule
+            $Treated^{e}$      & -0.181    & 0.023     & 0.048***  & -0.002     & 0.000     & -0.010    & -0.025*** & 0.058**         & -0.001** & 0.002    & 0.003***    & -0.273*   & -0.023*** & 0.004         & 0.008           \\
+            & (0.150)   & (0.076)   & (0.010)   & (0.009)    & (0.008)   & (0.014)   & (0.008)   & (0.028)         & (0.000)   & (0.001)  & (0.001)  & (0.155)  & (0.007)  & (0.005)       & (0.009)         \\
+            cohort 2014        & -0.317    & 0.005     & 0.069***  & -0.016     & 0.009     & -0.029*   & -0.021**  & 0.091**         & -0.001*   & 0.003    & 0.004**    & -0.434**   & -0.033*** & 0.005         & 0.009           \\
+            & (0.203)   & (0.087)   & (0.015)   & (0.010)    & (0.010)   & (0.016)   & (0.010)   & (0.042)         & (0.001)   & (0.002)  & (0.002)  & (0.190)  & (0.011)  & (0.006)       & (0.008)         \\
+            cohort 2015        & 0.047     & 0.057     & 0.012     & 0.022      & -0.012    & 0.023     & -0.032*** & 0.001           & -0.001**  & -0.001    & 0.000    & -0.004   & -0.005 & 0.001         & 0.006           \\
+            & (0.205)   & (0.110)   & (0.012)   & (0.014)    & (0.015)   & (0.022)   & (0.011)   & (0.026)         & (0.000)   & (0.002)  & (0.001)  & (0.222)  & (0.005)  & (0.003)       & (0.015)         \\
+            cohort 2017        & -0.011    & -0.332**  & 0.020     & 0.036      & -0.061*** & -0.018    & -0.022    & 0.347**         & 0.010     & 0.021*    & -0.003    & -0.031   & 0.000 & 0.000         & -0.016*           \\
+            & (0.328)   & (0.165)   & (0.069)   & (0.024)    & (0.017)   & (0.026)   & (0.016)   & (0.169)         & (0.010)   & (0.011)  & (0.005)  & (0.299)  & (0.005)  & (0.005)       & (0.008)         \\
+            controls           & Yes       & Yes       & Yes       & Yes        & Yes       & Yes       & Yes       & Yes             & Yes       & Yes       & Yes       & Yes       & Yes       & Yes            & Yes              \\
+            year FE            & Yes       & Yes       & Yes       & Yes        & Yes       & Yes       & Yes       & Yes             & Yes       & Yes       & Yes       & Yes       & Yes       & Yes            & Yes              \\
+            facility FE        & Yes       & Yes       & Yes       & Yes        & Yes       & Yes       & Yes       & Yes             & Yes       & Yes       & Yes       & Yes       & Yes       & Yes            & Yes              \\
+            border-county FE   & Yes       & Yes       & Yes       & Yes        & Yes       & Yes       & Yes       & Yes             & Yes       & Yes       & Yes       & Yes       & Yes       & Yes            & Yes              \\
+            toxic chemical FE  & Yes       & Yes       & Yes       & Yes        & Yes       & Yes       & Yes       & Yes             & Yes       & Yes       & Yes       & Yes       & Yes       & Yes            & Yes              \\
+            toxic chemical LTs & Yes       & Yes       & Yes       & Yes        & Yes       & Yes       & Yes       & Yes             & Yes       & Yes       & Yes       & Yes       & Yes       & Yes            & Yes              \\ \midrule
+            Observations       & 1,893,689 & 1,893,689 & 1,893,689 & 1,893,689  & 1,893,689 & 1,893,689 & 1,893,689 & 1,893,689       & 1,893,689 & 1,893,689 & 1,893,689 & 1,893,689 & 1,893,689 & 1,893,689      & 1,893,689        \\
+            $R^2$              & 0.771     & 0.778     & 0.578     & 0.603      & 0.623     & 0.624     & 0.656     & 0.700           & 0.404     & 0.681     & 0.670     & 0.736     & 0.707    & 0.800         & 0.748           \\ \bottomrule \bottomrule
+        \end{tabular}%
+    }
+    \begin{minipage}{18cm}
+        \vspace{0.05in}
+        These results are obtained from estimating model~\ref{eq:mechanisms-waste-management}. ***, **, and * denote significance levels at the less than $1\%$, $5\%$ and $10\%$, respectively.
+    \end{minipage}
+\end{table}

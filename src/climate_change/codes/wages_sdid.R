@@ -32,16 +32,16 @@ table(triQc_nyt$year, triQc_nyt$ch.year)
 controls <- ~
   # gdppc.1 +
   #   annual.avg.estabs.1 +
-    # population.1 +
-    # cpi.1 +
-    # entire.facility +
-    # private.facility +
-    # federal.facility +
-    # year +
-    # fips.code +
-    # border.county.fe +
-    # facility.state.fe +
-    border.county.year.fe
+  # population.1 +
+  # cpi.1 +
+  # entire.facility +
+  # private.facility +
+  # federal.facility +
+  # year +
+  # fips.code +
+  # border.county.fe +
+  # facility.state.fe +
+  border.county.year.fe
 #======================================================================================================================#
 ### Onsite: Total releases intensity
 #======================================================================================================================#

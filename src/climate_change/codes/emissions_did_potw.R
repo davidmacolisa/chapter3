@@ -503,7 +503,7 @@ pre_treat_coef <- coef(did_potw_waste_mgt)[grep(pattern = "rel.year", names(coef
 pre_treat_coef <- pre_treat_coef[5:6]
 linearHypothesis(did_potw_waste_mgt, paste0(names(pre_treat_coef), " = 0"), test = "F")
 #======================================================================================================================#
-pdf(file = "./Thesis/chapter3/src/climate_change/latex/fig_did_total_releases_potws.pdf", width = 12, height = 7)
+pdf(file = "../latex/fig_sdid_total_releases_potws.pdf", width = 12, height = 7)
 par(mfrow = c(2, 3))
 fixest::iplot(did_releases, xlim = c(2011, 2017), ylim = c(-0.5, 0.5), col = "blue",
               main = "Total POTW Releases Intensity", xlab = "relative year",

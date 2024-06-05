@@ -28,7 +28,6 @@ sort(unique(triQc$rel.year))
 #======================================================================================================================#
 did_total_releases <- fixest::feols(
   l.total.releases.onsite.intensity ~ treated * post +
-    sw0(
       gdppc.1 +
         annual.avg.estabs.1 +
         cpi.1 +
@@ -40,13 +39,15 @@ did_total_releases <- fixest::feols(
         chemical.manufacturing.aid +
         chemical.ancilliary.use +
         production.ratio.activity.index +
-        maxnum.chem.onsite
-    )
+        maxnum.chem.onsite +
+        clean.air.act.chems +
+        hap.chems +
+        pbt.chems
+
     |
     csw(,
       year,
       facility.id,
-      fips.code,
       facility.county,
       treated.cluster.id,
       facility.state.id,
@@ -543,7 +544,7 @@ pre.treat.coef <- coef(did_receiving_streams)[grep(pattern = "rel.year", names(c
 pre.treat.coef <- pre.treat.coef[4:5]
 linearHypothesis(did_receiving_streams, paste0(names(pre.treat.coef), " = 0"), test = "F")
 #======================================================================================================================#
-pdf(file = "./Thesis/chapter3/src/climate_change/latex/fig_did_onsite_water_discharge_int.pdf", width = 10, height = 4.5)
+pdf(file = "../latex/fig_sdid_onsite_water_discharge_int.pdf", width = 10, height = 4.5)
 par(mfrow = c(1, 2))
 fixest::iplot(did_water_disc, xlim = c(2011, 2017), ylim = c(-0.4, 0.4), col = "blue",
               main = "Total Onsite Surface Water Discharge Intensity", xlab = "relative year",
@@ -1161,7 +1162,7 @@ pre.treat.coef <- coef(did_land_releases_others)[grep(pattern = "rel.year", name
 pre.treat.coef <- pre.treat.coef[4:5]
 linearHypothesis(did_land_releases_others, paste0(names(pre.treat.coef), " = 0"), test = "F")
 #======================================================================================================================#
-pdf(file = "../latex/fig_did_total_land_releases_onsite_int.pdf", width = 12, height = 7)
+pdf(file = "../latex/fig_sdid_total_land_releases_onsite_int.pdf", width = 12, height = 7)
 par(mfrow = c(2, 3))
 fixest::iplot(did_land_releases, xlim = c(2011, 2017), ylim = c(-0.2, 0.2), col = "blue",
               main = "Total Onsite Land Releases Intensity", xlab = "relative year",

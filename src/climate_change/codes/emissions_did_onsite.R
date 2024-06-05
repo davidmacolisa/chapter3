@@ -58,7 +58,7 @@ did_total_releases <- fixest::feols(
   data = triQc,
   cluster = ~c(chemical.id, naics.code, facility.state)
 )
-fixest::etable(did_total_releases, digits = 4, digits.stats = 4)
+fixest::etable(did_total_releases, digits = 3, digits.stats = 3)
 #----------------------------------------------------------------------------------------------------------------------#
 # Get de Chaisemartin and D'Haultfoeuille Decomposition
 dCDH_decomp <- twowayfeweights(
@@ -104,7 +104,7 @@ did_total_releases <- fixest::feols(
   data = triQc,
   cluster = ~c(chemical.id, naics.code, facility.state),
 )
-fixest::etable(did_total_releases, digits = 4, digits.stats = 4)
+fixest::etable(did_total_releases, digits = 3, digits.stats = 3)
 fixest::iplot(did_total_releases, xlim = c(-3, 3), ylim = c(-0.5, 0.5), col = "blue",
               main = "Total Onsite Releases Intensity", xlab = "relative year",
               lwd = 1, cex = 4, pt.cex = 3, pt.col = "red", pt.join = T, ci.lwd = 5, ci.lty = 1) %>%
@@ -113,13 +113,94 @@ fixest::iplot(did_total_releases, xlim = c(-3, 3), ylim = c(-0.5, 0.5), col = "b
 pre.treat.coef <- coef(did_total_releases)[grep(pattern = "rel.year", names(coef(did_total_releases)))]
 pre.treat.coef <- pre.treat.coef[5:6]
 linearHypothesis(did_total_releases, paste0(names(pre.treat.coef), " = 0"), test = "F")
-#======================================================================================================================#
-pdf(file = "./Thesis/chapter3/src/climate_change/latex/fig_did_total_releases_onsite_int.pdf", width = 7, height = 5.5)
-# par(mfrow = c(1, 2))
-fixest::iplot(did_total_releases, xlim = c(-3, 3), ylim = c(-0.5, 0.5), col = "blue",
-              main = "Total Onsite Releases Intensity", xlab = "relative year",
-              lwd = 1, cex = 4, pt.cex = 3, pt.col = "red", pt.join = T, ci.lwd = 5, ci.lty = 1) %>%
+#----------------------------------------------------------------------------------------------------------------------#
+# Sun and Abraham (2020)
+#----------------------------------------------------------------------------------------------------------------------#
+sdid_total_releases <- fixest::feols(
+  l.total.releases.onsite.intensity ~ sunab(ch.year, year) +
+    gdppc.1 +
+    annual.avg.estabs.1 +
+    cpi.1 +
+    federal.facility +
+    produced.chem.facility +
+    imported.chem.facility +
+    chemical.formulation.component +
+    chemical.article.component +
+    chemical.manufacturing.aid +
+    chemical.ancilliary.use +
+    production.ratio.activity.index +
+    maxnum.chem.onsite +
+    clean.air.act.chems +
+    hap.chems +
+    pbt.chems
+    |
+    csw(,
+      year,
+      facility.id.fe,
+      border.county.fe,
+      chemical.id.fe,
+      chemical.year.fe
+    )
+  ,
+  data = triQc,
+  cluster = ~c(chemical.id, naics.code, facility.state)
+)
+etable(sdid_total_releases, agg = "ATT", digits = 3, digits.stats = 3)
+etable(sdid_total_releases, agg = "cohort", digits = 3, digits.stats = 3)
+etable(sdid_total_releases, digits = 3, digits.stats = 3)
+
+sdid_total_releases <- feols(
+  l.total.releases.onsite.intensity ~ sunab(ch.year, year) +
+    gdppc.1 +
+    annual.avg.estabs.1 +
+    cpi.1 +
+    federal.facility +
+    produced.chem.facility +
+    imported.chem.facility +
+    chemical.formulation.component +
+    chemical.article.component +
+    chemical.manufacturing.aid +
+    chemical.ancilliary.use +
+    production.ratio.activity.index +
+    maxnum.chem.onsite +
+    clean.air.act.chems +
+    hap.chems +
+    pbt.chems
+    |
+    year +
+      facility.id.fe +
+      border.county.fe +
+      chemical.id.fe +
+      chemical.year.fe,
+  cluster = ~c(chemical.id, naics.code, facility.state),
+  data = triQc
+)
+etable(sdid_total_releases, digits.stats = 3, digits = 3)
+iplot(
+  list(sdid_total_releases, did_total_releases),
+  xlim = c(-3, 3), ylim = c(-0.5, 0.5), col = c("blue", "pink"),
+  main = "Total Onsite Releases Intensity (log)", xlab = "relative year", lwd = 1, cex = 4,
+  pt.cex = 1.5, pt.col = c("red", "black"), pt.join = T,
+  ci.lwd = 5, ci.lty = 1
+) %>%
   abline(v = -1, col = "red", lty = 2, lwd = 2)
+
+# Add a legend to the plot
+legend(x = "bottomright", legend = c("Sun and Abraham (2020) ATT: 0.1085** (0.0488)", "TWFE ATT: 0.1242** (0.0499)"),
+       col = c("red", "black"), pch = 19, pt.cex = 2, bty = "n")
+#======================================================================================================================#
+pdf(file = "../latex/fig_sdid_total_releases_onsite_int.pdf", width = 8, height = 5.5)
+iplot(
+  list(sdid_total_releases, did_total_releases),
+  xlim = c(-3, 3), ylim = c(-0.5, 0.5), col = c("blue", "pink"),
+  main = "Total Onsite Releases Intensity (log)", xlab = "relative year", lwd = 1, cex = 4,
+  pt.cex = 1.5, pt.col = c("red", "black"), pt.join = T,
+  ci.lwd = 5, ci.lty = 1
+) %>%
+  abline(v = -1, col = "red", lty = 2, lwd = 2)
+# Add a legend to the plot
+legend(x = "bottomright", legend = c("Sun and Abraham (2020) ATT: 0.1085** (0.0488)", "TWFE ATT: 0.1242** (0.0499)"),
+       col = c("red", "black"), pch = 19, pt.cex = 2, bty = "n")
 dev.off()
 #======================================================================================================================#
 ### Onsite: Total air emissions intensity
@@ -156,7 +237,7 @@ did_air <- fixest::feols(
   data = triQc,
   cluster = ~c(chemical.id, naics.code, facility.state)
 )
-fixest::etable(did_air, digits = 4, digits.stats = 4)
+fixest::etable(did_air, digits = 3, digits.stats = 3)
 #----------------------------------------------------------------------------------------------------------------------#
 # Get de Chaisemartin and D'Haultfoeuille Decomposition
 dCDH_decomp <- twowayfeweights(
@@ -202,7 +283,7 @@ did_air <- fixest::feols(
   data = triQc,
   cluster = ~c(chemical.id, naics.code, facility.state),
 )
-fixest::etable(did_air, digits = 4, digits.stats = 4)
+fixest::etable(did_air, digits = 3, digits.stats = 3)
 fixest::iplot(did_air, xlim = c(-3, 3), ylim = c(-0.4, 0.4), col = "blue",
               main = "Total Onsite Air Emissions Intensity", xlab = "relative year",
               lwd = 1, cex = 4, pt.cex = 3, pt.col = "red", pt.join = T, ci.lwd = 5, ci.lty = 1) %>%
@@ -211,6 +292,79 @@ fixest::iplot(did_air, xlim = c(-3, 3), ylim = c(-0.4, 0.4), col = "blue",
 pre.treat.coef <- coef(did_air)[grep(pattern = "rel.year", names(coef(did_air)))]
 pre.treat.coef <- pre.treat.coef[5:6]
 linearHypothesis(did_air, paste0(names(pre.treat.coef), " = 0"), test = "F")
+#----------------------------------------------------------------------------------------------------------------------#
+# Sun and Abraham (2020)
+#----------------------------------------------------------------------------------------------------------------------#
+sdid_air <- fixest::feols(
+  l.total.air.emissions.onsite.intensity ~ sunab(ch.year, year) +
+    gdppc.1 +
+    annual.avg.estabs.1 +
+    cpi.1 +
+    federal.facility +
+    produced.chem.facility +
+    imported.chem.facility +
+    chemical.formulation.component +
+    chemical.article.component +
+    chemical.manufacturing.aid +
+    chemical.ancilliary.use +
+    production.ratio.activity.index +
+    maxnum.chem.onsite +
+    clean.air.act.chems +
+    hap.chems +
+    pbt.chems
+    |
+    csw(,
+      year,
+      facility.id.fe,
+      border.county.fe,
+      chemical.id.fe,
+      chemical.year.fe
+    )
+  ,
+  data = triQc,
+  cluster = ~c(chemical.id, naics.code, facility.state)
+)
+etable(sdid_air, agg = "ATT", digits = 3, digits.stats = 3)
+etable(sdid_air, agg = "cohort", digits = 3, digits.stats = 3)
+etable(sdid_air, digits = 3, digits.stats = 3)
+
+sdid_air <- feols(
+  l.total.air.emissions.onsite.intensity ~ sunab(ch.year, year) +
+    gdppc.1 +
+    annual.avg.estabs.1 +
+    cpi.1 +
+    federal.facility +
+    produced.chem.facility +
+    imported.chem.facility +
+    chemical.formulation.component +
+    chemical.article.component +
+    chemical.manufacturing.aid +
+    chemical.ancilliary.use +
+    production.ratio.activity.index +
+    maxnum.chem.onsite +
+    clean.air.act.chems +
+    hap.chems +
+    pbt.chems
+    |
+    year +
+      facility.id.fe +
+      border.county.fe +
+      chemical.id.fe +
+      chemical.year.fe,
+  cluster = ~c(chemical.id, naics.code, facility.state),
+  data = triQc
+)
+etable(sdid_air, digits.stats = 3, digits = 3)
+iplot(
+  list(sdid_air, did_air),
+  xlim = c(-3, 3), ylim = c(-0.5, 0.5), col = c("blue", "pink"),
+  main = "Total Onsite Air Emissions Intensity (log)", xlab = "relative year", lwd = 1, cex = 4,
+  pt.cex = 1.5, pt.col = c("red", "black"), pt.join = T,
+  ci.lwd = 5, ci.lty = 1
+) %>%
+  abline(v = -1, col = "red", lty = 2, lwd = 2)
+legend(x = "bottomright", legend = c("Sun and Abraham (2020) ATT: 0.0877** (0.0391)", "TWFE ATT: 0.0761** (0.0274)"),
+       col = c("red", "black"), pch = 19, pt.cex = 2, bty = "n")
 #======================================================================================================================#
 ### Onsite: Total point air emissions intensity
 #======================================================================================================================#
@@ -245,7 +399,7 @@ did_point_air <- fixest::feols(
   data = triQc,
   cluster = ~c(chemical.id, naics.code, facility.state)
 )
-fixest::etable(did_point_air, digits = 4, digits.stats = 4)
+fixest::etable(did_point_air, digits = 3, digits.stats = 3)
 #----------------------------------------------------------------------------------------------------------------------#
 # Get de Chaisemartin and D'Haultfoeuille Decomposition
 dCDH_decomp <- twowayfeweights(
@@ -291,7 +445,7 @@ did_point_air <- fixest::feols(
   data = triQc,
   cluster = ~c(chemical.id, naics.code, facility.state),
 )
-fixest::etable(did_point_air, digits = 4, digits.stats = 4)
+fixest::etable(did_point_air, digits = 3, digits.stats = 3)
 fixest::iplot(did_point_air, xlim = c(-3, 3), ylim = c(-0.3, 0.3), col = "blue",
               main = "Total Onsite Point Air Emissions Intensity", xlab = "relative year",
               lwd = 1, cex = 4, pt.cex = 3, pt.col = "red", pt.join = T, ci.lwd = 5, ci.lty = 1) %>%
@@ -300,6 +454,79 @@ fixest::iplot(did_point_air, xlim = c(-3, 3), ylim = c(-0.3, 0.3), col = "blue",
 pre.treat.coef <- coef(did_point_air)[grep(pattern = "rel.year", names(coef(did_point_air)))]
 pre.treat.coef <- pre.treat.coef[5:6]
 linearHypothesis(did_point_air, paste0(names(pre.treat.coef), " = 0"), test = "F")
+#----------------------------------------------------------------------------------------------------------------------#
+# Sun and Abraham (2020)
+#----------------------------------------------------------------------------------------------------------------------#
+sdid_point_air <- fixest::feols(
+  l.total.point.air.emissions.onsite.intensity ~ sunab(ch.year, year) +
+    gdppc.1 +
+    annual.avg.estabs.1 +
+    cpi.1 +
+    federal.facility +
+    produced.chem.facility +
+    imported.chem.facility +
+    chemical.formulation.component +
+    chemical.article.component +
+    chemical.manufacturing.aid +
+    chemical.ancilliary.use +
+    production.ratio.activity.index +
+    maxnum.chem.onsite +
+    clean.air.act.chems +
+    hap.chems +
+    pbt.chems
+    |
+    csw(,
+      year,
+      facility.id.fe,
+      border.county.fe,
+      chemical.id.fe,
+      chemical.year.fe
+    )
+  ,
+  data = triQc,
+  cluster = ~c(chemical.id, naics.code, facility.state)
+)
+etable(sdid_point_air, agg = "ATT", digits = 3, digits.stats = 3)
+etable(sdid_point_air, agg = "cohort", digits = 3, digits.stats = 3)
+etable(sdid_point_air, digits = 3, digits.stats = 3)
+
+sdid_point_air <- feols(
+  l.total.point.air.emissions.onsite.intensity ~ sunab(ch.year, year) +
+    gdppc.1 +
+    annual.avg.estabs.1 +
+    cpi.1 +
+    federal.facility +
+    produced.chem.facility +
+    imported.chem.facility +
+    chemical.formulation.component +
+    chemical.article.component +
+    chemical.manufacturing.aid +
+    chemical.ancilliary.use +
+    production.ratio.activity.index +
+    maxnum.chem.onsite +
+    clean.air.act.chems +
+    hap.chems +
+    pbt.chems
+    |
+    year +
+      facility.id.fe +
+      border.county.fe +
+      chemical.id.fe +
+      chemical.year.fe,
+  cluster = ~c(chemical.id, naics.code, facility.state),
+  data = triQc
+)
+etable(sdid_point_air, digits.stats = 3, digits = 3)
+iplot(
+  list(sdid_point_air, did_point_air),
+  xlim = c(-3, 3), ylim = c(-0.3, 0.3), col = c("blue", "pink"),
+  main = "Total Onsite Point Air Emissions Intensity (log)", xlab = "relative year", lwd = 1, cex = 4,
+  pt.cex = 1.5, pt.col = c("red", "black"), pt.join = T,
+  ci.lwd = 5, ci.lty = 1
+) %>%
+  abline(v = -1, col = "red", lty = 2, lwd = 2)
+legend(x = "bottomright", legend = c("Sun and Abraham (2020) ATT: 0.0351 (0.0256)", "TWFE ATT: 0.0232 (0.0265)"),
+       col = c("red", "black"), pch = 19, pt.cex = 2, bty = "n")
 #======================================================================================================================#
 ### Onsite: Total fugitive air emissions intensity
 #======================================================================================================================#
@@ -334,7 +561,7 @@ did_fug_air <- fixest::feols(
   data = triQc,
   cluster = ~c(chemical.id, naics.code, facility.state)
 )
-fixest::etable(did_fug_air, digits = 4, digits.stats = 4)
+fixest::etable(did_fug_air, digits = 3, digits.stats = 3)
 #----------------------------------------------------------------------------------------------------------------------#
 # Get de Chaisemartin and D'Haultfoeuille Decomposition
 dCDH_decomp <- twowayfeweights(
@@ -366,7 +593,10 @@ did_fug_air <- fixest::feols(
       chemical.manufacturing.aid +
       chemical.ancilliary.use +
       production.ratio.activity.index +
-      maxnum.chem.onsite
+      maxnum.chem.onsite +
+      clean.air.act.chems +
+      hap.chems +
+      pbt.chems
       |
       year +
         facility.id.fe +
@@ -377,7 +607,7 @@ did_fug_air <- fixest::feols(
   data = triQc,
   cluster = ~c(chemical.id, naics.code, facility.state),
 )
-fixest::etable(did_fug_air, digits = 4, digits.stats = 4)
+fixest::etable(did_fug_air, digits = 3, digits.stats = 3)
 fixest::iplot(did_fug_air, xlim = c(-3, 3), ylim = c(-0.3, 0.3), col = "blue",
               main = "Total Onsite Fugitive Air Emissions Intensity", xlab = "relative year",
               lwd = 1, cex = 4, pt.cex = 3, pt.col = "red", pt.join = T, ci.lwd = 5, ci.lty = 1) %>%
@@ -386,21 +616,112 @@ fixest::iplot(did_fug_air, xlim = c(-3, 3), ylim = c(-0.3, 0.3), col = "blue",
 pre.treat.coef <- coef(did_fug_air)[grep(pattern = "rel.year", names(coef(did_fug_air)))]
 pre.treat.coef <- pre.treat.coef[5:6]
 linearHypothesis(did_fug_air, paste0(names(pre.treat.coef), " = 0"), test = "F")
+#----------------------------------------------------------------------------------------------------------------------#
+# Sun and Abraham (2020)
+#----------------------------------------------------------------------------------------------------------------------#
+sdid_fug_air <- fixest::feols(
+  l.total.fug.air.emissions.onsite.intensity ~ sunab(ch.year, year) +
+    gdppc.1 +
+    annual.avg.estabs.1 +
+    cpi.1 +
+    federal.facility +
+    produced.chem.facility +
+    imported.chem.facility +
+    chemical.formulation.component +
+    chemical.article.component +
+    chemical.manufacturing.aid +
+    chemical.ancilliary.use +
+    production.ratio.activity.index +
+    maxnum.chem.onsite +
+    clean.air.act.chems +
+    hap.chems +
+    pbt.chems
+    |
+    csw(,
+      year,
+      facility.id.fe,
+      border.county.fe,
+      chemical.id.fe,
+      chemical.year.fe
+    )
+  ,
+  data = triQc,
+  cluster = ~c(chemical.id, naics.code, facility.state)
+)
+etable(sdid_fug_air, agg = "ATT", digits = 3, digits.stats = 3)
+etable(sdid_fug_air, agg = "cohort", digits = 3, digits.stats = 3)
+etable(sdid_fug_air, digits = 3, digits.stats = 3)
+
+sdid_fug_air <- feols(
+  l.total.fug.air.emissions.onsite.intensity ~ sunab(ch.year, year) +
+    gdppc.1 +
+    annual.avg.estabs.1 +
+    cpi.1 +
+    federal.facility +
+    produced.chem.facility +
+    imported.chem.facility +
+    chemical.formulation.component +
+    chemical.article.component +
+    chemical.manufacturing.aid +
+    chemical.ancilliary.use +
+    production.ratio.activity.index +
+    maxnum.chem.onsite +
+    clean.air.act.chems +
+    hap.chems +
+    pbt.chems
+    |
+    year +
+      facility.id.fe +
+      border.county.fe +
+      chemical.id.fe +
+      chemical.year.fe,
+  cluster = ~c(chemical.id, naics.code, facility.state),
+  data = triQc
+)
+etable(sdid_fug_air, digits.stats = 3, digits = 3)
+iplot(
+  list(sdid_fug_air, did_fug_air),
+  xlim = c(-3, 3), ylim = c(-0.3, 0.3), col = c("blue", "pink"),
+  main = "Total Onsite Fugitive Air Emissions Intensity (log)", xlab = "relative year", lwd = 1, cex = 4,
+  pt.cex = 1.5, pt.col = c("red", "black"), pt.join = T,
+  ci.lwd = 5, ci.lty = 1
+) %>%
+  abline(v = -1, col = "red", lty = 2, lwd = 2)
+legend(x = "bottomright", legend = c("Sun and Abraham (2020) ATT: 0.0716* (0.0411)", "TWFE ATT: 0.0618 (0.0377)"),
+       col = c("red", "black"), pch = 19, pt.cex = 2, bty = "n")
 #======================================================================================================================#
-pdf(file = "./Thesis/chapter3/src/climate_change/latex/fig_did_onsite_air_emissions_int.pdf", width = 14, height = 4)
+pdf(file = "../latex/fig_sdid_onsite_air_emissions_int.pdf", width = 16, height = 4)
 par(mfrow = c(1, 3))
-fixest::iplot(did_air, xlim = c(-3, 3), ylim = c(-0.4, 0.4), col = "blue",
-              main = "Total Onsite Air Emissions Intensity", xlab = "relative year",
-              lwd = 1, cex = 4, pt.cex = 3, pt.col = "red", pt.join = T, ci.lwd = 5, ci.lty = 1) %>%
+iplot(
+  list(sdid_air, did_air),
+  xlim = c(-3, 3), ylim = c(-0.5, 0.5), col = c("blue", "pink"),
+  main = "Total Onsite Air Emissions Intensity (log)", xlab = "relative year", lwd = 1, cex = 4,
+  pt.cex = 1.5, pt.col = c("red", "black"), pt.join = T,
+  ci.lwd = 5, ci.lty = 1
+) %>%
   abline(v = -1, col = "red", lty = 2, lwd = 2)
-fixest::iplot(did_point_air, xlim = c(-3, 3), ylim = c(-0.3, 0.3), col = "blue",
-              main = "Total Onsite Point Air Emissions Intensity", xlab = "relative year",
-              lwd = 1, cex = 4, pt.cex = 3, pt.col = "red", pt.join = T, ci.lwd = 5, ci.lty = 1) %>%
+legend(x = "bottomright", legend = c("Sun and Abraham (2020) ATT: 0.0877** (0.0391)", "TWFE ATT: 0.0761** (0.0274)"),
+       col = c("red", "black"), pch = 19, pt.cex = 2, bty = "n")
+iplot(
+  list(sdid_point_air, did_point_air),
+  xlim = c(-3, 3), ylim = c(-0.3, 0.3), col = c("blue", "pink"),
+  main = "Total Onsite Point Air Emissions Intensity (log)", xlab = "relative year", lwd = 1, cex = 4,
+  pt.cex = 1.5, pt.col = c("red", "black"), pt.join = T,
+  ci.lwd = 5, ci.lty = 1
+) %>%
   abline(v = -1, col = "red", lty = 2, lwd = 2)
-fixest::iplot(did_fug_air, xlim = c(-3, 3), ylim = c(-0.3, 0.3), col = "blue",
-              main = "Total Onsite Fugitive Air Emissions Intensity", xlab = "relative year",
-              lwd = 1, cex = 4, pt.cex = 3, pt.col = "red", pt.join = T, ci.lwd = 5, ci.lty = 1) %>%
+legend(x = "bottomright", legend = c("Sun and Abraham (2020) ATT: 0.0351 (0.0256)", "TWFE ATT: 0.0232 (0.0265)"),
+       col = c("red", "black"), pch = 19, pt.cex = 2, bty = "n")
+iplot(
+  list(sdid_fug_air, did_fug_air),
+  xlim = c(-3, 3), ylim = c(-0.3, 0.3), col = c("blue", "pink"),
+  main = "Total Onsite Fugitive Air Emissions Intensity (log)", xlab = "relative year", lwd = 1, cex = 4,
+  pt.cex = 1.5, pt.col = c("red", "black"), pt.join = T,
+  ci.lwd = 5, ci.lty = 1
+) %>%
   abline(v = -1, col = "red", lty = 2, lwd = 2)
+legend(x = "bottomright", legend = c("Sun and Abraham (2020) ATT: 0.0716* (0.0411)", "TWFE ATT: 0.0618 (0.0377)"),
+       col = c("red", "black"), pch = 19, pt.cex = 2, bty = "n")
 dev.off()
 #======================================================================================================================#
 ### Onsite: Total surface water discharge intensity
@@ -436,7 +757,7 @@ did_water_disc <- fixest::feols(
   data = triQc,
   cluster = ~c(chemical.id, naics.code, facility.state)
 )
-fixest::etable(did_water_disc, digits = 4, digits.stats = 4)
+fixest::etable(did_water_disc, digits = 3, digits.stats = 3)
 #----------------------------------------------------------------------------------------------------------------------#
 # Get de Chaisemartin and D'Haultfoeuille Decomposition
 dCDH_decomp <- twowayfeweights(
@@ -482,7 +803,7 @@ did_water_disc <- fixest::feols(
   data = triQc,
   cluster = ~c(chemical.id, naics.code, facility.state),
 )
-fixest::etable(did_water_disc, digits = 4, digits.stats = 4)
+fixest::etable(did_water_disc, digits = 3, digits.stats = 3)
 fixest::iplot(did_water_disc, xlim = c(-3, 3), ylim = c(-0.25, 0.25), col = "blue",
               main = "Total Onsite Surface Water Discharge Intensity", xlab = "relative year",
               lwd = 1, cex = 4, pt.cex = 3, pt.col = "red", pt.join = T, ci.lwd = 5, ci.lty = 1) %>%
@@ -491,6 +812,79 @@ fixest::iplot(did_water_disc, xlim = c(-3, 3), ylim = c(-0.25, 0.25), col = "blu
 pre.treat.coef <- coef(did_water_disc)[grep(pattern = "rel.year", names(coef(did_water_disc)))]
 pre.treat.coef <- pre.treat.coef[5:6]
 linearHypothesis(did_water_disc, paste0(names(pre.treat.coef), " = 0"), test = "F")
+#----------------------------------------------------------------------------------------------------------------------#
+# Sun and Abraham (2020)
+#----------------------------------------------------------------------------------------------------------------------#
+sdid_water_disc <- fixest::feols(
+  l.total.surface.water.discharge.onsite.intensity ~ sunab(ch.year, year) +
+    gdppc.1 +
+    annual.avg.estabs.1 +
+    cpi.1 +
+    federal.facility +
+    produced.chem.facility +
+    imported.chem.facility +
+    chemical.formulation.component +
+    chemical.article.component +
+    chemical.manufacturing.aid +
+    chemical.ancilliary.use +
+    production.ratio.activity.index +
+    maxnum.chem.onsite +
+    clean.air.act.chems +
+    hap.chems +
+    pbt.chems
+    |
+    csw(,
+      year,
+      facility.id.fe,
+      border.county.fe,
+      chemical.id.fe,
+      chemical.year.fe
+    )
+  ,
+  data = triQc,
+  cluster = ~c(chemical.id, naics.code, facility.state)
+)
+etable(sdid_water_disc, agg = "ATT", digits = 3, digits.stats = 3)
+etable(sdid_water_disc, agg = "cohort", digits = 3, digits.stats = 3)
+etable(sdid_water_disc, digits = 3, digits.stats = 3)
+
+sdid_water_disc <- feols(
+  l.total.surface.water.discharge.onsite.intensity ~ sunab(ch.year, year) +
+    gdppc.1 +
+    annual.avg.estabs.1 +
+    cpi.1 +
+    federal.facility +
+    produced.chem.facility +
+    imported.chem.facility +
+    chemical.formulation.component +
+    chemical.article.component +
+    chemical.manufacturing.aid +
+    chemical.ancilliary.use +
+    production.ratio.activity.index +
+    maxnum.chem.onsite +
+    clean.air.act.chems +
+    hap.chems +
+    pbt.chems
+    |
+    year +
+      facility.id.fe +
+      border.county.fe +
+      chemical.id.fe +
+      chemical.year.fe,
+  cluster = ~c(chemical.id, naics.code, facility.state),
+  data = triQc
+)
+etable(sdid_water_disc, digits.stats = 3, digits = 3)
+iplot(
+  list(sdid_water_disc, did_water_disc),
+  xlim = c(-3, 3), ylim = c(-0.3, 0.3), col = c("blue", "pink"),
+  main = "Total Onsite Surface Water Discharge Intensity (log)", xlab = "relative year", lwd = 1, cex = 4,
+  pt.cex = 1.5, pt.col = c("red", "black"), pt.join = T,
+  ci.lwd = 5, ci.lty = 1
+) %>%
+  abline(v = -1, col = "red", lty = 2, lwd = 2)
+legend(x = "bottomright", legend = c("Sun and Abraham (2020) ATT: 0.0263 (0.0328)", "TWFE ATT: 0.0439 (0.0340)"),
+       col = c("red", "black"), pch = 19, pt.cex = 2, bty = "n")
 #======================================================================================================================#
 ### Onsite: Number of receiving streams
 #======================================================================================================================#
@@ -525,7 +919,7 @@ did_receiving_streams <- fixest::feols(
   data = triQc,
   cluster = ~c(chemical.id, naics.code, facility.state)
 )
-fixest::etable(did_receiving_streams, digits = 4, digits.stats = 4)
+fixest::etable(did_receiving_streams, digits = 3, digits.stats = 3)
 #----------------------------------------------------------------------------------------------------------------------#
 # Get de Chaisemartin and D'Haultfoeuille Decomposition
 dCDH_decomp <- twowayfeweights(
@@ -571,7 +965,7 @@ did_receiving_streams <- fixest::feols(
   data = triQc,
   cluster = ~c(chemical.id, naics.code, facility.state),
 )
-fixest::etable(did_receiving_streams, digits = 4, digits.stats = 4)
+fixest::etable(did_receiving_streams, digits = 3, digits.stats = 3)
 fixest::iplot(did_receiving_streams, xlim = c(-3, 3), ylim = c(-0.15, 0.15), col = "blue",
               main = "Total Onsite Number of Receiving Streams", xlab = "relative year",
               lwd = 1, cex = 4, pt.cex = 3, pt.col = "red", pt.join = T, ci.lwd = 5, ci.lty = 1) %>%
@@ -580,17 +974,102 @@ fixest::iplot(did_receiving_streams, xlim = c(-3, 3), ylim = c(-0.15, 0.15), col
 pre.treat.coef <- coef(did_receiving_streams)[grep(pattern = "rel.year", names(coef(did_receiving_streams)))]
 pre.treat.coef <- pre.treat.coef[5:6]
 linearHypothesis(did_receiving_streams, paste0(names(pre.treat.coef), " = 0"), test = "F")
+#----------------------------------------------------------------------------------------------------------------------#
+# Sun and Abraham (2020)
+#----------------------------------------------------------------------------------------------------------------------#
+sdid_receiving_streams <- fixest::feols(
+  total.num.receiving.streams.onsite ~ sunab(ch.year, year) +
+    gdppc.1 +
+    annual.avg.estabs.1 +
+    cpi.1 +
+    federal.facility +
+    produced.chem.facility +
+    imported.chem.facility +
+    chemical.formulation.component +
+    chemical.article.component +
+    chemical.manufacturing.aid +
+    chemical.ancilliary.use +
+    production.ratio.activity.index +
+    maxnum.chem.onsite +
+    clean.air.act.chems +
+    hap.chems +
+    pbt.chems
+    |
+    csw(,
+      year,
+      facility.id.fe,
+      border.county.fe,
+      chemical.id.fe,
+      chemical.year.fe
+    )
+  ,
+  data = triQc,
+  cluster = ~c(chemical.id, naics.code, facility.state)
+)
+etable(sdid_receiving_streams, agg = "ATT", digits = 3, digits.stats = 3)
+etable(sdid_receiving_streams, agg = "cohort", digits = 3, digits.stats = 3)
+etable(sdid_receiving_streams, digits = 3, digits.stats = 3)
+
+sdid_receiving_streams <- feols(
+  total.num.receiving.streams.onsite ~ sunab(ch.year, year) +
+    gdppc.1 +
+    annual.avg.estabs.1 +
+    cpi.1 +
+    federal.facility +
+    produced.chem.facility +
+    imported.chem.facility +
+    chemical.formulation.component +
+    chemical.article.component +
+    chemical.manufacturing.aid +
+    chemical.ancilliary.use +
+    production.ratio.activity.index +
+    maxnum.chem.onsite +
+    clean.air.act.chems +
+    hap.chems +
+    pbt.chems
+    |
+    year +
+      facility.id.fe +
+      border.county.fe +
+      chemical.id.fe +
+      chemical.year.fe,
+  cluster = ~c(chemical.id, naics.code, facility.state),
+  data = triQc
+)
+etable(sdid_receiving_streams, digits.stats = 3, digits = 3)
+iplot(
+  list(sdid_receiving_streams, did_receiving_streams),
+  xlim = c(-3, 3), ylim = c(-0.3, 0.2), col = c("blue", "pink"),
+  main = "Total Number of Receiving Streams (log)", xlab = "relative year", lwd = 1, cex = 4,
+  pt.cex = 1.5, pt.col = c("red", "black"), pt.join = T,
+  ci.lwd = 5, ci.lty = 1
+) %>%
+  abline(v = -1, col = "red", lty = 2, lwd = 2)
+legend(x = "bottomright", legend = c("Sun and Abraham (2020) ATT: -0.0131 (0.0113)", "TWFE ATT: 0.0096 (0.0181)"),
+       col = c("red", "black"), pch = 19, pt.cex = 2, bty = "n")
 #======================================================================================================================#
-pdf(file = "./Thesis/chapter3/src/climate_change/latex/fig_did_onsite_water_discharge_int.pdf", width = 12, height = 4.5)
+pdf(file = "../latex/fig_sdid_onsite_water_discharge_int.pdf", width = 15, height = 5)
 par(mfrow = c(1, 2))
-fixest::iplot(did_water_disc, xlim = c(-3, 3), ylim = c(-0.25, 0.25), col = "blue",
-              main = "Total Onsite Surface Water Discharge Intensity", xlab = "relative year",
-              lwd = 1, cex = 4, pt.cex = 3, pt.col = "red", pt.join = T, ci.lwd = 5, ci.lty = 1) %>%
+iplot(
+  list(sdid_water_disc, did_water_disc),
+  xlim = c(-3, 3), ylim = c(-0.3, 0.3), col = c("blue", "pink"),
+  main = "Total Onsite Surface Water Discharge Intensity (log)", xlab = "relative year", lwd = 1, cex = 4,
+  pt.cex = 1.5, pt.col = c("red", "black"), pt.join = T,
+  ci.lwd = 5, ci.lty = 1
+) %>%
   abline(v = -1, col = "red", lty = 2, lwd = 2)
-fixest::iplot(did_receiving_streams, xlim = c(-3, 3), ylim = c(-0.15, 0.15), col = "blue",
-              main = "Total Onsite Number of Receiving Streams", xlab = "relative year",
-              lwd = 1, cex = 4, pt.cex = 3, pt.col = "red", pt.join = T, ci.lwd = 5, ci.lty = 1) %>%
+legend(x = "bottomright", legend = c("Sun and Abraham (2020) ATT: 0.0263 (0.0328)", "TWFE ATT: 0.0439 (0.0340)"),
+       col = c("red", "black"), pch = 19, pt.cex = 2, bty = "n")
+iplot(
+  list(sdid_receiving_streams, did_receiving_streams),
+  xlim = c(-3, 3), ylim = c(-0.2, 0.1), col = c("blue", "pink"),
+  main = "Total Number of Receiving Streams (log)", xlab = "relative year", lwd = 1, cex = 4,
+  pt.cex = 1.5, pt.col = c("red", "black"), pt.join = T,
+  ci.lwd = 5, ci.lty = 1
+) %>%
   abline(v = -1, col = "red", lty = 2, lwd = 2)
+legend(x = "bottomright", legend = c("Sun and Abraham (2020) ATT: -0.0131 (0.0113)", "TWFE ATT: 0.0096 (0.0181)"),
+       col = c("red", "black"), pch = 19, pt.cex = 2, bty = "n")
 dev.off()
 #======================================================================================================================#
 ### Onsite: Total land releases intensity
@@ -626,7 +1105,7 @@ did_land_releases <- fixest::feols(
   data = triQc,
   cluster = ~c(chemical.id, naics.code, facility.state)
 )
-fixest::etable(did_land_releases, digits = 4, digits.stats = 4)
+fixest::etable(did_land_releases, digits = 3, digits.stats = 3)
 #----------------------------------------------------------------------------------------------------------------------#
 # Get de Chaisemartin and D'Haultfoeuille Decomposition
 dCDH_decomp <- twowayfeweights(
@@ -672,7 +1151,7 @@ did_land_releases <- fixest::feols(
   data = triQc,
   cluster = ~c(chemical.id, naics.code, facility.state),
 )
-fixest::etable(did_land_releases, digits = 4, digits.stats = 4)
+fixest::etable(did_land_releases, digits = 3, digits.stats = 3)
 fixest::iplot(did_land_releases, xlim = c(-3, 3), ylim = c(-0.1, 0.1), col = "blue",
               main = "Total Onsite Land Releases Intensity", xlab = "relative year",
               lwd = 1, cex = 4, pt.cex = 3, pt.col = "red", pt.join = T, ci.lwd = 5, ci.lty = 1) %>%
@@ -681,6 +1160,79 @@ fixest::iplot(did_land_releases, xlim = c(-3, 3), ylim = c(-0.1, 0.1), col = "bl
 pre.treat.coef <- coef(did_land_releases)[grep(pattern = "rel.year", names(coef(did_land_releases)))]
 pre.treat.coef <- pre.treat.coef[5:6]
 linearHypothesis(did_land_releases, paste0(names(pre.treat.coef), " = 0"), test = "F")
+#----------------------------------------------------------------------------------------------------------------------#
+# Sun and Abraham (2020)
+#----------------------------------------------------------------------------------------------------------------------#
+sdid_land_releases <- fixest::feols(
+  l.total.land.releases.onsite.intensity ~ sunab(ch.year, year) +
+    gdppc.1 +
+    annual.avg.estabs.1 +
+    cpi.1 +
+    federal.facility +
+    produced.chem.facility +
+    imported.chem.facility +
+    chemical.formulation.component +
+    chemical.article.component +
+    chemical.manufacturing.aid +
+    chemical.ancilliary.use +
+    production.ratio.activity.index +
+    maxnum.chem.onsite +
+    clean.air.act.chems +
+    hap.chems +
+    pbt.chems
+    |
+    csw(,
+      year,
+      facility.id.fe,
+      border.county.fe,
+      chemical.id.fe,
+      chemical.year.fe
+    )
+  ,
+  data = triQc,
+  cluster = ~c(chemical.id, naics.code, facility.state)
+)
+etable(sdid_land_releases, agg = "ATT", digits = 3, digits.stats = 3)
+etable(sdid_land_releases, agg = "cohort", digits = 3, digits.stats = 3)
+etable(sdid_land_releases, digits = 3, digits.stats = 3)
+
+sdid_land_releases <- feols(
+  l.total.land.releases.onsite.intensity ~ sunab(ch.year, year) +
+    gdppc.1 +
+    annual.avg.estabs.1 +
+    cpi.1 +
+    federal.facility +
+    produced.chem.facility +
+    imported.chem.facility +
+    chemical.formulation.component +
+    chemical.article.component +
+    chemical.manufacturing.aid +
+    chemical.ancilliary.use +
+    production.ratio.activity.index +
+    maxnum.chem.onsite +
+    clean.air.act.chems +
+    hap.chems +
+    pbt.chems
+    |
+    year +
+      facility.id.fe +
+      border.county.fe +
+      chemical.id.fe +
+      chemical.year.fe,
+  cluster = ~c(chemical.id, naics.code, facility.state),
+  data = triQc
+)
+etable(sdid_land_releases, digits.stats = 3, digits = 3)
+iplot(
+  list(sdid_land_releases, did_land_releases),
+  xlim = c(-3, 3), ylim = c(-0.1, 0.1), col = c("blue", "pink"),
+  main = "Total Onsite Land Releases Intensity (log)", xlab = "relative year", lwd = 1, cex = 4,
+  pt.cex = 1.5, pt.col = c("red", "black"), pt.join = T,
+  ci.lwd = 5, ci.lty = 1
+) %>%
+  abline(v = -1, col = "red", lty = 2, lwd = 2)
+legend(x = "bottomright", legend = c("Sun and Abraham (2020) ATT: -0.0183 (0.0171)", "TWFE ATT: 0.0095 (0.0111)"),
+       col = c("red", "black"), pch = 19, pt.cex = 2, bty = "n")
 #======================================================================================================================#
 ### Onsite: Total underground injection intensity
 #======================================================================================================================#
@@ -715,7 +1267,7 @@ did_undground_inject <- fixest::feols(
   data = triQc,
   cluster = ~c(chemical.id, naics.code, facility.state)
 )
-fixest::etable(did_undground_inject, digits = 4, digits.stats = 4)
+fixest::etable(did_undground_inject, digits = 3, digits.stats = 3)
 #----------------------------------------------------------------------------------------------------------------------#
 # Get de Chaisemartin and D'Haultfoeuille Decomposition
 dCDH_decomp <- twowayfeweights(
@@ -761,7 +1313,7 @@ did_undground_inject <- fixest::feols(
   data = triQc,
   cluster = ~c(chemical.id, naics.code, facility.state),
 )
-fixest::etable(did_undground_inject, digits = 4, digits.stats = 4)
+fixest::etable(did_undground_inject, digits = 3, digits.stats = 3)
 fixest::iplot(did_undground_inject, xlim = c(-3, 3), ylim = c(-0.009, 0.009), col = "blue",
               main = "Total Onsite Underground Injection Intensity", xlab = "relative year",
               lwd = 1, cex = 4, pt.cex = 3, pt.col = "red", pt.join = T, ci.lwd = 5, ci.lty = 1) %>%
@@ -770,6 +1322,79 @@ fixest::iplot(did_undground_inject, xlim = c(-3, 3), ylim = c(-0.009, 0.009), co
 pre.treat.coef <- coef(did_undground_inject)[grep(pattern = "rel.year", names(coef(did_undground_inject)))]
 pre.treat.coef <- pre.treat.coef[5:6]
 linearHypothesis(did_undground_inject, paste0(names(pre.treat.coef), " = 0"), test = "F")
+#----------------------------------------------------------------------------------------------------------------------#
+# Sun and Abraham (2020)
+#----------------------------------------------------------------------------------------------------------------------#
+sdid_undground_inject <- fixest::feols(
+  l.total.underground.injection.onsite.intensity ~ sunab(ch.year, year) +
+    gdppc.1 +
+    annual.avg.estabs.1 +
+    cpi.1 +
+    federal.facility +
+    produced.chem.facility +
+    imported.chem.facility +
+    chemical.formulation.component +
+    chemical.article.component +
+    chemical.manufacturing.aid +
+    chemical.ancilliary.use +
+    production.ratio.activity.index +
+    maxnum.chem.onsite +
+    clean.air.act.chems +
+    hap.chems +
+    pbt.chems
+    |
+    csw(,
+      year,
+      facility.id.fe,
+      border.county.fe,
+      chemical.id.fe,
+      chemical.year.fe
+    )
+  ,
+  data = triQc,
+  cluster = ~c(chemical.id, naics.code, facility.state)
+)
+etable(sdid_undground_inject, agg = "ATT", digits = 3, digits.stats = 3)
+etable(sdid_undground_inject, agg = "cohort", digits = 3, digits.stats = 3)
+etable(sdid_undground_inject, digits = 3, digits.stats = 3)
+
+sdid_undground_inject <- feols(
+  l.total.underground.injection.onsite.intensity ~ sunab(ch.year, year) +
+    gdppc.1 +
+    annual.avg.estabs.1 +
+    cpi.1 +
+    federal.facility +
+    produced.chem.facility +
+    imported.chem.facility +
+    chemical.formulation.component +
+    chemical.article.component +
+    chemical.manufacturing.aid +
+    chemical.ancilliary.use +
+    production.ratio.activity.index +
+    maxnum.chem.onsite +
+    clean.air.act.chems +
+    hap.chems +
+    pbt.chems
+    |
+    year +
+      facility.id.fe +
+      border.county.fe +
+      chemical.id.fe +
+      chemical.year.fe,
+  cluster = ~c(chemical.id, naics.code, facility.state),
+  data = triQc
+)
+etable(sdid_undground_inject, digits.stats = 3, digits = 3)
+iplot(
+  list(sdid_undground_inject, did_undground_inject),
+  xlim = c(-3, 3), ylim = c(-0.002, 0.009), col = c("blue", "pink"),
+  main = "Total Onsite Underground Injection Intensity (log)", xlab = "relative year", lwd = 1, cex = 4,
+  pt.cex = 1.5, pt.col = c("red", "black"), pt.join = T,
+  ci.lwd = 5, ci.lty = 1
+) %>%
+  abline(v = -1, col = "red", lty = 2, lwd = 2)
+legend(x = "bottomright", legend = c("Sun and Abraham (2020) ATT: 0.0008 (0.0004)", "TWFE ATT: 0.0001 (0.0004)"),
+       col = c("red", "black"), pch = 19, pt.cex = 2, bty = "n")
 #======================================================================================================================#
 ### Onsite: Total landfills intensity
 #======================================================================================================================#
@@ -804,7 +1429,7 @@ did_landfills <- fixest::feols(
   data = triQc,
   cluster = ~c(chemical.id, naics.code, facility.state)
 )
-fixest::etable(did_landfills, digits = 4, digits.stats = 4)
+fixest::etable(did_landfills, digits = 3, digits.stats = 3)
 #----------------------------------------------------------------------------------------------------------------------#
 # Get de Chaisemartin and D'Haultfoeuille Decomposition
 dCDH_decomp <- twowayfeweights(
@@ -850,7 +1475,7 @@ did_landfills <- fixest::feols(
   data = triQc,
   cluster = ~c(chemical.id, naics.code, facility.state),
 )
-fixest::etable(did_landfills, digits = 4, digits.stats = 4)
+fixest::etable(did_landfills, digits = 3, digits.stats = 3)
 fixest::iplot(did_landfills, xlim = c(-3, 3), ylim = c(-0.03, 0.03), col = "blue",
               main = "Total Onsite Landfills Intensity", xlab = "relative year",
               lwd = 1, cex = 4, pt.cex = 3, pt.col = "red", pt.join = T, ci.lwd = 5, ci.lty = 1) %>%
@@ -859,6 +1484,79 @@ fixest::iplot(did_landfills, xlim = c(-3, 3), ylim = c(-0.03, 0.03), col = "blue
 pre.treat.coef <- coef(did_landfills)[grep(pattern = "rel.year", names(coef(did_landfills)))]
 pre.treat.coef <- pre.treat.coef[5:6]
 linearHypothesis(did_landfills, paste0(names(pre.treat.coef), " = 0"), test = "F")
+#----------------------------------------------------------------------------------------------------------------------#
+# Sun and Abraham (2020)
+#----------------------------------------------------------------------------------------------------------------------#
+sdid_landfills <- fixest::feols(
+  l.total.landfills.onsite.intensity ~ sunab(ch.year, year) +
+    gdppc.1 +
+    annual.avg.estabs.1 +
+    cpi.1 +
+    federal.facility +
+    produced.chem.facility +
+    imported.chem.facility +
+    chemical.formulation.component +
+    chemical.article.component +
+    chemical.manufacturing.aid +
+    chemical.ancilliary.use +
+    production.ratio.activity.index +
+    maxnum.chem.onsite +
+    clean.air.act.chems +
+    hap.chems +
+    pbt.chems
+    |
+    csw(,
+      year,
+      facility.id.fe,
+      border.county.fe,
+      chemical.id.fe,
+      chemical.year.fe
+    )
+  ,
+  data = triQc,
+  cluster = ~c(chemical.id, naics.code, facility.state)
+)
+etable(sdid_landfills, agg = "ATT", digits = 3, digits.stats = 3)
+etable(sdid_landfills, agg = "cohort", digits = 3, digits.stats = 3)
+etable(sdid_landfills, digits = 3, digits.stats = 3)
+
+sdid_landfills <- feols(
+  l.total.landfills.onsite.intensity ~ sunab(ch.year, year) +
+    gdppc.1 +
+    annual.avg.estabs.1 +
+    cpi.1 +
+    federal.facility +
+    produced.chem.facility +
+    imported.chem.facility +
+    chemical.formulation.component +
+    chemical.article.component +
+    chemical.manufacturing.aid +
+    chemical.ancilliary.use +
+    production.ratio.activity.index +
+    maxnum.chem.onsite +
+    clean.air.act.chems +
+    hap.chems +
+    pbt.chems
+    |
+    year +
+      facility.id.fe +
+      border.county.fe +
+      chemical.id.fe +
+      chemical.year.fe,
+  cluster = ~c(chemical.id, naics.code, facility.state),
+  data = triQc
+)
+etable(sdid_landfills, digits.stats = 3, digits = 3)
+iplot(
+  list(sdid_landfills, did_landfills),
+  xlim = c(-3, 3), ylim = c(-0.03, 0.03), col = c("blue", "pink"),
+  main = "Total Onsite Landfills Intensity (log)", xlab = "relative year", lwd = 1, cex = 4,
+  pt.cex = 1.5, pt.col = c("red", "black"), pt.join = T,
+  ci.lwd = 5, ci.lty = 1
+) %>%
+  abline(v = -1, col = "red", lty = 2, lwd = 2)
+legend(x = "bottomright", legend = c("Sun and Abraham (2020) ATT: -0.0027 (0.0041)", "TWFE ATT: -0.0055 (0.0041)"),
+       col = c("red", "black"), pch = 19, pt.cex = 2, bty = "n")
 #======================================================================================================================#
 ### Onsite: Total releases to land treatment intensity
 #======================================================================================================================#
@@ -893,7 +1591,7 @@ did_release_toland <- fixest::feols(
   data = triQc,
   cluster = ~c(chemical.id, naics.code, facility.state)
 )
-fixest::etable(did_release_toland, digits = 4, digits.stats = 4)
+fixest::etable(did_release_toland, digits = 3, digits.stats = 3)
 #----------------------------------------------------------------------------------------------------------------------#
 # Get de Chaisemartin and D'Haultfoeuille Decomposition
 dCDH_decomp <- twowayfeweights(
@@ -939,7 +1637,7 @@ did_release_toland <- fixest::feols(
   data = triQc,
   cluster = ~c(chemical.id, naics.code, facility.state),
 )
-fixest::etable(did_release_toland, digits = 4, digits.stats = 4)
+fixest::etable(did_release_toland, digits = 3, digits.stats = 3)
 fixest::iplot(did_release_toland, xlim = c(-3, 3), ylim = c(-0.05, 0.05), col = "blue",
               main = "Total Onsite Releases to Land Treatment Intensity", xlab = "relative year",
               lwd = 1, cex = 4, pt.cex = 3, pt.col = "red", pt.join = T, ci.lwd = 5, ci.lty = 1) %>%
@@ -948,6 +1646,79 @@ fixest::iplot(did_release_toland, xlim = c(-3, 3), ylim = c(-0.05, 0.05), col = 
 pre.treat.coef <- coef(did_release_toland)[grep(pattern = "rel.year", names(coef(did_release_toland)))]
 pre.treat.coef <- pre.treat.coef[5:6]
 linearHypothesis(did_release_toland, paste0(names(pre.treat.coef), " = 0"), test = "F")
+#----------------------------------------------------------------------------------------------------------------------#
+# Sun and Abraham (2020)
+#----------------------------------------------------------------------------------------------------------------------#
+sdid_release_toland <- fixest::feols(
+  l.total.releases.toland.treatment.onsite.intensity ~ sunab(ch.year, year) +
+    gdppc.1 +
+    annual.avg.estabs.1 +
+    cpi.1 +
+    federal.facility +
+    produced.chem.facility +
+    imported.chem.facility +
+    chemical.formulation.component +
+    chemical.article.component +
+    chemical.manufacturing.aid +
+    chemical.ancilliary.use +
+    production.ratio.activity.index +
+    maxnum.chem.onsite +
+    clean.air.act.chems +
+    hap.chems +
+    pbt.chems
+    |
+    csw(,
+      year,
+      facility.id.fe,
+      border.county.fe,
+      chemical.id.fe,
+      chemical.year.fe
+    )
+  ,
+  data = triQc,
+  cluster = ~c(chemical.id, naics.code, facility.state)
+)
+etable(sdid_release_toland, agg = "ATT", digits = 3, digits.stats = 3)
+etable(sdid_release_toland, agg = "cohort", digits = 3, digits.stats = 3)
+etable(sdid_release_toland, digits = 3, digits.stats = 3)
+
+sdid_release_toland <- feols(
+  l.total.releases.toland.treatment.onsite.intensity ~ sunab(ch.year, year) +
+    gdppc.1 +
+    annual.avg.estabs.1 +
+    cpi.1 +
+    federal.facility +
+    produced.chem.facility +
+    imported.chem.facility +
+    chemical.formulation.component +
+    chemical.article.component +
+    chemical.manufacturing.aid +
+    chemical.ancilliary.use +
+    production.ratio.activity.index +
+    maxnum.chem.onsite +
+    clean.air.act.chems +
+    hap.chems +
+    pbt.chems
+    |
+    year +
+      facility.id.fe +
+      border.county.fe +
+      chemical.id.fe +
+      chemical.year.fe,
+  cluster = ~c(chemical.id, naics.code, facility.state),
+  data = triQc
+)
+etable(sdid_release_toland, digits.stats = 3, digits = 3)
+iplot(
+  list(sdid_release_toland, did_release_toland),
+  xlim = c(-3, 3), ylim = c(-0.05, 0.05), col = c("blue", "pink"),
+  main = "Total Onsite Releases to Land Treatment Intensity (log)", xlab = "relative year", lwd = 1, cex = 4,
+  pt.cex = 1.5, pt.col = c("red", "black"), pt.join = T,
+  ci.lwd = 5, ci.lty = 1
+) %>%
+  abline(v = -1, col = "red", lty = 2, lwd = 2)
+legend(x = "bottomright", legend = c("Sun and Abraham (2020) ATT: 0.0039 (0.0082)", "TWFE ATT: -0.0008 (0.0046)"),
+       col = c("red", "black"), pch = 19, pt.cex = 2, bty = "n")
 #======================================================================================================================#
 ### Onsite: Total surface impoundment intensity
 #======================================================================================================================#
@@ -982,7 +1753,7 @@ did_surface_impoundment <- fixest::feols(
   data = triQc,
   cluster = ~c(chemical.id, naics.code, facility.state)
 )
-fixest::etable(did_surface_impoundment, digits = 4, digits.stats = 4)
+fixest::etable(did_surface_impoundment, digits = 3, digits.stats = 3)
 #----------------------------------------------------------------------------------------------------------------------#
 # Get de Chaisemartin and D'Haultfoeuille Decomposition
 dCDH_decomp <- twowayfeweights(
@@ -1014,7 +1785,10 @@ did_surface_impoundment <- fixest::feols(
       chemical.manufacturing.aid +
       chemical.ancilliary.use +
       production.ratio.activity.index +
-      maxnum.chem.onsite
+      maxnum.chem.onsite +
+      clean.air.act.chems +
+      hap.chems +
+      pbt.chems
       |
       year +
         facility.id.fe +
@@ -1025,7 +1799,7 @@ did_surface_impoundment <- fixest::feols(
   data = triQc,
   cluster = ~c(chemical.id, naics.code, facility.state),
 )
-fixest::etable(did_surface_impoundment, digits = 4, digits.stats = 4)
+fixest::etable(did_surface_impoundment, digits = 3, digits.stats = 3)
 fixest::iplot(did_surface_impoundment, xlim = c(-3, 3), ylim = c(-0.02, 0.08), col = "blue",
               main = "Total Onsite Surface Impoundment Intensity", xlab = "relative year",
               lwd = 1, cex = 4, pt.cex = 3, pt.col = "red", pt.join = T, ci.lwd = 5, ci.lty = 1) %>%
@@ -1034,6 +1808,79 @@ fixest::iplot(did_surface_impoundment, xlim = c(-3, 3), ylim = c(-0.02, 0.08), c
 pre.treat.coef <- coef(did_surface_impoundment)[grep(pattern = "rel.year", names(coef(did_surface_impoundment)))]
 pre.treat.coef <- pre.treat.coef[4:5]
 linearHypothesis(did_surface_impoundment, paste0(names(pre.treat.coef), " = 0"), test = "F")
+#----------------------------------------------------------------------------------------------------------------------#
+# Sun and Abraham (2020)
+#----------------------------------------------------------------------------------------------------------------------#
+sdid_surface_impoundment <- fixest::feols(
+  l.total.surface.impoundment.onsite.intensity ~ sunab(ch.year, year) +
+    gdppc.1 +
+    annual.avg.estabs.1 +
+    cpi.1 +
+    federal.facility +
+    produced.chem.facility +
+    imported.chem.facility +
+    chemical.formulation.component +
+    chemical.article.component +
+    chemical.manufacturing.aid +
+    chemical.ancilliary.use +
+    production.ratio.activity.index +
+    maxnum.chem.onsite +
+    clean.air.act.chems +
+    hap.chems +
+    pbt.chems
+    |
+    csw(,
+      year,
+      facility.id.fe,
+      border.county.fe,
+      chemical.id.fe,
+      chemical.year.fe
+    )
+  ,
+  data = triQc,
+  cluster = ~c(chemical.id, naics.code, facility.state)
+)
+etable(sdid_surface_impoundment, agg = "ATT", digits = 3, digits.stats = 3)
+etable(sdid_surface_impoundment, agg = "cohort", digits = 3, digits.stats = 3)
+etable(sdid_surface_impoundment, digits = 3, digits.stats = 3)
+
+sdid_surface_impoundment <- feols(
+  l.total.surface.impoundment.onsite.intensity ~ sunab(ch.year, year) +
+    gdppc.1 +
+    annual.avg.estabs.1 +
+    cpi.1 +
+    federal.facility +
+    produced.chem.facility +
+    imported.chem.facility +
+    chemical.formulation.component +
+    chemical.article.component +
+    chemical.manufacturing.aid +
+    chemical.ancilliary.use +
+    production.ratio.activity.index +
+    maxnum.chem.onsite +
+    clean.air.act.chems +
+    hap.chems +
+    pbt.chems
+    |
+    year +
+      facility.id.fe +
+      border.county.fe +
+      chemical.id.fe +
+      chemical.year.fe,
+  cluster = ~c(chemical.id, naics.code, facility.state),
+  data = triQc
+)
+etable(sdid_surface_impoundment, digits.stats = 3, digits = 3)
+iplot(
+  list(sdid_surface_impoundment, did_surface_impoundment),
+  xlim = c(-3, 3), ylim = c(-0.015, 0.08), col = c("blue", "pink"),
+  main = "Total Onsite Surface Impoundment Intensity (log)", xlab = "relative year", lwd = 1, cex = 4,
+  pt.cex = 1.5, pt.col = c("red", "black"), pt.join = T,
+  ci.lwd = 5, ci.lty = 1
+) %>%
+  abline(v = -1, col = "red", lty = 2, lwd = 2)
+legend(x = "bottomright", legend = c("Sun and Abraham (2020) ATT: 0.0153* (0.0082)", "TWFE ATT: 0.0173* (0.0089)"),
+       col = c("red", "black"), pch = 19, pt.cex = 2, bty = "n")
 #======================================================================================================================#
 ### Onsite: Total land releases others intensity
 #======================================================================================================================#
@@ -1068,7 +1915,7 @@ did_land_releases_others <- fixest::feols(
   data = triQc,
   cluster = ~c(chemical.id, naics.code, facility.state)
 )
-fixest::etable(did_land_releases_others, digits = 4, digits.stats = 4)
+fixest::etable(did_land_releases_others, digits = 3, digits.stats = 3)
 #----------------------------------------------------------------------------------------------------------------------#
 # Get de Chaisemartin and D'Haultfoeuille Decomposition
 dCDH_decomp <- twowayfeweights(
@@ -1114,7 +1961,7 @@ did_land_releases_others <- fixest::feols(
   data = triQc,
   cluster = ~c(chemical.id, naics.code, facility.state),
 )
-fixest::etable(did_land_releases_others, digits = 4, digits.stats = 4)
+fixest::etable(did_land_releases_others, digits = 3, digits.stats = 3)
 fixest::iplot(did_land_releases_others, xlim = c(-3, 3), ylim = c(-0.1, 0.1), col = "blue",
               main = "Toal Onsite Land Releases Intensity, Others", xlab = "relative year",
               lwd = 1, cex = 4, pt.cex = 3, pt.col = "red", pt.join = T, ci.lwd = 5, ci.lty = 1) %>%
@@ -1123,32 +1970,141 @@ fixest::iplot(did_land_releases_others, xlim = c(-3, 3), ylim = c(-0.1, 0.1), co
 pre.treat.coef <- coef(did_land_releases_others)[grep(pattern = "rel.year", names(coef(did_land_releases_others)))]
 pre.treat.coef <- pre.treat.coef[5:6]
 linearHypothesis(did_land_releases_others, paste0(names(pre.treat.coef), " = 0"), test = "F")
+#----------------------------------------------------------------------------------------------------------------------#
+# Sun and Abraham (2020)
+#----------------------------------------------------------------------------------------------------------------------#
+sdid_land_releases_others <- fixest::feols(
+  l.total.land.releases.other.onsite.intensity ~ sunab(ch.year, year) +
+    gdppc.1 +
+    annual.avg.estabs.1 +
+    cpi.1 +
+    federal.facility +
+    produced.chem.facility +
+    imported.chem.facility +
+    chemical.formulation.component +
+    chemical.article.component +
+    chemical.manufacturing.aid +
+    chemical.ancilliary.use +
+    production.ratio.activity.index +
+    maxnum.chem.onsite +
+    clean.air.act.chems +
+    hap.chems +
+    pbt.chems
+    |
+    csw(,
+      year,
+      facility.id.fe,
+      border.county.fe,
+      chemical.id.fe,
+      chemical.year.fe
+    )
+  ,
+  data = triQc,
+  cluster = ~c(chemical.id, naics.code, facility.state)
+)
+etable(sdid_land_releases_others, agg = "ATT", digits = 3, digits.stats = 3)
+etable(sdid_land_releases_others, agg = "cohort", digits = 3, digits.stats = 3)
+etable(sdid_land_releases_others, digits = 3, digits.stats = 3)
+
+sdid_land_releases_others <- feols(
+  l.total.land.releases.other.onsite.intensity ~ sunab(ch.year, year) +
+    gdppc.1 +
+    annual.avg.estabs.1 +
+    cpi.1 +
+    federal.facility +
+    produced.chem.facility +
+    imported.chem.facility +
+    chemical.formulation.component +
+    chemical.article.component +
+    chemical.manufacturing.aid +
+    chemical.ancilliary.use +
+    production.ratio.activity.index +
+    maxnum.chem.onsite +
+    clean.air.act.chems +
+    hap.chems +
+    pbt.chems
+    |
+    year +
+      facility.id.fe +
+      border.county.fe +
+      chemical.id.fe +
+      chemical.year.fe,
+  cluster = ~c(chemical.id, naics.code, facility.state),
+  data = triQc
+)
+etable(sdid_land_releases_others, digits.stats = 3, digits = 3)
+iplot(
+  list(sdid_land_releases_others, did_land_releases_others),
+  xlim = c(-3, 3), ylim = c(-0.1, 0.1), col = c("blue", "pink"),
+  main = "Total Onsite Land Releases Intensity, Others (log)", xlab = "relative year", lwd = 1, cex = 4,
+  pt.cex = 1.5, pt.col = c("red", "black"), pt.join = T,
+  ci.lwd = 5, ci.lty = 1
+) %>%
+  abline(v = -1, col = "red", lty = 2, lwd = 2)
+legend(x = "bottomright", legend = c("Sun and Abraham (2020) ATT: -0.0337** (0.0154)", "TWFE ATT: -0.0006 (0.0073)"),
+       col = c("red", "black"), pch = 19, pt.cex = 2, bty = "n")
 #======================================================================================================================#
-pdf(file = "./Thesis/chapter3/src/climate_change/latex/fig_did_total_land_releases_onsite_int.pdf", width = 14, height = 7)
+pdf(file = "../latex/fig_sdid_total_land_releases_onsite_int.pdf", width = 16, height = 7)
 par(mfrow = c(2, 3))
-fixest::iplot(did_land_releases, xlim = c(-3, 3), ylim = c(-0.1, 0.1), col = "blue",
-              main = "Total Onsite Land Releases Intensity", xlab = "relative year",
-              lwd = 1, cex = 4, pt.cex = 3, pt.col = "red", pt.join = T, ci.lwd = 5, ci.lty = 1) %>%
+iplot(
+  list(sdid_land_releases, did_land_releases),
+  xlim = c(-3, 3), ylim = c(-0.1, 0.1), col = c("blue", "pink"),
+  main = "Total Onsite Land Releases Intensity (log)", xlab = "relative year", lwd = 1, cex = 4,
+  pt.cex = 1.5, pt.col = c("red", "black"), pt.join = T,
+  ci.lwd = 5, ci.lty = 1
+) %>%
   abline(v = -1, col = "red", lty = 2, lwd = 2)
-fixest::iplot(did_undground_inject, xlim = c(-3, 3), ylim = c(-0.009, 0.009), col = "blue",
-              main = "Total Onsite Underground Injection Intensity", xlab = "relative year",
-              lwd = 1, cex = 4, pt.cex = 3, pt.col = "red", pt.join = T, ci.lwd = 5, ci.lty = 1) %>%
+legend(x = "bottomright", legend = c("Sun and Abraham (2020) ATT: -0.0183 (0.0171)", "TWFE ATT: 0.0095 (0.0111)"),
+       col = c("red", "black"), pch = 19, pt.cex = 2, bty = "n")
+iplot(
+  list(sdid_undground_inject, did_undground_inject),
+  xlim = c(-3, 3), ylim = c(-0.002, 0.009), col = c("blue", "pink"),
+  main = "Total Onsite Underground Injection Intensity (log)", xlab = "relative year", lwd = 1, cex = 4,
+  pt.cex = 1.5, pt.col = c("red", "black"), pt.join = T,
+  ci.lwd = 5, ci.lty = 1
+) %>%
   abline(v = -1, col = "red", lty = 2, lwd = 2)
-fixest::iplot(did_landfills, xlim = c(-3, 3), ylim = c(-0.03, 0.03), col = "blue",
-              main = "Total Onsite Landfills Intensity", xlab = "relative year",
-              lwd = 1, cex = 4, pt.cex = 3, pt.col = "red", pt.join = T, ci.lwd = 5, ci.lty = 1) %>%
+legend(x = "bottomright", legend = c("Sun and Abraham (2020) ATT: 0.0008 (0.0004)", "TWFE ATT: 0.0001 (0.0004)"),
+       col = c("red", "black"), pch = 19, pt.cex = 2, bty = "n")
+iplot(
+  list(sdid_landfills, did_landfills),
+  xlim = c(-3, 3), ylim = c(-0.03, 0.03), col = c("blue", "pink"),
+  main = "Total Onsite Landfills Intensity (log)", xlab = "relative year", lwd = 1, cex = 4,
+  pt.cex = 1.5, pt.col = c("red", "black"), pt.join = T,
+  ci.lwd = 5, ci.lty = 1
+) %>%
   abline(v = -1, col = "red", lty = 2, lwd = 2)
-fixest::iplot(did_release_toland, xlim = c(-3, 3), ylim = c(-0.05, 0.05), col = "blue",
-              main = "Total Onsite Releases to Land Treatment Intensity", xlab = "relative year",
-              lwd = 1, cex = 4, pt.cex = 3, pt.col = "red", pt.join = T, ci.lwd = 5, ci.lty = 1) %>%
+legend(x = "bottomright", legend = c("Sun and Abraham (2020) ATT: -0.0027 (0.0041)", "TWFE ATT: -0.0055 (0.0041)"),
+       col = c("red", "black"), pch = 19, pt.cex = 2, bty = "n")
+iplot(
+  list(sdid_release_toland, did_release_toland),
+  xlim = c(-3, 3), ylim = c(-0.05, 0.05), col = c("blue", "pink"),
+  main = "Total Onsite Releases to Land Treatment Intensity (log)", xlab = "relative year", lwd = 1, cex = 4,
+  pt.cex = 1.5, pt.col = c("red", "black"), pt.join = T,
+  ci.lwd = 5, ci.lty = 1
+) %>%
   abline(v = -1, col = "red", lty = 2, lwd = 2)
-fixest::iplot(did_surface_impoundment, xlim = c(-3, 3), ylim = c(-0.08, 0.08), col = "blue",
-              main = "Total Onsite Surface Impoundment Intensity", xlab = "relative year",
-              lwd = 1, cex = 4, pt.cex = 3, pt.col = "red", pt.join = T, ci.lwd = 5, ci.lty = 1) %>%
+legend(x = "bottomright", legend = c("Sun and Abraham (2020) ATT: 0.0039 (0.0082)", "TWFE ATT: -0.0008 (0.0046)"),
+       col = c("red", "black"), pch = 19, pt.cex = 2, bty = "n")
+iplot(
+  list(sdid_surface_impoundment, did_surface_impoundment),
+  xlim = c(-3, 3), ylim = c(-0.015, 0.08), col = c("blue", "pink"),
+  main = "Total Onsite Surface Impoundment Intensity (log)", xlab = "relative year", lwd = 1, cex = 4,
+  pt.cex = 1.5, pt.col = c("red", "black"), pt.join = T,
+  ci.lwd = 5, ci.lty = 1
+) %>%
   abline(v = -1, col = "red", lty = 2, lwd = 2)
-fixest::iplot(did_land_releases_others, xlim = c(-3, 3), ylim = c(-0.1, 0.1), col = "blue",
-              main = "Toal Onsite Land Releases Intensity, Others", xlab = "relative year",
-              lwd = 1, cex = 4, pt.cex = 3, pt.col = "red", pt.join = T, ci.lwd = 5, ci.lty = 1) %>%
+legend(x = "bottomright", legend = c("Sun and Abraham (2020) ATT: 0.0153* (0.0082)", "TWFE ATT: 0.0173* (0.0089)"),
+       col = c("red", "black"), pch = 19, pt.cex = 2, bty = "n")
+iplot(
+  list(sdid_land_releases_others, did_land_releases_others),
+  xlim = c(-3, 3), ylim = c(-0.1, 0.1), col = c("blue", "pink"),
+  main = "Total Onsite Land Releases Intensity, Others (log)", xlab = "relative year", lwd = 1, cex = 4,
+  pt.cex = 1.5, pt.col = c("red", "black"), pt.join = T,
+  ci.lwd = 5, ci.lty = 1
+) %>%
   abline(v = -1, col = "red", lty = 2, lwd = 2)
+legend(x = "bottomright", legend = c("Sun and Abraham (2020) ATT: -0.0337** (0.0154)", "TWFE ATT: -0.0006 (0.0073)"),
+       col = c("red", "black"), pch = 19, pt.cex = 2, bty = "n")
 dev.off()
 #======================================================================================================================#

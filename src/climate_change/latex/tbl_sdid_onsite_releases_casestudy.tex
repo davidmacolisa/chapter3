@@ -1,0 +1,36 @@
+% Please add the following required packages to your document preamble:
+% \usepackage{booktabs}
+% \usepackage{graphicx}
+\begin{table}[H]
+    \centering
+    \caption{Effect of MW Policy by Industry-size in Total Onsite Releases Intensities}
+    \label{tab:did-onsite-releases-casestudy}
+    \resizebox{\columnwidth}{!}{%
+        \begin{tabular}{@{}lllllllllllllll@{}}
+            \toprule\toprule
+           Onsite Releases Intensities & \multicolumn{2}{c}{Total} & \multicolumn{2}{c}{Air} & \multicolumn{2}{c}{Point air} & \multicolumn{2}{c}{Fugitive air} & \multicolumn{2}{c}{Water Discharge} & \multicolumn{2}{c}{Land Releases} & \multicolumn{2}{c}{Surface Impoundment} \\
+            \cmidrule(lr){2-3} \cmidrule(lr){4-5} \cmidrule(lr){6-7} \cmidrule(lr){8-9} \cmidrule(lr){10-11} \cmidrule(lr){12-13} \cmidrule(lr){14-15}
+                           & 2         & 3         & 4         & 5         & 6        & 7         & 8         & 9          & 10       & 11        & 12        & 13        & 14       & 15        \\ \midrule
+            treated            & 0.3243*** & -0.0567*  & 0.2498*** & -0.0381   & 0.0099   & 0.0052    & 0.2550**  & -0.0561*** & 0.0515   & -0.0013   & -0.0180   & -0.0180   & 0.0008   & 0.0244**  \\
+            & (0.1094)  & (0.0319)  & (0.0887)  & (0.0257)  & (0.0559) & (0.0248)  & (0.0988)  & (0.0208)   & (0.0832) & (0.0097)  & (0.0224)  & (0.0235)  & (0.0014) & (0.0123)  \\
+            cohort 2014        & 0.3346**  & -0.0458   & 0.2897**  & -0.0354   & 0.2144*  & 0.0173    & 0.0910    & -0.0705**  & 0.0515   & -0.0059   & 0.0350    & -0.0058   & 0.0008   & 0.0300*   \\
+            & (0.1292)  & (0.0395)  & (0.1283)  & (0.0315)  & (0.1127) & (0.0318)  & (0.1172)  & (0.0276)   & (0.0832) & (0.0098)  & (0.0506)  & (0.0255)  & (0.0008) & (0.0154)  \\
+            cohort 2015        & 0.3158*** & -0.0892   & 0.2151**  & -0.0479   & -0.1698* & -0.0295   & 0.3996*** & -0.0187    & 0.1268   & 0.0102    & -0.0665** & -0.0511   & 0.0008   & 0.0095**  \\
+            & (0.1150)  & (0.0656)  & (0.0886)  & (0.0399)  & (0.0929) & (0.0375)  & (0.0946)  & (0.0284)   & (0.0888) & (0.0161)  & (0.0263)  & (0.0592)  & (0.0027) & (0.0045)  \\
+            cohort 2017        & -0.2618   & 0.1746**  & -0.1675   & 0.1442*   & -0.1262  & 0.1599**  & -0.0891   & 0.0236     & -0.1385  & 0.0472    & -0.0515   & 0.0265    & -0.0016  & 0.0294*   \\
+            & (0.2281)  & (0.0830)  & (0.2091)  & (0.0830)  & (0.1947) & (0.0784)  & (0.1620)  & (0.0619)   & (0.1423) & (0.0324)  & (0.0524)  & (0.0173)  & (0.0018) & (0.0157)  \\
+            controls           & Yes       & Yes       & Yes       & Yes       & Yes      & Yes       & Yes       & Yes        & Yes      & Yes       & Yes       & Yes       & Yes      & Yes       \\
+            year FE            & Yes       & Yes       & Yes       & Yes       & Yes      & Yes       & Yes       & Yes        & Yes      & Yes       & Yes       & Yes       & Yes      & Yes       \\
+            facility FE        & Yes       & Yes       & Yes       & Yes       & Yes      & Yes       & Yes       & Yes        & Yes      & Yes       & Yes       & Yes       & Yes      & Yes       \\
+            border-county FE   & Yes       & Yes       & Yes       & Yes       & Yes      & Yes       & Yes       & Yes        & Yes      & Yes       & Yes       & Yes       & Yes      & Yes       \\
+            toxic chemical FE  & Yes       & Yes       & Yes       & Yes       & Yes      & Yes       & Yes       & Yes        & Yes      & Yes       & Yes       & Yes       & Yes      & Yes       \\
+            toxic chemical LTs & Yes       & Yes       & Yes       & Yes       & Yes      & Yes       & Yes       & Yes        & Yes      & Yes       & Yes       & Yes       & Yes      & Yes       \\ \midrule
+            Observations       & 614,227   & 1,279,462 & 614,227   & 1,279,462 & 614,227  & 1,279,462 & 614,227   & 1,279,462  & 613,049  & 1,280,640 & 624,647   & 1,269,042 & 624,647  & 1,269,042 \\
+            $R^2$              & 0.8060    & 0.7449    & 0.8102    & 0.7550    & 0.7841   & 0.7339    & 0.7671    & 0.6425     & 0.7733   & 0.3998    & 0.5509    & 0.5373    & 0.2439   & 0.1455    \\ \bottomrule\bottomrule
+        \end{tabular}%
+    }
+    \begin{minipage}{18cm}
+        \vspace{0.05in}
+        \tiny These results are obtained from estimating models~\ref{eq:baseline-total-onsite-releases-intensity},~\ref{eq:baseline-onsite-air-emission-intensity},~\ref{eq:baseline-onsite-water-discharge-intensity} and~\ref{eq:baseline-onsite-land-releases-intensity}. The even columns report results for the highest emitting industries (both sum and average): Food, chemical, leather and allied products, and wood product manufacturing industries. The odd columns include all other manufacturing industries: beverage and tobacco, computer and electronic equipment, forging and stamping, furniture and related products, household appliances, machinery, miscellaneous, Nonmetallic mineral product, paper, petroleum and coal products, plastics and rubber products, primary metal, printing and related support activities, textile mills, textile product mills, and transportation equipment manufacturing industries. ***, **, and * denote significance levels at the less than $1\%$, $5\%$ and $10\%$, respectively.
+    \end{minipage}
+\end{table}

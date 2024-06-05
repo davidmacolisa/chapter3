@@ -268,7 +268,7 @@ naics_distribution
 dev.off()
 #======================================================================================================================#
 # Distribution of total releases intensity onsite by NAICS industries
-releases_distribution_naics <- triQc %>%
+releases_distribution_sum_naics <- triQc %>%
   select(industry.name, naics.code, total.releases.onsite.intensity) %>%
   group_by(industry.name) %>%
   summarise(naics.code = n(),
@@ -283,12 +283,136 @@ releases_distribution_naics <- triQc %>%
   theme_bw() +
   theme(axis.text.x = element_text(angle = 90, vjust = 0.5, hjust = 1, size = 18),
         axis.title.x = element_text(size = 20))
-pdf(file = "./Thesis/chapter3/src/climate_change/latex/fig_releases_distribution.pdf", width = 12, height = 10)
-releases_distribution_naics
+
+releases_distribution_mean_naics <- triQc %>%
+  select(industry.name, naics.code, total.releases.onsite.intensity) %>%
+  group_by(industry.name) %>%
+  summarise(naics.code = n(),
+            total.releases.onsite.intensity = mean(total.releases.onsite.intensity, na.rm = TRUE)) %>%
+  ggplot(aes(x = industry.name, y = total.releases.onsite.intensity)) +
+  geom_bar(stat = "identity", fill = "blue") +
+  labs(
+    title = "Average Releases Intensity (Onsite)",
+    x = "",
+    y = "average releases Intensity (onsite)"
+  ) +
+  theme_bw() +
+  theme(axis.text.x = element_text(angle = 90, vjust = 0.5, hjust = 1, size = 18),
+        axis.title.x = element_text(size = 20))
+pdf(file = "./Thesis/chapter3/src/climate_change/latex/fig_releases_distribution_naics.pdf", width = 20, height = 10)
+releases_distribution_sum_naics + releases_distribution_mean_naics
+dev.off()
+#======================================================================================================================#
+# Distribution of total air emissions intensity onsite by NAICS industries
+air_emissions_distribution_sum_naics <- triQc %>%
+  select(industry.name, naics.code, total.air.emissions.onsite.intensity) %>%
+  group_by(industry.name) %>%
+  summarise(naics.code = n(),
+            total.air.emissions.onsite.intensity = sum(total.air.emissions.onsite.intensity, na.rm = TRUE)) %>%
+  ggplot(aes(x = industry.name, y = total.air.emissions.onsite.intensity)) +
+  geom_bar(stat = "identity", fill = "blue") +
+  labs(
+    title = "Total Air Emissions Intensity (Onsite)",
+    x = "",
+    y = "total air emissions Intensity (onsite)"
+  ) +
+  theme_bw() +
+  theme(axis.text.x = element_text(angle = 90, vjust = 0.5, hjust = 1, size = 18),
+        axis.title.x = element_text(size = 20))
+
+air_emissions_distribution_mean_naics <- triQc %>%
+  select(industry.name, naics.code, total.air.emissions.onsite.intensity) %>%
+  group_by(industry.name) %>%
+  summarise(naics.code = n(),
+            total.air.emissions.onsite.intensity = mean(total.air.emissions.onsite.intensity, na.rm = TRUE)) %>%
+  ggplot(aes(x = industry.name, y = total.air.emissions.onsite.intensity)) +
+  geom_bar(stat = "identity", fill = "blue") +
+  labs(
+    title = "Average Air Emissions Intensity (Onsite)",
+    x = "",
+    y = "average air emissions Intensity (onsite)"
+  ) +
+  theme_bw() +
+  theme(axis.text.x = element_text(angle = 90, vjust = 0.5, hjust = 1, size = 18),
+        axis.title.x = element_text(size = 20))
+pdf(file = "./Thesis/chapter3/src/climate_change/latex/fig_air_emissions_distribution_naics.pdf", width = 20, height = 10)
+air_emissions_distribution_sum_naics + air_emissions_distribution_mean_naics
+dev.off()
+#======================================================================================================================#
+# Distribution of total land releases intensity onsite by NAICS industries
+land_releases_distribution_sum_naics <- triQc %>%
+  select(industry.name, naics.code, total.land.releases.onsite.intensity) %>%
+  group_by(industry.name) %>%
+  summarise(naics.code = n(),
+            total.land.releases.onsite.intensity = sum(total.land.releases.onsite.intensity, na.rm = TRUE)) %>%
+  ggplot(aes(x = industry.name, y = total.land.releases.onsite.intensity)) +
+  geom_bar(stat = "identity", fill = "blue") +
+  labs(
+    title = "Total Land Releases Intensity (Onsite)",
+    x = "",
+    y = "total land releases Intensity (onsite)"
+  ) +
+  theme_bw() +
+  theme(axis.text.x = element_text(angle = 90, vjust = 0.5, hjust = 1, size = 18),
+        axis.title.x = element_text(size = 20))
+
+land_releases_distribution_mean_naics <- triQc %>%
+  select(industry.name, naics.code, total.land.releases.onsite.intensity) %>%
+  group_by(industry.name) %>%
+  summarise(naics.code = n(),
+            total.land.releases.onsite.intensity = mean(total.land.releases.onsite.intensity, na.rm = TRUE)) %>%
+  ggplot(aes(x = industry.name, y = total.land.releases.onsite.intensity)) +
+  geom_bar(stat = "identity", fill = "blue") +
+  labs(
+    title = "Average Land Releases Intensity (Onsite)",
+    x = "",
+    y = "average land releases Intensity (onsite)"
+  ) +
+  theme_bw() +
+  theme(axis.text.x = element_text(angle = 90, vjust = 0.5, hjust = 1, size = 18),
+        axis.title.x = element_text(size = 20))
+pdf(file = "./Thesis/chapter3/src/climate_change/latex/fig_land_releases_distribution_naics.pdf", width = 20, height = 10)
+land_releases_distribution_sum_naics + land_releases_distribution_mean_naics
+dev.off()
+#======================================================================================================================#
+# Distribution of total surfae water discharge intensity onsite by NAICS industries
+surface_water_distribution_sum_naics <- triQc %>%
+  select(industry.name, naics.code, total.surface.water.discharge.onsite.intensity) %>%
+  group_by(industry.name) %>%
+  summarise(naics.code = n(),
+            total.surface.water.discharge.onsite.intensity = sum(total.surface.water.discharge.onsite.intensity, na.rm = TRUE)) %>%
+  ggplot(aes(x = industry.name, y = total.surface.water.discharge.onsite.intensity)) +
+  geom_bar(stat = "identity", fill = "blue") +
+  labs(
+    title = "Total Surface Water Discharge Intensity (Onsite)",
+    x = "",
+    y = "total surface water discharge Intensity (onsite)"
+  ) +
+  theme_bw() +
+  theme(axis.text.x = element_text(angle = 90, vjust = 0.5, hjust = 1, size = 18),
+        axis.title.x = element_text(size = 20))
+
+surface_water_distribution_mean_naics <- triQc %>%
+  select(industry.name, naics.code, total.surface.water.discharge.onsite.intensity) %>%
+  group_by(industry.name) %>%
+  summarise(naics.code = n(),
+            total.surface.water.discharge.onsite.intensity = mean(total.surface.water.discharge.onsite.intensity, na.rm = TRUE)) %>%
+  ggplot(aes(x = industry.name, y = total.surface.water.discharge.onsite.intensity)) +
+  geom_bar(stat = "identity", fill = "blue") +
+  labs(
+    title = "Average Surface Water Discharge Intensity (Onsite)",
+    x = "",
+    y = "average surface water discharge Intensity (onsite)"
+  ) +
+  theme_bw() +
+  theme(axis.text.x = element_text(angle = 90, vjust = 0.5, hjust = 1, size = 18),
+        axis.title.x = element_text(size = 20))
+pdf(file = "./Thesis/chapter3/src/climate_change/latex/fig_water_distribution_naics.pdf", width = 20, height = 10)
+surface_water_distribution_sum_naics + surface_water_distribution_mean_naics
 dev.off()
 #======================================================================================================================#
 # Distribution of total releases intensity onsite between the Treated and Control States
-releases_distribution_states <- triQc %>%
+releases_distribution_sum_states <- triQc %>%
   select(facility.state, industry.name, naics.code, treated, total.releases.onsite.intensity) %>%
   group_by(facility.state) %>%
   summarise(
@@ -306,12 +430,31 @@ releases_distribution_states <- triQc %>%
   theme_bw() +
   theme(axis.text.x = element_text(angle = 0, vjust = 0.0, hjust = 0.5, size = 15),
         axis.title.x = element_text(size = 10))
-pdf(file = "./Thesis/chapter3/src/climate_change/latex/fig_releases_distribution_states.pdf", width = 12, height = 5)
-releases_distribution_states
+
+releases_distribution_mean_states <- triQc %>%
+  select(facility.state, industry.name, naics.code, treated, total.releases.onsite.intensity) %>%
+  group_by(facility.state) %>%
+  summarise(
+    naics.code = n(),
+    total.releases.onsite.intensity = mean(total.releases.onsite.intensity, na.rm = TRUE),
+    treated = treated %>% unique()
+  ) %>%
+  ggplot(aes(x = facility.state, y = total.releases.onsite.intensity, fill = treated)) +
+  geom_bar(stat = "identity") +
+  labs(
+    title = "Average Releases Intensity (Onsite)",
+    x = "",
+    y = "average releases intensity (onsite)"
+  ) +
+  theme_bw() +
+  theme(axis.text.x = element_text(angle = 0, vjust = 0.0, hjust = 0.5, size = 15),
+        axis.title.x = element_text(size = 10))
+pdf(file = "./Thesis/chapter3/src/climate_change/latex/fig_releases_distribution_state.pdf", width = 23, height = 5)
+releases_distribution_sum_states + releases_distribution_mean_states
 dev.off()
 #======================================================================================================================#
 # Distribution of total releases intensity onsite between the Treated and Control States
-air_emissions_distribution <- triQc %>%
+air_emissions_distribution_sum_states <- triQc %>%
   select(facility.state, industry.name, naics.code, treated, total.air.emissions.onsite.intensity) %>%
   group_by(facility.state) %>%
   summarise(
@@ -329,12 +472,31 @@ air_emissions_distribution <- triQc %>%
   theme_bw() +
   theme(axis.text.x = element_text(angle = 0, vjust = 0.0, hjust = 0.5, size = 15),
         axis.title.x = element_text(size = 10))
-pdf(file = "./Thesis/chapter3/src/climate_change/latex/fig_air_emissions_distribution.pdf", width = 12, height = 5)
-air_emissions_distribution
+
+air_emissions_distribution_mean_states <- triQc %>%
+  select(facility.state, industry.name, naics.code, treated, total.air.emissions.onsite.intensity) %>%
+  group_by(facility.state) %>%
+  summarise(
+    naics.code = n(),
+    total.air.emissions.onsite.intensity = mean(total.air.emissions.onsite.intensity, na.rm = TRUE),
+    treated = treated %>% unique()
+  ) %>%
+  ggplot(aes(x = facility.state, y = total.air.emissions.onsite.intensity, fill = treated)) +
+  geom_bar(stat = "identity") +
+  labs(
+    title = "Average Air Emissions Intensity (Onsite)",
+    x = "",
+    y = "average air emissions intensity (onsite)"
+  ) +
+  theme_bw() +
+  theme(axis.text.x = element_text(angle = 0, vjust = 0.0, hjust = 0.5, size = 15),
+        axis.title.x = element_text(size = 10))
+pdf(file = "./Thesis/chapter3/src/climate_change/latex/fig_air_emissions_distribution_state.pdf", width = 23, height = 5)
+air_emissions_distribution_sum_states + air_emissions_distribution_mean_states
 dev.off()
 #======================================================================================================================#
 # Distribution of total land releases intensity onsite between the Treated and Control States
-land_releases_distribution <- triQc %>%
+land_releases_distribution_sum_states <- triQc %>%
   select(facility.state, industry.name, naics.code, treated, total.land.releases.onsite.intensity) %>%
   group_by(facility.state) %>%
   summarise(
@@ -352,12 +514,31 @@ land_releases_distribution <- triQc %>%
   theme_bw() +
   theme(axis.text.x = element_text(angle = 0, vjust = 0, hjust = 0.5, size = 15),
         axis.title.x = element_text(size = 10))
-pdf(file = "./Thesis/chapter3/src/climate_change/latex/fig_land_releases_distribution.pdf", width = 12, height = 5)
-land_releases_distribution
+
+land_releases_distribution_mean_states <- triQc %>%
+  select(facility.state, industry.name, naics.code, treated, total.land.releases.onsite.intensity) %>%
+  group_by(facility.state) %>%
+  summarise(
+    naics.code = n(),
+    total.land.releases.onsite.intensity = mean(total.land.releases.onsite.intensity, na.rm = TRUE),
+    treated = treated %>% unique()
+  ) %>%
+  ggplot(aes(x = facility.state, y = total.land.releases.onsite.intensity, fill = treated)) +
+  geom_bar(stat = "identity") +
+  labs(
+    title = "Average Land Releases Intensity (Onsite)",
+    x = "",
+    y = "average land releases intensity (onsite)"
+  ) +
+  theme_bw() +
+  theme(axis.text.x = element_text(angle = 0, vjust = 0, hjust = 0.5, size = 15),
+        axis.title.x = element_text(size = 10))
+pdf(file = "./Thesis/chapter3/src/climate_change/latex/fig_land_releases_distribution_state.pdf", width = 23, height = 5)
+land_releases_distribution_sum_states + land_releases_distribution_mean_states
 dev.off()
 #======================================================================================================================#
 # Distribution of total surface water discharge intensity onsite between the Treated and Control States
-water_discharge_distribution <- triQc %>%
+water_discharge_distribution_sum_states <- triQc %>%
   select(facility.state, industry.name, naics.code, treated, total.surface.water.discharge.onsite.intensity) %>%
   group_by(facility.state) %>%
   summarise(
@@ -375,8 +556,27 @@ water_discharge_distribution <- triQc %>%
   theme_bw() +
   theme(axis.text.x = element_text(angle = 0, vjust = 0, hjust = 0.5, size = 15),
         axis.title.x = element_text(size = 10))
-pdf(file = "./Thesis/chapter3/src/climate_change/latex/fig_water_discharge_distribution.pdf", width = 12, height = 5)
-water_discharge_distribution
+
+water_discharge_distribution_mean_states <- triQc %>%
+  select(facility.state, industry.name, naics.code, treated, total.surface.water.discharge.onsite.intensity) %>%
+  group_by(facility.state) %>%
+  summarise(
+    naics.code = n(),
+    total.surface.water.discharge.onsite.intensity = mean(total.surface.water.discharge.onsite.intensity, na.rm = TRUE),
+    treated = treated %>% unique()
+  ) %>%
+  ggplot(aes(x = facility.state, y = total.surface.water.discharge.onsite.intensity, fill = treated)) +
+  geom_bar(stat = "identity") +
+  labs(
+    title = "Average Surface Water Discharge Intensity (Onsite)",
+    x = "",
+    y = "average surface water discharge intensity (onsite)"
+  ) +
+  theme_bw() +
+  theme(axis.text.x = element_text(angle = 0, vjust = 0, hjust = 0.5, size = 15),
+        axis.title.x = element_text(size = 10))
+pdf(file = "./Thesis/chapter3/src/climate_change/latex/fig_water_discharge_distribution_state.pdf", width = 23, height = 5)
+water_discharge_distribution_sum_states + water_discharge_distribution_mean_states
 dev.off()
 #======================================================================================================================#
 # Distribution of industries by ownership
@@ -409,7 +609,7 @@ triQc %>%
   theme(axis.text.x = element_text(angle = 90, vjust = 0.05, hjust = 1, size = 15),
         axis.title.x = element_text(size = 10))
 #======================================================================================================================#
-### Distribution of total onsite releases by chemical heterogeneities
+### Distribution of total onsite releases by chemical groups
 #======================================================================================================================#
 # Distribution of total onsite releases intensity across states by carcinogenic chemicals
 releases_distribution_carcinogenic <- triQc %>%
@@ -418,7 +618,7 @@ releases_distribution_carcinogenic <- triQc %>%
   group_by(facility.state) %>%
   summarise(
     naics.code = n(),
-    total.releases.onsite.intensity = sum(total.releases.onsite.intensity, na.rm = TRUE),
+    total.releases.onsite.intensity = mean(total.releases.onsite.intensity, na.rm = TRUE),
     treated = treated %>% unique()
   ) %>%
   ggplot(aes(x = facility.state, y = total.releases.onsite.intensity, fill = treated)) +
@@ -442,7 +642,7 @@ releases_distribution_caa <- triQc %>%
   group_by(facility.state) %>%
   summarise(
     naics.code = n(),
-    total.releases.onsite.intensity = sum(total.releases.onsite.intensity, na.rm = TRUE),
+    total.releases.onsite.intensity = mean(total.releases.onsite.intensity, na.rm = TRUE),
     treated = treated %>% unique()
   ) %>%
   ggplot(aes(x = facility.state, y = total.releases.onsite.intensity, fill = treated)) +
@@ -466,7 +666,7 @@ releases_distribution_haps <- triQc %>%
   group_by(facility.state) %>%
   summarise(
     naics.code = n(),
-    total.releases.onsite.intensity = sum(total.releases.onsite.intensity, na.rm = TRUE),
+    total.releases.onsite.intensity = mean(total.releases.onsite.intensity, na.rm = TRUE),
     treated = treated %>% unique()
   ) %>%
   ggplot(aes(x = facility.state, y = total.releases.onsite.intensity, fill = treated)) +
@@ -490,7 +690,7 @@ releases_distribution_pbts <- triQc %>%
   group_by(facility.state) %>%
   summarise(
     naics.code = n(),
-    total.releases.onsite.intensity = sum(total.releases.onsite.intensity, na.rm = TRUE),
+    total.releases.onsite.intensity = mean(total.releases.onsite.intensity, na.rm = TRUE),
     treated = treated %>% unique()
   ) %>%
   ggplot(aes(x = facility.state, y = total.releases.onsite.intensity, fill = treated)) +
@@ -690,7 +890,7 @@ mech_onsite <- sum_up(
     newtech.technique.process.pequipmod, other.pequipmods.pequipmod, inventory.material.mgt,
     better.labelling.testing.immgt, containers.sizechange.immgt, improved.materialhandling.operations.immgt,
     improved.monitoring.immgt, other.immgts.immgt, operating.practices.training,
-    improved.schdule.operation.procedures.opt, changed.production.schedule.opt,
+    improved.schdule.operation.procedures.opt, changed.production.schedule.opt, energy.intensity,
     intro.inline.productquality.process.analysis.opt, r.and.d, waste.water.treatment, recycling.dummy)) %>%
   select(-Missing) %>%
   mutate(across(where(is.numeric), ~round(., digits = 2)))

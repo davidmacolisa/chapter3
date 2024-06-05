@@ -37,7 +37,7 @@ gdp_50th_percentile <- quantile(triQc[triQc$year == 2013,]$gdp, probs = 0.5) # s
 triQc$high.gdp <- ifelse(triQc$gdp > gdp_50th_percentile, yes = 1, no = 0)
 prop.table(table(triQc$high.gdp)) * 100
 #======================================================================================================================#
-### Onsite: Total releases intensity
+### Onsite: Total releases intensity #TODO: Run the Sun and Abraham sDID
 #======================================================================================================================#
 did_total_releases <- fixest::feols(
   l.total.releases.onsite.intensity ~ treated:post:high.gdp +
@@ -1905,7 +1905,7 @@ pre.treat.coef <- coef(did_surface_impoundment_noncarcinogenic)[grep(pattern = "
 pre.treat.coef <- pre.treat.coef[1:2]
 linearHypothesis(did_surface_impoundment_noncarcinogenic, paste0(names(pre.treat.coef), " = 0"), test = "F")
 #======================================================================================================================#
-pdf(file = "./Thesis/chapter3/src/climate_change/latex/fig_did_total_onsite_releases_int_carcinogens.pdf", width = 20, height = 15)
+pdf(file = "../latex/fig_sdid_total_onsite_releases_int_carcinogens.pdf", width = 20, height = 15)
 par(mfrow = c(4, 4))
 fixest::iplot(did_total_releases_carcinogenic, xlim = c(2011, 2017), ylim = c(-0.9, 0.9), col = "blue",
               main = "Total Onsite Releases Intensity, Carcinogens", xlab = "relative year",
@@ -3836,7 +3836,7 @@ pre.treat.coef <- coef(did_surface_impoundment_nonhap)[grep(pattern = "treated",
 pre.treat.coef <- pre.treat.coef[1:2]
 linearHypothesis(did_surface_impoundment_nonhap, paste0(names(pre.treat.coef), " = 0"), test = "F")
 #======================================================================================================================#
-pdf(file = "./Thesis/chapter3/src/climate_change/latex/fig_did_total_onsite_releases_int_haps.pdf", width = 20, height = 14)
+pdf(file = "../latex/fig_sdid_total_onsite_releases_int_haps.pdf", width = 20, height = 14)
 par(mfrow = c(4, 4))
 fixest::iplot(did_total_releases_hap, xlim = c(2011, 2017), ylim = c(-0.9, 0.9), col = "blue",
               main = "Total Onsite Releases Intensity, HAP", xlab = "relative year",
@@ -4801,7 +4801,7 @@ pre.treat.coef <- coef(did_surface_impoundment_nonpbt)[grep(pattern = "treated",
 pre.treat.coef <- pre.treat.coef[1:2]
 linearHypothesis(did_surface_impoundment_nonpbt, paste0(names(pre.treat.coef), " = 0"), test = "F")
 #======================================================================================================================#
-pdf(file = "./Thesis/chapter3/src/climate_change/latex/fig_did_total_onsite_releases_int_pbts.pdf", width = 20, height = 15)
+pdf(file = "../latex/fig_sdid_total_onsite_releases_int_pbts.pdf", width = 20, height = 15)
 par(mfrow = c(4, 4))
 fixest::iplot(did_total_releases_pbt, xlim = c(2011, 2017), ylim = c(-0.9, 0.9), col = "blue",
               main = "Total Onsite Releases Intensity, PBTs", xlab = "relative year",
@@ -4951,7 +4951,7 @@ did_total_releases_highlabint <- fixest::feols(
   cluster = ~c(chemical.id, naics.code, facility.state),
 )
 fixest::etable(did_total_releases_highlabint, digits = 4, digits.stats = 4)
-fixest::iplot(did_total_releases_highlabint, xlim = c(2011, 2017), ylim = c(-0.6, 0.6), col = "blue",
+fixest::iplot(did_total_releases_highlabint, xlim = c(2011, 2017), ylim = c(-0.5, 0.5), col = "blue",
               main = "Total Onsite Releases Intensity, HLII", xlab = "relative year",
               lwd = 1, cex = 4, pt.cex = 3, pt.col = "red", pt.join = T, ci.lwd = 5, ci.lty = 1) %>%
   abline(v = 2013, col = "red", lty = 2, lwd = 2)
@@ -4995,7 +4995,7 @@ did_total_releases_lowlabint <- fixest::feols(
   cluster = ~c(chemical.id, naics.code, facility.state),
 )
 fixest::etable(did_total_releases_lowlabint, digits = 4, digits.stats = 4)
-fixest::iplot(did_total_releases_lowlabint, xlim = c(2011, 2017), ylim = c(-0.6, 0.6), col = "blue",
+fixest::iplot(did_total_releases_lowlabint, xlim = c(2011, 2017), ylim = c(-0.5, 0.5), col = "blue",
               main = "Total Onsite Releases Intensity, LLII", xlab = "relative year",
               lwd = 1, cex = 4, pt.cex = 3, pt.col = "red", pt.join = T, ci.lwd = 5, ci.lty = 1) %>%
   abline(v = 2013, col = "red", lty = 2, lwd = 2)
@@ -5080,7 +5080,7 @@ did_air_highlabint <- fixest::feols(
   cluster = ~c(chemical.id, naics.code, facility.state),
 )
 fixest::etable(did_air_highlabint, digits = 4, digits.stats = 4)
-fixest::iplot(did_air_highlabint, xlim = c(2011, 2017), ylim = c(-0.6, 0.6), col = "blue",
+fixest::iplot(did_air_highlabint, xlim = c(2011, 2017), ylim = c(-0.4, 0.4), col = "blue",
               main = "Total Air Emissions Intensity, HLII", xlab = "relative year",
               lwd = 1, cex = 4, pt.cex = 3, pt.col = "red", pt.join = T, ci.lwd = 5, ci.lty = 1) %>%
   abline(v = 2013, col = "red", lty = 2, lwd = 2)
@@ -5124,7 +5124,7 @@ did_air_lowlabint <- fixest::feols(
   cluster = ~c(chemical.id, naics.code, facility.state),
 )
 fixest::etable(did_air_lowlabint, digits = 4, digits.stats = 4)
-fixest::iplot(did_air_lowlabint, xlim = c(2011, 2017), ylim = c(-0.6, 0.6), col = "blue",
+fixest::iplot(did_air_lowlabint, xlim = c(2011, 2017), ylim = c(-0.4, 0.4), col = "blue",
               main = "Total Air Emissions Intensity, LLII", xlab = "relative year",
               lwd = 1, cex = 4, pt.cex = 3, pt.col = "red", pt.join = T, ci.lwd = 5, ci.lty = 1) %>%
   abline(v = 2013, col = "red", lty = 2, lwd = 2)
@@ -5209,7 +5209,7 @@ did_point_air_highlabint <- fixest::feols(
   cluster = ~c(chemical.id, naics.code, facility.state),
 )
 fixest::etable(did_point_air_highlabint, digits = 4, digits.stats = 4)
-fixest::iplot(did_point_air_highlabint, xlim = c(2011, 2017), ylim = c(-0.5, 0.5), col = "blue",
+fixest::iplot(did_point_air_highlabint, xlim = c(2011, 2017), ylim = c(-0.4, 0.4), col = "blue",
               main = "Total Point Air Emissions Intensity, HLII", xlab = "relative year",
               lwd = 1, cex = 4, pt.cex = 3, pt.col = "red", pt.join = T, ci.lwd = 5, ci.lty = 1) %>%
   abline(v = 2013, col = "red", lty = 2, lwd = 2)
@@ -5253,7 +5253,7 @@ did_point_air_lowlabint <- fixest::feols(
   cluster = ~c(chemical.id, naics.code, facility.state),
 )
 fixest::etable(did_point_air_lowlabint, digits = 4, digits.stats = 4)
-fixest::iplot(did_point_air_lowlabint, xlim = c(2011, 2017), ylim = c(-0.5, 0.5), col = "blue",
+fixest::iplot(did_point_air_lowlabint, xlim = c(2011, 2017), ylim = c(-0.4, 0.4), col = "blue",
               main = "Total Point Air Emissions Intensity, LLII", xlab = "relative year",
               lwd = 1, cex = 4, pt.cex = 3, pt.col = "red", pt.join = T, ci.lwd = 5, ci.lty = 1) %>%
   abline(v = 2013, col = "red", lty = 2, lwd = 2)
@@ -5338,7 +5338,7 @@ did_fug_air_highlabint <- fixest::feols(
   cluster = ~c(chemical.id, naics.code, facility.state),
 )
 fixest::etable(did_fug_air_highlabint, digits = 4, digits.stats = 4)
-fixest::iplot(did_fug_air_highlabint, xlim = c(2011, 2017), ylim = c(-0.9, 0.9), col = "blue",
+fixest::iplot(did_fug_air_highlabint, xlim = c(2011, 2017), ylim = c(-0.4, 0.4), col = "blue",
               main = "Total Fugitive Air Emissions Intensity, HLII", xlab = "relative year",
               lwd = 1, cex = 4, pt.cex = 3, pt.col = "red", pt.join = T, ci.lwd = 5, ci.lty = 1) %>%
   abline(v = 2013, col = "red", lty = 2, lwd = 2)
@@ -5382,7 +5382,7 @@ did_fug_air_lowlabint <- fixest::feols(
   cluster = ~c(chemical.id, naics.code, facility.state),
 )
 fixest::etable(did_fug_air_lowlabint, digits = 4, digits.stats = 4)
-fixest::iplot(did_fug_air_lowlabint, xlim = c(2011, 2017), ylim = c(-0.6, 0.6), col = "blue",
+fixest::iplot(did_fug_air_lowlabint, xlim = c(2011, 2017), ylim = c(-0.4, 0.4), col = "blue",
               main = "Total Fugitive Air Emissions Intensity, LLII", xlab = "relative year",
               lwd = 1, cex = 4, pt.cex = 3, pt.col = "red", pt.join = T, ci.lwd = 5, ci.lty = 1) %>%
   abline(v = 2013, col = "red", lty = 2, lwd = 2)
@@ -5596,7 +5596,7 @@ did_land_releases_highlabint <- fixest::feols(
   cluster = ~c(chemical.id, naics.code, facility.state),
 )
 fixest::etable(did_land_releases_highlabint, digits = 4, digits.stats = 4)
-fixest::iplot(did_land_releases_highlabint, xlim = c(2011, 2017), ylim = c(-0.2, 0.2), col = "blue",
+fixest::iplot(did_land_releases_highlabint, xlim = c(2011, 2017), ylim = c(-0.15, 0.15), col = "blue",
               main = "Total Land Releases Intensity, HLII", xlab = "relative year",
               lwd = 1, cex = 4, pt.cex = 3, pt.col = "red", pt.join = T, ci.lwd = 5, ci.lty = 1) %>%
   abline(v = 2013, col = "red", lty = 2, lwd = 2)
@@ -5725,7 +5725,7 @@ did_surface_impoundment_highlabint <- fixest::feols(
   cluster = ~c(chemical.id, naics.code, facility.state),
 )
 fixest::etable(did_surface_impoundment_highlabint, digits = 4, digits.stats = 4)
-fixest::iplot(did_surface_impoundment_highlabint, xlim = c(2011, 2017), ylim = c(-0.15, 0.15), col = "blue",
+fixest::iplot(did_surface_impoundment_highlabint, xlim = c(2011, 2017), ylim = c(-0.05, 0.04), col = "blue",
               main = "Total Surface Impoundment Intensity, HLII", xlab = "relative year",
               lwd = 1, cex = 4, pt.cex = 3, pt.col = "red", pt.join = T, ci.lwd = 5, ci.lty = 1) %>%
   abline(v = 2013, col = "red", lty = 2, lwd = 2)
@@ -5769,7 +5769,7 @@ did_surface_impoundment_lowlabint <- fixest::feols(
   cluster = ~c(chemical.id, naics.code, facility.state),
 )
 fixest::etable(did_surface_impoundment_lowlabint, digits = 4, digits.stats = 4)
-fixest::iplot(did_surface_impoundment_lowlabint, xlim = c(2011, 2017), ylim = c(-0.1, 0.1), col = "blue",
+fixest::iplot(did_surface_impoundment_lowlabint, xlim = c(2011, 2017), ylim = c(-0.02, 0.1), col = "blue",
               main = "Total Surface Impoundment Intensity, LLII", xlab = "relative year",
               lwd = 1, cex = 4, pt.cex = 3, pt.col = "red", pt.join = T, ci.lwd = 5, ci.lty = 1) %>%
   abline(v = 2013, col = "red", lty = 2, lwd = 2)
@@ -5778,37 +5778,37 @@ pre.treat.coef <- coef(did_surface_impoundment_lowlabint)[grep(pattern = "treate
 pre.treat.coef <- pre.treat.coef[1:2]
 linearHypothesis(did_surface_impoundment_lowlabint, paste0(names(pre.treat.coef), " = 0"), test = "F")
 #======================================================================================================================#
-pdf(file = "./Thesis/chapter3/src/climate_change/latex/fig_did_total_onsite_releases_int_highlabint.pdf", width = 20, height = 15)
+pdf(file = "../latex/fig_sdid_total_onsite_releases_int_highlabint.pdf", width = 20, height = 15)
 par(mfrow = c(4, 4))
-fixest::iplot(did_total_releases_highlabint, xlim = c(2011, 2017), ylim = c(-0.6, 0.6), col = "blue",
+fixest::iplot(did_total_releases_highlabint, xlim = c(2011, 2017), ylim = c(-0.5, 0.5), col = "blue",
               main = "Total Onsite Releases Intensity, HLII", xlab = "relative year",
               lwd = 1, cex = 4, pt.cex = 3, pt.col = "red", pt.join = T, ci.lwd = 5, ci.lty = 1) %>%
   abline(v = 2013, col = "red", lty = 2, lwd = 2)
-fixest::iplot(did_total_releases_lowlabint, xlim = c(2011, 2017), ylim = c(-0.6, 0.6), col = "blue",
+fixest::iplot(did_total_releases_lowlabint, xlim = c(2011, 2017), ylim = c(-0.5, 0.5), col = "blue",
               main = "Total Onsite Releases Intensity, LLII", xlab = "relative year",
               lwd = 1, cex = 4, pt.cex = 3, pt.col = "red", pt.join = T, ci.lwd = 5, ci.lty = 1) %>%
   abline(v = 2013, col = "red", lty = 2, lwd = 2)
-fixest::iplot(did_air_highlabint, xlim = c(2011, 2017), ylim = c(-0.6, 0.6), col = "blue",
+fixest::iplot(did_air_highlabint, xlim = c(2011, 2017), ylim = c(-0.4, 0.4), col = "blue",
               main = "Total Air Emissions Intensity, HLII", xlab = "relative year",
               lwd = 1, cex = 4, pt.cex = 3, pt.col = "red", pt.join = T, ci.lwd = 5, ci.lty = 1) %>%
   abline(v = 2013, col = "red", lty = 2, lwd = 2)
-fixest::iplot(did_air_lowlabint, xlim = c(2011, 2017), ylim = c(-0.6, 0.6), col = "blue",
+fixest::iplot(did_air_lowlabint, xlim = c(2011, 2017), ylim = c(-0.4, 0.4), col = "blue",
               main = "Total Air Emissions Intensity, LLII", xlab = "relative year",
               lwd = 1, cex = 4, pt.cex = 3, pt.col = "red", pt.join = T, ci.lwd = 5, ci.lty = 1) %>%
   abline(v = 2013, col = "red", lty = 2, lwd = 2)
-fixest::iplot(did_point_air_highlabint, xlim = c(2011, 2017), ylim = c(-0.5, 0.5), col = "blue",
+fixest::iplot(did_point_air_highlabint, xlim = c(2011, 2017), ylim = c(-0.4, 0.4), col = "blue",
               main = "Total Point Air Emissions Intensity, HLII", xlab = "relative year",
               lwd = 1, cex = 4, pt.cex = 3, pt.col = "red", pt.join = T, ci.lwd = 5, ci.lty = 1) %>%
   abline(v = 2013, col = "red", lty = 2, lwd = 2)
-fixest::iplot(did_point_air_lowlabint, xlim = c(2011, 2017), ylim = c(-0.5, 0.5), col = "blue",
+fixest::iplot(did_point_air_lowlabint, xlim = c(2011, 2017), ylim = c(-0.4, 0.4), col = "blue",
               main = "Total Point Air Emissions Intensity, LLII", xlab = "relative year",
               lwd = 1, cex = 4, pt.cex = 3, pt.col = "red", pt.join = T, ci.lwd = 5, ci.lty = 1) %>%
   abline(v = 2013, col = "red", lty = 2, lwd = 2)
-fixest::iplot(did_fug_air_highlabint, xlim = c(2011, 2017), ylim = c(-0.9, 0.9), col = "blue",
+fixest::iplot(did_fug_air_highlabint, xlim = c(2011, 2017), ylim = c(-0.4, 0.4), col = "blue",
               main = "Total Fugitive Air Emissions Intensity, HLII", xlab = "relative year",
               lwd = 1, cex = 4, pt.cex = 3, pt.col = "red", pt.join = T, ci.lwd = 5, ci.lty = 1) %>%
   abline(v = 2013, col = "red", lty = 2, lwd = 2)
-fixest::iplot(did_fug_air_lowlabint, xlim = c(2011, 2017), ylim = c(-0.6, 0.6), col = "blue",
+fixest::iplot(did_fug_air_lowlabint, xlim = c(2011, 2017), ylim = c(-0.4, 0.4), col = "blue",
               main = "Total Fugitive Air Emissions Intensity, LLII", xlab = "relative year",
               lwd = 1, cex = 4, pt.cex = 3, pt.col = "red", pt.join = T, ci.lwd = 5, ci.lty = 1) %>%
   abline(v = 2013, col = "red", lty = 2, lwd = 2)
@@ -5820,7 +5820,7 @@ fixest::iplot(did_water_disc_lowlabint, xlim = c(2011, 2017), ylim = c(-0.3, 0.3
               main = "Total Surface Water Discharge Intensity, LLII", xlab = "relative year",
               lwd = 1, cex = 4, pt.cex = 3, pt.col = "red", pt.join = T, ci.lwd = 5, ci.lty = 1) %>%
   abline(v = 2013, col = "red", lty = 2, lwd = 2)
-fixest::iplot(did_land_releases_highlabint, xlim = c(2011, 2017), ylim = c(-0.2, 0.2), col = "blue",
+fixest::iplot(did_land_releases_highlabint, xlim = c(2011, 2017), ylim = c(-0.15, 0.15), col = "blue",
               main = "Total Land Releases Intensity, HLII", xlab = "relative year",
               lwd = 1, cex = 4, pt.cex = 3, pt.col = "red", pt.join = T, ci.lwd = 5, ci.lty = 1) %>%
   abline(v = 2013, col = "red", lty = 2, lwd = 2)
@@ -5828,11 +5828,11 @@ fixest::iplot(did_land_releases_lowlabint, xlim = c(2011, 2017), ylim = c(-0.15,
               main = "Total Land Releases Intensity, LLII", xlab = "relative year",
               lwd = 1, cex = 4, pt.cex = 3, pt.col = "red", pt.join = T, ci.lwd = 5, ci.lty = 1) %>%
   abline(v = 2013, col = "red", lty = 2, lwd = 2)
-fixest::iplot(did_surface_impoundment_highlabint, xlim = c(2011, 2017), ylim = c(-0.15, 0.15), col = "blue",
+fixest::iplot(did_surface_impoundment_highlabint, xlim = c(2011, 2017), ylim = c(-0.05, 0.04), col = "blue",
               main = "Total Surface Impoundment Intensity, HLII", xlab = "relative year",
               lwd = 1, cex = 4, pt.cex = 3, pt.col = "red", pt.join = T, ci.lwd = 5, ci.lty = 1) %>%
   abline(v = 2013, col = "red", lty = 2, lwd = 2)
-fixest::iplot(did_surface_impoundment_lowlabint, xlim = c(2011, 2017), ylim = c(-0.1, 0.1), col = "blue",
+fixest::iplot(did_surface_impoundment_lowlabint, xlim = c(2011, 2017), ylim = c(-0.02, 0.1), col = "blue",
               main = "Total Surface Impoundment Intensity, LLII", xlab = "relative year",
               lwd = 1, cex = 4, pt.cex = 3, pt.col = "red", pt.join = T, ci.lwd = 5, ci.lty = 1) %>%
   abline(v = 2013, col = "red", lty = 2, lwd = 2)
@@ -5932,7 +5932,7 @@ did_total_releases_lowindconc <- fixest::feols(
   cluster = ~c(chemical.id, naics.code, facility.state),
 )
 fixest::etable(did_total_releases_lowindconc, digits = 4, digits.stats = 4)
-fixest::iplot(did_total_releases_lowindconc, xlim = c(2011, 2017), ylim = c(-0.6, 0.6), col = "blue",
+fixest::iplot(did_total_releases_lowindconc, xlim = c(2011, 2017), ylim = c(-0.5, 0.5), col = "blue",
               main = "Total Onsite Releases Intensity, LCI", xlab = "relative year",
               lwd = 1, cex = 4, pt.cex = 3, pt.col = "red", pt.join = T, ci.lwd = 5, ci.lty = 1) %>%
   abline(v = 2013, col = "red", lty = 2, lwd = 2)
@@ -5976,7 +5976,7 @@ did_total_releases_highindconc <- fixest::feols(
   cluster = ~c(chemical.id, naics.code, facility.state),
 )
 fixest::etable(did_total_releases_highindconc, digits = 4, digits.stats = 4)
-fixest::iplot(did_total_releases_highindconc, xlim = c(2011, 2017), ylim = c(-0.6, 0.6), col = "blue",
+fixest::iplot(did_total_releases_highindconc, xlim = c(2011, 2017), ylim = c(-0.5, 0.5), col = "blue",
               main = "Total Onsite Releases Intensity, HCI", xlab = "relative year",
               lwd = 1, cex = 4, pt.cex = 3, pt.col = "red", pt.join = T, ci.lwd = 5, ci.lty = 1) %>%
   abline(v = 2013, col = "red", lty = 2, lwd = 2)
@@ -6061,7 +6061,7 @@ did_air_lowindconc <- fixest::feols(
   cluster = ~c(chemical.id, naics.code, facility.state),
 )
 fixest::etable(did_air_lowindconc, digits = 4, digits.stats = 4)
-fixest::iplot(did_air_lowindconc, xlim = c(2011, 2017), ylim = c(-0.6, 0.6), col = "blue",
+fixest::iplot(did_air_lowindconc, xlim = c(2011, 2017), ylim = c(-0.5, 0.5), col = "blue",
               main = "Total Air Emissions Intensity, LCI", xlab = "relative year",
               lwd = 1, cex = 4, pt.cex = 3, pt.col = "red", pt.join = T, ci.lwd = 5, ci.lty = 1) %>%
   abline(v = 2013, col = "red", lty = 2, lwd = 2)
@@ -6105,7 +6105,7 @@ did_air_highindconc <- fixest::feols(
   cluster = ~c(chemical.id, naics.code, facility.state),
 )
 fixest::etable(did_air_highindconc, digits = 4, digits.stats = 4)
-fixest::iplot(did_air_highindconc, xlim = c(2011, 2017), ylim = c(-0.6, 0.6), col = "blue",
+fixest::iplot(did_air_highindconc, xlim = c(2011, 2017), ylim = c(-0.5, 0.5), col = "blue",
               main = "Total Air Emissions Intensity, HCI", xlab = "relative year",
               lwd = 1, cex = 4, pt.cex = 3, pt.col = "red", pt.join = T, ci.lwd = 5, ci.lty = 1) %>%
   abline(v = 2013, col = "red", lty = 2, lwd = 2)
@@ -6319,7 +6319,7 @@ did_fug_air_lowindconc <- fixest::feols(
   cluster = ~c(chemical.id, naics.code, facility.state),
 )
 fixest::etable(did_fug_air_lowindconc, digits = 4, digits.stats = 4)
-fixest::iplot(did_fug_air_lowindconc, xlim = c(2011, 2017), ylim = c(-0.9, 0.9), col = "blue",
+fixest::iplot(did_fug_air_lowindconc, xlim = c(2011, 2017), ylim = c(-0.5, 0.5), col = "blue",
               main = "Total Fugitive Air Emissions Intensity, LCI", xlab = "relative year",
               lwd = 1, cex = 4, pt.cex = 3, pt.col = "red", pt.join = T, ci.lwd = 5, ci.lty = 1) %>%
   abline(v = 2013, col = "red", lty = 2, lwd = 2)
@@ -6363,7 +6363,7 @@ did_fug_air_highindconc <- fixest::feols(
   cluster = ~c(chemical.id, naics.code, facility.state),
 )
 fixest::etable(did_fug_air_highindconc, digits = 4, digits.stats = 4)
-fixest::iplot(did_fug_air_highindconc, xlim = c(2011, 2017), ylim = c(-0.6, 0.6), col = "blue",
+fixest::iplot(did_fug_air_highindconc, xlim = c(2011, 2017), ylim = c(-0.5, 0.5), col = "blue",
               main = "Total Fugitive Air Emissions Intensity, HCI", xlab = "relative year",
               lwd = 1, cex = 4, pt.cex = 3, pt.col = "red", pt.join = T, ci.lwd = 5, ci.lty = 1) %>%
   abline(v = 2013, col = "red", lty = 2, lwd = 2)
@@ -6448,7 +6448,7 @@ did_water_disc_lowindconc <- fixest::feols(
   cluster = ~c(chemical.id, naics.code, facility.state),
 )
 fixest::etable(did_water_disc_lowindconc, digits = 4, digits.stats = 4)
-fixest::iplot(did_water_disc_lowindconc, xlim = c(2011, 2017), ylim = c(-0.4, 0.4), col = "blue",
+fixest::iplot(did_water_disc_lowindconc, xlim = c(2011, 2017), ylim = c(-0.4, 0.2), col = "blue",
               main = "Total Surface Water Discharge Intensity, LCI", xlab = "relative year",
               lwd = 1, cex = 4, pt.cex = 3, pt.col = "red", pt.join = T, ci.lwd = 5, ci.lty = 1) %>%
   abline(v = 2013, col = "red", lty = 2, lwd = 2)
@@ -6492,7 +6492,7 @@ did_water_disc_highindconc <- fixest::feols(
   cluster = ~c(chemical.id, naics.code, facility.state),
 )
 fixest::etable(did_water_disc_highindconc, digits = 4, digits.stats = 4)
-fixest::iplot(did_water_disc_highindconc, xlim = c(2011, 2017), ylim = c(-0.3, 0.3), col = "blue",
+fixest::iplot(did_water_disc_highindconc, xlim = c(2011, 2017), ylim = c(-0.2, 0.2), col = "blue",
               main = "Total Surface Water Discharge Intensity, HCI", xlab = "relative year",
               lwd = 1, cex = 4, pt.cex = 3, pt.col = "red", pt.join = T, ci.lwd = 5, ci.lty = 1) %>%
   abline(v = 2013, col = "red", lty = 2, lwd = 2)
@@ -6621,7 +6621,7 @@ did_land_releases_highindconc <- fixest::feols(
   cluster = ~c(chemical.id, naics.code, facility.state),
 )
 fixest::etable(did_land_releases_highindconc, digits = 4, digits.stats = 4)
-fixest::iplot(did_land_releases_highindconc, xlim = c(2011, 2017), ylim = c(-0.15, 0.15), col = "blue",
+fixest::iplot(did_land_releases_highindconc, xlim = c(2011, 2017), ylim = c(-0.1, 0.1), col = "blue",
               main = "Total Land Releases Intensity, HCI", xlab = "relative year",
               lwd = 1, cex = 4, pt.cex = 3, pt.col = "red", pt.join = T, ci.lwd = 5, ci.lty = 1) %>%
   abline(v = 2013, col = "red", lty = 2, lwd = 2)
@@ -6706,7 +6706,7 @@ did_surface_impoundment_lowindconc <- fixest::feols(
   cluster = ~c(chemical.id, naics.code, facility.state),
 )
 fixest::etable(did_surface_impoundment_lowindconc, digits = 4, digits.stats = 4)
-fixest::iplot(did_surface_impoundment_lowindconc, xlim = c(2011, 2017), ylim = c(-0.15, 0.15), col = "blue",
+fixest::iplot(did_surface_impoundment_lowindconc, xlim = c(2011, 2017), ylim = c(-0.06, 0.04), col = "blue",
               main = "Total Surface Impoundment Intensity, LCI", xlab = "relative year",
               lwd = 1, cex = 4, pt.cex = 3, pt.col = "red", pt.join = T, ci.lwd = 5, ci.lty = 1) %>%
   abline(v = 2013, col = "red", lty = 2, lwd = 2)
@@ -6750,7 +6750,7 @@ did_surface_impoundment_highindconc <- fixest::feols(
   cluster = ~c(chemical.id, naics.code, facility.state),
 )
 fixest::etable(did_surface_impoundment_highindconc, digits = 4, digits.stats = 4)
-fixest::iplot(did_surface_impoundment_highindconc, xlim = c(2011, 2017), ylim = c(-0.1, 0.1), col = "blue",
+fixest::iplot(did_surface_impoundment_highindconc, xlim = c(2011, 2017), ylim = c(-0.02, 0.1), col = "blue",
               main = "Total Surface Impoundment Intensity, HCI", xlab = "relative year",
               lwd = 1, cex = 4, pt.cex = 3, pt.col = "red", pt.join = T, ci.lwd = 5, ci.lty = 1) %>%
   abline(v = 2013, col = "red", lty = 2, lwd = 2)
@@ -6759,21 +6759,21 @@ pre.treat.coef <- coef(did_surface_impoundment_highindconc)[grep(pattern = "trea
 pre.treat.coef <- pre.treat.coef[1:2]
 linearHypothesis(did_surface_impoundment_highindconc, paste0(names(pre.treat.coef), " = 0"), test = "F")
 #======================================================================================================================#
-pdf(file = "./Thesis/chapter3/src/climate_change/latex/fig_did_total_onsite_releases_int_lowindconc.pdf", width = 20, height = 15)
+pdf(file = "../latex/fig_sdid_total_onsite_releases_int_lowindconc.pdf", width = 20, height = 15)
 par(mfrow = c(4, 4))
-fixest::iplot(did_total_releases_lowindconc, xlim = c(2011, 2017), ylim = c(-0.6, 0.6), col = "blue",
+fixest::iplot(did_total_releases_lowindconc, xlim = c(2011, 2017), ylim = c(-0.5, 0.5), col = "blue",
               main = "Total Onsite Releases Intensity, LCI", xlab = "relative year",
               lwd = 1, cex = 4, pt.cex = 3, pt.col = "red", pt.join = T, ci.lwd = 5, ci.lty = 1) %>%
   abline(v = 2013, col = "red", lty = 2, lwd = 2)
-fixest::iplot(did_total_releases_highindconc, xlim = c(2011, 2017), ylim = c(-0.6, 0.6), col = "blue",
+fixest::iplot(did_total_releases_highindconc, xlim = c(2011, 2017), ylim = c(-0.5, 0.5), col = "blue",
               main = "Total Onsite Releases Intensity, HCI", xlab = "relative year",
               lwd = 1, cex = 4, pt.cex = 3, pt.col = "red", pt.join = T, ci.lwd = 5, ci.lty = 1) %>%
   abline(v = 2013, col = "red", lty = 2, lwd = 2)
-fixest::iplot(did_air_lowindconc, xlim = c(2011, 2017), ylim = c(-0.6, 0.6), col = "blue",
+fixest::iplot(did_air_lowindconc, xlim = c(2011, 2017), ylim = c(-0.5, 0.5), col = "blue",
               main = "Total Air Emissions Intensity, LCI", xlab = "relative year",
               lwd = 1, cex = 4, pt.cex = 3, pt.col = "red", pt.join = T, ci.lwd = 5, ci.lty = 1) %>%
   abline(v = 2013, col = "red", lty = 2, lwd = 2)
-fixest::iplot(did_air_highindconc, xlim = c(2011, 2017), ylim = c(-0.6, 0.6), col = "blue",
+fixest::iplot(did_air_highindconc, xlim = c(2011, 2017), ylim = c(-0.5, 0.5), col = "blue",
               main = "Total Air Emissions Intensity, HCI", xlab = "relative year",
               lwd = 1, cex = 4, pt.cex = 3, pt.col = "red", pt.join = T, ci.lwd = 5, ci.lty = 1) %>%
   abline(v = 2013, col = "red", lty = 2, lwd = 2)
@@ -6785,19 +6785,19 @@ fixest::iplot(did_point_air_highindconc, xlim = c(2011, 2017), ylim = c(-0.5, 0.
               main = "Total Point Air Emissions Intensity, HCI", xlab = "relative year",
               lwd = 1, cex = 4, pt.cex = 3, pt.col = "red", pt.join = T, ci.lwd = 5, ci.lty = 1) %>%
   abline(v = 2013, col = "red", lty = 2, lwd = 2)
-fixest::iplot(did_fug_air_lowindconc, xlim = c(2011, 2017), ylim = c(-0.9, 0.9), col = "blue",
+fixest::iplot(did_fug_air_lowindconc, xlim = c(2011, 2017), ylim = c(-0.5, 0.5), col = "blue",
               main = "Total Fugitive Air Emissions Intensity, LCI", xlab = "relative year",
               lwd = 1, cex = 4, pt.cex = 3, pt.col = "red", pt.join = T, ci.lwd = 5, ci.lty = 1) %>%
   abline(v = 2013, col = "red", lty = 2, lwd = 2)
-fixest::iplot(did_fug_air_highindconc, xlim = c(2011, 2017), ylim = c(-0.6, 0.6), col = "blue",
+fixest::iplot(did_fug_air_highindconc, xlim = c(2011, 2017), ylim = c(-0.5, 0.5), col = "blue",
               main = "Total Fugitive Air Emissions Intensity, HCI", xlab = "relative year",
               lwd = 1, cex = 4, pt.cex = 3, pt.col = "red", pt.join = T, ci.lwd = 5, ci.lty = 1) %>%
   abline(v = 2013, col = "red", lty = 2, lwd = 2)
-fixest::iplot(did_water_disc_lowindconc, xlim = c(2011, 2017), ylim = c(-0.4, 0.4), col = "blue",
+fixest::iplot(did_water_disc_lowindconc, xlim = c(2011, 2017), ylim = c(-0.4, 0.2), col = "blue",
               main = "Total Surface Water Discharge Intensity, LCI", xlab = "relative year",
               lwd = 1, cex = 4, pt.cex = 3, pt.col = "red", pt.join = T, ci.lwd = 5, ci.lty = 1) %>%
   abline(v = 2013, col = "red", lty = 2, lwd = 2)
-fixest::iplot(did_water_disc_highindconc, xlim = c(2011, 2017), ylim = c(-0.3, 0.3), col = "blue",
+fixest::iplot(did_water_disc_highindconc, xlim = c(2011, 2017), ylim = c(-0.2, 0.2), col = "blue",
               main = "Total Surface Water Discharge Intensity, HCI", xlab = "relative year",
               lwd = 1, cex = 4, pt.cex = 3, pt.col = "red", pt.join = T, ci.lwd = 5, ci.lty = 1) %>%
   abline(v = 2013, col = "red", lty = 2, lwd = 2)
@@ -6805,15 +6805,15 @@ fixest::iplot(did_land_releases_lowindconc, xlim = c(2011, 2017), ylim = c(-0.2,
               main = "Total Land Releases Intensity, LCI", xlab = "relative year",
               lwd = 1, cex = 4, pt.cex = 3, pt.col = "red", pt.join = T, ci.lwd = 5, ci.lty = 1) %>%
   abline(v = 2013, col = "red", lty = 2, lwd = 2)
-fixest::iplot(did_land_releases_highindconc, xlim = c(2011, 2017), ylim = c(-0.15, 0.15), col = "blue",
+fixest::iplot(did_land_releases_highindconc, xlim = c(2011, 2017), ylim = c(-0.1, 0.1), col = "blue",
               main = "Total Land Releases Intensity, HCI", xlab = "relative year",
               lwd = 1, cex = 4, pt.cex = 3, pt.col = "red", pt.join = T, ci.lwd = 5, ci.lty = 1) %>%
   abline(v = 2013, col = "red", lty = 2, lwd = 2)
-fixest::iplot(did_surface_impoundment_lowindconc, xlim = c(2011, 2017), ylim = c(-0.15, 0.15), col = "blue",
+fixest::iplot(did_surface_impoundment_lowindconc, xlim = c(2011, 2017), ylim = c(-0.06, 0.04), col = "blue",
               main = "Total Surface Impoundment Intensity, LCI", xlab = "relative year",
               lwd = 1, cex = 4, pt.cex = 3, pt.col = "red", pt.join = T, ci.lwd = 5, ci.lty = 1) %>%
   abline(v = 2013, col = "red", lty = 2, lwd = 2)
-fixest::iplot(did_surface_impoundment_highindconc, xlim = c(2011, 2017), ylim = c(-0.1, 0.1), col = "blue",
+fixest::iplot(did_surface_impoundment_highindconc, xlim = c(2011, 2017), ylim = c(-0.02, 0.1), col = "blue",
               main = "Total Surface Impoundment Intensity, HCI", xlab = "relative year",
               lwd = 1, cex = 4, pt.cex = 3, pt.col = "red", pt.join = T, ci.lwd = 5, ci.lty = 1) %>%
   abline(v = 2013, col = "red", lty = 2, lwd = 2)

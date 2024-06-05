@@ -287,9 +287,14 @@ triQc <- triQc %>%
        alt.dim.comp.design.pmod, equipment.upgrade.update.pequipmod)
   )
 
-triQc$total.release.onsite.catastrophicevents <- ifelse(test = is.na(triQc$total.release.onsite.catastrophicevents),
-                                                        yes = 0,
-                                                        no = triQc$total.release.onsite.catastrophicevents)
+# Winsorise the total onsite releases for catastrophe events: replace with the median == 0
+triQc$total.release.onsite.catastrophicevents <- ifelse(
+  test = is.na(triQc$total.release.onsite.catastrophicevents),
+  yes = median(triQc$total.release.onsite.catastrophicevents, na.rm = T),
+  no = triQc$total.release.onsite.catastrophicevents
+)
+table(is.na(triQc$total.release.onsite.catastrophicevents))
+sum_up(triQc, c(total.release.onsite.catastrophicevents))
 
 sum(is.na(triQc))
 na_columns <- colnames(triQc)[colSums(is.na(triQc)) > 0]
@@ -1104,6 +1109,7 @@ triQc <- triQc %>%
     rel_year = year - 2014,
     naics.code = as.numeric(naics.code),
     facility.id = as.numeric(facility.id),
+    facility.zipcode = as.numeric(facility.zipcode),
     facility.id.fe = as.numeric(as.factor(facility.id)),
     chemical.id.fe = as.numeric(as.factor(chemical.id)),
     facility.state.fe = as.numeric(as.factor(facility.state)),
@@ -1116,7 +1122,9 @@ triQc <- triQc %>%
     border.state.fe = as.numeric(as.factor(border.state)),
     fac.chem.fe = facility.id.fe * chemical.id.fe,
     fips.state.fe = fips.code.fe * facility.state.fe,
-    chem.ind.state = chemical.id.fe * as.numeric(as.factor(naics.code)) * facility.state.fe,
+    chem.ind.state = chemical.id.fe *
+      as.numeric(as.factor(naics.code)) *
+      facility.state.fe,
     fips.year.fe = fips.code.fe * year,
     facility.year.fe = facility.id.fe * year,
     chemical.year.fe = chemical.id.fe * year,

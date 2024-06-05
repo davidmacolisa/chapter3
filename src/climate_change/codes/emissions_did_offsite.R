@@ -558,7 +558,7 @@ pre_treat_coef <- coef(did_releases_storage)[grep(pattern = "rel.year", names(co
 pre_treat_coef <- pre_treat_coef[5:6]
 linearHypothesis(did_releases_storage, paste0(names(pre_treat_coef), " = 0"), test = "F")
 #======================================================================================================================#
-pdf(file = "./Thesis/chapter3/src/climate_change/latex/fig_did_total_releases_offsite.pdf", width = 12, height = 7)
+pdf(file = "../latex/fig_sdid_total_releases_offsite.pdf", width = 12, height = 7)
 par(mfrow = c(2, 3))
 fixest::iplot(did_releases, xlim = c(2011, 2017), ylim = c(-0.8, 0.8), col = "blue",
               main = "Total Offsite Releases Intensity", xlab = "relative year",
@@ -1209,7 +1209,7 @@ pre_treat_coef <- coef(did_underground_injection)[grep(pattern = "rel.year", nam
 pre_treat_coef <- pre_treat_coef[5:6]
 linearHypothesis(did_underground_injection, paste0(names(pre_treat_coef), " = 0"), test = "F")
 #======================================================================================================================#
-pdf(file = "./Thesis/chapter3/src/climate_change/latex/fig_did_total_land_releases_offsite.pdf", width = 12, height = 10)
+pdf(file = "../latex/fig_sdid_total_land_releases_offsite.pdf", width = 12, height = 10)
 par(mfrow = c(3, 3))
 fixest::iplot(did_waste_water_releases, xlim = c(2011, 2017), ylim = c(-0.5, 0.5), col = "blue",
               main = "Total Offsite Waste Water Releases Intensity", xlab = "relative year",

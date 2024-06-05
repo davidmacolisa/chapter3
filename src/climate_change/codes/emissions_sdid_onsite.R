@@ -28,14 +28,29 @@ triQc <- read_rds(file = file)
 #======================================================================================================================#
 triQc_nyt <- triQc %>% filter(ch.year != Inf)
 table(triQc_nyt$year, triQc_nyt$ch.year)
+table(triQc$year, triQc$ch.year)
 #======================================================================================================================#
 ### Controls
 #======================================================================================================================#
 controls <- ~
-  # gdppc.1 +
-  #   federal.facility +
+  gdppc.1 +
+    #   annual.avg.estabs.1 +
+    #   cpi.1 +
+    # federal.facility +
+    produced.chem.facility +
+    # imported.chem.facility +
+    chemical.formulation.component +
+    chemical.article.component +
+    chemical.manufacturing.aid +
+    chemical.ancilliary.use +
+    # production.ratio.activity.index +
+    maxnum.chem.onsite +
+    clean.air.act.chems +
+    hap.chems +
+    pbt.chems +
     facility.id.fe +
-    border.county.fe
+    border.county.fe +
+    chemical.id.fe
     # chemical.year.fe
 #======================================================================================================================#
 ### Onsite: Total releases intensity
@@ -44,13 +59,13 @@ start_time <- Sys.time()
 sdid_total_releases <- att_gt(
   yname = "l.total.releases.onsite.intensity",
   tname = "year",
-  idname = "facility.id",
+  idname = "facility.zipcode",
   gname = "ch.year",
   xformla = controls,
   panel = T,
   allow_unbalanced_panel = T,
   control_group = "notyettreated",
-  clustervars = c("facility.id", "facility.state"),
+  clustervars = c("facility.zipcode", "facility.state"),
   est_method = "dr",
   pl = T,
   base_period = "universal",
@@ -60,7 +75,6 @@ end_time <- Sys.time()
 end_time - start_time
 
 summary(sdid_total_releases)
-aggte(sdid_total_releases, type = "simple")
 sdid_total_releases_es <- aggte(
   sdid_total_releases,
   type = "dynamic",
@@ -106,7 +120,7 @@ es_total_releases_plot <- ggplot(data = es_total_releases_nyt,
   )) +
   scale_x_continuous(breaks = -3:3) +
   #scale_y_continuous(breaks = seq(-600, 200, 200), limits = c(-700,200))+
-  ylim(-15, 50) +
+  ylim(-1.5, 1.5) +
   theme(axis.text.y = element_text(size = 12)) +
   theme(axis.text.x = element_text(size = 12)) +
   theme(axis.title = element_text(color = "black", size = 12)) +
@@ -116,7 +130,7 @@ es_total_releases_plot <- ggplot(data = es_total_releases_nyt,
                                               hjust = 0,
                                               lineheight = 1.2)
   ) +
-  annotate(geom = "text", x = 1, y = -0.1, label = "ATT: 0.1195 (0.0697)", color = "black") +
+  annotate(geom = "text", x = 1, y = -0.1, label = "ATT: 0.2911*** (0.1289)", color = "black") +
   ggtitle(label = "Total onsite releases intensity") +
   theme_bw()
 
@@ -131,13 +145,13 @@ start_time <- Sys.time()
 sdid_air <- att_gt(
   yname = "l.total.air.emissions.onsite.intensity",
   tname = "year",
-  idname = "facility.id",
+  idname = "facility.zipcode",
   gname = "ch.year",
   xformla = controls,
   panel = T,
   allow_unbalanced_panel = T,
   control_group = "notyettreated",
-  clustervars = c("facility.id", "facility.state"),
+  clustervars = c("facility.zipcode", "facility.state"),
   est_method = "dr",
   pl = T,
   base_period = "universal",
@@ -193,7 +207,7 @@ es_air_plot <- ggplot(data = es_air_nyt,
   )) +
   scale_x_continuous(breaks = -3:2) +
   #scale_y_continuous(breaks = seq(-600, 200, 200), limits = c(-700,200))+
-  ylim(-12, 40) +
+  ylim(-0.7, 1.7) +
   theme(axis.text.y = element_text(size = 12)) +
   theme(axis.text.x = element_text(size = 12)) +
   theme(axis.title = element_text(color = "black", size = 12)) +
@@ -203,7 +217,7 @@ es_air_plot <- ggplot(data = es_air_nyt,
                                               hjust = 0,
                                               lineheight = 1.2)
   ) +
-  annotate(geom = "text", x = 1, y = -0.1, label = "ATT: 0.1377*** (0.0436)", color = "black") +
+  annotate(geom = "text", x = 1, y = -0.1, label = "ATT: 0.5237*** (0.1490)", color = "black") +
   ggtitle(label = "Total onsite air emissions intensity") +
   theme_bw()
 
@@ -218,13 +232,13 @@ start_time <- Sys.time()
 sdid_point_air <- att_gt(
   yname = "l.total.point.air.emissions.onsite.intensity",
   tname = "year",
-  idname = "facility.id",
+  idname = "facility.zipcode",
   gname = "ch.year",
   xformla = controls,
   panel = T,
   allow_unbalanced_panel = T,
   control_group = "notyettreated",
-  clustervars = c("facility.id", "facility.state"),
+  clustervars = c("facility.zipcode", "facility.state"),
   est_method = "dr",
   pl = T,
   base_period = "universal",
@@ -234,7 +248,6 @@ end_time <- Sys.time()
 end_time - start_time
 
 summary(sdid_point_air)
-aggte(sdid_point_air, type = "simple")
 sdid_point_air_es <- aggte(
   sdid_point_air,
   type = "dynamic",
@@ -280,7 +293,7 @@ es_point_air_plot <- ggplot(data = es_point_air_nyt,
   )) +
   scale_x_continuous(breaks = -3:2) +
   #scale_y_continuous(breaks = seq(-600, 200, 200), limits = c(-700,200))+
-  ylim(-0.5, 0.5) +
+  ylim(-1, 1.2) +
   theme(axis.text.y = element_text(size = 12)) +
   theme(axis.text.x = element_text(size = 12)) +
   theme(axis.title = element_text(color = "black", size = 12)) +
@@ -290,7 +303,7 @@ es_point_air_plot <- ggplot(data = es_point_air_nyt,
                                               hjust = 0,
                                               lineheight = 1.2)
   ) +
-  annotate(geom = "text", x = 1, y = -0.1, label = "ATT: 0.1524*** (0.0520)", color = "black") +
+  annotate(geom = "text", x = 1, y = -0.1, label = "ATT: 0.4436*** (0.1223)", color = "black") +
   ggtitle(label = "Total onsite point air emissions intensity") +
   theme_bw()
 
@@ -306,13 +319,13 @@ start_time <- Sys.time()
 sdid_fug_air <- att_gt(
   yname = "l.total.fug.air.emissions.onsite.intensity",
   tname = "year",
-  idname = "facility.id",
+  idname = "facility.zipcode",
   gname = "ch.year",
   xformla = controls,
   panel = T,
   allow_unbalanced_panel = T,
   control_group = "notyettreated",
-  clustervars = c("facility.id", "facility.state"),
+  clustervars = c("facility.zipcode", "facility.state"),
   est_method = "dr",
   pl = T,
   base_period = "universal",
@@ -322,7 +335,6 @@ end_time <- Sys.time()
 end_time - start_time
 
 summary(sdid_fug_air)
-aggte(sdid_fug_air, type = "simple")
 sdid_fug_air_es <- aggte(
   sdid_fug_air,
   type = "dynamic",
@@ -368,7 +380,7 @@ es_fug_air_plot <- ggplot(data = es_fug_air_nyt,
   )) +
   scale_x_continuous(breaks = -3:2) +
   #scale_y_continuous(breaks = seq(-600, 200, 200), limits = c(-700,200))+
-  ylim(-0.2, 0.2) +
+  ylim(-0.7, 1.2) +
   theme(axis.text.y = element_text(size = 12)) +
   theme(axis.text.x = element_text(size = 12)) +
   theme(axis.title = element_text(color = "black", size = 12)) +
@@ -378,7 +390,7 @@ es_fug_air_plot <- ggplot(data = es_fug_air_nyt,
                                               hjust = 0,
                                               lineheight = 1.2)
   ) +
-  annotate(geom = "text", x = 1, y = -0.1, label = "ATT: -0.0480*** (0.0193)", color = "black") +
+  annotate(geom = "text", x = 1, y = -0.3, label = "ATT: 0.0937 (0.2023)", color = "black") +
   ggtitle(label = "Total onsite fugitive air emissions intensity") +
   theme_bw()
 
@@ -393,13 +405,13 @@ start_time <- Sys.time()
 sdid_water_disc <- att_gt(
   yname = "l.total.surface.water.discharge.onsite.intensity",
   tname = "year",
-  idname = "facility.id",
+  idname = "facility.zipcode",
   gname = "ch.year",
   xformla = controls,
   panel = T,
   allow_unbalanced_panel = T,
   control_group = "notyettreated",
-  clustervars = c("facility.id", "facility.state"),
+  clustervars = c("facility.zipcode", "facility.state"),
   est_method = "dr",
   pl = T,
   base_period = "universal",
@@ -409,7 +421,6 @@ end_time <- Sys.time()
 end_time - start_time
 
 summary(sdid_water_disc)
-aggte(sdid_water_disc, type = "simple")
 sdid_water_disc_es <- aggte(
   sdid_water_disc,
   type = "dynamic",
@@ -455,7 +466,7 @@ es_water_disc_plot <- ggplot(data = es_water_disc_nyt,
   )) +
   scale_x_continuous(breaks = -3:2) +
   #scale_y_continuous(breaks = seq(-600, 200, 200), limits = c(-700,200))+
-  ylim(-0.9, 0.5) +
+  ylim(-0.9, 0.7) +
   theme(axis.text.y = element_text(size = 12)) +
   theme(axis.text.x = element_text(size = 12)) +
   theme(axis.title = element_text(color = "black", size = 12)) +
@@ -465,7 +476,7 @@ es_water_disc_plot <- ggplot(data = es_water_disc_nyt,
                                               hjust = 0,
                                               lineheight = 1.2)
   ) +
-  annotate(geom = "text", x = 1, y = -0.1, label = "ATT: -0.0199 (0.0997)", color = "black") +
+  annotate(geom = "text", x = 1, y = 0.2, label = "ATT: -0.2514 (0.1377)", color = "black") +
   ggtitle(label = "Total onsite surface water discharge intensity") +
   theme_bw()
 
@@ -480,13 +491,13 @@ start_time <- Sys.time()
 sdid_receiving_streams <- att_gt(
   yname = "total.num.receiving.streams.onsite",
   tname = "year",
-  idname = "facility.id",
+  idname = "facility.zipcode",
   gname = "ch.year",
   xformla = controls,
   panel = T,
   allow_unbalanced_panel = T,
   control_group = "notyettreated",
-  clustervars = c("facility.id", "facility.state"),
+  clustervars = c("facility.zipcode", "facility.state"),
   est_method = "dr",
   pl = T,
   base_period = "universal",
@@ -496,7 +507,6 @@ end_time <- Sys.time()
 end_time - start_time
 
 summary(sdid_receiving_streams)
-aggte(sdid_receiving_streams, type = "simple")
 sdid_receiving_streams_es <- aggte(
   sdid_receiving_streams,
   type = "dynamic",
@@ -542,7 +552,7 @@ es_receiver_streams_plot <- ggplot(data = es_receiver_streams_nyt,
   )) +
   scale_x_continuous(breaks = -3:2) +
   #scale_y_continuous(breaks = seq(-600, 200, 200), limits = c(-700,200))+
-  ylim(-1.2, 0.9) +
+  ylim(-1.5, 0.3) +
   theme(axis.text.y = element_text(size = 12)) +
   theme(axis.text.x = element_text(size = 12)) +
   theme(axis.title = element_text(color = "black", size = 12)) +
@@ -552,7 +562,7 @@ es_receiver_streams_plot <- ggplot(data = es_receiver_streams_nyt,
                                               hjust = 0,
                                               lineheight = 1.2)
   ) +
-  annotate(geom = "text", x = 1, y = -0.1, label = "ATT: -0.4255*** (0.0864)", color = "black") +
+  annotate(geom = "text", x = 1, y = -0.1, label = "ATT: -0.7135*** (0.0863)", color = "black") +
   ggtitle(label = "Total number of receiving streams, onsite") +
   theme_bw()
 
@@ -567,13 +577,13 @@ start_time <- Sys.time()
 sdid_land_releases <- att_gt(
   yname = "l.total.land.releases.onsite.intensity",
   tname = "year",
-  idname = "facility.id",
+  idname = "facility.zipcode",
   gname = "ch.year",
   xformla = controls,
   panel = T,
   allow_unbalanced_panel = T,
   control_group = "notyettreated",
-  clustervars = c("facility.id", "facility.state"),
+  clustervars = c("facility.zipcode", "facility.state"),
   est_method = "dr",
   pl = T,
   base_period = "universal",
@@ -583,7 +593,6 @@ end_time <- Sys.time()
 end_time - start_time
 
 summary(sdid_land_releases)
-aggte(sdid_land_releases, type = "simple")
 sdid_land_releases_es <- aggte(
   sdid_land_releases,
   type = "dynamic",
@@ -629,7 +638,7 @@ es_land_releases_plot <- ggplot(data = es_land_releases_nyt,
   )) +
   scale_x_continuous(breaks = -3:2) +
   #scale_y_continuous(breaks = seq(-600, 200, 200), limits = c(-700,200))+
-  ylim(-0.2, 0.2) +
+  ylim(-1.5, 0.4) +
   theme(axis.text.y = element_text(size = 12)) +
   theme(axis.text.x = element_text(size = 12)) +
   theme(axis.title = element_text(color = "black", size = 12)) +
@@ -639,7 +648,7 @@ es_land_releases_plot <- ggplot(data = es_land_releases_nyt,
                                               hjust = 0,
                                               lineheight = 1.2)
   ) +
-  annotate(geom = "text", x = 1, y = -0.1, label = "ATT: -0.0059 (0.0067)", color = "black") +
+  annotate(geom = "text", x = 1, y = -0.1, label = "ATT: -0.0374 (0.0331)", color = "black") +
   ggtitle(label = "Total onsite land releases intensity") +
   theme_bw()
 
@@ -654,13 +663,13 @@ start_time <- Sys.time()
 sdid_landfills <- att_gt(
   yname = "l.total.landfills.onsite.intensity",
   tname = "year",
-  idname = "facility.id",
+  idname = "facility.zipcode",
   gname = "ch.year",
   xformla = controls,
   panel = T,
   allow_unbalanced_panel = T,
   control_group = "notyettreated",
-  clustervars = c("facility.id", "facility.state"),
+  clustervars = c("facility.zipcode", "facility.state"),
   est_method = "dr",
   pl = T,
   base_period = "universal",
@@ -670,7 +679,6 @@ end_time <- Sys.time()
 end_time - start_time
 
 summary(sdid_landfills)
-aggte(sdid_landfills, type = "simple")
 sdid_landfills_es <- aggte(
   sdid_landfills,
   type = "dynamic",
@@ -716,7 +724,7 @@ es_landfills_plot <- ggplot(data = es_landfills_nyt,
   )) +
   scale_x_continuous(breaks = -3:2) +
   #scale_y_continuous(breaks = seq(-600, 200, 200), limits = c(-700,200))+
-  ylim(-0.2, 0.2) +
+  ylim(-1.4, 0.4) +
   theme(axis.text.y = element_text(size = 12)) +
   theme(axis.text.x = element_text(size = 12)) +
   theme(axis.title = element_text(color = "black", size = 12)) +
@@ -726,7 +734,7 @@ es_landfills_plot <- ggplot(data = es_landfills_nyt,
                                               hjust = 0,
                                               lineheight = 1.2)
   ) +
-  annotate(geom = "text", x = 1, y = -0.1, label = "ATT: -0.0004 (0.0014)", color = "black") +
+  annotate(geom = "text", x = 1, y = -0.1, label = "ATT: -0.0072 (0.0151)", color = "black") +
   ggtitle(label = "Total onsite landfills intensity") +
   theme_bw()
 
@@ -741,13 +749,13 @@ start_time <- Sys.time()
 sdid_surface_impound <- att_gt(
   yname = "l.total.surface.impoundment.onsite.intensity",
   tname = "year",
-  idname = "facility.id",
+  idname = "facility.zipcode",
   gname = "ch.year",
   xformla = controls,
   panel = T,
   allow_unbalanced_panel = T,
   control_group = "notyettreated",
-  clustervars = c("facility.id", "facility.state"),
+  clustervars = c("facility.zipcode", "facility.state"),
   est_method = "dr",
   pl = T,
   base_period = "universal",
@@ -757,7 +765,6 @@ end_time <- Sys.time()
 end_time - start_time
 
 summary(sdid_surface_impound)
-aggte(sdid_surface_impound, type = "simple")
 sdid_surface_impound_es <- aggte(
   sdid_surface_impound,
   type = "dynamic",
@@ -803,7 +810,7 @@ es_surface_impound_plot <- ggplot(data = es_surface_impound_nyt,
   )) +
   scale_x_continuous(breaks = -3:2) +
   #scale_y_continuous(breaks = seq(-600, 200, 200), limits = c(-700,200))+
-  ylim(-0.005, 0.005) +
+  ylim(-0.025, 0.025) +
   theme(axis.text.y = element_text(size = 12)) +
   theme(axis.text.x = element_text(size = 12)) +
   theme(axis.title = element_text(color = "black", size = 12)) +
@@ -813,7 +820,7 @@ es_surface_impound_plot <- ggplot(data = es_surface_impound_nyt,
                                               hjust = 0,
                                               lineheight = 1.2)
   ) +
-  annotate(geom = "text", x = 1, y = -0.002, label = "ATT: 0.0001 (0.0003)", color = "black") +
+  annotate(geom = "text", x = 1, y = -0.02, label = "ATT: 0.0013 (0.0024)", color = "black") +
   ggtitle(label = "Total onsite surface impoundment intensity") +
   theme_bw()
 
@@ -828,13 +835,13 @@ start_time <- Sys.time()
 sdid_land_releases_other <- att_gt(
   yname = "l.total.land.releases.other.onsite.intensity",
   tname = "year",
-  idname = "facility.id",
+  idname = "facility.zipcode",
   gname = "ch.year",
   xformla = controls,
   panel = T,
   allow_unbalanced_panel = T,
   control_group = "notyettreated",
-  clustervars = c("facility.id", "facility.state"),
+  clustervars = c("facility.zipcode", "facility.state"),
   est_method = "dr",
   pl = T,
   base_period = "universal",
@@ -844,7 +851,6 @@ end_time <- Sys.time()
 end_time - start_time
 
 summary(sdid_land_releases_other)
-aggte(sdid_land_releases_other, type = "simple")
 sdid_land_releases_other_es <- aggte(
   sdid_land_releases_other,
   type = "dynamic",
@@ -890,7 +896,7 @@ es_land_releases_other_plot <- ggplot(data = es_land_releases_other_nyt,
   )) +
   scale_x_continuous(breaks = -3:2) +
   #scale_y_continuous(breaks = seq(-600, 200, 200), limits = c(-700,200))+
-  ylim(-0.05, 0.05) +
+  ylim(-0.15, 0.07) +
   theme(axis.text.y = element_text(size = 12)) +
   theme(axis.text.x = element_text(size = 12)) +
   theme(axis.title = element_text(color = "black", size = 12)) +
@@ -900,7 +906,7 @@ es_land_releases_other_plot <- ggplot(data = es_land_releases_other_nyt,
                                               hjust = 0,
                                               lineheight = 1.2)
   ) +
-  annotate(geom = "text", x = 1, y = -0.035, label = "ATT: -0.0089 (0.0051)", color = "black") +
+  annotate(geom = "text", x = 1, y = -0.035, label = "ATT: -0.0390 (0.0278)", color = "black") +
   ggtitle(label = "Total onsite land releases intensity, others") +
   theme_bw()
 
