@@ -23,987 +23,776 @@ triQc <- read_rds(file = file)
 ### Hourly Wage
 #======================================================================================================================#
 reg_wagephr <- fixest::feols(
-  wage.perhr ~ e.treated +
-    sw0(
-      gdppc.1 +
-        annual.avg.estabs.1 +
-        population.1 +
-        cpi.1 +
-        entire.facility +
-        private.facility +
-        federal.facility
-    )
+  wage.perhr ~ sunab(ch.year, year) +
+    gdppc.1 +
+    annual.avg.estabs.1 +
+    population.1 +
+    cpi.1 +
+    entire.facility +
+    private.facility +
+    federal.facility
     |
-    csw(,
-      year,
-      fips.code.fe,
-      border.county.fe,
+    year +
+      fips.code.fe +
+      border.county.fe +
       border.county.year.fe
-    )
-  ,
-  data = triQc,
-  cluster = ~facility.county, # facility.county
-)
-fixest::etable(reg_wagephr, digits = 4, digits.stats = 4)
-
-reg_wagephr <- fixest::feols(
-  wage.perhr ~ e.treated +
-    sw0(
-      gdppc.1 +
-        annual.avg.estabs.1 +
-        population.1 +
-        cpi.1 +
-        entire.facility +
-        private.facility +
-        federal.facility
-    )
-    |
-    csw(,
-      year,
-      fips.code.fe,
-      border.county.fe,
-      border.county.year.fe
-    )
   ,
   data = triQc,
   cluster = ~fips.code.fe, # fips.code.fe
 )
-fixest::etable(reg_wagephr, digits = 4, digits.stats = 4)
+fixest::etable(reg_wagephr, agg = "ATT", digits = 3, digits.stats = 3)
+fixest::etable(reg_wagephr, agg = "cohort", digits = 3, digits.stats = 3)
 
 reg_wagephr <- fixest::feols(
-  wage.perhr ~ e.treated +
-    sw0(
-      gdppc.1 +
-        annual.avg.estabs.1 +
-        population.1 +
-        cpi.1 +
-        entire.facility +
-        private.facility +
-        federal.facility
-    )
+  wage.perhr ~ sunab(ch.year, year) +
+    gdppc.1 +
+    annual.avg.estabs.1 +
+    population.1 +
+    cpi.1 +
+    entire.facility +
+    private.facility +
+    federal.facility
     |
-    csw(,
-      year,
-      fips.code.fe,
-      border.county.fe,
+    year +
+      fips.code.fe +
+      border.county.fe +
       border.county.year.fe
-    )
   ,
   data = triQc,
   cluster = ~naics.code, # naics.code
 )
-fixest::etable(reg_wagephr, digits = 4, digits.stats = 4)
+fixest::etable(reg_wagephr, agg = "ATT", digits = 3, digits.stats = 3)
+fixest::etable(reg_wagephr, agg = "cohort", digits = 3, digits.stats = 3)
 
 reg_wagephr <- fixest::feols(
-  wage.perhr ~ e.treated +
-    sw0(
-      gdppc.1 +
-        annual.avg.estabs.1 +
-        population.1 +
-        cpi.1 +
-        entire.facility +
-        private.facility +
-        federal.facility
-    )
+  wage.perhr ~ sunab(ch.year, year) +
+    gdppc.1 +
+    annual.avg.estabs.1 +
+    population.1 +
+    cpi.1 +
+    entire.facility +
+    private.facility +
+    federal.facility
     |
-    csw(,
-      year,
-      fips.code.fe,
-      border.county.fe,
+    year +
+      fips.code.fe +
+      border.county.fe +
       border.county.year.fe
-    )
   ,
   data = triQc,
   cluster = ~facility.zipcode, # facility.zipcode
 )
-fixest::etable(reg_wagephr, digits = 4, digits.stats = 4)
+fixest::etable(reg_wagephr, agg = "ATT", digits = 3, digits.stats = 3)
+fixest::etable(reg_wagephr, agg = "cohort", digits = 3, digits.stats = 3)
 
 reg_wagephr <- fixest::feols(
-  wage.perhr ~ e.treated +
-    sw0(
-      gdppc.1 +
-        annual.avg.estabs.1 +
-        population.1 +
-        cpi.1 +
-        entire.facility +
-        private.facility +
-        federal.facility
-    )
+  wage.perhr ~ sunab(ch.year, year) +
+    gdppc.1 +
+    annual.avg.estabs.1 +
+    population.1 +
+    cpi.1 +
+    entire.facility +
+    private.facility +
+    federal.facility
     |
-    csw(,
-      year,
-      fips.code.fe,
-      border.county.fe,
+    year +
+      fips.code.fe +
+      border.county.fe +
       border.county.year.fe
-    )
   ,
   data = triQc,
   cluster = ~facility.id, # facility.id
 )
-fixest::etable(reg_wagephr, digits = 4, digits.stats = 4)
+fixest::etable(reg_wagephr, agg = "ATT", digits = 3, digits.stats = 3)
+fixest::etable(reg_wagephr, agg = "cohort", digits = 3, digits.stats = 3)
 #======================================================================================================================#
 ### Labour cost: Industry Pay---Total payroll
 #======================================================================================================================#
 reg_pay <- fixest::feols(
-  pay ~ e.treated +
-    sw0(
-      gdppc.1 +
-        annual.avg.estabs.1 +
-        population.1 +
-        cpi.1 +
-        entire.facility +
-        private.facility +
-        federal.facility
-    )
+  l.pay ~ sunab(ch.year, year) +
+    gdppc.1 +
+    annual.avg.estabs.1 +
+    population.1 +
+    cpi.1 +
+    entire.facility +
+    private.facility +
+    federal.facility
     |
-    csw(,
-      year,
-      fips.code.fe,
-      border.county.fe,
+    year +
+      fips.code.fe +
+      border.county.fe +
       border.county.year.fe
-    )
-  ,
-  data = triQc,
-  cluster = ~facility.county, # facility.county
-)
-fixest::etable(reg_pay, digits = 4, digits.stats = 4)
-
-reg_pay <- fixest::feols(
-  pay ~ e.treated +
-    sw0(
-      gdppc.1 +
-        annual.avg.estabs.1 +
-        population.1 +
-        cpi.1 +
-        entire.facility +
-        private.facility +
-        federal.facility
-    )
-    |
-    csw(,
-      year,
-      fips.code.fe,
-      border.county.fe,
-      border.county.year.fe
-    )
   ,
   data = triQc,
   cluster = ~fips.code.fe, # fips.code.fe
 )
-fixest::etable(reg_pay, digits = 4, digits.stats = 4)
+fixest::etable(reg_pay, agg = "ATT", digits = 3, digits.stats = 3)
+fixest::etable(reg_pay, agg = "cohort", digits = 3, digits.stats = 3)
 
 reg_pay <- fixest::feols(
-  pay ~ e.treated +
-    sw0(
-      gdppc.1 +
-        annual.avg.estabs.1 +
-        population.1 +
-        cpi.1 +
-        entire.facility +
-        private.facility +
-        federal.facility
-    )
+  l.pay ~ sunab(ch.year, year) +
+    gdppc.1 +
+    annual.avg.estabs.1 +
+    population.1 +
+    cpi.1 +
+    entire.facility +
+    private.facility +
+    federal.facility
     |
-    csw(,
-      year,
-      fips.code.fe,
-      border.county.fe,
+    year +
+      fips.code.fe +
+      border.county.fe +
       border.county.year.fe
-    )
   ,
   data = triQc,
   cluster = ~naics.code, # naics.code
 )
-fixest::etable(reg_pay, digits = 4, digits.stats = 4)
+fixest::etable(reg_pay, agg = "ATT", digits = 3, digits.stats = 3)
+fixest::etable(reg_pay, agg = "cohort", digits = 3, digits.stats = 3)
 
 reg_pay <- fixest::feols(
-  pay ~ e.treated +
-    sw0(
-      gdppc.1 +
-        annual.avg.estabs.1 +
-        population.1 +
-        cpi.1 +
-        entire.facility +
-        private.facility +
-        federal.facility
-    )
+  l.pay ~ sunab(ch.year, year) +
+    gdppc.1 +
+    annual.avg.estabs.1 +
+    population.1 +
+    cpi.1 +
+    entire.facility +
+    private.facility +
+    federal.facility
     |
-    csw(,
-      year,
-      fips.code.fe,
-      border.county.fe,
+    year +
+      fips.code.fe +
+      border.county.fe +
       border.county.year.fe
-    )
   ,
   data = triQc,
   cluster = ~facility.zipcode, # facility.zipcode
 )
-fixest::etable(reg_pay, digits = 4, digits.stats = 4)
+fixest::etable(reg_pay, agg = "ATT", digits = 3, digits.stats = 3)
+fixest::etable(reg_pay, agg = "cohort", digits = 3, digits.stats = 3)
 
 reg_pay <- fixest::feols(
-  pay ~ e.treated +
-    sw0(
-      gdppc.1 +
-        annual.avg.estabs.1 +
-        population.1 +
-        cpi.1 +
-        entire.facility +
-        private.facility +
-        federal.facility
-    )
+  l.pay ~ sunab(ch.year, year) +
+    gdppc.1 +
+    annual.avg.estabs.1 +
+    population.1 +
+    cpi.1 +
+    entire.facility +
+    private.facility +
+    federal.facility
     |
-    csw(,
-      year,
-      fips.code.fe,
-      border.county.fe,
+    year +
+      fips.code.fe +
+      border.county.fe +
       border.county.year.fe
-    )
   ,
   data = triQc,
   cluster = ~facility.id, # facility.id
 )
-fixest::etable(reg_pay, digits = 4, digits.stats = 4)
-
+fixest::etable(reg_pay, agg = "ATT", digits = 3, digits.stats = 3)
+fixest::etable(reg_pay, agg = "cohort", digits = 3, digits.stats = 3)
 #======================================================================================================================#
 ### Material cost: Industry material cost
 #======================================================================================================================#
 reg_matcost <- fixest::feols(
-  l.matcost ~ e.treated +
-    sw0(
-      gdppc.1 +
-        annual.avg.estabs.1 +
-        population.1 +
-        cpi.1 +
-        entire.facility +
-        private.facility +
-        federal.facility
-    )
+  l.matcost ~ sunab(ch.year, year) +
+    gdppc.1 +
+    annual.avg.estabs.1 +
+    population.1 +
+    cpi.1 +
+    entire.facility +
+    private.facility +
+    federal.facility
     |
-    csw(,
-      year,
-      fips.code.fe,
-      border.county.fe,
+    year +
+      fips.code.fe +
+      border.county.fe +
       border.county.year.fe
-    )
-  ,
-  data = triQc,
-  cluster = ~facility.county, # facility.county
-)
-fixest::etable(reg_matcost, digits = 4, digits.stats = 4)
-
-reg_matcost <- fixest::feols(
-  l.matcost ~ e.treated +
-    sw0(
-      gdppc.1 +
-        annual.avg.estabs.1 +
-        population.1 +
-        cpi.1 +
-        entire.facility +
-        private.facility +
-        federal.facility
-    )
-    |
-    csw(,
-      year,
-      fips.code.fe,
-      border.county.fe,
-      border.county.year.fe
-    )
   ,
   data = triQc,
   cluster = ~fips.code.fe, # fips.code.fe
 )
-fixest::etable(reg_matcost, digits = 4, digits.stats = 4)
+fixest::etable(reg_matcost, agg = "ATT", digits = 3, digits.stats = 3)
+fixest::etable(reg_matcost, agg = "cohort", digits = 3, digits.stats = 3)
 
 reg_matcost <- fixest::feols(
-  l.matcost ~ e.treated +
-    sw0(
-      gdppc.1 +
-        annual.avg.estabs.1 +
-        population.1 +
-        cpi.1 +
-        entire.facility +
-        private.facility +
-        federal.facility
-    )
+  l.matcost ~ sunab(ch.year, year) +
+    gdppc.1 +
+    annual.avg.estabs.1 +
+    population.1 +
+    cpi.1 +
+    entire.facility +
+    private.facility +
+    federal.facility
     |
-    csw(,
-      year,
-      fips.code.fe,
-      border.county.fe,
+    year +
+      fips.code.fe +
+      border.county.fe +
       border.county.year.fe
-    )
   ,
   data = triQc,
   cluster = ~naics.code, # naics.code
 )
-fixest::etable(reg_matcost, digits = 4, digits.stats = 4)
+fixest::etable(reg_matcost, agg = "ATT", digits = 3, digits.stats = 3)
+fixest::etable(reg_matcost, agg = "cohort", digits = 3, digits.stats = 3)
 
 reg_matcost <- fixest::feols(
-  l.matcost ~ e.treated +
-    sw0(
-      gdppc.1 +
-        annual.avg.estabs.1 +
-        population.1 +
-        cpi.1 +
-        entire.facility +
-        private.facility +
-        federal.facility
-    )
+  l.matcost ~ sunab(ch.year, year) +
+    gdppc.1 +
+    annual.avg.estabs.1 +
+    population.1 +
+    cpi.1 +
+    entire.facility +
+    private.facility +
+    federal.facility
     |
-    csw(,
-      year,
-      fips.code.fe,
-      border.county.fe,
+    year +
+      fips.code.fe +
+      border.county.fe +
       border.county.year.fe
-    )
   ,
   data = triQc,
   cluster = ~facility.zipcode, # facility.zipcode
 )
-fixest::etable(reg_matcost, digits = 4, digits.stats = 4)
+fixest::etable(reg_matcost, agg = "ATT", digits = 3, digits.stats = 3)
+fixest::etable(reg_matcost, agg = "cohort", digits = 3, digits.stats = 3)
 
 reg_matcost <- fixest::feols(
-  l.matcost ~ e.treated +
-    sw0(
-      gdppc.1 +
-        annual.avg.estabs.1 +
-        population.1 +
-        cpi.1 +
-        entire.facility +
-        private.facility +
-        federal.facility
-    )
+  l.matcost ~ sunab(ch.year, year) +
+    gdppc.1 +
+    annual.avg.estabs.1 +
+    population.1 +
+    cpi.1 +
+    entire.facility +
+    private.facility +
+    federal.facility
     |
-    csw(,
-      year,
-      fips.code.fe,
-      border.county.fe,
+    year +
+      fips.code.fe +
+      border.county.fe +
       border.county.year.fe
-    )
   ,
   data = triQc,
   cluster = ~facility.id, # facility.id
 )
-fixest::etable(reg_matcost, digits = 4, digits.stats = 4)
+fixest::etable(reg_matcost, agg = "ATT", digits = 3, digits.stats = 3)
+fixest::etable(reg_matcost, agg = "cohort", digits = 3, digits.stats = 3)
 #======================================================================================================================#
 ### Industry: Employment
 #======================================================================================================================#
 reg_emp <- fixest::feols(
-  l.emp ~ e.treated +
-    sw0(
-      gdppc.1 +
-        annual.avg.estabs.1 +
-        population.1 +
-        cpi.1 +
-        entire.facility +
-        private.facility +
-        federal.facility
-    )
+  l.emp ~ sunab(ch.year, year) +
+    gdppc.1 +
+    annual.avg.estabs.1 +
+    population.1 +
+    cpi.1 +
+    entire.facility +
+    private.facility +
+    federal.facility
     |
-    csw(,
-      year,
-      fips.code.fe,
-      border.county.fe,
+    year +
+      fips.code.fe +
+      border.county.fe +
       border.county.year.fe
-    )
-  ,
-  data = triQc,
-  cluster = ~facility.county, # facility.county
-)
-fixest::etable(reg_emp, digits = 4, digits.stats = 4)
-
-reg_emp <- fixest::feols(
-  l.emp ~ e.treated +
-    sw0(
-      gdppc.1 +
-        annual.avg.estabs.1 +
-        population.1 +
-        cpi.1 +
-        entire.facility +
-        private.facility +
-        federal.facility
-    )
-    |
-    csw(,
-      year,
-      fips.code.fe,
-      border.county.fe,
-      border.county.year.fe
-    )
   ,
   data = triQc,
   cluster = ~fips.code.fe, # fips.code.fe
 )
-fixest::etable(reg_emp, digits = 4, digits.stats = 4)
+fixest::etable(reg_emp, agg = "ATT", digits = 3, digits.stats = 3)
+fixest::etable(reg_emp, agg = "cohort", digits = 3, digits.stats = 3)
 
 reg_emp <- fixest::feols(
-  l.emp ~ e.treated +
-    sw0(
-      gdppc.1 +
-        annual.avg.estabs.1 +
-        population.1 +
-        cpi.1 +
-        entire.facility +
-        private.facility +
-        federal.facility
-    )
+  l.emp ~ sunab(ch.year, year) +
+    gdppc.1 +
+    annual.avg.estabs.1 +
+    population.1 +
+    cpi.1 +
+    entire.facility +
+    private.facility +
+    federal.facility
     |
-    csw(,
-      year,
-      fips.code.fe,
-      border.county.fe,
+    year +
+      fips.code.fe +
+      border.county.fe +
       border.county.year.fe
-    )
   ,
   data = triQc,
   cluster = ~naics.code, # naics.code
 )
-fixest::etable(reg_emp, digits = 4, digits.stats = 4)
+fixest::etable(reg_emp, agg = "ATT", digits = 3, digits.stats = 3)
+fixest::etable(reg_emp, agg = "cohort", digits = 3, digits.stats = 3)
 
 reg_emp <- fixest::feols(
-  l.emp ~ e.treated +
-    sw0(
-      gdppc.1 +
-        annual.avg.estabs.1 +
-        population.1 +
-        cpi.1 +
-        entire.facility +
-        private.facility +
-        federal.facility
-    )
+  l.emp ~ sunab(ch.year, year) +
+    gdppc.1 +
+    annual.avg.estabs.1 +
+    population.1 +
+    cpi.1 +
+    entire.facility +
+    private.facility +
+    federal.facility
     |
-    csw(,
-      year,
-      fips.code.fe,
-      border.county.fe,
+    year +
+      fips.code.fe +
+      border.county.fe +
       border.county.year.fe
-    )
   ,
   data = triQc,
   cluster = ~facility.zipcode, # facility.zipcode
 )
-fixest::etable(reg_emp, digits = 4, digits.stats = 4)
+fixest::etable(reg_emp, agg = "ATT", digits = 3, digits.stats = 3)
+fixest::etable(reg_emp, agg = "cohort", digits = 3, digits.stats = 3)
 
 reg_emp <- fixest::feols(
-  l.emp ~ e.treated +
-    sw0(
-      gdppc.1 +
-        annual.avg.estabs.1 +
-        population.1 +
-        cpi.1 +
-        entire.facility +
-        private.facility +
-        federal.facility
-    )
+  l.emp ~ sunab(ch.year, year) +
+    gdppc.1 +
+    annual.avg.estabs.1 +
+    population.1 +
+    cpi.1 +
+    entire.facility +
+    private.facility +
+    federal.facility
     |
-    csw(,
-      year,
-      fips.code.fe,
-      border.county.fe,
+    year +
+      fips.code.fe +
+      border.county.fe +
       border.county.year.fe
-    )
   ,
   data = triQc,
   cluster = ~facility.id, # facility.id
 )
-fixest::etable(reg_emp, digits = 4, digits.stats = 4)
+fixest::etable(reg_emp, agg = "ATT", digits = 3, digits.stats = 3)
+fixest::etable(reg_emp, agg = "cohort", digits = 3, digits.stats = 3)
+#======================================================================================================================#
+### Industry: Production workers
+#======================================================================================================================#
+reg_pworkers <- fixest::feols(
+  l.prode ~ sunab(ch.year, year) +
+    gdppc.1 +
+    annual.avg.estabs.1 +
+    population.1 +
+    cpi.1 +
+    entire.facility +
+    private.facility +
+    federal.facility
+    |
+    year +
+      fips.code.fe +
+      border.county.fe +
+      border.county.year.fe
+  ,
+  data = triQc,
+  cluster = ~fips.code.fe, # fips.code.fe
+)
+fixest::etable(reg_pworkers, agg = "ATT", digits = 3, digits.stats = 3)
+fixest::etable(reg_pworkers, agg = "cohort", digits = 3, digits.stats = 3)
+
+reg_pworkers <- fixest::feols(
+  l.prode ~ sunab(ch.year, year) +
+    gdppc.1 +
+    annual.avg.estabs.1 +
+    population.1 +
+    cpi.1 +
+    entire.facility +
+    private.facility +
+    federal.facility
+    |
+    year +
+      fips.code.fe +
+      border.county.fe +
+      border.county.year.fe
+  ,
+  data = triQc,
+  cluster = ~naics.code, # naics.code
+)
+fixest::etable(reg_pworkers, agg = "ATT", digits = 3, digits.stats = 3)
+fixest::etable(reg_pworkers, agg = "cohort", digits = 3, digits.stats = 3)
+
+reg_pworkers <- fixest::feols(
+  l.prode ~ sunab(ch.year, year) +
+    gdppc.1 +
+    annual.avg.estabs.1 +
+    population.1 +
+    cpi.1 +
+    entire.facility +
+    private.facility +
+    federal.facility
+    |
+    year +
+      fips.code.fe +
+      border.county.fe +
+      border.county.year.fe
+  ,
+  data = triQc,
+  cluster = ~facility.zipcode, # facility.zipcode
+)
+fixest::etable(reg_pworkers, agg = "ATT", digits = 3, digits.stats = 3)
+fixest::etable(reg_pworkers, agg = "cohort", digits = 3, digits.stats = 3)
+
+reg_pworkers <- fixest::feols(
+  l.prode ~ sunab(ch.year, year) +
+    gdppc.1 +
+    annual.avg.estabs.1 +
+    population.1 +
+    cpi.1 +
+    entire.facility +
+    private.facility +
+    federal.facility
+    |
+    year +
+      fips.code.fe +
+      border.county.fe +
+      border.county.year.fe
+  ,
+  data = triQc,
+  cluster = ~facility.id, # facility.id
+)
+fixest::etable(reg_pworkers, agg = "ATT", digits = 3, digits.stats = 3)
+fixest::etable(reg_pworkers, agg = "cohort", digits = 3, digits.stats = 3)
 #======================================================================================================================#
 ### Industry: Production hours
 #======================================================================================================================#
 reg_phours <- fixest::feols(
-  l.prodh ~ e.treated +
-    sw0(
-      gdppc.1 +
-        annual.avg.estabs.1 +
-        population.1 +
-        cpi.1 +
-        entire.facility +
-        private.facility +
-        federal.facility
-    )
+  l.prodh ~ sunab(ch.year, year) +
+    gdppc.1 +
+    annual.avg.estabs.1 +
+    population.1 +
+    cpi.1 +
+    entire.facility +
+    private.facility +
+    federal.facility
     |
-    csw(,
-      year,
-      fips.code.fe,
-      border.county.fe,
+    year +
+      fips.code.fe +
+      border.county.fe +
       border.county.year.fe
-    )
-  ,
-  data = triQc,
-  cluster = ~facility.county,
-)
-fixest::etable(reg_phours, digits = 4, digits.stats = 4)
-
-reg_phours <- fixest::feols(
-  l.prodh ~ e.treated +
-    sw0(
-      gdppc.1 +
-        annual.avg.estabs.1 +
-        population.1 +
-        cpi.1 +
-        entire.facility +
-        private.facility +
-        federal.facility
-    )
-    |
-    csw(,
-      year,
-      fips.code.fe,
-      border.county.fe,
-      border.county.year.fe
-    )
   ,
   data = triQc,
   cluster = ~fips.code.fe, # fips.code.fe
 )
-fixest::etable(reg_phours, digits = 4, digits.stats = 4)
+fixest::etable(reg_phours, agg = "ATT", digits = 3, digits.stats = 3)
+fixest::etable(reg_phours, agg = "cohort", digits = 3, digits.stats = 3)
 
 reg_phours <- fixest::feols(
-  l.prodh ~ e.treated +
-    sw0(
-      gdppc.1 +
-        annual.avg.estabs.1 +
-        population.1 +
-        cpi.1 +
-        entire.facility +
-        private.facility +
-        federal.facility
-    )
+  l.prodh ~ sunab(ch.year, year) +
+    gdppc.1 +
+    annual.avg.estabs.1 +
+    population.1 +
+    cpi.1 +
+    entire.facility +
+    private.facility +
+    federal.facility
     |
-    csw(,
-      year,
-      fips.code.fe,
-      border.county.fe,
+    year +
+      fips.code.fe +
+      border.county.fe +
       border.county.year.fe
-    )
   ,
   data = triQc,
   cluster = ~naics.code, # naics.code
 )
-fixest::etable(reg_phours, digits = 4, digits.stats = 4)
+fixest::etable(reg_phours, agg = "ATT", digits = 3, digits.stats = 3)
+fixest::etable(reg_phours, agg = "cohort", digits = 3, digits.stats = 3)
 
 reg_phours <- fixest::feols(
-  l.prodh ~ e.treated +
-    sw0(
-      gdppc.1 +
-        annual.avg.estabs.1 +
-        population.1 +
-        cpi.1 +
-        entire.facility +
-        private.facility +
-        federal.facility
-    )
+  l.prodh ~ sunab(ch.year, year) +
+    gdppc.1 +
+    annual.avg.estabs.1 +
+    population.1 +
+    cpi.1 +
+    entire.facility +
+    private.facility +
+    federal.facility
     |
-    csw(,
-      year,
-      fips.code.fe,
-      border.county.fe,
+    year +
+      fips.code.fe +
+      border.county.fe +
       border.county.year.fe
-    )
   ,
   data = triQc,
   cluster = ~facility.zipcode, # facility.zipcode
 )
-fixest::etable(reg_phours, digits = 4, digits.stats = 4)
+fixest::etable(reg_phours, agg = "ATT", digits = 3, digits.stats = 3)
+fixest::etable(reg_phours, agg = "cohort", digits = 3, digits.stats = 3)
 
 reg_phours <- fixest::feols(
-  l.prodh ~ e.treated +
-    sw0(
-      gdppc.1 +
-        annual.avg.estabs.1 +
-        population.1 +
-        cpi.1 +
-        entire.facility +
-        private.facility +
-        federal.facility
-    )
+  l.prodh ~ sunab(ch.year, year) +
+    gdppc.1 +
+    annual.avg.estabs.1 +
+    population.1 +
+    cpi.1 +
+    entire.facility +
+    private.facility +
+    federal.facility
     |
-    csw(,
-      year,
-      fips.code.fe,
-      border.county.fe,
+    year +
+      fips.code.fe +
+      border.county.fe +
       border.county.year.fe
-    )
   ,
   data = triQc,
   cluster = ~facility.id, # facility.id
 )
-fixest::etable(reg_phours, digits = 4, digits.stats = 4)
+fixest::etable(reg_phours, agg = "ATT", digits = 3, digits.stats = 3)
+fixest::etable(reg_phours, agg = "cohort", digits = 3, digits.stats = 3)
 #======================================================================================================================#
 ### Industry: Industry Output
 #======================================================================================================================#
 reg_output <- fixest::feols(
-  log(vadd) ~ e.treated +
-    sw0(
-      gdppc.1 +
-        annual.avg.estabs.1 +
-        population.1 +
-        cpi.1 +
-        entire.facility +
-        private.facility +
-        federal.facility
-    )
+  log(vadd) ~ sunab(ch.year, year) +
+    gdppc.1 +
+    annual.avg.estabs.1 +
+    population.1 +
+    cpi.1 +
+    entire.facility +
+    private.facility +
+    federal.facility
     |
-    csw(,
-      year,
-      fips.code.fe,
-      border.county.fe,
+    year +
+      fips.code.fe +
+      border.county.fe +
       border.county.year.fe
-    )
-  ,
-  data = triQc,
-  cluster = ~facility.county,
-)
-fixest::etable(reg_output, digits = 4, digits.stats = 4)
-
-reg_output <- fixest::feols(
-  log(vadd) ~ e.treated +
-    sw0(
-      gdppc.1 +
-        annual.avg.estabs.1 +
-        population.1 +
-        cpi.1 +
-        entire.facility +
-        private.facility +
-        federal.facility
-    )
-    |
-    csw(,
-      year,
-      fips.code.fe,
-      border.county.fe,
-      border.county.year.fe
-    )
   ,
   data = triQc,
   cluster = ~fips.code.fe, # fips.code.fe
 )
-fixest::etable(reg_output, digits = 4, digits.stats = 4)
+fixest::etable(reg_output, agg = "ATT", digits = 3, digits.stats = 3)
+fixest::etable(reg_output, agg = "cohort", digits = 3, digits.stats = 3)
 
 reg_output <- fixest::feols(
-  log(vadd) ~ e.treated +
-    sw0(
-      gdppc.1 +
-        annual.avg.estabs.1 +
-        population.1 +
-        cpi.1 +
-        entire.facility +
-        private.facility +
-        federal.facility
-    )
+  log(vadd) ~ sunab(ch.year, year) +
+    gdppc.1 +
+    annual.avg.estabs.1 +
+    population.1 +
+    cpi.1 +
+    entire.facility +
+    private.facility +
+    federal.facility
     |
-    csw(,
-      year,
-      fips.code.fe,
-      border.county.fe,
+    year +
+      fips.code.fe +
+      border.county.fe +
       border.county.year.fe
-    )
   ,
   data = triQc,
   cluster = ~naics.code, # naics.code
 )
-fixest::etable(reg_output, digits = 4, digits.stats = 4)
+fixest::etable(reg_output, agg = "ATT", digits = 3, digits.stats = 3)
+fixest::etable(reg_output, agg = "cohort", digits = 3, digits.stats = 3)
 
 reg_output <- fixest::feols(
-  log(vadd) ~ e.treated +
-    sw0(
-      gdppc.1 +
-        annual.avg.estabs.1 +
-        population.1 +
-        cpi.1 +
-        entire.facility +
-        private.facility +
-        federal.facility
-    )
+  log(vadd) ~ sunab(ch.year, year) +
+    gdppc.1 +
+    annual.avg.estabs.1 +
+    population.1 +
+    cpi.1 +
+    entire.facility +
+    private.facility +
+    federal.facility
     |
-    csw(,
-      year,
-      fips.code.fe,
-      border.county.fe,
+    year +
+      fips.code.fe +
+      border.county.fe +
       border.county.year.fe
-    )
   ,
   data = triQc,
   cluster = ~facility.zipcode, # facility.zipcode
 )
-fixest::etable(reg_output, digits = 4, digits.stats = 4)
+fixest::etable(reg_output, agg = "ATT", digits = 3, digits.stats = 3)
+fixest::etable(reg_output, agg = "cohort", digits = 3, digits.stats = 3)
 
 reg_output <- fixest::feols(
-  log(vadd) ~ e.treated +
-    sw0(
-      gdppc.1 +
-        annual.avg.estabs.1 +
-        population.1 +
-        cpi.1 +
-        entire.facility +
-        private.facility +
-        federal.facility
-    )
+  log(vadd) ~ sunab(ch.year, year) +
+    gdppc.1 +
+    annual.avg.estabs.1 +
+    population.1 +
+    cpi.1 +
+    entire.facility +
+    private.facility +
+    federal.facility
     |
-    csw(,
-      year,
-      fips.code.fe,
-      border.county.fe,
+    year +
+      fips.code.fe +
+      border.county.fe +
       border.county.year.fe
-    )
   ,
   data = triQc,
   cluster = ~facility.id, # facility.id
 )
-fixest::etable(reg_output, digits = 4, digits.stats = 4)
+fixest::etable(reg_output, agg = "ATT", digits = 3, digits.stats = 3)
+fixest::etable(reg_output, agg = "cohort", digits = 3, digits.stats = 3)
 #======================================================================================================================#
 ### Industry: Output per hour
 #======================================================================================================================#
 reg_outputprhr <- fixest::feols(
-  l.output.perhr ~ e.treated +
-    sw0(
-      gdppc.1 +
-        annual.avg.estabs.1 +
-        population.1 +
-        cpi.1 +
-        entire.facility +
-        private.facility +
-        federal.facility
-    )
+  l.output.perhr ~ sunab(ch.year, year) +
+    gdppc.1 +
+    annual.avg.estabs.1 +
+    population.1 +
+    cpi.1 +
+    entire.facility +
+    private.facility +
+    federal.facility
     |
-    csw(,
-      year,
-      fips.code.fe,
-      border.county.fe,
+    year +
+      fips.code.fe +
+      border.county.fe +
       border.county.year.fe
-    )
-  ,
-  data = triQc,
-  cluster = ~facility.county,
-)
-
-fixest::etable(reg_outputprhr, digits = 4, digits.stats = 4)
-
-reg_outputprhr <- fixest::feols(
-  l.output.perhr ~ e.treated +
-    sw0(
-      gdppc.1 +
-        annual.avg.estabs.1 +
-        population.1 +
-        cpi.1 +
-        entire.facility +
-        private.facility +
-        federal.facility
-    )
-    |
-    csw(,
-      year,
-      fips.code.fe,
-      border.county.fe,
-      border.county.year.fe
-    )
   ,
   data = triQc,
   cluster = ~fips.code.fe, # fips.code.fe
 )
-
-fixest::etable(reg_outputprhr, digits = 4, digits.stats = 4)
+fixest::etable(reg_outputprhr, agg = "ATT", digits = 3, digits.stats = 3)
+fixest::etable(reg_outputprhr, agg = "cohort", digits = 3, digits.stats = 3)
 
 reg_outputprhr <- fixest::feols(
-  l.output.perhr ~ e.treated +
-    sw0(
-      gdppc.1 +
-        annual.avg.estabs.1 +
-        population.1 +
-        cpi.1 +
-        entire.facility +
-        private.facility +
-        federal.facility
-    )
+  l.output.perhr ~ sunab(ch.year, year) +
+    gdppc.1 +
+    annual.avg.estabs.1 +
+    population.1 +
+    cpi.1 +
+    entire.facility +
+    private.facility +
+    federal.facility
     |
-    csw(,
-      year,
-      fips.code.fe,
-      border.county.fe,
+    year +
+      fips.code.fe +
+      border.county.fe +
       border.county.year.fe
-    )
   ,
   data = triQc,
   cluster = ~naics.code, # naics.code
 )
-
-fixest::etable(reg_outputprhr, digits = 4, digits.stats = 4)
+fixest::etable(reg_outputprhr, agg = "ATT", digits = 3, digits.stats = 3)
+fixest::etable(reg_outputprhr, agg = "cohort", digits = 3, digits.stats = 3)
 
 reg_outputprhr <- fixest::feols(
-  l.output.perhr ~ e.treated +
-    sw0(
-      gdppc.1 +
-        annual.avg.estabs.1 +
-        population.1 +
-        cpi.1 +
-        entire.facility +
-        private.facility +
-        federal.facility
-    )
+  l.output.perhr ~ sunab(ch.year, year) +
+    gdppc.1 +
+    annual.avg.estabs.1 +
+    population.1 +
+    cpi.1 +
+    entire.facility +
+    private.facility +
+    federal.facility
     |
-    csw(,
-      year,
-      fips.code.fe,
-      border.county.fe,
+    year +
+      fips.code.fe +
+      border.county.fe +
       border.county.year.fe
-    )
   ,
   data = triQc,
   cluster = ~facility.zipcode, # facility.zipcode
 )
-
-fixest::etable(reg_outputprhr, digits = 4, digits.stats = 4)
+fixest::etable(reg_outputprhr, agg = "ATT", digits = 3, digits.stats = 3)
+fixest::etable(reg_outputprhr, agg = "cohort", digits = 3, digits.stats = 3)
 
 reg_outputprhr <- fixest::feols(
-  l.output.perhr ~ e.treated +
-    sw0(
-      gdppc.1 +
-        annual.avg.estabs.1 +
-        population.1 +
-        cpi.1 +
-        entire.facility +
-        private.facility +
-        federal.facility
-    )
+  l.output.perhr ~ sunab(ch.year, year) +
+    gdppc.1 +
+    annual.avg.estabs.1 +
+    population.1 +
+    cpi.1 +
+    entire.facility +
+    private.facility +
+    federal.facility
     |
-    csw(,
-      year,
-      fips.code.fe,
-      border.county.fe,
+    year +
+      fips.code.fe +
+      border.county.fe +
       border.county.year.fe
-    )
   ,
   data = triQc,
   cluster = ~facility.id, # facility.id
 )
-
-fixest::etable(reg_outputprhr, digits = 4, digits.stats = 4)
+fixest::etable(reg_outputprhr, agg = "ATT", digits = 3, digits.stats = 3)
+fixest::etable(reg_outputprhr, agg = "cohort", digits = 3, digits.stats = 3)
 #======================================================================================================================#
 ### Industry: Output per Worker
 #======================================================================================================================#
 reg_outputperworker <- fixest::feols(
-  l.output.perworker ~ e.treated +
-    sw0(
-      gdppc.1 +
-        annual.avg.estabs.1 +
-        population.1 +
-        cpi.1 +
-        entire.facility +
-        private.facility +
-        federal.facility
-    )
+  l.output.perworker ~ sunab(ch.year, year) +
+    gdppc.1 +
+    annual.avg.estabs.1 +
+    population.1 +
+    cpi.1 +
+    entire.facility +
+    private.facility +
+    federal.facility
     |
-    csw(,
-      year,
-      fips.code.fe,
-      border.county.fe,
+    year +
+      fips.code.fe +
+      border.county.fe +
       border.county.year.fe
-    )
-  ,
-  data = triQc,
-  cluster = ~facility.county,
-)
-fixest::etable(reg_outputperworker, digits = 4, digits.stats = 4)
-
-reg_outputperworker <- fixest::feols(
-  l.output.perworker ~ e.treated +
-    sw0(
-      gdppc.1 +
-        annual.avg.estabs.1 +
-        population.1 +
-        cpi.1 +
-        entire.facility +
-        private.facility +
-        federal.facility
-    )
-    |
-    csw(,
-      year,
-      fips.code.fe,
-      border.county.fe,
-      border.county.year.fe
-    )
   ,
   data = triQc,
   cluster = ~fips.code.fe, # fips.code.fe
 )
-fixest::etable(reg_outputperworker, digits = 4, digits.stats = 4)
+fixest::etable(reg_outputperworker, agg = "ATT", digits = 3, digits.stats = 3)
+fixest::etable(reg_outputperworker, agg = "cohort", digits = 3, digits.stats = 3)
 
 reg_outputperworker <- fixest::feols(
-  l.output.perworker ~ e.treated +
-    sw0(
-      gdppc.1 +
-        annual.avg.estabs.1 +
-        population.1 +
-        cpi.1 +
-        entire.facility +
-        private.facility +
-        federal.facility
-    )
+  l.output.perworker ~ sunab(ch.year, year) +
+    gdppc.1 +
+    annual.avg.estabs.1 +
+    population.1 +
+    cpi.1 +
+    entire.facility +
+    private.facility +
+    federal.facility
     |
-    csw(,
-      year,
-      fips.code.fe,
-      border.county.fe,
+    year +
+      fips.code.fe +
+      border.county.fe +
       border.county.year.fe
-    )
   ,
   data = triQc,
   cluster = ~naics.code, # naics.code
 )
-
-fixest::etable(reg_outputperworker, digits = 4, digits.stats = 4)
+fixest::etable(reg_outputperworker, agg = "ATT", digits = 3, digits.stats = 3)
+fixest::etable(reg_outputperworker, agg = "cohort", digits = 3, digits.stats = 3)
 
 reg_outputperworker <- fixest::feols(
-  l.output.perworker ~ e.treated +
-    sw0(
-      gdppc.1 +
-        annual.avg.estabs.1 +
-        population.1 +
-        cpi.1 +
-        entire.facility +
-        private.facility +
-        federal.facility
-    )
+  l.output.perworker ~ sunab(ch.year, year) +
+    gdppc.1 +
+    annual.avg.estabs.1 +
+    population.1 +
+    cpi.1 +
+    entire.facility +
+    private.facility +
+    federal.facility
     |
-    csw(,
-      year,
-      fips.code.fe,
-      border.county.fe,
+    year +
+      fips.code.fe +
+      border.county.fe +
       border.county.year.fe
-    )
   ,
   data = triQc,
   cluster = ~facility.zipcode, # facility.zipcode
 )
-
-fixest::etable(reg_outputperworker, digits = 4, digits.stats = 4)
+fixest::etable(reg_outputperworker, agg = "ATT", digits = 3, digits.stats = 3)
+fixest::etable(reg_outputperworker, agg = "cohort", digits = 3, digits.stats = 3)
 
 reg_outputperworker <- fixest::feols(
-  l.output.perworker ~ e.treated +
-    sw0(
-      gdppc.1 +
-        annual.avg.estabs.1 +
-        population.1 +
-        cpi.1 +
-        entire.facility +
-        private.facility +
-        federal.facility
-    )
+  l.output.perworker ~ sunab(ch.year, year) +
+    gdppc.1 +
+    annual.avg.estabs.1 +
+    population.1 +
+    cpi.1 +
+    entire.facility +
+    private.facility +
+    federal.facility
     |
-    csw(,
-      year,
-      fips.code.fe,
-      border.county.fe,
+    year +
+      fips.code.fe +
+      border.county.fe +
       border.county.year.fe
-    )
   ,
   data = triQc,
   cluster = ~facility.id, # facility.id
 )
-
-fixest::etable(reg_outputperworker, digits = 4, digits.stats = 4)
+fixest::etable(reg_outputperworker, agg = "ATT", digits = 3, digits.stats = 3)
+fixest::etable(reg_outputperworker, agg = "cohort", digits = 3, digits.stats = 3)
 #======================================================================================================================#
 ### Cross-County Mobility
 #======================================================================================================================#
@@ -1021,18 +810,16 @@ reg_emp <- fixest::feols(
     private.facility +
     federal.facility
     |
-    csw(,
-      year,
-      fips.code.fe,
-      border.county.fe,
+    year +
+      fips.code.fe +
+      border.county.fe +
       border.county.year.fe
-    )
   ,
   data = triQc,
   cluster = ~facility.state
 )
-etable(reg_emp, agg = "ATT", digits = 4, digits.stats = 4)
-etable(reg_emp, agg = "cohort", digits = 4, digits.stats = 4)
+etable(reg_emp, agg = "ATT", digits = 3, digits.stats = 3)
+etable(reg_emp, agg = "cohort", digits = 3, digits.stats = 3)
 #======================================================================================================================#
 ### Industry: Production workers
 #======================================================================================================================#
@@ -1048,18 +835,16 @@ reg_prodworkers <- fixest::feols(
     private.facility +
     federal.facility
     |
-    csw(,
-      year,
-      fips.code.fe,
-      border.county.fe,
+    year +
+      fips.code.fe +
+      border.county.fe +
       border.county.year.fe
-    )
   ,
   data = triQc,
   cluster = ~facility.state
 )
-etable(reg_prodworkers, agg = "ATT", digits = 4, digits.stats = 4)
-etable(reg_prodworkers, agg = "cohort", digits = 4, digits.stats = 4)
+etable(reg_prodworkers, agg = "ATT", digits = 3, digits.stats = 3)
+etable(reg_prodworkers, agg = "cohort", digits = 3, digits.stats = 3)
 #======================================================================================================================#
 ### Industry: Production Hours
 #======================================================================================================================#
@@ -1075,16 +860,14 @@ reg_prodhours <- fixest::feols(
     private.facility +
     federal.facility
     |
-    csw(,
-      year,
-      fips.code.fe,
-      border.county.fe,
+    year +
+      fips.code.fe +
+      border.county.fe +
       border.county.year.fe
-    )
   ,
   data = triQc,
   cluster = ~facility.state
 )
-etable(reg_prodhours, agg = "ATT", digits = 4, digits.stats = 4)
-etable(reg_prodhours, agg = "cohort", digits = 4, digits.stats = 4)
+etable(reg_prodhours, agg = "ATT", digits = 3, digits.stats = 3)
+etable(reg_prodhours, agg = "cohort", digits = 3, digits.stats = 3)
 #======================================================================================================================#

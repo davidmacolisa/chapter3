@@ -1117,8 +1117,8 @@ triQc <- triQc %>%
     facility.county.fe = as.numeric(as.factor(facility.county)),
     border.county = as.numeric(treated.cluster.id) * as.numeric(control.cluster.id),
     border.county.fe = as.numeric(as.factor(border.county)),
-    border.state = as.numeric(as.factor(treated.match)) * as.numeric(as.factor(control.match)),
-    border.state.fe = as.numeric(as.factor(border.state)),
+    border.state.fe = as.numeric(as.factor(treated.match)) * as.numeric(as.factor(control.match)),
+    # border.state.fe = as.numeric(as.factor(border.state)),
     fac.chem.fe = facility.id.fe * chemical.id.fe,
     fips.state.fe = fips.code.fe * facility.state.fe,
     chem.ind.state = chemical.id.fe *

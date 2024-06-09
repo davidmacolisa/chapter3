@@ -190,7 +190,7 @@
     where $Y_{i,cp,t}$ is the vector of manufacturing industry output, output per hour and output per worker, in manufacturing industry, $i$ in cross-border county pairs, $cp$ in the year, $t$. Standard errors are clustered at the state level.
     \input{tbl_sdid_baseline_output}
 
-    The average treatment effect on the treated (ATT) is captured by $\beta$, which is the difference in the average effect of raising the MW floor on manufacturing industry output, output per hour and output per worker in treated counties relative to adjacent control counties. The results are reported in Table~\ref{tab:baseline-industry-output}. Following an MW policy, I document large statistically significant increases in manufacturing industry outputs by $12.50ppts$ in treated counties relative to adjacent control counties. Specifically, the output per hour and per worker (labour productivity) rose by $14.4$ and $12.7$ (ppts), respectively. Thus, suggesting that for every $\$0.89/hr$ increase in wages, output per hour and labour productivity rise by those margins.~\footnote{\tiny Back of the envelop calculation shows that manufacturing industry output per hour and output per worker increases by an additional $0.144 \cdot 2.62 \cdot \left(\frac{\$100m}{\$1m}\right) = \$37.73$ units per hour and $0.117 \cdot 3.65 \cdot \left(\frac{\$100m}{\$1000}\right) = \$42,705$ units per worker, respectively.} The cohort-specific effect reveals significant and substantially strong increases in total output, output per hour and output per worker across all cohorts.
+    The average treatment effect on the treated (ATT) is captured by $\beta$, which is the difference in the average effect of raising the MW floor on manufacturing industry output, output per hour and output per worker in treated counties relative to adjacent control counties. The results are reported in Table~\ref{tab:baseline-industry-output}. Following an MW policy, I document large statistically significant increases in manufacturing industry outputs by $12.50ppts$ in treated counties relative to adjacent control counties. Specifically, the output per hour and per worker (labour productivity) rose by $14.4$ and $12.7$ (ppts), respectively. Thus, suggesting that for every $\$0.89/hr$ increase in wages, output per hour and labour productivity rise by those margins.~\footnote{\tiny Back of the envelop calculation shows that manufacturing industry output per hour and output per worker increases by an additional $0.144 \cdot 2.62 \cdot \left(\frac{\$100m}{\$1m}\right) = \$37.73$ units per hour and $0.117 \cdot 3.65 \cdot \left(\frac{\$100m}{\$1000}\right) = \$42,705$ units per worker, respectively.} The cohort-specific effect reveals significant and substantially strong increases in total output, output per hour and output per worker across all cohorts, except for the $2017$ cohort. The decline in overall output for the $2017$ cohort is explained by the decline in their employment since workers are less likely to commute higher MW counties/states as the distance to those counties/states increases.
 
     Figure~\ref{fig:baseline-industry-output} records consistent results. The MW policy caused instantaneous significant increases in manufacturing industry outputs, output per hour and output per worker in treated counties relative to adjacent control counties. The effects on output per hour and output per worker persists throughout the spectrum. Importantly, there is no evidence of significant pre-trends.
     \input{fig_sdid_output}
@@ -198,11 +198,14 @@
     \subsection{Baseline Robustness}\label{subsec:baseline-robustness}
     I conduct several robustness exercises to supplement industry results presented above.
 
-    \paragraph{Standard Errors:} Standard errors are clustered at the facility, zipcode, industry NAICS codes, and county levels. I document that the results are not sensitive to these alternative clustering. See Tables~\ref{tab:baseline-wage-ses},~\ref{tab:baseline-employ-ses} and~\ref{tab:baseline-industry-output-ses}.
+    \paragraph{Standard Errors:} Standard errors are clustered at the facility, zipcode, industry NAICS codes, and county levels. I document that the results are not sensitive to these alternative clustering. See Tables~\ref{tab:baseline-cost-robustness},~\ref{tab:baseline-employ-robustness} and~\ref{tab:baseline-output-robustness}.
+    \input{tbl_sdid_baseline_cost_robustness}
+    \input{tbl_sdid_baseline_employ_robustness}
+    \input{tbl_sdid_baseline_output_robustness}
 
     \paragraph{State-level Results:} I repeat all the above analysis at the state-level. The results persist even at this level, and are presented in the online supplementary material.
 
-    I have established that raising MW indeed increases manufacturing industry labour cost, cost of materials and outputs. Further, the null hypothesis on overall employment subsists with heterogeneity in specific cohorts. While cross-county worker mobility is responsible for the disemployment effects, it is mute on the positive employment effect for the $2015$ cohorts. In what follows, I examine the following topical questions: $(i)$ is this increased cost-burden due to higher MW passed to the environment, in terms of higher pollution emissions per $\$100m$ units of output? $(ii)$ is the environmental impact of raising MW heterogeneous across cohorts and space?
+    I have established that raising MW indeed increases manufacturing industry labour cost, cost of materials and outputs. Further, the null hypothesis on overall employment subsists with heterogeneity in specific cohorts. While cross-county worker mobility is responsible for the disemployment effects, it is mute on the positive employment effect for the $2015$ cohorts. In what follows, I examine the following topical questions: $(i)$ is this increased cost-burden due to higher MW passed to the environment, in terms of higher pollution emissions per $\$100m$ units of output? $(ii)$ is the environmental impact of raising MW heterogeneous across cohorts and manufacturing industries?
 
 
     \section{Onsite Toxic Releases}\label{sec:onsite-toxic-releases}
@@ -213,7 +216,7 @@
     where $P_{f,cp,c,t}$ is the total onsite releases intensity at manufacturing industry facility, $f$ in cross-border county pairs, $cp$ through toxic chemical use, $c$ in the year, $t$. Total onsite releases intensity is the sum of pounds weights (lbs) of total onsite toxic air emissions, land releases, and surface water discharges. $Treated_{s,t}^e = \textbf{1}[t - G_{s,t}]$, $X_{v,c,t-1}$ and $\lambda_{t}$ are as defined in subsection~\ref{subsec:baseline-results-industry-costs}. $F_{f,t}$ contains facility-level variables regarding the maximum number of toxic chemicals at the facility at any point in time, production/activity ratio index of the facility, and the following dummies: industry ownership, and toxic chemical attributes, that is, whether the chemical was produced at or imported to the facility, used as a formulation or article component, used as a manufacturing aid or for ancillary purposes. Further I control for environmental policy variables such as the clean air act (CAA) of $1970$ and amended in $1990$ to capture hazardous air pollutants (HAPs), proxied by the dummy of CAA and HAPs regulated chemicals, and the toxic substances control act (TSCA) of $1976$ proxied by the dummy of persistent bio-accumulative chemicals. I control for facility-level fixed effect, $\gamma_{f}$ to account for within facility-level differences in the management of toxic releases intensities at the facility due to the MW policy; cross-border county pairs, $\phi_{cp}$ fixed effect as in subsection~\ref{subsec:baseline-results-industry-costs}. $\zeta_{c}$ is the toxic chemical-fixed effect that controls for within chemical usage or mixture or compound differences in the production functions of manufacturing facilities given the MW policy; and $\eta_{c,t}$ toxic chemical linear trends which controls for the evolution of common time varying shocks that may affect the nature of chemical usage at manufacturing industry facilities. Finally, $\varepsilon_{f,cp,c,t}$ is the idiosyncratic error term. I employ a three-way clustering of the standard errors at the chemical use, industry, and state levels, since the changes in MW may be correlated within a state, within manufacturing industries in the state, and in the nature of toxic chemical usage in the industry.
     \input{tbl_sdid_baseline_tot_onsite_releases_int}
 
-    The overall and cohort-specific average treatment effect on the treated (ATT) is captured by $\beta$, which is the difference in the average effect of raising the MW floor on total onsite releases intensity at manufacturing industry facilities in treated counties relative to adjacent control counties. The results on total onsite releases intensity are reported in Table~\ref{tab:baseline-total-onsite-releases-intensity}. The results show that a higher MW policy increases total onsite releases per $\$100m$ units of manufacturing industry output by $10.9ppts$ in treated counties relative to adjacent control counties. This translates to a $9.59lbs$ additional increase in total onsite releases intensity for every $\$0.89/hr$ increase in the wages of manufacturing industry workers.~\footnote{\tiny Alternatively, this means that for every $\$14.41ppts$ and $12.73ppts$ increase in the manufacturing industry output per hour and per worker, respectively, due to higher MW, total onsite releases intensity increases by $9.55lbs$.} Furthermore, the cohort-specific ATTs corroborate this strong increase in total onsite releases intensity across all cohorts, but strongest for the $2014$ and $2017$ cohorts. This effect persists even after controlling for time-varying common shocks on the toxic chemical usage in the manufacturing industry.
+    The overall and cohort-specific average treatment effect on the treated (ATT) is captured by $\beta$, which is the difference in the average effect of raising the MW floor on total onsite releases intensity at manufacturing industry facilities in treated counties relative to adjacent control counties. The results on total onsite releases intensity are reported in Table~\ref{tab:baseline-total-onsite-releases-intensity}. The results show that a higher MW policy increases total onsite releases per $\$100m$ units of manufacturing industry output by $10.8ppts$ in treated counties relative to adjacent control counties. This translates to a $9.50lbs$ additional increase in total onsite releases intensity for every $\$0.89/hr$ increase in the wages of manufacturing industry workers.~\footnote{\tiny Alternatively, this means that for every $\$14.41ppts$ and $12.73ppts$ increase in the manufacturing industry output per hour and per worker, respectively, due to higher MW, total onsite releases intensity increases by $9.55lbs$.} Furthermore, the cohort-specific ATTs corroborate this strong increase in total onsite releases intensity across all cohorts, but strongest for the $2014$ and $2017$ cohorts. This effect persists even after controlling for time-varying common shocks on the toxic chemical usage in the manufacturing industry.
     \input{fig_sdid_total_releases_onsite_int}
 
     Moreover, Figure~\ref{fig:baseline-total-onsite-releases-intensity} shows an instantaneous increase of $8.6ppts$ in total onsite releases intensity, reaching $20.9ppts$ in two years after the initial raise in the MW for treated counties relative to adjacent control counties. There is no significant evidence of pre-trends.
@@ -252,10 +255,10 @@
     \input{fig_sdid_total_onsite_land_releases_int}
 
 
-%    \section{Offsite and POTWs Toxic Releases}\label{sec:offsite-and-potws-toxic-releases}
-%    \input{fig_did_offsite_total_releases_int}
-%    \input{fig_did_offsite_land_releases_int}
-%    \input{fig_did_potws_total_releases}
+    \section{Offsite and POTWs Toxic Releases}\label{sec:offsite-and-potws-toxic-releases}
+    \input{fig_sdid_offsite_total_releases_int}
+    \input{fig_sdid_offsite_land_releases_int}
+    \input{fig_sdid_potws_total_releases}
 
 
     \section{Robustness Exercises}\label{sec:robustness-exercises}
@@ -272,6 +275,7 @@
     \input{fig_sdid_total_releases_placebo}
 
     \subsection{Alternative Clustering of the SEs}\label{subsec:alternative-clustering-of-the-ses}
+    The results in Tables~\ref{tab:robustness-ses-clustering-total-releases-onsite},~\ref{tab:robustness-ses-clustering-total-air-releases-onsite},~\ref{tab:robustness-ses-clustering-water-discharge-onsite-intensity}, and~\ref{tab:robustness-ses-clustering-total-land-releases-intensity} remain insensitive to alternative clustering of the standard errors.
     \input{tbl_sdid_robustness_total_releases_int_onsite}
     \input{tbl_sdid_robustness_onsite_air_emissions_int}
     \input{tbl_sdid_robustness_onsite_water_releases_int}
@@ -452,7 +456,7 @@
 
 
         \section{Baseline Robustness Tables}\label{sec:baseline-robustness-tables}
-        \input{tbl_sdid_baseline_coworker_mobility}
+        \input{tbl_sdid_baseline_worker_mobility}
 
     \end{appendices}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%

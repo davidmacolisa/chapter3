@@ -1,0 +1,465 @@
+\documentclass[aspectratio = 169]{beamer}
+%======================================================================================================================%
+% Preamble
+\usepackage[
+    backend = biber,
+    style = apa,
+    citestyle = authoryear-comp,
+    sorting = ydnt,
+    mincitenames = 1,
+    maxcitenames = 2,
+    uniquelist = minyear
+]{biblatex}
+\addbibresource{emissions.bib}
+\AtBeginBibliography{\small}
+
+\usepackage{hyperref}
+\hypersetup{colorlinks = true, citecolor = blue, linkcolor = blue, urlcolor = blue, hypertexnames = true}
+\newcommand{\shortlink}[1]{\href{https://www.#1}{\texttt{#1}}}
+
+\DeclareCiteCommand{\cite} % Ensures author-year hyperlink applies to \cite
+{\usebibmacro{prenote}}
+{\usebibmacro{citeindex}%
+\printtext[bibhyperref]{\usebibmacro{cite}}}
+{\multicitedelim}
+{\usebibmacro{postnote}}
+
+\DeclareCiteCommand{\parencite}[\mkbibparens] % Ensures author-year hyperlink applies to \parencite
+{\usebibmacro{prenote}}
+{\usebibmacro{citeindex}%
+\printtext[bibhyperref]{\usebibmacro{cite}}}
+{\multicitedelim}
+{\usebibmacro{postnote}}
+
+\DeclareCiteCommand{\cite} % Ensures that year appears in parentheses
+{\usebibmacro{prenote}}
+{\usebibmacro{citeindex}%
+\printtext[bibhyperref]{\printnames{labelname} \mkbibparens{\printfield{year}}}}
+{\multicitedelim}
+{\usebibmacro{postnote}}
+
+% Packages
+\usepackage{graphicx} % Required for inserting images
+\usepackage{amsmath}
+\usepackage{amsfonts}
+\usepackage{mathrsfs}
+\usepackage{array}
+\usepackage{booktabs}
+\usepackage{float}
+\usepackage{textcomp}
+\usepackage{color}
+\usepackage{stmaryrd}
+%\usepackage{blkarray}
+%======================================================================================================================%
+% Themes
+%\usetheme{madrid}
+%\usetheme{Warsaw}
+%\usetheme{Boadilla}
+\usetheme[progressbar = frametitle]{metropolis}
+\setbeamertemplate{frame numbering}[fraction]
+\metroset{background = dark}
+
+\definecolor{primary}{RGB}{2, 25, 232}
+\setbeamercolor{palette primary}{bg = white, fg = black}
+\setbeamercolor{background canvas}{parent = palette primary}
+\setbeamercolor{normal text}{fg = black}
+\setbeamercolor{progress bar}{use = palette primary, fg = primary}
+
+%\setbeamercovered{transparent}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Title and Authors
+\title[]{Unforeseen Minimum Wage Consequences}
+
+\author[Ekeocha]{
+    D.O.~Ekeocha\inst{1}
+%    \and
+%    D.F. ~Giuseppe\inst{1}
+%    \and
+%    J. ~Lonsky\inst{1}
+}
+\institute[]{
+    \inst{1}
+    University of Liverpool Management School
+}
+\date{\today}
+%======================================================================================================================%
+% Document
+\begin{document}
+    \maketitle
+
+    \begin{frame}{Outline}
+        \tableofcontents
+    \end{frame}
+
+
+    \section{Motivation}\label{sec:motivation}
+    \begin{frame}{Motivation}
+        \begin{itemize}
+            \item<1-> Wages and labour cost~\parencite{coviello2022minimum, alexandre2022minimum, gopalan2021state}
+            \item<2-> Employment~\parencite{brown1999minimum, neumark1992employment, card2000minimum, cengiz2019effect, dustmann2022reallocation, neumark2019econometrics}
+            \item<3-> Consumers via higher prices~\parencite{harasztosi2019pays}
+            \item<4-> Pollution?~\parencite{zhang2023unintended}
+        \end{itemize}
+    \end{frame}
+
+    \begin{frame}[shrink = 30]{Distribution of Total Toxic Releases Intensity}
+        \input{fig_releases_distribution_naics}
+    \end{frame}
+
+    \begin{frame}[shrink = 30]{Distribution of Air Emissions Intensity}
+        \input{fig_air_emissions_naics}
+    \end{frame}
+
+    \begin{frame}{Leading Questions}
+        \begin{enumerate}
+            \item Is this increased cost-burden due to higher MW passed to the environment, in terms of higher pollution emissions per $\$100m$ units of output?
+            \item Is the environmental impact of raising MW heterogeneous across cohorts and manufacturing industries?
+        \end{enumerate}
+    \end{frame}
+
+
+    \section{Data and Identification Strategy}\label{sec:data-and-identification-strategy}
+    \begin{frame}{Border States and Counties}
+        \input{tbl_treated_control_counties}
+        \hypertarget{Border States}{}
+        \hyperlink{fig:border-state-map}{\beamergotobutton{Border States}}
+        \hypertarget{Border Counties}{}
+        \hyperlink{fig:border-county-map}{\beamergotobutton{Border Counties}}
+    \end{frame}
+
+    \begin{frame}{Data}
+        \begin{itemize}
+            \item EPA: TRI facility information
+            \item NBER-CES: Industry Information, Costs, Employment and Output
+            \item QCEW: Number of establishments in each county
+            \item BEA and BLS-CPI: County-level GDP and CPI
+            \item US Shapefiles
+            \item Unbalance panel of facilities, chemicals, counties, and states---$(2011-2017)$
+        \end{itemize}
+        \hypertarget{Summary Table}{}
+        \hyperlink{tab:summary-table}{\beamergotobutton{Summary Table}}
+        \hypertarget{Balance Test Counties}{}
+        \hyperlink{tab:balance-test-counties}{\beamergotobutton{Balance Test Counties}}
+        \hypertarget{Balance Test States}{}
+        \hyperlink{tab:balance-test-states}{\beamergotobutton{Balance Test States}}
+    \end{frame}
+
+
+    \section{Baseline Results}\label{sec:baseline-results}
+    \begin{frame}[shrink = 30]{Higher Industry Costs}
+        \input{fig_sdid_industry_costs}
+        \hypertarget{Industry Costs}{}
+        \hyperlink{tab:baseline-costs}{\beamergotobutton{Costs}}
+    \end{frame}
+
+    \begin{frame}[shrink = 30]{Employment and Hours}
+        \input{fig_sdid_emp_hours}
+        \hypertarget{Employment and Hours}{}
+        \hyperlink{tab:baseline-employment-hours}{\beamergotobutton{Employment}}
+        \hypertarget{Cross-County Worker Mobility}{}
+        \hyperlink{tab:baseline-worker-mobility}{\beamergotobutton{Worker Mobility}}
+    \end{frame}
+
+    \begin{frame}[shrink = 30]{Outputs}
+        \input{fig_sdid_output}
+        \hypertarget{Outputs}{}
+        \hyperlink{tab:baseline-outputs}{\beamergotobutton{Output}}
+    \end{frame}
+
+
+    \section{Does MW Induce Unintended Consequences?}\label{sec:consequences}
+    \begin{frame}{Onsite Toxic Releases Intensity}
+        \input{fig_sdid_total_releases_onsite_int}
+        \hypertarget{Toxic Releases Intensity}{}
+        \hyperlink{tab:toxic-releases-intensity}{\beamergotobutton{Toxic Releases Intensity}}
+    \end{frame}
+
+    \begin{frame}[shrink = 10]{Onsite Toxic Air Emissions Intensity}
+        \input{fig_sdid_total_onsite_air_emissions_int}
+        \hypertarget{Toxic Air Emissions Intensity}{}
+        \hyperlink{tab:toxic-air-emissions-intensity}{\beamergotobutton{Toxic Air Emissions Intensity}}
+    \end{frame}
+
+    \begin{frame}[shrink = 20]{Onsite Water Discharge Intensity}
+        \input{fig_sdid_total_onsite_water_discharge_int}
+        \hypertarget{Toxic Water Discharge Intensity}{}
+        \hyperlink{tab:toxic-water-discharge-intensity}{\beamergotobutton{Toxic Water Discharge Intensity}}
+    \end{frame}
+
+    \begin{frame}[shrink = 30]{Differential Impacts}
+        \input{tbl_sdid_heter_onsite_releases_int_EMITT}
+        \hypertarget{Onsite Releases Intensities}{}
+        \hyperlink{fig:heterogeneous-onsite-releases-int-heis}{\beamergotobutton{Onsite Releases Intensities}}
+    \end{frame}
+
+
+    \section{Mechanisms}\label{sec:mechanisms}
+    \begin{frame}{Waste Management}
+        \begin{enumerate}
+            \item Declining thermal treatments
+            \item Declining kiln energy recovery methods
+            \item Declining recycling of chemical wastes for reuse in the production process
+        \end{enumerate}
+        \hypertarget{Mechanism Waste Management}{}
+        \hyperlink{tab:mechanism-waste-management}{\beamergotobutton{Waste Management}}
+    \end{frame}
+
+    \begin{frame}{Source Reduction Activities}
+        \begin{enumerate}
+            \item Substituting organic solvents (-ve)
+            \item Manufacturing aid and ancillary chemicals (-ve)
+            \item Substituting clean fuels (-ve) and higher energy intensity (+ve)
+            \item Product modifications (-ve)
+            \item Poor material handling, monitoring, and no training (-ve)
+            \item Optimised efficiency of production processes (+ve)
+            \item New green technologies (+ve)
+            \item Green R and D projects (+ve)
+        \end{enumerate}
+        \hypertarget{Mechanism Source Reduction}{}
+        \hyperlink{tab:mechanism-source-reduction}{\beamergotobutton{Source Reduction}}
+        \hypertarget{Mechanism Material Products}{}
+        \hyperlink{tab:mechanism-material-products-submod}{\beamergotobutton{Material Products}}
+        \hypertarget{Mechanism Process}{}
+        \hyperlink{tab:mechanism-process}{\beamergotobutton{Process}}
+        \hypertarget{Mechanism Inventory Operations}{}
+        \hyperlink{tab:mechanism-inventory-operations}{\beamergotobutton{Inventory Operations}}
+    \end{frame}
+
+
+    \section{Concluding Remarks}\label{sec:concluding-remarks}
+    \begin{frame}{Concluding Remarks}
+        \begin{itemize}
+            \item Heterogeneous environmental consequences of raising MW
+            \item Mostly dominated in highest emitting industries
+            \item Consequential even in highly regulated domains---Point sources
+        \end{itemize}
+    \end{frame}
+%======================================================================================================================%
+
+%    \section{Theoretical Analysis}\label{sec:theoretical-analysis}
+%    \begin{frame}{Theoretical Analysis}
+%        \begin{itemize}
+%            \item There are two competing hypotheses: \textbf{The induced technology change effect and the crowding-out effect.}
+%        \end{itemize}
+%
+%        Unintended consequences of a raising minimum wage is an empirical question!
+%
+%    \end{frame}
+%
+%
+%    \section{Data \& Identification Strategy}\label{sec:data-and-identification}
+%    \begin{frame}{Data}
+%        \begin{itemize}
+%            \item MW data---county level from $1997$ to $2009$ from Ministry of Human Resources and Social Security.
+%            \item Pollutant emissions data (chemical oxide demand and sulphur oxide) $1998$ to $2009$---firm level from China's Environmental Statistics Database (CESD) and China's Industrial Enterprise Database (CIED).
+%            \item Green innovation (green patents) from State's Intellectual Property Office.
+%            \item Regional macroeconomic variables (GDP and local employment)---county and city level from the Chinese Statistical Year Book.
+%        \end{itemize}
+%    \end{frame}
+%
+%    \begin{frame}{Summary Statistics}
+%        \begin{figure}
+%            \centering
+%            \includegraphics[width = 0.6\textwidth, height = 0.8\textheight]{climate_change/beamer/sumstat}
+%%                \caption{Evolution of MW in Chinese Counties}
+%            \label{fig:sumstat}
+%        \end{figure}
+%    \end{frame}
+%
+%    \begin{frame}{Identification Strategy---County Border Discontinuity}
+%        \begin{itemize}
+%            \item They leveraged discontinuity in MW policy between adjacent Chinese county pairs at the border~\parencite{dube2010minimum}.
+%            \item Average MW growth is $9.5\%$.
+%            \item County pairs must share the same border and range between $50km$, $75km$ and $100km$ away from the border.
+%            \item Final sample $1,183,702$, $1,214,918$ and $1,217,919$, respectively.
+%            \item And $89,248$ distinct firms.
+%        \end{itemize}
+%
+%    \end{frame}
+%
+%    \begin{frame}{County Border Discontinuity}
+%        \begin{columns}
+%            \column{0.5\textwidth}
+%            \begin{figure}
+%                \centering
+%                \includegraphics[width = \textwidth, height = 0.6\textheight]{climate_change/beamer/wd}
+%%                \caption{Evolution of MW in Chinese Counties}
+%                \label{fig:chinese-mw1}
+%            \end{figure}
+%
+%            \column{0.5\textwidth}
+%            \begin{figure}
+%                \centering
+%                \includegraphics[width = \textwidth, height = 0.7\textheight]{climate_change/beamer/wd2}
+%%                \caption{Evolution of MW in Chinese Counties}
+%                \label{fig:chinese-mw2}
+%            \end{figure}
+%        \end{columns}
+%    \end{frame}
+
+%    \begin{frame}[shrink = 25]{Summary Statistics}
+%        \input{energy_effects/results/tables/cov.grid.nt.sum.stat}
+%    \end{frame}
+%=======================================================================================================================%
+    \begin{frame}[allowframebreaks, noframenumbering]
+%        \frametitle{Appendix}
+        \hypertarget{fig:border-states}{}
+        \begin{figure}
+            \centering
+            \includegraphics[width=0.7\textwidth,height=0.65\textheight]{fig_border_state_map}
+            \caption{Border States}
+            \label{fig:border-state-map}
+        \end{figure}
+        \hyperlink{Border States}{\beamergotobutton{Return}}
+        \fontsize{9}{11}\selectfont
+    \end{frame}
+
+    \begin{frame}[allowframebreaks, noframenumbering]
+%        \frametitle{Appendix}
+        \hypertarget{fig:border-counties}{}
+        \begin{figure}
+            \centering
+            \includegraphics[width=0.7\textwidth,height=0.65\textheight]{fig_border_county_map}
+            \caption{Border Counties}
+            \label{fig:border-county-map}
+        \end{figure}
+        \hyperlink{Border Counties}{\beamergotobutton{Return}}
+        \fontsize{9}{11}\selectfont
+    \end{frame}
+
+    \begin{frame}[shrink = 1, allowframebreaks, noframenumbering]
+        \hypertarget{tab:summary-table}{}
+        \input{tbl_summ_on}
+        \hyperlink{Summary Table}{\beamergotobutton{Return}}
+        \fontsize{9}{11}\selectfont
+    \end{frame}
+
+    \begin{frame}[shrink = 30, allowframebreaks, noframenumbering]
+        \hypertarget{tab:balance-test-counties}{}
+        \input{tbl_bal_test_tex}
+        \hyperlink{Balance Test Counties}{\beamergotobutton{Return}}
+        \fontsize{9}{11}\selectfont
+    \end{frame}
+
+    \begin{frame}[shrink = 30, allowframebreaks, noframenumbering]
+        \hypertarget{tab:balance-test-states}{}
+        \input{tbl_bal_test_state}
+        \hyperlink{Balance Test States}{\beamergotobutton{Return}}
+        \fontsize{9}{11}\selectfont
+    \end{frame}
+
+    \begin{frame}[allowframebreaks, noframenumbering]
+        \hypertarget{tab:pre-evolution-counties}{}
+        \input{fig_pre_evolution}
+        \hyperlink{Pre-Evolution Counties}{\beamergotobutton{Return}}
+        \fontsize{9}{11}\selectfont
+    \end{frame}
+
+    \begin{frame}[allowframebreaks, noframenumbering]
+        \hypertarget{tab:pre-evolution-state}{}
+        \input{fig_pre_evolution_state}
+        \hyperlink{Pre-Evolution States}{\beamergotobutton{Return}}
+        \fontsize{9}{11}\selectfont
+    \end{frame}
+
+    \begin{frame}[shrink = 30, allowframebreaks, noframenumbering]
+        \hypertarget{tab:baseline-costs}{}
+        \input{tbl_sdid_baseline_industry_costs}
+        \hyperlink{Industry Costs}{\beamergotobutton{Return}}
+        \fontsize{9}{11}\selectfont
+    \end{frame}
+
+    \begin{frame}[shrink = 30, allowframebreaks, noframenumbering]
+        \hypertarget{tab:baseline-employment-hours}{}
+        \input{tbl_sdid_baseline_employ_hours}
+        \hyperlink{Employment and Hours}{\beamergotobutton{Return}}
+        \fontsize{9}{11}\selectfont
+    \end{frame}
+
+    \begin{frame}[shrink = 30, allowframebreaks, noframenumbering]
+        \hypertarget{tab:baseline-worker-mobility}{}
+        \input{tbl_sdid_baseline_worker_mobility}
+        \hyperlink{Cross-County Worker Mobility}{\beamergotobutton{Return}}
+        \fontsize{9}{11}\selectfont
+    \end{frame}
+
+    \begin{frame}[shrink = 30, allowframebreaks, noframenumbering]
+        \hypertarget{tab:baseline-outputs}{}
+        \input{tbl_sdid_baseline_output}
+        \hyperlink{Outputs}{\beamergotobutton{Return}}
+        \fontsize{9}{11}\selectfont
+    \end{frame}
+
+    \begin{frame}[shrink = 30, allowframebreaks, noframenumbering]
+        \hypertarget{tab:toxic-releases-intensity}{}
+        \input{tbl_sdid_baseline_tot_onsite_releases_int}
+        \hyperlink{Toxic Releases Intensity}{\beamergotobutton{Return}}
+        \fontsize{9}{11}\selectfont
+    \end{frame}
+
+    \begin{frame}[shrink = 30, allowframebreaks, noframenumbering]
+        \hypertarget{tab:toxic-air-emissions-intensity}{}
+        \input{tbl_sdid_baseline_onsite_air_emissions_int}
+        \hyperlink{Toxic Air Emissions Intensity}{\beamergotobutton{Return}}
+        \fontsize{9}{11}\selectfont
+    \end{frame}
+
+    \begin{frame}[shrink = 30, allowframebreaks, noframenumbering]
+        \hypertarget{tab:toxic-water-discharge-intensity}{}
+        \input{tbl_sdid_baseline_onsite_water_discharge_int}
+        \hyperlink{Toxic Water Discharge Intensity}{\beamergotobutton{Return}}
+        \fontsize{9}{11}\selectfont
+    \end{frame}
+
+    \begin{frame}[shrink = 3, allowframebreaks, noframenumbering]
+        \hypertarget{fig:heterogeneous-onsite-releases-int-heis}{}
+        \input{fig_sdid_heter_onsite_releases_int_EMITT}
+        \hyperlink{Onsite Releases Intensities}{\beamergotobutton{Return}}
+        \fontsize{9}{11}\selectfont
+    \end{frame}
+
+    \begin{frame}[shrink = 5, allowframebreaks, noframenumbering]
+        \hypertarget{tab:mechanism-waste-management}{}
+        \input{tbl_sdid_mechanism_onsite_waste_mgt}
+        \hyperlink{Mechanism Waste Management}{\beamergotobutton{Return}}
+        \fontsize{9}{11}\selectfont
+    \end{frame}
+
+    \begin{frame}[shrink = 20, allowframebreaks, noframenumbering]
+        \hypertarget{tab:mechanism-source-reduction}{}
+        \input{tbl_sdid_mechanism_onsite_sra}
+        \hyperlink{Mechanism Source Reduction}{\beamergotobutton{Return}}
+        \fontsize{9}{11}\selectfont
+    \end{frame}
+
+    \begin{frame}[shrink = 3, allowframebreaks, noframenumbering]
+        \hypertarget{tab:mechanism-material-products-submod}{}
+        \input{tbl_sdid_mechanism_onsite_sra_matsub_prod}
+        \hyperlink{Mechanism Material Products}{\beamergotobutton{Return}}
+        \fontsize{9}{11}\selectfont
+    \end{frame}
+
+    \begin{frame}[shrink = 3, allowframebreaks, noframenumbering]
+        \hypertarget{tab:mechanism-process}{}
+        \input{tbl_sdid_mechanism_onsite_sra_process}
+        \hyperlink{Mechanism Process}{\beamergotobutton{Return}}
+        \fontsize{9}{11}\selectfont
+    \end{frame}
+
+    \begin{frame}[shrink = 3, allowframebreaks, noframenumbering]
+        \hypertarget{tab:mechanism-inventory-operations}{}
+        \input{tbl_sdid_mechanism_onsite_sra_inventory_operations}
+        \hyperlink{Mechanism Inventory Operations}{\beamergotobutton{Return}}
+        \fontsize{9}{11}\selectfont
+    \end{frame}
+%======================================================================================================================%
+%    \begin{frame}{}
+%        \centering
+%        Thanks for your Time
+%    \end{frame}
+
+    \begin{frame}[allowframebreaks, noframenumbering]
+        \printbibliography
+    \end{frame}
+%======================================================================================================================%
+\end{document}

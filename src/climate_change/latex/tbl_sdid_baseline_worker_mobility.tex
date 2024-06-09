@@ -11,9 +11,9 @@
             & \multicolumn{2}{c}{Employment (log)} & \multicolumn{2}{c}{Production Workers (log)} & \multicolumn{2}{c}{Production Hours (log)} \\
             \cmidrule(lr){2-3} \cmidrule(lr){4-5} \cmidrule(lr){6-7}
             employment \& hours          & 1         & 2         & 3         & 4         & 5         & 6         \\ \midrule
-            $Treated^{e} \cdot distance$     & -0.000    & 0.000     & -0.000    & 0.000    & -0.001    & -0.000    \\
-            & (0.001)   & (0.001)   & (0.002)  & (0.001)   & (0.001)   & (0.001)   \\
-            $Treated^{e}$                      & -0.005    & 0.005     & -0.017    & -0.004    & -0.010    & 0.001     \\
+            $Treated^{e} \cdot distance$ & -0.000    & 0.000     & -0.000    & 0.000     & -0.001    & -0.000    \\
+            & (0.001)   & (0.001)   & (0.002)   & (0.001)   & (0.001)   & (0.001)   \\
+            $Treated^{e}$                & -0.005    & 0.005     & -0.017    & -0.004    & -0.010    & 0.001     \\
             & (0.034)   & (0.033)   & (0.036)   & (0.030)   & (0.034)   & (0.030)   \\
             $distance \cdot$ cohort 2014 & -0.001    & -0.001*** & -0.001    & -0.002*** & -0.001    & -0.002*** \\
             & (0.001)   & (0.000)   & (0.001)   & (0.000)   & (0.001)   & (0.000)   \\
@@ -33,6 +33,6 @@
     }
     \begin{minipage}{18cm}
         \vspace{0.05in}
-        These results are obtained from estimating model~\ref{eq:baseline-emp-hours}. Robust standard errors clustered at the state level are reported in parentheses. ***, **, and * denote significance levels at the less than $1\%$, $5\%$ and $10\%$, respectively.
+        These results are obtained from estimating model $E_{i,cp,t} = \beta (Treated^{e} \cdot D)_{h,s,t} + \psi (Treated^{e})_{s,t} + \vartheta (Treated \cdot D)_{h,s,t} + \mu (Post \cdot D)_{h,s,t} + \tau Treated_{s,t} + \rho D_{h,s,t} + \alpha Post_{t} + \delta X_{v,c,t-1} + \omega F_{f,t} + \lambda_{t} + \sigma_{h} + \phi_{cp} + \zeta_{cp,t} + \epsilon_{i,cp,t}$. Robust standard errors clustered at the state level are reported in parentheses. ***, **, and * denote significance levels at the less than $1\%$, $5\%$ and $10\%$, respectively.
     \end{minipage}
 \end{table}

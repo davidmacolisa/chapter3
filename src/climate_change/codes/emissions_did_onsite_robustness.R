@@ -6,6 +6,7 @@ library(statar)
 library(fixest)
 library(did)
 library(car)
+library(ggplot2)
 #======================================================================================================================#
 ## Working Directory
 #======================================================================================================================#
@@ -46,8 +47,8 @@ did_total_releases_catastrophicevents <- fixest::feols(
   data = triQc,
   cluster = ~c(chemical.id, naics.code, facility.state)
 )
-fixest::etable(did_total_releases_catastrophicevents, agg = "ATT", digits = 4, digits.stats = 4)
-fixest::etable(did_total_releases_catastrophicevents, agg = "cohort", digits = 4, digits.stats = 4)
+fixest::etable(did_total_releases_catastrophicevents, agg = "ATT", digits = 3, digits.stats = 3)
+fixest::etable(did_total_releases_catastrophicevents, agg = "cohort", digits = 3, digits.stats = 3)
 fixest::iplot(did_total_releases_catastrophicevents, xlim = c(-3, 3), ylim = c(-0.15, 0.15), col = "blue",
               main = "Total Onsite Releases Intensity, from Catastrophic Events", xlab = "relative year",
               lwd = 1, cex = 4, pt.cex = 3, pt.col = "red", pt.join = T, ci.lwd = 5, ci.lty = 1) %>%
@@ -89,19 +90,16 @@ did_total_releases <- fixest::feols(
     hap.chems +
     pbt.chems
     |
-    csw(,
-      year,
-      facility.id.fe,
-      border.county.fe,
-      chemical.id.fe,
-      chemical.year.fe
-    )
-  ,
+    year +
+      facility.id.fe +
+      border.county.fe +
+      chemical.id.fe +
+      chemical.year.fe,
   data = triQc,
   cluster = ~facility.id,
 )
-etable(did_total_releases, agg = "ATT", digits = 4, digits.stats = 4)
-etable(did_total_releases, agg = "cohort", digits = 4, digits.stats = 4)
+etable(did_total_releases, agg = "ATT", digits = 3, digits.stats = 3)
+etable(did_total_releases, agg = "cohort", digits = 3, digits.stats = 3)
 
 did_total_releases <- fixest::feols(
   l.total.releases.onsite.intensity ~ sunab(ch.year, year) +
@@ -121,20 +119,17 @@ did_total_releases <- fixest::feols(
     hap.chems +
     pbt.chems
     |
-    csw(,
-      year,
-      facility.id.fe,
-      border.county.fe,
-      chemical.id.fe,
-      chemical.year.fe
-    )
-  ,
+    year +
+      facility.id.fe +
+      border.county.fe +
+      chemical.id.fe +
+      chemical.year.fe,
   data = triQc,
   cluster = ~facility.zipcode,
 )
 
-etable(did_total_releases, agg = "ATT", digits = 4, digits.stats = 4)
-etable(did_total_releases, agg = "cohort", digits = 4, digits.stats = 4)
+etable(did_total_releases, agg = "ATT", digits = 3, digits.stats = 3)
+etable(did_total_releases, agg = "cohort", digits = 3, digits.stats = 3)
 
 did_total_releases <- fixest::feols(
   l.total.releases.onsite.intensity ~ sunab(ch.year, year) +
@@ -154,20 +149,17 @@ did_total_releases <- fixest::feols(
     hap.chems +
     pbt.chems
     |
-    csw(,
-      year,
-      facility.id.fe,
-      border.county.fe,
-      chemical.id.fe,
-      chemical.year.fe
-    )
-  ,
+    year +
+      facility.id.fe +
+      border.county.fe +
+      chemical.id.fe +
+      chemical.year.fe,
   data = triQc,
   cluster = ~fips.code,
 )
 
-etable(did_total_releases, agg = "ATT", digits = 4, digits.stats = 4)
-etable(did_total_releases, agg = "cohort", digits = 4, digits.stats = 4)
+etable(did_total_releases, agg = "ATT", digits = 3, digits.stats = 3)
+etable(did_total_releases, agg = "cohort", digits = 3, digits.stats = 3)
 
 did_total_releases <- fixest::feols(
   l.total.releases.onsite.intensity ~ sunab(ch.year, year) +
@@ -187,19 +179,16 @@ did_total_releases <- fixest::feols(
     hap.chems +
     pbt.chems
     |
-    csw(,
-      year,
-      facility.id.fe,
-      border.county.fe,
-      chemical.id.fe,
-      chemical.year.fe
-    )
-  ,
+    year +
+      facility.id.fe +
+      border.county.fe +
+      chemical.id.fe +
+      chemical.year.fe,
   data = triQc,
   cluster = ~naics.code,
 )
-etable(did_total_releases, agg = "ATT", digits = 4, digits.stats = 4)
-etable(did_total_releases, agg = "cohort", digits = 4, digits.stats = 4)
+etable(did_total_releases, agg = "ATT", digits = 3, digits.stats = 3)
+etable(did_total_releases, agg = "cohort", digits = 3, digits.stats = 3)
 
 did_total_releases <- fixest::feols(
   l.total.releases.onsite.intensity ~ sunab(ch.year, year) +
@@ -219,19 +208,16 @@ did_total_releases <- fixest::feols(
     hap.chems +
     pbt.chems
     |
-    csw(,
-      year,
-      facility.id.fe,
-      border.county.fe,
-      chemical.id.fe,
-      chemical.year.fe
-    )
-  ,
+    year +
+      facility.id.fe +
+      border.county.fe +
+      chemical.id.fe +
+      chemical.year.fe,
   data = triQc,
   cluster = ~chemical.id,
 )
-etable(did_total_releases, agg = "ATT", digits = 4, digits.stats = 4)
-etable(did_total_releases, agg = "cohort", digits = 4, digits.stats = 4)
+etable(did_total_releases, agg = "ATT", digits = 3, digits.stats = 3)
+etable(did_total_releases, agg = "cohort", digits = 3, digits.stats = 3)
 
 did_total_releases <- fixest::feols(
   l.total.releases.onsite.intensity ~ sunab(ch.year, year) +
@@ -251,19 +237,16 @@ did_total_releases <- fixest::feols(
     hap.chems +
     pbt.chems
     |
-    csw(,
-      year,
-      facility.id.fe,
-      border.county.fe,
-      chemical.id.fe,
-      chemical.year.fe
-    )
-  ,
+    year +
+      facility.id.fe +
+      border.county.fe +
+      chemical.id.fe +
+      chemical.year.fe,
   data = triQc,
   cluster = ~facility.state,
 )
-etable(did_total_releases, agg = "ATT", digits = 4, digits.stats = 4)
-etable(did_total_releases, agg = "cohort", digits = 4, digits.stats = 4)
+etable(did_total_releases, agg = "ATT", digits = 3, digits.stats = 3)
+etable(did_total_releases, agg = "cohort", digits = 3, digits.stats = 3)
 
 did_total_releases <- fixest::feols(
   l.total.releases.onsite.intensity ~ sunab(ch.year, year) +
@@ -283,19 +266,16 @@ did_total_releases <- fixest::feols(
     hap.chems +
     pbt.chems
     |
-    csw(,
-      year,
-      facility.id.fe,
-      border.county.fe,
-      chemical.id.fe,
-      chemical.year.fe
-    )
-  ,
+    year +
+      facility.id.fe +
+      border.county.fe +
+      chemical.id.fe +
+      chemical.year.fe,
   data = triQc,
   cluster = ~c(facility.state, chemical.id),
 )
-etable(did_total_releases, agg = "ATT", digits = 4, digits.stats = 4)
-etable(did_total_releases, agg = "cohort", digits = 4, digits.stats = 4)
+etable(did_total_releases, agg = "ATT", digits = 3, digits.stats = 3)
+etable(did_total_releases, agg = "cohort", digits = 3, digits.stats = 3)
 
 did_total_releases <- fixest::feols(
   l.total.releases.onsite.intensity ~ sunab(ch.year, year) +
@@ -315,19 +295,16 @@ did_total_releases <- fixest::feols(
     hap.chems +
     pbt.chems
     |
-    csw(,
-      year,
-      facility.id.fe,
-      border.county.fe,
-      chemical.id.fe,
-      chemical.year.fe
-    )
-  ,
+    year +
+      facility.id.fe +
+      border.county.fe +
+      chemical.id.fe +
+      chemical.year.fe,
   data = triQc,
   cluster = ~c(facility.state, naics.code),
 )
-etable(did_total_releases, agg = "ATT", digits = 4, digits.stats = 4)
-etable(did_total_releases, agg = "cohort", digits = 4, digits.stats = 4)
+etable(did_total_releases, agg = "ATT", digits = 3, digits.stats = 3)
+etable(did_total_releases, agg = "cohort", digits = 3, digits.stats = 3)
 
 did_total_releases <- fixest::feols(
   l.total.releases.onsite.intensity ~ sunab(ch.year, year) +
@@ -347,19 +324,16 @@ did_total_releases <- fixest::feols(
     hap.chems +
     pbt.chems
     |
-    csw(,
-      year,
-      facility.id.fe,
-      border.county.fe,
-      chemical.id.fe,
-      chemical.year.fe
-    )
-  ,
+    year +
+      facility.id.fe +
+      border.county.fe +
+      chemical.id.fe +
+      chemical.year.fe,
   data = triQc,
   cluster = ~c(chemical.id, naics.code),
 )
-etable(did_total_releases, agg = "ATT", digits = 4, digits.stats = 4)
-etable(did_total_releases, agg = "cohort", digits = 4, digits.stats = 4)
+etable(did_total_releases, agg = "ATT", digits = 3, digits.stats = 3)
+etable(did_total_releases, agg = "cohort", digits = 3, digits.stats = 3)
 
 did_total_releases <- fixest::feols(
   l.total.releases.onsite.intensity ~ sunab(ch.year, year) +
@@ -379,19 +353,16 @@ did_total_releases <- fixest::feols(
     hap.chems +
     pbt.chems
     |
-    csw(,
-      year,
-      facility.id.fe,
-      border.county.fe,
-      chemical.id.fe,
-      chemical.year.fe
-    )
-  ,
+    year +
+      facility.id.fe +
+      border.county.fe +
+      chemical.id.fe +
+      chemical.year.fe,
   data = triQc,
   cluster = ~c(chemical.id, facility.state),
 )
-etable(did_total_releases, agg = "ATT", digits = 4, digits.stats = 4)
-etable(did_total_releases, agg = "cohort", digits = 4, digits.stats = 4)
+etable(did_total_releases, agg = "ATT", digits = 3, digits.stats = 3)
+etable(did_total_releases, agg = "cohort", digits = 3, digits.stats = 3)
 
 did_total_releases <- fixest::feols(
   l.total.releases.onsite.intensity ~ sunab(ch.year, year) +
@@ -411,19 +382,16 @@ did_total_releases <- fixest::feols(
     hap.chems +
     pbt.chems
     |
-    csw(,
-      year,
-      facility.id.fe,
-      border.county.fe,
-      chemical.id.fe,
-      chemical.year.fe
-    )
-  ,
+    year +
+      facility.id.fe +
+      border.county.fe +
+      chemical.id.fe +
+      chemical.year.fe,
   data = triQc,
   cluster = ~c(facility.id, facility.state),
 )
-etable(did_total_releases, agg = "ATT", digits = 4, digits.stats = 4)
-etable(did_total_releases, agg = "cohort", digits = 4, digits.stats = 4)
+etable(did_total_releases, agg = "ATT", digits = 3, digits.stats = 3)
+etable(did_total_releases, agg = "cohort", digits = 3, digits.stats = 3)
 
 did_total_releases <- fixest::feols(
   l.total.releases.onsite.intensity ~ sunab(ch.year, year) +
@@ -443,19 +411,16 @@ did_total_releases <- fixest::feols(
     hap.chems +
     pbt.chems
     |
-    csw(,
-      year,
-      facility.id.fe,
-      border.county.fe,
-      chemical.id.fe,
-      chemical.year.fe
-    )
-  ,
+    year +
+      facility.id.fe +
+      border.county.fe +
+      chemical.id.fe +
+      chemical.year.fe,
   data = triQc,
   cluster = ~c(naics.code, facility.state),
 )
-etable(did_total_releases, agg = "ATT", digits = 4, digits.stats = 4)
-etable(did_total_releases, agg = "cohort", digits = 4, digits.stats = 4)
+etable(did_total_releases, agg = "ATT", digits = 3, digits.stats = 3)
+etable(did_total_releases, agg = "cohort", digits = 3, digits.stats = 3)
 #======================================================================================================================#
 ### Onsite: Total Air Emissions Intensity
 #======================================================================================================================#
@@ -477,19 +442,16 @@ did_air <- fixest::feols(
     hap.chems +
     pbt.chems
     |
-    csw(,
-      year,
-      facility.id.fe,
-      border.county.fe,
-      chemical.id.fe,
-      chemical.year.fe
-    )
-  ,
+    year +
+      facility.id.fe +
+      border.county.fe +
+      chemical.id.fe +
+      chemical.year.fe,
   data = triQc,
   cluster = ~facility.id,
 )
-etable(did_air, agg = "ATT", digits = 4, digits.stats = 4)
-etable(did_air, agg = "cohort", digits = 4, digits.stats = 4)
+etable(did_air, agg = "ATT", digits = 3, digits.stats = 3)
+etable(did_air, agg = "cohort", digits = 3, digits.stats = 3)
 
 did_air <- fixest::feols(
   l.total.air.emissions.onsite.intensity ~ sunab(ch.year, year) +
@@ -509,19 +471,16 @@ did_air <- fixest::feols(
     hap.chems +
     pbt.chems
     |
-    csw(,
-      year,
-      facility.id.fe,
-      border.county.fe,
-      chemical.id.fe,
-      chemical.year.fe
-    )
-  ,
+    year +
+      facility.id.fe +
+      border.county.fe +
+      chemical.id.fe +
+      chemical.year.fe,
   data = triQc,
   cluster = ~facility.zipcode,
 )
-etable(did_air, agg = "ATT", digits = 4, digits.stats = 4)
-etable(did_air, agg = "cohort", digits = 4, digits.stats = 4)
+etable(did_air, agg = "ATT", digits = 3, digits.stats = 3)
+etable(did_air, agg = "cohort", digits = 3, digits.stats = 3)
 
 did_air <- fixest::feols(
   l.total.air.emissions.onsite.intensity ~ sunab(ch.year, year) +
@@ -541,19 +500,16 @@ did_air <- fixest::feols(
     hap.chems +
     pbt.chems
     |
-    csw(,
-      year,
-      facility.id.fe,
-      border.county.fe,
-      chemical.id.fe,
-      chemical.year.fe
-    )
-  ,
+    year +
+      facility.id.fe +
+      border.county.fe +
+      chemical.id.fe +
+      chemical.year.fe,
   data = triQc,
   cluster = ~fips.code,
 )
-etable(did_air, agg = "ATT", digits = 4, digits.stats = 4)
-etable(did_air, agg = "cohort", digits = 4, digits.stats = 4)
+etable(did_air, agg = "ATT", digits = 3, digits.stats = 3)
+etable(did_air, agg = "cohort", digits = 3, digits.stats = 3)
 
 did_air <- fixest::feols(
   l.total.air.emissions.onsite.intensity ~ sunab(ch.year, year) +
@@ -573,19 +529,16 @@ did_air <- fixest::feols(
     hap.chems +
     pbt.chems
     |
-    csw(,
-      year,
-      facility.id.fe,
-      border.county.fe,
-      chemical.id.fe,
-      chemical.year.fe
-    )
-  ,
+    year +
+      facility.id.fe +
+      border.county.fe +
+      chemical.id.fe +
+      chemical.year.fe,
   data = triQc,
   cluster = ~naics.code,
 )
-etable(did_air, agg = "ATT", digits = 4, digits.stats = 4)
-etable(did_air, agg = "cohort", digits = 4, digits.stats = 4)
+etable(did_air, agg = "ATT", digits = 3, digits.stats = 3)
+etable(did_air, agg = "cohort", digits = 3, digits.stats = 3)
 
 did_air <- fixest::feols(
   l.total.air.emissions.onsite.intensity ~ sunab(ch.year, year) +
@@ -605,19 +558,16 @@ did_air <- fixest::feols(
     hap.chems +
     pbt.chems
     |
-    csw(,
-      year,
-      facility.id.fe,
-      border.county.fe,
-      chemical.id.fe,
-      chemical.year.fe
-    )
-  ,
+    year +
+      facility.id.fe +
+      border.county.fe +
+      chemical.id.fe +
+      chemical.year.fe,
   data = triQc,
   cluster = ~chemical.id,
 )
-etable(did_air, agg = "ATT", digits = 4, digits.stats = 4)
-etable(did_air, agg = "cohort", digits = 4, digits.stats = 4)
+etable(did_air, agg = "ATT", digits = 3, digits.stats = 3)
+etable(did_air, agg = "cohort", digits = 3, digits.stats = 3)
 
 did_air <- fixest::feols(
   l.total.air.emissions.onsite.intensity ~ sunab(ch.year, year) +
@@ -637,19 +587,16 @@ did_air <- fixest::feols(
     hap.chems +
     pbt.chems
     |
-    csw(,
-      year,
-      facility.id.fe,
-      border.county.fe,
-      chemical.id.fe,
-      chemical.year.fe
-    )
-  ,
+    year +
+      facility.id.fe +
+      border.county.fe +
+      chemical.id.fe +
+      chemical.year.fe,
   data = triQc,
   cluster = ~facility.state,
 )
-etable(did_air, agg = "ATT", digits = 4, digits.stats = 4)
-etable(did_air, agg = "cohort", digits = 4, digits.stats = 4)
+etable(did_air, agg = "ATT", digits = 3, digits.stats = 3)
+etable(did_air, agg = "cohort", digits = 3, digits.stats = 3)
 
 did_air <- fixest::feols(
   l.total.air.emissions.onsite.intensity ~ sunab(ch.year, year) +
@@ -669,19 +616,16 @@ did_air <- fixest::feols(
     hap.chems +
     pbt.chems
     |
-    csw(,
-      year,
-      facility.id.fe,
-      border.county.fe,
-      chemical.id.fe,
-      chemical.year.fe
-    )
-  ,
+    year +
+      facility.id.fe +
+      border.county.fe +
+      chemical.id.fe +
+      chemical.year.fe,
   data = triQc,
   cluster = ~c(facility.id, chemical.id),
 )
-etable(did_air, agg = "ATT", digits = 4, digits.stats = 4)
-etable(did_air, agg = "cohort", digits = 4, digits.stats = 4)
+etable(did_air, agg = "ATT", digits = 3, digits.stats = 3)
+etable(did_air, agg = "cohort", digits = 3, digits.stats = 3)
 
 did_air <- fixest::feols(
   l.total.air.emissions.onsite.intensity ~ sunab(ch.year, year) +
@@ -701,19 +645,16 @@ did_air <- fixest::feols(
     hap.chems +
     pbt.chems
     |
-    csw(,
-      year,
-      facility.id.fe,
-      border.county.fe,
-      chemical.id.fe,
-      chemical.year.fe
-    )
-  ,
+    year +
+      facility.id.fe +
+      border.county.fe +
+      chemical.id.fe +
+      chemical.year.fe,
   data = triQc,
   cluster = ~c(facility.id, naics.code),
 )
-etable(did_air, agg = "ATT", digits = 4, digits.stats = 4)
-etable(did_air, agg = "cohort", digits = 4, digits.stats = 4)
+etable(did_air, agg = "ATT", digits = 3, digits.stats = 3)
+etable(did_air, agg = "cohort", digits = 3, digits.stats = 3)
 
 did_air <- fixest::feols(
   l.total.air.emissions.onsite.intensity ~ sunab(ch.year, year) +
@@ -733,19 +674,16 @@ did_air <- fixest::feols(
     hap.chems +
     pbt.chems
     |
-    csw(,
-      year,
-      facility.id.fe,
-      border.county.fe,
-      chemical.id.fe,
-      chemical.year.fe
-    )
-  ,
+    year +
+      facility.id.fe +
+      border.county.fe +
+      chemical.id.fe +
+      chemical.year.fe,
   data = triQc,
   cluster = ~c(chemical.id, naics.code),
 )
-etable(did_air, agg = "ATT", digits = 4, digits.stats = 4)
-etable(did_air, agg = "cohort", digits = 4, digits.stats = 4)
+etable(did_air, agg = "ATT", digits = 3, digits.stats = 3)
+etable(did_air, agg = "cohort", digits = 3, digits.stats = 3)
 
 did_air <- fixest::feols(
   l.total.air.emissions.onsite.intensity ~ sunab(ch.year, year) +
@@ -765,19 +703,16 @@ did_air <- fixest::feols(
     hap.chems +
     pbt.chems
     |
-    csw(,
-      year,
-      facility.id.fe,
-      border.county.fe,
-      chemical.id.fe,
-      chemical.year.fe
-    )
-  ,
+    year +
+      facility.id.fe +
+      border.county.fe +
+      chemical.id.fe +
+      chemical.year.fe,
   data = triQc,
   cluster = ~c(chemical.id, facility.state),
 )
-etable(did_air, agg = "ATT", digits = 4, digits.stats = 4)
-etable(did_air, agg = "cohort", digits = 4, digits.stats = 4)
+etable(did_air, agg = "ATT", digits = 3, digits.stats = 3)
+etable(did_air, agg = "cohort", digits = 3, digits.stats = 3)
 
 did_air <- fixest::feols(
   l.total.air.emissions.onsite.intensity ~ sunab(ch.year, year) +
@@ -797,19 +732,16 @@ did_air <- fixest::feols(
     hap.chems +
     pbt.chems
     |
-    csw(,
-      year,
-      facility.id.fe,
-      border.county.fe,
-      chemical.id.fe,
-      chemical.year.fe
-    )
-  ,
+    year +
+      facility.id.fe +
+      border.county.fe +
+      chemical.id.fe +
+      chemical.year.fe,
   data = triQc,
   cluster = ~c(facility.id, facility.state),
 )
-etable(did_air, agg = "ATT", digits = 4, digits.stats = 4)
-etable(did_air, agg = "cohort", digits = 4, digits.stats = 4)
+etable(did_air, agg = "ATT", digits = 3, digits.stats = 3)
+etable(did_air, agg = "cohort", digits = 3, digits.stats = 3)
 
 did_air <- fixest::feols(
   l.total.air.emissions.onsite.intensity ~ sunab(ch.year, year) +
@@ -829,19 +761,16 @@ did_air <- fixest::feols(
     hap.chems +
     pbt.chems
     |
-    csw(,
-      year,
-      facility.id.fe,
-      border.county.fe,
-      chemical.id.fe,
-      chemical.year.fe
-    )
-  ,
+    year +
+      facility.id.fe +
+      border.county.fe +
+      chemical.id.fe +
+      chemical.year.fe,
   data = triQc,
   cluster = ~c(naics.code, facility.state),
 )
-etable(did_air, agg = "ATT", digits = 4, digits.stats = 4)
-etable(did_air, agg = "cohort", digits = 4, digits.stats = 4)
+etable(did_air, agg = "ATT", digits = 3, digits.stats = 3)
+etable(did_air, agg = "cohort", digits = 3, digits.stats = 3)
 #======================================================================================================================#
 ### Onsite: Total surface water discharge intensity
 #======================================================================================================================#
@@ -863,19 +792,16 @@ did_water_disc <- fixest::feols(
     hap.chems +
     pbt.chems
     |
-    csw(,
-      year,
-      facility.id.fe,
-      border.county.fe,
-      chemical.id.fe,
-      chemical.year.fe
-    )
-  ,
+    year +
+      facility.id.fe +
+      border.county.fe +
+      chemical.id.fe +
+      chemical.year.fe,
   data = triQc,
   cluster = ~facility.id,
 )
-etable(did_water_disc, agg = "ATT", digits = 4, digits.stats = 4)
-etable(did_water_disc, agg = "cohort", digits = 4, digits.stats = 4)
+etable(did_water_disc, agg = "ATT", digits = 3, digits.stats = 3)
+etable(did_water_disc, agg = "cohort", digits = 3, digits.stats = 3)
 
 did_water_disc <- fixest::feols(
   l.total.surface.water.discharge.onsite.intensity ~ sunab(ch.year, year) +
@@ -895,19 +821,16 @@ did_water_disc <- fixest::feols(
     hap.chems +
     pbt.chems
     |
-    csw(,
-      year,
-      facility.id.fe,
-      border.county.fe,
-      chemical.id.fe,
-      chemical.year.fe
-    )
-  ,
+    year +
+      facility.id.fe +
+      border.county.fe +
+      chemical.id.fe +
+      chemical.year.fe,
   data = triQc,
   cluster = ~facility.zipcode,
 )
-etable(did_water_disc, agg = "ATT", digits = 4, digits.stats = 4)
-etable(did_water_disc, agg = "cohort", digits = 4, digits.stats = 4)
+etable(did_water_disc, agg = "ATT", digits = 3, digits.stats = 3)
+etable(did_water_disc, agg = "cohort", digits = 3, digits.stats = 3)
 
 did_water_disc <- fixest::feols(
   l.total.surface.water.discharge.onsite.intensity ~ sunab(ch.year, year) +
@@ -927,19 +850,16 @@ did_water_disc <- fixest::feols(
     hap.chems +
     pbt.chems
     |
-    csw(,
-      year,
-      facility.id.fe,
-      border.county.fe,
-      chemical.id.fe,
-      chemical.year.fe
-    )
-  ,
+    year +
+      facility.id.fe +
+      border.county.fe +
+      chemical.id.fe +
+      chemical.year.fe,
   data = triQc,
   cluster = ~fips.code,
 )
-etable(did_water_disc, agg = "ATT", digits = 4, digits.stats = 4)
-etable(did_water_disc, agg = "cohort", digits = 4, digits.stats = 4)
+etable(did_water_disc, agg = "ATT", digits = 3, digits.stats = 3)
+etable(did_water_disc, agg = "cohort", digits = 3, digits.stats = 3)
 
 did_water_disc <- fixest::feols(
   l.total.surface.water.discharge.onsite.intensity ~ sunab(ch.year, year) +
@@ -959,19 +879,16 @@ did_water_disc <- fixest::feols(
     hap.chems +
     pbt.chems
     |
-    csw(,
-      year,
-      facility.id.fe,
-      border.county.fe,
-      chemical.id.fe,
-      chemical.year.fe
-    )
-  ,
+    year +
+      facility.id.fe +
+      border.county.fe +
+      chemical.id.fe +
+      chemical.year.fe,
   data = triQc,
   cluster = ~naics.code,
 )
-etable(did_water_disc, agg = "ATT", digits = 4, digits.stats = 4)
-etable(did_water_disc, agg = "cohort", digits = 4, digits.stats = 4)
+etable(did_water_disc, agg = "ATT", digits = 3, digits.stats = 3)
+etable(did_water_disc, agg = "cohort", digits = 3, digits.stats = 3)
 
 did_water_disc <- fixest::feols(
   l.total.surface.water.discharge.onsite.intensity ~ sunab(ch.year, year) +
@@ -991,19 +908,16 @@ did_water_disc <- fixest::feols(
     hap.chems +
     pbt.chems
     |
-    csw(,
-      year,
-      facility.id.fe,
-      border.county.fe,
-      chemical.id.fe,
-      chemical.year.fe
-    )
-  ,
+    year +
+      facility.id.fe +
+      border.county.fe +
+      chemical.id.fe +
+      chemical.year.fe,
   data = triQc,
   cluster = ~chemical.id,
 )
-etable(did_water_disc, agg = "ATT", digits = 4, digits.stats = 4)
-etable(did_water_disc, agg = "cohort", digits = 4, digits.stats = 4)
+etable(did_water_disc, agg = "ATT", digits = 3, digits.stats = 3)
+etable(did_water_disc, agg = "cohort", digits = 3, digits.stats = 3)
 
 did_water_disc <- fixest::feols(
   l.total.surface.water.discharge.onsite.intensity ~ sunab(ch.year, year) +
@@ -1023,19 +937,16 @@ did_water_disc <- fixest::feols(
     hap.chems +
     pbt.chems
     |
-    csw(,
-      year,
-      facility.id.fe,
-      border.county.fe,
-      chemical.id.fe,
-      chemical.year.fe
-    )
-  ,
+    year +
+      facility.id.fe +
+      border.county.fe +
+      chemical.id.fe +
+      chemical.year.fe,
   data = triQc,
   cluster = ~facility.state,
 )
-etable(did_water_disc, agg = "ATT", digits = 4, digits.stats = 4)
-etable(did_water_disc, agg = "cohort", digits = 4, digits.stats = 4)
+etable(did_water_disc, agg = "ATT", digits = 3, digits.stats = 3)
+etable(did_water_disc, agg = "cohort", digits = 3, digits.stats = 3)
 
 did_water_disc <- fixest::feols(
   l.total.surface.water.discharge.onsite.intensity ~ sunab(ch.year, year) +
@@ -1055,19 +966,16 @@ did_water_disc <- fixest::feols(
     hap.chems +
     pbt.chems
     |
-    csw(,
-      year,
-      facility.id.fe,
-      border.county.fe,
-      chemical.id.fe,
-      chemical.year.fe
-    )
-  ,
+    year +
+      facility.id.fe +
+      border.county.fe +
+      chemical.id.fe +
+      chemical.year.fe,
   data = triQc,
   cluster = ~c(facility.id, chemical.id),
 )
-etable(did_water_disc, agg = "ATT", digits = 4, digits.stats = 4)
-etable(did_water_disc, agg = "cohort", digits = 4, digits.stats = 4)
+etable(did_water_disc, agg = "ATT", digits = 3, digits.stats = 3)
+etable(did_water_disc, agg = "cohort", digits = 3, digits.stats = 3)
 
 did_water_disc <- fixest::feols(
   l.total.surface.water.discharge.onsite.intensity ~ sunab(ch.year, year) +
@@ -1087,19 +995,16 @@ did_water_disc <- fixest::feols(
     hap.chems +
     pbt.chems
     |
-    csw(,
-      year,
-      facility.id.fe,
-      border.county.fe,
-      chemical.id.fe,
-      chemical.year.fe
-    )
-  ,
+    year +
+      facility.id.fe +
+      border.county.fe +
+      chemical.id.fe +
+      chemical.year.fe,
   data = triQc,
   cluster = ~c(facility.id, naics.code),
 )
-etable(did_water_disc, agg = "ATT", digits = 4, digits.stats = 4)
-etable(did_water_disc, agg = "cohort", digits = 4, digits.stats = 4)
+etable(did_water_disc, agg = "ATT", digits = 3, digits.stats = 3)
+etable(did_water_disc, agg = "cohort", digits = 3, digits.stats = 3)
 
 did_water_disc <- fixest::feols(
   l.total.surface.water.discharge.onsite.intensity ~ sunab(ch.year, year) +
@@ -1119,19 +1024,16 @@ did_water_disc <- fixest::feols(
     hap.chems +
     pbt.chems
     |
-    csw(,
-      year,
-      facility.id.fe,
-      border.county.fe,
-      chemical.id.fe,
-      chemical.year.fe
-    )
-  ,
+    year +
+      facility.id.fe +
+      border.county.fe +
+      chemical.id.fe +
+      chemical.year.fe,
   data = triQc,
   cluster = ~c(chemical.id, naics.code),
 )
-etable(did_water_disc, agg = "ATT", digits = 4, digits.stats = 4)
-etable(did_water_disc, agg = "cohort", digits = 4, digits.stats = 4)
+etable(did_water_disc, agg = "ATT", digits = 3, digits.stats = 3)
+etable(did_water_disc, agg = "cohort", digits = 3, digits.stats = 3)
 
 did_water_disc <- fixest::feols(
   l.total.surface.water.discharge.onsite.intensity ~ sunab(ch.year, year) +
@@ -1151,51 +1053,16 @@ did_water_disc <- fixest::feols(
     hap.chems +
     pbt.chems
     |
-    csw(,
-      year,
-      facility.id.fe,
-      border.county.fe,
-      chemical.id.fe,
-      chemical.year.fe
-    )
-  ,
-  data = triQc,
-  cluster = ~chemical.id,
-)
-etable(did_water_disc, agg = "ATT", digits = 4, digits.stats = 4)
-etable(did_water_disc, agg = "cohort", digits = 4, digits.stats = 4)
-
-did_water_disc <- fixest::feols(
-  l.total.surface.water.discharge.onsite.intensity ~ sunab(ch.year, year) +
-    gdppc.1 +
-    annual.avg.estabs.1 +
-    cpi.1 +
-    federal.facility +
-    produced.chem.facility +
-    imported.chem.facility +
-    chemical.formulation.component +
-    chemical.article.component +
-    chemical.manufacturing.aid +
-    chemical.ancilliary.use +
-    production.ratio.activity.index +
-    maxnum.chem.onsite +
-    clean.air.act.chems +
-    hap.chems +
-    pbt.chems
-    |
-    csw(,
-      year,
-      facility.id.fe,
-      border.county.fe,
-      chemical.id.fe,
-      chemical.year.fe
-    )
-  ,
+    year +
+      facility.id.fe +
+      border.county.fe +
+      chemical.id.fe +
+      chemical.year.fe,
   data = triQc,
   cluster = ~c(chemical.id, facility.state),
 )
-etable(did_water_disc, agg = "ATT", digits = 4, digits.stats = 4)
-etable(did_water_disc, agg = "cohort", digits = 4, digits.stats = 4)
+etable(did_water_disc, agg = "ATT", digits = 3, digits.stats = 3)
+etable(did_water_disc, agg = "cohort", digits = 3, digits.stats = 3)
 
 did_water_disc <- fixest::feols(
   l.total.surface.water.discharge.onsite.intensity ~ sunab(ch.year, year) +
@@ -1215,19 +1082,16 @@ did_water_disc <- fixest::feols(
     hap.chems +
     pbt.chems
     |
-    csw(,
-      year,
-      facility.id.fe,
-      border.county.fe,
-      chemical.id.fe,
-      chemical.year.fe
-    )
-  ,
+    year +
+      facility.id.fe +
+      border.county.fe +
+      chemical.id.fe +
+      chemical.year.fe,
   data = triQc,
   cluster = ~c(facility.id, facility.state),
 )
-etable(did_water_disc, agg = "ATT", digits = 4, digits.stats = 4)
-etable(did_water_disc, agg = "cohort", digits = 4, digits.stats = 4)
+etable(did_water_disc, agg = "ATT", digits = 3, digits.stats = 3)
+etable(did_water_disc, agg = "cohort", digits = 3, digits.stats = 3)
 
 did_water_disc <- fixest::feols(
   l.total.surface.water.discharge.onsite.intensity ~ sunab(ch.year, year) +
@@ -1247,19 +1111,16 @@ did_water_disc <- fixest::feols(
     hap.chems +
     pbt.chems
     |
-    csw(,
-      year,
-      facility.id.fe,
-      border.county.fe,
-      chemical.id.fe,
-      chemical.year.fe
-    )
-  ,
+    year +
+      facility.id.fe +
+      border.county.fe +
+      chemical.id.fe +
+      chemical.year.fe,
   data = triQc,
   cluster = ~c(naics.code, facility.state),
 )
-etable(did_water_disc, agg = "ATT", digits = 4, digits.stats = 4)
-etable(did_water_disc, agg = "cohort", digits = 4, digits.stats = 4)
+etable(did_water_disc, agg = "ATT", digits = 3, digits.stats = 3)
+etable(did_water_disc, agg = "cohort", digits = 3, digits.stats = 3)
 #======================================================================================================================#
 ### Onsite: Total land releases intensity
 #======================================================================================================================#
@@ -1281,19 +1142,16 @@ did_land_releases <- fixest::feols(
     hap.chems +
     pbt.chems
     |
-    csw(,
-      year,
-      facility.id.fe,
-      border.county.fe,
-      chemical.id.fe,
-      chemical.year.fe
-    )
-  ,
+    year +
+      facility.id.fe +
+      border.county.fe +
+      chemical.id.fe +
+      chemical.year.fe,
   data = triQc,
   cluster = ~facility.id,
 )
-etable(did_land_releases, agg = "ATT", digits = 4, digits.stats = 4)
-etable(did_land_releases, agg = "cohort", digits = 4, digits.stats = 4)
+etable(did_land_releases, agg = "ATT", digits = 3, digits.stats = 3)
+etable(did_land_releases, agg = "cohort", digits = 3, digits.stats = 3)
 
 did_land_releases <- fixest::feols(
   l.total.land.releases.onsite.intensity ~ sunab(ch.year, year) +
@@ -1313,19 +1171,16 @@ did_land_releases <- fixest::feols(
     hap.chems +
     pbt.chems
     |
-    csw(,
-      year,
-      facility.id.fe,
-      border.county.fe,
-      chemical.id.fe,
-      chemical.year.fe
-    )
-  ,
+    year +
+      facility.id.fe +
+      border.county.fe +
+      chemical.id.fe +
+      chemical.year.fe,
   data = triQc,
   cluster = ~facility.zipcode,
 )
-etable(did_land_releases, agg = "ATT", digits = 4, digits.stats = 4)
-etable(did_land_releases, agg = "cohort", digits = 4, digits.stats = 4)
+etable(did_land_releases, agg = "ATT", digits = 3, digits.stats = 3)
+etable(did_land_releases, agg = "cohort", digits = 3, digits.stats = 3)
 
 did_land_releases <- fixest::feols(
   l.total.land.releases.onsite.intensity ~ sunab(ch.year, year) +
@@ -1345,19 +1200,16 @@ did_land_releases <- fixest::feols(
     hap.chems +
     pbt.chems
     |
-    csw(,
-      year,
-      facility.id.fe,
-      border.county.fe,
-      chemical.id.fe,
-      chemical.year.fe
-    )
-  ,
+    year +
+      facility.id.fe +
+      border.county.fe +
+      chemical.id.fe +
+      chemical.year.fe,
   data = triQc,
   cluster = ~fips.code,
 )
-etable(did_land_releases, agg = "ATT", digits = 4, digits.stats = 4)
-etable(did_land_releases, agg = "cohort", digits = 4, digits.stats = 4)
+etable(did_land_releases, agg = "ATT", digits = 3, digits.stats = 3)
+etable(did_land_releases, agg = "cohort", digits = 3, digits.stats = 3)
 
 did_land_releases <- fixest::feols(
   l.total.land.releases.onsite.intensity ~ sunab(ch.year, year) +
@@ -1377,19 +1229,16 @@ did_land_releases <- fixest::feols(
     hap.chems +
     pbt.chems
     |
-    csw(,
-      year,
-      facility.id.fe,
-      border.county.fe,
-      chemical.id.fe,
-      chemical.year.fe
-    )
-  ,
+    year +
+      facility.id.fe +
+      border.county.fe +
+      chemical.id.fe +
+      chemical.year.fe,
   data = triQc,
   cluster = ~naics.code,
 )
-etable(did_land_releases, agg = "ATT", digits = 4, digits.stats = 4)
-etable(did_land_releases, agg = "cohort", digits = 4, digits.stats = 4)
+etable(did_land_releases, agg = "ATT", digits = 3, digits.stats = 3)
+etable(did_land_releases, agg = "cohort", digits = 3, digits.stats = 3)
 
 did_land_releases <- fixest::feols(
   l.total.land.releases.onsite.intensity ~ sunab(ch.year, year) +
@@ -1409,19 +1258,16 @@ did_land_releases <- fixest::feols(
     hap.chems +
     pbt.chems
     |
-    csw(,
-      year,
-      facility.id.fe,
-      border.county.fe,
-      chemical.id.fe,
-      chemical.year.fe
-    )
-  ,
+    year +
+      facility.id.fe +
+      border.county.fe +
+      chemical.id.fe +
+      chemical.year.fe,
   data = triQc,
   cluster = ~chemical.id,
 )
-etable(did_land_releases, agg = "ATT", digits = 4, digits.stats = 4)
-etable(did_land_releases, agg = "cohort", digits = 4, digits.stats = 4)
+etable(did_land_releases, agg = "ATT", digits = 3, digits.stats = 3)
+etable(did_land_releases, agg = "cohort", digits = 3, digits.stats = 3)
 
 did_land_releases <- fixest::feols(
   l.total.land.releases.onsite.intensity ~ sunab(ch.year, year) +
@@ -1441,19 +1287,16 @@ did_land_releases <- fixest::feols(
     hap.chems +
     pbt.chems
     |
-    csw(,
-      year,
-      facility.id.fe,
-      border.county.fe,
-      chemical.id.fe,
-      chemical.year.fe
-    )
-  ,
+    year +
+      facility.id.fe +
+      border.county.fe +
+      chemical.id.fe +
+      chemical.year.fe,
   data = triQc,
   cluster = ~facility.state,
 )
-etable(did_land_releases, agg = "ATT", digits = 4, digits.stats = 4)
-etable(did_land_releases, agg = "cohort", digits = 4, digits.stats = 4)
+etable(did_land_releases, agg = "ATT", digits = 3, digits.stats = 3)
+etable(did_land_releases, agg = "cohort", digits = 3, digits.stats = 3)
 
 did_land_releases <- fixest::feols(
   l.total.land.releases.onsite.intensity ~ sunab(ch.year, year) +
@@ -1473,19 +1316,16 @@ did_land_releases <- fixest::feols(
     hap.chems +
     pbt.chems
     |
-    csw(,
-      year,
-      facility.id.fe,
-      border.county.fe,
-      chemical.id.fe,
-      chemical.year.fe
-    )
-  ,
+    year +
+      facility.id.fe +
+      border.county.fe +
+      chemical.id.fe +
+      chemical.year.fe,
   data = triQc,
   cluster = ~c(facility.id, chemical.id),
 )
-etable(did_land_releases, agg = "ATT", digits = 4, digits.stats = 4)
-etable(did_land_releases, agg = "cohort", digits = 4, digits.stats = 4)
+etable(did_land_releases, agg = "ATT", digits = 3, digits.stats = 3)
+etable(did_land_releases, agg = "cohort", digits = 3, digits.stats = 3)
 
 did_land_releases <- fixest::feols(
   l.total.land.releases.onsite.intensity ~ sunab(ch.year, year) +
@@ -1505,19 +1345,16 @@ did_land_releases <- fixest::feols(
     hap.chems +
     pbt.chems
     |
-    csw(,
-      year,
-      facility.id.fe,
-      border.county.fe,
-      chemical.id.fe,
-      chemical.year.fe
-    )
-  ,
+    year +
+      facility.id.fe +
+      border.county.fe +
+      chemical.id.fe +
+      chemical.year.fe,
   data = triQc,
   cluster = ~c(facility.id, naics.code),
 )
-etable(did_land_releases, agg = "ATT", digits = 4, digits.stats = 4)
-etable(did_land_releases, agg = "cohort", digits = 4, digits.stats = 4)
+etable(did_land_releases, agg = "ATT", digits = 3, digits.stats = 3)
+etable(did_land_releases, agg = "cohort", digits = 3, digits.stats = 3)
 
 did_land_releases <- fixest::feols(
   l.total.land.releases.onsite.intensity ~ sunab(ch.year, year) +
@@ -1537,19 +1374,16 @@ did_land_releases <- fixest::feols(
     hap.chems +
     pbt.chems
     |
-    csw(,
-      year,
-      facility.id.fe,
-      border.county.fe,
-      chemical.id.fe,
-      chemical.year.fe
-    )
-  ,
+    year +
+      facility.id.fe +
+      border.county.fe +
+      chemical.id.fe +
+      chemical.year.fe,
   data = triQc,
   cluster = ~c(chemical.id, naics.code),
 )
-etable(did_land_releases, agg = "ATT", digits = 4, digits.stats = 4)
-etable(did_land_releases, agg = "cohort", digits = 4, digits.stats = 4)
+etable(did_land_releases, agg = "ATT", digits = 3, digits.stats = 3)
+etable(did_land_releases, agg = "cohort", digits = 3, digits.stats = 3)
 
 did_land_releases <- fixest::feols(
   l.total.land.releases.onsite.intensity ~ sunab(ch.year, year) +
@@ -1569,19 +1403,16 @@ did_land_releases <- fixest::feols(
     hap.chems +
     pbt.chems
     |
-    csw(,
-      year,
-      facility.id.fe,
-      border.county.fe,
-      chemical.id.fe,
-      chemical.year.fe
-    )
-  ,
+    year +
+      facility.id.fe +
+      border.county.fe +
+      chemical.id.fe +
+      chemical.year.fe,
   data = triQc,
   cluster = ~c(chemical.id, facility.state),
 )
-etable(did_land_releases, agg = "ATT", digits = 4, digits.stats = 4)
-etable(did_land_releases, agg = "cohort", digits = 4, digits.stats = 4)
+etable(did_land_releases, agg = "ATT", digits = 3, digits.stats = 3)
+etable(did_land_releases, agg = "cohort", digits = 3, digits.stats = 3)
 
 did_land_releases <- fixest::feols(
   l.total.land.releases.onsite.intensity ~ sunab(ch.year, year) +
@@ -1601,19 +1432,16 @@ did_land_releases <- fixest::feols(
     hap.chems +
     pbt.chems
     |
-    csw(,
-      year,
-      facility.id.fe,
-      border.county.fe,
-      chemical.id.fe,
-      chemical.year.fe
-    )
-  ,
+    year +
+      facility.id.fe +
+      border.county.fe +
+      chemical.id.fe +
+      chemical.year.fe,
   data = triQc,
   cluster = ~c(facility.id, facility.state),
 )
-etable(did_land_releases, agg = "ATT", digits = 4, digits.stats = 4)
-etable(did_land_releases, agg = "cohort", digits = 4, digits.stats = 4)
+etable(did_land_releases, agg = "ATT", digits = 3, digits.stats = 3)
+etable(did_land_releases, agg = "cohort", digits = 3, digits.stats = 3)
 
 did_land_releases <- fixest::feols(
   l.total.land.releases.onsite.intensity ~ sunab(ch.year, year) +
@@ -1633,19 +1461,16 @@ did_land_releases <- fixest::feols(
     hap.chems +
     pbt.chems
     |
-    csw(,
-      year,
-      facility.id.fe,
-      border.county.fe,
-      chemical.id.fe,
-      chemical.year.fe
-    )
-  ,
+    year +
+      facility.id.fe +
+      border.county.fe +
+      chemical.id.fe +
+      chemical.year.fe,
   data = triQc,
   cluster = ~c(naics.code, facility.state),
 )
-etable(did_land_releases, agg = "ATT", digits = 4, digits.stats = 4)
-etable(did_land_releases, agg = "cohort", digits = 4, digits.stats = 4)
+etable(did_land_releases, agg = "ATT", digits = 3, digits.stats = 3)
+etable(did_land_releases, agg = "cohort", digits = 3, digits.stats = 3)
 #======================================================================================================================#
 ### Removing highest emitting states >= 5million lbs
 ### They include: treated (MN and SD) and control states (IA, IL, PA, and WI)
@@ -1668,21 +1493,18 @@ did_total_releases_nohigh_emitstates <- fixest::feols(
     hap.chems +
     pbt.chems
     |
-    csw(,
-      year,
-      facility.id.fe,
-      border.county.fe,
-      chemical.id.fe,
-      chemical.year.fe
-    )
-  ,
+    year +
+      facility.id.fe +
+      border.county.fe +
+      chemical.id.fe +
+      chemical.year.fe,
   data = triQc %>% filter(!facility.state %in% c("MN", "SD") |
                             !treated.match %in% c("MN", "SD"))
   ,
   cluster = ~c(chemical.id, naics.code, facility.state)
 )
-etable(did_total_releases_nohigh_emitstates, agg = "ATT", digits = 4, digits.stats = 4)
-etable(did_total_releases_nohigh_emitstates, agg = "cohort", digits = 4, digits.stats = 4)
+etable(did_total_releases_nohigh_emitstates, agg = "ATT", digits = 3, digits.stats = 3)
+etable(did_total_releases_nohigh_emitstates, agg = "cohort", digits = 3, digits.stats = 3)
 #======================================================================================================================#
 ### Onsite: Total air emissions intensity
 #======================================================================================================================#
@@ -1704,21 +1526,18 @@ did_air_nohigh_emitstates <- fixest::feols(
     hap.chems +
     pbt.chems
     |
-    csw(,
-      year,
-      facility.id.fe,
-      border.county.fe,
-      chemical.id.fe,
-      chemical.year.fe
-    )
-  ,
+    year +
+      facility.id.fe +
+      border.county.fe +
+      chemical.id.fe +
+      chemical.year.fe,
   data = triQc %>% filter(!facility.state %in% c("MN", "SD") |
                             !treated.match %in% c("MN", "SD"))
   ,
   cluster = ~c(chemical.id, naics.code, facility.state)
 )
-etable(did_air_nohigh_emitstates, agg = "ATT", digits = 4, digits.stats = 4)
-etable(did_air_nohigh_emitstates, agg = "cohort", digits = 4, digits.stats = 4)
+etable(did_air_nohigh_emitstates, agg = "ATT", digits = 3, digits.stats = 3)
+etable(did_air_nohigh_emitstates, agg = "cohort", digits = 3, digits.stats = 3)
 #======================================================================================================================#
 ### Onsite: Total point air emissions intensity
 #======================================================================================================================#
@@ -1754,8 +1573,8 @@ did_point_air_nohigh_emitstates <- fixest::feols(
   ,
   cluster = ~c(chemical.id, naics.code, facility.state)
 )
-etable(did_point_air_nohigh_emitstates, agg = "ATT", digits = 4, digits.stats = 4)
-etable(did_point_air_nohigh_emitstates, agg = "cohort", digits = 4, digits.stats = 4)
+etable(did_point_air_nohigh_emitstates, agg = "ATT", digits = 3, digits.stats = 3)
+etable(did_point_air_nohigh_emitstates, agg = "cohort", digits = 3, digits.stats = 3)
 #======================================================================================================================#
 ### Onsite: Total fugitive air emissions intensity
 #======================================================================================================================#
@@ -1777,21 +1596,18 @@ did_fug_air_nohigh_emitstates <- fixest::feols(
     hap.chems +
     pbt.chems
     |
-    csw(,
-      year,
-      facility.id.fe,
-      border.county.fe,
-      chemical.id.fe,
-      chemical.year.fe
-    )
-  ,
+    year +
+      facility.id.fe +
+      border.county.fe +
+      chemical.id.fe +
+      chemical.year.fe,
   data = triQc %>% filter(!facility.state %in% c("MN", "SD") |
                             !treated.match %in% c("MN", "SD"))
   ,
   cluster = ~c(chemical.id, naics.code, facility.state)
 )
-etable(did_fug_air_nohigh_emitstates, agg = "ATT", digits = 4, digits.stats = 4)
-etable(did_fug_air_nohigh_emitstates, agg = "cohort", digits = 4, digits.stats = 4)
+etable(did_fug_air_nohigh_emitstates, agg = "ATT", digits = 3, digits.stats = 3)
+etable(did_fug_air_nohigh_emitstates, agg = "cohort", digits = 3, digits.stats = 3)
 #======================================================================================================================#
 ### Onsite: Total surface water discharge intensity
 #======================================================================================================================#
@@ -1813,21 +1629,18 @@ did_water_disc_nohigh_emitstates <- fixest::feols(
     hap.chems +
     pbt.chems
     |
-    csw(,
-      year,
-      facility.id.fe,
-      border.county.fe,
-      chemical.id.fe,
-      chemical.year.fe
-    )
-  ,
+    year +
+      facility.id.fe +
+      border.county.fe +
+      chemical.id.fe +
+      chemical.year.fe,
   data = triQc %>% filter(!facility.state %in% c("MN", "SD") |
                             !treated.match %in% c("MN", "SD"))
   ,
   cluster = ~c(chemical.id, naics.code, facility.state)
 )
-etable(did_water_disc_nohigh_emitstates, agg = "ATT", digits = 4, digits.stats = 4)
-etable(did_water_disc_nohigh_emitstates, agg = "cohort", digits = 4, digits.stats = 4)
+etable(did_water_disc_nohigh_emitstates, agg = "ATT", digits = 3, digits.stats = 3)
+etable(did_water_disc_nohigh_emitstates, agg = "cohort", digits = 3, digits.stats = 3)
 #======================================================================================================================#
 ### Onsite: Total land releases intensity
 #======================================================================================================================#
@@ -1849,21 +1662,18 @@ did_land_releases_nohigh_emitstates <- fixest::feols(
     hap.chems +
     pbt.chems
     |
-    csw(,
-      year,
-      facility.id.fe,
-      border.county.fe,
-      chemical.id.fe,
-      chemical.year.fe
-    )
-  ,
+    year +
+      facility.id.fe +
+      border.county.fe +
+      chemical.id.fe +
+      chemical.year.fe,
   data = triQc %>% filter(!facility.state %in% c("MN", "SD") |
                             !treated.match %in% c("MN", "SD"))
   ,
   cluster = ~c(chemical.id, naics.code, facility.state)
 )
-etable(did_land_releases_nohigh_emitstates, agg = "ATT", digits = 4, digits.stats = 4)
-etable(did_land_releases_nohigh_emitstates, agg = "cohort", digits = 4, digits.stats = 4)
+etable(did_land_releases_nohigh_emitstates, agg = "ATT", digits = 3, digits.stats = 3)
+etable(did_land_releases_nohigh_emitstates, agg = "cohort", digits = 3, digits.stats = 3)
 #======================================================================================================================#
 ### Removing highest emitting industries >= 5million lbs
 ### They include: treated (chemical, food, and transport and equipment manufacturing)
@@ -1886,21 +1696,18 @@ did_total_releases_nohigh_emitindustry <- fixest::feols(
     hap.chems +
     pbt.chems
     |
-    csw(,
-      year,
-      facility.id.fe,
-      border.county.fe,
-      chemical.id.fe,
-      chemical.year.fe
-    )
-  ,
+    year +
+      facility.id.fe +
+      border.county.fe +
+      chemical.id.fe +
+      chemical.year.fe,
   data = triQc %>%
     filter(!industry.name %in%
       c("Chemical Manufacturing", "Food Manufacturing", "Transportation and Equipment Manufacturing")),
   cluster = ~c(chemical.id, naics.code, facility.state)
 )
-etable(did_total_releases_nohigh_emitindustry, agg = "ATT", digits = 4, digits.stats = 4)
-etable(did_total_releases_nohigh_emitindustry, agg = "cohort", digits = 4, digits.stats = 4)
+etable(did_total_releases_nohigh_emitindustry, agg = "ATT", digits = 3, digits.stats = 3)
+etable(did_total_releases_nohigh_emitindustry, agg = "cohort", digits = 3, digits.stats = 3)
 #======================================================================================================================#
 ### Onsite: Total air emissions intensity
 #======================================================================================================================#
@@ -1922,21 +1729,18 @@ did_air_nohigh_emitindustry <- fixest::feols(
     hap.chems +
     pbt.chems
     |
-    csw(,
-      year,
-      facility.id.fe,
-      border.county.fe,
-      chemical.id.fe,
-      chemical.year.fe
-    )
-  ,
+    year +
+      facility.id.fe +
+      border.county.fe +
+      chemical.id.fe +
+      chemical.year.fe,
   data = triQc %>%
     filter(!industry.name %in%
       c("Chemical Manufacturing", "Food Manufacturing", "Transportation and Equipment Manufacturing")),
   cluster = ~c(chemical.id, naics.code, facility.state)
 )
-etable(did_air_nohigh_emitindustry, agg = "ATT", digits = 4, digits.stats = 4)
-etable(did_air_nohigh_emitindustry, agg = "cohort", digits = 4, digits.stats = 4)
+etable(did_air_nohigh_emitindustry, agg = "ATT", digits = 3, digits.stats = 3)
+etable(did_air_nohigh_emitindustry, agg = "cohort", digits = 3, digits.stats = 3)
 #======================================================================================================================#
 ### Onsite: Total point air emissions intensity
 #======================================================================================================================#
@@ -1958,21 +1762,18 @@ did_point_air_nohigh_emitindustry <- fixest::feols(
     hap.chems +
     pbt.chems
     |
-    csw(,
-      year,
-      facility.id.fe,
-      border.county.fe,
-      chemical.id.fe,
-      chemical.year.fe
-    )
-  ,
+    year +
+      facility.id.fe +
+      border.county.fe +
+      chemical.id.fe +
+      chemical.year.fe,
   data = triQc %>%
     filter(!industry.name %in%
       c("Chemical Manufacturing", "Food Manufacturing", "Transportation and Equipment Manufacturing")),
   cluster = ~c(chemical.id, naics.code, facility.state)
 )
-etable(did_point_air_nohigh_emitindustry, agg = "ATT", digits = 4, digits.stats = 4)
-etable(did_point_air_nohigh_emitindustry, agg = "cohort", digits = 4, digits.stats = 4)
+etable(did_point_air_nohigh_emitindustry, agg = "ATT", digits = 3, digits.stats = 3)
+etable(did_point_air_nohigh_emitindustry, agg = "cohort", digits = 3, digits.stats = 3)
 #======================================================================================================================#
 ### Onsite: Total fugitive air emissions intensity
 #======================================================================================================================#
@@ -1994,20 +1795,17 @@ did_fug_air <- fixest::feols(
     hap.chems +
     pbt.chems
     |
-    csw(,
-      year,
-      facility.id.fe,
-      border.county.fe,
-      chemical.id.fe,
-      chemical.year.fe
-    )
-  ,
+    year +
+      facility.id.fe +
+      border.county.fe +
+      chemical.id.fe +
+      chemical.year.fe,
   data = triQc %>%
     filter(!industry.name %in% c("Chemical Manufacturing", "Food Manufacturing", "Transportation and Equipment Manufacturing")),
   cluster = ~c(chemical.id, naics.code, facility.state)
 )
-etable(did_fug_air, agg = "ATT", digits = 4, digits.stats = 4)
-etable(did_fug_air, agg = "cohort", digits = 4, digits.stats = 4)
+etable(did_fug_air, agg = "ATT", digits = 3, digits.stats = 3)
+etable(did_fug_air, agg = "cohort", digits = 3, digits.stats = 3)
 #======================================================================================================================#
 ### Onsite: Total surface water discharge intensity
 #======================================================================================================================#
@@ -2029,20 +1827,17 @@ did_water_disc <- fixest::feols(
     hap.chems +
     pbt.chems
     |
-    csw(,
-      year,
-      facility.id.fe,
-      border.county.fe,
-      chemical.id.fe,
-      chemical.year.fe
-    )
-  ,
+    year +
+      facility.id.fe +
+      border.county.fe +
+      chemical.id.fe +
+      chemical.year.fe,
   data = triQc %>%
     filter(!industry.name %in% c("Chemical Manufacturing", "Food Manufacturing", "Transportation and Equipment Manufacturing")),
   cluster = ~c(chemical.id, naics.code, facility.state)
 )
-etable(did_water_disc, agg = "ATT", digits = 4, digits.stats = 4)
-etable(did_water_disc, agg = "cohort", digits = 4, digits.stats = 4)
+etable(did_water_disc, agg = "ATT", digits = 3, digits.stats = 3)
+etable(did_water_disc, agg = "cohort", digits = 3, digits.stats = 3)
 #======================================================================================================================#
 ### Onsite: Total land releases intensity
 #======================================================================================================================#
@@ -2064,18 +1859,15 @@ did_land_releases <- fixest::feols(
     hap.chems +
     pbt.chems
     |
-    csw(,
-      year,
-      facility.id.fe,
-      border.county.fe,
-      chemical.id.fe,
-      chemical.year.fe
-    )
-  ,
+    year +
+      facility.id.fe +
+      border.county.fe +
+      chemical.id.fe +
+      chemical.year.fe,
   data = triQc %>%
     filter(!industry.name %in% c("Chemical Manufacturing", "Food Manufacturing", "Transportation and Equipment Manufacturing")),
   cluster = ~c(chemical.id, naics.code, facility.state)
 )
-etable(did_land_releases, agg = "ATT", digits = 4, digits.stats = 4)
-etable(did_land_releases, agg = "cohort", digits = 4, digits.stats = 4)
+etable(did_land_releases, agg = "ATT", digits = 3, digits.stats = 3)
+etable(did_land_releases, agg = "cohort", digits = 3, digits.stats = 3)
 #======================================================================================================================#
