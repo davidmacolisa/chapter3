@@ -288,13 +288,15 @@ triQc <- triQc %>%
   )
 
 # Winsorise the total onsite releases for catastrophe events: replace with the median == 0
-triQc$total.release.onsite.catastrophicevents <- ifelse(
-  test = is.na(triQc$total.release.onsite.catastrophicevents),
-  yes = median(triQc$total.release.onsite.catastrophicevents, na.rm = T),
-  no = triQc$total.release.onsite.catastrophicevents
+triQc <- triQc %>% mutate(
+  total.release.onsite.catastrophicevents = ifelse(
+    test = is.na(total.release.onsite.catastrophicevents),
+    yes = mean(total.release.onsite.catastrophicevents, na.rm = T),
+    no = total.release.onsite.catastrophicevents)
 )
+
 table(is.na(triQc$total.release.onsite.catastrophicevents))
-sum_up(triQc, c(total.release.onsite.catastrophicevents))
+sum_up(triQc, total.release.onsite.catastrophicevents)
 
 sum(is.na(triQc))
 na_columns <- colnames(triQc)[colSums(is.na(triQc)) > 0]
@@ -1092,6 +1094,7 @@ triQc <- triQc %>%
     invest.1 = stats::lag(invest, k = 1),
     invent.1 = stats::lag(invent, k = 1),
   )
+
 #======================================================================================================================#
 ### Experiment Design
 #======================================================================================================================#

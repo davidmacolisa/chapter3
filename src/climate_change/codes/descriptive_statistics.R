@@ -816,7 +816,7 @@ summ <- sum_up(df = triQc,
                  output.perhr, output.perworker,wage.perhr, pay, federal.facility, gdp.pc, annual_avg_estabs, emp, cpi,
                  produced.chem.facility, imported.chem.facility, chemical.formulation.component,
                  chemical.manufacturing.aid, chemical.ancilliary.use, production.ratio.activity.index,
-                 maxnum.chem.onsite,
+                 maxnum.chem.onsite, population
                ),
                d = F) %>%
   select(-Missing) %>%

@@ -103,9 +103,9 @@ cat("Number of p-values < 0.10:", p_values_below_0_10, "\n")
 #======================================================================================================================#
 ### Randomizing treatment assignments---Spatial
 #======================================================================================================================#
-randomize_treatment_spatial <- function(df, temp_var) {
+randomize_treatment_spatial <- function(df) {
   df %>%
-    group_by(df$temp_var) %>%
+    group_by(df$ch.year) %>%
     mutate(
       random.state = sample(x = treated.match, replace = T),
       random.county.id = sample(x = treated.cluster.id, replace = T),
@@ -119,27 +119,32 @@ randomize_treatment_spatial <- function(df, temp_var) {
     ungroup()
 }
 
-triQc <- randomize_treatment_spatial(df = triQc, temp_var = ~ch.year)
+triQc <- randomize_treatment_spatial(df = triQc)
+table(triQc$treated.match, triQc$ch.year)
 table(triQc$random.state, triQc$ch.year)
-
 #======================================================================================================================#
 ### Randomizing treatment assignments---Temporal and Spatial
 #======================================================================================================================#
-randomize_treatment <- function(df, spatial_var, temp_var) {
-  df %>%
-    group_by(df$spatial_var) %>%
-    mutate(
-      random.ch.year = sample(x = ch.year, replace = T),
-      random.treated.time = ifelse(test = year >= random.ch.year, yes = 1, no = 0)
-    ) %>%
-    ungroup()
+randomize_treatment_spatial_temporal <- function(df) {
+  # Temporal
+  # Identify rows with and without Inf values
+  inf_indices <- which(is.infinite(df$ch.year))
+  non_inf_indices <- which(!is.infinite(df$ch.year))
 
+  # Randomize the non-Inf values
+  randomized_non_inf_values <- sample(df$ch.year[non_inf_indices], replace = T)
+
+  # Create a new ch.year column and fill with randomized values
+  df$random.ch.year <- df$ch.year
+  df$random.ch.year[non_inf_indices] <- randomized_non_inf_values
+
+  # Spatial
   df %>%
-    group_by(df$temp_var) %>%
+    group_by(df$ch.year) %>%
     mutate(
       random.state = sample(x = treated.match, replace = T),
       random.county.id = sample(x = treated.cluster.id, replace = T),
-      random.treated.state = ifelse(test = year >= ch.year, yes = 1, no = 0),
+      random.treated.state = ifelse(test = year >= random.ch.year, yes = 1, no = 0),
       # Getting the FEs while keeping the control groups unchanged
       random.border.state.fe = as.numeric(as.factor(random.state)) * as.numeric(as.factor(control.match)),
       random.border.state.year.fe = random.border.state.fe * year,
@@ -147,10 +152,16 @@ randomize_treatment <- function(df, spatial_var, temp_var) {
       random.border.county.year.fe = random.border.county.fe * year
     ) %>%
     ungroup()
+
+  return(df)
 }
 
-triQc <- randomize_treatment(df = triQc, spatial_var = ~facility.state, temp_var = ~ch.year)
+triQc <- randomize_treatment_spatial_temporal(df = triQc)
+table(triQc$year, triQc$ch.year)
 table(triQc$year, triQc$random.ch.year)
+
+table(triQc$treated.match, triQc$ch.year)
+table(triQc$random.state, triQc$ch.year)
 #======================================================================================================================#
 ### Run randomisation and collect placebo effects
 #======================================================================================================================#
@@ -194,3 +205,186 @@ for (i in 1:n_placebos) {
     FEs = "year + facility.id.fe + border.county.fe + chemical.year.fe"
   )[1]
 }
+#======================================================================================================================#
+### Placebo exercise: Using Outcome before the initial raise in the MW. Logically, these pre-treatment outcome should
+### be affected by the rise in MW.
+#======================================================================================================================#
+did_total_releases_placebo <- fixest::feols(
+  l.total.releases.onsite.intensity ~ i(treated * year) +
+    gdppc.1 +
+    annual.avg.estabs.1 +
+    cpi.1 +
+    federal.facility +
+    produced.chem.facility +
+    imported.chem.facility +
+    chemical.formulation.component +
+    chemical.article.component +
+    chemical.manufacturing.aid +
+    chemical.ancilliary.use +
+    production.ratio.activity.index +
+    maxnum.chem.onsite +
+    clean.air.act.chems +
+    hap.chems +
+    pbt.chems
+    |
+    csw(,
+      year,
+      facility.id.fe,
+      border.county.fe,
+      chemical.id.fe,
+      chemical.year.fe
+    ),
+  cluster = ~c(chemical.id, naics.code, facility.state),
+  data = triQc %>% filter(year <= 2013)
+)
+etable(did_total_releases_placebo, digits = 3, digits.stats = 3)
+
+did_total_releases_placebo <- fixest::feols(
+  l.total.releases.onsite.intensity ~ i(treated * year) +
+    gdppc.1 +
+    annual.avg.estabs.1 +
+    cpi.1 +
+    federal.facility +
+    produced.chem.facility +
+    imported.chem.facility +
+    chemical.formulation.component +
+    chemical.article.component +
+    chemical.manufacturing.aid +
+    chemical.ancilliary.use +
+    production.ratio.activity.index +
+    maxnum.chem.onsite +
+    clean.air.act.chems +
+    hap.chems +
+    pbt.chems
+    |
+    year +
+      facility.id.fe +
+      border.county.fe +
+      chemical.id.fe +
+      chemical.year.fe,
+  cluster = ~c(chemical.id, naics.code, facility.state),
+  data = triQc %>% filter(year <= 2013)
+)
+etable(did_total_releases_placebo, digits = 3, digits.stats = 3)
+
+coefficients  <- coef(did_total_releases_placebo)[1:3]
+conf_intervals <- confint(did_total_releases_placebo)
+conf_intervals <- conf_intervals[1:3, ]
+conf_intervals <- lapply(conf_intervals, as.character) %>% data.frame()
+conf_intervals <- conf_intervals %>% rename(ci_min = "X2.5..", ci_max = "X97.5..")
+conf_intervals <- lapply(conf_intervals, as.numeric) %>% data.frame()
+# Extract years
+year <- unique(triQc$year[triQc$year <= 2013])
+
+# Create dataframe for plotting
+did_total_releases_placebo_data <- data.frame(year, coefficients, conf_intervals)
+
+# Plot coefficients against years with confidence intervals
+did_total_releases_placebo_pre <- ggplot(
+  did_total_releases_placebo_data,
+  aes(x = year, y = coefficients, color = "red", size = 0.8)
+) +
+  geom_point(size = 7) +
+  geom_line() +
+  geom_hline(yintercept = 0) +
+  geom_errorbar(
+    aes(ymin = ci_min, ymax = ci_max),
+    width = 0.2,
+    color = "blue",
+    size = 2.5
+  ) +
+  labs(
+    x = "Year",
+    y = "Estimates & Confidence Intervals",
+    title = "Total Releases Onsite Intensity",
+  ) +
+  theme_bw() +
+  theme(legend.position = "none") +
+  ylim(-16, 16) +
+  scale_x_continuous(breaks = seq(min(year), max(year), by = 1))
+#======================================================================================================================#
+### Years before the initial raise in MW
+#======================================================================================================================#
+triQc <- triQc %>% mutate(pre.mw = ifelse(test = year < 2014 & treated == 1, yes = 1, no = 0))
+#======================================================================================================================#
+### Onsite: Total releases intensity
+#======================================================================================================================#
+sdid_total_releases_pre_mw <- fixest::feols(
+  l.total.releases.onsite.intensity ~ sunab(ch.year, year):pre.mw +
+    e.treated +
+    treated:pre.mw +
+    post:pre.mw +
+    treated +
+    pre.mw +
+    post +
+    gdppc.1 +
+    annual.avg.estabs.1 +
+    cpi.1 +
+    federal.facility +
+    produced.chem.facility +
+    imported.chem.facility +
+    chemical.formulation.component +
+    chemical.article.component +
+    chemical.manufacturing.aid +
+    chemical.ancilliary.use +
+    production.ratio.activity.index +
+    maxnum.chem.onsite +
+    clean.air.act.chems +
+    hap.chems +
+    pbt.chems
+    |
+    year +
+      facility.id.fe +
+      border.county.fe +
+      chemical.id.fe +
+      chemical.year.fe
+  ,
+  data = triQc,
+  cluster = ~c(chemical.id, naics.code, facility.state)
+)
+etable(sdid_total_releases_pre_mw, digits = 3, digits.stats = 3)
+etable(sdid_total_releases_pre_mw, agg = "ATT", digits = 3, digits.stats = 3)
+etable(sdid_total_releases_pre_mw, agg = "cohort", digits = 3, digits.stats = 3)
+iplot(sdid_total_releases_pre_mw, xlim = c(-3, 3), ylim = c(-0.5, 0.9), col = "blue",
+              main = "Total Onsite Releases Intensity, pre-MW", xlab = "relative year",
+              lwd = 1, cex = 4, pt.cex = 3, pt.col = "red", pt.join = T, ci.lwd = 5, ci.lty = 1) %>%
+  abline(v = -1, col = "red", lty = 2, lwd = 2)
+
+sdid_total_releases_post_mw <- fixest::feols(
+  l.total.releases.onsite.intensity ~ sunab(ch.year, year) +
+    e.treated:pre.mw +
+    treated:pre.mw +
+    post:pre.mw +
+    treated +
+    pre.mw +
+    post +
+    gdppc.1 +
+    annual.avg.estabs.1 +
+    cpi.1 +
+    federal.facility +
+    produced.chem.facility +
+    imported.chem.facility +
+    chemical.formulation.component +
+    chemical.article.component +
+    chemical.manufacturing.aid +
+    chemical.ancilliary.use +
+    production.ratio.activity.index +
+    maxnum.chem.onsite +
+    clean.air.act.chems +
+    hap.chems +
+    pbt.chems
+    |
+    year +
+      facility.id.fe +
+      border.county.fe +
+      chemical.id.fe +
+      chemical.year.fe
+  ,
+  data = triQc,
+  cluster = ~c(chemical.id, naics.code, facility.state)
+)
+etable(sdid_total_releases_post_mw, digits = 3, digits.stats = 3)
+iplot(sdid_total_releases_post_mw, xlim = c(-3, 3), ylim = c(-0.5, 0.5), col = "blue",
+              main = "Total Onsite Releases Intensity, Post-MW", xlab = "relative year",
+              lwd = 1, cex = 4, pt.cex = 3, pt.col = "red", pt.join = T, ci.lwd = 5, ci.lty = 1) %>%
+  abline(v = -1, col = "red", lty = 2, lwd = 2)
