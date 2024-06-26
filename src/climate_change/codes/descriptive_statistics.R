@@ -107,28 +107,28 @@ sort(unique((triQc_potw$potw.state)))
 #======================================================================================================================#
 chemicals_onsite <- triQc %>%
   select(
-    chemical.id, chemical.name, chemical.classification, carcinogenic.chems,
-    clean.air.act.chems, metal.restrict.tri, chemical.formulation.component, chemical.article.component,
-    chemical.manufacturing.aid, chemical.ancilliary.use
+	chemical.id, chemical.name, chemical.classification, carcinogenic.chems,
+	clean.air.act.chems, metal.restrict.tri, chemical.formulation.component, chemical.article.component,
+	chemical.manufacturing.aid, chemical.ancilliary.use
   ) %>%
   mutate(
-    tri = ifelse(chemical.classification == "TRI", yes = 1, no = 0),
-    pbt = ifelse(chemical.classification == "PBT", yes = 1, no = 0),
-    dioxin = ifelse(chemical.classification == "DIOXIN", yes = 1, no = 0),
+	tri = ifelse(chemical.classification == "TRI", yes = 1, no = 0),
+	pbt = ifelse(chemical.classification == "PBT", yes = 1, no = 0),
+	dioxin = ifelse(chemical.classification == "DIOXIN", yes = 1, no = 0),
   ) %>%
   group_by(chemical.id, chemical.name) %>%
   summarise(
-    tri.chem.class = sum(tri, na.rm = TRUE),
-    pbt.chem.class = sum(pbt, na.rm = TRUE),
-    dioxin.chem.class = sum(dioxin, na.rm = TRUE),
-    n.carcinogen = sum(carcinogenic.chems, na.rm = TRUE),
-    n.caa = sum(clean.air.act.chems, na.rm = TRUE),
-    n.met.restr.tri = sum(metal.restrict.tri, na.rm = TRUE),
-    n.chem.form.comp = sum(chemical.formulation.component, na.rm = TRUE),
-    n.chem.art.comp = sum(chemical.article.component, na.rm = TRUE),
-    n.chem.manu.aid = sum(chemical.manufacturing.aid, na.rm = TRUE),
-    n.chem.anci.use = sum(chemical.ancilliary.use, na.rm = TRUE),
-    n.chem.sanitised = sum(sanitised, na.rm = TRUE),
+	tri.chem.class = sum(tri, na.rm = TRUE),
+	pbt.chem.class = sum(pbt, na.rm = TRUE),
+	dioxin.chem.class = sum(dioxin, na.rm = TRUE),
+	n.carcinogen = sum(carcinogenic.chems, na.rm = TRUE),
+	n.caa = sum(clean.air.act.chems, na.rm = TRUE),
+	n.met.restr.tri = sum(metal.restrict.tri, na.rm = TRUE),
+	n.chem.form.comp = sum(chemical.formulation.component, na.rm = TRUE),
+	n.chem.art.comp = sum(chemical.article.component, na.rm = TRUE),
+	n.chem.manu.aid = sum(chemical.manufacturing.aid, na.rm = TRUE),
+	n.chem.anci.use = sum(chemical.ancilliary.use, na.rm = TRUE),
+	n.chem.sanitised = sum(sanitised, na.rm = TRUE),
   ) %>%
   mutate(onsite = "yes") %>%
   print(n = nrow(.)) %>%
@@ -136,25 +136,25 @@ chemicals_onsite <- triQc %>%
 
 chemicals.offsite <- triQc_off %>%
   select(chemical.id, chemical.name, chemical.classification, carcinogenic.chems, clean.air.act.chems,
-         metal.restrict.tri, chemical.formulation.component, chemical.article.component,
-         chemical.manufacturing.aid, chemical.ancilliary.use) %>%
+		 metal.restrict.tri, chemical.formulation.component, chemical.article.component,
+		 chemical.manufacturing.aid, chemical.ancilliary.use) %>%
   mutate(
-    tri = ifelse(chemical.classification == "TRI", yes = 1, no = 0),
-    pbt = ifelse(chemical.classification == "PBT", yes = 1, no = 0),
-    dioxin = ifelse(chemical.classification == "DIOXIN", yes = 1, no = 0),
+	tri = ifelse(chemical.classification == "TRI", yes = 1, no = 0),
+	pbt = ifelse(chemical.classification == "PBT", yes = 1, no = 0),
+	dioxin = ifelse(chemical.classification == "DIOXIN", yes = 1, no = 0),
   ) %>%
   group_by(chemical.id, chemical.name) %>%
   summarise(
-    tri.chem.class = sum(tri, na.rm = TRUE),
-    pbt.chem.class = sum(pbt, na.rm = TRUE),
-    dioxin.chem.class = sum(dioxin, na.rm = TRUE),
-    n.carcinogen = sum(carcinogenic.chems, na.rm = TRUE),
-    n.caa = sum(clean.air.act.chems, na.rm = TRUE),
-    n.met.restr.tri = sum(metal.restrict.tri, na.rm = TRUE),
-    n.chem.form.comp = sum(chemical.formulation.component, na.rm = TRUE),
-    n.chem.art.comp = sum(chemical.article.component, na.rm = TRUE),
-    n.chem.manu.aid = sum(chemical.manufacturing.aid, na.rm = TRUE),
-    n.chem.anci.use = sum(chemical.ancilliary.use, na.rm = TRUE),
+	tri.chem.class = sum(tri, na.rm = TRUE),
+	pbt.chem.class = sum(pbt, na.rm = TRUE),
+	dioxin.chem.class = sum(dioxin, na.rm = TRUE),
+	n.carcinogen = sum(carcinogenic.chems, na.rm = TRUE),
+	n.caa = sum(clean.air.act.chems, na.rm = TRUE),
+	n.met.restr.tri = sum(metal.restrict.tri, na.rm = TRUE),
+	n.chem.form.comp = sum(chemical.formulation.component, na.rm = TRUE),
+	n.chem.art.comp = sum(chemical.article.component, na.rm = TRUE),
+	n.chem.manu.aid = sum(chemical.manufacturing.aid, na.rm = TRUE),
+	n.chem.anci.use = sum(chemical.ancilliary.use, na.rm = TRUE),
   ) %>%
   mutate(offsite = "yes") %>%
   print(n = nrow(.)) %>%
@@ -162,25 +162,25 @@ chemicals.offsite <- triQc_off %>%
 
 chemicals_potw <- triQc_potw %>%
   select(chemical.id, chemical.name, chemical.classification, carcinogenic.chems, clean.air.act.chems,
-         metal.restrict.tri, chemical.formulation.component, chemical.article.component,
-         chemical.manufacturing.aid, chemical.ancilliary.use) %>%
+		 metal.restrict.tri, chemical.formulation.component, chemical.article.component,
+		 chemical.manufacturing.aid, chemical.ancilliary.use) %>%
   mutate(
-    tri = ifelse(chemical.classification == "TRI", yes = 1, no = 0),
-    pbt = ifelse(chemical.classification == "PBT", yes = 1, no = 0),
-    dioxin = ifelse(chemical.classification == "DIOXIN", yes = 1, no = 0),
+	tri = ifelse(chemical.classification == "TRI", yes = 1, no = 0),
+	pbt = ifelse(chemical.classification == "PBT", yes = 1, no = 0),
+	dioxin = ifelse(chemical.classification == "DIOXIN", yes = 1, no = 0),
   ) %>%
   group_by(chemical.id, chemical.name) %>%
   summarise(
-    tri.chem.class = sum(tri, na.rm = TRUE),
-    pbt.chem.class = sum(pbt, na.rm = TRUE),
-    dioxin.chem.class = sum(dioxin, na.rm = TRUE),
-    n.carcinogen = sum(carcinogenic.chems, na.rm = TRUE),
-    n.caa = sum(clean.air.act.chems, na.rm = TRUE),
-    n.met.restr.tri = sum(metal.restrict.tri, na.rm = TRUE),
-    n.chem.form.comp = sum(chemical.formulation.component, na.rm = TRUE),
-    n.chem.art.comp = sum(chemical.article.component, na.rm = TRUE),
-    n.chem.manu.aid = sum(chemical.manufacturing.aid, na.rm = TRUE),
-    n.chem.anci.use = sum(chemical.ancilliary.use, na.rm = TRUE),
+	tri.chem.class = sum(tri, na.rm = TRUE),
+	pbt.chem.class = sum(pbt, na.rm = TRUE),
+	dioxin.chem.class = sum(dioxin, na.rm = TRUE),
+	n.carcinogen = sum(carcinogenic.chems, na.rm = TRUE),
+	n.caa = sum(clean.air.act.chems, na.rm = TRUE),
+	n.met.restr.tri = sum(metal.restrict.tri, na.rm = TRUE),
+	n.chem.form.comp = sum(chemical.formulation.component, na.rm = TRUE),
+	n.chem.art.comp = sum(chemical.article.component, na.rm = TRUE),
+	n.chem.manu.aid = sum(chemical.manufacturing.aid, na.rm = TRUE),
+	n.chem.anci.use = sum(chemical.ancilliary.use, na.rm = TRUE),
   ) %>%
   mutate(potw = "yes") %>%
   print(n = nrow(.)) %>%
@@ -188,42 +188,42 @@ chemicals_potw <- triQc_potw %>%
 
 chemicals <- chemicals_onsite %>%
   left_join(
-    y = chemicals.offsite %>% select(chemical.id, chemical.name, offsite)
+	y = chemicals.offsite %>% select(chemical.id, chemical.name, offsite)
   ) %>%
   left_join(
-    y = chemicals_potw %>% select(chemical.id, chemical.name, potw)
+	y = chemicals_potw %>% select(chemical.id, chemical.name, potw)
   ) %>%
   mutate(
-    classification = case_when(
-      tri.chem.class > 0 ~ "TRI",
-      pbt.chem.class > 0 ~ "PBT",
-      dioxin.chem.class > 0 ~ "DIOXIN",
-    ),
-    attribute = case_when(
-      n.carcinogen > 0 ~ "carcinogenic",
-      n.caa > 0 ~ "clean air act",
-      # n.pfas > 0 ~ "polyfluoroalkyl",
-      n.met.restr.tri > 0 ~ "metal restricted",
-      # n.met.incl.tri > 0 ~ "elemental metal included",
-      # n.chem.intm.uses > 0 ~ "intermediate uses",
-      n.chem.form.comp > 0 ~ "formulation component",
-      n.chem.art.comp > 0 ~ "article component",
-      n.chem.manu.aid > 0 ~ "manufacturing aid",
-      n.chem.anci.use > 0 ~ "ancillary use",
-      n.carcinogen == 0 |
-        n.caa == 0 |
-        n.met.restr.tri == 0 |
-        # n.met.incl.tri == 0 |
-        n.chem.form.comp == 0 |
-        n.chem.art.comp == 0 |
-        n.chem.manu.aid == 0 |
-        n.chem.anci.use == 0 ~ "others",
-    ),
-    location = case_when(
-      onsite == "yes" ~ "onsite",
-      offsite == "yes" ~ "offsite",
-      potw == "yes" ~ "POTW",
-    ),
+	classification = case_when(
+	  tri.chem.class > 0 ~ "TRI",
+	  pbt.chem.class > 0 ~ "PBT",
+	  dioxin.chem.class > 0 ~ "DIOXIN",
+	),
+	attribute = case_when(
+	  n.carcinogen > 0 ~ "carcinogenic",
+	  n.caa > 0 ~ "clean air act",
+	  # n.pfas > 0 ~ "polyfluoroalkyl",
+	  n.met.restr.tri > 0 ~ "metal restricted",
+	  # n.met.incl.tri > 0 ~ "elemental metal included",
+	  # n.chem.intm.uses > 0 ~ "intermediate uses",
+	  n.chem.form.comp > 0 ~ "formulation component",
+	  n.chem.art.comp > 0 ~ "article component",
+	  n.chem.manu.aid > 0 ~ "manufacturing aid",
+	  n.chem.anci.use > 0 ~ "ancillary use",
+	  n.carcinogen == 0 |
+		n.caa == 0 |
+		n.met.restr.tri == 0 |
+		# n.met.incl.tri == 0 |
+		n.chem.form.comp == 0 |
+		n.chem.art.comp == 0 |
+		n.chem.manu.aid == 0 |
+		n.chem.anci.use == 0 ~ "others",
+	),
+	location = case_when(
+	  onsite == "yes" ~ "onsite",
+	  offsite == "yes" ~ "offsite",
+	  potw == "yes" ~ "POTW",
+	),
   ) %>%
   select(c(chemical.name, classification, attribute, onsite, offsite, potw))
 
@@ -262,7 +262,7 @@ naics_distribution <- triQc %>%
   labs(title = "Distribution of NAICS Manufacturing Industries", x = "", y = "counts") +
   theme_bw() +
   theme(axis.text.x = element_text(angle = 90, vjust = 0.5, hjust = 1, size = 18),
-        axis.title.x = element_text(size = 18))
+		axis.title.x = element_text(size = 18))
 pdf(file = "./Thesis/chapter3/src/climate_change/latex/fig_naics_distribution.pdf", width = 12, height = 10)
 naics_distribution
 dev.off()
@@ -272,33 +272,33 @@ releases_distribution_sum_naics <- triQc %>%
   select(industry.name, naics.code, total.releases.onsite.intensity) %>%
   group_by(industry.name) %>%
   summarise(naics.code = n(),
-            total.releases.onsite.intensity = sum(total.releases.onsite.intensity, na.rm = TRUE)) %>%
+			total.releases.onsite.intensity = sum(total.releases.onsite.intensity, na.rm = TRUE)) %>%
   ggplot(aes(x = industry.name, y = total.releases.onsite.intensity)) +
   geom_bar(stat = "identity", fill = "blue") +
   labs(
-    title = "Total Releases Intensity (Onsite)",
-    x = "",
-    y = "total releases Intensity (onsite)"
+	title = "Total Releases Intensity (Onsite)",
+	x = "",
+	y = "total releases Intensity (onsite)"
   ) +
   theme_bw() +
   theme(axis.text.x = element_text(angle = 90, vjust = 0.5, hjust = 1, size = 18),
-        axis.title.x = element_text(size = 20))
+		axis.title.x = element_text(size = 20))
 
 releases_distribution_mean_naics <- triQc %>%
   select(industry.name, naics.code, total.releases.onsite.intensity) %>%
   group_by(industry.name) %>%
   summarise(naics.code = n(),
-            total.releases.onsite.intensity = mean(total.releases.onsite.intensity, na.rm = TRUE)) %>%
+			total.releases.onsite.intensity = mean(total.releases.onsite.intensity, na.rm = TRUE)) %>%
   ggplot(aes(x = industry.name, y = total.releases.onsite.intensity)) +
   geom_bar(stat = "identity", fill = "blue") +
   labs(
-    title = "Average Releases Intensity (Onsite)",
-    x = "",
-    y = "average releases Intensity (onsite)"
+	title = "Average Releases Intensity (Onsite)",
+	x = "",
+	y = "average releases Intensity (onsite)"
   ) +
   theme_bw() +
   theme(axis.text.x = element_text(angle = 90, vjust = 0.5, hjust = 1, size = 18),
-        axis.title.x = element_text(size = 20))
+		axis.title.x = element_text(size = 20))
 pdf(file = "./Thesis/chapter3/src/climate_change/latex/fig_releases_distribution_naics.pdf", width = 20, height = 10)
 releases_distribution_sum_naics + releases_distribution_mean_naics
 dev.off()
@@ -308,34 +308,35 @@ air_emissions_distribution_sum_naics <- triQc %>%
   select(industry.name, naics.code, total.air.emissions.onsite.intensity) %>%
   group_by(industry.name) %>%
   summarise(naics.code = n(),
-            total.air.emissions.onsite.intensity = sum(total.air.emissions.onsite.intensity, na.rm = TRUE)) %>%
+			total.air.emissions.onsite.intensity = sum(total.air.emissions.onsite.intensity, na.rm = TRUE)) %>%
   ggplot(aes(x = industry.name, y = total.air.emissions.onsite.intensity)) +
   geom_bar(stat = "identity", fill = "blue") +
   labs(
-    title = "Total Air Emissions Intensity (Onsite)",
-    x = "",
-    y = "total air emissions Intensity (onsite)"
+	title = "Total Air Emissions Intensity (Onsite)",
+	x = "",
+	y = "total air emissions Intensity (onsite)"
   ) +
   theme_bw() +
   theme(axis.text.x = element_text(angle = 90, vjust = 0.5, hjust = 1, size = 18),
-        axis.title.x = element_text(size = 20))
+		axis.title.x = element_text(size = 20))
 
 air_emissions_distribution_mean_naics <- triQc %>%
   select(industry.name, naics.code, total.air.emissions.onsite.intensity) %>%
   group_by(industry.name) %>%
   summarise(naics.code = n(),
-            total.air.emissions.onsite.intensity = mean(total.air.emissions.onsite.intensity, na.rm = TRUE)) %>%
+			total.air.emissions.onsite.intensity = mean(total.air.emissions.onsite.intensity, na.rm = TRUE)) %>%
   ggplot(aes(x = industry.name, y = total.air.emissions.onsite.intensity)) +
   geom_bar(stat = "identity", fill = "blue") +
   labs(
-    title = "Average Air Emissions Intensity (Onsite)",
-    x = "",
-    y = "average air emissions Intensity (onsite)"
+	title = "Average Air Emissions Intensity (Onsite)",
+	x = "",
+	y = "average air emissions Intensity (onsite)"
   ) +
   theme_bw() +
   theme(axis.text.x = element_text(angle = 90, vjust = 0.5, hjust = 1, size = 18),
-        axis.title.x = element_text(size = 20))
-pdf(file = "./Thesis/chapter3/src/climate_change/latex/fig_air_emissions_distribution_naics.pdf", width = 20, height = 10)
+		axis.title.x = element_text(size = 20))
+pdf(file = "./Thesis/chapter3/src/climate_change/latex/fig_air_emissions_distribution_naics.pdf", width = 20, height
+  = 10)
 air_emissions_distribution_sum_naics + air_emissions_distribution_mean_naics
 dev.off()
 #======================================================================================================================#
@@ -344,34 +345,35 @@ land_releases_distribution_sum_naics <- triQc %>%
   select(industry.name, naics.code, total.land.releases.onsite.intensity) %>%
   group_by(industry.name) %>%
   summarise(naics.code = n(),
-            total.land.releases.onsite.intensity = sum(total.land.releases.onsite.intensity, na.rm = TRUE)) %>%
+			total.land.releases.onsite.intensity = sum(total.land.releases.onsite.intensity, na.rm = TRUE)) %>%
   ggplot(aes(x = industry.name, y = total.land.releases.onsite.intensity)) +
   geom_bar(stat = "identity", fill = "blue") +
   labs(
-    title = "Total Land Releases Intensity (Onsite)",
-    x = "",
-    y = "total land releases Intensity (onsite)"
+	title = "Total Land Releases Intensity (Onsite)",
+	x = "",
+	y = "total land releases Intensity (onsite)"
   ) +
   theme_bw() +
   theme(axis.text.x = element_text(angle = 90, vjust = 0.5, hjust = 1, size = 18),
-        axis.title.x = element_text(size = 20))
+		axis.title.x = element_text(size = 20))
 
 land_releases_distribution_mean_naics <- triQc %>%
   select(industry.name, naics.code, total.land.releases.onsite.intensity) %>%
   group_by(industry.name) %>%
   summarise(naics.code = n(),
-            total.land.releases.onsite.intensity = mean(total.land.releases.onsite.intensity, na.rm = TRUE)) %>%
+			total.land.releases.onsite.intensity = mean(total.land.releases.onsite.intensity, na.rm = TRUE)) %>%
   ggplot(aes(x = industry.name, y = total.land.releases.onsite.intensity)) +
   geom_bar(stat = "identity", fill = "blue") +
   labs(
-    title = "Average Land Releases Intensity (Onsite)",
-    x = "",
-    y = "average land releases Intensity (onsite)"
+	title = "Average Land Releases Intensity (Onsite)",
+	x = "",
+	y = "average land releases Intensity (onsite)"
   ) +
   theme_bw() +
   theme(axis.text.x = element_text(angle = 90, vjust = 0.5, hjust = 1, size = 18),
-        axis.title.x = element_text(size = 20))
-pdf(file = "./Thesis/chapter3/src/climate_change/latex/fig_land_releases_distribution_naics.pdf", width = 20, height = 10)
+		axis.title.x = element_text(size = 20))
+pdf(file = "./Thesis/chapter3/src/climate_change/latex/fig_land_releases_distribution_naics.pdf", width = 20, height
+  = 10)
 land_releases_distribution_sum_naics + land_releases_distribution_mean_naics
 dev.off()
 #======================================================================================================================#
@@ -380,33 +382,37 @@ surface_water_distribution_sum_naics <- triQc %>%
   select(industry.name, naics.code, total.surface.water.discharge.onsite.intensity) %>%
   group_by(industry.name) %>%
   summarise(naics.code = n(),
-            total.surface.water.discharge.onsite.intensity = sum(total.surface.water.discharge.onsite.intensity, na.rm = TRUE)) %>%
+			total.surface.water.discharge.onsite.intensity = sum(total.surface.water.discharge.onsite.intensity, na.rm
+			  = TRUE)) %>%
   ggplot(aes(x = industry.name, y = total.surface.water.discharge.onsite.intensity)) +
   geom_bar(stat = "identity", fill = "blue") +
   labs(
-    title = "Total Surface Water Discharge Intensity (Onsite)",
-    x = "",
-    y = "total surface water discharge Intensity (onsite)"
+	title = "Total Surface Water Discharge Intensity (Onsite)",
+	x = "",
+	y = "total surface water discharge Intensity (onsite)"
   ) +
   theme_bw() +
   theme(axis.text.x = element_text(angle = 90, vjust = 0.5, hjust = 1, size = 18),
-        axis.title.x = element_text(size = 20))
+		axis.title.x = element_text(size = 20))
 
 surface_water_distribution_mean_naics <- triQc %>%
   select(industry.name, naics.code, total.surface.water.discharge.onsite.intensity) %>%
   group_by(industry.name) %>%
-  summarise(naics.code = n(),
-            total.surface.water.discharge.onsite.intensity = mean(total.surface.water.discharge.onsite.intensity, na.rm = TRUE)) %>%
+  summarise(
+	naics.code = n(),
+	total.surface.water.discharge.onsite.intensity = mean(total.surface.water.discharge.onsite.intensity,
+														  na.rm = TRUE)
+  ) %>%
   ggplot(aes(x = industry.name, y = total.surface.water.discharge.onsite.intensity)) +
   geom_bar(stat = "identity", fill = "blue") +
   labs(
-    title = "Average Surface Water Discharge Intensity (Onsite)",
-    x = "",
-    y = "average surface water discharge Intensity (onsite)"
+	title = "Average Surface Water Discharge Intensity (Onsite)",
+	x = "",
+	y = "average surface water discharge Intensity (onsite)"
   ) +
   theme_bw() +
   theme(axis.text.x = element_text(angle = 90, vjust = 0.5, hjust = 1, size = 18),
-        axis.title.x = element_text(size = 20))
+		axis.title.x = element_text(size = 20))
 pdf(file = "./Thesis/chapter3/src/climate_change/latex/fig_water_distribution_naics.pdf", width = 20, height = 10)
 surface_water_distribution_sum_naics + surface_water_distribution_mean_naics
 dev.off()
@@ -416,39 +422,39 @@ releases_distribution_sum_states <- triQc %>%
   select(facility.state, industry.name, naics.code, treated, total.releases.onsite.intensity) %>%
   group_by(facility.state) %>%
   summarise(
-    naics.code = n(),
-    total.releases.onsite.intensity = sum(total.releases.onsite.intensity, na.rm = TRUE),
-    treated = treated %>% unique()
+	naics.code = n(),
+	total.releases.onsite.intensity = sum(total.releases.onsite.intensity, na.rm = TRUE),
+	treated = treated %>% unique()
   ) %>%
   ggplot(aes(x = facility.state, y = total.releases.onsite.intensity, fill = treated)) +
   geom_bar(stat = "identity") +
   labs(
-    title = "Total Releases Intensity (Onsite)",
-    x = "",
-    y = "total releases intensity (onsite)"
+	title = "Total Releases Intensity (Onsite)",
+	x = "",
+	y = "total releases intensity (onsite)"
   ) +
   theme_bw() +
   theme(axis.text.x = element_text(angle = 0, vjust = 0.0, hjust = 0.5, size = 15),
-        axis.title.x = element_text(size = 10))
+		axis.title.x = element_text(size = 10))
 
 releases_distribution_mean_states <- triQc %>%
   select(facility.state, industry.name, naics.code, treated, total.releases.onsite.intensity) %>%
   group_by(facility.state) %>%
   summarise(
-    naics.code = n(),
-    total.releases.onsite.intensity = mean(total.releases.onsite.intensity, na.rm = TRUE),
-    treated = treated %>% unique()
+	naics.code = n(),
+	total.releases.onsite.intensity = mean(total.releases.onsite.intensity, na.rm = TRUE),
+	treated = treated %>% unique()
   ) %>%
   ggplot(aes(x = facility.state, y = total.releases.onsite.intensity, fill = treated)) +
   geom_bar(stat = "identity") +
   labs(
-    title = "Average Releases Intensity (Onsite)",
-    x = "",
-    y = "average releases intensity (onsite)"
+	title = "Average Releases Intensity (Onsite)",
+	x = "",
+	y = "average releases intensity (onsite)"
   ) +
   theme_bw() +
   theme(axis.text.x = element_text(angle = 0, vjust = 0.0, hjust = 0.5, size = 15),
-        axis.title.x = element_text(size = 10))
+		axis.title.x = element_text(size = 10))
 pdf(file = "./Thesis/chapter3/src/climate_change/latex/fig_releases_distribution_state.pdf", width = 23, height = 5)
 releases_distribution_sum_states + releases_distribution_mean_states
 dev.off()
@@ -458,40 +464,41 @@ air_emissions_distribution_sum_states <- triQc %>%
   select(facility.state, industry.name, naics.code, treated, total.air.emissions.onsite.intensity) %>%
   group_by(facility.state) %>%
   summarise(
-    naics.code = n(),
-    total.air.emissions.onsite.intensity = sum(total.air.emissions.onsite.intensity, na.rm = TRUE),
-    treated = treated %>% unique()
+	naics.code = n(),
+	total.air.emissions.onsite.intensity = sum(total.air.emissions.onsite.intensity, na.rm = TRUE),
+	treated = treated %>% unique()
   ) %>%
   ggplot(aes(x = facility.state, y = total.air.emissions.onsite.intensity, fill = treated)) +
   geom_bar(stat = "identity") +
   labs(
-    title = "Total Air Emissions Intensity (Onsite)",
-    x = "",
-    y = "total air emissions intensity (onsite)"
+	title = "Total Air Emissions Intensity (Onsite)",
+	x = "",
+	y = "total air emissions intensity (onsite)"
   ) +
   theme_bw() +
   theme(axis.text.x = element_text(angle = 0, vjust = 0.0, hjust = 0.5, size = 15),
-        axis.title.x = element_text(size = 10))
+		axis.title.x = element_text(size = 10))
 
 air_emissions_distribution_mean_states <- triQc %>%
   select(facility.state, industry.name, naics.code, treated, total.air.emissions.onsite.intensity) %>%
   group_by(facility.state) %>%
   summarise(
-    naics.code = n(),
-    total.air.emissions.onsite.intensity = mean(total.air.emissions.onsite.intensity, na.rm = TRUE),
-    treated = treated %>% unique()
+	naics.code = n(),
+	total.air.emissions.onsite.intensity = mean(total.air.emissions.onsite.intensity, na.rm = TRUE),
+	treated = treated %>% unique()
   ) %>%
   ggplot(aes(x = facility.state, y = total.air.emissions.onsite.intensity, fill = treated)) +
   geom_bar(stat = "identity") +
   labs(
-    title = "Average Air Emissions Intensity (Onsite)",
-    x = "",
-    y = "average air emissions intensity (onsite)"
+	title = "Average Air Emissions Intensity (Onsite)",
+	x = "",
+	y = "average air emissions intensity (onsite)"
   ) +
   theme_bw() +
   theme(axis.text.x = element_text(angle = 0, vjust = 0.0, hjust = 0.5, size = 15),
-        axis.title.x = element_text(size = 10))
-pdf(file = "./Thesis/chapter3/src/climate_change/latex/fig_air_emissions_distribution_state.pdf", width = 23, height = 5)
+		axis.title.x = element_text(size = 10))
+pdf(file = "./Thesis/chapter3/src/climate_change/latex/fig_air_emissions_distribution_state.pdf", width = 23, height
+  = 5)
 air_emissions_distribution_sum_states + air_emissions_distribution_mean_states
 dev.off()
 #======================================================================================================================#
@@ -500,40 +507,41 @@ land_releases_distribution_sum_states <- triQc %>%
   select(facility.state, industry.name, naics.code, treated, total.land.releases.onsite.intensity) %>%
   group_by(facility.state) %>%
   summarise(
-    naics.code = n(),
-    total.land.releases.onsite.intensity = sum(total.land.releases.onsite.intensity, na.rm = TRUE),
-    treated = treated %>% unique()
+	naics.code = n(),
+	total.land.releases.onsite.intensity = sum(total.land.releases.onsite.intensity, na.rm = TRUE),
+	treated = treated %>% unique()
   ) %>%
   ggplot(aes(x = facility.state, y = total.land.releases.onsite.intensity, fill = treated)) +
   geom_bar(stat = "identity") +
   labs(
-    title = "Total Land Releases Intensity (Onsite)",
-    x = "",
-    y = "total land releases intensity (onsite)"
+	title = "Total Land Releases Intensity (Onsite)",
+	x = "",
+	y = "total land releases intensity (onsite)"
   ) +
   theme_bw() +
   theme(axis.text.x = element_text(angle = 0, vjust = 0, hjust = 0.5, size = 15),
-        axis.title.x = element_text(size = 10))
+		axis.title.x = element_text(size = 10))
 
 land_releases_distribution_mean_states <- triQc %>%
   select(facility.state, industry.name, naics.code, treated, total.land.releases.onsite.intensity) %>%
   group_by(facility.state) %>%
   summarise(
-    naics.code = n(),
-    total.land.releases.onsite.intensity = mean(total.land.releases.onsite.intensity, na.rm = TRUE),
-    treated = treated %>% unique()
+	naics.code = n(),
+	total.land.releases.onsite.intensity = mean(total.land.releases.onsite.intensity, na.rm = TRUE),
+	treated = treated %>% unique()
   ) %>%
   ggplot(aes(x = facility.state, y = total.land.releases.onsite.intensity, fill = treated)) +
   geom_bar(stat = "identity") +
   labs(
-    title = "Average Land Releases Intensity (Onsite)",
-    x = "",
-    y = "average land releases intensity (onsite)"
+	title = "Average Land Releases Intensity (Onsite)",
+	x = "",
+	y = "average land releases intensity (onsite)"
   ) +
   theme_bw() +
   theme(axis.text.x = element_text(angle = 0, vjust = 0, hjust = 0.5, size = 15),
-        axis.title.x = element_text(size = 10))
-pdf(file = "./Thesis/chapter3/src/climate_change/latex/fig_land_releases_distribution_state.pdf", width = 23, height = 5)
+		axis.title.x = element_text(size = 10))
+pdf(file = "./Thesis/chapter3/src/climate_change/latex/fig_land_releases_distribution_state.pdf", width = 23, height
+  = 5)
 land_releases_distribution_sum_states + land_releases_distribution_mean_states
 dev.off()
 #======================================================================================================================#
@@ -542,72 +550,74 @@ water_discharge_distribution_sum_states <- triQc %>%
   select(facility.state, industry.name, naics.code, treated, total.surface.water.discharge.onsite.intensity) %>%
   group_by(facility.state) %>%
   summarise(
-    naics.code = n(),
-    total.surface.water.discharge.onsite.intensity = sum(total.surface.water.discharge.onsite.intensity, na.rm = TRUE),
-    treated = treated %>% unique()
+	naics.code = n(),
+	total.surface.water.discharge.onsite.intensity = sum(total.surface.water.discharge.onsite.intensity, na.rm = TRUE),
+	treated = treated %>% unique()
   ) %>%
   ggplot(aes(x = facility.state, y = total.surface.water.discharge.onsite.intensity, fill = treated)) +
   geom_bar(stat = "identity") +
   labs(
-    title = "Total Surface Water Discharge Intensity (Onsite)",
-    x = "",
-    y = "total surface water discharge intensity (onsite)"
+	title = "Total Surface Water Discharge Intensity (Onsite)",
+	x = "",
+	y = "total surface water discharge intensity (onsite)"
   ) +
   theme_bw() +
   theme(axis.text.x = element_text(angle = 0, vjust = 0, hjust = 0.5, size = 15),
-        axis.title.x = element_text(size = 10))
+		axis.title.x = element_text(size = 10))
 
 water_discharge_distribution_mean_states <- triQc %>%
   select(facility.state, industry.name, naics.code, treated, total.surface.water.discharge.onsite.intensity) %>%
   group_by(facility.state) %>%
   summarise(
-    naics.code = n(),
-    total.surface.water.discharge.onsite.intensity = mean(total.surface.water.discharge.onsite.intensity, na.rm = TRUE),
-    treated = treated %>% unique()
+	naics.code = n(),
+	total.surface.water.discharge.onsite.intensity = mean(total.surface.water.discharge.onsite.intensity, na.rm =
+	  TRUE),
+	treated = treated %>% unique()
   ) %>%
   ggplot(aes(x = facility.state, y = total.surface.water.discharge.onsite.intensity, fill = treated)) +
   geom_bar(stat = "identity") +
   labs(
-    title = "Average Surface Water Discharge Intensity (Onsite)",
-    x = "",
-    y = "average surface water discharge intensity (onsite)"
+	title = "Average Surface Water Discharge Intensity (Onsite)",
+	x = "",
+	y = "average surface water discharge intensity (onsite)"
   ) +
   theme_bw() +
   theme(axis.text.x = element_text(angle = 0, vjust = 0, hjust = 0.5, size = 15),
-        axis.title.x = element_text(size = 10))
-pdf(file = "./Thesis/chapter3/src/climate_change/latex/fig_water_discharge_distribution_state.pdf", width = 23, height = 5)
+		axis.title.x = element_text(size = 10))
+pdf(file = "./Thesis/chapter3/src/climate_change/latex/fig_water_discharge_distribution_state.pdf", width = 23,
+	height = 5)
 water_discharge_distribution_sum_states + water_discharge_distribution_mean_states
 dev.off()
 #======================================================================================================================#
 # Distribution of industries by ownership
 triQc %>%
   select(
-    facility.state, industry.name, naics.code, own_code, federal.facility,
-    govt.owned.facility
+	facility.state, industry.name, naics.code, own_code, federal.facility,
+	govt.owned.facility
   ) %>%
   mutate(
-    ownership = case_when(
-      federal.facility == 1 ~ "federal",
-      govt.owned.facility == 1 ~ "state",
-      own_code == 5 ~ "private"
-    )
+	ownership = case_when(
+	  federal.facility == 1 ~ "federal",
+	  govt.owned.facility == 1 ~ "state",
+	  own_code == 5 ~ "private"
+	)
   ) %>%
   filter(!is.na(ownership)) %>%  # Filter out rows where ownership is NA
   group_by(ownership) %>%
   summarise(
-    naics.code = n(),
-    own.code = own_code %>% unique()
+	naics.code = n(),
+	own.code = own_code %>% unique()
   ) %>%
   ggplot(aes(x = ownership, y = naics.code)) +
   geom_bar(stat = "identity", fill = "blue") +
   labs(
-    title = "Distribution of Industries by Ownership Type",
-    x = "Ownership Types",
-    y = "counts"
+	title = "Distribution of Industries by Ownership Type",
+	x = "Ownership Types",
+	y = "counts"
   ) +
   theme_bw() +
   theme(axis.text.x = element_text(angle = 90, vjust = 0.05, hjust = 1, size = 15),
-        axis.title.x = element_text(size = 10))
+		axis.title.x = element_text(size = 10))
 #======================================================================================================================#
 ### Distribution of total onsite releases by chemical groups
 #======================================================================================================================#
@@ -617,21 +627,22 @@ releases_distribution_carcinogenic <- triQc %>%
   select(facility.state, total.releases.onsite.intensity, treated) %>%
   group_by(facility.state) %>%
   summarise(
-    naics.code = n(),
-    total.releases.onsite.intensity = mean(total.releases.onsite.intensity, na.rm = TRUE),
-    treated = treated %>% unique()
+	naics.code = n(),
+	total.releases.onsite.intensity = mean(total.releases.onsite.intensity, na.rm = TRUE),
+	treated = treated %>% unique()
   ) %>%
   ggplot(aes(x = facility.state, y = total.releases.onsite.intensity, fill = treated)) +
   geom_bar(stat = "identity") +
   labs(
-    title = "Total Releases Intensity (Onsite), Carcinogens",
-    x = "",
-    y = "total releases Intensity (onsite)"
+	title = "Total Releases Intensity (Onsite), Carcinogens",
+	x = "",
+	y = "total releases Intensity (onsite)"
   ) +
   theme_bw() +
   theme(axis.text.x = element_text(angle = 0, vjust = 0, hjust = 0.5, size = 15),
-        axis.title.x = element_text(size = 10))
-pdf(file = "./Thesis/chapter3/src/climate_change/latex/fig_releases_distribution_carcinogenic.pdf", width = 12, height = 5)
+		axis.title.x = element_text(size = 10))
+pdf(file = "./Thesis/chapter3/src/climate_change/latex/fig_releases_distribution_carcinogenic.pdf", width = 12,
+	height = 5)
 releases_distribution_carcinogenic
 dev.off()
 
@@ -641,20 +652,20 @@ releases_distribution_caa <- triQc %>%
   select(facility.state, total.releases.onsite.intensity, treated) %>%
   group_by(facility.state) %>%
   summarise(
-    naics.code = n(),
-    total.releases.onsite.intensity = mean(total.releases.onsite.intensity, na.rm = TRUE),
-    treated = treated %>% unique()
+	naics.code = n(),
+	total.releases.onsite.intensity = mean(total.releases.onsite.intensity, na.rm = TRUE),
+	treated = treated %>% unique()
   ) %>%
   ggplot(aes(x = facility.state, y = total.releases.onsite.intensity, fill = treated)) +
   geom_bar(stat = "identity") +
   labs(
-    title = "Total Releases Intensity (Onsite), CAA chemicals",
-    x = "",
-    y = "total releases Intensity (onsite)"
+	title = "Total Releases Intensity (Onsite), CAA chemicals",
+	x = "",
+	y = "total releases Intensity (onsite)"
   ) +
   theme_bw() +
   theme(axis.text.x = element_text(angle = 0, vjust = 0.0, hjust = 0.5, size = 15),
-        axis.title.x = element_text(size = 10))
+		axis.title.x = element_text(size = 10))
 pdf(file = "./Thesis/chapter3/src/climate_change/latex/fig_releases_distribution_caa.pdf", width = 12, height = 5)
 releases_distribution_caa
 dev.off()
@@ -665,20 +676,20 @@ releases_distribution_haps <- triQc %>%
   select(facility.state, total.releases.onsite.intensity, treated) %>%
   group_by(facility.state) %>%
   summarise(
-    naics.code = n(),
-    total.releases.onsite.intensity = mean(total.releases.onsite.intensity, na.rm = TRUE),
-    treated = treated %>% unique()
+	naics.code = n(),
+	total.releases.onsite.intensity = mean(total.releases.onsite.intensity, na.rm = TRUE),
+	treated = treated %>% unique()
   ) %>%
   ggplot(aes(x = facility.state, y = total.releases.onsite.intensity, fill = treated)) +
   geom_bar(stat = "identity") +
   labs(
-    title = "Total Releases Intensity (Onsite), HAPs chemicals",
-    x = "",
-    y = "total releases Intensity (onsite)"
+	title = "Total Releases Intensity (Onsite), HAPs chemicals",
+	x = "",
+	y = "total releases Intensity (onsite)"
   ) +
   theme_bw() +
   theme(axis.text.x = element_text(angle = 0, vjust = 0.0, hjust = 0.5, size = 15),
-        axis.title.x = element_text(size = 10))
+		axis.title.x = element_text(size = 10))
 pdf(file = "./Thesis/chapter3/src/climate_change/latex/fig_releases_distribution_haps.pdf", width = 12, height = 5)
 releases_distribution_haps
 dev.off()
@@ -689,22 +700,211 @@ releases_distribution_pbts <- triQc %>%
   select(facility.state, total.releases.onsite.intensity, treated) %>%
   group_by(facility.state) %>%
   summarise(
-    naics.code = n(),
-    total.releases.onsite.intensity = mean(total.releases.onsite.intensity, na.rm = TRUE),
-    treated = treated %>% unique()
+	naics.code = n(),
+	total.releases.onsite.intensity = mean(total.releases.onsite.intensity, na.rm = TRUE),
+	treated = treated %>% unique()
   ) %>%
   ggplot(aes(x = facility.state, y = total.releases.onsite.intensity, fill = treated)) +
   geom_bar(stat = "identity") +
   labs(
-    title = "Total Releases Intensity (Onsite), PBT chemicals",
-    x = "",
-    y = "total releases Intensity (onsite)"
+	title = "Total Releases Intensity (Onsite), PBT chemicals",
+	x = "",
+	y = "total releases Intensity (onsite)"
   ) +
   theme_bw() +
   theme(axis.text.x = element_text(angle = 0, vjust = 0, hjust = 0.5, size = 15),
-        axis.title.x = element_text(size = 10))
+		axis.title.x = element_text(size = 10))
 pdf(file = "./Thesis/chapter3/src/climate_change/latex/fig_releases_distribution_pbts.pdf", width = 12, height = 5)
 releases_distribution_pbts
+dev.off()
+#======================================================================================================================#
+### Motivation Plots
+#======================================================================================================================#
+plot.motivation <- triQc %>%
+  group_by(treated, year) %>%
+  summarise(
+	total.releases.onsite = mean(total.releases.onsite, na.rm = TRUE),
+	total.releases.onsite.intensity = mean(total.releases.onsite.intensity, na.rm = TRUE),
+	total.air.emissions.onsite.intensity = mean(total.air.emissions.onsite.intensity, na.rm = TRUE),
+	total.point.air.emissions.onsite.intensity = mean(total.point.air.emissions.onsite.intensity, na.rm = TRUE),
+	total.fug.air.emissions.onsite.intensity = mean(total.fug.air.emissions.onsite.intensity, na.rm = TRUE),
+	total.surface.water.discharge.onsite.intensity = mean(total.surface.water.discharge.onsite.intensity, na.rm =
+	  TRUE),
+	total.land.releases.onsite.intensity = mean(total.land.releases.onsite.intensity, na.rm = TRUE),
+  ) %>%
+  mutate(treatment = case_when(treated == 1 ~ "treated states", treated == 0 ~ "control states"))
+
+#----------------------------------------------------------------------------------------------------------------------#
+# Plot of total releases
+colours_grid <- c("treated states" = "blue2", "control states" = "red2")
+#----------------------------------------------------------------------------------------------------------------------#
+total_releases_plot <- ggplot(
+  data = plot.motivation,
+  aes(x = year, y = total.releases.onsite, colour = treatment)
+) +
+  geom_line(size = 1) +
+  geom_point(size = 1) +
+  labs(
+	y = "total releases (lbs)",
+	title = "Total Releases (Onsite) by Treatment"
+  ) +
+  geom_vline(xintercept = c(2014, 2015, 2017), linetype = "dashed", colour = "black") +
+  scale_x_continuous(labels = as.character(plot.motivation$year), breaks = plot.motivation$year) +
+  scale_colour_manual(values = colours_grid) +
+  theme(
+	legend.key.size = unit(x = 0.2, units = "in"),
+	legend.key.width = unit(x = 0.35, units = "in"),
+	legend.justification = c("left", "top"),  # Adjust legend position
+	legend.position = c(x = 0.1, y = 0.8),  # Adjust x and y position
+  )
+
+#----------------------------------------------------------------------------------------------------------------------#
+# Plot of total releases intensity
+#----------------------------------------------------------------------------------------------------------------------#
+total_releases_int_plot <- ggplot(
+  data = plot.motivation,
+  aes(x = year, y = total.releases.onsite.intensity, colour = treatment)
+) +
+  geom_line(size = 1) +
+  geom_point(size = 1) +
+  labs(
+	y = "total releases intensity (lbs)",
+	title = "Total Releases Intensity (Onsite) by Treatment"
+  ) +
+  geom_vline(xintercept = c(2014, 2015, 2017), linetype = "dashed", colour = "black") +
+  scale_x_continuous(labels = as.character(plot.motivation$year), breaks = plot.motivation$year) +
+  scale_colour_manual(values = colours_grid) +
+  theme(
+	legend.key.size = unit(x = 0.2, units = "in"),
+	legend.key.width = unit(x = 0.35, units = "in"),
+	legend.justification = c("left", "top"),  # Adjust legend position
+	legend.position = c(x = 0.1, y = 0.8),  # Adjust x and y position
+  )
+
+#----------------------------------------------------------------------------------------------------------------------#
+# Plot of total air emissions intensity
+#----------------------------------------------------------------------------------------------------------------------#
+total_air_plot <- ggplot(
+  data = plot.motivation,
+  aes(x = year, y = total.air.emissions.onsite.intensity, colour = treatment)
+) +
+  geom_line(size = 1) +
+  geom_point(size = 1) +
+  labs(
+	y = "total air emissions intensity (lbs)",
+	title = "Total Air Emissions Intensity (Onsite) by Treatment"
+  ) +
+  geom_vline(xintercept = c(2014, 2015, 2017), linetype = "dashed", colour = "black") +
+  scale_x_continuous(labels = as.character(plot.motivation$year), breaks = plot.motivation$year) +
+  scale_colour_manual(values = colours_grid) +
+  theme(
+	legend.key.size = unit(x = 0.2, units = "in"),
+	legend.key.width = unit(x = 0.35, units = "in"),
+	legend.justification = c("left", "top"),  # Adjust legend position
+	legend.position = c(x = 0.1, y = 0.8),  # Adjust x and y position
+  )
+
+#----------------------------------------------------------------------------------------------------------------------#
+# Plot of total point air emissions intensity
+#----------------------------------------------------------------------------------------------------------------------#
+total_point_air_plot <- ggplot(
+  data = plot.motivation,
+  aes(x = year, y = total.point.air.emissions.onsite.intensity, colour = treatment)
+) +
+  geom_line(size = 1) +
+  geom_point(size = 1) +
+  labs(
+	y = "point air emissions intensity (lbs)",
+	title = "Total Point Air Emissions Intensity (Onsite) by Treatment"
+  ) +
+  geom_vline(xintercept = c(2014, 2015, 2017), linetype = "dashed", colour = "black") +
+  scale_x_continuous(labels = as.character(plot.motivation$year), breaks = plot.motivation$year) +
+  scale_colour_manual(values = colours_grid) +
+  theme(
+	legend.key.size = unit(x = 0.2, units = "in"),
+	legend.key.width = unit(x = 0.35, units = "in"),
+	legend.justification = c("left", "top"),  # Adjust legend position
+	legend.position = c(x = 0.1, y = 0.8),  # Adjust x and y position
+  )
+
+#----------------------------------------------------------------------------------------------------------------------#
+# Plot of total fugitive air emissions intensity
+#----------------------------------------------------------------------------------------------------------------------#
+total_fug_air_plot <- ggplot(
+  data = plot.motivation,
+  aes(x = year, y = total.fug.air.emissions.onsite.intensity, colour = treatment)
+) +
+  geom_line(size = 1) +
+  geom_point(size = 1) +
+  labs(
+	y = "fugitive air emissions intensity (lbs)",
+	title = "Total Fugitive Air Emissions Intensity (Onsite) by Treatment"
+  ) +
+  geom_vline(xintercept = c(2014, 2015, 2017), linetype = "dashed", colour = "black") +
+  scale_x_continuous(labels = as.character(plot.motivation$year), breaks = plot.motivation$year) +
+  scale_colour_manual(values = colours_grid) +
+  theme(
+	legend.key.size = unit(x = 0.2, units = "in"),
+	legend.key.width = unit(x = 0.35, units = "in"),
+	legend.justification = c("left", "top"),  # Adjust legend position
+	legend.position = c(x = 0.1, y = 0.9),  # Adjust x and y position
+  )
+
+#----------------------------------------------------------------------------------------------------------------------#
+# Plot of total surface water discharge intensity
+#----------------------------------------------------------------------------------------------------------------------#
+total_water_plot <- ggplot(
+  data = plot.motivation,
+  aes(x = year, y = total.surface.water.discharge.onsite.intensity, colour = treatment)
+) +
+  geom_line(size = 1) +
+  geom_point(size = 1) +
+  labs(
+	y = "surface water discharge intensity (lbs)",
+	title = "Total Surface Water Discharge Intensity (Onsite) by Treatment"
+  ) +
+  geom_vline(xintercept = c(2014, 2015, 2017), linetype = "dashed", colour = "black") +
+  scale_x_continuous(labels = as.character(plot.motivation$year), breaks = plot.motivation$year) +
+  scale_colour_manual(values = colours_grid) +
+  theme(
+	legend.key.size = unit(x = 0.2, units = "in"),
+	legend.key.width = unit(x = 0.35, units = "in"),
+	legend.justification = c("left", "top"),  # Adjust legend position
+	legend.position = c(x = 0.1, y = 0.8),  # Adjust x and y position
+  )
+
+#----------------------------------------------------------------------------------------------------------------------#
+# Plot of total Land Releases intensity
+#----------------------------------------------------------------------------------------------------------------------#
+total_land_plot <- ggplot(
+  data = plot.motivation,
+  aes(x = year, y = total.land.releases.onsite.intensity, colour = treatment)
+) +
+  geom_line(size = 1) +
+  geom_point(size = 1) +
+  labs(
+	y = "land releases intensity (lbs)",
+	title = "Total Land Releases Intensity (Onsite) by Treatment"
+  ) +
+  geom_vline(xintercept = c(2014, 2015, 2017), linetype = "dashed", colour = "black") +
+  scale_x_continuous(labels = as.character(plot.motivation$year), breaks = plot.motivation$year) +
+  scale_colour_manual(values = colours_grid) +
+  theme(
+	legend.key.size = unit(x = 0.2, units = "in"),
+	legend.key.width = unit(x = 0.35, units = "in"),
+	legend.justification = c("left", "top"),  # Adjust legend position
+	legend.position = c(x = 0.1, y = 0.6),  # Adjust x and y position
+  )
+
+pdf(file = "./Thesis/chapter3/src/climate_change/latex/motivation_plots.pdf", width = 18, height = 8)
+total_releases_int_plot +
+  total_air_plot +
+  total_point_air_plot +
+  total_fug_air_plot +
+  total_water_plot +
+  total_land_plot +
+  plot_layout(ncol = 3, nrow = 2, axes = "collect") +
+  plot_annotation(tag_levels = "A")
 dev.off()
 #======================================================================================================================#
 ### Descriptive Statistics
@@ -714,11 +914,11 @@ dev.off()
 #----------------------------------------------------------------------------------------------------------------------#
 library(mosaic)
 pre <- sum_up(df = triQc %>% filter(year == 2013),
-              c(gdp.pc, annual_avg_estabs, emp, entire.facility, private.facility,
-                produced.chem.facility, imported.chem.facility, chemical.formulation.component,
-                chemical.manufacturing.aid, chemical.ancilliary.use, production.ratio.activity.index,
-                maxnum.chem.onsite),
-              d = F) %>%
+			  c(gdp.pc, annual_avg_estabs, emp, entire.facility, private.facility,
+				produced.chem.facility, imported.chem.facility, chemical.formulation.component,
+				chemical.manufacturing.aid, chemical.ancilliary.use, production.ratio.activity.index,
+				maxnum.chem.onsite),
+			  d = F) %>%
   select(-c(Obs, Missing, Min, Max)) %>%
   rename(SD = StdDev) %>%
   mutate(across(where(is.numeric), ~round(., digits = 2)))
@@ -726,11 +926,11 @@ pre <- sum_up(df = triQc %>% filter(year == 2013),
 pre_summ <- sum_up(df = triQc %>%
   filter(year == 2013) %>%
   group_by(treated),
-                   c(gdp.pc, annual_avg_estabs, emp, entire.facility, private.facility,
-                     produced.chem.facility, imported.chem.facility, chemical.formulation.component,
-                     chemical.manufacturing.aid, chemical.ancilliary.use, production.ratio.activity.index,
-                     maxnum.chem.onsite),
-                   d = F) %>%
+				   c(gdp.pc, annual_avg_estabs, emp, entire.facility, private.facility,
+					 produced.chem.facility, imported.chem.facility, chemical.formulation.component,
+					 chemical.manufacturing.aid, chemical.ancilliary.use, production.ratio.activity.index,
+					 maxnum.chem.onsite),
+				   d = F) %>%
   select(-c(Obs, Missing, StdDev, Min, Max)) %>%
   mutate(across(where(is.numeric), ~round(., digits = 2)))
 
@@ -760,11 +960,11 @@ writeLines(bal_test_tex, con = "./Thesis/chapter3/src/climate_change/latex/tbl_b
 # State level
 #----------------------------------------------------------------------------------------------------------------------#
 pre <- sum_up(df = triQs %>% filter(year == 2013),
-              c(gdp.pc, annual_avg_estabs, emp, entire.facility, private.facility,
-                produced.chem.facility, imported.chem.facility, chemical.formulation.component,
-                chemical.manufacturing.aid, chemical.ancilliary.use, production.ratio.activity.index,
-                maxnum.chem.onsite),
-              d = F) %>%
+			  c(gdp.pc, annual_avg_estabs, emp, entire.facility, private.facility,
+				produced.chem.facility, imported.chem.facility, chemical.formulation.component,
+				chemical.manufacturing.aid, chemical.ancilliary.use, production.ratio.activity.index,
+				maxnum.chem.onsite),
+			  d = F) %>%
   select(-c(Obs, Missing, Min, Max)) %>%
   rename(SD = StdDev) %>%
   mutate(across(where(is.numeric), ~round(., digits = 2)))
@@ -772,11 +972,11 @@ pre <- sum_up(df = triQs %>% filter(year == 2013),
 pre_summ <- sum_up(df = triQs %>%
   filter(year == 2013) %>%
   group_by(treated),
-                   c(gdp.pc, annual_avg_estabs, emp, entire.facility, private.facility,
-                     produced.chem.facility, imported.chem.facility, chemical.formulation.component,
-                     chemical.manufacturing.aid, chemical.ancilliary.use, production.ratio.activity.index,
-                     maxnum.chem.onsite),
-                   d = F) %>%
+				   c(gdp.pc, annual_avg_estabs, emp, entire.facility, private.facility,
+					 produced.chem.facility, imported.chem.facility, chemical.formulation.component,
+					 chemical.manufacturing.aid, chemical.ancilliary.use, production.ratio.activity.index,
+					 maxnum.chem.onsite),
+				   d = F) %>%
   select(-c(Obs, Missing, StdDev, Min, Max)) %>%
   mutate(across(where(is.numeric), ~round(., digits = 2)))
 
@@ -806,19 +1006,20 @@ writeLines(bal_test_tex, con = "./Thesis/chapter3/src/climate_change/latex/tbl_b
 ### Summary Statistics (Onsite)
 #======================================================================================================================#
 summ <- sum_up(df = triQc,
-               c(total.releases.onsite.intensity, total.air.emissions.onsite.intensity,
-                 total.fug.air.emissions.onsite.intensity, total.point.air.emissions.onsite.intensity,
-                 total.surface.water.discharge.onsite.intensity, total.num.receiving.streams.onsite,
-                 total.underground.injection.onsite.intensity, total.landfills.onsite.intensity,
-                 total.releases.toland.treatment.onsite.intensity, total.surface.impoundment.onsite.intensity,
-                 total.land.releases.onsite.intensity, total.land.releases.other.onsite.intensity,
-                 total.release.onsite.catastrophicevents.intensity, vadd, prode, prodw, prodh, matcost,
-                 output.perhr, output.perworker,wage.perhr, pay, federal.facility, gdp.pc, annual_avg_estabs, emp, cpi,
-                 produced.chem.facility, imported.chem.facility, chemical.formulation.component,
-                 chemical.manufacturing.aid, chemical.ancilliary.use, production.ratio.activity.index,
-                 maxnum.chem.onsite, population
-               ),
-               d = F) %>%
+			   c(total.releases.onsite.intensity, total.air.emissions.onsite.intensity,
+				 total.fug.air.emissions.onsite.intensity, total.point.air.emissions.onsite.intensity,
+				 total.surface.water.discharge.onsite.intensity, total.num.receiving.streams.onsite,
+				 total.underground.injection.onsite.intensity, total.landfills.onsite.intensity,
+				 total.releases.toland.treatment.onsite.intensity, total.surface.impoundment.onsite.intensity,
+				 total.land.releases.onsite.intensity, total.land.releases.other.onsite.intensity,
+				 total.release.onsite.catastrophicevents.intensity, vadd, prode, prodw, prodh, matcost,
+				 output.perhr, output.perworker, wage.perhr, pay, federal.facility, gdp.pc, annual_avg_estabs, emp,
+				 cpi,
+				 produced.chem.facility, imported.chem.facility, chemical.formulation.component,
+				 chemical.manufacturing.aid, chemical.ancilliary.use, production.ratio.activity.index,
+				 maxnum.chem.onsite, population
+			   ),
+			   d = F) %>%
   select(-Missing) %>%
   mutate(across(where(is.numeric), ~round(., digits = 2)))
 
@@ -834,16 +1035,16 @@ writeLines(summ_tex, con = "./Thesis/chapter3/src/climate_change/latex/tbl_summ_
 ### Summary Statistics (Offsite)
 #======================================================================================================================#
 summ_off <- sum_up(df = triQc_off,
-                   c(
-                     total.releases.offsite.intensity, total.releases.unknown.offsite.intensity,
-                     total.releases.wastebroker.offsite.intensity, total.releases.other.mgt.offsite.intensity,
-                     total.releases.metalsolidify.offsite.intensity, total.releases.storage.offsite.intensity,
-                     total.wastewater.releases.offsite.intensity, total.land.releases.offsite.intensity,
-                     total.land.releases.other.offsite.intensity, total.surface.impoundment.offsite.intensity,
-                     total.releases.toland.treatment.offsite.intensity, total.landfills.offsite.intensity,
-                     total.underground.injection.offsite.intensity
-                   ),
-                   d = F) %>%
+				   c(
+					 total.releases.offsite.intensity, total.releases.unknown.offsite.intensity,
+					 total.releases.wastebroker.offsite.intensity, total.releases.other.mgt.offsite.intensity,
+					 total.releases.metalsolidify.offsite.intensity, total.releases.storage.offsite.intensity,
+					 total.wastewater.releases.offsite.intensity, total.land.releases.offsite.intensity,
+					 total.land.releases.other.offsite.intensity, total.surface.impoundment.offsite.intensity,
+					 total.releases.toland.treatment.offsite.intensity, total.landfills.offsite.intensity,
+					 total.underground.injection.offsite.intensity
+				   ),
+				   d = F) %>%
   select(-Missing) %>%
   mutate(across(where(is.numeric), ~round(., digits = 2)))
 
@@ -859,9 +1060,9 @@ writeLines(summ_off_tex, con = "./Thesis/chapter3/src/climate_change/latex/tbl_s
 ### Summary Statistics (POTWs)
 #======================================================================================================================#
 summ_potw <- sum_up(df = triQc_potw,
-                    c(total.potw.releases.offsite.intensity, potw.releases.underground.other.offsite.intensity,
-                      potw.releases.underground.Iwells.offsite.intensity),
-                    d = F) %>%
+					c(total.potw.releases.offsite.intensity, potw.releases.underground.other.offsite.intensity,
+					  potw.releases.underground.Iwells.offsite.intensity),
+					d = F) %>%
   select(-Missing) %>%
   mutate(across(where(is.numeric), ~round(., digits = 2)))
 
@@ -879,19 +1080,19 @@ writeLines(summ_potw_tex, con = "./Thesis/chapter3/src/climate_change/latex/tbl_
 mech_onsite <- sum_up(
   df = triQc,
   c(total.waste.management.onsite, treatment.onsite, air.emissions.treatment.onsite,
-    biological.treatment.onsite, chemical.treatment.onsite, incineration.thermal.treatment.onsite,
-    physical.treatment.onsite, energy.recovery.onsite, industrial.kiln.onsite, industrial.furnace.onsite,
-    industrial.boiler.onsite, recycling.onsite, metal.recovery.onsite, solvent.recovery.onsite, reuse.onsite,
-    source.reduction, material.subandmod, sub.fuel.matsubmod, sub.organic.solvent.matsubmod,
-    sub.rawm.feedstock.reactchem.matsubmod, sub.manu.proccess.ancilliary.chems.matsubmod,
-    mod.content.grade.purity.chems.matsubmod, other.matmods.matsubmod, product.modification,
-    devd.newproductline.pmod, mod.packaging.pmod, other.pmods.pmod, process.equip.modification,
-    optimised.process.efficiency.pequipmod, recirculationinprocess.pequipmod,
-    newtech.technique.process.pequipmod, other.pequipmods.pequipmod, inventory.material.mgt,
-    better.labelling.testing.immgt, containers.sizechange.immgt, improved.materialhandling.operations.immgt,
-    improved.monitoring.immgt, other.immgts.immgt, operating.practices.training,
-    improved.schdule.operation.procedures.opt, changed.production.schedule.opt, energy.intensity,
-    intro.inline.productquality.process.analysis.opt, r.and.d, waste.water.treatment, recycling.dummy)) %>%
+	biological.treatment.onsite, chemical.treatment.onsite, incineration.thermal.treatment.onsite,
+	physical.treatment.onsite, energy.recovery.onsite, industrial.kiln.onsite, industrial.furnace.onsite,
+	industrial.boiler.onsite, recycling.onsite, metal.recovery.onsite, solvent.recovery.onsite, reuse.onsite,
+	source.reduction, material.subandmod, sub.fuel.matsubmod, sub.organic.solvent.matsubmod,
+	sub.rawm.feedstock.reactchem.matsubmod, sub.manu.proccess.ancilliary.chems.matsubmod,
+	mod.content.grade.purity.chems.matsubmod, other.matmods.matsubmod, product.modification,
+	devd.newproductline.pmod, mod.packaging.pmod, other.pmods.pmod, process.equip.modification,
+	optimised.process.efficiency.pequipmod, recirculationinprocess.pequipmod,
+	newtech.technique.process.pequipmod, other.pequipmods.pequipmod, inventory.material.mgt,
+	better.labelling.testing.immgt, containers.sizechange.immgt, improved.materialhandling.operations.immgt,
+	improved.monitoring.immgt, other.immgts.immgt, operating.practices.training,
+	improved.schdule.operation.procedures.opt, changed.production.schedule.opt, energy.intensity,
+	intro.inline.productquality.process.analysis.opt, r.and.d, waste.water.treatment, recycling.dummy)) %>%
   select(-Missing) %>%
   mutate(across(where(is.numeric), ~round(., digits = 2)))
 
@@ -910,13 +1111,13 @@ writeLines(mech_onsite_tex, con = "./Thesis/chapter3/src/climate_change/latex/tb
 #----------------------------------------------------------------------------------------------------------------------#
 did_gdppc <- fixest::feols(
   log(gdp.pc) ~
-    i(treated * year)
-      |
-      year +
-        treated.cluster.id +
-        treated.cluster.year.fe,
+	i(treated * year)
+	  |
+	  year +
+		border.county.fe +
+		border.county.year.fe,
   data = triQc %>% filter(year <= 2013),
-  cluster = ~facility.state.id,
+  cluster = ~facility.state,
 )
 fixest::etable(did_gdppc, digits = 4, digits.stats = 4)
 
@@ -938,15 +1139,15 @@ gdppc_pre <- ggplot(gdppc_data, aes(x = year, y = coefficients, color = "red", s
   geom_line() +
   geom_hline(yintercept = 0) +
   geom_errorbar(
-    aes(ymin = ci_min, ymax = ci_max),
-    width = 0.2,
-    color = "blue",
-    size = 2.5
+	aes(ymin = ci_min, ymax = ci_max),
+	width = 0.2,
+	color = "blue",
+	size = 2.5
   ) +
   labs(
-    x = "Year",
-    y = "Estimates & Confidence Intervals",
-    title = "GDP per Capita"
+	x = "Year",
+	y = "Estimates & Confidence Intervals",
+	title = "GDP per Capita"
   ) +
   theme_bw() +
   theme(legend.position = "none") +
@@ -958,13 +1159,13 @@ gdppc_pre <- ggplot(gdppc_data, aes(x = year, y = coefficients, color = "red", s
 #----------------------------------------------------------------------------------------------------------------------#
 did_gdp <- fixest::feols(
   log(gdp) ~
-    i(treated * year)
-      |
-      year +
-        treated.cluster.id +
-        treated.cluster.year.fe,
+	i(treated * year)
+	  |
+	  year +
+		border.county.fe +
+		border.county.year.fe,
   data = triQc %>% filter(year <= 2013),
-  cluster = ~facility.state.id,
+  cluster = ~facility.state,
 )
 fixest::etable(did_gdp, digits = 4, digits.stats = 4)
 
@@ -986,15 +1187,15 @@ gdp_pre <- ggplot(gdp_data, aes(x = year, y = coefficients, color = "red", size 
   geom_line() +
   geom_hline(yintercept = 0) +
   geom_errorbar(
-    aes(ymin = ci_min, ymax = ci_max),
-    width = 0.2,
-    color = "blue",
-    size = 2.5
+	aes(ymin = ci_min, ymax = ci_max),
+	width = 0.2,
+	color = "blue",
+	size = 2.5
   ) +
   labs(
-    x = "Year",
-    y = "Estimates & Confidence Intervals",
-    title = "GDP"
+	x = "Year",
+	y = "Estimates & Confidence Intervals",
+	title = "GDP"
   ) +
   theme_bw() +
   theme(legend.position = "none") +
@@ -1006,13 +1207,13 @@ gdp_pre <- ggplot(gdp_data, aes(x = year, y = coefficients, color = "red", size 
 #----------------------------------------------------------------------------------------------------------------------#
 did_pop <- fixest::feols(
   log(population) ~
-    i(treated * year)
-      |
-      year +
-        treated.cluster.id +
-        treated.cluster.year.fe,
+	i(treated * year)
+	  |
+	  year +
+		border.county.fe +
+		border.county.year.fe,
   data = triQc %>% filter(year <= 2013),
-  cluster = ~facility.state.id,
+  cluster = ~facility.state,
 )
 fixest::etable(did_pop, digits = 4, digits.stats = 4)
 
@@ -1034,15 +1235,15 @@ pop_pre <- ggplot(pop_data, aes(x = year, y = coefficients, color = "red", size 
   geom_line() +
   geom_hline(yintercept = 0) +
   geom_errorbar(
-    aes(ymin = ci_min, ymax = ci_max),
-    width = 0.2,
-    color = "blue",
-    size = 2.5
+	aes(ymin = ci_min, ymax = ci_max),
+	width = 0.2,
+	color = "blue",
+	size = 2.5
   ) +
   labs(
-    x = "Year",
-    y = "Estimates & Confidence Intervals",
-    title = "County Population"
+	x = "Year",
+	y = "Estimates & Confidence Intervals",
+	title = "County Population"
   ) +
   theme_bw() +
   theme(legend.position = "none") +
@@ -1054,13 +1255,13 @@ pop_pre <- ggplot(pop_data, aes(x = year, y = coefficients, color = "red", size 
 #----------------------------------------------------------------------------------------------------------------------#
 did_emp <- fixest::feols(
   log(emp) ~
-    i(treated * year)
-      |
-      year +
-        treated.cluster.id +
-        treated.cluster.year.fe,
+	i(treated * year)
+	  |
+	  year +
+		border.county.fe +
+		border.county.year.fe,
   data = triQc %>% filter(year <= 2013),
-  cluster = ~facility.state.id,
+  cluster = ~facility.state,
 )
 fixest::etable(did_emp, digits = 4, digits.stats = 4)
 
@@ -1082,15 +1283,15 @@ emp_pre <- ggplot(emp_data, aes(x = year, y = coefficients, color = "red", size 
   geom_line() +
   geom_hline(yintercept = 0) +
   geom_errorbar(
-    aes(ymin = ci_min, ymax = ci_max),
-    width = 0.2,
-    color = "blue",
-    size = 2.5
+	aes(ymin = ci_min, ymax = ci_max),
+	width = 0.2,
+	color = "blue",
+	size = 2.5
   ) +
   labs(
-    x = "Year",
-    y = "Estimates & Confidence Intervals",
-    title = "Industry Employment"
+	x = "Year",
+	y = "Estimates & Confidence Intervals",
+	title = "Industry Employment"
   ) +
   theme_bw() +
   theme(legend.position = "none") +
@@ -1102,12 +1303,12 @@ emp_pre <- ggplot(emp_data, aes(x = year, y = coefficients, color = "red", size 
 #----------------------------------------------------------------------------------------------------------------------#
 did_estabs <- fixest::feols(
   log(annual_avg_estabs) ~
-    i(treated * year) |
-      year +
-        treated.cluster.id +
-        treated.cluster.year.fe,
+	i(treated * year) |
+	  year +
+		border.county.fe +
+		border.county.year.fe,
   data = triQc %>% filter(year <= 2013),
-  cluster = ~facility.state.id,
+  cluster = ~facility.state,
 )
 fixest::etable(did_estabs, digits = 4, digits.stats = 4)
 
@@ -1129,15 +1330,15 @@ estabs_pre <- ggplot(estabs_data, aes(x = year, y = coefficients, color = "red",
   geom_line() +
   geom_hline(yintercept = 0) +
   geom_errorbar(
-    aes(ymin = ci_min, ymax = ci_max),
-    width = 0.2,
-    color = "blue",
-    size = 2.5
+	aes(ymin = ci_min, ymax = ci_max),
+	width = 0.2,
+	color = "blue",
+	size = 2.5
   ) +
   labs(
-    x = "Year",
-    y = "Estimates & Confidence Intervals",
-    title = "Annual average number of establishments (county)"
+	x = "Year",
+	y = "Estimates & Confidence Intervals",
+	title = "Annual average number of establishments (county)"
   ) +
   theme_bw() +
   theme(legend.position = "none") +
@@ -1149,12 +1350,12 @@ estabs_pre <- ggplot(estabs_data, aes(x = year, y = coefficients, color = "red",
 #----------------------------------------------------------------------------------------------------------------------#
 did_cpi <- fixest::feols(
   log(cpi) ~
-    i(treated * year) |
-      year +
-        treated.cluster.id +
-        treated.cluster.year.fe,
+	i(treated * year) |
+	  year +
+		border.county.fe +
+		border.county.year.fe,
   data = triQc %>% filter(year <= 2013),
-  cluster = ~facility.state.id,
+  cluster = ~facility.state,
 )
 fixest::etable(did_cpi, digits = 4, digits.stats = 4)
 
@@ -1176,15 +1377,15 @@ cpi_pre <- ggplot(cpi_data, aes(x = year, y = coefficients, color = "red", size 
   geom_line() +
   geom_hline(yintercept = 0) +
   geom_errorbar(
-    aes(ymin = ci_min, ymax = ci_max),
-    width = 0.2,
-    color = "blue",
-    size = 2.5
+	aes(ymin = ci_min, ymax = ci_max),
+	width = 0.2,
+	color = "blue",
+	size = 2.5
   ) +
   labs(
-    x = "Year",
-    y = "Estimates & Confidence Intervals",
-    title = "City Region Average Consumer Price Inflation"
+	x = "Year",
+	y = "Estimates & Confidence Intervals",
+	title = "City Region Average Consumer Price Inflation"
   ) +
   theme_bw() +
   theme(legend.position = "none") +
@@ -1196,12 +1397,12 @@ cpi_pre <- ggplot(cpi_data, aes(x = year, y = coefficients, color = "red", size 
 #----------------------------------------------------------------------------------------------------------------------#
 did_prod_chem_fac <- fixest::feols(
   produced.chem.facility ~
-    i(treated * year) |
-      year +
-        treated.cluster.id +
-        treated.cluster.year.fe,
+	i(treated * year) |
+	  year +
+		border.county.fe +
+		border.county.year.fe,
   data = triQc %>% filter(year <= 2013),
-  cluster = ~facility.state.id,
+  cluster = ~facility.state,
 )
 fixest::etable(did_prod_chem_fac, digits = 4, digits.stats = 4)
 
@@ -1223,15 +1424,15 @@ prod_chem_fac_pre <- ggplot(prod_chem_fac_data, aes(x = year, y = coefficients, 
   geom_line() +
   geom_hline(yintercept = 0) +
   geom_errorbar(
-    aes(ymin = ci_min, ymax = ci_max),
-    width = 0.2,
-    color = "blue",
-    size = 2.5
+	aes(ymin = ci_min, ymax = ci_max),
+	width = 0.2,
+	color = "blue",
+	size = 2.5
   ) +
   labs(
-    x = "Year",
-    y = "Estimates & Confidence Intervals",
-    title = "Produced chemical at facility"
+	x = "Year",
+	y = "Estimates & Confidence Intervals",
+	title = "Produced chemical at facility"
   ) +
   theme_bw() +
   theme(legend.position = "none") +
@@ -1243,12 +1444,12 @@ prod_chem_fac_pre <- ggplot(prod_chem_fac_data, aes(x = year, y = coefficients, 
 #----------------------------------------------------------------------------------------------------------------------#
 did_imp_chem_fac <- fixest::feols(
   imported.chem.facility ~
-    i(treated * year) |
-      year +
-        treated.cluster.id +
-        treated.cluster.year.fe,
+	i(treated * year) |
+	  year +
+		border.county.fe +
+		border.county.year.fe,
   data = triQc %>% filter(year <= 2013),
-  cluster = ~facility.state.id,
+  cluster = ~facility.state,
 )
 fixest::etable(did_imp_chem_fac, digits = 4, digits.stats = 4)
 
@@ -1270,15 +1471,15 @@ imp_chem_fac_pre <- ggplot(imp_chem_fac_data, aes(x = year, y = coefficients, co
   geom_line() +
   geom_hline(yintercept = 0) +
   geom_errorbar(
-    aes(ymin = ci_min, ymax = ci_max),
-    width = 0.2,
-    color = "blue",
-    size = 2.5
+	aes(ymin = ci_min, ymax = ci_max),
+	width = 0.2,
+	color = "blue",
+	size = 2.5
   ) +
   labs(
-    x = "Year",
-    y = "Estimates & Confidence Intervals",
-    title = "Imported chemical at facility"
+	x = "Year",
+	y = "Estimates & Confidence Intervals",
+	title = "Imported chemical at facility"
   ) +
   theme_bw() +
   theme(legend.position = "none") +
@@ -1290,12 +1491,12 @@ imp_chem_fac_pre <- ggplot(imp_chem_fac_data, aes(x = year, y = coefficients, co
 #----------------------------------------------------------------------------------------------------------------------#
 did_chem_form_comp <- fixest::feols(
   chemical.formulation.component ~
-    i(treated * year) |
-      year +
-        treated.cluster.id +
-        treated.cluster.year.fe,
+	i(treated * year) |
+	  year +
+		border.county.fe +
+		border.county.year.fe,
   data = triQc %>% filter(year <= 2013),
-  cluster = ~facility.state.id,
+  cluster = ~facility.state,
 )
 fixest::etable(did_chem_form_comp, digits = 4, digits.stats = 4)
 
@@ -1317,15 +1518,15 @@ chem_form_comp_pre <- ggplot(did_chem_form_comp_data, aes(x = year, y = coeffici
   geom_line() +
   geom_hline(yintercept = 0) +
   geom_errorbar(
-    aes(ymin = ci_min, ymax = ci_max),
-    width = 0.2,
-    color = "blue",
-    size = 2.5
+	aes(ymin = ci_min, ymax = ci_max),
+	width = 0.2,
+	color = "blue",
+	size = 2.5
   ) +
   labs(
-    x = "Year",
-    y = "Estimates & Confidence Intervals",
-    title = "Chemical formulation component"
+	x = "Year",
+	y = "Estimates & Confidence Intervals",
+	title = "Chemical formulation component"
   ) +
   theme_bw() +
   theme(legend.position = "none") +
@@ -1337,12 +1538,12 @@ chem_form_comp_pre <- ggplot(did_chem_form_comp_data, aes(x = year, y = coeffici
 #----------------------------------------------------------------------------------------------------------------------#
 did_chem_art_comp <- fixest::feols(
   chemical.article.component ~
-    i(treated * year) |
-      year +
-        treated.cluster.id +
-        treated.cluster.year.fe,
+	i(treated * year) |
+	  year +
+		border.county.fe +
+		border.county.year.fe,
   data = triQc %>% filter(year <= 2013),
-  cluster = ~facility.state.id,
+  cluster = ~facility.state,
 )
 fixest::etable(did_chem_art_comp, digits = 4, digits.stats = 4)
 
@@ -1364,15 +1565,15 @@ chem_art_comp_pre <- ggplot(did_chem_art_comp_data, aes(x = year, y = coefficien
   geom_line() +
   geom_hline(yintercept = 0) +
   geom_errorbar(
-    aes(ymin = ci_min, ymax = ci_max),
-    width = 0.2,
-    color = "blue",
-    size = 2.5
+	aes(ymin = ci_min, ymax = ci_max),
+	width = 0.2,
+	color = "blue",
+	size = 2.5
   ) +
   labs(
-    x = "Year",
-    y = "Estimates & Confidence Intervals",
-    title = "Chemical article component"
+	x = "Year",
+	y = "Estimates & Confidence Intervals",
+	title = "Chemical article component"
   ) +
   theme_bw() +
   theme(legend.position = "none") +
@@ -1384,12 +1585,12 @@ chem_art_comp_pre <- ggplot(did_chem_art_comp_data, aes(x = year, y = coefficien
 #----------------------------------------------------------------------------------------------------------------------#
 did_chem_manu_aid <- fixest::feols(
   chemical.manufacturing.aid ~
-    i(treated * year) |
-      year +
-        treated.cluster.id +
-        treated.cluster.year.fe,
+	i(treated * year) |
+	  year +
+		border.county.fe +
+		border.county.year.fe,
   data = triQc %>% filter(year <= 2013),
-  cluster = ~facility.state.id,
+  cluster = ~facility.state,
 )
 fixest::etable(did_chem_manu_aid, digits = 4, digits.stats = 4)
 
@@ -1411,15 +1612,15 @@ chem_manu_aid_pre <- ggplot(did_chem_manu_aid_data, aes(x = year, y = coefficien
   geom_line() +
   geom_hline(yintercept = 0) +
   geom_errorbar(
-    aes(ymin = ci_min, ymax = ci_max),
-    width = 0.2,
-    color = "blue",
-    size = 2.5
+	aes(ymin = ci_min, ymax = ci_max),
+	width = 0.2,
+	color = "blue",
+	size = 2.5
   ) +
   labs(
-    x = "Year",
-    y = "Estimates & Confidence Intervals",
-    title = "Chemical manufacturing aid"
+	x = "Year",
+	y = "Estimates & Confidence Intervals",
+	title = "Chemical manufacturing aid"
   ) +
   theme_bw() +
   theme(legend.position = "none") +
@@ -1431,12 +1632,12 @@ chem_manu_aid_pre <- ggplot(did_chem_manu_aid_data, aes(x = year, y = coefficien
 #----------------------------------------------------------------------------------------------------------------------#
 did_chem_anc_use <- fixest::feols(
   chemical.ancilliary.use ~
-    i(treated * year) |
-      year +
-        treated.cluster.id +
-        treated.cluster.year.fe,
+	i(treated * year) |
+	  year +
+		border.county.fe +
+		border.county.year.fe,
   data = triQc %>% filter(year <= 2013),
-  cluster = ~facility.state.id,
+  cluster = ~facility.state,
 )
 fixest::etable(did_chem_anc_use, digits = 4, digits.stats = 4)
 
@@ -1458,15 +1659,15 @@ chem_anc_use_pre <- ggplot(did_chem_anc_use_data, aes(x = year, y = coefficients
   geom_line() +
   geom_hline(yintercept = 0) +
   geom_errorbar(
-    aes(ymin = ci_min, ymax = ci_max),
-    width = 0.2,
-    color = "blue",
-    size = 2.5
+	aes(ymin = ci_min, ymax = ci_max),
+	width = 0.2,
+	color = "blue",
+	size = 2.5
   ) +
   labs(
-    x = "Year",
-    y = "Estimates & Confidence Intervals",
-    title = "Chemical ancilliary use"
+	x = "Year",
+	y = "Estimates & Confidence Intervals",
+	title = "Chemical ancilliary use"
   ) +
   theme_bw() +
   theme(legend.position = "none") +
@@ -1478,12 +1679,12 @@ chem_anc_use_pre <- ggplot(did_chem_anc_use_data, aes(x = year, y = coefficients
 #----------------------------------------------------------------------------------------------------------------------#
 did_prod_activity <- fixest::feols(
   log(production.ratio.activity.index) ~
-    i(treated * year) |
-      year +
-        treated.cluster.id +
-        treated.cluster.year.fe,
+	i(treated * year) |
+	  year +
+		border.county.fe +
+		border.county.year.fe,
   data = triQc %>% filter(year <= 2013),
-  cluster = ~facility.state.id,
+  cluster = ~facility.state,
 )
 fixest::etable(did_prod_activity, digits = 4, digits.stats = 4)
 
@@ -1505,15 +1706,15 @@ prod_activity_pre <- ggplot(did_prod_activity_data, aes(x = year, y = coefficien
   geom_line() +
   geom_hline(yintercept = 0) +
   geom_errorbar(
-    aes(ymin = ci_min, ymax = ci_max),
-    width = 0.2,
-    color = "blue",
-    size = 2.5
+	aes(ymin = ci_min, ymax = ci_max),
+	width = 0.2,
+	color = "blue",
+	size = 2.5
   ) +
   labs(
-    x = "Year",
-    y = "Estimates & Confidence Intervals",
-    title = "Production or activity index"
+	x = "Year",
+	y = "Estimates & Confidence Intervals",
+	title = "Production or activity index"
   ) +
   theme_bw() +
   theme(legend.position = "none") +
@@ -1525,12 +1726,12 @@ prod_activity_pre <- ggplot(did_prod_activity_data, aes(x = year, y = coefficien
 #----------------------------------------------------------------------------------------------------------------------#
 did_max_num_chem <- fixest::feols(
   log(maxnum.chem.onsite) ~
-    i(treated * year) |
-      year +
-        treated.cluster.id +
-        treated.cluster.year.fe,
+	i(treated * year) |
+	  year +
+		border.county.fe +
+		border.county.year.fe,
   data = triQc %>% filter(year <= 2013),
-  cluster = ~facility.state.id,
+  cluster = ~facility.state,
 )
 fixest::etable(did_max_num_chem, digits = 4, digits.stats = 4)
 
@@ -1552,15 +1753,15 @@ max_num_chem_pre <- ggplot(did_max_num_chem_data, aes(x = year, y = coefficients
   geom_line() +
   geom_hline(yintercept = 0) +
   geom_errorbar(
-    aes(ymin = ci_min, ymax = ci_max),
-    width = 0.2,
-    color = "blue",
-    size = 2.5
+	aes(ymin = ci_min, ymax = ci_max),
+	width = 0.2,
+	color = "blue",
+	size = 2.5
   ) +
   labs(
-    x = "Year",
-    y = "Estimates & Confidence Intervals",
-    title = "Maximum number of chemicals onsite"
+	x = "Year",
+	y = "Estimates & Confidence Intervals",
+	title = "Maximum number of chemicals onsite"
   ) +
   theme_bw() +
   theme(legend.position = "none") +
@@ -1591,12 +1792,12 @@ dev.off()
 #----------------------------------------------------------------------------------------------------------------------#
 did_gdppc <- fixest::feols(
   log(gdp.pc) ~
-    treated:factor(year) |
-      year +
-        treated.match.fe +
-        treated.match.year.fe,
+	treated:factor(year) |
+	  year +
+		border.state.fe +
+		border.state.year.fe,
   data = triQc %>% filter(year <= 2013),
-  cluster = ~facility.state.id,
+  cluster = ~facility.state,
 )
 fixest::etable(did_gdppc, digits = 4, digits.stats = 4)
 
@@ -1607,7 +1808,7 @@ conf_intervals <- conf_intervals %>% rename(ci_min = "X2.5..", ci_max = "X97.5..
 conf_intervals <- lapply(conf_intervals, as.numeric) %>% data.frame()
 
 # Extract years
-year <- unique(triQs$year[triQs$year <= 2013])
+year <- unique(triQc$year[triQc$year <= 2013])
 
 # Create dataframe for plotting
 gdppc_data_state <- data.frame(year, coefficients, conf_intervals)
@@ -1618,15 +1819,15 @@ gdppc_pre_state <- ggplot(gdppc_data_state, aes(x = year, y = coefficients, colo
   geom_line() +
   geom_hline(yintercept = 0) +
   geom_errorbar(
-    aes(ymin = ci_min, ymax = ci_max),
-    width = 0.2,
-    color = "blue",
-    size = 3
+	aes(ymin = ci_min, ymax = ci_max),
+	width = 0.2,
+	color = "blue",
+	size = 3
   ) +
   labs(
-    x = "Year",
-    y = "Estimates & Confidence Intervals",
-    title = "GDP per Capita"
+	x = "Year",
+	y = "Estimates & Confidence Intervals",
+	title = "GDP per Capita"
   ) +
   theme_bw() +
   theme(legend.position = "none") +
@@ -1638,13 +1839,13 @@ gdppc_pre_state <- ggplot(gdppc_data_state, aes(x = year, y = coefficients, colo
 #----------------------------------------------------------------------------------------------------------------------#
 did_gdp <- fixest::feols(
   log(gdp) ~
-    i(treated * year)
-      |
-      year +
-        treated.match.fe +
-        treated.match.year.fe,
+	i(treated * year)
+	  |
+	  year +
+		border.state.fe +
+		border.state.year.fe,
   data = triQc %>% filter(year <= 2013),
-  cluster = ~facility.state.id,
+  cluster = ~facility.state,
 )
 fixest::etable(did_gdp, digits = 4, digits.stats = 4)
 
@@ -1666,19 +1867,19 @@ gdp_pre_state <- ggplot(gdp_data, aes(x = year, y = coefficients, color = "red",
   geom_line() +
   geom_hline(yintercept = 0) +
   geom_errorbar(
-    aes(ymin = ci_min, ymax = ci_max),
-    width = 0.2,
-    color = "blue",
-    size = 2.5
+	aes(ymin = ci_min, ymax = ci_max),
+	width = 0.2,
+	color = "blue",
+	size = 2.5
   ) +
   labs(
-    x = "Year",
-    y = "Estimates & Confidence Intervals",
-    title = "GDP"
+	x = "Year",
+	y = "Estimates & Confidence Intervals",
+	title = "GDP"
   ) +
   theme_bw() +
   theme(legend.position = "none") +
-  ylim(-2, 2) +
+  ylim(-1, 1.5) +
   scale_x_continuous(breaks = seq(min(year), max(year), by = 1))
 
 #----------------------------------------------------------------------------------------------------------------------#
@@ -1686,13 +1887,13 @@ gdp_pre_state <- ggplot(gdp_data, aes(x = year, y = coefficients, color = "red",
 #----------------------------------------------------------------------------------------------------------------------#
 did_pop <- fixest::feols(
   log(population) ~
-    i(treated * year)
-      |
-      year +
-        treated.match.fe +
-        treated.match.year.fe,
+	i(treated * year)
+	  |
+	  year +
+		border.state.fe +
+		border.state.year.fe,
   data = triQc %>% filter(year <= 2013),
-  cluster = ~facility.state.id,
+  cluster = ~facility.state,
 )
 fixest::etable(did_pop, digits = 4, digits.stats = 4)
 
@@ -1714,15 +1915,15 @@ pop_pre_state <- ggplot(pop_data, aes(x = year, y = coefficients, color = "red",
   geom_line() +
   geom_hline(yintercept = 0) +
   geom_errorbar(
-    aes(ymin = ci_min, ymax = ci_max),
-    width = 0.2,
-    color = "blue",
-    size = 2.5
+	aes(ymin = ci_min, ymax = ci_max),
+	width = 0.2,
+	color = "blue",
+	size = 2.5
   ) +
   labs(
-    x = "Year",
-    y = "Estimates & Confidence Intervals",
-    title = "State Population"
+	x = "Year",
+	y = "Estimates & Confidence Intervals",
+	title = "State Population"
   ) +
   theme_bw() +
   theme(legend.position = "none") +
@@ -1734,12 +1935,12 @@ pop_pre_state <- ggplot(pop_data, aes(x = year, y = coefficients, color = "red",
 #----------------------------------------------------------------------------------------------------------------------#
 did_emp <- fixest::feols(
   log(emp) ~
-    i(treated * year) |
-      year +
-        treated.match.fe +
-        treated.match.year.fe,
+	i(treated * year) |
+	  year +
+		border.state.fe +
+		border.state.year.fe,
   data = triQc %>% filter(year <= 2013),
-  cluster = ~facility.state.id,
+  cluster = ~facility.state,
 )
 fixest::etable(did_emp, digits = 4, digits.stats = 4)
 
@@ -1761,15 +1962,15 @@ emp_pre_state <- ggplot(emp_data_state, aes(x = year, y = coefficients, color = 
   geom_line() +
   geom_hline(yintercept = 0) +
   geom_errorbar(
-    aes(ymin = ci_min, ymax = ci_max),
-    width = 0.2,
-    color = "blue",
-    size = 3
+	aes(ymin = ci_min, ymax = ci_max),
+	width = 0.2,
+	color = "blue",
+	size = 3
   ) +
   labs(
-    x = "Year",
-    y = "Estimates & Confidence Intervals",
-    title = "Industry Employment"
+	x = "Year",
+	y = "Estimates & Confidence Intervals",
+	title = "Industry Employment"
   ) +
   theme_bw() +
   theme(legend.position = "none") +
@@ -1781,12 +1982,12 @@ emp_pre_state <- ggplot(emp_data_state, aes(x = year, y = coefficients, color = 
 #----------------------------------------------------------------------------------------------------------------------#
 did_estabs <- fixest::feols(
   log(annual_avg_estabs) ~
-    treated:factor(year) |
-      year +
-        treated.match.fe +
-        treated.match.year.fe,
+	treated:factor(year) |
+	  year +
+		border.state.fe +
+		border.state.year.fe,
   data = triQc %>% filter(year <= 2013),
-  cluster = ~facility.state.id,
+  cluster = ~facility.state,
 )
 fixest::etable(did_estabs, digits = 4, digits.stats = 4)
 
@@ -1808,15 +2009,15 @@ estabs_pre_state <- ggplot(estabs_data_state, aes(x = year, y = coefficients, co
   geom_line() +
   geom_hline(yintercept = 0) +
   geom_errorbar(
-    aes(ymin = ci_min, ymax = ci_max),
-    width = 0.2,
-    color = "blue",
-    size = 3
+	aes(ymin = ci_min, ymax = ci_max),
+	width = 0.2,
+	color = "blue",
+	size = 3
   ) +
   labs(
-    x = "Year",
-    y = "Estimates & Confidence Intervals",
-    title = "Annual average number of establishments (state)"
+	x = "Year",
+	y = "Estimates & Confidence Intervals",
+	title = "Annual average number of establishments (state)"
   ) +
   theme_bw() +
   theme(legend.position = "none") +
@@ -1828,12 +2029,12 @@ estabs_pre_state <- ggplot(estabs_data_state, aes(x = year, y = coefficients, co
 #----------------------------------------------------------------------------------------------------------------------#
 did_cpi <- fixest::feols(
   log(cpi) ~
-    i(treated * year) |
-      year +
-        treated.match.fe +
-        treated.match.year.fe,
+	i(treated * year) |
+	  year +
+		border.state.fe +
+		border.state.year.fe,
   data = triQc %>% filter(year <= 2013),
-  cluster = ~facility.state.id,
+  cluster = ~facility.state,
 )
 fixest::etable(did_cpi, digits = 4, digits.stats = 4)
 
@@ -1855,15 +2056,15 @@ cpi_pre_state <- ggplot(cpi_data, aes(x = year, y = coefficients, color = "red",
   geom_line() +
   geom_hline(yintercept = 0) +
   geom_errorbar(
-    aes(ymin = ci_min, ymax = ci_max),
-    width = 0.2,
-    color = "blue",
-    size = 2.5
+	aes(ymin = ci_min, ymax = ci_max),
+	width = 0.2,
+	color = "blue",
+	size = 2.5
   ) +
   labs(
-    x = "Year",
-    y = "Estimates & Confidence Intervals",
-    title = "City Region Average Consumer Price Inflation"
+	x = "Year",
+	y = "Estimates & Confidence Intervals",
+	title = "City Region Average Consumer Price Inflation"
   ) +
   theme_bw() +
   theme(legend.position = "none") +
@@ -1875,12 +2076,12 @@ cpi_pre_state <- ggplot(cpi_data, aes(x = year, y = coefficients, color = "red",
 #----------------------------------------------------------------------------------------------------------------------#
 did_prod_chem_fac <- fixest::feols(
   produced.chem.facility ~
-    i(treated * year) |
-      year +
-        treated.match.fe +
-        treated.match.year.fe,
+	i(treated * year) |
+	  year +
+		border.state.fe +
+		border.state.year.fe,
   data = triQc %>% filter(year <= 2013),
-  cluster = ~facility.state.id,
+  cluster = ~facility.state,
 )
 fixest::etable(did_prod_chem_fac, digits = 4, digits.stats = 4)
 
@@ -1902,15 +2103,15 @@ prod_chem_fac_pre_state <- ggplot(prod_chem_fac_data, aes(x = year, y = coeffici
   geom_line() +
   geom_hline(yintercept = 0) +
   geom_errorbar(
-    aes(ymin = ci_min, ymax = ci_max),
-    width = 0.2,
-    color = "blue",
-    size = 2.5
+	aes(ymin = ci_min, ymax = ci_max),
+	width = 0.2,
+	color = "blue",
+	size = 2.5
   ) +
   labs(
-    x = "Year",
-    y = "Estimates & Confidence Intervals",
-    title = "Produced chemical at facility"
+	x = "Year",
+	y = "Estimates & Confidence Intervals",
+	title = "Produced chemical at facility"
   ) +
   theme_bw() +
   theme(legend.position = "none") +
@@ -1922,12 +2123,12 @@ prod_chem_fac_pre_state <- ggplot(prod_chem_fac_data, aes(x = year, y = coeffici
 #----------------------------------------------------------------------------------------------------------------------#
 did_imp_chem_fac <- fixest::feols(
   imported.chem.facility ~
-    i(treated * year) |
-      year +
-        treated.match.fe +
-        treated.match.year.fe,
+	i(treated * year) |
+	  year +
+		border.state.fe +
+		border.state.year.fe,
   data = triQc %>% filter(year <= 2013),
-  cluster = ~facility.state.id,
+  cluster = ~facility.state,
 )
 fixest::etable(did_imp_chem_fac, digits = 4, digits.stats = 4)
 
@@ -1949,15 +2150,15 @@ imp_chem_fac_pre_state <- ggplot(imp_chem_fac_data, aes(x = year, y = coefficien
   geom_line() +
   geom_hline(yintercept = 0) +
   geom_errorbar(
-    aes(ymin = ci_min, ymax = ci_max),
-    width = 0.2,
-    color = "blue",
-    size = 2.5
+	aes(ymin = ci_min, ymax = ci_max),
+	width = 0.2,
+	color = "blue",
+	size = 2.5
   ) +
   labs(
-    x = "Year",
-    y = "Estimates & Confidence Intervals",
-    title = "Imported chemical at facility"
+	x = "Year",
+	y = "Estimates & Confidence Intervals",
+	title = "Imported chemical at facility"
   ) +
   theme_bw() +
   theme(legend.position = "none") +
@@ -1969,12 +2170,12 @@ imp_chem_fac_pre_state <- ggplot(imp_chem_fac_data, aes(x = year, y = coefficien
 #----------------------------------------------------------------------------------------------------------------------#
 did_chem_form_comp <- fixest::feols(
   chemical.formulation.component ~
-    i(treated * year) |
-      year +
-        treated.match.fe +
-        treated.match.year.fe,
+	i(treated * year) |
+	  year +
+		border.state.fe +
+		border.state.year.fe,
   data = triQc %>% filter(year <= 2013),
-  cluster = ~facility.state.id,
+  cluster = ~facility.state,
 )
 fixest::etable(did_chem_form_comp, digits = 4, digits.stats = 4)
 
@@ -1991,20 +2192,21 @@ year <- unique(triQc$year[triQc$year <= 2013])
 did_chem_form_comp_data <- data.frame(year, coefficients, conf_intervals)
 
 # Plot coefficients against years with confidence intervals
-chem_form_comp_pre_state <- ggplot(did_chem_form_comp_data, aes(x = year, y = coefficients, color = "red", size = 0.8)) +
+chem_form_comp_pre_state <- ggplot(
+  did_chem_form_comp_data, aes(x = year, y = coefficients, color = "red", size = 0.8)) +
   geom_point(size = 7) +
   geom_line() +
   geom_hline(yintercept = 0) +
   geom_errorbar(
-    aes(ymin = ci_min, ymax = ci_max),
-    width = 0.2,
-    color = "blue",
-    size = 2.5
+	aes(ymin = ci_min, ymax = ci_max),
+	width = 0.2,
+	color = "blue",
+	size = 2.5
   ) +
   labs(
-    x = "Year",
-    y = "Estimates & Confidence Intervals",
-    title = "Chemical formulation component"
+	x = "Year",
+	y = "Estimates & Confidence Intervals",
+	title = "Chemical formulation component"
   ) +
   theme_bw() +
   theme(legend.position = "none") +
@@ -2016,12 +2218,12 @@ chem_form_comp_pre_state <- ggplot(did_chem_form_comp_data, aes(x = year, y = co
 #----------------------------------------------------------------------------------------------------------------------#
 did_chem_art_comp <- fixest::feols(
   chemical.article.component ~
-    i(treated * year) |
-      year +
-        treated.match.fe +
-        treated.match.year.fe,
+	i(treated * year) |
+	  year +
+		border.state.fe +
+		border.state.year.fe,
   data = triQc %>% filter(year <= 2013),
-  cluster = ~facility.state.id,
+  cluster = ~facility.state,
 )
 fixest::etable(did_chem_art_comp, digits = 4, digits.stats = 4)
 
@@ -2043,15 +2245,15 @@ chem_art_comp_pre_state <- ggplot(did_chem_art_comp_data, aes(x = year, y = coef
   geom_line() +
   geom_hline(yintercept = 0) +
   geom_errorbar(
-    aes(ymin = ci_min, ymax = ci_max),
-    width = 0.2,
-    color = "blue",
-    size = 2.5
+	aes(ymin = ci_min, ymax = ci_max),
+	width = 0.2,
+	color = "blue",
+	size = 2.5
   ) +
   labs(
-    x = "Year",
-    y = "Estimates & Confidence Intervals",
-    title = "Chemical article component"
+	x = "Year",
+	y = "Estimates & Confidence Intervals",
+	title = "Chemical article component"
   ) +
   theme_bw() +
   theme(legend.position = "none") +
@@ -2063,12 +2265,12 @@ chem_art_comp_pre_state <- ggplot(did_chem_art_comp_data, aes(x = year, y = coef
 #----------------------------------------------------------------------------------------------------------------------#
 did_chem_manu_aid <- fixest::feols(
   chemical.manufacturing.aid ~
-    i(treated * year) |
-      year +
-        treated.match.fe +
-        treated.match.year.fe,
+	i(treated * year) |
+	  year +
+		border.state.fe +
+		border.state.year.fe,
   data = triQc %>% filter(year <= 2013),
-  cluster = ~facility.state.id,
+  cluster = ~facility.state,
 )
 fixest::etable(did_chem_manu_aid, digits = 4, digits.stats = 4)
 
@@ -2090,15 +2292,15 @@ chem_manu_aid_pre_state <- ggplot(did_chem_manu_aid_data, aes(x = year, y = coef
   geom_line() +
   geom_hline(yintercept = 0) +
   geom_errorbar(
-    aes(ymin = ci_min, ymax = ci_max),
-    width = 0.2,
-    color = "blue",
-    size = 2.5
+	aes(ymin = ci_min, ymax = ci_max),
+	width = 0.2,
+	color = "blue",
+	size = 2.5
   ) +
   labs(
-    x = "Year",
-    y = "Estimates & Confidence Intervals",
-    title = "Chemical manufacturing aid"
+	x = "Year",
+	y = "Estimates & Confidence Intervals",
+	title = "Chemical manufacturing aid"
   ) +
   theme_bw() +
   theme(legend.position = "none") +
@@ -2110,12 +2312,12 @@ chem_manu_aid_pre_state <- ggplot(did_chem_manu_aid_data, aes(x = year, y = coef
 #----------------------------------------------------------------------------------------------------------------------#
 did_chem_anc_use <- fixest::feols(
   chemical.ancilliary.use ~
-    i(treated * year) |
-      year +
-        treated.match.fe +
-        treated.match.year.fe,
+	i(treated * year) |
+	  year +
+		border.state.fe +
+		border.state.year.fe,
   data = triQc %>% filter(year <= 2013),
-  cluster = ~facility.state.id,
+  cluster = ~facility.state,
 )
 fixest::etable(did_chem_anc_use, digits = 4, digits.stats = 4)
 
@@ -2137,15 +2339,15 @@ chem_anc_use_pre_state <- ggplot(did_chem_anc_use_data, aes(x = year, y = coeffi
   geom_line() +
   geom_hline(yintercept = 0) +
   geom_errorbar(
-    aes(ymin = ci_min, ymax = ci_max),
-    width = 0.2,
-    color = "blue",
-    size = 2.5
+	aes(ymin = ci_min, ymax = ci_max),
+	width = 0.2,
+	color = "blue",
+	size = 2.5
   ) +
   labs(
-    x = "Year",
-    y = "Estimates & Confidence Intervals",
-    title = "Chemical ancilliary use"
+	x = "Year",
+	y = "Estimates & Confidence Intervals",
+	title = "Chemical ancilliary use"
   ) +
   theme_bw() +
   theme(legend.position = "none") +
@@ -2157,12 +2359,12 @@ chem_anc_use_pre_state <- ggplot(did_chem_anc_use_data, aes(x = year, y = coeffi
 #----------------------------------------------------------------------------------------------------------------------#
 did_prod_activity <- fixest::feols(
   log(production.ratio.activity.index) ~
-    i(treated * year) |
-      year +
-        treated.match.fe +
-        treated.match.year.fe,
+	i(treated * year) |
+	  year +
+		border.state.fe +
+		border.state.year.fe,
   data = triQc %>% filter(year <= 2013),
-  cluster = ~facility.state.id,
+  cluster = ~facility.state,
 )
 fixest::etable(did_prod_activity, digits = 4, digits.stats = 4)
 
@@ -2184,15 +2386,15 @@ prod_activity_pre_state <- ggplot(did_prod_activity_data, aes(x = year, y = coef
   geom_line() +
   geom_hline(yintercept = 0) +
   geom_errorbar(
-    aes(ymin = ci_min, ymax = ci_max),
-    width = 0.2,
-    color = "blue",
-    size = 2.5
+	aes(ymin = ci_min, ymax = ci_max),
+	width = 0.2,
+	color = "blue",
+	size = 2.5
   ) +
   labs(
-    x = "Year",
-    y = "Estimates & Confidence Intervals",
-    title = "Production or activity index"
+	x = "Year",
+	y = "Estimates & Confidence Intervals",
+	title = "Production or activity index"
   ) +
   theme_bw() +
   theme(legend.position = "none") +
@@ -2204,12 +2406,12 @@ prod_activity_pre_state <- ggplot(did_prod_activity_data, aes(x = year, y = coef
 #----------------------------------------------------------------------------------------------------------------------#
 did_max_num_chem <- fixest::feols(
   log(maxnum.chem.onsite) ~
-    i(treated * year) |
-      year +
-        treated.match.fe +
-        treated.match.year.fe,
+	i(treated * year) |
+	  year +
+		border.state.fe +
+		border.state.year.fe,
   data = triQc %>% filter(year <= 2013),
-  cluster = ~facility.state.id,
+  cluster = ~facility.state,
 )
 fixest::etable(did_max_num_chem, digits = 4, digits.stats = 4)
 
@@ -2231,15 +2433,15 @@ max_num_chem_pre_state <- ggplot(did_max_num_chem_data, aes(x = year, y = coeffi
   geom_line() +
   geom_hline(yintercept = 0) +
   geom_errorbar(
-    aes(ymin = ci_min, ymax = ci_max),
-    width = 0.2,
-    color = "blue",
-    size = 2.5
+	aes(ymin = ci_min, ymax = ci_max),
+	width = 0.2,
+	color = "blue",
+	size = 2.5
   ) +
   labs(
-    x = "Year",
-    y = "Estimates & Confidence Intervals",
-    title = "Maximum number of chemicals onsite"
+	x = "Year",
+	y = "Estimates & Confidence Intervals",
+	title = "Maximum number of chemicals onsite"
   ) +
   theme_bw() +
   theme(legend.position = "none") +

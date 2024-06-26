@@ -19,6 +19,1295 @@ triQc <- read_rds(file = file)
 #======================================================================================================================#
 ### Triple Differences
 #======================================================================================================================#
+### Financial Constraints
+### I proxy financial constraints by the ratio of industries profit margin. That is, the ratio of industry revenue to
+# profit, which measures the proportion of industry revenue allocated to profit. Industries with profit margin lower
+# than the median profit margin are more financially constrained, and those above are less.
+#======================================================================================================================#
+triQc <- triQc %>%
+  group_by(year, naics.code) %>%
+  rename(revenue = vship) %>%
+  mutate(
+	total.cost = matcost + prodw + energy,
+	profit = revenue - total.cost,
+	revenue.to.profit = (revenue / profit) * 100,
+	# Operational efficiency ratio
+	payroll.to.revenue = pay / revenue,
+	wages.to.revenue = prodw / revenue,
+	# Cost efficiency ratio
+	energy.to.revenue = energy / revenue,
+  ) %>%
+  ungroup() %>%
+  mutate(
+	high.profit.margin = case_when(revenue.to.profit > mean(revenue.to.profit) ~ 1, TRUE ~ 0),
+	high.payroll.revenue = case_when(payroll.to.revenue > mean(payroll.to.revenue) ~ 1, TRUE ~ 0),
+	high.wages.revenue = case_when(wages.to.revenue > mean(wages.to.revenue) ~ 1, TRUE ~ 0),
+	high.energy.revenue = case_when(energy.to.revenue > mean(energy.to.revenue) ~ 1, TRUE ~ 0),
+  )
+
+triQc %>% sum_up(
+  c(high.payroll.revenue, high.wages.revenue, high.energy.revenue, high.profit.margin)
+)
+#======================================================================================================================#
+### Onsite: High Profit Margin ratio (financial constraints)
+#======================================================================================================================#
+### Onsite: Total releases intensity (high revenue to profit ratio)
+#======================================================================================================================#
+sdid_total_releases_hrpr <- fixest::feols(
+  l.total.releases.onsite.intensity ~ sunab(ch.year, year):high.profit.margin +
+	e.treated +
+	treated:high.profit.margin +
+	post:high.profit.margin +
+	treated +
+	high.profit.margin +
+	post +
+	gdppc.1 +
+	annual.avg.estabs.1 +
+	cpi.1 +
+	federal.facility +
+	produced.chem.facility +
+	imported.chem.facility +
+	chemical.formulation.component +
+	chemical.article.component +
+	chemical.manufacturing.aid +
+	chemical.ancilliary.use +
+	production.ratio.activity.index +
+	maxnum.chem.onsite +
+	clean.air.act.chems +
+	hap.chems +
+	pbt.chems
+	|
+	year +
+	  facility.id.fe +
+	  border.county.fe +
+	  chemical.id.fe +
+	  chemical.year.fe +
+	  border.county.year
+  ,
+  data = triQc,
+  cluster = ~c(chemical.id, naics.code, facility.state),
+)
+fixest::etable(sdid_total_releases_hrpr, digits = 3, digits.stats = 3)
+fixest::etable(sdid_total_releases_hrpr, agg = "ATT", digits = 3, digits.stats = 3)
+fixest::etable(sdid_total_releases_hrpr, agg = "cohort", digits = 3, digits.stats = 3)
+fixest::iplot(sdid_total_releases_hrpr, xlim = c(-3, 3), ylim = c(-0.5, 0.5), col = "blue",
+			  main = "Total Onsite Releases Intensity, HRPR", xlab = "relative year",
+			  lwd = 1, cex = 4, pt.cex = 3, pt.col = "red", pt.join = T, ci.lwd = 5, ci.lty = 1) %>%
+  abline(v = -1, col = "red", lty = 2, lwd = 2)
+
+sdid_total_releases_lrpr <- fixest::feols(
+  l.total.releases.onsite.intensity ~ sunab(ch.year, year) +
+	e.treated:high.profit.margin +
+	treated:high.profit.margin +
+	post:high.profit.margin +
+	treated +
+	high.profit.margin +
+	post +
+	gdppc.1 +
+	annual.avg.estabs.1 +
+	cpi.1 +
+	federal.facility +
+	produced.chem.facility +
+	imported.chem.facility +
+	chemical.formulation.component +
+	chemical.article.component +
+	chemical.manufacturing.aid +
+	chemical.ancilliary.use +
+	production.ratio.activity.index +
+	maxnum.chem.onsite +
+	clean.air.act.chems +
+	hap.chems +
+	pbt.chems
+	|
+	year +
+	  facility.id.fe +
+	  border.county.fe +
+	  chemical.id.fe +
+	  chemical.year.fe +
+	  border.county.year
+  ,
+  data = triQc,
+  cluster = ~c(chemical.id, naics.code, facility.state),
+)
+fixest::etable(sdid_total_releases_lrpr, digits = 3, digits.stats = 3)
+fixest::iplot(sdid_total_releases_lrpr, xlim = c(-3, 3), ylim = c(-0.3, 0.4), col = "blue",
+			  main = "Total Onsite Releases Intensity, LRPR", xlab = "relative year",
+			  lwd = 1, cex = 4, pt.cex = 3, pt.col = "red", pt.join = T, ci.lwd = 5, ci.lty = 1) %>%
+  abline(v = -1, col = "red", lty = 2, lwd = 2)
+#======================================================================================================================#
+### Onsite: Total releases intensity (high payroll to revenue ratio)---Poor operational efficiency
+#======================================================================================================================#
+sdid_total_releases_hprr <- fixest::feols(
+  l.total.releases.onsite.intensity ~ sunab(ch.year, year):high.payroll.revenue +
+	e.treated +
+	treated:high.payroll.revenue +
+	post:high.payroll.revenue +
+	treated +
+	high.payroll.revenue +
+	post +
+	gdppc.1 +
+	annual.avg.estabs.1 +
+	cpi.1 +
+	federal.facility +
+	produced.chem.facility +
+	imported.chem.facility +
+	chemical.formulation.component +
+	chemical.article.component +
+	chemical.manufacturing.aid +
+	chemical.ancilliary.use +
+	production.ratio.activity.index +
+	maxnum.chem.onsite +
+	clean.air.act.chems +
+	hap.chems +
+	pbt.chems
+	|
+	year +
+	  facility.id.fe +
+	  border.county.fe +
+	  chemical.id.fe +
+	  chemical.year.fe +
+	  border.county.year
+  ,
+  data = triQc,
+  cluster = ~c(chemical.id, naics.code, facility.state),
+)
+fixest::etable(sdid_total_releases_hprr, digits = 3, digits.stats = 3)
+fixest::etable(sdid_total_releases_hprr, agg = "ATT", digits = 3, digits.stats = 3)
+fixest::etable(sdid_total_releases_hprr, agg = "cohort", digits = 3, digits.stats = 3)
+fixest::iplot(sdid_total_releases_hprr, xlim = c(-3, 3), ylim = c(-0.5, 0.2), col = "blue",
+			  main = "Total Onsite Releases Intensity, HPRR", xlab = "relative year",
+			  lwd = 1, cex = 4, pt.cex = 3, pt.col = "red", pt.join = T, ci.lwd = 5, ci.lty = 1) %>%
+  abline(v = -1, col = "red", lty = 2, lwd = 2)
+
+sdid_total_releases_lprr <- fixest::feols(
+  l.total.releases.onsite.intensity ~ sunab(ch.year, year) +
+	e.treated:high.payroll.revenue +
+	treated:high.payroll.revenue +
+	post:high.payroll.revenue +
+	treated +
+	high.payroll.revenue +
+	post +
+	gdppc.1 +
+	annual.avg.estabs.1 +
+	cpi.1 +
+	federal.facility +
+	produced.chem.facility +
+	imported.chem.facility +
+	chemical.formulation.component +
+	chemical.article.component +
+	chemical.manufacturing.aid +
+	chemical.ancilliary.use +
+	production.ratio.activity.index +
+	maxnum.chem.onsite +
+	clean.air.act.chems +
+	hap.chems +
+	pbt.chems
+	|
+	year +
+	  facility.id.fe +
+	  border.county.fe +
+	  chemical.id.fe +
+	  chemical.year.fe +
+	  border.county.year
+  ,
+  data = triQc,
+  cluster = ~c(chemical.id, naics.code, facility.state),
+)
+fixest::etable(sdid_total_releases_lprr, digits = 3, digits.stats = 3)
+fixest::iplot(sdid_total_releases_lprr, xlim = c(-3, 3), ylim = c(-0.2, 0.5), col = "blue",
+			  main = "Total Onsite Releases Intensity, LPRR", xlab = "relative year",
+			  lwd = 1, cex = 4, pt.cex = 3, pt.col = "red", pt.join = T, ci.lwd = 5, ci.lty = 1) %>%
+  abline(v = -1, col = "red", lty = 2, lwd = 2)
+#======================================================================================================================#
+### Onsite: Total releases intensity (high wages to revenue ratio)---Poor operational efficiency
+#======================================================================================================================#
+sdid_total_releases_hwrr <- fixest::feols(
+  l.total.releases.onsite.intensity ~ sunab(ch.year, year):high.wages.revenue +
+	e.treated +
+	treated:high.wages.revenue +
+	post:high.wages.revenue +
+	treated +
+	high.wages.revenue +
+	post +
+	gdppc.1 +
+	annual.avg.estabs.1 +
+	cpi.1 +
+	federal.facility +
+	produced.chem.facility +
+	imported.chem.facility +
+	chemical.formulation.component +
+	chemical.article.component +
+	chemical.manufacturing.aid +
+	chemical.ancilliary.use +
+	production.ratio.activity.index +
+	maxnum.chem.onsite +
+	clean.air.act.chems +
+	hap.chems +
+	pbt.chems
+	|
+	year +
+	  facility.id.fe +
+	  border.county.fe +
+	  chemical.id.fe +
+	  chemical.year.fe +
+	  border.county.year
+  ,
+  data = triQc,
+  cluster = ~c(chemical.id, naics.code, facility.state),
+)
+fixest::etable(sdid_total_releases_hwrr, digits = 3, digits.stats = 3)
+fixest::etable(sdid_total_releases_hwrr, agg = "ATT", digits = 3, digits.stats = 3)
+fixest::etable(sdid_total_releases_hwrr, agg = "cohort", digits = 3, digits.stats = 3)
+fixest::iplot(sdid_total_releases_hwrr, xlim = c(-3, 3), ylim = c(-0.4, 0.2), col = "blue",
+			  main = "Total Onsite Releases Intensity, HWRR", xlab = "relative year",
+			  lwd = 1, cex = 4, pt.cex = 3, pt.col = "red", pt.join = T, ci.lwd = 5, ci.lty = 1) %>%
+  abline(v = -1, col = "red", lty = 2, lwd = 2)
+
+sdid_total_releases_lwrr <- fixest::feols(
+  l.total.releases.onsite.intensity ~ sunab(ch.year, year) +
+	e.treated:high.wages.revenue +
+	treated:high.wages.revenue +
+	post:high.wages.revenue +
+	treated +
+	high.wages.revenue +
+	post +
+	gdppc.1 +
+	annual.avg.estabs.1 +
+	cpi.1 +
+	federal.facility +
+	produced.chem.facility +
+	imported.chem.facility +
+	chemical.formulation.component +
+	chemical.article.component +
+	chemical.manufacturing.aid +
+	chemical.ancilliary.use +
+	production.ratio.activity.index +
+	maxnum.chem.onsite +
+	clean.air.act.chems +
+	hap.chems +
+	pbt.chems
+	|
+	year +
+	  facility.id.fe +
+	  border.county.fe +
+	  chemical.id.fe +
+	  chemical.year.fe +
+	  border.county.year
+  ,
+  data = triQc,
+  cluster = ~c(chemical.id, naics.code, facility.state),
+)
+fixest::etable(sdid_total_releases_lwrr, digits = 3, digits.stats = 3)
+fixest::iplot(sdid_total_releases_lwrr, xlim = c(-3, 3), ylim = c(-0.3, 0.5), col = "blue",
+			  main = "Total Onsite Releases Intensity, LWRR", xlab = "relative year",
+			  lwd = 1, cex = 4, pt.cex = 3, pt.col = "red", pt.join = T, ci.lwd = 5, ci.lty = 1) %>%
+  abline(v = -1, col = "red", lty = 2, lwd = 2)
+#======================================================================================================================#
+### Onsite: Total releases intensity (high energy cost to revenue ratio)---Poor cost efficiency
+#======================================================================================================================#
+sdid_total_releases_herr <- fixest::feols(
+  l.total.releases.onsite.intensity ~ sunab(ch.year, year):high.energy.revenue +
+	e.treated +
+	treated:high.energy.revenue +
+	post:high.energy.revenue +
+	treated +
+	high.energy.revenue +
+	post +
+	gdppc.1 +
+	annual.avg.estabs.1 +
+	cpi.1 +
+	federal.facility +
+	produced.chem.facility +
+	imported.chem.facility +
+	chemical.formulation.component +
+	chemical.article.component +
+	chemical.manufacturing.aid +
+	chemical.ancilliary.use +
+	production.ratio.activity.index +
+	maxnum.chem.onsite +
+	clean.air.act.chems +
+	hap.chems +
+	pbt.chems
+	|
+	year +
+	  facility.id.fe +
+	  border.county.fe +
+	  chemical.id.fe +
+	  chemical.year.fe +
+	  border.county.year
+  ,
+  data = triQc,
+  cluster = ~c(chemical.id, naics.code, facility.state),
+)
+fixest::etable(sdid_total_releases_herr, digits = 3, digits.stats = 3)
+fixest::etable(sdid_total_releases_herr, agg = "ATT", digits = 3, digits.stats = 3)
+fixest::etable(sdid_total_releases_herr, agg = "cohort", digits = 3, digits.stats = 3)
+fixest::iplot(sdid_total_releases_herr, xlim = c(-3, 3), ylim = c(-0.3, 0.5), col = "blue",
+			  main = "Total Onsite Releases Intensity, HERR", xlab = "relative year",
+			  lwd = 1, cex = 4, pt.cex = 3, pt.col = "red", pt.join = T, ci.lwd = 5, ci.lty = 1) %>%
+  abline(v = -1, col = "red", lty = 2, lwd = 2)
+
+sdid_total_releases_lerr <- fixest::feols(
+  l.total.releases.onsite.intensity ~ sunab(ch.year, year) +
+	e.treated:high.energy.revenue +
+	treated:high.energy.revenue +
+	post:high.energy.revenue +
+	treated +
+	high.energy.revenue +
+	post +
+	gdppc.1 +
+	annual.avg.estabs.1 +
+	cpi.1 +
+	federal.facility +
+	produced.chem.facility +
+	imported.chem.facility +
+	chemical.formulation.component +
+	chemical.article.component +
+	chemical.manufacturing.aid +
+	chemical.ancilliary.use +
+	production.ratio.activity.index +
+	maxnum.chem.onsite +
+	clean.air.act.chems +
+	hap.chems +
+	pbt.chems
+	|
+	year +
+	  facility.id.fe +
+	  border.county.fe +
+	  chemical.id.fe +
+	  chemical.year.fe +
+	  border.county.year
+  ,
+  data = triQc,
+  cluster = ~c(chemical.id, naics.code, facility.state),
+)
+fixest::etable(sdid_total_releases_lerr, digits = 3, digits.stats = 3)
+fixest::iplot(sdid_total_releases_lerr, xlim = c(-3, 3), ylim = c(-0.3, 0.5), col = "blue",
+			  main = "Total Onsite Releases Intensity, LERR", xlab = "relative year",
+			  lwd = 1, cex = 4, pt.cex = 3, pt.col = "red", pt.join = T, ci.lwd = 5, ci.lty = 1) %>%
+  abline(v = -1, col = "red", lty = 2, lwd = 2)
+#======================================================================================================================#
+pdf(file = "./Thesis/chapter3/src/climate_change/latex/fig_sdid_total_onsite_releases_int_finc.pdf", width = 24,
+	height = 9)
+par(mfrow = c(2, 4))
+fixest::iplot(sdid_total_releases_hrpr, xlim = c(-3, 3), ylim = c(-0.5, 0.5), col = "blue",
+			  main = "Total Onsite Releases Intensity, HRPR", xlab = "relative year",
+			  lwd = 1, cex = 4, pt.cex = 3, pt.col = "red", pt.join = T, ci.lwd = 5, ci.lty = 1) %>%
+  abline(v = -1, col = "red", lty = 2, lwd = 2)
+fixest::iplot(sdid_total_releases_lrpr, xlim = c(-3, 3), ylim = c(-0.3, 0.4), col = "blue",
+			  main = "Total Onsite Releases Intensity, LRPR", xlab = "relative year",
+			  lwd = 1, cex = 4, pt.cex = 3, pt.col = "red", pt.join = T, ci.lwd = 5, ci.lty = 1) %>%
+  abline(v = -1, col = "red", lty = 2, lwd = 2)
+fixest::iplot(sdid_total_releases_hprr, xlim = c(-3, 3), ylim = c(-0.5, 0.2), col = "blue",
+			  main = "Total Onsite Releases Intensity, HPRR", xlab = "relative year",
+			  lwd = 1, cex = 4, pt.cex = 3, pt.col = "red", pt.join = T, ci.lwd = 5, ci.lty = 1) %>%
+  abline(v = -1, col = "red", lty = 2, lwd = 2)
+fixest::iplot(sdid_total_releases_lprr, xlim = c(-3, 3), ylim = c(-0.2, 0.5), col = "blue",
+			  main = "Total Onsite Releases Intensity, LPRR", xlab = "relative year",
+			  lwd = 1, cex = 4, pt.cex = 3, pt.col = "red", pt.join = T, ci.lwd = 5, ci.lty = 1) %>%
+  abline(v = -1, col = "red", lty = 2, lwd = 2)
+fixest::iplot(sdid_total_releases_hwrr, xlim = c(-3, 3), ylim = c(-0.4, 0.2), col = "blue",
+			  main = "Total Onsite Releases Intensity, HWRR", xlab = "relative year",
+			  lwd = 1, cex = 4, pt.cex = 3, pt.col = "red", pt.join = T, ci.lwd = 5, ci.lty = 1) %>%
+  abline(v = -1, col = "red", lty = 2, lwd = 2)
+fixest::iplot(sdid_total_releases_lwrr, xlim = c(-3, 3), ylim = c(-0.3, 0.5), col = "blue",
+			  main = "Total Onsite Releases Intensity, LWRR", xlab = "relative year",
+			  lwd = 1, cex = 4, pt.cex = 3, pt.col = "red", pt.join = T, ci.lwd = 5, ci.lty = 1) %>%
+  abline(v = -1, col = "red", lty = 2, lwd = 2)
+fixest::iplot(sdid_total_releases_herr, xlim = c(-3, 3), ylim = c(-0.3, 0.5), col = "blue",
+			  main = "Total Onsite Releases Intensity, HERR", xlab = "relative year",
+			  lwd = 1, cex = 4, pt.cex = 3, pt.col = "red", pt.join = T, ci.lwd = 5, ci.lty = 1) %>%
+  abline(v = -1, col = "red", lty = 2, lwd = 2)
+fixest::iplot(sdid_total_releases_lerr, xlim = c(-3, 3), ylim = c(-0.3, 0.5), col = "blue",
+			  main = "Total Onsite Releases Intensity, LERR", xlab = "relative year",
+			  lwd = 1, cex = 4, pt.cex = 3, pt.col = "red", pt.join = T, ci.lwd = 5, ci.lty = 1) %>%
+  abline(v = -1, col = "red", lty = 2, lwd = 2)
+dev.off()
+#======================================================================================================================#
+### Onsite: Total air emissions intensity (high capital to revenue ratio)
+#======================================================================================================================#
+sdid_air_hcrr <- fixest::feols(
+  l.total.air.emissions.onsite.intensity ~ sunab(ch.year, year):high.capex.revenue +
+	e.treated +
+	treated:high.capex.revenue +
+	post:high.capex.revenue +
+	treated +
+	high.capex.revenue +
+	post +
+	gdppc.1 +
+	annual.avg.estabs.1 +
+	cpi.1 +
+	federal.facility +
+	produced.chem.facility +
+	imported.chem.facility +
+	chemical.formulation.component +
+	chemical.article.component +
+	chemical.manufacturing.aid +
+	chemical.ancilliary.use +
+	production.ratio.activity.index +
+	maxnum.chem.onsite +
+	clean.air.act.chems +
+	hap.chems +
+	pbt.chems
+	|
+	year +
+	  facility.id.fe +
+	  border.county.fe +
+	  chemical.id.fe +
+	  chemical.year.fe +
+	  border.county.year
+  ,
+  data = triQc,
+  cluster = ~c(chemical.id, naics.code, facility.state),
+)
+fixest::etable(sdid_air_hcrr, digits = 3, digits.stats = 3)
+fixest::etable(sdid_air_hcrr, agg = "ATT", digits = 3, digits.stats = 3)
+fixest::etable(sdid_air_hcrr, agg = "cohort", digits = 3, digits.stats = 3)
+fixest::iplot(sdid_air_hcrr, xlim = c(-3, 3), ylim = c(-0.9, 0.9), col = "blue",
+			  main = "Total Onsite Air Emissions Intensity, HCRR", xlab = "relative year",
+			  lwd = 1, cex = 4, pt.cex = 3, pt.col = "red", pt.join = T, ci.lwd = 5, ci.lty = 1) %>%
+  abline(v = -1, col = "red", lty = 2, lwd = 2)
+
+sdid_air_lcrr <- fixest::feols(
+  l.total.air.emissions.onsite.intensity ~ sunab(ch.year, year) +
+	e.treated:high.capex.revenue +
+	treated:high.capex.revenue +
+	post:high.capex.revenue +
+	treated +
+	high.capex.revenue +
+	post +
+	gdppc.1 +
+	annual.avg.estabs.1 +
+	cpi.1 +
+	federal.facility +
+	produced.chem.facility +
+	imported.chem.facility +
+	chemical.formulation.component +
+	chemical.article.component +
+	chemical.manufacturing.aid +
+	chemical.ancilliary.use +
+	production.ratio.activity.index +
+	maxnum.chem.onsite +
+	clean.air.act.chems +
+	hap.chems +
+	pbt.chems
+	|
+	year +
+	  facility.id.fe +
+	  border.county.fe +
+	  chemical.id.fe +
+	  chemical.year.fe +
+	  border.county.year
+  ,
+  data = triQc,
+  cluster = ~c(chemical.id, naics.code, facility.state),
+)
+fixest::etable(sdid_air_lcrr, digits = 3, digits.stats = 3)
+fixest::iplot(sdid_air_lcrr, xlim = c(-3, 3), ylim = c(-0.5, 0.5), col = "blue",
+			  main = "Total Onsite Air Emissions Intensity, LCRR", xlab = "relative year",
+			  lwd = 1, cex = 4, pt.cex = 3, pt.col = "red", pt.join = T, ci.lwd = 5, ci.lty = 1) %>%
+  abline(v = -1, col = "red", lty = 2, lwd = 2)
+#======================================================================================================================#
+### Onsite: Total air emissions intensity (high payroll to revenue ratio)---Poor operational efficiency
+#======================================================================================================================#
+sdid_air_hprr <- fixest::feols(
+  l.total.air.emissions.onsite.intensity ~ sunab(ch.year, year):high.payroll.revenue +
+	e.treated +
+	treated:high.payroll.revenue +
+	post:high.payroll.revenue +
+	treated +
+	high.payroll.revenue +
+	post +
+	gdppc.1 +
+	annual.avg.estabs.1 +
+	cpi.1 +
+	federal.facility +
+	produced.chem.facility +
+	imported.chem.facility +
+	chemical.formulation.component +
+	chemical.article.component +
+	chemical.manufacturing.aid +
+	chemical.ancilliary.use +
+	production.ratio.activity.index +
+	maxnum.chem.onsite +
+	clean.air.act.chems +
+	hap.chems +
+	pbt.chems
+	|
+	year +
+	  facility.id.fe +
+	  border.county.fe +
+	  chemical.id.fe +
+	  chemical.year.fe +
+	  border.county.year
+  ,
+  data = triQc,
+  cluster = ~c(chemical.id, naics.code, facility.state),
+)
+fixest::etable(sdid_air_hprr, digits = 3, digits.stats = 3)
+fixest::etable(sdid_air_hprr, agg = "ATT", digits = 3, digits.stats = 3)
+fixest::etable(sdid_air_hprr, agg = "cohort", digits = 3, digits.stats = 3)
+fixest::iplot(sdid_air_hprr, xlim = c(-3, 3), ylim = c(-0.9, 0.9), col = "blue",
+			  main = "Total Onsite Air Emissions Intensity, HPRR", xlab = "relative year",
+			  lwd = 1, cex = 4, pt.cex = 3, pt.col = "red", pt.join = T, ci.lwd = 5, ci.lty = 1) %>%
+  abline(v = -1, col = "red", lty = 2, lwd = 2)
+
+sdid_air_lprr <- fixest::feols(
+  l.total.air.emissions.onsite.intensity ~ sunab(ch.year, year) +
+	e.treated:high.payroll.revenue +
+	treated:high.payroll.revenue +
+	post:high.payroll.revenue +
+	treated +
+	high.payroll.revenue +
+	post +
+	gdppc.1 +
+	annual.avg.estabs.1 +
+	cpi.1 +
+	federal.facility +
+	produced.chem.facility +
+	imported.chem.facility +
+	chemical.formulation.component +
+	chemical.article.component +
+	chemical.manufacturing.aid +
+	chemical.ancilliary.use +
+	production.ratio.activity.index +
+	maxnum.chem.onsite +
+	clean.air.act.chems +
+	hap.chems +
+	pbt.chems
+	|
+	year +
+	  facility.id.fe +
+	  border.county.fe +
+	  chemical.id.fe +
+	  chemical.year.fe +
+	  border.county.year
+  ,
+  data = triQc,
+  cluster = ~c(chemical.id, naics.code, facility.state),
+)
+fixest::etable(sdid_air_lprr, digits = 3, digits.stats = 3)
+fixest::iplot(sdid_air_lprr, xlim = c(-3, 3), ylim = c(-0.5, 0.5), col = "blue",
+			  main = "Total Onsite Air Emissions Intensity, LPRR", xlab = "relative year",
+			  lwd = 1, cex = 4, pt.cex = 3, pt.col = "red", pt.join = T, ci.lwd = 5, ci.lty = 1) %>%
+  abline(v = -1, col = "red", lty = 2, lwd = 2)
+#======================================================================================================================#
+### Onsite: Total air emissions intensity (high wages to revenue ratio)---Poor operational efficiency
+#======================================================================================================================#
+sdid_air_hwrr <- fixest::feols(
+  l.total.air.emissions.onsite.intensity ~ sunab(ch.year, year):high.wages.revenue +
+	e.treated +
+	treated:high.wages.revenue +
+	post:high.wages.revenue +
+	treated +
+	high.wages.revenue +
+	post +
+	gdppc.1 +
+	annual.avg.estabs.1 +
+	cpi.1 +
+	federal.facility +
+	produced.chem.facility +
+	imported.chem.facility +
+	chemical.formulation.component +
+	chemical.article.component +
+	chemical.manufacturing.aid +
+	chemical.ancilliary.use +
+	production.ratio.activity.index +
+	maxnum.chem.onsite +
+	clean.air.act.chems +
+	hap.chems +
+	pbt.chems
+	|
+	year +
+	  facility.id.fe +
+	  border.county.fe +
+	  chemical.id.fe +
+	  chemical.year.fe +
+	  border.county.year
+  ,
+  data = triQc,
+  cluster = ~c(chemical.id, naics.code, facility.state),
+)
+fixest::etable(sdid_air_hwrr, digits = 3, digits.stats = 3)
+fixest::etable(sdid_air_hwrr, agg = "ATT", digits = 3, digits.stats = 3)
+fixest::etable(sdid_air_hwrr, agg = "cohort", digits = 3, digits.stats = 3)
+fixest::iplot(sdid_air_hwrr, xlim = c(-3, 3), ylim = c(-0.9, 0.9), col = "blue",
+			  main = "Total Onsite Air Emissions Intensity, HWRR", xlab = "relative year",
+			  lwd = 1, cex = 4, pt.cex = 3, pt.col = "red", pt.join = T, ci.lwd = 5, ci.lty = 1) %>%
+  abline(v = -1, col = "red", lty = 2, lwd = 2)
+
+sdid_air_lwrr <- fixest::feols(
+  l.total.air.emissions.onsite.intensity ~ sunab(ch.year, year) +
+	e.treated:high.wages.revenue +
+	treated:high.wages.revenue +
+	post:high.wages.revenue +
+	treated +
+	high.wages.revenue +
+	post +
+	gdppc.1 +
+	annual.avg.estabs.1 +
+	cpi.1 +
+	federal.facility +
+	produced.chem.facility +
+	imported.chem.facility +
+	chemical.formulation.component +
+	chemical.article.component +
+	chemical.manufacturing.aid +
+	chemical.ancilliary.use +
+	production.ratio.activity.index +
+	maxnum.chem.onsite +
+	clean.air.act.chems +
+	hap.chems +
+	pbt.chems
+	|
+	year +
+	  facility.id.fe +
+	  border.county.fe +
+	  chemical.id.fe +
+	  chemical.year.fe +
+	  border.county.year
+  ,
+  data = triQc,
+  cluster = ~c(chemical.id, naics.code, facility.state),
+)
+fixest::etable(sdid_air_lwrr, digits = 3, digits.stats = 3)
+fixest::iplot(sdid_air_lwrr, xlim = c(-3, 3), ylim = c(-0.5, 0.5), col = "blue",
+			  main = "Total Onsite Air Emissions Intensity, LWRR", xlab = "relative year",
+			  lwd = 1, cex = 4, pt.cex = 3, pt.col = "red", pt.join = T, ci.lwd = 5, ci.lty = 1) %>%
+  abline(v = -1, col = "red", lty = 2, lwd = 2)
+#======================================================================================================================#
+### Onsite: Total air emissions intensity (high material cost to revenue ratio)---Poor cost efficiency
+#======================================================================================================================#
+sdid_air_hmcrr <- fixest::feols(
+  l.total.air.emissions.onsite.intensity ~ sunab(ch.year, year):high.matcost.revenue +
+	e.treated +
+	treated:high.matcost.revenue +
+	post:high.matcost.revenue +
+	treated +
+	high.matcost.revenue +
+	post +
+	gdppc.1 +
+	annual.avg.estabs.1 +
+	cpi.1 +
+	federal.facility +
+	produced.chem.facility +
+	imported.chem.facility +
+	chemical.formulation.component +
+	chemical.article.component +
+	chemical.manufacturing.aid +
+	chemical.ancilliary.use +
+	production.ratio.activity.index +
+	maxnum.chem.onsite +
+	clean.air.act.chems +
+	hap.chems +
+	pbt.chems
+	|
+	year +
+	  facility.id.fe +
+	  border.county.fe +
+	  chemical.id.fe +
+	  chemical.year.fe +
+	  border.county.year
+  ,
+  data = triQc,
+  cluster = ~c(chemical.id, naics.code, facility.state),
+)
+fixest::etable(sdid_air_hmcrr, digits = 3, digits.stats = 3)
+fixest::etable(sdid_air_hmcrr, agg = "ATT", digits = 3, digits.stats = 3)
+fixest::etable(sdid_air_hmcrr, agg = "cohort", digits = 3, digits.stats = 3)
+fixest::iplot(sdid_air_hmcrr, xlim = c(-3, 3), ylim = c(-0.9, 0.9), col = "blue",
+			  main = "Total Onsite Air Emissions Intensity, HMCRR", xlab = "relative year",
+			  lwd = 1, cex = 4, pt.cex = 3, pt.col = "red", pt.join = T, ci.lwd = 5, ci.lty = 1) %>%
+  abline(v = -1, col = "red", lty = 2, lwd = 2)
+
+sdid_air_lmcrr <- fixest::feols(
+  l.total.air.emissions.onsite.intensity ~ sunab(ch.year, year) +
+	e.treated:high.matcost.revenue +
+	treated:high.matcost.revenue +
+	post:high.matcost.revenue +
+	treated +
+	high.matcost.revenue +
+	post +
+	gdppc.1 +
+	annual.avg.estabs.1 +
+	cpi.1 +
+	federal.facility +
+	produced.chem.facility +
+	imported.chem.facility +
+	chemical.formulation.component +
+	chemical.article.component +
+	chemical.manufacturing.aid +
+	chemical.ancilliary.use +
+	production.ratio.activity.index +
+	maxnum.chem.onsite +
+	clean.air.act.chems +
+	hap.chems +
+	pbt.chems
+	|
+	year +
+	  facility.id.fe +
+	  border.county.fe +
+	  chemical.id.fe +
+	  chemical.year.fe +
+	  border.county.year
+  ,
+  data = triQc,
+  cluster = ~c(chemical.id, naics.code, facility.state),
+)
+fixest::etable(sdid_air_lmcrr, digits = 3, digits.stats = 3)
+fixest::iplot(sdid_air_lmcrr, xlim = c(-3, 3), ylim = c(-0.5, 0.5), col = "blue",
+			  main = "Total Onsite Air Emissions Intensity, LMCRR", xlab = "relative year",
+			  lwd = 1, cex = 4, pt.cex = 3, pt.col = "red", pt.join = T, ci.lwd = 5, ci.lty = 1) %>%
+  abline(v = -1, col = "red", lty = 2, lwd = 2)
+#======================================================================================================================#
+### Onsite: Total air emissions intensity (high energy cost to revenue ratio)---Poor cost efficiency
+#======================================================================================================================#
+sdid_air_herr <- fixest::feols(
+  l.total.air.emissions.onsite.intensity ~ sunab(ch.year, year):high.energy.revenue +
+	e.treated +
+	treated:high.energy.revenue +
+	post:high.energy.revenue +
+	treated +
+	high.energy.revenue +
+	post +
+	gdppc.1 +
+	annual.avg.estabs.1 +
+	cpi.1 +
+	federal.facility +
+	produced.chem.facility +
+	imported.chem.facility +
+	chemical.formulation.component +
+	chemical.article.component +
+	chemical.manufacturing.aid +
+	chemical.ancilliary.use +
+	production.ratio.activity.index +
+	maxnum.chem.onsite +
+	clean.air.act.chems +
+	hap.chems +
+	pbt.chems
+	|
+	year +
+	  facility.id.fe +
+	  border.county.fe +
+	  chemical.id.fe +
+	  chemical.year.fe +
+	  border.county.year
+  ,
+  data = triQc,
+  cluster = ~c(chemical.id, naics.code, facility.state),
+)
+fixest::etable(sdid_air_herr, digits = 3, digits.stats = 3)
+fixest::etable(sdid_air_herr, agg = "ATT", digits = 3, digits.stats = 3)
+fixest::etable(sdid_air_herr, agg = "cohort", digits = 3, digits.stats = 3)
+fixest::iplot(sdid_air_herr, xlim = c(-3, 3), ylim = c(-0.9, 0.9), col = "blue",
+			  main = "Total Onsite Air Emissions Intensity, HERR", xlab = "relative year",
+			  lwd = 1, cex = 4, pt.cex = 3, pt.col = "red", pt.join = T, ci.lwd = 5, ci.lty = 1) %>%
+  abline(v = -1, col = "red", lty = 2, lwd = 2)
+
+sdid_air_lerr <- fixest::feols(
+  l.total.releases.onsite.intensity ~ sunab(ch.year, year) +
+	e.treated:high.energy.revenue +
+	treated:high.energy.revenue +
+	post:high.energy.revenue +
+	treated +
+	high.energy.revenue +
+	post +
+	gdppc.1 +
+	annual.avg.estabs.1 +
+	cpi.1 +
+	federal.facility +
+	produced.chem.facility +
+	imported.chem.facility +
+	chemical.formulation.component +
+	chemical.article.component +
+	chemical.manufacturing.aid +
+	chemical.ancilliary.use +
+	production.ratio.activity.index +
+	maxnum.chem.onsite +
+	clean.air.act.chems +
+	hap.chems +
+	pbt.chems
+	|
+	year +
+	  facility.id.fe +
+	  border.county.fe +
+	  chemical.id.fe +
+	  chemical.year.fe +
+	  border.county.year
+  ,
+  data = triQc,
+  cluster = ~c(chemical.id, naics.code, facility.state),
+)
+fixest::etable(sdid_air_lerr, digits = 3, digits.stats = 3)
+fixest::iplot(sdid_air_lerr, xlim = c(-3, 3), ylim = c(-0.5, 0.5), col = "blue",
+			  main = "Total Onsite Air Emissions Intensity, LERR", xlab = "relative year",
+			  lwd = 1, cex = 4, pt.cex = 3, pt.col = "red", pt.join = T, ci.lwd = 5, ci.lty = 1) %>%
+  abline(v = -1, col = "red", lty = 2, lwd = 2)
+#======================================================================================================================#
+pdf(file = "./Thesis/chapter3/src/climate_change/latex/fig_sdid_air_emissions_finc.pdf", width = 24, height = 9)
+par(mfrow = c(2, 5))
+fixest::iplot(sdid_air_hcrr, xlim = c(-3, 3), ylim = c(-0.5, 0.5), col = "blue",
+			  main = "Total Onsite Air Emissions Intensity, HCRR", xlab = "relative year",
+			  lwd = 1, cex = 4, pt.cex = 3, pt.col = "red", pt.join = T, ci.lwd = 5, ci.lty = 1) %>%
+  abline(v = -1, col = "red", lty = 2, lwd = 2)
+fixest::iplot(sdid_air_lcrr, xlim = c(-3, 3), ylim = c(-0.3, 0.4), col = "blue",
+			  main = "Total Onsite Air Emissions Intensity, LCRR", xlab = "relative year",
+			  lwd = 1, cex = 4, pt.cex = 3, pt.col = "red", pt.join = T, ci.lwd = 5, ci.lty = 1) %>%
+  abline(v = -1, col = "red", lty = 2, lwd = 2)
+fixest::iplot(sdid_air_hprr, xlim = c(-3, 3), ylim = c(-0.5, 0.2), col = "blue",
+			  main = "Total Onsite Air Emissions Intensity, HPRR", xlab = "relative year",
+			  lwd = 1, cex = 4, pt.cex = 3, pt.col = "red", pt.join = T, ci.lwd = 5, ci.lty = 1) %>%
+  abline(v = -1, col = "red", lty = 2, lwd = 2)
+fixest::iplot(sdid_air_lprr, xlim = c(-3, 3), ylim = c(-0.2, 0.5), col = "blue",
+			  main = "Total Onsite Air Emissions Intensity, LPRR", xlab = "relative year",
+			  lwd = 1, cex = 4, pt.cex = 3, pt.col = "red", pt.join = T, ci.lwd = 5, ci.lty = 1) %>%
+  abline(v = -1, col = "red", lty = 2, lwd = 2)
+fixest::iplot(sdid_air_hwrr, xlim = c(-3, 3), ylim = c(-0.4, 0.2), col = "blue",
+			  main = "Total Onsite Air Emissions Intensity, HWRR", xlab = "relative year",
+			  lwd = 1, cex = 4, pt.cex = 3, pt.col = "red", pt.join = T, ci.lwd = 5, ci.lty = 1) %>%
+  abline(v = -1, col = "red", lty = 2, lwd = 2)
+fixest::iplot(sdid_air_lwrr, xlim = c(-3, 3), ylim = c(-0.3, 0.5), col = "blue",
+			  main = "Total Onsite Air Emissions Intensity, LWRR", xlab = "relative year",
+			  lwd = 1, cex = 4, pt.cex = 3, pt.col = "red", pt.join = T, ci.lwd = 5, ci.lty = 1) %>%
+  abline(v = -1, col = "red", lty = 2, lwd = 2)
+fixest::iplot(sdid_air_hmcrr, xlim = c(-3, 3), ylim = c(-0.4, 0.5), col = "blue",
+			  main = "Total Onsite Air Emissions Intensity, HMCRR", xlab = "relative year",
+			  lwd = 1, cex = 4, pt.cex = 3, pt.col = "red", pt.join = T, ci.lwd = 5, ci.lty = 1) %>%
+  abline(v = -1, col = "red", lty = 2, lwd = 2)
+fixest::iplot(sdid_air_lmcrr, xlim = c(-3, 3), ylim = c(-0.3, 0.4), col = "blue",
+			  main = "Total Onsite Air Emissions Intensity, LMCRR", xlab = "relative year",
+			  lwd = 1, cex = 4, pt.cex = 3, pt.col = "red", pt.join = T, ci.lwd = 5, ci.lty = 1) %>%
+  abline(v = -1, col = "red", lty = 2, lwd = 2)
+fixest::iplot(sdid_air_herr, xlim = c(-3, 3), ylim = c(-0.3, 0.5), col = "blue",
+			  main = "Total Onsite Air Emissions Intensity, HERR", xlab = "relative year",
+			  lwd = 1, cex = 4, pt.cex = 3, pt.col = "red", pt.join = T, ci.lwd = 5, ci.lty = 1) %>%
+  abline(v = -1, col = "red", lty = 2, lwd = 2)
+fixest::iplot(sdid_air_lerr, xlim = c(-3, 3), ylim = c(-0.3, 0.5), col = "blue",
+			  main = "Total Onsite Air Emissions Intensity, LERR", xlab = "relative year",
+			  lwd = 1, cex = 4, pt.cex = 3, pt.col = "red", pt.join = T, ci.lwd = 5, ci.lty = 1) %>%
+  abline(v = -1, col = "red", lty = 2, lwd = 2)
+dev.off()
+#======================================================================================================================#
+### Onsite: Total point air emissions intensity (capital to revenue ratio)
+#======================================================================================================================#
+sdid_point_air_lcrr <- fixest::feols(
+  l.total.point.air.emissions.onsite.intensity ~ sunab(ch.year, year):high.capex.revenue +
+	e.treated +
+	treated:high.capex.revenue +
+	post:high.capex.revenue +
+	treated +
+	high.capex.revenue +
+	post +
+	gdppc.1 +
+	annual.avg.estabs.1 +
+	cpi.1 +
+	federal.facility +
+	produced.chem.facility +
+	imported.chem.facility +
+	chemical.formulation.component +
+	chemical.article.component +
+	chemical.manufacturing.aid +
+	chemical.ancilliary.use +
+	production.ratio.activity.index +
+	maxnum.chem.onsite +
+	clean.air.act.chems +
+	hap.chems +
+	pbt.chems
+	|
+	year +
+	  facility.id.fe +
+	  border.county.fe +
+	  chemical.id.fe +
+	  chemical.year.fe +
+	  border.county.year
+  ,
+  data = triQc,
+  cluster = ~c(chemical.id, naics.code, facility.state),
+)
+fixest::etable(sdid_point_air_lcrr, digits = 3, digits.stats = 3)
+fixest::etable(sdid_point_air_lcrr, agg = "ATT", digits = 3, digits.stats = 3)
+fixest::etable(sdid_point_air_lcrr, agg = "cohort", digits = 3, digits.stats = 3)
+fixest::iplot(sdid_point_air_lcrr, xlim = c(-3, 3), ylim = c(-0.9, 0.9), col = "blue",
+			  main = "Total Point Air Emissions Intensity, HCRR", xlab = "relative year",
+			  lwd = 1, cex = 4, pt.cex = 3, pt.col = "red", pt.join = T, ci.lwd = 5, ci.lty = 1) %>%
+  abline(v = -1, col = "red", lty = 2, lwd = 2)
+
+sdid_point_air_lcrr <- fixest::feols(
+  l.total.point.air.emissions.onsite.intensity ~ sunab(ch.year, year) +
+	e.treated:high.capex.revenue +
+	treated:high.capex.revenue +
+	post:high.capex.revenue +
+	treated +
+	high.capex.revenue +
+	post +
+	gdppc.1 +
+	annual.avg.estabs.1 +
+	cpi.1 +
+	federal.facility +
+	produced.chem.facility +
+	imported.chem.facility +
+	chemical.formulation.component +
+	chemical.article.component +
+	chemical.manufacturing.aid +
+	chemical.ancilliary.use +
+	production.ratio.activity.index +
+	maxnum.chem.onsite +
+	clean.air.act.chems +
+	hap.chems +
+	pbt.chems
+	|
+	year +
+	  facility.id.fe +
+	  border.county.fe +
+	  chemical.id.fe +
+	  chemical.year.fe +
+	  border.county.year
+  ,
+  data = triQc,
+  cluster = ~c(chemical.id, naics.code, facility.state),
+)
+fixest::etable(sdid_point_air_lcrr, digits = 3, digits.stats = 3)
+fixest::iplot(sdid_point_air_lcrr, xlim = c(-3, 3), ylim = c(-0.3, 0.3), col = "blue",
+			  main = "Total Point Air Emissions Intensity, LCRR", xlab = "relative year",
+			  lwd = 1, cex = 4, pt.cex = 3, pt.col = "red", pt.join = T, ci.lwd = 5, ci.lty = 1) %>%
+  abline(v = -1, col = "red", lty = 2, lwd = 2)
+#======================================================================================================================#
+### Onsite: Total fugitive air emissions intensity (capital to revenue ratio)
+#======================================================================================================================#
+sdid_fug_air_lcrr <- fixest::feols(
+  l.total.fug.air.emissions.onsite.intensity ~ sunab(ch.year, year):high.capex.revenue +
+	e.treated +
+	treated:high.capex.revenue +
+	post:high.capex.revenue +
+	treated +
+	high.capex.revenue +
+	post +
+	gdppc.1 +
+	annual.avg.estabs.1 +
+	cpi.1 +
+	federal.facility +
+	produced.chem.facility +
+	imported.chem.facility +
+	chemical.formulation.component +
+	chemical.article.component +
+	chemical.manufacturing.aid +
+	chemical.ancilliary.use +
+	production.ratio.activity.index +
+	maxnum.chem.onsite +
+	clean.air.act.chems +
+	hap.chems +
+	pbt.chems
+	|
+	year +
+	  facility.id.fe +
+	  border.county.fe +
+	  chemical.id.fe +
+	  chemical.year.fe +
+	  border.county.year
+  ,
+  data = triQc,
+  cluster = ~c(chemical.id, naics.code, facility.state),
+)
+fixest::etable(sdid_fug_air_lcrr, digits = 3, digits.stats = 3)
+fixest::etable(sdid_fug_air_lcrr, agg = "ATT", digits = 3, digits.stats = 3)
+fixest::etable(sdid_fug_air_lcrr, agg = "cohort", digits = 3, digits.stats = 3)
+fixest::iplot(sdid_fug_air_lcrr, xlim = c(-3, 3), ylim = c(-0.6, 0.5), col = "blue",
+			  main = "Total Fugitive Air Emissions Intensity, HCRR", xlab = "relative year",
+			  lwd = 1, cex = 4, pt.cex = 3, pt.col = "red", pt.join = T, ci.lwd = 5, ci.lty = 1) %>%
+  abline(v = -1, col = "red", lty = 2, lwd = 2)
+
+sdid_fug_air_lcrr <- fixest::feols(
+  l.total.fug.air.emissions.onsite.intensity ~ sunab(ch.year, year) +
+	e.treated:high.capex.revenue +
+	treated:high.capex.revenue +
+	post:high.capex.revenue +
+	treated +
+	high.capex.revenue +
+	post +
+	gdppc.1 +
+	annual.avg.estabs.1 +
+	cpi.1 +
+	federal.facility +
+	produced.chem.facility +
+	imported.chem.facility +
+	chemical.formulation.component +
+	chemical.article.component +
+	chemical.manufacturing.aid +
+	chemical.ancilliary.use +
+	production.ratio.activity.index +
+	maxnum.chem.onsite +
+	clean.air.act.chems +
+	hap.chems +
+	pbt.chems
+	|
+	year +
+	  facility.id.fe +
+	  border.county.fe +
+	  chemical.id.fe +
+	  chemical.year.fe +
+	  border.county.year
+  ,
+  data = triQc,
+  cluster = ~c(chemical.id, naics.code, facility.state),
+)
+fixest::etable(sdid_fug_air_lcrr, digits = 3, digits.stats = 3)
+fixest::iplot(sdid_fug_air_lcrr, xlim = c(-3, 3), ylim = c(-0.3, 0.3), col = "blue",
+			  main = "Total Fugitive Air Emissions Intensity, LCRR", xlab = "relative year",
+			  lwd = 1, cex = 4, pt.cex = 3, pt.col = "red", pt.join = T, ci.lwd = 5, ci.lty = 1) %>%
+  abline(v = -1, col = "red", lty = 2, lwd = 2)
+#======================================================================================================================#
+### Onsite: Total surface water discharge intensity (capital to revenue ratio)
+#======================================================================================================================#
+sdid_water_disc_lcrr <- fixest::feols(
+  l.total.surface.water.discharge.onsite.intensity ~ sunab(ch.year, year):high.capex.revenue +
+	e.treated +
+	treated:high.capex.revenue +
+	post:high.capex.revenue +
+	treated +
+	high.capex.revenue +
+	post +
+	gdppc.1 +
+	annual.avg.estabs.1 +
+	cpi.1 +
+	federal.facility +
+	produced.chem.facility +
+	imported.chem.facility +
+	chemical.formulation.component +
+	chemical.article.component +
+	chemical.manufacturing.aid +
+	chemical.ancilliary.use +
+	production.ratio.activity.index +
+	maxnum.chem.onsite +
+	clean.air.act.chems +
+	hap.chems +
+	pbt.chems
+	|
+	year +
+	  facility.id.fe +
+	  border.county.fe +
+	  chemical.id.fe +
+	  chemical.year.fe +
+	  border.county.year
+  ,
+  data = triQc,
+  cluster = ~c(chemical.id, naics.code, facility.state),
+)
+fixest::etable(sdid_water_disc_lcrr, digits = 3, digits.stats = 3)
+fixest::etable(sdid_water_disc_lcrr, agg = "ATT", digits = 3, digits.stats = 3)
+fixest::etable(sdid_water_disc_lcrr, agg = "cohort", digits = 3, digits.stats = 3)
+fixest::iplot(sdid_water_disc_lcrr, xlim = c(-3, 3), ylim = c(-0.3, 0.8), col = "blue",
+			  main = "Total Surface Water Discharge Intensity, HCRR", xlab = "relative year",
+			  lwd = 1, cex = 4, pt.cex = 3, pt.col = "red", pt.join = T, ci.lwd = 5, ci.lty = 1) %>%
+  abline(v = -1, col = "red", lty = 2, lwd = 2)
+
+sdid_water_disc_lcrr <- fixest::feols(
+  l.total.surface.water.discharge.onsite.intensity ~ sunab(ch.year, year) +
+	e.treated:high.capex.revenue +
+	treated:high.capex.revenue +
+	post:high.capex.revenue +
+	treated +
+	high.capex.revenue +
+	post +
+	gdppc.1 +
+	annual.avg.estabs.1 +
+	cpi.1 +
+	federal.facility +
+	produced.chem.facility +
+	imported.chem.facility +
+	chemical.formulation.component +
+	chemical.article.component +
+	chemical.manufacturing.aid +
+	chemical.ancilliary.use +
+	production.ratio.activity.index +
+	maxnum.chem.onsite +
+	clean.air.act.chems +
+	hap.chems +
+	pbt.chems
+	|
+	year +
+	  facility.id.fe +
+	  border.county.fe +
+	  chemical.id.fe +
+	  chemical.year.fe +
+	  border.county.year
+  ,
+  data = triQc,
+  cluster = ~c(chemical.id, naics.code, facility.state),
+)
+fixest::etable(sdid_water_disc_lcrr, digits = 3, digits.stats = 3)
+fixest::iplot(sdid_water_disc_lcrr, xlim = c(-3, 3), ylim = c(-0.2, 0.3), col = "blue",
+			  main = "Total Surface Water Discharge Intensity, LCRR", xlab = "relative year",
+			  lwd = 1, cex = 4, pt.cex = 3, pt.col = "red", pt.join = T, ci.lwd = 5, ci.lty = 1) %>%
+  abline(v = -1, col = "red", lty = 2, lwd = 2)
+#======================================================================================================================#
+### Onsite: Total land releases intensity (capital to revenue ratio)
+#======================================================================================================================#
+sdid_land_releases_lcrr <- fixest::feols(
+  l.total.land.releases.onsite.intensity ~ sunab(ch.year, year):high.capex.revenue +
+	e.treated +
+	treated:high.capex.revenue +
+	post:high.capex.revenue +
+	treated +
+	high.capex.revenue +
+	post +
+	gdppc.1 +
+	annual.avg.estabs.1 +
+	cpi.1 +
+	federal.facility +
+	produced.chem.facility +
+	imported.chem.facility +
+	chemical.formulation.component +
+	chemical.article.component +
+	chemical.manufacturing.aid +
+	chemical.ancilliary.use +
+	production.ratio.activity.index +
+	maxnum.chem.onsite +
+	clean.air.act.chems +
+	hap.chems +
+	pbt.chems
+	|
+	year +
+	  facility.id.fe +
+	  border.county.fe +
+	  chemical.id.fe +
+	  chemical.year.fe +
+	  border.county.year
+  ,
+  data = triQc,
+  cluster = ~c(chemical.id, naics.code, facility.state),
+)
+fixest::etable(sdid_land_releases_lcrr, digits = 3, digits.stats = 3)
+fixest::etable(sdid_land_releases_lcrr, agg = "ATT", digits = 3, digits.stats = 3)
+fixest::etable(sdid_land_releases_lcrr, agg = "cohort", digits = 3, digits.stats = 3)
+fixest::iplot(sdid_land_releases_lcrr, xlim = c(-3, 3), ylim = c(-0.3, 0.2), col = "blue",
+			  main = "Total Land Releases Intensity, HCRR", xlab = "relative year",
+			  lwd = 1, cex = 4, pt.cex = 3, pt.col = "red", pt.join = T, ci.lwd = 5, ci.lty = 1) %>%
+  abline(v = -1, col = "red", lty = 2, lwd = 2)
+
+sdid_land_releases_lcrr <- fixest::feols(
+  l.total.land.releases.onsite.intensity ~ sunab(ch.year, year) +
+	e.treated:high.capex.revenue +
+	treated:high.capex.revenue +
+	post:high.capex.revenue +
+	treated +
+	high.capex.revenue +
+	post +
+	gdppc.1 +
+	annual.avg.estabs.1 +
+	cpi.1 +
+	federal.facility +
+	produced.chem.facility +
+	imported.chem.facility +
+	chemical.formulation.component +
+	chemical.article.component +
+	chemical.manufacturing.aid +
+	chemical.ancilliary.use +
+	production.ratio.activity.index +
+	maxnum.chem.onsite +
+	clean.air.act.chems +
+	hap.chems +
+	pbt.chems
+	|
+	year +
+	  facility.id.fe +
+	  border.county.fe +
+	  chemical.id.fe +
+	  chemical.year.fe +
+	  border.county.year
+  ,
+  data = triQc,
+  cluster = ~c(chemical.id, naics.code, facility.state),
+)
+fixest::etable(sdid_land_releases_lcrr, digits = 3, digits.stats = 3)
+fixest::iplot(sdid_land_releases_lcrr, xlim = c(-3, 3), ylim = c(-0.15, 0.1), col = "blue",
+			  main = "Total Land Releases Intensity, LCRR", xlab = "relative year",
+			  lwd = 1, cex = 4, pt.cex = 3, pt.col = "red", pt.join = T, ci.lwd = 5, ci.lty = 1) %>%
+  abline(v = -1, col = "red", lty = 2, lwd = 2)
+#======================================================================================================================#
+### Onsite: Total surface impoundment intensity (capital to revenue ratio)
+#======================================================================================================================#
+sdid_surface_impoundment_lcrr <- fixest::feols(
+  l.total.surface.impoundment.onsite.intensity ~ sunab(ch.year, year):high.capex.revenue +
+	e.treated +
+	treated:high.capex.revenue +
+	post:high.capex.revenue +
+	treated +
+	high.capex.revenue +
+	post +
+	gdppc.1 +
+	annual.avg.estabs.1 +
+	cpi.1 +
+	federal.facility +
+	produced.chem.facility +
+	imported.chem.facility +
+	chemical.formulation.component +
+	chemical.article.component +
+	chemical.manufacturing.aid +
+	chemical.ancilliary.use +
+	production.ratio.activity.index +
+	maxnum.chem.onsite +
+	clean.air.act.chems +
+	hap.chems +
+	pbt.chems
+	|
+	year +
+	  facility.id.fe +
+	  border.county.fe +
+	  chemical.id.fe +
+	  chemical.year.fe +
+	  border.county.year
+  ,
+  data = triQc,
+  cluster = ~c(chemical.id, naics.code, facility.state),
+)
+fixest::etable(sdid_surface_impoundment_lcrr, digits = 3, digits.stats = 3)
+fixest::etable(sdid_surface_impoundment_lcrr, agg = "ATT", digits = 3, digits.stats = 3)
+fixest::etable(sdid_surface_impoundment_lcrr, agg = "cohort", digits = 3, digits.stats = 3)
+fixest::iplot(sdid_surface_impoundment_lcrr, xlim = c(-3, 3), ylim = c(-0.05, 0.05), col = "blue",
+			  main = "Total Surface Impoundment Intensity, HCRR", xlab = "relative year",
+			  lwd = 1, cex = 4, pt.cex = 3, pt.col = "red", pt.join = T, ci.lwd = 5, ci.lty = 1) %>%
+  abline(v = -1, col = "red", lty = 2, lwd = 2)
+
+sdid_surface_impoundment_lcrr <- fixest::feols(
+  l.total.surface.impoundment.onsite.intensity ~ sunab(ch.year, year) +
+	e.treated:high.capex.revenue +
+	treated:high.capex.revenue +
+	post:high.capex.revenue +
+	treated +
+	high.capex.revenue +
+	post +
+	gdppc.1 +
+	annual.avg.estabs.1 +
+	cpi.1 +
+	federal.facility +
+	produced.chem.facility +
+	imported.chem.facility +
+	chemical.formulation.component +
+	chemical.article.component +
+	chemical.manufacturing.aid +
+	chemical.ancilliary.use +
+	production.ratio.activity.index +
+	maxnum.chem.onsite +
+	clean.air.act.chems +
+	hap.chems +
+	pbt.chems
+	|
+	year +
+	  facility.id.fe +
+	  border.county.fe +
+	  chemical.id.fe +
+	  chemical.year.fe +
+	  border.county.year
+  ,
+  data = triQc,
+  cluster = ~c(chemical.id, naics.code, facility.state),
+)
+fixest::etable(sdid_surface_impoundment_lcrr, digits = 3, digits.stats = 3)
+fixest::iplot(sdid_surface_impoundment_lcrr, xlim = c(-3, 3), ylim = c(-0.02, 0.08), col = "blue",
+			  main = "Total Surface Impoundment Intensity, LCRR", xlab = "relative year",
+			  lwd = 1, cex = 4, pt.cex = 3, pt.col = "red", pt.join = T, ci.lwd = 5, ci.lty = 1) %>%
+  abline(v = -1, col = "red", lty = 2, lwd = 2)
+#======================================================================================================================#
 ### Highest Emitting Industries
 #======================================================================================================================#
 triQc <- triQc %>%
@@ -59,7 +1348,8 @@ sdid_total_releases_highemitt <- fixest::feols(
 	  facility.id.fe +
 	  border.county.fe +
 	  chemical.id.fe +
-	  chemical.year.fe
+	  chemical.year.fe +
+	  border.county.year
   ,
   data = triQc,
   cluster = ~c(chemical.id, naics.code, facility.state)
@@ -100,7 +1390,8 @@ sdid_total_releases_lowemitt <- fixest::feols(
 	  facility.id.fe +
 	  border.county.fe +
 	  chemical.id.fe +
-	  chemical.year.fe
+	  chemical.year.fe +
+	  border.county.year
   ,
   data = triQc,
   cluster = ~c(chemical.id, naics.code, facility.state)
@@ -141,7 +1432,9 @@ sdid_air_highemitt <- fixest::feols(
 	  facility.id.fe +
 	  border.county.fe +
 	  chemical.id.fe +
-	  chemical.year.fe
+	  chemical.year.fe +
+	  border.county.year +
+	  border.county.year
   ,
   data = triQc,
   cluster = ~c(chemical.id, naics.code, facility.state)
@@ -182,7 +1475,9 @@ sdid_air_lowemitt <- fixest::feols(
 	  facility.id.fe +
 	  border.county.fe +
 	  chemical.id.fe +
-	  chemical.year.fe
+	  chemical.year.fe +
+	  border.county.year +
+	  border.county.year
   ,
   data = triQc,
   cluster = ~c(chemical.id, naics.code, facility.state)
@@ -223,7 +1518,8 @@ sdid_point_air_highemitt <- fixest::feols(
 	  facility.id.fe +
 	  border.county.fe +
 	  chemical.id.fe +
-	  chemical.year.fe
+	  chemical.year.fe +
+	  border.county.year
   ,
   data = triQc,
   cluster = ~c(chemical.id, naics.code, facility.state)
@@ -264,7 +1560,8 @@ sdid_point_air_lowemitt <- fixest::feols(
 	  facility.id.fe +
 	  border.county.fe +
 	  chemical.id.fe +
-	  chemical.year.fe
+	  chemical.year.fe +
+	  border.county.year
   ,
   data = triQc,
   cluster = ~c(chemical.id, naics.code, facility.state)
@@ -305,7 +1602,8 @@ sdid_fug_air_highemitt <- fixest::feols(
 	  facility.id.fe +
 	  border.county.fe +
 	  chemical.id.fe +
-	  chemical.year.fe
+	  chemical.year.fe +
+	  border.county.year
   ,
   data = triQc,
   cluster = ~c(chemical.id, naics.code, facility.state)
@@ -346,7 +1644,8 @@ sdid_fug_air_lowemitt <- fixest::feols(
 	  facility.id.fe +
 	  border.county.fe +
 	  chemical.id.fe +
-	  chemical.year.fe
+	  chemical.year.fe +
+	  border.county.year
   ,
   data = triQc,
   cluster = ~c(chemical.id, naics.code, facility.state)
@@ -387,7 +1686,8 @@ sdid_water_disc_highemitt <- fixest::feols(
 	  facility.id.fe +
 	  border.county.fe +
 	  chemical.id.fe +
-	  chemical.year.fe
+	  chemical.year.fe +
+	  border.county.year
   ,
   data = triQc,
   cluster = ~c(chemical.id, naics.code, facility.state)
@@ -428,7 +1728,8 @@ sdid_water_disc_lowemitt <- fixest::feols(
 	  facility.id.fe +
 	  border.county.fe +
 	  chemical.id.fe +
-	  chemical.year.fe
+	  chemical.year.fe +
+	  border.county.year
   ,
   data = triQc,
   cluster = ~c(chemical.id, naics.code, facility.state)
@@ -469,7 +1770,8 @@ sdid_land_releases_highemitt <- fixest::feols(
 	  facility.id.fe +
 	  border.county.fe +
 	  chemical.id.fe +
-	  chemical.year.fe
+	  chemical.year.fe +
+	  border.county.year
   ,
   data = triQc,
   cluster = ~c(chemical.id, naics.code, facility.state)
@@ -510,7 +1812,8 @@ sdid_land_releases_lowemitt <- fixest::feols(
 	  facility.id.fe +
 	  border.county.fe +
 	  chemical.id.fe +
-	  chemical.year.fe
+	  chemical.year.fe +
+	  border.county.year
   ,
   data = triQc,
   cluster = ~c(chemical.id, naics.code, facility.state)
@@ -551,7 +1854,8 @@ sdid_surface_impound_highemitt <- fixest::feols(
 	  facility.id.fe +
 	  border.county.fe +
 	  chemical.id.fe +
-	  chemical.year.fe
+	  chemical.year.fe +
+	  border.county.year
   ,
   data = triQc,
   cluster = ~c(chemical.id, naics.code, facility.state)
@@ -592,13 +1896,14 @@ sdid_surface_impound_lowemitt <- fixest::feols(
 	  facility.id.fe +
 	  border.county.fe +
 	  chemical.id.fe +
-	  chemical.year.fe
+	  chemical.year.fe +
+	  border.county.year
   ,
   data = triQc,
   cluster = ~c(chemical.id, naics.code, facility.state)
 )
 fixest::etable(sdid_surface_impound_lowemitt, digits = 3, digits.stats = 3)
-fixest::iplot(sdid_surface_impound_lowemitt, xlim = c(-3, 3), ylim = c(-0.01, 0.08), col = "blue",
+fixest::iplot(sdid_surface_impound_lowemitt, xlim = c(-3, 3), ylim = c(-0.01, 0.05), col = "blue",
 			  main = "Total Surface Impoundment Intensity, LEIs", xlab = "relative year",
 			  lwd = 1, cex = 4, pt.cex = 3, pt.col = "red", pt.join = T, ci.lwd = 5, ci.lty = 1) %>%
   abline(v = -1, col = "red", lty = 2, lwd = 2)
@@ -654,11 +1959,11 @@ fixest::iplot(sdid_land_releases_highemitt, xlim = c(-3, 3), ylim = c(-0.1, 0.3)
 			  main = "Total Land Releases Intensity, HEIs", xlab = "relative year",
 			  lwd = 1, cex = 4, pt.cex = 3, pt.col = "red", pt.join = T, ci.lwd = 5, ci.lty = 1) %>%
   abline(v = -1, col = "red", lty = 2, lwd = 2)
-fixest::iplot(sdid_surface_impound_highemitt, xlim = c(-3, 3), ylim = c(-0.05, 0.02), col = "blue",
+fixest::iplot(sdid_surface_impound_highemitt, xlim = c(-3, 3), ylim = c(-0.03, 0.02), col = "blue",
 			  main = "Total Surface Impoundment Intensity, HEIs", xlab = "relative year",
 			  lwd = 1, cex = 4, pt.cex = 3, pt.col = "red", pt.join = T, ci.lwd = 5, ci.lty = 1) %>%
   abline(v = -1, col = "red", lty = 2, lwd = 2)
-fixest::iplot(sdid_surface_impound_lowemitt, xlim = c(-3, 3), ylim = c(-0.01, 0.08), col = "blue",
+fixest::iplot(sdid_surface_impound_lowemitt, xlim = c(-3, 3), ylim = c(-0.01, 0.05), col = "blue",
 			  main = "Total Surface Impoundment Intensity, LEIs", xlab = "relative year",
 			  lwd = 1, cex = 4, pt.cex = 3, pt.col = "red", pt.join = T, ci.lwd = 5, ci.lty = 1) %>%
   abline(v = -1, col = "red", lty = 2, lwd = 2)
@@ -703,7 +2008,8 @@ sdid_total_releases_hgdp <- fixest::feols(
 	  facility.id.fe +
 	  border.county.fe +
 	  chemical.id.fe +
-	  chemical.year.fe
+	  chemical.year.fe +
+	  border.county.year
   ,
   data = triQc,
   cluster = ~c(chemical.id, naics.code, facility.state)
@@ -744,7 +2050,8 @@ sdid_total_releases_lgdp <- fixest::feols(
 	  facility.id.fe +
 	  border.county.fe +
 	  chemical.id.fe +
-	  chemical.year.fe
+	  chemical.year.fe +
+	  border.county.year
   ,
   data = triQc,
   cluster = ~c(chemical.id, naics.code, facility.state)
@@ -785,7 +2092,8 @@ sdid_air_hgdp <- fixest::feols(
 	  facility.id.fe +
 	  border.county.fe +
 	  chemical.id.fe +
-	  chemical.year.fe
+	  chemical.year.fe +
+	  border.county.year
   ,
   data = triQc,
   cluster = ~c(chemical.id, naics.code, facility.state),
@@ -826,7 +2134,8 @@ sdid_air_lgdp <- fixest::feols(
 	  facility.id.fe +
 	  border.county.fe +
 	  chemical.id.fe +
-	  chemical.year.fe
+	  chemical.year.fe +
+	  border.county.year
   ,
   data = triQc,
   cluster = ~c(chemical.id, naics.code, facility.state),
@@ -867,7 +2176,8 @@ sdid_point_air_hgdp <- fixest::feols(
 	  facility.id.fe +
 	  border.county.fe +
 	  chemical.id.fe +
-	  chemical.year.fe
+	  chemical.year.fe +
+	  border.county.year
   ,
   data = triQc,
   cluster = ~c(chemical.id, naics.code, facility.state),
@@ -908,7 +2218,8 @@ sdid_point_air_lgdp <- fixest::feols(
 	  facility.id.fe +
 	  border.county.fe +
 	  chemical.id.fe +
-	  chemical.year.fe
+	  chemical.year.fe +
+	  border.county.year
   ,
   data = triQc,
   cluster = ~c(chemical.id, naics.code, facility.state),
@@ -949,7 +2260,8 @@ sdid_fug_air_hgdp <- fixest::feols(
 	  facility.id.fe +
 	  border.county.fe +
 	  chemical.id.fe +
-	  chemical.year.fe
+	  chemical.year.fe +
+	  border.county.year
   ,
   data = triQc,
   cluster = ~c(chemical.id, naics.code, facility.state),
@@ -990,7 +2302,8 @@ sdid_fug_air_lgdp <- fixest::feols(
 	  facility.id.fe +
 	  border.county.fe +
 	  chemical.id.fe +
-	  chemical.year.fe
+	  chemical.year.fe +
+	  border.county.year
   ,
   data = triQc,
   cluster = ~c(chemical.id, naics.code, facility.state),
@@ -1031,7 +2344,8 @@ sdid_water_disc_hgdp <- fixest::feols(
 	  facility.id.fe +
 	  border.county.fe +
 	  chemical.id.fe +
-	  chemical.year.fe
+	  chemical.year.fe +
+	  border.county.year
   ,
   data = triQc,
   cluster = ~c(chemical.id, naics.code, facility.state),
@@ -1072,7 +2386,8 @@ sdid_water_disc_lgdp <- fixest::feols(
 	  facility.id.fe +
 	  border.county.fe +
 	  chemical.id.fe +
-	  chemical.year.fe
+	  chemical.year.fe +
+	  border.county.year
   ,
   data = triQc,
   cluster = ~c(chemical.id, naics.code, facility.state),
@@ -1113,7 +2428,8 @@ sdid_land_releases_hgdp <- fixest::feols(
 	  facility.id.fe +
 	  border.county.fe +
 	  chemical.id.fe +
-	  chemical.year.fe
+	  chemical.year.fe +
+	  border.county.year
   ,
   data = triQc,
   cluster = ~c(chemical.id, naics.code, facility.state),
@@ -1154,7 +2470,8 @@ sdid_land_releases_lgdp <- fixest::feols(
 	  facility.id.fe +
 	  border.county.fe +
 	  chemical.id.fe +
-	  chemical.year.fe
+	  chemical.year.fe +
+	  border.county.year
   ,
   data = triQc,
   cluster = ~c(chemical.id, naics.code, facility.state),
@@ -1195,7 +2512,8 @@ sdid_surface_impound_hgdp <- fixest::feols(
 	  facility.id.fe +
 	  border.county.fe +
 	  chemical.id.fe +
-	  chemical.year.fe
+	  chemical.year.fe +
+	  border.county.year
   ,
   data = triQc,
   cluster = ~c(chemical.id, naics.code, facility.state),
@@ -1236,13 +2554,14 @@ sdid_surface_impound_lgdp <- fixest::feols(
 	  facility.id.fe +
 	  border.county.fe +
 	  chemical.id.fe +
-	  chemical.year.fe
+	  chemical.year.fe +
+	  border.county.year
   ,
   data = triQc,
   cluster = ~c(chemical.id, naics.code, facility.state),
 )
 fixest::etable(sdid_surface_impound_lgdp, digits = 3, digits.stats = 3)
-fixest::iplot(sdid_surface_impound_lgdp, xlim = c(-3, 3), ylim = c(-0.02, 0.07), col = "blue",
+fixest::iplot(sdid_surface_impound_lgdp, xlim = c(-3, 3), ylim = c(-0.02, 0.04), col = "blue",
 			  main = "Total Surface Impoundment Intensity, low GDP counties", xlab = "relative year",
 			  lwd = 1, cex = 4, pt.cex = 3, pt.col = "red", pt.join = T, ci.lwd = 5, ci.lty = 1) %>%
   abline(v = -1, col = "red", lty = 2, lwd = 2)
@@ -1294,15 +2613,15 @@ fixest::iplot(sdid_land_releases_hgdp, xlim = c(-3, 3), ylim = c(-0.2, 0.2), col
 			  main = "Total Onsite Land Releases Intensity, high GDP counties", xlab = "relative year",
 			  lwd = 1, cex = 4, pt.cex = 3, pt.col = "red", pt.join = T, ci.lwd = 5, ci.lty = 1) %>%
   abline(v = -1, col = "red", lty = 2, lwd = 2)
-fixest::iplot(sdid_land_releases_lgdp, xlim = c(-3, 3), ylim = c(-0.1, 0.1), col = "blue",
+fixest::iplot(sdid_land_releases_lgdp, xlim = c(-3, 3), ylim = c(-0.15, 0.05), col = "blue",
 			  main = "Total Onsite Land Releases Intensity, low GDP counties", xlab = "relative year",
 			  lwd = 1, cex = 4, pt.cex = 3, pt.col = "red", pt.join = T, ci.lwd = 5, ci.lty = 1) %>%
   abline(v = -1, col = "red", lty = 2, lwd = 2)
-fixest::iplot(sdid_surface_impound_hgdp, xlim = c(-3, 3), ylim = c(-0.02, 0.07), col = "blue",
+fixest::iplot(sdid_surface_impound_hgdp, xlim = c(-3, 3), ylim = c(-0.02, 0.02), col = "blue",
 			  main = "Total Surface Impoundment Intensity, high GDP counties", xlab = "relative year",
 			  lwd = 1, cex = 4, pt.cex = 3, pt.col = "red", pt.join = T, ci.lwd = 5, ci.lty = 1) %>%
   abline(v = -1, col = "red", lty = 2, lwd = 2)
-fixest::iplot(sdid_surface_impound_lgdp, xlim = c(-3, 3), ylim = c(-0.02, 0.07), col = "blue",
+fixest::iplot(sdid_surface_impound_lgdp, xlim = c(-3, 3), ylim = c(-0.02, 0.04), col = "blue",
 			  main = "Total Surface Impoundment Intensity, low GDP counties", xlab = "relative year",
 			  lwd = 1, cex = 4, pt.cex = 3, pt.col = "red", pt.join = T, ci.lwd = 5, ci.lty = 1) %>%
   abline(v = -1, col = "red", lty = 2, lwd = 2)
@@ -1339,7 +2658,8 @@ sdid_total_releases_carcinogenic <- fixest::feols(
 	  facility.id.fe +
 	  border.county.fe +
 	  chemical.id.fe +
-	  chemical.year.fe
+	  chemical.year.fe +
+	  border.county.year
   ,
   data = triQc,
   cluster = ~c(chemical.id, naics.code, facility.state),
@@ -1378,7 +2698,8 @@ sdid_total_releases_noncarcinogenic <- fixest::feols(
 	  facility.id.fe +
 	  border.county.fe +
 	  chemical.id.fe +
-	  chemical.year.fe
+	  chemical.year.fe +
+	  border.county.year
   ,
   data = triQc,
   cluster = ~c(chemical.id, naics.code, facility.state),
@@ -1419,7 +2740,8 @@ sdid_air_carcinogenic <- fixest::feols(
 	  facility.id.fe +
 	  border.county.fe +
 	  chemical.id.fe +
-	  chemical.year.fe
+	  chemical.year.fe +
+	  border.county.year
   ,
   data = triQc,
   cluster = ~c(chemical.id, naics.code, facility.state),
@@ -1460,7 +2782,8 @@ sdid_air_noncarcinogenic <- fixest::feols(
 	  facility.id.fe +
 	  border.county.fe +
 	  chemical.id.fe +
-	  chemical.year.fe
+	  chemical.year.fe +
+	  border.county.year
   ,
   data = triQc,
   cluster = ~c(chemical.id, naics.code, facility.state),
@@ -1501,7 +2824,8 @@ sdid_point_air_carcinogenic <- fixest::feols(
 	  facility.id.fe +
 	  border.county.fe +
 	  chemical.id.fe +
-	  chemical.year.fe
+	  chemical.year.fe +
+	  border.county.year
   ,
   data = triQc,
   cluster = ~c(chemical.id, naics.code, facility.state),
@@ -1542,7 +2866,8 @@ sdid_point_air_noncarcinogenic <- fixest::feols(
 	  facility.id.fe +
 	  border.county.fe +
 	  chemical.id.fe +
-	  chemical.year.fe
+	  chemical.year.fe +
+	  border.county.year
   ,
   data = triQc,
   cluster = ~c(chemical.id, naics.code, facility.state),
@@ -1583,7 +2908,8 @@ sdid_fug_air_carcinogenic <- fixest::feols(
 	  facility.id.fe +
 	  border.county.fe +
 	  chemical.id.fe +
-	  chemical.year.fe
+	  chemical.year.fe +
+	  border.county.year
   ,
   data = triQc,
   cluster = ~c(chemical.id, naics.code, facility.state),
@@ -1591,7 +2917,7 @@ sdid_fug_air_carcinogenic <- fixest::feols(
 fixest::etable(sdid_fug_air_carcinogenic, digits = 3, digits.stats = 3)
 fixest::etable(sdid_fug_air_carcinogenic, agg = "ATT", digits = 3, digits.stats = 3)
 fixest::etable(sdid_fug_air_carcinogenic, agg = "cohort", digits = 3, digits.stats = 3)
-fixest::iplot(sdid_fug_air_carcinogenic, xlim = c(-3, 3), ylim = c(-0.5, 0.5), col = "blue",
+fixest::iplot(sdid_fug_air_carcinogenic, xlim = c(-3, 3), ylim = c(-0.6, 0.5), col = "blue",
 			  main = "Total Fugitive Air Emissions Intensity, Carcinogens", xlab = "relative year",
 			  lwd = 1, cex = 4, pt.cex = 3, pt.col = "red", pt.join = T, ci.lwd = 5, ci.lty = 1) %>%
   abline(v = -1, col = "red", lty = 2, lwd = 2)
@@ -1624,7 +2950,8 @@ sdid_fug_air_noncarcinogenic <- fixest::feols(
 	  facility.id.fe +
 	  border.county.fe +
 	  chemical.id.fe +
-	  chemical.year.fe
+	  chemical.year.fe +
+	  border.county.year
   ,
   data = triQc,
   cluster = ~c(chemical.id, naics.code, facility.state),
@@ -1665,7 +2992,8 @@ sdid_water_disc_carcinogenic <- fixest::feols(
 	  facility.id.fe +
 	  border.county.fe +
 	  chemical.id.fe +
-	  chemical.year.fe
+	  chemical.year.fe +
+	  border.county.year
   ,
   data = triQc,
   cluster = ~c(chemical.id, naics.code, facility.state),
@@ -1706,7 +3034,8 @@ sdid_water_disc_noncarcinogenic <- fixest::feols(
 	  facility.id.fe +
 	  border.county.fe +
 	  chemical.id.fe +
-	  chemical.year.fe
+	  chemical.year.fe +
+	  border.county.year
   ,
   data = triQc,
   cluster = ~c(chemical.id, naics.code, facility.state),
@@ -1747,7 +3076,8 @@ sdid_land_releases_carcinogenic <- fixest::feols(
 	  facility.id.fe +
 	  border.county.fe +
 	  chemical.id.fe +
-	  chemical.year.fe
+	  chemical.year.fe +
+	  border.county.year
   ,
   data = triQc,
   cluster = ~c(chemical.id, naics.code, facility.state),
@@ -1788,7 +3118,8 @@ sdid_land_releases_noncarcinogenic <- fixest::feols(
 	  facility.id.fe +
 	  border.county.fe +
 	  chemical.id.fe +
-	  chemical.year.fe
+	  chemical.year.fe +
+	  border.county.year
   ,
   data = triQc,
   cluster = ~c(chemical.id, naics.code, facility.state),
@@ -1829,7 +3160,8 @@ sdid_surface_impoundment_carcinogenic <- fixest::feols(
 	  facility.id.fe +
 	  border.county.fe +
 	  chemical.id.fe +
-	  chemical.year.fe
+	  chemical.year.fe +
+	  border.county.year
   ,
   data = triQc,
   cluster = ~c(chemical.id, naics.code, facility.state),
@@ -1870,19 +3202,20 @@ sdid_surface_impoundment_noncarcinogenic <- fixest::feols(
 	  facility.id.fe +
 	  border.county.fe +
 	  chemical.id.fe +
-	  chemical.year.fe
+	  chemical.year.fe +
+	  border.county.year
   ,
   data = triQc,
   cluster = ~c(chemical.id, naics.code, facility.state),
 )
 fixest::etable(sdid_surface_impoundment_noncarcinogenic, digits = 3, digits.stats = 3)
-fixest::iplot(sdid_surface_impoundment_noncarcinogenic, xlim = c(-3, 3), ylim = c(-0.02, 0.1), col = "blue",
+fixest::iplot(sdid_surface_impoundment_noncarcinogenic, xlim = c(-3, 3), ylim = c(-0.02, 0.05), col = "blue",
 			  main = "Total Surface Impoundment Intensity, Non-Carcinogens", xlab = "relative year",
 			  lwd = 1, cex = 4, pt.cex = 3, pt.col = "red", pt.join = T, ci.lwd = 5, ci.lty = 1) %>%
   abline(v = -1, col = "red", lty = 2, lwd = 2)
 #======================================================================================================================#
 pdf(file = "./Thesis/chapter3/src/climate_change/latex/fig_sdid_total_onsite_releases_int_carcinogens.pdf", width =
-    20, height = 15)
+  20, height = 15)
 par(mfrow = c(4, 4))
 fixest::iplot(sdid_total_releases_carcinogenic, xlim = c(-3, 3), ylim = c(-0.9, 0.9), col = "blue",
 			  main = "Total Onsite Releases Intensity, Carcinogens", xlab = "relative year",
@@ -1936,7 +3269,7 @@ fixest::iplot(sdid_surface_impoundment_carcinogenic, xlim = c(-3, 3), ylim = c(-
 			  main = "Total Surface Impoundment Intensity, Carcinogens", xlab = "relative year",
 			  lwd = 1, cex = 4, pt.cex = 3, pt.col = "red", pt.join = T, ci.lwd = 5, ci.lty = 1) %>%
   abline(v = -1, col = "red", lty = 2, lwd = 2)
-fixest::iplot(sdid_surface_impoundment_noncarcinogenic, xlim = c(-3, 3), ylim = c(-0.02, 0.085), col = "blue",
+fixest::iplot(sdid_surface_impoundment_noncarcinogenic, xlim = c(-3, 3), ylim = c(-0.02, 0.05), col = "blue",
 			  main = "Total Surface Impoundment Intensity, Non-Carcinogens", xlab = "relative year",
 			  lwd = 1, cex = 4, pt.cex = 3, pt.col = "red", pt.join = T, ci.lwd = 5, ci.lty = 1) %>%
   abline(v = -1, col = "red", lty = 2, lwd = 2)
@@ -1974,7 +3307,8 @@ sdid_total_releases_caa <- fixest::feols(
 	  facility.id.fe +
 	  border.county.fe +
 	  chemical.id.fe +
-	  chemical.year.fe
+	  chemical.year.fe +
+	  border.county.year
   ,
   data = triQc,
   cluster = ~c(chemical.id, naics.code, facility.state),
@@ -2015,7 +3349,8 @@ sdid_total_releases_noncaa <- fixest::feols(
 	  facility.id.fe +
 	  border.county.fe +
 	  chemical.id.fe +
-	  chemical.year.fe
+	  chemical.year.fe +
+	  border.county.year
   ,
   data = triQc,
   cluster = ~c(chemical.id, naics.code, facility.state),
@@ -2056,7 +3391,8 @@ sdid_air_caa <- fixest::feols(
 	  facility.id.fe +
 	  border.county.fe +
 	  chemical.id.fe +
-	  chemical.year.fe
+	  chemical.year.fe +
+	  border.county.year
   ,
   data = triQc,
   cluster = ~c(chemical.id, naics.code, facility.state),
@@ -2064,7 +3400,7 @@ sdid_air_caa <- fixest::feols(
 fixest::etable(sdid_air_caa, digits = 3, digits.stats = 3)
 fixest::etable(sdid_air_caa, agg = "ATT", digits = 3, digits.stats = 3)
 fixest::etable(sdid_air_caa, agg = "cohort", digits = 3, digits.stats = 3)
-fixest::iplot(sdid_air_caa, xlim = c(-3, 3), ylim = c(-0.5, 0.7), col = "blue",
+fixest::iplot(sdid_air_caa, xlim = c(-3, 3), ylim = c(-0.7, 0.7), col = "blue",
 			  main = "Total Onsite Air Emissions Intensity, CAA", xlab = "relative year",
 			  lwd = 1, cex = 4, pt.cex = 3, pt.col = "red", pt.join = T, ci.lwd = 5, ci.lty = 1) %>%
   abline(v = -1, col = "red", lty = 2, lwd = 2)
@@ -2097,7 +3433,8 @@ sdid_air_noncaa <- fixest::feols(
 	  facility.id.fe +
 	  border.county.fe +
 	  chemical.id.fe +
-	  chemical.year.fe
+	  chemical.year.fe +
+	  border.county.year
   ,
   data = triQc,
   cluster = ~c(chemical.id, naics.code, facility.state),
@@ -2138,7 +3475,8 @@ sdid_point_air_caa <- fixest::feols(
 	  facility.id.fe +
 	  border.county.fe +
 	  chemical.id.fe +
-	  chemical.year.fe
+	  chemical.year.fe +
+	  border.county.year
   ,
   data = triQc,
   cluster = ~c(chemical.id, naics.code, facility.state),
@@ -2146,7 +3484,7 @@ sdid_point_air_caa <- fixest::feols(
 fixest::etable(sdid_point_air_caa, digits = 3, digits.stats = 3)
 fixest::etable(sdid_point_air_caa, agg = "ATT", digits = 3, digits.stats = 3)
 fixest::etable(sdid_point_air_caa, agg = "cohort", digits = 3, digits.stats = 3)
-fixest::iplot(sdid_point_air_caa, xlim = c(-3, 3), ylim = c(-0.7, 0.7), col = "blue",
+fixest::iplot(sdid_point_air_caa, xlim = c(-3, 3), ylim = c(-0.8, 0.7), col = "blue",
 			  main = "Total Point Air Emissions Intensity, CAA", xlab = "relative year",
 			  lwd = 1, cex = 4, pt.cex = 3, pt.col = "red", pt.join = T, ci.lwd = 5, ci.lty = 1) %>%
   abline(v = -1, col = "red", lty = 2, lwd = 2)
@@ -2179,7 +3517,8 @@ sdid_point_air_noncaa <- fixest::feols(
 	  facility.id.fe +
 	  border.county.fe +
 	  chemical.id.fe +
-	  chemical.year.fe
+	  chemical.year.fe +
+	  border.county.year
   ,
   data = triQc,
   cluster = ~c(chemical.id, naics.code, facility.state),
@@ -2220,7 +3559,8 @@ sdid_fug_air_caa <- fixest::feols(
 	  facility.id.fe +
 	  border.county.fe +
 	  chemical.id.fe +
-	  chemical.year.fe
+	  chemical.year.fe +
+	  border.county.year
   ,
   data = triQc,
   cluster = ~c(chemical.id, naics.code, facility.state),
@@ -2261,7 +3601,8 @@ sdid_fug_air_noncaa <- fixest::feols(
 	  facility.id.fe +
 	  border.county.fe +
 	  chemical.id.fe +
-	  chemical.year.fe
+	  chemical.year.fe +
+	  border.county.year
   ,
   data = triQc,
   cluster = ~c(chemical.id, naics.code, facility.state),
@@ -2302,7 +3643,8 @@ sdid_water_disc_caa <- fixest::feols(
 	  facility.id.fe +
 	  border.county.fe +
 	  chemical.id.fe +
-	  chemical.year.fe
+	  chemical.year.fe +
+	  border.county.year
   ,
   data = triQc,
   cluster = ~c(chemical.id, naics.code, facility.state),
@@ -2310,7 +3652,7 @@ sdid_water_disc_caa <- fixest::feols(
 fixest::etable(sdid_water_disc_caa, digits = 3, digits.stats = 3)
 fixest::etable(sdid_water_disc_caa, agg = "ATT", digits = 3, digits.stats = 3)
 fixest::etable(sdid_water_disc_caa, agg = "cohort", digits = 3, digits.stats = 3)
-fixest::iplot(sdid_water_disc_caa, xlim = c(-3, 3), ylim = c(-0.8, 0.2), col = "blue",
+fixest::iplot(sdid_water_disc_caa, xlim = c(-3, 3), ylim = c(-0.6, 0.5), col = "blue",
 			  main = "Total Surface Water Discharge Intensity, CAA", xlab = "relative year",
 			  lwd = 1, cex = 4, pt.cex = 3, pt.col = "red", pt.join = T, ci.lwd = 5, ci.lty = 1) %>%
   abline(v = -1, col = "red", lty = 2, lwd = 2)
@@ -2343,7 +3685,8 @@ sdid_water_disc_noncaa <- fixest::feols(
 	  facility.id.fe +
 	  border.county.fe +
 	  chemical.id.fe +
-	  chemical.year.fe
+	  chemical.year.fe +
+	  border.county.year
   ,
   data = triQc,
   cluster = ~c(chemical.id, naics.code, facility.state),
@@ -2384,7 +3727,8 @@ sdid_land_releases_caa <- fixest::feols(
 	  facility.id.fe +
 	  border.county.fe +
 	  chemical.id.fe +
-	  chemical.year.fe
+	  chemical.year.fe +
+	  border.county.year
   ,
   data = triQc,
   cluster = ~c(chemical.id, naics.code, facility.state),
@@ -2392,7 +3736,7 @@ sdid_land_releases_caa <- fixest::feols(
 fixest::etable(sdid_land_releases_caa, digits = 3, digits.stats = 3)
 fixest::etable(sdid_land_releases_caa, agg = "ATT", digits = 3, digits.stats = 3)
 fixest::etable(sdid_land_releases_caa, agg = "cohort", digits = 3, digits.stats = 3)
-fixest::iplot(sdid_land_releases_caa, xlim = c(-3, 3), ylim = c(-0.3, 0.2), col = "blue",
+fixest::iplot(sdid_land_releases_caa, xlim = c(-3, 3), ylim = c(-0.5, 0.1), col = "blue",
 			  main = "Total Land Releases Intensity, CAA", xlab = "relative year",
 			  lwd = 1, cex = 4, pt.cex = 3, pt.col = "red", pt.join = T, ci.lwd = 5, ci.lty = 1) %>%
   abline(v = -1, col = "red", lty = 2, lwd = 2)
@@ -2425,7 +3769,8 @@ sdid_land_releases_noncaa <- fixest::feols(
 	  facility.id.fe +
 	  border.county.fe +
 	  chemical.id.fe +
-	  chemical.year.fe
+	  chemical.year.fe +
+	  border.county.year
   ,
   data = triQc,
   cluster = ~c(chemical.id, naics.code, facility.state),
@@ -2466,7 +3811,8 @@ sdid_surface_impoundment_caa <- fixest::feols(
 	  facility.id.fe +
 	  border.county.fe +
 	  chemical.id.fe +
-	  chemical.year.fe
+	  chemical.year.fe +
+	  border.county.year
   ,
   data = triQc,
   cluster = ~c(chemical.id, naics.code, facility.state),
@@ -2507,13 +3853,14 @@ sdid_surface_impoundment_noncaa <- fixest::feols(
 	  facility.id.fe +
 	  border.county.fe +
 	  chemical.id.fe +
-	  chemical.year.fe
+	  chemical.year.fe +
+	  border.county.year
   ,
   data = triQc,
   cluster = ~c(chemical.id, naics.code, facility.state),
 )
 fixest::etable(sdid_surface_impoundment_noncaa, digits = 3, digits.stats = 3)
-fixest::iplot(sdid_surface_impoundment_noncaa, xlim = c(-3, 3), ylim = c(-0.02, 0.08), col = "blue",
+fixest::iplot(sdid_surface_impoundment_noncaa, xlim = c(-3, 3), ylim = c(-0.02, 0.05), col = "blue",
 			  main = "Total Surface Impoundment Intensity, Non-CAA", xlab = "relative year",
 			  lwd = 1, cex = 4, pt.cex = 3, pt.col = "red", pt.join = T, ci.lwd = 5, ci.lty = 1) %>%
   abline(v = -1, col = "red", lty = 2, lwd = 2)
@@ -2529,7 +3876,7 @@ fixest::iplot(sdid_total_releases_noncaa, xlim = c(-3, 3), ylim = c(-0.5, 0.5), 
 			  main = "Total Onsite Releases Intensity, Non-CAA", xlab = "relative year",
 			  lwd = 1, cex = 4, pt.cex = 3, pt.col = "red", pt.join = T, ci.lwd = 5, ci.lty = 1) %>%
   abline(v = -1, col = "red", lty = 2, lwd = 2)
-fixest::iplot(sdid_air_caa, xlim = c(-3, 3), ylim = c(-0.5, 0.7), col = "blue",
+fixest::iplot(sdid_air_caa, xlim = c(-3, 3), ylim = c(-0.7, 0.7), col = "blue",
 			  main = "Total Onsite Air Emissions Intensity, CAA", xlab = "relative year",
 			  lwd = 1, cex = 4, pt.cex = 3, pt.col = "red", pt.join = T, ci.lwd = 5, ci.lty = 1) %>%
   abline(v = -1, col = "red", lty = 2, lwd = 2)
@@ -2537,7 +3884,7 @@ fixest::iplot(sdid_air_noncaa, xlim = c(-3, 3), ylim = c(-0.5, 0.5), col = "blue
 			  main = "Total Onsite Air Emissions Intensity, Non-CAA", xlab = "relative year",
 			  lwd = 1, cex = 4, pt.cex = 3, pt.col = "red", pt.join = T, ci.lwd = 5, ci.lty = 1) %>%
   abline(v = -1, col = "red", lty = 2, lwd = 2)
-fixest::iplot(sdid_point_air_caa, xlim = c(-3, 3), ylim = c(-0.7, 0.7), col = "blue",
+fixest::iplot(sdid_point_air_caa, xlim = c(-3, 3), ylim = c(-0.8, 0.7), col = "blue",
 			  main = "Total Point Air Emissions Intensity, CAA", xlab = "relative year",
 			  lwd = 1, cex = 4, pt.cex = 3, pt.col = "red", pt.join = T, ci.lwd = 5, ci.lty = 1) %>%
   abline(v = -1, col = "red", lty = 2, lwd = 2)
@@ -2553,7 +3900,7 @@ fixest::iplot(sdid_fug_air_noncaa, xlim = c(-3, 3), ylim = c(-0.3, 0.5), col = "
 			  main = "Total Fugitive Air Emissions Intensity, Non-CAA", xlab = "relative year",
 			  lwd = 1, cex = 4, pt.cex = 3, pt.col = "red", pt.join = T, ci.lwd = 5, ci.lty = 1) %>%
   abline(v = -1, col = "red", lty = 2, lwd = 2)
-fixest::iplot(sdid_water_disc_caa, xlim = c(-3, 3), ylim = c(-0.8, 0.2), col = "blue",
+fixest::iplot(sdid_water_disc_caa, xlim = c(-3, 3), ylim = c(-0.6, 0.5), col = "blue",
 			  main = "Total Surface Water Discharge Intensity, CAA", xlab = "relative year",
 			  lwd = 1, cex = 4, pt.cex = 3, pt.col = "red", pt.join = T, ci.lwd = 5, ci.lty = 1) %>%
   abline(v = -1, col = "red", lty = 2, lwd = 2)
@@ -2561,7 +3908,7 @@ fixest::iplot(sdid_water_disc_noncaa, xlim = c(-3, 3), ylim = c(-0.3, 0.5), col 
 			  main = "Total Surface Water Discharge Intensity, Non-CAA", xlab = "relative year",
 			  lwd = 1, cex = 4, pt.cex = 3, pt.col = "red", pt.join = T, ci.lwd = 5, ci.lty = 1) %>%
   abline(v = -1, col = "red", lty = 2, lwd = 2)
-fixest::iplot(sdid_land_releases_caa, xlim = c(-3, 3), ylim = c(-0.4, 0.2), col = "blue",
+fixest::iplot(sdid_land_releases_caa, xlim = c(-3, 3), ylim = c(-0.5, 0.1), col = "blue",
 			  main = "Total Land Releases Intensity, CAA", xlab = "relative year",
 			  lwd = 1, cex = 4, pt.cex = 3, pt.col = "red", pt.join = T, ci.lwd = 5, ci.lty = 1) %>%
   abline(v = -1, col = "red", lty = 2, lwd = 2)
@@ -2573,7 +3920,7 @@ fixest::iplot(sdid_surface_impoundment_caa, xlim = c(-3, 3), ylim = c(-0.05, 0.0
 			  main = "Total Surface Impoundment Intensity, CAA", xlab = "relative year",
 			  lwd = 1, cex = 4, pt.cex = 3, pt.col = "red", pt.join = T, ci.lwd = 5, ci.lty = 1) %>%
   abline(v = -1, col = "red", lty = 2, lwd = 2)
-fixest::iplot(sdid_surface_impoundment_noncaa, xlim = c(-3, 3), ylim = c(-0.02, 0.08), col = "blue",
+fixest::iplot(sdid_surface_impoundment_noncaa, xlim = c(-3, 3), ylim = c(-0.02, 0.05), col = "blue",
 			  main = "Total Surface Impoundment Intensity, Non-CAA", xlab = "relative year",
 			  lwd = 1, cex = 4, pt.cex = 3, pt.col = "red", pt.join = T, ci.lwd = 5, ci.lty = 1) %>%
   abline(v = -1, col = "red", lty = 2, lwd = 2)
@@ -2612,7 +3959,8 @@ sdid_total_releases_hap <- fixest::feols(
 	  facility.id.fe +
 	  border.county.fe +
 	  chemical.id.fe +
-	  chemical.year.fe
+	  chemical.year.fe +
+	  border.county.year
   ,
   data = triQc,
   cluster = ~c(chemical.id, naics.code, facility.state),
@@ -2653,7 +4001,8 @@ sdid_total_releases_nonhap <- fixest::feols(
 	  facility.id.fe +
 	  border.county.fe +
 	  chemical.id.fe +
-	  chemical.year.fe
+	  chemical.year.fe +
+	  border.county.year
   ,
   data = triQc,
   cluster = ~c(chemical.id, naics.code, facility.state),
@@ -2694,7 +4043,8 @@ sdid_air_hap <- fixest::feols(
 	  facility.id.fe +
 	  border.county.fe +
 	  chemical.id.fe +
-	  chemical.year.fe
+	  chemical.year.fe +
+	  border.county.year
   ,
   data = triQc,
   cluster = ~c(chemical.id, naics.code, facility.state),
@@ -2735,7 +4085,8 @@ sdid_air_nonhap <- fixest::feols(
 	  facility.id.fe +
 	  border.county.fe +
 	  chemical.id.fe +
-	  chemical.year.fe
+	  chemical.year.fe +
+	  border.county.year
   ,
   data = triQc,
   cluster = ~c(chemical.id, naics.code, facility.state),
@@ -2776,7 +4127,8 @@ sdid_point_air_hap <- fixest::feols(
 	  facility.id.fe +
 	  border.county.fe +
 	  chemical.id.fe +
-	  chemical.year.fe
+	  chemical.year.fe +
+	  border.county.year
   ,
   data = triQc,
   cluster = ~c(chemical.id, naics.code, facility.state),
@@ -2817,7 +4169,8 @@ sdid_point_air_nonhap <- fixest::feols(
 	  facility.id.fe +
 	  border.county.fe +
 	  chemical.id.fe +
-	  chemical.year.fe
+	  chemical.year.fe +
+	  border.county.year
   ,
   data = triQc,
   cluster = ~c(chemical.id, naics.code, facility.state),
@@ -2858,7 +4211,8 @@ sdid_fug_air_hap <- fixest::feols(
 	  facility.id.fe +
 	  border.county.fe +
 	  chemical.id.fe +
-	  chemical.year.fe
+	  chemical.year.fe +
+	  border.county.year
   ,
   data = triQc,
   cluster = ~c(chemical.id, naics.code, facility.state),
@@ -2899,7 +4253,8 @@ sdid_fug_air_nonhap <- fixest::feols(
 	  facility.id.fe +
 	  border.county.fe +
 	  chemical.id.fe +
-	  chemical.year.fe
+	  chemical.year.fe +
+	  border.county.year
   ,
   data = triQc,
   cluster = ~c(chemical.id, naics.code, facility.state),
@@ -2940,7 +4295,8 @@ sdid_water_disc_hap <- fixest::feols(
 	  facility.id.fe +
 	  border.county.fe +
 	  chemical.id.fe +
-	  chemical.year.fe
+	  chemical.year.fe +
+	  border.county.year
   ,
   data = triQc,
   cluster = ~c(chemical.id, naics.code, facility.state),
@@ -2981,7 +4337,8 @@ sdid_water_disc_nonhap <- fixest::feols(
 	  facility.id.fe +
 	  border.county.fe +
 	  chemical.id.fe +
-	  chemical.year.fe
+	  chemical.year.fe +
+	  border.county.year
   ,
   data = triQc,
   cluster = ~c(chemical.id, naics.code, facility.state),
@@ -3022,7 +4379,8 @@ sdid_land_releases_hap <- fixest::feols(
 	  facility.id.fe +
 	  border.county.fe +
 	  chemical.id.fe +
-	  chemical.year.fe
+	  chemical.year.fe +
+	  border.county.year
   ,
   data = triQc,
   cluster = ~c(chemical.id, naics.code, facility.state),
@@ -3063,7 +4421,8 @@ sdid_land_releases_nonhap <- fixest::feols(
 	  facility.id.fe +
 	  border.county.fe +
 	  chemical.id.fe +
-	  chemical.year.fe
+	  chemical.year.fe +
+	  border.county.year
   ,
   data = triQc,
   cluster = ~c(chemical.id, naics.code, facility.state),
@@ -3104,7 +4463,8 @@ sdid_surface_impoundment_hap <- fixest::feols(
 	  facility.id.fe +
 	  border.county.fe +
 	  chemical.id.fe +
-	  chemical.year.fe
+	  chemical.year.fe +
+	  border.county.year
   ,
   data = triQc,
   cluster = ~c(chemical.id, naics.code, facility.state),
@@ -3145,13 +4505,14 @@ sdid_surface_impoundment_nonhap <- fixest::feols(
 	  facility.id.fe +
 	  border.county.fe +
 	  chemical.id.fe +
-	  chemical.year.fe
+	  chemical.year.fe +
+	  border.county.year
   ,
   data = triQc,
   cluster = ~c(chemical.id, naics.code, facility.state),
 )
 fixest::etable(sdid_surface_impoundment_nonhap, digits = 3, digits.stats = 3)
-fixest::iplot(sdid_surface_impoundment_nonhap, xlim = c(-3, 3), ylim = c(-0.02, 0.08), col = "blue",
+fixest::iplot(sdid_surface_impoundment_nonhap, xlim = c(-3, 3), ylim = c(-0.02, 0.04), col = "blue",
 			  main = "Total Surface Impoundment Intensity, Non-HAP", xlab = "relative year",
 			  lwd = 1, cex = 4, pt.cex = 3, pt.col = "red", pt.join = T, ci.lwd = 5, ci.lty = 1) %>%
   abline(v = -1, col = "red", lty = 2, lwd = 2)
@@ -3211,7 +4572,7 @@ fixest::iplot(sdid_surface_impoundment_hap, xlim = c(-3, 3), ylim = c(-0.06, 0.0
 			  main = "Total Surface Impoundment Intensity, HAP", xlab = "relative year",
 			  lwd = 1, cex = 4, pt.cex = 3, pt.col = "red", pt.join = T, ci.lwd = 5, ci.lty = 1) %>%
   abline(v = -1, col = "red", lty = 2, lwd = 2)
-fixest::iplot(sdid_surface_impoundment_nonhap, xlim = c(-3, 3), ylim = c(-0.02, 0.08), col = "blue",
+fixest::iplot(sdid_surface_impoundment_nonhap, xlim = c(-3, 3), ylim = c(-0.02, 0.04), col = "blue",
 			  main = "Total Surface Impoundment Intensity, Non-HAP", xlab = "relative year",
 			  lwd = 1, cex = 4, pt.cex = 3, pt.col = "red", pt.join = T, ci.lwd = 5, ci.lty = 1) %>%
   abline(v = -1, col = "red", lty = 2, lwd = 2)
@@ -3249,7 +4610,8 @@ sdid_total_releases_pbt <- fixest::feols(
 	  facility.id.fe +
 	  border.county.fe +
 	  chemical.id.fe +
-	  chemical.year.fe
+	  chemical.year.fe +
+	  border.county.year
   ,
   data = triQc,
   cluster = ~c(chemical.id, naics.code, facility.state),
@@ -3290,7 +4652,8 @@ sdid_total_releases_nonpbt <- fixest::feols(
 	  facility.id.fe +
 	  border.county.fe +
 	  chemical.id.fe +
-	  chemical.year.fe
+	  chemical.year.fe +
+	  border.county.year
   ,
   data = triQc,
   cluster = ~c(chemical.id, naics.code, facility.state),
@@ -3331,7 +4694,8 @@ sdid_air_pbt <- fixest::feols(
 	  facility.id.fe +
 	  border.county.fe +
 	  chemical.id.fe +
-	  chemical.year.fe
+	  chemical.year.fe +
+	  border.county.year
   ,
   data = triQc,
   cluster = ~c(chemical.id, naics.code, facility.state),
@@ -3339,7 +4703,7 @@ sdid_air_pbt <- fixest::feols(
 fixest::etable(sdid_air_pbt, digits = 3, digits.stats = 3)
 fixest::etable(sdid_air_pbt, agg = "ATT", digits = 3, digits.stats = 3)
 fixest::etable(sdid_air_pbt, agg = "cohort", digits = 3, digits.stats = 3)
-fixest::iplot(sdid_air_pbt, xlim = c(-3, 3), ylim = c(-0.7, 0.7), col = "blue",
+fixest::iplot(sdid_air_pbt, xlim = c(-3, 3), ylim = c(-0.8, 0.7), col = "blue",
 			  main = "Total Air Emissions Intensity, PBTs", xlab = "relative year",
 			  lwd = 1, cex = 4, pt.cex = 3, pt.col = "red", pt.join = T, ci.lwd = 5, ci.lty = 1) %>%
   abline(v = -1, col = "red", lty = 2, lwd = 2)
@@ -3372,13 +4736,14 @@ sdid_air_nonpbt <- fixest::feols(
 	  facility.id.fe +
 	  border.county.fe +
 	  chemical.id.fe +
-	  chemical.year.fe
+	  chemical.year.fe +
+	  border.county.year
   ,
   data = triQc,
   cluster = ~c(chemical.id, naics.code, facility.state),
 )
 fixest::etable(sdid_air_nonpbt, digits = 3, digits.stats = 3)
-fixest::iplot(sdid_air_nonpbt, xlim = c(-3, 3), ylim = c(-0.3, 0.3), col = "blue",
+fixest::iplot(sdid_air_nonpbt, xlim = c(-3, 3), ylim = c(-0.2, 0.4), col = "blue",
 			  main = "Total Air Emissions Intensity, Non-PBTs", xlab = "relative year",
 			  lwd = 1, cex = 4, pt.cex = 3, pt.col = "red", pt.join = T, ci.lwd = 5, ci.lty = 1) %>%
   abline(v = -1, col = "red", lty = 2, lwd = 2)
@@ -3413,7 +4778,8 @@ sdid_point_air_pbt <- fixest::feols(
 	  facility.id.fe +
 	  border.county.fe +
 	  chemical.id.fe +
-	  chemical.year.fe
+	  chemical.year.fe +
+	  border.county.year
   ,
   data = triQc,
   cluster = ~c(chemical.id, naics.code, facility.state),
@@ -3454,7 +4820,8 @@ sdid_point_air_nonpbt <- fixest::feols(
 	  facility.id.fe +
 	  border.county.fe +
 	  chemical.id.fe +
-	  chemical.year.fe
+	  chemical.year.fe +
+	  border.county.year
   ,
   data = triQc,
   cluster = ~c(chemical.id, naics.code, facility.state),
@@ -3495,7 +4862,8 @@ sdid_fug_air_pbt <- fixest::feols(
 	  facility.id.fe +
 	  border.county.fe +
 	  chemical.id.fe +
-	  chemical.year.fe
+	  chemical.year.fe +
+	  border.county.year
   ,
   data = triQc,
   cluster = ~c(chemical.id, naics.code, facility.state),
@@ -3503,7 +4871,7 @@ sdid_fug_air_pbt <- fixest::feols(
 fixest::etable(sdid_fug_air_pbt, digits = 3, digits.stats = 3)
 fixest::etable(sdid_fug_air_pbt, agg = "ATT", digits = 3, digits.stats = 3)
 fixest::etable(sdid_fug_air_pbt, agg = "cohort", digits = 3, digits.stats = 3)
-fixest::iplot(sdid_fug_air_pbt, xlim = c(-3, 3), ylim = c(-0.5, 0.5), col = "blue",
+fixest::iplot(sdid_fug_air_pbt, xlim = c(-3, 3), ylim = c(-0.6, 0.5), col = "blue",
 			  main = "Total Fugitive Air Emissions Intensity, PBTs", xlab = "relative year",
 			  lwd = 1, cex = 4, pt.cex = 3, pt.col = "red", pt.join = T, ci.lwd = 5, ci.lty = 1) %>%
   abline(v = -1, col = "red", lty = 2, lwd = 2)
@@ -3536,7 +4904,8 @@ sdid_fug_air_nonpbt <- fixest::feols(
 	  facility.id.fe +
 	  border.county.fe +
 	  chemical.id.fe +
-	  chemical.year.fe
+	  chemical.year.fe +
+	  border.county.year
   ,
   data = triQc,
   cluster = ~c(chemical.id, naics.code, facility.state),
@@ -3577,7 +4946,8 @@ sdid_water_disc_pbt <- fixest::feols(
 	  facility.id.fe +
 	  border.county.fe +
 	  chemical.id.fe +
-	  chemical.year.fe
+	  chemical.year.fe +
+	  border.county.year
   ,
   data = triQc,
   cluster = ~c(chemical.id, naics.code, facility.state),
@@ -3618,7 +4988,8 @@ sdid_water_disc_nonpbt <- fixest::feols(
 	  facility.id.fe +
 	  border.county.fe +
 	  chemical.id.fe +
-	  chemical.year.fe
+	  chemical.year.fe +
+	  border.county.year
   ,
   data = triQc,
   cluster = ~c(chemical.id, naics.code, facility.state),
@@ -3659,7 +5030,8 @@ sdid_land_releases_pbt <- fixest::feols(
 	  facility.id.fe +
 	  border.county.fe +
 	  chemical.id.fe +
-	  chemical.year.fe
+	  chemical.year.fe +
+	  border.county.year
   ,
   data = triQc,
   cluster = ~c(chemical.id, naics.code, facility.state),
@@ -3700,13 +5072,14 @@ sdid_land_releases_nonpbt <- fixest::feols(
 	  facility.id.fe +
 	  border.county.fe +
 	  chemical.id.fe +
-	  chemical.year.fe
+	  chemical.year.fe +
+	  border.county.year
   ,
   data = triQc,
   cluster = ~c(chemical.id, naics.code, facility.state),
 )
 fixest::etable(sdid_land_releases_nonpbt, digits = 3, digits.stats = 3)
-fixest::iplot(sdid_land_releases_nonpbt, xlim = c(-3, 3), ylim = c(-0.1, 0.1), col = "blue",
+fixest::iplot(sdid_land_releases_nonpbt, xlim = c(-3, 3), ylim = c(-0.15, 0.1), col = "blue",
 			  main = "Total Land Releases Intensity, Non-PBTs", xlab = "relative year",
 			  lwd = 1, cex = 4, pt.cex = 3, pt.col = "red", pt.join = T, ci.lwd = 5, ci.lty = 1) %>%
   abline(v = -1, col = "red", lty = 2, lwd = 2)
@@ -3741,7 +5114,8 @@ sdid_surface_impoundment_pbt <- fixest::feols(
 	  facility.id.fe +
 	  border.county.fe +
 	  chemical.id.fe +
-	  chemical.year.fe
+	  chemical.year.fe +
+	  border.county.year
   ,
   data = triQc,
   cluster = ~c(chemical.id, naics.code, facility.state),
@@ -3782,7 +5156,8 @@ sdid_surface_impoundment_nonpbt <- fixest::feols(
 	  facility.id.fe +
 	  border.county.fe +
 	  chemical.id.fe +
-	  chemical.year.fe
+	  chemical.year.fe +
+	  border.county.year
   ,
   data = triQc,
   cluster = ~c(chemical.id, naics.code, facility.state),
@@ -3804,11 +5179,11 @@ fixest::iplot(sdid_total_releases_nonpbt, xlim = c(-3, 3), ylim = c(-0.5, 0.5), 
 			  main = "Total Onsite Releases Intensity, Non-PBTs", xlab = "relative year",
 			  lwd = 1, cex = 4, pt.cex = 3, pt.col = "red", pt.join = T, ci.lwd = 5, ci.lty = 1) %>%
   abline(v = -1, col = "red", lty = 2, lwd = 2)
-fixest::iplot(sdid_air_pbt, xlim = c(-3, 3), ylim = c(-0.7, 0.7), col = "blue",
+fixest::iplot(sdid_air_pbt, xlim = c(-3, 3), ylim = c(-0.8, 0.7), col = "blue",
 			  main = "Total Air Emissions Intensity, PBTs", xlab = "relative year",
 			  lwd = 1, cex = 4, pt.cex = 3, pt.col = "red", pt.join = T, ci.lwd = 5, ci.lty = 1) %>%
   abline(v = -1, col = "red", lty = 2, lwd = 2)
-fixest::iplot(sdid_air_nonpbt, xlim = c(-3, 3), ylim = c(-0.3, 0.3), col = "blue",
+fixest::iplot(sdid_air_nonpbt, xlim = c(-3, 3), ylim = c(-0.2, 0.4), col = "blue",
 			  main = "Total Air Emissions Intensity, Non-PBTs", xlab = "relative year",
 			  lwd = 1, cex = 4, pt.cex = 3, pt.col = "red", pt.join = T, ci.lwd = 5, ci.lty = 1) %>%
   abline(v = -1, col = "red", lty = 2, lwd = 2)
@@ -3820,7 +5195,7 @@ fixest::iplot(sdid_point_air_nonpbt, xlim = c(-3, 3), ylim = c(-0.3, 0.3), col =
 			  main = "Total Point Air Emissions Intensity, Non-PBTs", xlab = "relative year",
 			  lwd = 1, cex = 4, pt.cex = 3, pt.col = "red", pt.join = T, ci.lwd = 5, ci.lty = 1) %>%
   abline(v = -1, col = "red", lty = 2, lwd = 2)
-fixest::iplot(sdid_fug_air_pbt, xlim = c(-3, 3), ylim = c(-0.5, 0.5), col = "blue",
+fixest::iplot(sdid_fug_air_pbt, xlim = c(-3, 3), ylim = c(-0.6, 0.5), col = "blue",
 			  main = "Total Fugitive Air Emissions Intensity, PBTs", xlab = "relative year",
 			  lwd = 1, cex = 4, pt.cex = 3, pt.col = "red", pt.join = T, ci.lwd = 5, ci.lty = 1) %>%
   abline(v = -1, col = "red", lty = 2, lwd = 2)
@@ -3840,7 +5215,7 @@ fixest::iplot(sdid_land_releases_pbt, xlim = c(-3, 3), ylim = c(-0.3, 0.2), col 
 			  main = "Total Land Releases Intensity, PBTs", xlab = "relative year",
 			  lwd = 1, cex = 4, pt.cex = 3, pt.col = "red", pt.join = T, ci.lwd = 5, ci.lty = 1) %>%
   abline(v = -1, col = "red", lty = 2, lwd = 2)
-fixest::iplot(sdid_land_releases_nonpbt, xlim = c(-3, 3), ylim = c(-0.1, 0.1), col = "blue",
+fixest::iplot(sdid_land_releases_nonpbt, xlim = c(-3, 3), ylim = c(-0.15, 0.1), col = "blue",
 			  main = "Total Land Releases Intensity, Non-PBTs", xlab = "relative year",
 			  lwd = 1, cex = 4, pt.cex = 3, pt.col = "red", pt.join = T, ci.lwd = 5, ci.lty = 1) %>%
   abline(v = -1, col = "red", lty = 2, lwd = 2)
@@ -3848,7 +5223,7 @@ fixest::iplot(sdid_surface_impoundment_pbt, xlim = c(-3, 3), ylim = c(-0.05, 0.0
 			  main = "Total Surface Impoundment Intensity, PBTs", xlab = "relative year",
 			  lwd = 1, cex = 4, pt.cex = 3, pt.col = "red", pt.join = T, ci.lwd = 5, ci.lty = 1) %>%
   abline(v = -1, col = "red", lty = 2, lwd = 2)
-fixest::iplot(sdid_surface_impoundment_nonpbt, xlim = c(-3, 3), ylim = c(-0.02, 0.08), col = "blue",
+fixest::iplot(sdid_surface_impoundment_nonpbt, xlim = c(-3, 3), ylim = c(-0.02, 0.05), col = "blue",
 			  main = "Total Surface Impoundment Intensity, Non-PBTs", xlab = "relative year",
 			  lwd = 1, cex = 4, pt.cex = 3, pt.col = "red", pt.join = T, ci.lwd = 5, ci.lty = 1) %>%
   abline(v = -1, col = "red", lty = 2, lwd = 2)
@@ -3898,7 +5273,8 @@ sdid_total_releases_highlabint <- fixest::feols(
 	  facility.id.fe +
 	  border.county.fe +
 	  chemical.id.fe +
-	  chemical.year.fe
+	  chemical.year.fe +
+	  border.county.year
   ,
   data = triQc,
   cluster = ~c(chemical.id, naics.code, facility.state),
@@ -3939,7 +5315,8 @@ sdid_total_releases_lowlabint <- fixest::feols(
 	  facility.id.fe +
 	  border.county.fe +
 	  chemical.id.fe +
-	  chemical.year.fe
+	  chemical.year.fe +
+	  border.county.year
   ,
   data = triQc,
   cluster = ~c(chemical.id, naics.code, facility.state),
@@ -3980,7 +5357,8 @@ sdid_air_highlabint <- fixest::feols(
 	  facility.id.fe +
 	  border.county.fe +
 	  chemical.id.fe +
-	  chemical.year.fe
+	  chemical.year.fe +
+	  border.county.year
   ,
   data = triQc,
   cluster = ~c(chemical.id, naics.code, facility.state),
@@ -4021,7 +5399,8 @@ sdid_air_lowlabint <- fixest::feols(
 	  facility.id.fe +
 	  border.county.fe +
 	  chemical.id.fe +
-	  chemical.year.fe
+	  chemical.year.fe +
+	  border.county.year
   ,
   data = triQc,
   cluster = ~c(chemical.id, naics.code, facility.state),
@@ -4062,7 +5441,8 @@ sdid_point_air_highlabint <- fixest::feols(
 	  facility.id.fe +
 	  border.county.fe +
 	  chemical.id.fe +
-	  chemical.year.fe
+	  chemical.year.fe +
+	  border.county.year
   ,
   data = triQc,
   cluster = ~c(chemical.id, naics.code, facility.state),
@@ -4103,7 +5483,8 @@ sdid_point_air_lowlabint <- fixest::feols(
 	  facility.id.fe +
 	  border.county.fe +
 	  chemical.id.fe +
-	  chemical.year.fe
+	  chemical.year.fe +
+	  border.county.year
   ,
   data = triQc,
   cluster = ~c(chemical.id, naics.code, facility.state),
@@ -4144,7 +5525,8 @@ sdid_fug_air_highlabint <- fixest::feols(
 	  facility.id.fe +
 	  border.county.fe +
 	  chemical.id.fe +
-	  chemical.year.fe
+	  chemical.year.fe +
+	  border.county.year
   ,
   data = triQc,
   cluster = ~c(chemical.id, naics.code, facility.state),
@@ -4185,7 +5567,8 @@ sdid_fug_air_lowlabint <- fixest::feols(
 	  facility.id.fe +
 	  border.county.fe +
 	  chemical.id.fe +
-	  chemical.year.fe
+	  chemical.year.fe +
+	  border.county.year
   ,
   data = triQc,
   cluster = ~c(chemical.id, naics.code, facility.state),
@@ -4226,7 +5609,8 @@ sdid_water_disc_highlabint <- fixest::feols(
 	  facility.id.fe +
 	  border.county.fe +
 	  chemical.id.fe +
-	  chemical.year.fe
+	  chemical.year.fe +
+	  border.county.year
   ,
   data = triQc,
   cluster = ~c(chemical.id, naics.code, facility.state),
@@ -4267,7 +5651,8 @@ sdid_water_disc_lowlabint <- fixest::feols(
 	  facility.id.fe +
 	  border.county.fe +
 	  chemical.id.fe +
-	  chemical.year.fe
+	  chemical.year.fe +
+	  border.county.year
   ,
   data = triQc,
   cluster = ~c(chemical.id, naics.code, facility.state),
@@ -4308,7 +5693,8 @@ sdid_land_releases_highlabint <- fixest::feols(
 	  facility.id.fe +
 	  border.county.fe +
 	  chemical.id.fe +
-	  chemical.year.fe
+	  chemical.year.fe +
+	  border.county.year
   ,
   data = triQc,
   cluster = ~c(chemical.id, naics.code, facility.state),
@@ -4349,7 +5735,8 @@ sdid_land_releases_lowlabint <- fixest::feols(
 	  facility.id.fe +
 	  border.county.fe +
 	  chemical.id.fe +
-	  chemical.year.fe
+	  chemical.year.fe +
+	  border.county.year
   ,
   data = triQc,
   cluster = ~c(chemical.id, naics.code, facility.state),
@@ -4390,7 +5777,8 @@ sdid_surface_impoundment_highlabint <- fixest::feols(
 	  facility.id.fe +
 	  border.county.fe +
 	  chemical.id.fe +
-	  chemical.year.fe
+	  chemical.year.fe +
+	  border.county.year
   ,
   data = triQc,
   cluster = ~c(chemical.id, naics.code, facility.state),
@@ -4431,7 +5819,8 @@ sdid_surface_impoundment_lowlabint <- fixest::feols(
 	  facility.id.fe +
 	  border.county.fe +
 	  chemical.id.fe +
-	  chemical.year.fe
+	  chemical.year.fe +
+	  border.county.year
   ,
   data = triQc,
   cluster = ~c(chemical.id, naics.code, facility.state),
@@ -4445,7 +5834,7 @@ fixest::iplot(sdid_surface_impoundment_lowlabint, xlim = c(-3, 3), ylim = c(-0.0
   abline(v = -1, col = "red", lty = 2, lwd = 2)
 #======================================================================================================================#
 pdf(file = "./Thesis/chapter3/src/climate_change/latex/fig_sdid_total_onsite_releases_int_highlabint.pdf", width =
-    20, height = 15)
+  20, height = 15)
 par(mfrow = c(4, 4))
 fixest::iplot(sdid_total_releases_highlabint, xlim = c(-3, 3), ylim = c(-0.5, 0.5), col = "blue",
 			  main = "Total Onsite Releases Intensity, HLII", xlab = "relative year",
@@ -4499,7 +5888,7 @@ fixest::iplot(sdid_surface_impoundment_highlabint, xlim = c(-3, 3), ylim = c(-0.
 			  main = "Total Surface Impoundment Intensity, HLII", xlab = "relative year",
 			  lwd = 1, cex = 4, pt.cex = 3, pt.col = "red", pt.join = T, ci.lwd = 5, ci.lty = 1) %>%
   abline(v = -1, col = "red", lty = 2, lwd = 2)
-fixest::iplot(sdid_surface_impoundment_lowlabint, xlim = c(-3, 3), ylim = c(-0.02, 0.1), col = "blue",
+fixest::iplot(sdid_surface_impoundment_lowlabint, xlim = c(-3, 3), ylim = c(-0.02, 0.06), col = "blue",
 			  main = "Total Surface Impoundment Intensity, LLII", xlab = "relative year",
 			  lwd = 1, cex = 4, pt.cex = 3, pt.col = "red", pt.join = T, ci.lwd = 5, ci.lty = 1) %>%
   abline(v = -1, col = "red", lty = 2, lwd = 2)
@@ -4508,19 +5897,21 @@ dev.off()
 ### Heifindahl Hirschman Index (HHI)---Industry concentration
 #======================================================================================================================#
 triQc <- triQc %>%
+  # rename(revenue = vship) %>%
   group_by(naics.code) %>%
   mutate(
-	revenue.2 = vship^2, # get the squared revenue by industry
+	revenue.2 = revenue^2, # get the squared revenue by industry
 	sum.revenue.2 = sum(revenue.2, na.rm = T), # get the sum of squared revenue by industry
   ) %>%
   group_by(year, naics.code) %>%
   mutate(
 	hhi = mean(sum.revenue.2, na.rm = T), # get the mean of squared revenue by industry to get HHI
-  )
+  ) %>%
+  ungroup()
 
 # low HHI, less industry concentration and more competition
 triQc$low.ind.conc <- as.numeric(triQc$hhi < median(triQc$hhi))
-sum_up(triQc, c(vship, revenue.2, sum.revenue.2, hhi, low.ind.conc))
+sum_up(triQc, c(revenue, revenue.2, sum.revenue.2, hhi, low.ind.conc))
 table(triQc$low.ind.conc)
 #======================================================================================================================#
 ### Onsite: Total releases intensity (industry concentration)
@@ -4553,7 +5944,8 @@ sdid_total_releases_lowindconc <- fixest::feols(
 	  facility.id.fe +
 	  border.county.fe +
 	  chemical.id.fe +
-	  chemical.year.fe
+	  chemical.year.fe +
+	  border.county.year
   ,
   data = triQc,
   cluster = ~c(chemical.id, naics.code, facility.state),
@@ -4594,7 +5986,8 @@ sdid_total_releases_highindconc <- fixest::feols(
 	  facility.id.fe +
 	  border.county.fe +
 	  chemical.id.fe +
-	  chemical.year.fe
+	  chemical.year.fe +
+	  border.county.year
   ,
   data = triQc,
   cluster = ~c(chemical.id, naics.code, facility.state),
@@ -4635,7 +6028,8 @@ sdid_air_lowindconc <- fixest::feols(
 	  facility.id.fe +
 	  border.county.fe +
 	  chemical.id.fe +
-	  chemical.year.fe
+	  chemical.year.fe +
+	  border.county.year
   ,
   data = triQc,
   cluster = ~c(chemical.id, naics.code, facility.state),
@@ -4676,7 +6070,8 @@ sdid_air_highindconc <- fixest::feols(
 	  facility.id.fe +
 	  border.county.fe +
 	  chemical.id.fe +
-	  chemical.year.fe
+	  chemical.year.fe +
+	  border.county.year
   ,
   data = triQc,
   cluster = ~c(chemical.id, naics.code, facility.state),
@@ -4717,7 +6112,8 @@ sdid_point_air_lowindconc <- fixest::feols(
 	  facility.id.fe +
 	  border.county.fe +
 	  chemical.id.fe +
-	  chemical.year.fe
+	  chemical.year.fe +
+	  border.county.year
   ,
   data = triQc,
   cluster = ~c(chemical.id, naics.code, facility.state),
@@ -4758,7 +6154,8 @@ sdid_point_air_highindconc <- fixest::feols(
 	  facility.id.fe +
 	  border.county.fe +
 	  chemical.id.fe +
-	  chemical.year.fe
+	  chemical.year.fe +
+	  border.county.year
   ,
   data = triQc,
   cluster = ~c(chemical.id, naics.code, facility.state),
@@ -4799,7 +6196,8 @@ sdid_fug_air_lowindconc <- fixest::feols(
 	  facility.id.fe +
 	  border.county.fe +
 	  chemical.id.fe +
-	  chemical.year.fe
+	  chemical.year.fe +
+	  border.county.year
   ,
   data = triQc,
   cluster = ~c(chemical.id, naics.code, facility.state),
@@ -4840,7 +6238,8 @@ sdid_fug_air_highindconc <- fixest::feols(
 	  facility.id.fe +
 	  border.county.fe +
 	  chemical.id.fe +
-	  chemical.year.fe
+	  chemical.year.fe +
+	  border.county.year
   ,
   data = triQc,
   cluster = ~c(chemical.id, naics.code, facility.state),
@@ -4881,7 +6280,8 @@ sdid_water_disc_lowindconc <- fixest::feols(
 	  facility.id.fe +
 	  border.county.fe +
 	  chemical.id.fe +
-	  chemical.year.fe
+	  chemical.year.fe +
+	  border.county.year
   ,
   data = triQc,
   cluster = ~c(chemical.id, naics.code, facility.state),
@@ -4922,7 +6322,8 @@ sdid_water_disc_highindconc <- fixest::feols(
 	  facility.id.fe +
 	  border.county.fe +
 	  chemical.id.fe +
-	  chemical.year.fe
+	  chemical.year.fe +
+	  border.county.year
   ,
   data = triQc,
   cluster = ~c(chemical.id, naics.code, facility.state),
@@ -4963,7 +6364,8 @@ sdid_land_releases_lowindconc <- fixest::feols(
 	  facility.id.fe +
 	  border.county.fe +
 	  chemical.id.fe +
-	  chemical.year.fe
+	  chemical.year.fe +
+	  border.county.year
   ,
   data = triQc,
   cluster = ~c(chemical.id, naics.code, facility.state),
@@ -5004,7 +6406,8 @@ sdid_land_releases_highindconc <- fixest::feols(
 	  facility.id.fe +
 	  border.county.fe +
 	  chemical.id.fe +
-	  chemical.year.fe
+	  chemical.year.fe +
+	  border.county.year
   ,
   data = triQc,
   cluster = ~c(chemical.id, naics.code, facility.state),
@@ -5045,7 +6448,8 @@ sdid_surface_impoundment_lowindconc <- fixest::feols(
 	  facility.id.fe +
 	  border.county.fe +
 	  chemical.id.fe +
-	  chemical.year.fe
+	  chemical.year.fe +
+	  border.county.year
   ,
   data = triQc,
   cluster = ~c(chemical.id, naics.code, facility.state),
@@ -5086,19 +6490,20 @@ sdid_surface_impoundment_highindconc <- fixest::feols(
 	  facility.id.fe +
 	  border.county.fe +
 	  chemical.id.fe +
-	  chemical.year.fe
+	  chemical.year.fe +
+	  border.county.year
   ,
   data = triQc,
   cluster = ~c(chemical.id, naics.code, facility.state),
 )
 fixest::etable(sdid_surface_impoundment_highindconc, digits = 3, digits.stats = 3)
-fixest::iplot(sdid_surface_impoundment_highindconc, xlim = c(-3, 3), ylim = c(-0.02, 0.1), col = "blue",
+fixest::iplot(sdid_surface_impoundment_highindconc, xlim = c(-3, 3), ylim = c(-0.02, 0.06), col = "blue",
 			  main = "Total Surface Impoundment Intensity, HCI", xlab = "relative year",
 			  lwd = 1, cex = 4, pt.cex = 3, pt.col = "red", pt.join = T, ci.lwd = 5, ci.lty = 1) %>%
   abline(v = -1, col = "red", lty = 2, lwd = 2)
 #======================================================================================================================#
 pdf(file = "./Thesis/chapter3/src/climate_change/latex/fig_sdid_total_onsite_releases_int_lowindconc.pdf", width =
-    20, height = 15)
+  20, height = 15)
 par(mfrow = c(4, 4))
 fixest::iplot(sdid_total_releases_lowindconc, xlim = c(-3, 3), ylim = c(-0.5, 0.5), col = "blue",
 			  main = "Total Onsite Releases Intensity, LCI", xlab = "relative year",
@@ -5152,7 +6557,7 @@ fixest::iplot(sdid_surface_impoundment_lowindconc, xlim = c(-3, 3), ylim = c(-0.
 			  main = "Total Surface Impoundment Intensity, LCI", xlab = "relative year",
 			  lwd = 1, cex = 4, pt.cex = 3, pt.col = "red", pt.join = T, ci.lwd = 5, ci.lty = 1) %>%
   abline(v = -1, col = "red", lty = 2, lwd = 2)
-fixest::iplot(sdid_surface_impoundment_highindconc, xlim = c(-3, 3), ylim = c(-0.02, 0.1), col = "blue",
+fixest::iplot(sdid_surface_impoundment_highindconc, xlim = c(-3, 3), ylim = c(-0.02, 0.06), col = "blue",
 			  main = "Total Surface Impoundment Intensity, HCI", xlab = "relative year",
 			  lwd = 1, cex = 4, pt.cex = 3, pt.col = "red", pt.join = T, ci.lwd = 5, ci.lty = 1) %>%
   abline(v = -1, col = "red", lty = 2, lwd = 2)

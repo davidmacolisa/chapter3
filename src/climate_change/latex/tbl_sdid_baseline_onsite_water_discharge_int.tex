@@ -8,25 +8,26 @@
     \resizebox{\columnwidth}{!}{%
         \begin{tabular}{@{}lllll@{}}
             \toprule\toprule
-            Surface water discharge intensity (log) & \multicolumn{2}{c}{Total} & \multicolumn{2}{c}{Number of Receiving Streams} \\
+            Surface water discharge intensity (log) & \multicolumn{2}{c}{Total} & \multicolumn{2}{c}{Number of Receiving Streams (log)} \\
             \cmidrule(lr){2-3}  \cmidrule(lr){4-5}
             & 1         & 2         & 3         & 4         \\ \midrule
-            $Treated^{e}$      & 0.028     & 0.026     & -0.007    & -0.013    \\
-            & (0.032)   & (0.033)   & (0.010)   & (0.011)   \\
-            cohort 2014        & -0.037    & -0.028    & -0.019    & 0.029*    \\
-            & (0.024)   & (0.025)   & (0.014)   & (0.015)   \\
-            cohort 2015        & 0.136**   & 0.117**   & 0.012     & 0.014     \\
-            & (0.064)   & (0.059)   & (0.011)   & (0.013)   \\
-            cohort 2017        & 0.069**   & 0.073**   & 0.006     & 0.003     \\
-            & (0.032)   & (0.033)   & (0.034)   & (0.035)   \\
+            $Treated^{e}$      & 0.028     & 0.014     & -0.004    & -0.018*** \\
+            & (0.032)   & (0.030)   & (0.007)   & (0.006)   \\
+            cohort 2014        & -0.037    & -0.047*   & -0.012    & 0.028***  \\
+            & (0.024)   & (0.028)   & (0.010)   & (0.010)   \\
+            cohort 2015        & 0.136**   & 0.116***  & 0.009     & -0.003    \\
+            & (0.064)   & (0.041)   & (0.008)   & (0.008)   \\
+            cohort 2017        & 0.069**   & 0.060     & 0.005     & -0.010    \\
+            & (0.032)   & (0.043)   & (0.024)   & (0.025)   \\
             controls           & Yes       & Yes       & Yes       & Yes       \\
             year FE            & Yes       & Yes       & Yes       & Yes       \\
             facility FE        & Yes       & Yes       & Yes       & Yes       \\
             border-county FE   & Yes       & Yes       & Yes       & Yes       \\
             toxic chemical FE  & No        & Yes       & No        & Yes       \\
-            toxic chemical LTs & No        & Yes       & No        & Yes       \\\midrule
+            toxic chemical LTs & No        & Yes       & No        & Yes       \\
+            border-county LTs  & No        & Yes       & No        & Yes       \\\midrule
             Observations       & 1,893,689 & 1,893,689 & 1,893,689 & 1,893,689 \\
-            $R^2$              & 0.297     & 0.585     & 0.695     & 0.792     \\
+            $R^2$              & 0.297     & 0.592     & 0.692     & 0.815     \\
             Baseline Mean      & 20.04     & 20.04     & 0.39      & 0.39      \\ \bottomrule\bottomrule
         \end{tabular}%
     }

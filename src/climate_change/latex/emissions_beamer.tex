@@ -72,10 +72,6 @@
 
 \author[Ekeocha]{
     D.O.~Ekeocha\inst{1}
-%    \and
-%    D.F. ~Giuseppe\inst{1}
-%    \and
-%    J. ~Lonsky\inst{1}
 }
 \institute[]{
     \inst{1}
@@ -102,18 +98,16 @@
         \end{itemize}
     \end{frame}
 
-    \begin{frame}[shrink = 30]{Distribution of Total Toxic Releases Intensity}
-        \input{fig_releases_distribution_naics}
-    \end{frame}
-
-    \begin{frame}[shrink = 30]{Distribution of Air Emissions Intensity}
-        \input{fig_air_emissions_naics}
+    \begin{frame}[shrink = 30]{Trends in Onsite Releases Intensities}
+        \input{fig_releases_plots_treatment}
+        \hypertarget{Distribution Releases Intensity}{}
+        \hyperlink{fig:distribution-releases-intensity}{\beamergotobutton{Distribution}}
     \end{frame}
 
     \begin{frame}{Leading Questions}
         \begin{enumerate}
-            \item Is this increased cost-burden due to higher MW passed to the environment, in terms of higher pollution emissions per $\$100m$ units of output?
-            \item Is the environmental impact of raising MW heterogeneous across cohorts and manufacturing industries?
+            \item Does the increased MW lead to higher pollution emissions per $\$100m$ units of output?
+            \item Is the environmental impact of increasing MW heterogeneous across cohorts and manufacturing industries?
         \end{enumerate}
     \end{frame}
 
@@ -196,6 +190,7 @@
     \section{Mechanisms}\label{sec:mechanisms}
     \begin{frame}{Waste Management}
         \begin{enumerate}
+            \item Air emissions treatment
             \item Declining thermal treatments
             \item Declining kiln energy recovery methods
             \item Declining recycling of chemical wastes for reuse in the production process
@@ -230,79 +225,26 @@
     \begin{frame}{Concluding Remarks}
         \begin{itemize}
             \item Heterogeneous environmental consequences of raising MW
-            \item Mostly dominated in highest emitting industries
-            \item Consequential even in highly regulated domains---Point sources
+            \item Mostly dominated in highest emitting industries, highly concentrated industries, high GDP counties
+            \item Potentially carcinogenic to humans in point air emissions intensities
+            \item Adverse effects on aquatic lives through water discharge intensities
+            \item Consequential even in highly regulated domains (CAA, HAPs, and PBTs)---Point air emission intensities
         \end{itemize}
     \end{frame}
-%======================================================================================================================%
-
-%    \section{Theoretical Analysis}\label{sec:theoretical-analysis}
-%    \begin{frame}{Theoretical Analysis}
-%        \begin{itemize}
-%            \item There are two competing hypotheses: \textbf{The induced technology change effect and the crowding-out effect.}
-%        \end{itemize}
-%
-%        Unintended consequences of a raising minimum wage is an empirical question!
-%
-%    \end{frame}
-%
-%
-%    \section{Data \& Identification Strategy}\label{sec:data-and-identification}
-%    \begin{frame}{Data}
-%        \begin{itemize}
-%            \item MW data---county level from $1997$ to $2009$ from Ministry of Human Resources and Social Security.
-%            \item Pollutant emissions data (chemical oxide demand and sulphur oxide) $1998$ to $2009$---firm level from China's Environmental Statistics Database (CESD) and China's Industrial Enterprise Database (CIED).
-%            \item Green innovation (green patents) from State's Intellectual Property Office.
-%            \item Regional macroeconomic variables (GDP and local employment)---county and city level from the Chinese Statistical Year Book.
-%        \end{itemize}
-%    \end{frame}
-%
-%    \begin{frame}{Summary Statistics}
-%        \begin{figure}
-%            \centering
-%            \includegraphics[width = 0.6\textwidth, height = 0.8\textheight]{climate_change/beamer/sumstat}
-%%                \caption{Evolution of MW in Chinese Counties}
-%            \label{fig:sumstat}
-%        \end{figure}
-%    \end{frame}
-%
-%    \begin{frame}{Identification Strategy---County Border Discontinuity}
-%        \begin{itemize}
-%            \item They leveraged discontinuity in MW policy between adjacent Chinese county pairs at the border~\parencite{dube2010minimum}.
-%            \item Average MW growth is $9.5\%$.
-%            \item County pairs must share the same border and range between $50km$, $75km$ and $100km$ away from the border.
-%            \item Final sample $1,183,702$, $1,214,918$ and $1,217,919$, respectively.
-%            \item And $89,248$ distinct firms.
-%        \end{itemize}
-%
-%    \end{frame}
-%
-%    \begin{frame}{County Border Discontinuity}
-%        \begin{columns}
-%            \column{0.5\textwidth}
-%            \begin{figure}
-%                \centering
-%                \includegraphics[width = \textwidth, height = 0.6\textheight]{climate_change/beamer/wd}
-%%                \caption{Evolution of MW in Chinese Counties}
-%                \label{fig:chinese-mw1}
-%            \end{figure}
-%
-%            \column{0.5\textwidth}
-%            \begin{figure}
-%                \centering
-%                \includegraphics[width = \textwidth, height = 0.7\textheight]{climate_change/beamer/wd2}
-%%                \caption{Evolution of MW in Chinese Counties}
-%                \label{fig:chinese-mw2}
-%            \end{figure}
-%        \end{columns}
-%    \end{frame}
-
-%    \begin{frame}[shrink = 25]{Summary Statistics}
-%        \input{energy_effects/results/tables/cov.grid.nt.sum.stat}
-%    \end{frame}
 %=======================================================================================================================%
     \begin{frame}[allowframebreaks, noframenumbering]
-%        \frametitle{Appendix}
+        \hypertarget{fig:distribution-releases-intensity}{}
+        \begin{figure}
+            \centering
+            \includegraphics[width=0.7\textwidth,height=0.65\textheight]{fig_releases_distribution_naics}
+            \caption{Total Onsite Releases Intensity by NAICS}
+            \label{fig:distribution-releases-intensity}
+        \end{figure}
+        \hyperlink{Distribution Releases Intensity}{\beamergotobutton{Return}}
+        \fontsize{9}{11}\selectfont
+    \end{frame}
+
+    \begin{frame}[allowframebreaks, noframenumbering]
         \hypertarget{fig:border-states}{}
         \begin{figure}
             \centering
