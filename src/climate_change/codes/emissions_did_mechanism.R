@@ -14,30 +14,45 @@ setwd(dir = "C:/Users/david/OneDrive/Documents/ULMS/PhD/")
 file <- "./Data_PhD/US/BLS/onsite/triQc_on.rds"
 triQc <- read_rds(file = file)
 #======================================================================================================================#
-### Summary
+### Financial Constraints
+### I proxy financial constraints by the ratio of industries profit margin. That is, the ratio of industry revenue to
+# profit, which measures the proportion of industry revenue allocated to profit. Industries with profit margin lower
+# than the median profit margin are more financially constrained, and those above are less.
 #======================================================================================================================#
-sum_up(triQc,
-	   c(total.waste.management.onsite, treatment.onsite, air.emissions.treatment.onsite,
-		 biological.treatment.onsite, chemical.treatment.onsite, incineration.thermal.treatment.onsite,
-		 physical.treatment.onsite, energy.recovery.onsite, industrial.kiln.onsite, industrial.furnace.onsite,
-		 industrial.boiler.onsite, recycling.onsite, metal.recovery.onsite, solvent.recovery.onsite, reuse.onsite,
-		 source.reduction, material.subandmod, sub.fuel.matsubmod, sub.organic.solvent.matsubmod,
-		 sub.rawm.feedstock.reactchem.matsubmod, sub.manu.proccess.ancilliary.chems.matsubmod,
-		 mod.content.grade.purity.chems.matsubmod, other.matmods.matsubmod, product.modification,
-		 devd.newproductline.pmod, mod.packaging.pmod, other.pmods.pmod, process.equip.modification,
-		 optimised.process.efficiency.pequipmod, recirculationinprocess.pequipmod,
-		 newtech.technique.process.pequipmod, other.pequipmods.pequipmod, inventory.material.mgt,
-		 better.labelling.testing.immgt, containers.sizechange.immgt, improved.materialhandling.operations.immgt,
-		 improved.monitoring.immgt, other.immgts.immgt, operating.practices.training,
-		 improved.schdule.operation.procedures.opt, changed.production.schedule.opt,
-		 intro.inline.productquality.process.analysis.opt, r.and.d, waste.water.treatment, recycling.dummy))
+triQc <- triQc %>%
+  group_by(year, naics.code) %>%
+  rename(revenue = vship) %>%
+  mutate(
+	total.cost = matcost + prodw + energy,
+	profit = revenue - total.cost,
+	revenue.to.profit = (revenue / profit) * 100,
+	# Operational efficiency ratio
+	payroll.to.revenue = pay / revenue,
+	wages.to.revenue = prodw / revenue,
+  ) %>%
+  ungroup() %>%
+  mutate(
+	high.profit.margin = case_when(revenue.to.profit > mean(revenue.to.profit) ~ 1, TRUE ~ 0),
+	high.payroll.revenue = case_when(payroll.to.revenue > mean(payroll.to.revenue) ~ 1, TRUE ~ 0),
+	high.wages.revenue = case_when(wages.to.revenue > mean(wages.to.revenue) ~ 1, TRUE ~ 0),
+  )
+
+triQc %>% sum_up(
+  c(high.payroll.revenue, high.wages.revenue, high.profit.margin)
+)
 #======================================================================================================================#
 ### Waste Management Activities - Onsite
 #======================================================================================================================#
-### Total waste management onsite
+### Total waste management onsite---high profit margin
 #======================================================================================================================#
-sdid_waste_mgt_onsite <- fixest::feols(
-  l.total.waste.management.onsite ~ sunab(ch.year, year) +
+sdid_waste_mgt_onsite_hrpr <- fixest::feols(
+  l.total.waste.management.onsite ~ sunab(ch.year, year):high.profit.margin +
+	e.treated +
+	treated:high.profit.margin +
+	post:high.profit.margin +
+	treated +
+	high.profit.margin +
+	post +
 	gdppc.1 +
 	annual.avg.estabs.1 +
 	cpi.1 +
@@ -64,13 +79,19 @@ sdid_waste_mgt_onsite <- fixest::feols(
   data = triQc,
   cluster = ~c(chemical.id, naics.code, facility.state)
 )
-etable(sdid_waste_mgt_onsite, agg = "ATT", digits = 3, digits.stats = 3)
-etable(sdid_waste_mgt_onsite, agg = "cohort", digits = 3, digits.stats = 3)
+etable(sdid_waste_mgt_onsite_hrpr, agg = "ATT", digits = 3, digits.stats = 3)
+etable(sdid_waste_mgt_onsite_hrpr, agg = "cohort", digits = 3, digits.stats = 3)
 #======================================================================================================================#
-### Treatment onsite
+### Treatment onsite---high profit margin
 #======================================================================================================================#
-sdid_treatment_onsite <- fixest::feols(
-  l.treatment.onsite ~ sunab(ch.year, year) +
+sdid_treatment_onsite_hrpr <- fixest::feols(
+  l.treatment.onsite ~ sunab(ch.year, year):high.profit.margin +
+	e.treated +
+	treated:high.profit.margin +
+	post:high.profit.margin +
+	treated +
+	high.profit.margin +
+	post +
 	gdppc.1 +
 	annual.avg.estabs.1 +
 	cpi.1 +
@@ -97,13 +118,19 @@ sdid_treatment_onsite <- fixest::feols(
   data = triQc,
   cluster = ~c(chemical.id, naics.code, facility.state)
 )
-fixest::etable(sdid_treatment_onsite, agg = "ATT", digits = 3, digits.stats = 3)
-fixest::etable(sdid_treatment_onsite, agg = "cohort", digits = 3, digits.stats = 3)
+fixest::etable(sdid_treatment_onsite_hrpr, agg = "ATT", digits = 3, digits.stats = 3)
+fixest::etable(sdid_treatment_onsite_hrpr, agg = "cohort", digits = 3, digits.stats = 3)
 #======================================================================================================================#
-### Treatment menthod: Air emissions treatment onsite
+### Treatment menthod: Air emissions treatment onsite---high profit margin
 #======================================================================================================================#
-sdid_air_emissions_treatment <- fixest::feols(
-  l.air.emissions.treatment.onsite ~ sunab(ch.year, year) +
+sdid_air_emissions_treatment_hrpr <- fixest::feols(
+  l.air.emissions.treatment.onsite ~ sunab(ch.year, year):high.profit.margin +
+	e.treated +
+	treated:high.profit.margin +
+	post:high.profit.margin +
+	treated +
+	high.profit.margin +
+	post +
 	gdppc.1 +
 	annual.avg.estabs.1 +
 	cpi.1 +
@@ -130,13 +157,19 @@ sdid_air_emissions_treatment <- fixest::feols(
   data = triQc,
   cluster = ~c(chemical.id, naics.code, facility.state)
 )
-fixest::etable(sdid_air_emissions_treatment, agg = "ATT", digits = 3, digits.stats = 3)
-fixest::etable(sdid_air_emissions_treatment, agg = "cohort", digits = 3, digits.stats = 3)
+fixest::etable(sdid_air_emissions_treatment_hrpr, agg = "ATT", digits = 3, digits.stats = 3)
+fixest::etable(sdid_air_emissions_treatment_hrpr, agg = "cohort", digits = 3, digits.stats = 3)
 #======================================================================================================================#
-### Treatment menthod: Biological treatment onsite
+### Treatment menthod: Biological treatment onsite---high profit margin
 #======================================================================================================================#
-sdid_bio_treatment <- fixest::feols(
-  l.biological.treatment.onsite ~ sunab(ch.year, year) +
+sdid_bio_treatment_hrpr <- fixest::feols(
+  l.biological.treatment.onsite ~ sunab(ch.year, year):high.profit.margin +
+	e.treated +
+	treated:high.profit.margin +
+	post:high.profit.margin +
+	treated +
+	high.profit.margin +
+	post +
 	gdppc.1 +
 	annual.avg.estabs.1 +
 	cpi.1 +
@@ -163,13 +196,19 @@ sdid_bio_treatment <- fixest::feols(
   data = triQc,
   cluster = ~c(chemical.id, naics.code, facility.state)
 )
-fixest::etable(sdid_bio_treatment, agg = "ATT", digits = 3, digits.stats = 3)
-fixest::etable(sdid_bio_treatment, agg = "cohort", digits = 3, digits.stats = 3)
+fixest::etable(sdid_bio_treatment_hrpr, agg = "ATT", digits = 3, digits.stats = 3)
+fixest::etable(sdid_bio_treatment_hrpr, agg = "cohort", digits = 3, digits.stats = 3)
 #======================================================================================================================#
-### Treatment menthod: Chemical treatment onsite
+### Treatment menthod: Chemical treatment onsite---high profit margin
 #======================================================================================================================#
-sdid_chem_treatment <- fixest::feols(
-  l.chemical.treatment.onsite ~ sunab(ch.year, year) +
+sdid_chem_treatment_hrpr <- fixest::feols(
+  l.chemical.treatment.onsite ~ sunab(ch.year, year):high.profit.margin +
+	e.treated +
+	treated:high.profit.margin +
+	post:high.profit.margin +
+	treated +
+	high.profit.margin +
+	post +
 	gdppc.1 +
 	annual.avg.estabs.1 +
 	cpi.1 +
@@ -196,13 +235,19 @@ sdid_chem_treatment <- fixest::feols(
   data = triQc,
   cluster = ~c(chemical.id, naics.code, facility.state)
 )
-fixest::etable(sdid_chem_treatment, agg = "ATT", digits = 3, digits.stats = 3)
-fixest::etable(sdid_chem_treatment, agg = "cohort", digits = 3, digits.stats = 3)
+fixest::etable(sdid_chem_treatment_hrpr, agg = "ATT", digits = 3, digits.stats = 3)
+fixest::etable(sdid_chem_treatment_hrpr, agg = "cohort", digits = 3, digits.stats = 3)
 #======================================================================================================================#
-### Treatment menthod: Physical treatment onsite
+### Treatment menthod: Physical treatment onsite---high profit margin
 #======================================================================================================================#
-sdid_physical_treatment <- fixest::feols(
-  l.physical.treatment.onsite ~ sunab(ch.year, year) +
+sdid_physical_treatment_hrpr <- fixest::feols(
+  l.physical.treatment.onsite ~ sunab(ch.year, year):high.profit.margin +
+	e.treated +
+	treated:high.profit.margin +
+	post:high.profit.margin +
+	treated +
+	high.profit.margin +
+	post +
 	gdppc.1 +
 	annual.avg.estabs.1 +
 	cpi.1 +
@@ -229,13 +274,19 @@ sdid_physical_treatment <- fixest::feols(
   data = triQc,
   cluster = ~c(chemical.id, naics.code, facility.state)
 )
-fixest::etable(sdid_physical_treatment, agg = "ATT", digits = 3, digits.stats = 3)
-fixest::etable(sdid_physical_treatment, agg = "cohort", digits = 3, digits.stats = 3)
+fixest::etable(sdid_physical_treatment_hrpr, agg = "ATT", digits = 3, digits.stats = 3)
+fixest::etable(sdid_physical_treatment_hrpr, agg = "cohort", digits = 3, digits.stats = 3)
 #======================================================================================================================#
-### Treatment menthod: Incineration thermal treatment onsite
+### Treatment menthod: Incineration thermal treatment onsite---high profit margin
 #======================================================================================================================#
-sdid_incineration_treatment <- fixest::feols(
-  l.incineration.thermal.treatment.onsite ~ sunab(ch.year, year) +
+sdid_incineration_treatment_hrpr <- fixest::feols(
+  l.incineration.thermal.treatment.onsite ~ sunab(ch.year, year):high.profit.margin +
+	e.treated +
+	treated:high.profit.margin +
+	post:high.profit.margin +
+	treated +
+	high.profit.margin +
+	post +
 	gdppc.1 +
 	annual.avg.estabs.1 +
 	cpi.1 +
@@ -262,13 +313,19 @@ sdid_incineration_treatment <- fixest::feols(
   data = triQc,
   cluster = ~c(chemical.id, naics.code, facility.state)
 )
-fixest::etable(sdid_incineration_treatment, agg = "ATT", digits = 3, digits.stats = 3)
-fixest::etable(sdid_incineration_treatment, agg = "cohort", digits = 3, digits.stats = 3)
+fixest::etable(sdid_incineration_treatment_hrpr, agg = "ATT", digits = 3, digits.stats = 3)
+fixest::etable(sdid_incineration_treatment_hrpr, agg = "cohort", digits = 3, digits.stats = 3)
 #======================================================================================================================#
-### Energy recovery onsite
+### Energy recovery onsite---high profit margin
 #======================================================================================================================#
-sdid_energy_recovery <- fixest::feols(
-  l.energy.recovery.onsite ~ sunab(ch.year, year) +
+sdid_energy_recovery_hrpr <- fixest::feols(
+  l.energy.recovery.onsite ~ sunab(ch.year, year):high.profit.margin +
+	e.treated +
+	treated:high.profit.margin +
+	post:high.profit.margin +
+	treated +
+	high.profit.margin +
+	post +
 	gdppc.1 +
 	annual.avg.estabs.1 +
 	cpi.1 +
@@ -295,13 +352,19 @@ sdid_energy_recovery <- fixest::feols(
   data = triQc,
   cluster = ~c(chemical.id, naics.code, facility.state)
 )
-fixest::etable(sdid_energy_recovery, agg = "ATT", digits = 3, digits.stats = 3)
-fixest::etable(sdid_energy_recovery, agg = "cohort", digits = 3, digits.stats = 3)
+fixest::etable(sdid_energy_recovery_hrpr, agg = "ATT", digits = 3, digits.stats = 3)
+fixest::etable(sdid_energy_recovery_hrpr, agg = "cohort", digits = 3, digits.stats = 3)
 #======================================================================================================================#
-### Energy recovery method: Industrial kiln onsite
+### Energy recovery method: Industrial kiln onsite---high profit margin
 #======================================================================================================================#
-sdid_ind_klin <- fixest::feols(
-  l.industrial.kiln.onsite ~ sunab(ch.year, year) +
+sdid_ind_klin_hrpr <- fixest::feols(
+  l.industrial.kiln.onsite ~ sunab(ch.year, year):high.profit.margin +
+	e.treated +
+	treated:high.profit.margin +
+	post:high.profit.margin +
+	treated +
+	high.profit.margin +
+	post +
 	gdppc.1 +
 	annual.avg.estabs.1 +
 	cpi.1 +
@@ -329,13 +392,19 @@ sdid_ind_klin <- fixest::feols(
   data = triQc,
   cluster = ~c(chemical.id, naics.code, facility.state)
 )
-fixest::etable(sdid_ind_klin, agg = "ATT", digits = 3, digits.stats = 3)
-fixest::etable(sdid_ind_klin, agg = "cohort", digits = 3, digits.stats = 3)
+fixest::etable(sdid_ind_klin_hrpr, agg = "ATT", digits = 3, digits.stats = 3)
+fixest::etable(sdid_ind_klin_hrpr, agg = "cohort", digits = 3, digits.stats = 3)
 #======================================================================================================================#
-### Energy recovery method: Industrial boiler onsite
+### Energy recovery method: Industrial boiler onsite---high profit margin
 #======================================================================================================================#
-sdid_ind_boiler <- fixest::feols(
-  l.industrial.boiler.onsite ~ sunab(ch.year, year) +
+sdid_ind_boiler_hrpr <- fixest::feols(
+  l.industrial.boiler.onsite ~ sunab(ch.year, year):high.profit.margin +
+	e.treated +
+	treated:high.profit.margin +
+	post:high.profit.margin +
+	treated +
+	high.profit.margin +
+	post +
 	gdppc.1 +
 	annual.avg.estabs.1 +
 	cpi.1 +
@@ -362,13 +431,19 @@ sdid_ind_boiler <- fixest::feols(
   data = triQc,
   cluster = ~c(chemical.id, naics.code, facility.state)
 )
-fixest::etable(sdid_ind_boiler, agg = "ATT", digits = 3, digits.stats = 3)
-fixest::etable(sdid_ind_boiler, agg = "cohort", digits = 3, digits.stats = 3)
+fixest::etable(sdid_ind_boiler_hrpr, agg = "ATT", digits = 3, digits.stats = 3)
+fixest::etable(sdid_ind_boiler_hrpr, agg = "cohort", digits = 3, digits.stats = 3)
 #======================================================================================================================#
-### Energy recovery method: Industrial furnace onsite
+### Energy recovery method: Industrial furnace onsite---high profit margin
 #======================================================================================================================#
-sdid_ind_furnace <- fixest::feols(
-  l.industrial.furnace.onsite ~ sunab(ch.year, year) +
+sdid_ind_furnace_hrpr <- fixest::feols(
+  l.industrial.furnace.onsite ~ sunab(ch.year, year):high.profit.margin +
+	e.treated +
+	treated:high.profit.margin +
+	post:high.profit.margin +
+	treated +
+	high.profit.margin +
+	post +
 	gdppc.1 +
 	annual.avg.estabs.1 +
 	cpi.1 +
@@ -395,13 +470,19 @@ sdid_ind_furnace <- fixest::feols(
   data = triQc,
   cluster = ~c(chemical.id, naics.code, facility.state)
 )
-fixest::etable(sdid_ind_furnace, agg = "ATT", digits = 3, digits.stats = 3)
-fixest::etable(sdid_ind_furnace, agg = "cohort", digits = 3, digits.stats = 3)
+fixest::etable(sdid_ind_furnace_hrpr, agg = "ATT", digits = 3, digits.stats = 3)
+fixest::etable(sdid_ind_furnace_hrpr, agg = "cohort", digits = 3, digits.stats = 3)
 #======================================================================================================================#
-### Recycling onsite
+### Recycling onsite---high profit margin
 #======================================================================================================================#
-sdid_recycle_onsite <- fixest::feols(
-  l.recycling.onsite ~ sunab(ch.year, year) +
+sdid_recycle_onsite_hrpr <- fixest::feols(
+  l.recycling.onsite ~ sunab(ch.year, year):high.profit.margin +
+	e.treated +
+	treated:high.profit.margin +
+	post:high.profit.margin +
+	treated +
+	high.profit.margin +
+	post +
 	gdppc.1 +
 	annual.avg.estabs.1 +
 	cpi.1 +
@@ -428,13 +509,19 @@ sdid_recycle_onsite <- fixest::feols(
   data = triQc,
   cluster = ~c(chemical.id, naics.code, facility.state)
 )
-fixest::etable(sdid_recycle_onsite, agg = "ATT", digits = 3, digits.stats = 3)
-fixest::etable(sdid_recycle_onsite, agg = "cohort", digits = 3, digits.stats = 3)
+fixest::etable(sdid_recycle_onsite_hrpr, agg = "ATT", digits = 3, digits.stats = 3)
+fixest::etable(sdid_recycle_onsite_hrpr, agg = "cohort", digits = 3, digits.stats = 3)
 #======================================================================================================================#
-### Recycling process: Reuse onsite
+### Recycling process: Reuse onsite---high profit margin
 #======================================================================================================================#
-sdid_reuse_onsite <- fixest::feols(
-  l.reuse.onsite ~ sunab(ch.year, year) +
+sdid_reuse_onsite_hrpr <- fixest::feols(
+  l.reuse.onsite ~ sunab(ch.year, year):high.profit.margin +
+	e.treated +
+	treated:high.profit.margin +
+	post:high.profit.margin +
+	treated +
+	high.profit.margin +
+	post +
 	gdppc.1 +
 	annual.avg.estabs.1 +
 	cpi.1 +
@@ -461,13 +548,19 @@ sdid_reuse_onsite <- fixest::feols(
   data = triQc,
   cluster = ~c(chemical.id, naics.code, facility.state)
 )
-fixest::etable(sdid_reuse_onsite, agg = "ATT", digits = 3, digits.stats = 3)
-fixest::etable(sdid_reuse_onsite, agg = "cohort", digits = 3, digits.stats = 3)
+fixest::etable(sdid_reuse_onsite_hrpr, agg = "ATT", digits = 3, digits.stats = 3)
+fixest::etable(sdid_reuse_onsite_hrpr, agg = "cohort", digits = 3, digits.stats = 3)
 #======================================================================================================================#
-### Recycling process: Metal recovery onsite
+### Recycling process: Metal recovery onsite---high profit margin
 #======================================================================================================================#
-sdid_metal_recovery <- fixest::feols(
-  l.metal.recovery.onsite ~ sunab(ch.year, year) +
+sdid_metal_recovery_hrpr <- fixest::feols(
+  l.metal.recovery.onsite ~ sunab(ch.year, year):high.profit.margin +
+	e.treated +
+	treated:high.profit.margin +
+	post:high.profit.margin +
+	treated +
+	high.profit.margin +
+	post +
 	gdppc.1 +
 	annual.avg.estabs.1 +
 	cpi.1 +
@@ -494,13 +587,19 @@ sdid_metal_recovery <- fixest::feols(
   data = triQc,
   cluster = ~c(chemical.id, naics.code, facility.state)
 )
-fixest::etable(sdid_metal_recovery, agg = "ATT", digits = 3, digits.stats = 3)
-fixest::etable(sdid_metal_recovery, agg = "cohort", digits = 3, digits.stats = 3)
+fixest::etable(sdid_metal_recovery_hrpr, agg = "ATT", digits = 3, digits.stats = 3)
+fixest::etable(sdid_metal_recovery_hrpr, agg = "cohort", digits = 3, digits.stats = 3)
 #======================================================================================================================#
-### Recycling process: Solvent recovery onsite
+### Recycling process: Solvent recovery onsite---high profit margin
 #======================================================================================================================#
-sdid_solvent_recovery <- fixest::feols(
-  l.solvent.recovery.onsite ~ sunab(ch.year, year) +
+sdid_solvent_recovery_hrpr <- fixest::feols(
+  l.solvent.recovery.onsite ~ sunab(ch.year, year):high.profit.margin +
+	e.treated +
+	treated:high.profit.margin +
+	post:high.profit.margin +
+	treated +
+	high.profit.margin +
+	post +
 	gdppc.1 +
 	annual.avg.estabs.1 +
 	cpi.1 +
@@ -527,13 +626,13 @@ sdid_solvent_recovery <- fixest::feols(
   data = triQc,
   cluster = ~c(chemical.id, naics.code, facility.state)
 )
-fixest::etable(sdid_solvent_recovery, agg = "ATT", digits = 3, digits.stats = 3)
-fixest::etable(sdid_solvent_recovery, agg = "cohort", digits = 3, digits.stats = 3)
+fixest::etable(sdid_solvent_recovery_hrpr, agg = "ATT", digits = 3, digits.stats = 3)
+fixest::etable(sdid_solvent_recovery_hrpr, agg = "cohort", digits = 3, digits.stats = 3)
 #======================================================================================================================#
-### Source Reduction Activities - Onsite
+### Onsite: Source Reduction Activities---high profit margin (revenue to profit ratio)
 #TODO: Check the effect on chemical manufacturing aid, formulation component, article component and ancilliary use
 #======================================================================================================================#
-sdid_source_reduction <- fixest::feols(
+sdid_source_reduction_hrpr <- fixest::feols(
   source.reduction ~ sunab(ch.year, year):high.profit.margin +
 	e.treated +
 	treated:high.profit.margin +
@@ -567,16 +666,14 @@ sdid_source_reduction <- fixest::feols(
   data = triQc,
   cluster = ~c(chemical.id, naics.code, facility.state)
 )
-fixest::etable(sdid_source_reduction, agg = "ATT", digits = 3, digits.stats = 3)
-fixest::etable(sdid_source_reduction, agg = "cohort", digits = 3, digits.stats = 3)
-fixest::iplot(sdid_source_reduction, xlim = c(-3, 3), ylim = c(-0.3, 0.5), col = "blue",
-			  main = "Source Reduction Activities, HRPR", xlab = "relative year",
-			  lwd = 1, cex = 4, pt.cex = 3, pt.col = "red", pt.join = T, ci.lwd = 5, ci.lty = 1) %>%
-  abline(v = -1, col = "red", lty = 2, lwd = 2)
-
-sdid_source_reduction_lrpr <- fixest::feols(
-  source.reduction ~ sunab(ch.year, year) +
-	e.treated:high.profit.margin +
+fixest::etable(sdid_source_reduction_hrpr, agg = "ATT", digits = 3, digits.stats = 3)
+fixest::etable(sdid_source_reduction_hrpr, agg = "cohort", digits = 3, digits.stats = 3)
+#======================================================================================================================#
+### Material Substitution---high profit margin (revenue to profit ratio)
+#======================================================================================================================#
+sdid_mat_submod_hrpr <- fixest::feols(
+  material.subandmod ~ sunab(ch.year, year):high.profit.margin +
+	e.treated +
 	treated:high.profit.margin +
 	post:high.profit.margin +
 	treated +
@@ -608,12 +705,19 @@ sdid_source_reduction_lrpr <- fixest::feols(
   data = triQc,
   cluster = ~c(chemical.id, naics.code, facility.state)
 )
-fixest::etable(sdid_source_reduction_lrpr, digits = 3, digits.stats = 3)
+fixest::etable(sdid_mat_submod_hrpr, agg = "ATT", digits = 3, digits.stats = 3)
+fixest::etable(sdid_mat_submod_hrpr, agg = "cohort", digits = 3, digits.stats = 3)
 #======================================================================================================================#
-### Material Substitution
+### Material: Organic Solvent Substitution---high profit margin (revenue to profit ratio)
 #======================================================================================================================#
-sdid_mat_submod <- fixest::feols(
-  material.subandmod ~ sunab(ch.year, year) +
+sdid_organic_solvent_hrpr <- fixest::feols(
+  sub.organic.solvent.matsubmod ~ sunab(ch.year, year):high.profit.margin +
+	e.treated +
+	treated:high.profit.margin +
+	post:high.profit.margin +
+	treated +
+	high.profit.margin +
+	post +
 	gdppc.1 +
 	annual.avg.estabs.1 +
 	cpi.1 +
@@ -640,13 +744,19 @@ sdid_mat_submod <- fixest::feols(
   data = triQc,
   cluster = ~c(chemical.id, naics.code, facility.state)
 )
-fixest::etable(sdid_mat_submod, agg = "ATT", digits = 3, digits.stats = 3)
-fixest::etable(sdid_mat_submod, agg = "cohort", digits = 3, digits.stats = 3)
+fixest::etable(sdid_organic_solvent_hrpr, agg = "ATT", digits = 3, digits.stats = 3)
+fixest::etable(sdid_organic_solvent_hrpr, agg = "cohort", digits = 3, digits.stats = 3)
 #======================================================================================================================#
-### Material: Organic Solvent Substitution
+### Material: Feedstock and Reactive Chemical Substitution---high profit margin (revenue to profit ratio)
 #======================================================================================================================#
-sdid_organic_solvent <- fixest::feols(
-  sub.organic.solvent.matsubmod ~ sunab(ch.year, year) +
+sdid_feedstock_reactchems_hrpr <- fixest::feols(
+  sub.rawm.feedstock.reactchem.matsubmod ~ sunab(ch.year, year):high.profit.margin +
+	e.treated +
+	treated:high.profit.margin +
+	post:high.profit.margin +
+	treated +
+	high.profit.margin +
+	post +
 	gdppc.1 +
 	annual.avg.estabs.1 +
 	cpi.1 +
@@ -673,13 +783,19 @@ sdid_organic_solvent <- fixest::feols(
   data = triQc,
   cluster = ~c(chemical.id, naics.code, facility.state)
 )
-fixest::etable(sdid_organic_solvent, agg = "ATT", digits = 3, digits.stats = 3)
-fixest::etable(sdid_organic_solvent, agg = "cohort", digits = 3, digits.stats = 3)
+fixest::etable(sdid_feedstock_reactchems_hrpr, agg = "ATT", digits = 3, digits.stats = 3)
+fixest::etable(sdid_feedstock_reactchems_hrpr, agg = "cohort", digits = 3, digits.stats = 3)
 #======================================================================================================================#
-### Material: Feedstock and Reactive Chemical Substitution
+### Material: manufacturing, processing aids, and ancillary chemical Substitution---high profit margin
 #======================================================================================================================#
-sdid_feedstock_reactchems <- fixest::feols(
-  sub.rawm.feedstock.reactchem.matsubmod ~ sunab(ch.year, year) +
+sdid_manu_aid_hrpr <- fixest::feols(
+  sub.manu.proccess.ancilliary.chems.matsubmod ~ sunab(ch.year, year):high.profit.margin +
+	e.treated +
+	treated:high.profit.margin +
+	post:high.profit.margin +
+	treated +
+	high.profit.margin +
+	post +
 	gdppc.1 +
 	annual.avg.estabs.1 +
 	cpi.1 +
@@ -706,13 +822,19 @@ sdid_feedstock_reactchems <- fixest::feols(
   data = triQc,
   cluster = ~c(chemical.id, naics.code, facility.state)
 )
-fixest::etable(sdid_feedstock_reactchems, agg = "ATT", digits = 3, digits.stats = 3)
-fixest::etable(sdid_feedstock_reactchems, agg = "cohort", digits = 3, digits.stats = 3)
+fixest::etable(sdid_manu_aid_hrpr, agg = "ATT", digits = 3, digits.stats = 3)
+fixest::etable(sdid_manu_aid_hrpr, agg = "cohort", digits = 3, digits.stats = 3)
 #======================================================================================================================#
-### Material: manufacturing aid, processing aid, and ancillary chemical Substitution
+### Material: Increase Purity of Chemicals---high profit margin
 #======================================================================================================================#
-sdid_manu_aid <- fixest::feols(
-  sub.manu.proccess.ancilliary.chems.matsubmod ~ sunab(ch.year, year) +
+sdid_mat_purity_hrpr <- fixest::feols(
+  mod.content.grade.purity.chems.matsubmod ~ sunab(ch.year, year):high.profit.margin +
+	e.treated +
+	treated:high.profit.margin +
+	post:high.profit.margin +
+	treated +
+	high.profit.margin +
+	post +
 	gdppc.1 +
 	annual.avg.estabs.1 +
 	cpi.1 +
@@ -739,13 +861,19 @@ sdid_manu_aid <- fixest::feols(
   data = triQc,
   cluster = ~c(chemical.id, naics.code, facility.state)
 )
-fixest::etable(sdid_manu_aid, agg = "ATT", digits = 3, digits.stats = 3)
-fixest::etable(sdid_manu_aid, agg = "cohort", digits = 3, digits.stats = 3)
+fixest::etable(sdid_mat_purity_hrpr, agg = "ATT", digits = 3, digits.stats = 3)
+fixest::etable(sdid_mat_purity_hrpr, agg = "cohort", digits = 3, digits.stats = 3)
 #======================================================================================================================#
-### Material: Increase Purity of Chemicals
+### Material: Clean Fuel---high profit margin
 #======================================================================================================================#
-sdid_mat_purity <- fixest::feols(
-  mod.content.grade.purity.chems.matsubmod ~ sunab(ch.year, year) +
+sdid_clean_fuel_hrpr <- fixest::feols(
+  sub.fuel.matsubmod ~ sunab(ch.year, year):high.profit.margin +
+	e.treated +
+	treated:high.profit.margin +
+	post:high.profit.margin +
+	treated +
+	high.profit.margin +
+	post +
 	gdppc.1 +
 	annual.avg.estabs.1 +
 	cpi.1 +
@@ -772,13 +900,19 @@ sdid_mat_purity <- fixest::feols(
   data = triQc,
   cluster = ~c(chemical.id, naics.code, facility.state)
 )
-fixest::etable(sdid_mat_purity, agg = "ATT", digits = 3, digits.stats = 3)
-fixest::etable(sdid_mat_purity, agg = "cohort", digits = 3, digits.stats = 3)
+fixest::etable(sdid_clean_fuel_hrpr, agg = "ATT", digits = 3, digits.stats = 3)
+fixest::etable(sdid_clean_fuel_hrpr, agg = "cohort", digits = 3, digits.stats = 3)
 #======================================================================================================================#
-### Material: Clean Fuel
+### Material: Energy Cost Intensity---high profit margin
 #======================================================================================================================#
-sdid_clean_fuel <- fixest::feols(
-  sub.fuel.matsubmod ~ sunab(ch.year, year) +
+sdid_energy_cost_intensity_hrpr <- fixest::feols(
+  l.energy.cost.intensity ~ sunab(ch.year, year):high.profit.margin +
+	e.treated +
+	treated:high.profit.margin +
+	post:high.profit.margin +
+	treated +
+	high.profit.margin +
+	post +
 	gdppc.1 +
 	annual.avg.estabs.1 +
 	cpi.1 +
@@ -805,13 +939,19 @@ sdid_clean_fuel <- fixest::feols(
   data = triQc,
   cluster = ~c(chemical.id, naics.code, facility.state)
 )
-fixest::etable(sdid_clean_fuel, agg = "ATT", digits = 3, digits.stats = 3)
-fixest::etable(sdid_clean_fuel, agg = "cohort", digits = 3, digits.stats = 3)
+fixest::etable(sdid_energy_cost_intensity_hrpr, agg = "ATT", digits = 3, digits.stats = 3)
+fixest::etable(sdid_energy_cost_intensity_hrpr, agg = "cohort", digits = 3, digits.stats = 3)
 #======================================================================================================================#
-### Material: Other material modification
+### Material: Other material modification---high profit margin
 #======================================================================================================================#
-sdid_mat_others <- fixest::feols(
-  other.matmods.matsubmod ~ sunab(ch.year, year) +
+sdid_mat_others_hrpr <- fixest::feols(
+  other.matmods.matsubmod ~ sunab(ch.year, year):high.profit.margin +
+	e.treated +
+	treated:high.profit.margin +
+	post:high.profit.margin +
+	treated +
+	high.profit.margin +
+	post +
 	gdppc.1 +
 	annual.avg.estabs.1 +
 	cpi.1 +
@@ -838,13 +978,19 @@ sdid_mat_others <- fixest::feols(
   data = triQc,
   cluster = ~c(chemical.id, naics.code, facility.state)
 )
-fixest::etable(sdid_mat_others, agg = "ATT", digits = 3, digits.stats = 3)
-fixest::etable(sdid_mat_others, agg = "cohort", digits = 3, digits.stats = 3)
+fixest::etable(sdid_mat_others_hrpr, agg = "ATT", digits = 3, digits.stats = 3)
+fixest::etable(sdid_mat_others_hrpr, agg = "cohort", digits = 3, digits.stats = 3)
 #======================================================================================================================#
-### Product modification
+### Product modification---high profit margin
 #======================================================================================================================#
-sdid_prod_mod <- fixest::feols(
-  product.modification ~ sunab(ch.year, year) +
+sdid_prod_mod_hrpr <- fixest::feols(
+  product.modification ~ sunab(ch.year, year):high.profit.margin +
+	e.treated +
+	treated:high.profit.margin +
+	post:high.profit.margin +
+	treated +
+	high.profit.margin +
+	post +
 	gdppc.1 +
 	annual.avg.estabs.1 +
 	cpi.1 +
@@ -870,13 +1016,19 @@ sdid_prod_mod <- fixest::feols(
   , data = triQc,
   cluster = ~c(chemical.id, naics.code, facility.state)
 )
-fixest::etable(sdid_prod_mod, agg = "ATT", digits = 3, digits.stats = 3)
-fixest::etable(sdid_prod_mod, agg = "cohort", digits = 3, digits.stats = 3)
+fixest::etable(sdid_prod_mod_hrpr, agg = "ATT", digits = 3, digits.stats = 3)
+fixest::etable(sdid_prod_mod_hrpr, agg = "cohort", digits = 3, digits.stats = 3)
 #======================================================================================================================#
-### Product modification: New Product Line
+### Product modification: New Product Line---high profit margin
 #======================================================================================================================#
-sdid_new_prod_line <- fixest::feols(
-  devd.newproductline.pmod ~ sunab(ch.year, year) +
+sdid_new_prod_hine_hrpr <- fixest::feols(
+  devd.newproductline.pmod ~ sunab(ch.year, year):high.profit.margin +
+	e.treated +
+	treated:high.profit.margin +
+	post:high.profit.margin +
+	treated +
+	high.profit.margin +
+	post +
 	gdppc.1 +
 	annual.avg.estabs.1 +
 	cpi.1 +
@@ -903,13 +1055,19 @@ sdid_new_prod_line <- fixest::feols(
   data = triQc,
   cluster = ~c(chemical.id, naics.code, facility.state)
 )
-fixest::etable(sdid_new_prod_line, agg = "ATT", digits = 3, digits.stats = 3)
-fixest::etable(sdid_new_prod_line, agg = "cohort", digits = 3, digits.stats = 3)
+fixest::etable(sdid_new_prod_hine_hrpr, agg = "ATT", digits = 3, digits.stats = 3)
+fixest::etable(sdid_new_prod_hine_hrpr, agg = "cohort", digits = 3, digits.stats = 3)
 #======================================================================================================================#
-### Product modification: Modified Packaging
+### Product modification: Modified Packaging---high profit margin
 #======================================================================================================================#
-sdid_mod_packaging <- fixest::feols(
-  mod.packaging.pmod ~ sunab(ch.year, year) +
+sdid_mod_packaging_hrpr <- fixest::feols(
+  mod.packaging.pmod ~ sunab(ch.year, year):high.profit.margin +
+	e.treated +
+	treated:high.profit.margin +
+	post:high.profit.margin +
+	treated +
+	high.profit.margin +
+	post +
 	gdppc.1 +
 	annual.avg.estabs.1 +
 	cpi.1 +
@@ -936,13 +1094,19 @@ sdid_mod_packaging <- fixest::feols(
   data = triQc,
   cluster = ~c(chemical.id, naics.code, facility.state)
 )
-fixest::etable(sdid_mod_packaging, agg = "ATT", digits = 3, digits.stats = 3)
-fixest::etable(sdid_mod_packaging, agg = "cohort", digits = 3, digits.stats = 3)
+fixest::etable(sdid_mod_packaging_hrpr, agg = "ATT", digits = 3, digits.stats = 3)
+fixest::etable(sdid_mod_packaging_hrpr, agg = "cohort", digits = 3, digits.stats = 3)
 #======================================================================================================================#
-### Product modification: Energy Intensity
+### Product modification: Other Product Modification---high profit margin
 #======================================================================================================================#
-sdid_energy_intensity <- fixest::feols(
-  l.energy.intensity ~ sunab(ch.year, year) +
+sdid_prod_mod_others_hrpr <- fixest::feols(
+  other.pmods.pmod ~ sunab(ch.year, year):high.profit.margin +
+	e.treated +
+	treated:high.profit.margin +
+	post:high.profit.margin +
+	treated +
+	high.profit.margin +
+	post +
 	gdppc.1 +
 	annual.avg.estabs.1 +
 	cpi.1 +
@@ -969,13 +1133,19 @@ sdid_energy_intensity <- fixest::feols(
   data = triQc,
   cluster = ~c(chemical.id, naics.code, facility.state)
 )
-fixest::etable(sdid_energy_intensity, agg = "ATT", digits = 3, digits.stats = 3)
-fixest::etable(sdid_energy_intensity, agg = "cohort", digits = 3, digits.stats = 3)
+fixest::etable(sdid_prod_mod_others_hrpr, agg = "ATT", digits = 3, digits.stats = 3)
+fixest::etable(sdid_prod_mod_others_hrpr, agg = "cohort", digits = 3, digits.stats = 3)
 #======================================================================================================================#
-### Product modification: Other Product Modification
+### Process modification: Process and Equipment Modification---high profit margin
 #======================================================================================================================#
-sdid_prod_mod_others <- fixest::feols(
-  other.pmods.pmod ~ sunab(ch.year, year) +
+sdid_process_equip_mod_hrpr <- fixest::feols(
+  process.equip.modification ~ sunab(ch.year, year):high.profit.margin +
+	e.treated +
+	treated:high.profit.margin +
+	post:high.profit.margin +
+	treated +
+	high.profit.margin +
+	post +
 	gdppc.1 +
 	annual.avg.estabs.1 +
 	cpi.1 +
@@ -1002,13 +1172,19 @@ sdid_prod_mod_others <- fixest::feols(
   data = triQc,
   cluster = ~c(chemical.id, naics.code, facility.state)
 )
-fixest::etable(sdid_prod_mod_others, agg = "ATT", digits = 3, digits.stats = 3)
-fixest::etable(sdid_prod_mod_others, agg = "cohort", digits = 3, digits.stats = 3)
+fixest::etable(sdid_process_equip_mod_hrpr, agg = "ATT", digits = 3, digits.stats = 3)
+fixest::etable(sdid_process_equip_mod_hrpr, agg = "cohort", digits = 3, digits.stats = 3)
 #======================================================================================================================#
-### Process modification: Process and Equipment Modification
+### Process modification: Optimised Process Efficiency---high profit margin
 #======================================================================================================================#
-sdid_process_equip_mod <- fixest::feols(
-  process.equip.modification ~ sunab(ch.year, year) +
+sdid_optimised_process_efficiency_hrpr <- fixest::feols(
+  optimised.process.efficiency.pequipmod ~ sunab(ch.year, year):high.profit.margin +
+	e.treated +
+	treated:high.profit.margin +
+	post:high.profit.margin +
+	treated +
+	high.profit.margin +
+	post +
 	gdppc.1 +
 	annual.avg.estabs.1 +
 	cpi.1 +
@@ -1035,13 +1211,19 @@ sdid_process_equip_mod <- fixest::feols(
   data = triQc,
   cluster = ~c(chemical.id, naics.code, facility.state)
 )
-fixest::etable(sdid_process_equip_mod, agg = "ATT", digits = 3, digits.stats = 3)
-fixest::etable(sdid_process_equip_mod, agg = "cohort", digits = 3, digits.stats = 3)
+fixest::etable(sdid_optimised_process_efficiency_hrpr, agg = "ATT", digits = 3, digits.stats = 3)
+fixest::etable(sdid_optimised_process_efficiency_hrpr, agg = "cohort", digits = 3, digits.stats = 3)
 #======================================================================================================================#
-### Process modification: Optimised Process Efficiency
+### Process modification: Recirculation in Process---high profit margin
 #======================================================================================================================#
-sdid_optimised_process_efficiency <- fixest::feols(
-  optimised.process.efficiency.pequipmod ~ sunab(ch.year, year) +
+sdid_recirculate_inprocess_hrpr <- fixest::feols(
+  recirculationinprocess.pequipmod ~ sunab(ch.year, year):high.profit.margin +
+	e.treated +
+	treated:high.profit.margin +
+	post:high.profit.margin +
+	treated +
+	high.profit.margin +
+	post +
 	gdppc.1 +
 	annual.avg.estabs.1 +
 	cpi.1 +
@@ -1068,13 +1250,19 @@ sdid_optimised_process_efficiency <- fixest::feols(
   data = triQc,
   cluster = ~c(chemical.id, naics.code, facility.state)
 )
-fixest::etable(sdid_optimised_process_efficiency, agg = "ATT", digits = 3, digits.stats = 3)
-fixest::etable(sdid_optimised_process_efficiency, agg = "cohort", digits = 3, digits.stats = 3)
+fixest::etable(sdid_recirculate_inprocess_hrpr, agg = "ATT", digits = 3, digits.stats = 3)
+fixest::etable(sdid_recirculate_inprocess_hrpr, agg = "cohort", digits = 3, digits.stats = 3)
 #======================================================================================================================#
-### Process modification: Recirculation in Process
+### Process modification: New Technology and Technique in manufacturing process---high profit margin
 #======================================================================================================================#
-sdid_recirculate_inprocess <- fixest::feols(
-  recirculationinprocess.pequipmod ~ sunab(ch.year, year) +
+sdid_new_tech_hrpr <- fixest::feols(
+  newtech.technique.process.pequipmod ~ sunab(ch.year, year):high.profit.margin +
+	e.treated +
+	treated:high.profit.margin +
+	post:high.profit.margin +
+	treated +
+	high.profit.margin +
+	post +
 	gdppc.1 +
 	annual.avg.estabs.1 +
 	cpi.1 +
@@ -1101,13 +1289,19 @@ sdid_recirculate_inprocess <- fixest::feols(
   data = triQc,
   cluster = ~c(chemical.id, naics.code, facility.state)
 )
-fixest::etable(sdid_recirculate_inprocess, agg = "ATT", digits = 3, digits.stats = 3)
-fixest::etable(sdid_recirculate_inprocess, agg = "cohort", digits = 3, digits.stats = 3)
+fixest::etable(sdid_new_tech_hrpr, agg = "ATT", digits = 3, digits.stats = 3)
+fixest::etable(sdid_new_tech_hrpr, agg = "cohort", digits = 3, digits.stats = 3)
 #======================================================================================================================#
-### Process modification: New Technology and Technique in manufacturing process
+### Process modification: Recycling to reuse---high profit margin
 #======================================================================================================================#
-sdid_new_tech <- fixest::feols(
-  newtech.technique.process.pequipmod ~ sunab(ch.year, year) +
+sdid_recylce_dummy_hrpr <- fixest::feols(
+  recycling.dummy ~ sunab(ch.year, year):high.profit.margin +
+	e.treated +
+	treated:high.profit.margin +
+	post:high.profit.margin +
+	treated +
+	high.profit.margin +
+	post +
 	gdppc.1 +
 	annual.avg.estabs.1 +
 	cpi.1 +
@@ -1134,13 +1328,19 @@ sdid_new_tech <- fixest::feols(
   data = triQc,
   cluster = ~c(chemical.id, naics.code, facility.state)
 )
-fixest::etable(sdid_new_tech, agg = "ATT", digits = 3, digits.stats = 3)
-fixest::etable(sdid_new_tech, agg = "cohort", digits = 3, digits.stats = 3)
+fixest::etable(sdid_recylce_dummy_hrpr, agg = "ATT", digits = 3, digits.stats = 3)
+fixest::etable(sdid_recylce_dummy_hrpr, agg = "cohort", digits = 3, digits.stats = 3)
 #======================================================================================================================#
-### Process modification: Recycling to reuse
+### Process modification: Research & Development---high profit margin
 #======================================================================================================================#
-sdid_recylce_dummy <- fixest::feols(
-  recycling.dummy ~ sunab(ch.year, year) +
+sdid_research_hrpr <- fixest::feols(
+  r.and.d ~ sunab(ch.year, year):high.profit.margin +
+	e.treated +
+	treated:high.profit.margin +
+	post:high.profit.margin +
+	treated +
+	high.profit.margin +
+	post +
 	gdppc.1 +
 	annual.avg.estabs.1 +
 	cpi.1 +
@@ -1167,13 +1367,19 @@ sdid_recylce_dummy <- fixest::feols(
   data = triQc,
   cluster = ~c(chemical.id, naics.code, facility.state)
 )
-fixest::etable(sdid_recylce_dummy, agg = "ATT", digits = 3, digits.stats = 3)
-fixest::etable(sdid_recylce_dummy, agg = "cohort", digits = 3, digits.stats = 3)
+fixest::etable(sdid_research_hrpr, agg = "ATT", digits = 3, digits.stats = 3)
+fixest::etable(sdid_research_hrpr, agg = "cohort", digits = 3, digits.stats = 3)
 #======================================================================================================================#
-### Process modification: Research & Development
+### Process modification: Total factor productivity---high profit margin
 #======================================================================================================================#
-sdid_research <- fixest::feols(
-  r.and.d ~ sunab(ch.year, year) +
+sdid_tfp_hrpr <- fixest::feols(
+  l.tfp5 ~ sunab(ch.year, year):high.profit.margin +
+	e.treated +
+	treated:high.profit.margin +
+	post:high.profit.margin +
+	treated +
+	high.profit.margin +
+	post +
 	gdppc.1 +
 	annual.avg.estabs.1 +
 	cpi.1 +
@@ -1200,13 +1406,19 @@ sdid_research <- fixest::feols(
   data = triQc,
   cluster = ~c(chemical.id, naics.code, facility.state)
 )
-fixest::etable(sdid_research, agg = "ATT", digits = 3, digits.stats = 3)
-fixest::etable(sdid_research, agg = "cohort", digits = 3, digits.stats = 3)
+fixest::etable(sdid_tfp_hrpr, agg = "ATT", digits = 3, digits.stats = 3)
+fixest::etable(sdid_tfp_hrpr, agg = "cohort", digits = 3, digits.stats = 3)
 #======================================================================================================================#
-### Process modification: Process Modification, Others
+### Process modification: Process Modification, Others---high profit margin
 #======================================================================================================================#
-sdid_process_mod_others <- fixest::feols(
-  other.pequipmods.pequipmod ~ sunab(ch.year, year) +
+sdid_process_mod_others_hrpr <- fixest::feols(
+  other.pequipmods.pequipmod ~ sunab(ch.year, year):high.profit.margin +
+	e.treated +
+	treated:high.profit.margin +
+	post:high.profit.margin +
+	treated +
+	high.profit.margin +
+	post +
 	gdppc.1 +
 	annual.avg.estabs.1 +
 	cpi.1 +
@@ -1233,13 +1445,19 @@ sdid_process_mod_others <- fixest::feols(
   data = triQc,
   cluster = ~c(chemical.id, naics.code, facility.state)
 )
-fixest::etable(sdid_process_mod_others, agg = "ATT", digits = 3, digits.stats = 3)
-fixest::etable(sdid_process_mod_others, agg = "cohort", digits = 3, digits.stats = 3)
+fixest::etable(sdid_process_mod_others_hrpr, agg = "ATT", digits = 3, digits.stats = 3)
+fixest::etable(sdid_process_mod_others_hrpr, agg = "cohort", digits = 3, digits.stats = 3)
 #======================================================================================================================#
-### Inventory management: Inventory Material Management
+### Inventory management: Inventory Material Management---high profit margin
 #======================================================================================================================#
-sdid_inventory_mat_mgt <- fixest::feols(
-  inventory.material.mgt ~ sunab(ch.year, year) +
+sdid_inventory_mat_mgt_hrpr <- fixest::feols(
+  inventory.material.mgt ~ sunab(ch.year, year):high.profit.margin +
+	e.treated +
+	treated:high.profit.margin +
+	post:high.profit.margin +
+	treated +
+	high.profit.margin +
+	post +
 	gdppc.1 +
 	annual.avg.estabs.1 +
 	cpi.1 +
@@ -1266,13 +1484,19 @@ sdid_inventory_mat_mgt <- fixest::feols(
   data = triQc,
   cluster = ~c(chemical.id, naics.code, facility.state)
 )
-fixest::etable(sdid_inventory_mat_mgt, agg = "ATT", digits = 3, digits.stats = 3)
-fixest::etable(sdid_inventory_mat_mgt, agg = "cohort", digits = 3, digits.stats = 3)
+fixest::etable(sdid_inventory_mat_mgt_hrpr, agg = "ATT", digits = 3, digits.stats = 3)
+fixest::etable(sdid_inventory_mat_mgt_hrpr, agg = "cohort", digits = 3, digits.stats = 3)
 #======================================================================================================================#
-### Inventory management: Better Labelling and Testing
+### Inventory management: Better Labelling and Testing---high profit margin
 #======================================================================================================================#
-sdid_better_labelling_testing <- fixest::feols(
-  better.labelling.testing.immgt ~ sunab(ch.year, year) +
+sdid_better_habelling_testing_hrpr <- fixest::feols(
+  better.labelling.testing.immgt ~ sunab(ch.year, year):high.profit.margin +
+	e.treated +
+	treated:high.profit.margin +
+	post:high.profit.margin +
+	treated +
+	high.profit.margin +
+	post +
 	gdppc.1 +
 	annual.avg.estabs.1 +
 	cpi.1 +
@@ -1299,13 +1523,19 @@ sdid_better_labelling_testing <- fixest::feols(
   data = triQc,
   cluster = ~c(chemical.id, naics.code, facility.state)
 )
-fixest::etable(sdid_better_labelling_testing, agg = "ATT", digits = 3, digits.stats = 3)
-fixest::etable(sdid_better_labelling_testing, agg = "cohort", digits = 3, digits.stats = 3)
+fixest::etable(sdid_better_habelling_testing_hrpr, agg = "ATT", digits = 3, digits.stats = 3)
+fixest::etable(sdid_better_habelling_testing_hrpr, agg = "cohort", digits = 3, digits.stats = 3)
 #======================================================================================================================#
-### Inventory management: Containers size change
+### Inventory management: Containers size change---high profit marrgin
 #======================================================================================================================#
-sdid_containers_sizechange <- fixest::feols(
-  containers.sizechange.immgt ~ sunab(ch.year, year) +
+sdid_containers_sizechange_hrpr <- fixest::feols(
+  containers.sizechange.immgt ~ sunab(ch.year, year):high.profit.margin +
+	e.treated +
+	treated:high.profit.margin +
+	post:high.profit.margin +
+	treated +
+	high.profit.margin +
+	post +
 	gdppc.1 +
 	annual.avg.estabs.1 +
 	cpi.1 +
@@ -1332,13 +1562,19 @@ sdid_containers_sizechange <- fixest::feols(
   data = triQc,
   cluster = ~c(chemical.id, naics.code, facility.state)
 )
-fixest::etable(sdid_containers_sizechange, agg = "ATT", digits = 3, digits.stats = 3)
-fixest::etable(sdid_containers_sizechange, agg = "cohort", digits = 3, digits.stats = 3)
+fixest::etable(sdid_containers_sizechange_hrpr, agg = "ATT", digits = 3, digits.stats = 3)
+fixest::etable(sdid_containers_sizechange_hrpr, agg = "cohort", digits = 3, digits.stats = 3)
 #======================================================================================================================#
-### Inventory management: Improved material handling operations
+### Inventory management: Improved material handling operations---high profit margin
 #======================================================================================================================#
-sdid_mat_handling <- fixest::feols(
-  improved.materialhandling.operations.immgt ~ sunab(ch.year, year) +
+sdid_mat_handling_hrpr <- fixest::feols(
+  improved.materialhandling.operations.immgt ~ sunab(ch.year, year):high.profit.margin +
+	e.treated +
+	treated:high.profit.margin +
+	post:high.profit.margin +
+	treated +
+	high.profit.margin +
+	post +
 	gdppc.1 +
 	annual.avg.estabs.1 +
 	cpi.1 +
@@ -1365,13 +1601,19 @@ sdid_mat_handling <- fixest::feols(
   data = triQc,
   cluster = ~c(chemical.id, naics.code, facility.state)
 )
-fixest::etable(sdid_mat_handling, agg = "ATT", digits = 3, digits.stats = 3)
-fixest::etable(sdid_mat_handling, agg = "cohort", digits = 3, digits.stats = 3)
+fixest::etable(sdid_mat_handling_hrpr, agg = "ATT", digits = 3, digits.stats = 3)
+fixest::etable(sdid_mat_handling_hrpr, agg = "cohort", digits = 3, digits.stats = 3)
 #======================================================================================================================#
-### Inventory management: Improved monitoring
+### Inventory management: Improved monitoring---high profit margin
 #======================================================================================================================#
-sdid_improved_monitoring <- fixest::feols(
-  improved.monitoring.immgt ~ sunab(ch.year, year) +
+sdid_improved_monitoring_hrpr <- fixest::feols(
+  improved.monitoring.immgt ~ sunab(ch.year, year):high.profit.margin +
+	e.treated +
+	treated:high.profit.margin +
+	post:high.profit.margin +
+	treated +
+	high.profit.margin +
+	post +
 	gdppc.1 +
 	annual.avg.estabs.1 +
 	cpi.1 +
@@ -1398,13 +1640,19 @@ sdid_improved_monitoring <- fixest::feols(
   data = triQc,
   cluster = ~c(chemical.id, naics.code, facility.state)
 )
-fixest::etable(sdid_improved_monitoring, agg = "ATT", digits = 3, digits.stats = 3)
-fixest::etable(sdid_improved_monitoring, agg = "cohort", digits = 3, digits.stats = 3)
+fixest::etable(sdid_improved_monitoring_hrpr, agg = "ATT", digits = 3, digits.stats = 3)
+fixest::etable(sdid_improved_monitoring_hrpr, agg = "cohort", digits = 3, digits.stats = 3)
 #======================================================================================================================#
-### Inventory management: Inventory Management, Others
+### Inventory management: Inventory Management, Others---high profit margin
 #======================================================================================================================#
-sdid_inventory_mgt_others <- fixest::feols(
-  other.immgts.immgt ~ sunab(ch.year, year) +
+sdid_inventory_mgt_others_hrpr <- fixest::feols(
+  other.immgts.immgt ~ sunab(ch.year, year):high.profit.margin +
+	e.treated +
+	treated:high.profit.margin +
+	post:high.profit.margin +
+	treated +
+	high.profit.margin +
+	post +
 	gdppc.1 +
 	annual.avg.estabs.1 +
 	cpi.1 +
@@ -1431,13 +1679,19 @@ sdid_inventory_mgt_others <- fixest::feols(
   data = triQc,
   cluster = ~c(chemical.id, naics.code, facility.state)
 )
-fixest::etable(sdid_inventory_mgt_others, agg = "ATT", digits = 3, digits.stats = 3)
-fixest::etable(sdid_inventory_mgt_others, agg = "cohort", digits = 3, digits.stats = 3)
+fixest::etable(sdid_inventory_mgt_others_hrpr, agg = "ATT", digits = 3, digits.stats = 3)
+fixest::etable(sdid_inventory_mgt_others_hrpr, agg = "cohort", digits = 3, digits.stats = 3)
 #======================================================================================================================#
-### Operations: Operating Practices & Training
+### Operations: Operating Practices & Training---high profit margin
 #======================================================================================================================#
-sdid_operating_practices_training <- fixest::feols(
-  operating.practices.training ~ sunab(ch.year, year) +
+sdid_operating_practices_training_hrpr <- fixest::feols(
+  operating.practices.training ~ sunab(ch.year, year):high.profit.margin +
+	e.treated +
+	treated:high.profit.margin +
+	post:high.profit.margin +
+	treated +
+	high.profit.margin +
+	post +
 	gdppc.1 +
 	annual.avg.estabs.1 +
 	cpi.1 +
@@ -1464,13 +1718,19 @@ sdid_operating_practices_training <- fixest::feols(
   data = triQc,
   cluster = ~c(chemical.id, naics.code, facility.state)
 )
-fixest::etable(sdid_operating_practices_training, agg = "ATT", digits = 3, digits.stats = 3)
-fixest::etable(sdid_operating_practices_training, agg = "cohort", digits = 3, digits.stats = 3)
+fixest::etable(sdid_operating_practices_training_hrpr, agg = "ATT", digits = 3, digits.stats = 3)
+fixest::etable(sdid_operating_practices_training_hrpr, agg = "cohort", digits = 3, digits.stats = 3)
 #======================================================================================================================#
-### Operations: Improved Scheduling Operation
+### Operations: Improved Scheduling Operation---high profit margin
 #======================================================================================================================#
-sdid_improved_schedule_operation <- fixest::feols(
-  improved.schdule.operation.procedures.opt ~ sunab(ch.year, year) +
+sdid_improved_schedule_operation_hrpr <- fixest::feols(
+  improved.schdule.operation.procedures.opt ~ sunab(ch.year, year):high.profit.margin +
+	e.treated +
+	treated:high.profit.margin +
+	post:high.profit.margin +
+	treated +
+	high.profit.margin +
+	post +
 	gdppc.1 +
 	annual.avg.estabs.1 +
 	cpi.1 +
@@ -1497,13 +1757,3615 @@ sdid_improved_schedule_operation <- fixest::feols(
   data = triQc,
   cluster = ~c(chemical.id, naics.code, facility.state)
 )
-fixest::etable(sdid_improved_schedule_operation, agg = "ATT", digits = 3, digits.stats = 3)
-fixest::etable(sdid_improved_schedule_operation, agg = "cohort", digits = 3, digits.stats = 3)
+fixest::etable(sdid_improved_schedule_operation_hrpr, agg = "ATT", digits = 3, digits.stats = 3)
+fixest::etable(sdid_improved_schedule_operation_hrpr, agg = "cohort", digits = 3, digits.stats = 3)
 #======================================================================================================================#
-### Operations: Changed Production Schedule
+### Operations: Changed Production Schedule---high profit margin
 #======================================================================================================================#
-sdid_changed_prod_schedule <- fixest::feols(
-  changed.production.schedule.opt ~ sunab(ch.year, year) +
+sdid_changed_prod_schedule_hrpr <- fixest::feols(
+  changed.production.schedule.opt ~ sunab(ch.year, year):high.profit.margin +
+	e.treated +
+	treated:high.profit.margin +
+	post:high.profit.margin +
+	treated +
+	high.profit.margin +
+	post +
+	gdppc.1 +
+	annual.avg.estabs.1 +
+	cpi.1 +
+	federal.facility +
+	produced.chem.facility +
+	imported.chem.facility +
+	chemical.formulation.component +
+	chemical.article.component +
+	chemical.manufacturing.aid +
+	chemical.ancilliary.use +
+	production.ratio.activity.index +
+	maxnum.chem.onsite +
+	clean.air.act.chems +
+	hap.chems +
+	pbt.chems
+	|
+	year +
+	  facility.id.fe +
+	  border.county.fe +
+	  chemical.id.fe +
+	  chemical.year.fe +
+	  border.county.year
+  ,
+  data = triQc,
+  cluster = ~c(chemical.id, naics.code, facility.state)
+)
+fixest::etable(sdid_changed_prod_schedule_hrpr, agg = "ATT", digits = 3, digits.stats = 3)
+fixest::etable(sdid_changed_prod_schedule_hrpr, agg = "cohort", digits = 3, digits.stats = 3)
+#======================================================================================================================#
+### Operations: Inline Product Quality and Process Analysis---high profit margin
+#======================================================================================================================#
+sdid_inline_prod_quality_analysis_hrpr <- fixest::feols(
+  intro.inline.productquality.process.analysis.opt ~ sunab(ch.year, year):high.profit.margin +
+	e.treated +
+	treated:high.profit.margin +
+	post:high.profit.margin +
+	treated +
+	high.profit.margin +
+	post +
+	gdppc.1 +
+	annual.avg.estabs.1 +
+	cpi.1 +
+	federal.facility +
+	produced.chem.facility +
+	imported.chem.facility +
+	chemical.formulation.component +
+	chemical.article.component +
+	chemical.manufacturing.aid +
+	chemical.ancilliary.use +
+	production.ratio.activity.index +
+	maxnum.chem.onsite +
+	clean.air.act.chems +
+	hap.chems +
+	pbt.chems
+	|
+	year +
+	  facility.id.fe +
+	  border.county.fe +
+	  chemical.id.fe +
+	  chemical.year.fe +
+	  border.county.year
+  ,
+  data = triQc,
+  cluster = ~c(chemical.id, naics.code, facility.state)
+)
+fixest::etable(sdid_inline_prod_quality_analysis_hrpr, agg = "ATT", digits = 3, digits.stats = 3)
+fixest::etable(sdid_inline_prod_quality_analysis_hrpr, agg = "cohort", digits = 3, digits.stats = 3)
+#======================================================================================================================#
+### Type of Production Technology
+# Labour intensive industries---High payroll or wages to revenue ratio
+# Capacity intensive industries---Low payroll or wages to revenue ratio
+#======================================================================================================================#
+### Total waste management onsite---high payroll to revenue ratio
+#======================================================================================================================#
+sdid_waste_mgt_onsite_hprr <- fixest::feols(
+  l.total.waste.management.onsite ~ sunab(ch.year, year):high.payroll.revenue +
+	e.treated +
+	treated:high.payroll.revenue +
+	post:high.payroll.revenue +
+	treated +
+	high.payroll.revenue +
+	post +
+	gdppc.1 +
+	annual.avg.estabs.1 +
+	cpi.1 +
+	federal.facility +
+	produced.chem.facility +
+	imported.chem.facility +
+	chemical.formulation.component +
+	chemical.article.component +
+	chemical.manufacturing.aid +
+	chemical.ancilliary.use +
+	production.ratio.activity.index +
+	maxnum.chem.onsite +
+	clean.air.act.chems +
+	hap.chems +
+	pbt.chems
+	|
+	year +
+	  facility.id.fe +
+	  border.county.fe +
+	  chemical.id.fe +
+	  chemical.year.fe +
+	  border.county.year
+  ,
+  data = triQc,
+  cluster = ~c(chemical.id, naics.code, facility.state)
+)
+etable(sdid_waste_mgt_onsite_hprr, agg = "ATT", digits = 3, digits.stats = 3)
+etable(sdid_waste_mgt_onsite_hprr, agg = "cohort", digits = 3, digits.stats = 3)
+#======================================================================================================================#
+### Treatment onsite---high payroll to revenue ratio
+#======================================================================================================================#
+sdid_treatment_onsite_hprr <- fixest::feols(
+  l.treatment.onsite ~ sunab(ch.year, year):high.payroll.revenue +
+	e.treated +
+	treated:high.payroll.revenue +
+	post:high.payroll.revenue +
+	treated +
+	high.payroll.revenue +
+	post +
+	gdppc.1 +
+	annual.avg.estabs.1 +
+	cpi.1 +
+	federal.facility +
+	produced.chem.facility +
+	imported.chem.facility +
+	chemical.formulation.component +
+	chemical.article.component +
+	chemical.manufacturing.aid +
+	chemical.ancilliary.use +
+	production.ratio.activity.index +
+	maxnum.chem.onsite +
+	clean.air.act.chems +
+	hap.chems +
+	pbt.chems
+	|
+	year +
+	  facility.id.fe +
+	  border.county.fe +
+	  chemical.id.fe +
+	  chemical.year.fe +
+	  border.county.year
+  ,
+  data = triQc,
+  cluster = ~c(chemical.id, naics.code, facility.state)
+)
+fixest::etable(sdid_treatment_onsite_hprr, agg = "ATT", digits = 3, digits.stats = 3)
+fixest::etable(sdid_treatment_onsite_hprr, agg = "cohort", digits = 3, digits.stats = 3)
+#======================================================================================================================#
+### Treatment method: Air emissions treatment onsite---high payroll to revenue ratio
+#======================================================================================================================#
+sdid_air_emissions_treatment_hprr <- fixest::feols(
+  l.air.emissions.treatment.onsite ~ sunab(ch.year, year):high.payroll.revenue +
+	e.treated +
+	treated:high.payroll.revenue +
+	post:high.payroll.revenue +
+	treated +
+	high.payroll.revenue +
+	post +
+	gdppc.1 +
+	annual.avg.estabs.1 +
+	cpi.1 +
+	federal.facility +
+	produced.chem.facility +
+	imported.chem.facility +
+	chemical.formulation.component +
+	chemical.article.component +
+	chemical.manufacturing.aid +
+	chemical.ancilliary.use +
+	production.ratio.activity.index +
+	maxnum.chem.onsite +
+	clean.air.act.chems +
+	hap.chems +
+	pbt.chems
+	|
+	year +
+	  facility.id.fe +
+	  border.county.fe +
+	  chemical.id.fe +
+	  chemical.year.fe +
+	  border.county.year
+  ,
+  data = triQc,
+  cluster = ~c(chemical.id, naics.code, facility.state)
+)
+fixest::etable(sdid_air_emissions_treatment_hprr, agg = "ATT", digits = 3, digits.stats = 3)
+fixest::etable(sdid_air_emissions_treatment_hprr, agg = "cohort", digits = 3, digits.stats = 3)
+#======================================================================================================================#
+### Treatment method: Biological treatment onsite---high payroll to revenue ratio
+#======================================================================================================================#
+sdid_bio_treatment_hprr <- fixest::feols(
+  l.biological.treatment.onsite ~ sunab(ch.year, year):high.payroll.revenue +
+	e.treated +
+	treated:high.payroll.revenue +
+	post:high.payroll.revenue +
+	treated +
+	high.payroll.revenue +
+	post +
+	gdppc.1 +
+	annual.avg.estabs.1 +
+	cpi.1 +
+	federal.facility +
+	produced.chem.facility +
+	imported.chem.facility +
+	chemical.formulation.component +
+	chemical.article.component +
+	chemical.manufacturing.aid +
+	chemical.ancilliary.use +
+	production.ratio.activity.index +
+	maxnum.chem.onsite +
+	clean.air.act.chems +
+	hap.chems +
+	pbt.chems
+	|
+	year +
+	  facility.id.fe +
+	  border.county.fe +
+	  chemical.id.fe +
+	  chemical.year.fe +
+	  border.county.year
+  ,
+  data = triQc,
+  cluster = ~c(chemical.id, naics.code, facility.state)
+)
+fixest::etable(sdid_bio_treatment_hprr, agg = "ATT", digits = 3, digits.stats = 3)
+fixest::etable(sdid_bio_treatment_hprr, agg = "cohort", digits = 3, digits.stats = 3)
+#======================================================================================================================#
+### Treatment method: Chemical treatment onsite---high payroll to revenue ratio
+#======================================================================================================================#
+sdid_chem_treatment_hprr <- fixest::feols(
+  l.chemical.treatment.onsite ~ sunab(ch.year, year):high.payroll.revenue +
+	e.treated +
+	treated:high.payroll.revenue +
+	post:high.payroll.revenue +
+	treated +
+	high.payroll.revenue +
+	post +
+	gdppc.1 +
+	annual.avg.estabs.1 +
+	cpi.1 +
+	federal.facility +
+	produced.chem.facility +
+	imported.chem.facility +
+	chemical.formulation.component +
+	chemical.article.component +
+	chemical.manufacturing.aid +
+	chemical.ancilliary.use +
+	production.ratio.activity.index +
+	maxnum.chem.onsite +
+	clean.air.act.chems +
+	hap.chems +
+	pbt.chems
+	|
+	year +
+	  facility.id.fe +
+	  border.county.fe +
+	  chemical.id.fe +
+	  chemical.year.fe +
+	  border.county.year
+  ,
+  data = triQc,
+  cluster = ~c(chemical.id, naics.code, facility.state)
+)
+fixest::etable(sdid_chem_treatment_hprr, agg = "ATT", digits = 3, digits.stats = 3)
+fixest::etable(sdid_chem_treatment_hprr, agg = "cohort", digits = 3, digits.stats = 3)
+#======================================================================================================================#
+### Treatment menthod: Physical treatment onsite---high payroll to revenue ratio
+#======================================================================================================================#
+sdid_physical_treatment_hprr <- fixest::feols(
+  l.physical.treatment.onsite ~ sunab(ch.year, year):high.payroll.revenue +
+	e.treated +
+	treated:high.payroll.revenue +
+	post:high.payroll.revenue +
+	treated +
+	high.payroll.revenue +
+	post +
+	gdppc.1 +
+	annual.avg.estabs.1 +
+	cpi.1 +
+	federal.facility +
+	produced.chem.facility +
+	imported.chem.facility +
+	chemical.formulation.component +
+	chemical.article.component +
+	chemical.manufacturing.aid +
+	chemical.ancilliary.use +
+	production.ratio.activity.index +
+	maxnum.chem.onsite +
+	clean.air.act.chems +
+	hap.chems +
+	pbt.chems
+	|
+	year +
+	  facility.id.fe +
+	  border.county.fe +
+	  chemical.id.fe +
+	  chemical.year.fe +
+	  border.county.year
+  ,
+  data = triQc,
+  cluster = ~c(chemical.id, naics.code, facility.state)
+)
+fixest::etable(sdid_physical_treatment_hprr, agg = "ATT", digits = 3, digits.stats = 3)
+fixest::etable(sdid_physical_treatment_hprr, agg = "cohort", digits = 3, digits.stats = 3)
+#======================================================================================================================#
+### Treatment menthod: Incineration thermal treatment onsite---high payroll to revenue ratio
+#======================================================================================================================#
+sdid_incineration_treatment_hprr <- fixest::feols(
+  l.incineration.thermal.treatment.onsite ~ sunab(ch.year, year):high.payroll.revenue +
+	e.treated +
+	treated:high.payroll.revenue +
+	post:high.payroll.revenue +
+	treated +
+	high.payroll.revenue +
+	post +
+	gdppc.1 +
+	annual.avg.estabs.1 +
+	cpi.1 +
+	federal.facility +
+	produced.chem.facility +
+	imported.chem.facility +
+	chemical.formulation.component +
+	chemical.article.component +
+	chemical.manufacturing.aid +
+	chemical.ancilliary.use +
+	production.ratio.activity.index +
+	maxnum.chem.onsite +
+	clean.air.act.chems +
+	hap.chems +
+	pbt.chems
+	|
+	year +
+	  facility.id.fe +
+	  border.county.fe +
+	  chemical.id.fe +
+	  chemical.year.fe +
+	  border.county.year
+  ,
+  data = triQc,
+  cluster = ~c(chemical.id, naics.code, facility.state)
+)
+fixest::etable(sdid_incineration_treatment_hprr, agg = "ATT", digits = 3, digits.stats = 3)
+fixest::etable(sdid_incineration_treatment_hprr, agg = "cohort", digits = 3, digits.stats = 3)
+#======================================================================================================================#
+### Energy recovery onsite---high payroll to revenue ratio
+#======================================================================================================================#
+sdid_energy_recovery_hprr <- fixest::feols(
+  l.energy.recovery.onsite ~ sunab(ch.year, year):high.payroll.revenue +
+	e.treated +
+	treated:high.payroll.revenue +
+	post:high.payroll.revenue +
+	treated +
+	high.payroll.revenue +
+	post +
+	gdppc.1 +
+	annual.avg.estabs.1 +
+	cpi.1 +
+	federal.facility +
+	produced.chem.facility +
+	imported.chem.facility +
+	chemical.formulation.component +
+	chemical.article.component +
+	chemical.manufacturing.aid +
+	chemical.ancilliary.use +
+	production.ratio.activity.index +
+	maxnum.chem.onsite +
+	clean.air.act.chems +
+	hap.chems +
+	pbt.chems
+	|
+	year +
+	  facility.id.fe +
+	  border.county.fe +
+	  chemical.id.fe +
+	  chemical.year.fe +
+	  border.county.year
+  ,
+  data = triQc,
+  cluster = ~c(chemical.id, naics.code, facility.state)
+)
+fixest::etable(sdid_energy_recovery_hprr, agg = "ATT", digits = 3, digits.stats = 3)
+fixest::etable(sdid_energy_recovery_hprr, agg = "cohort", digits = 3, digits.stats = 3)
+#======================================================================================================================#
+### Energy recovery method: Industrial kiln onsite---high payroll to revenue ratio
+#======================================================================================================================#
+sdid_ind_klin_hprr <- fixest::feols(
+  l.industrial.kiln.onsite ~ sunab(ch.year, year):high.wages.revenue +
+	e.treated +
+	treated:high.wages.revenue +
+	post:high.wages.revenue +
+	treated +
+	high.wages.revenue +
+	post +
+	gdppc.1 +
+	annual.avg.estabs.1 +
+	cpi.1 +
+	federal.facility +
+	produced.chem.facility +
+	imported.chem.facility +
+	chemical.formulation.component +
+	chemical.article.component +
+	chemical.manufacturing.aid +
+	chemical.ancilliary.use +
+	production.ratio.activity.index +
+	maxnum.chem.onsite +
+	clean.air.act.chems +
+	hap.chems +
+	pbt.chems
+	|
+
+	year +
+	  facility.id.fe +
+	  border.county.fe +
+	  chemical.id.fe +
+	  chemical.year.fe +
+	  border.county.year
+  ,
+  data = triQc,
+  cluster = ~c(chemical.id, naics.code, facility.state)
+)
+fixest::etable(sdid_ind_klin_hprr, agg = "ATT", digits = 3, digits.stats = 3)
+fixest::etable(sdid_ind_klin_hprr, agg = "cohort", digits = 3, digits.stats = 3)
+#======================================================================================================================#
+### Energy recovery method: Industrial boiler onsite---high payroll to revenue ratio
+#======================================================================================================================#
+sdid_ind_boiler_hprr <- fixest::feols(
+  l.industrial.boiler.onsite ~ sunab(ch.year, year):high.payroll.revenue +
+	e.treated +
+	treated:high.payroll.revenue +
+	post:high.payroll.revenue +
+	treated +
+	high.payroll.revenue +
+	post +
+	gdppc.1 +
+	annual.avg.estabs.1 +
+	cpi.1 +
+	federal.facility +
+	produced.chem.facility +
+	imported.chem.facility +
+	chemical.formulation.component +
+	chemical.article.component +
+	chemical.manufacturing.aid +
+	chemical.ancilliary.use +
+	production.ratio.activity.index +
+	maxnum.chem.onsite +
+	clean.air.act.chems +
+	hap.chems +
+	pbt.chems
+	|
+	year +
+	  facility.id.fe +
+	  border.county.fe +
+	  chemical.id.fe +
+	  chemical.year.fe +
+	  border.county.year
+  ,
+  data = triQc,
+  cluster = ~c(chemical.id, naics.code, facility.state)
+)
+fixest::etable(sdid_ind_boiler_hprr, agg = "ATT", digits = 3, digits.stats = 3)
+fixest::etable(sdid_ind_boiler_hprr, agg = "cohort", digits = 3, digits.stats = 3)
+#======================================================================================================================#
+### Energy recovery method: Industrial furnace onsite---high payroll to revenue ratio
+#======================================================================================================================#
+sdid_ind_furnace_hprr <- fixest::feols(
+  l.industrial.furnace.onsite ~ sunab(ch.year, year):high.payroll.revenue +
+	e.treated +
+	treated:high.payroll.revenue +
+	post:high.payroll.revenue +
+	treated +
+	high.payroll.revenue +
+	post +
+	gdppc.1 +
+	annual.avg.estabs.1 +
+	cpi.1 +
+	federal.facility +
+	produced.chem.facility +
+	imported.chem.facility +
+	chemical.formulation.component +
+	chemical.article.component +
+	chemical.manufacturing.aid +
+	chemical.ancilliary.use +
+	production.ratio.activity.index +
+	maxnum.chem.onsite +
+	clean.air.act.chems +
+	hap.chems +
+	pbt.chems
+	|
+	year +
+	  facility.id.fe +
+	  border.county.fe +
+	  chemical.id.fe +
+	  chemical.year.fe +
+	  border.county.year
+  ,
+  data = triQc,
+  cluster = ~c(chemical.id, naics.code, facility.state)
+)
+fixest::etable(sdid_ind_furnace_hprr, agg = "ATT", digits = 3, digits.stats = 3)
+fixest::etable(sdid_ind_furnace_hprr, agg = "cohort", digits = 3, digits.stats = 3)
+#======================================================================================================================#
+### Recycling onsite---high payroll to revenue ratio
+#======================================================================================================================#
+sdid_recycle_onsite_hprr <- fixest::feols(
+  l.recycling.onsite ~ sunab(ch.year, year):high.payroll.revenue +
+	e.treated +
+	treated:high.payroll.revenue +
+	post:high.payroll.revenue +
+	treated +
+	high.payroll.revenue +
+	post +
+	gdppc.1 +
+	annual.avg.estabs.1 +
+	cpi.1 +
+	federal.facility +
+	produced.chem.facility +
+	imported.chem.facility +
+	chemical.formulation.component +
+	chemical.article.component +
+	chemical.manufacturing.aid +
+	chemical.ancilliary.use +
+	production.ratio.activity.index +
+	maxnum.chem.onsite +
+	clean.air.act.chems +
+	hap.chems +
+	pbt.chems
+	|
+	year +
+	  facility.id.fe +
+	  border.county.fe +
+	  chemical.id.fe +
+	  chemical.year.fe +
+	  border.county.year
+  ,
+  data = triQc,
+  cluster = ~c(chemical.id, naics.code, facility.state)
+)
+fixest::etable(sdid_recycle_onsite_hprr, agg = "ATT", digits = 3, digits.stats = 3)
+fixest::etable(sdid_recycle_onsite_hprr, agg = "cohort", digits = 3, digits.stats = 3)
+#======================================================================================================================#
+### Recycling process: Reuse onsite---high payroll to revenue ratio
+#======================================================================================================================#
+sdid_reuse_onsite_hprr <- fixest::feols(
+  l.reuse.onsite ~ sunab(ch.year, year):high.payroll.revenue +
+	e.treated +
+	treated:high.payroll.revenue +
+	post:high.payroll.revenue +
+	treated +
+	high.payroll.revenue +
+	post +
+	gdppc.1 +
+	annual.avg.estabs.1 +
+	cpi.1 +
+	federal.facility +
+	produced.chem.facility +
+	imported.chem.facility +
+	chemical.formulation.component +
+	chemical.article.component +
+	chemical.manufacturing.aid +
+	chemical.ancilliary.use +
+	production.ratio.activity.index +
+	maxnum.chem.onsite +
+	clean.air.act.chems +
+	hap.chems +
+	pbt.chems
+	|
+	year +
+	  facility.id.fe +
+	  border.county.fe +
+	  chemical.id.fe +
+	  chemical.year.fe +
+	  border.county.year
+  ,
+  data = triQc,
+  cluster = ~c(chemical.id, naics.code, facility.state)
+)
+fixest::etable(sdid_reuse_onsite_hprr, agg = "ATT", digits = 3, digits.stats = 3)
+fixest::etable(sdid_reuse_onsite_hprr, agg = "cohort", digits = 3, digits.stats = 3)
+#======================================================================================================================#
+### Recycling process: Metal recovery onsite---high payroll to revenue ratio
+#======================================================================================================================#
+sdid_metal_recovery_hprr <- fixest::feols(
+  l.metal.recovery.onsite ~ sunab(ch.year, year):high.payroll.revenue +
+	e.treated +
+	treated:high.payroll.revenue +
+	post:high.payroll.revenue +
+	treated +
+	high.payroll.revenue +
+	post +
+	gdppc.1 +
+	annual.avg.estabs.1 +
+	cpi.1 +
+	federal.facility +
+	produced.chem.facility +
+	imported.chem.facility +
+	chemical.formulation.component +
+	chemical.article.component +
+	chemical.manufacturing.aid +
+	chemical.ancilliary.use +
+	production.ratio.activity.index +
+	maxnum.chem.onsite +
+	clean.air.act.chems +
+	hap.chems +
+	pbt.chems
+	|
+	year +
+	  facility.id.fe +
+	  border.county.fe +
+	  chemical.id.fe +
+	  chemical.year.fe +
+	  border.county.year
+  ,
+  data = triQc,
+  cluster = ~c(chemical.id, naics.code, facility.state)
+)
+fixest::etable(sdid_metal_recovery_hprr, agg = "ATT", digits = 3, digits.stats = 3)
+fixest::etable(sdid_metal_recovery_hprr, agg = "cohort", digits = 3, digits.stats = 3)
+#======================================================================================================================#
+### Recycling process: Solvent recovery onsite---high payroll to revenue ratio
+#======================================================================================================================#
+sdid_solvent_recovery_hprr <- fixest::feols(
+  l.solvent.recovery.onsite ~ sunab(ch.year, year):high.payroll.revenue +
+	e.treated +
+	treated:high.payroll.revenue +
+	post:high.payroll.revenue +
+	treated +
+	high.payroll.revenue +
+	post +
+	gdppc.1 +
+	annual.avg.estabs.1 +
+	cpi.1 +
+	federal.facility +
+	produced.chem.facility +
+	imported.chem.facility +
+	chemical.formulation.component +
+	chemical.article.component +
+	chemical.manufacturing.aid +
+	chemical.ancilliary.use +
+	production.ratio.activity.index +
+	maxnum.chem.onsite +
+	clean.air.act.chems +
+	hap.chems +
+	pbt.chems
+	|
+	year +
+	  facility.id.fe +
+	  border.county.fe +
+	  chemical.id.fe +
+	  chemical.year.fe +
+	  border.county.year
+  ,
+  data = triQc,
+  cluster = ~c(chemical.id, naics.code, facility.state)
+)
+fixest::etable(sdid_solvent_recovery_hprr, agg = "ATT", digits = 3, digits.stats = 3)
+fixest::etable(sdid_solvent_recovery_hprr, agg = "cohort", digits = 3, digits.stats = 3)
+#======================================================================================================================#
+### Onsite: Source Reduction Activities---high payroll to revenue ratio (labour intensive)
+#======================================================================================================================#
+sdid_source_reduction_hprr <- fixest::feols(
+  source.reduction ~ sunab(ch.year, year):high.payroll.revenue +
+	e.treated +
+	treated:high.payroll.revenue +
+	post:high.payroll.revenue +
+	treated +
+	high.payroll.revenue +
+	post +
+	gdppc.1 +
+	annual.avg.estabs.1 +
+	cpi.1 +
+	federal.facility +
+	produced.chem.facility +
+	imported.chem.facility +
+	chemical.formulation.component +
+	chemical.article.component +
+	chemical.manufacturing.aid +
+	chemical.ancilliary.use +
+	production.ratio.activity.index +
+	maxnum.chem.onsite +
+	clean.air.act.chems +
+	hap.chems +
+	pbt.chems
+	|
+	year +
+	  facility.id.fe +
+	  border.county.fe +
+	  chemical.id.fe +
+	  chemical.year.fe +
+	  border.county.year
+  ,
+  data = triQc,
+  cluster = ~c(chemical.id, naics.code, facility.state)
+)
+fixest::etable(sdid_source_reduction_hprr, agg = "ATT", digits = 3, digits.stats = 3)
+fixest::etable(sdid_source_reduction_hprr, agg = "cohort", digits = 3, digits.stats = 3)
+#======================================================================================================================#
+### Material Substitution---high payroll to revenue (payroll to revenue ratio)
+#======================================================================================================================#
+sdid_mat_submod_hprr <- fixest::feols(
+  material.subandmod ~ sunab(ch.year, year):high.payroll.revenue +
+	e.treated +
+	treated:high.payroll.revenue +
+	post:high.payroll.revenue +
+	treated +
+	high.payroll.revenue +
+	post +
+	gdppc.1 +
+	annual.avg.estabs.1 +
+	cpi.1 +
+	federal.facility +
+	produced.chem.facility +
+	imported.chem.facility +
+	chemical.formulation.component +
+	chemical.article.component +
+	chemical.manufacturing.aid +
+	chemical.ancilliary.use +
+	production.ratio.activity.index +
+	maxnum.chem.onsite +
+	clean.air.act.chems +
+	hap.chems +
+	pbt.chems
+	|
+	year +
+	  facility.id.fe +
+	  border.county.fe +
+	  chemical.id.fe +
+	  chemical.year.fe +
+	  border.county.year
+  ,
+  data = triQc,
+  cluster = ~c(chemical.id, naics.code, facility.state)
+)
+fixest::etable(sdid_mat_submod_hprr, agg = "ATT", digits = 3, digits.stats = 3)
+fixest::etable(sdid_mat_submod_hprr, agg = "cohort", digits = 3, digits.stats = 3)
+#======================================================================================================================#
+### Material: Organic Solvent Substitution---high payroll ratio (payroll to revenue ratio)
+#======================================================================================================================#
+sdid_organic_solvent_hprr <- fixest::feols(
+  sub.organic.solvent.matsubmod ~ sunab(ch.year, year):high.payroll.revenue +
+	e.treated +
+	treated:high.payroll.revenue +
+	post:high.payroll.revenue +
+	treated +
+	high.payroll.revenue +
+	post +
+	gdppc.1 +
+	annual.avg.estabs.1 +
+	cpi.1 +
+	federal.facility +
+	produced.chem.facility +
+	imported.chem.facility +
+	chemical.formulation.component +
+	chemical.article.component +
+	chemical.manufacturing.aid +
+	chemical.ancilliary.use +
+	production.ratio.activity.index +
+	maxnum.chem.onsite +
+	clean.air.act.chems +
+	hap.chems +
+	pbt.chems
+	|
+	year +
+	  facility.id.fe +
+	  border.county.fe +
+	  chemical.id.fe +
+	  chemical.year.fe +
+	  border.county.year
+  ,
+  data = triQc,
+  cluster = ~c(chemical.id, naics.code, facility.state)
+)
+fixest::etable(sdid_organic_solvent_hprr, agg = "ATT", digits = 3, digits.stats = 3)
+fixest::etable(sdid_organic_solvent_hprr, agg = "cohort", digits = 3, digits.stats = 3)
+#======================================================================================================================#
+### Material: Feedstock and Reactive Chemical Substitution---high payroll ratio (payroll to revenue ratio)
+#======================================================================================================================#
+sdid_feedstock_reactchems_hprr <- fixest::feols(
+  sub.rawm.feedstock.reactchem.matsubmod ~ sunab(ch.year, year):high.payroll.revenue +
+	e.treated +
+	treated:high.payroll.revenue +
+	post:high.payroll.revenue +
+	treated +
+	high.payroll.revenue +
+	post +
+	gdppc.1 +
+	annual.avg.estabs.1 +
+	cpi.1 +
+	federal.facility +
+	produced.chem.facility +
+	imported.chem.facility +
+	chemical.formulation.component +
+	chemical.article.component +
+	chemical.manufacturing.aid +
+	chemical.ancilliary.use +
+	production.ratio.activity.index +
+	maxnum.chem.onsite +
+	clean.air.act.chems +
+	hap.chems +
+	pbt.chems
+	|
+	year +
+	  facility.id.fe +
+	  border.county.fe +
+	  chemical.id.fe +
+	  chemical.year.fe +
+	  border.county.year
+  ,
+  data = triQc,
+  cluster = ~c(chemical.id, naics.code, facility.state)
+)
+fixest::etable(sdid_feedstock_reactchems_hprr, agg = "ATT", digits = 3, digits.stats = 3)
+fixest::etable(sdid_feedstock_reactchems_hprr, agg = "cohort", digits = 3, digits.stats = 3)
+#======================================================================================================================#
+### Material: manufacturing, processing aids, and ancillary chemical Substitution---high payroll ratio
+#======================================================================================================================#
+sdid_manu_aid_hprr <- fixest::feols(
+  sub.manu.proccess.ancilliary.chems.matsubmod ~ sunab(ch.year, year):high.payroll.revenue +
+	e.treated +
+	treated:high.payroll.revenue +
+	post:high.payroll.revenue +
+	treated +
+	high.payroll.revenue +
+	post +
+	gdppc.1 +
+	annual.avg.estabs.1 +
+	cpi.1 +
+	federal.facility +
+	produced.chem.facility +
+	imported.chem.facility +
+	chemical.formulation.component +
+	chemical.article.component +
+	chemical.manufacturing.aid +
+	chemical.ancilliary.use +
+	production.ratio.activity.index +
+	maxnum.chem.onsite +
+	clean.air.act.chems +
+	hap.chems +
+	pbt.chems
+	|
+	year +
+	  facility.id.fe +
+	  border.county.fe +
+	  chemical.id.fe +
+	  chemical.year.fe +
+	  border.county.year
+  ,
+  data = triQc,
+  cluster = ~c(chemical.id, naics.code, facility.state)
+)
+fixest::etable(sdid_manu_aid_hprr, agg = "ATT", digits = 3, digits.stats = 3)
+fixest::etable(sdid_manu_aid_hprr, agg = "cohort", digits = 3, digits.stats = 3)
+#======================================================================================================================#
+### Material: Increase Purity of Chemicals---high payroll to revenue ratio
+#======================================================================================================================#
+sdid_mat_purity_hprr <- fixest::feols(
+  mod.content.grade.purity.chems.matsubmod ~ sunab(ch.year, year):high.payroll.revenue +
+	e.treated +
+	treated:high.payroll.revenue +
+	post:high.payroll.revenue +
+	treated +
+	high.payroll.revenue +
+	post +
+	gdppc.1 +
+	annual.avg.estabs.1 +
+	cpi.1 +
+	federal.facility +
+	produced.chem.facility +
+	imported.chem.facility +
+	chemical.formulation.component +
+	chemical.article.component +
+	chemical.manufacturing.aid +
+	chemical.ancilliary.use +
+	production.ratio.activity.index +
+	maxnum.chem.onsite +
+	clean.air.act.chems +
+	hap.chems +
+	pbt.chems
+	|
+	year +
+	  facility.id.fe +
+	  border.county.fe +
+	  chemical.id.fe +
+	  chemical.year.fe +
+	  border.county.year
+  ,
+  data = triQc,
+  cluster = ~c(chemical.id, naics.code, facility.state)
+)
+fixest::etable(sdid_mat_purity_hprr, agg = "ATT", digits = 3, digits.stats = 3)
+fixest::etable(sdid_mat_purity_hprr, agg = "cohort", digits = 3, digits.stats = 3)
+#======================================================================================================================#
+### Material: Clean Fuel---high payroll to revenue ratio
+#======================================================================================================================#
+sdid_clean_fuel_hprr <- fixest::feols(
+  sub.fuel.matsubmod ~ sunab(ch.year, year):high.payroll.revenue +
+	e.treated +
+	treated:high.payroll.revenue +
+	post:high.payroll.revenue +
+	treated +
+	high.payroll.revenue +
+	post +
+	gdppc.1 +
+	annual.avg.estabs.1 +
+	cpi.1 +
+	federal.facility +
+	produced.chem.facility +
+	imported.chem.facility +
+	chemical.formulation.component +
+	chemical.article.component +
+	chemical.manufacturing.aid +
+	chemical.ancilliary.use +
+	production.ratio.activity.index +
+	maxnum.chem.onsite +
+	clean.air.act.chems +
+	hap.chems +
+	pbt.chems
+	|
+	year +
+	  facility.id.fe +
+	  border.county.fe +
+	  chemical.id.fe +
+	  chemical.year.fe +
+	  border.county.year
+  ,
+  data = triQc,
+  cluster = ~c(chemical.id, naics.code, facility.state)
+)
+fixest::etable(sdid_clean_fuel_hprr, agg = "ATT", digits = 3, digits.stats = 3)
+fixest::etable(sdid_clean_fuel_hprr, agg = "cohort", digits = 3, digits.stats = 3)
+#======================================================================================================================#
+### Product modification: Energy Cost Intensity---high payroll to revenue ratio
+#======================================================================================================================#
+sdid_energy_intensity_hprr <- fixest::feols(
+  l.energy.cost.intensity ~ sunab(ch.year, year):high.payroll.revenue +
+	e.treated +
+	treated:high.payroll.revenue +
+	post:high.payroll.revenue +
+	treated +
+	high.payroll.revenue +
+	post +
+	gdppc.1 +
+	annual.avg.estabs.1 +
+	cpi.1 +
+	federal.facility +
+	produced.chem.facility +
+	imported.chem.facility +
+	chemical.formulation.component +
+	chemical.article.component +
+	chemical.manufacturing.aid +
+	chemical.ancilliary.use +
+	production.ratio.activity.index +
+	maxnum.chem.onsite +
+	clean.air.act.chems +
+	hap.chems +
+	pbt.chems
+	|
+	year +
+	  facility.id.fe +
+	  border.county.fe +
+	  chemical.id.fe +
+	  chemical.year.fe +
+	  border.county.year
+  ,
+  data = triQc,
+  cluster = ~c(chemical.id, naics.code, facility.state)
+)
+fixest::etable(sdid_energy_intensity_hprr, agg = "ATT", digits = 3, digits.stats = 3)
+fixest::etable(sdid_energy_intensity_hprr, agg = "cohort", digits = 3, digits.stats = 3)
+#======================================================================================================================#
+### Material: Other material modification---high payroll to revenue ratio
+#======================================================================================================================#
+sdid_mat_others_hprr <- fixest::feols(
+  other.matmods.matsubmod ~ sunab(ch.year, year):high.payroll.revenue +
+	e.treated +
+	treated:high.payroll.revenue +
+	post:high.payroll.revenue +
+	treated +
+	high.payroll.revenue +
+	post +
+	gdppc.1 +
+	annual.avg.estabs.1 +
+	cpi.1 +
+	federal.facility +
+	produced.chem.facility +
+	imported.chem.facility +
+	chemical.formulation.component +
+	chemical.article.component +
+	chemical.manufacturing.aid +
+	chemical.ancilliary.use +
+	production.ratio.activity.index +
+	maxnum.chem.onsite +
+	clean.air.act.chems +
+	hap.chems +
+	pbt.chems
+	|
+	year +
+	  facility.id.fe +
+	  border.county.fe +
+	  chemical.id.fe +
+	  chemical.year.fe +
+	  border.county.year
+  ,
+  data = triQc,
+  cluster = ~c(chemical.id, naics.code, facility.state)
+)
+fixest::etable(sdid_mat_others_hprr, agg = "ATT", digits = 3, digits.stats = 3)
+fixest::etable(sdid_mat_others_hprr, agg = "cohort", digits = 3, digits.stats = 3)
+#======================================================================================================================#
+### Product modification---high payroll to revenue ratio
+#======================================================================================================================#
+sdid_prod_mod_hprr <- fixest::feols(
+  product.modification ~ sunab(ch.year, year):high.payroll.revenue +
+	e.treated +
+	treated:high.payroll.revenue +
+	post:high.payroll.revenue +
+	treated +
+	high.payroll.revenue +
+	post +
+	gdppc.1 +
+	annual.avg.estabs.1 +
+	cpi.1 +
+	federal.facility +
+	produced.chem.facility +
+	imported.chem.facility +
+	chemical.formulation.component +
+	chemical.article.component +
+	chemical.manufacturing.aid +
+	chemical.ancilliary.use +
+	production.ratio.activity.index +
+	maxnum.chem.onsite +
+	clean.air.act.chems +
+	hap.chems +
+	pbt.chems
+	|
+	year +
+	  facility.id.fe +
+	  border.county.fe +
+	  chemical.id.fe +
+	  chemical.year.fe +
+	  border.county.year
+  , data = triQc,
+  cluster = ~c(chemical.id, naics.code, facility.state)
+)
+fixest::etable(sdid_prod_mod_hprr, agg = "ATT", digits = 3, digits.stats = 3)
+fixest::etable(sdid_prod_mod_hprr, agg = "cohort", digits = 3, digits.stats = 3)
+#======================================================================================================================#
+### Product modification: New Product Line---high payroll to revenue ratio
+#======================================================================================================================#
+sdid_new_prod_hine_hprr <- fixest::feols(
+  devd.newproductline.pmod ~ sunab(ch.year, year):high.payroll.revenue +
+	e.treated +
+	treated:high.payroll.revenue +
+	post:high.payroll.revenue +
+	treated +
+	high.payroll.revenue +
+	post +
+	gdppc.1 +
+	annual.avg.estabs.1 +
+	cpi.1 +
+	federal.facility +
+	produced.chem.facility +
+	imported.chem.facility +
+	chemical.formulation.component +
+	chemical.article.component +
+	chemical.manufacturing.aid +
+	chemical.ancilliary.use +
+	production.ratio.activity.index +
+	maxnum.chem.onsite +
+	clean.air.act.chems +
+	hap.chems +
+	pbt.chems
+	|
+	year +
+	  facility.id.fe +
+	  border.county.fe +
+	  chemical.id.fe +
+	  chemical.year.fe +
+	  border.county.year
+  ,
+  data = triQc,
+  cluster = ~c(chemical.id, naics.code, facility.state)
+)
+fixest::etable(sdid_new_prod_hine_hprr, agg = "ATT", digits = 3, digits.stats = 3)
+fixest::etable(sdid_new_prod_hine_hprr, agg = "cohort", digits = 3, digits.stats = 3)
+#======================================================================================================================#
+### Product modification: Modified Packaging---high payroll to revenue ratio
+#======================================================================================================================#
+sdid_mod_packaging_hprr <- fixest::feols(
+  mod.packaging.pmod ~ sunab(ch.year, year):high.payroll.revenue +
+	e.treated +
+	treated:high.payroll.revenue +
+	post:high.payroll.revenue +
+	treated +
+	high.payroll.revenue +
+	post +
+	gdppc.1 +
+	annual.avg.estabs.1 +
+	cpi.1 +
+	federal.facility +
+	produced.chem.facility +
+	imported.chem.facility +
+	chemical.formulation.component +
+	chemical.article.component +
+	chemical.manufacturing.aid +
+	chemical.ancilliary.use +
+	production.ratio.activity.index +
+	maxnum.chem.onsite +
+	clean.air.act.chems +
+	hap.chems +
+	pbt.chems
+	|
+	year +
+	  facility.id.fe +
+	  border.county.fe +
+	  chemical.id.fe +
+	  chemical.year.fe +
+	  border.county.year
+  ,
+  data = triQc,
+  cluster = ~c(chemical.id, naics.code, facility.state)
+)
+fixest::etable(sdid_mod_packaging_hprr, agg = "ATT", digits = 3, digits.stats = 3)
+fixest::etable(sdid_mod_packaging_hprr, agg = "cohort", digits = 3, digits.stats = 3)
+#======================================================================================================================#
+### Product modification: Other Product Modification---high payroll to revenue ratio
+#======================================================================================================================#
+sdid_prod_mod_others_hprr <- fixest::feols(
+  other.pmods.pmod ~ sunab(ch.year, year):high.payroll.revenue +
+	e.treated +
+	treated:high.payroll.revenue +
+	post:high.payroll.revenue +
+	treated +
+	high.payroll.revenue +
+	post +
+	gdppc.1 +
+	annual.avg.estabs.1 +
+	cpi.1 +
+	federal.facility +
+	produced.chem.facility +
+	imported.chem.facility +
+	chemical.formulation.component +
+	chemical.article.component +
+	chemical.manufacturing.aid +
+	chemical.ancilliary.use +
+	production.ratio.activity.index +
+	maxnum.chem.onsite +
+	clean.air.act.chems +
+	hap.chems +
+	pbt.chems
+	|
+	year +
+	  facility.id.fe +
+	  border.county.fe +
+	  chemical.id.fe +
+	  chemical.year.fe +
+	  border.county.year
+  ,
+  data = triQc,
+  cluster = ~c(chemical.id, naics.code, facility.state)
+)
+fixest::etable(sdid_prod_mod_others_hprr, agg = "ATT", digits = 3, digits.stats = 3)
+fixest::etable(sdid_prod_mod_others_hprr, agg = "cohort", digits = 3, digits.stats = 3)
+#======================================================================================================================#
+### Process modification: Process and Equipment Modification---high payroll to revenue ratio
+#======================================================================================================================#
+sdid_process_equip_mod_hprr <- fixest::feols(
+  process.equip.modification ~ sunab(ch.year, year):high.payroll.revenue +
+	e.treated +
+	treated:high.payroll.revenue +
+	post:high.payroll.revenue +
+	treated +
+	high.payroll.revenue +
+	post +
+	gdppc.1 +
+	annual.avg.estabs.1 +
+	cpi.1 +
+	federal.facility +
+	produced.chem.facility +
+	imported.chem.facility +
+	chemical.formulation.component +
+	chemical.article.component +
+	chemical.manufacturing.aid +
+	chemical.ancilliary.use +
+	production.ratio.activity.index +
+	maxnum.chem.onsite +
+	clean.air.act.chems +
+	hap.chems +
+	pbt.chems
+	|
+	year +
+	  facility.id.fe +
+	  border.county.fe +
+	  chemical.id.fe +
+	  chemical.year.fe +
+	  border.county.year
+  ,
+  data = triQc,
+  cluster = ~c(chemical.id, naics.code, facility.state)
+)
+fixest::etable(sdid_process_equip_mod_hprr, agg = "ATT", digits = 3, digits.stats = 3)
+fixest::etable(sdid_process_equip_mod_hprr, agg = "cohort", digits = 3, digits.stats = 3)
+#======================================================================================================================#
+### Process modification: Optimised Process Efficiency---high payroll to revenue ratio
+#======================================================================================================================#
+sdid_optimised_process_efficiency_hprr <- fixest::feols(
+  optimised.process.efficiency.pequipmod ~ sunab(ch.year, year):high.payroll.revenue +
+	e.treated +
+	treated:high.payroll.revenue +
+	post:high.payroll.revenue +
+	treated +
+	high.payroll.revenue +
+	post +
+	gdppc.1 +
+	annual.avg.estabs.1 +
+	cpi.1 +
+	federal.facility +
+	produced.chem.facility +
+	imported.chem.facility +
+	chemical.formulation.component +
+	chemical.article.component +
+	chemical.manufacturing.aid +
+	chemical.ancilliary.use +
+	production.ratio.activity.index +
+	maxnum.chem.onsite +
+	clean.air.act.chems +
+	hap.chems +
+	pbt.chems
+	|
+	year +
+	  facility.id.fe +
+	  border.county.fe +
+	  chemical.id.fe +
+	  chemical.year.fe +
+	  border.county.year
+  ,
+  data = triQc,
+  cluster = ~c(chemical.id, naics.code, facility.state)
+)
+fixest::etable(sdid_optimised_process_efficiency_hprr, agg = "ATT", digits = 3, digits.stats = 3)
+fixest::etable(sdid_optimised_process_efficiency_hprr, agg = "cohort", digits = 3, digits.stats = 3)
+#======================================================================================================================#
+### Process modification: Recirculation in Process---high payroll to revenue ratio
+#======================================================================================================================#
+sdid_recirculate_inprocess_hprr <- fixest::feols(
+  recirculationinprocess.pequipmod ~ sunab(ch.year, year):high.payroll.revenue +
+	e.treated +
+	treated:high.payroll.revenue +
+	post:high.payroll.revenue +
+	treated +
+	high.payroll.revenue +
+	post +
+	gdppc.1 +
+	annual.avg.estabs.1 +
+	cpi.1 +
+	federal.facility +
+	produced.chem.facility +
+	imported.chem.facility +
+	chemical.formulation.component +
+	chemical.article.component +
+	chemical.manufacturing.aid +
+	chemical.ancilliary.use +
+	production.ratio.activity.index +
+	maxnum.chem.onsite +
+	clean.air.act.chems +
+	hap.chems +
+	pbt.chems
+	|
+	year +
+	  facility.id.fe +
+	  border.county.fe +
+	  chemical.id.fe +
+	  chemical.year.fe +
+	  border.county.year
+  ,
+  data = triQc,
+  cluster = ~c(chemical.id, naics.code, facility.state)
+)
+fixest::etable(sdid_recirculate_inprocess_hprr, agg = "ATT", digits = 3, digits.stats = 3)
+fixest::etable(sdid_recirculate_inprocess_hprr, agg = "cohort", digits = 3, digits.stats = 3)
+#======================================================================================================================#
+### Process modification: New Technology and Technique in manufacturing process---high payroll to revenue ratio
+#======================================================================================================================#
+sdid_new_tech_hprr <- fixest::feols(
+  newtech.technique.process.pequipmod ~ sunab(ch.year, year):high.payroll.revenue +
+	e.treated +
+	treated:high.payroll.revenue +
+	post:high.payroll.revenue +
+	treated +
+	high.payroll.revenue +
+	post +
+	gdppc.1 +
+	annual.avg.estabs.1 +
+	cpi.1 +
+	federal.facility +
+	produced.chem.facility +
+	imported.chem.facility +
+	chemical.formulation.component +
+	chemical.article.component +
+	chemical.manufacturing.aid +
+	chemical.ancilliary.use +
+	production.ratio.activity.index +
+	maxnum.chem.onsite +
+	clean.air.act.chems +
+	hap.chems +
+	pbt.chems
+	|
+	year +
+	  facility.id.fe +
+	  border.county.fe +
+	  chemical.id.fe +
+	  chemical.year.fe +
+	  border.county.year
+  ,
+  data = triQc,
+  cluster = ~c(chemical.id, naics.code, facility.state)
+)
+fixest::etable(sdid_new_tech_hprr, agg = "ATT", digits = 3, digits.stats = 3)
+fixest::etable(sdid_new_tech_hprr, agg = "cohort", digits = 3, digits.stats = 3)
+#======================================================================================================================#
+### Process modification: Recycling to reuse---high payroll to revenue ratio
+#======================================================================================================================#
+sdid_recylce_dummy_hprr <- fixest::feols(
+  recycling.dummy ~ sunab(ch.year, year):high.payroll.revenue +
+	e.treated +
+	treated:high.payroll.revenue +
+	post:high.payroll.revenue +
+	treated +
+	high.payroll.revenue +
+	post +
+	gdppc.1 +
+	annual.avg.estabs.1 +
+	cpi.1 +
+	federal.facility +
+	produced.chem.facility +
+	imported.chem.facility +
+	chemical.formulation.component +
+	chemical.article.component +
+	chemical.manufacturing.aid +
+	chemical.ancilliary.use +
+	production.ratio.activity.index +
+	maxnum.chem.onsite +
+	clean.air.act.chems +
+	hap.chems +
+	pbt.chems
+	|
+	year +
+	  facility.id.fe +
+	  border.county.fe +
+	  chemical.id.fe +
+	  chemical.year.fe +
+	  border.county.year
+  ,
+  data = triQc,
+  cluster = ~c(chemical.id, naics.code, facility.state)
+)
+fixest::etable(sdid_recylce_dummy_hprr, agg = "ATT", digits = 3, digits.stats = 3)
+fixest::etable(sdid_recylce_dummy_hprr, agg = "cohort", digits = 3, digits.stats = 3)
+#======================================================================================================================#
+### Process modification: Research & Development---high payroll to revenue ratio
+#======================================================================================================================#
+sdid_research_hprr <- fixest::feols(
+  r.and.d ~ sunab(ch.year, year):high.payroll.revenue +
+	e.treated +
+	treated:high.payroll.revenue +
+	post:high.payroll.revenue +
+	treated +
+	high.payroll.revenue +
+	post +
+	gdppc.1 +
+	annual.avg.estabs.1 +
+	cpi.1 +
+	federal.facility +
+	produced.chem.facility +
+	imported.chem.facility +
+	chemical.formulation.component +
+	chemical.article.component +
+	chemical.manufacturing.aid +
+	chemical.ancilliary.use +
+	production.ratio.activity.index +
+	maxnum.chem.onsite +
+	clean.air.act.chems +
+	hap.chems +
+	pbt.chems
+	|
+	year +
+	  facility.id.fe +
+	  border.county.fe +
+	  chemical.id.fe +
+	  chemical.year.fe +
+	  border.county.year
+  ,
+  data = triQc,
+  cluster = ~c(chemical.id, naics.code, facility.state)
+)
+fixest::etable(sdid_research_hprr, agg = "ATT", digits = 3, digits.stats = 3)
+fixest::etable(sdid_research_hprr, agg = "cohort", digits = 3, digits.stats = 3)
+#======================================================================================================================#
+### Process modification: Process Modification, Others---high payroll to revenue ratio
+#======================================================================================================================#
+sdid_process_mod_others_hprr <- fixest::feols(
+  other.pequipmods.pequipmod ~ sunab(ch.year, year):high.payroll.revenue +
+	e.treated +
+	treated:high.payroll.revenue +
+	post:high.payroll.revenue +
+	treated +
+	high.payroll.revenue +
+	post +
+	gdppc.1 +
+	annual.avg.estabs.1 +
+	cpi.1 +
+	federal.facility +
+	produced.chem.facility +
+	imported.chem.facility +
+	chemical.formulation.component +
+	chemical.article.component +
+	chemical.manufacturing.aid +
+	chemical.ancilliary.use +
+	production.ratio.activity.index +
+	maxnum.chem.onsite +
+	clean.air.act.chems +
+	hap.chems +
+	pbt.chems
+	|
+	year +
+	  facility.id.fe +
+	  border.county.fe +
+	  chemical.id.fe +
+	  chemical.year.fe +
+	  border.county.year
+  ,
+  data = triQc,
+  cluster = ~c(chemical.id, naics.code, facility.state)
+)
+fixest::etable(sdid_process_mod_others_hprr, agg = "ATT", digits = 3, digits.stats = 3)
+fixest::etable(sdid_process_mod_others_hprr, agg = "cohort", digits = 3, digits.stats = 3)
+#======================================================================================================================#
+### Process modification: Total factor productivity---high payroll to revenue ratio
+#======================================================================================================================#
+sdid_tfp_hprr <- fixest::feols(
+  l.tfp5 ~ sunab(ch.year, year):high.payroll.revenue +
+	e.treated +
+	treated:high.payroll.revenue +
+	post:high.payroll.revenue +
+	treated +
+	high.payroll.revenue +
+	post +
+	gdppc.1 +
+	annual.avg.estabs.1 +
+	cpi.1 +
+	federal.facility +
+	produced.chem.facility +
+	imported.chem.facility +
+	chemical.formulation.component +
+	chemical.article.component +
+	chemical.manufacturing.aid +
+	chemical.ancilliary.use +
+	production.ratio.activity.index +
+	maxnum.chem.onsite +
+	clean.air.act.chems +
+	hap.chems +
+	pbt.chems
+	|
+	year +
+	  facility.id.fe +
+	  border.county.fe +
+	  chemical.id.fe +
+	  chemical.year.fe +
+	  border.county.year
+  ,
+  data = triQc,
+  cluster = ~c(chemical.id, naics.code, facility.state)
+)
+fixest::etable(sdid_tfp_hprr, agg = "ATT", digits = 3, digits.stats = 3)
+fixest::etable(sdid_tfp_hprr, agg = "cohort", digits = 3, digits.stats = 3)
+#======================================================================================================================#
+### Inventory management: Inventory Material Management---high payroll to revenue ratio
+#======================================================================================================================#
+sdid_inventory_mat_mgt_hprr <- fixest::feols(
+  inventory.material.mgt ~ sunab(ch.year, year):high.payroll.revenue +
+	e.treated +
+	treated:high.payroll.revenue +
+	post:high.payroll.revenue +
+	treated +
+	high.payroll.revenue +
+	post +
+	gdppc.1 +
+	annual.avg.estabs.1 +
+	cpi.1 +
+	federal.facility +
+	produced.chem.facility +
+	imported.chem.facility +
+	chemical.formulation.component +
+	chemical.article.component +
+	chemical.manufacturing.aid +
+	chemical.ancilliary.use +
+	production.ratio.activity.index +
+	maxnum.chem.onsite +
+	clean.air.act.chems +
+	hap.chems +
+	pbt.chems
+	|
+	year +
+	  facility.id.fe +
+	  border.county.fe +
+	  chemical.id.fe +
+	  chemical.year.fe +
+	  border.county.year
+  ,
+  data = triQc,
+  cluster = ~c(chemical.id, naics.code, facility.state)
+)
+fixest::etable(sdid_inventory_mat_mgt_hprr, agg = "ATT", digits = 3, digits.stats = 3)
+fixest::etable(sdid_inventory_mat_mgt_hprr, agg = "cohort", digits = 3, digits.stats = 3)
+#======================================================================================================================#
+### Inventory management: Better Labelling and Testing---high payroll to revenue ratio
+#======================================================================================================================#
+sdid_better_habelling_testing_hprr <- fixest::feols(
+  better.labelling.testing.immgt ~ sunab(ch.year, year):high.payroll.revenue +
+	e.treated +
+	treated:high.payroll.revenue +
+	post:high.payroll.revenue +
+	treated +
+	high.payroll.revenue +
+	post +
+	gdppc.1 +
+	annual.avg.estabs.1 +
+	cpi.1 +
+	federal.facility +
+	produced.chem.facility +
+	imported.chem.facility +
+	chemical.formulation.component +
+	chemical.article.component +
+	chemical.manufacturing.aid +
+	chemical.ancilliary.use +
+	production.ratio.activity.index +
+	maxnum.chem.onsite +
+	clean.air.act.chems +
+	hap.chems +
+	pbt.chems
+	|
+	year +
+	  facility.id.fe +
+	  border.county.fe +
+	  chemical.id.fe +
+	  chemical.year.fe +
+	  border.county.year
+  ,
+  data = triQc,
+  cluster = ~c(chemical.id, naics.code, facility.state)
+)
+fixest::etable(sdid_better_habelling_testing_hprr, agg = "ATT", digits = 3, digits.stats = 3)
+fixest::etable(sdid_better_habelling_testing_hprr, agg = "cohort", digits = 3, digits.stats = 3)
+#======================================================================================================================#
+### Inventory management: Containers size change---high payroll to revenue ratio
+#======================================================================================================================#
+sdid_containers_sizechange_hprr <- fixest::feols(
+  containers.sizechange.immgt ~ sunab(ch.year, year):high.payroll.revenue +
+	e.treated +
+	treated:high.payroll.revenue +
+	post:high.payroll.revenue +
+	treated +
+	high.payroll.revenue +
+	post +
+	gdppc.1 +
+	annual.avg.estabs.1 +
+	cpi.1 +
+	federal.facility +
+	produced.chem.facility +
+	imported.chem.facility +
+	chemical.formulation.component +
+	chemical.article.component +
+	chemical.manufacturing.aid +
+	chemical.ancilliary.use +
+	production.ratio.activity.index +
+	maxnum.chem.onsite +
+	clean.air.act.chems +
+	hap.chems +
+	pbt.chems
+	|
+	year +
+	  facility.id.fe +
+	  border.county.fe +
+	  chemical.id.fe +
+	  chemical.year.fe +
+	  border.county.year
+  ,
+  data = triQc,
+  cluster = ~c(chemical.id, naics.code, facility.state)
+)
+fixest::etable(sdid_containers_sizechange_hprr, agg = "ATT", digits = 3, digits.stats = 3)
+fixest::etable(sdid_containers_sizechange_hprr, agg = "cohort", digits = 3, digits.stats = 3)
+#======================================================================================================================#
+### Inventory management: Improved material handling operations---high payroll to revenue ratio
+#======================================================================================================================#
+sdid_mat_handling_hprr <- fixest::feols(
+  improved.materialhandling.operations.immgt ~ sunab(ch.year, year):high.payroll.revenue +
+	e.treated +
+	treated:high.payroll.revenue +
+	post:high.payroll.revenue +
+	treated +
+	high.payroll.revenue +
+	post +
+	gdppc.1 +
+	annual.avg.estabs.1 +
+	cpi.1 +
+	federal.facility +
+	produced.chem.facility +
+	imported.chem.facility +
+	chemical.formulation.component +
+	chemical.article.component +
+	chemical.manufacturing.aid +
+	chemical.ancilliary.use +
+	production.ratio.activity.index +
+	maxnum.chem.onsite +
+	clean.air.act.chems +
+	hap.chems +
+	pbt.chems
+	|
+	year +
+	  facility.id.fe +
+	  border.county.fe +
+	  chemical.id.fe +
+	  chemical.year.fe +
+	  border.county.year
+  ,
+  data = triQc,
+  cluster = ~c(chemical.id, naics.code, facility.state)
+)
+fixest::etable(sdid_mat_handling_hprr, agg = "ATT", digits = 3, digits.stats = 3)
+fixest::etable(sdid_mat_handling_hprr, agg = "cohort", digits = 3, digits.stats = 3)
+#======================================================================================================================#
+### Inventory management: Improved monitoring---high payroll to revenue ratio
+#======================================================================================================================#
+sdid_improved_monitoring_hprr <- fixest::feols(
+  improved.monitoring.immgt ~ sunab(ch.year, year):high.payroll.revenue +
+	e.treated +
+	treated:high.payroll.revenue +
+	post:high.payroll.revenue +
+	treated +
+	high.payroll.revenue +
+	post +
+	gdppc.1 +
+	annual.avg.estabs.1 +
+	cpi.1 +
+	federal.facility +
+	produced.chem.facility +
+	imported.chem.facility +
+	chemical.formulation.component +
+	chemical.article.component +
+	chemical.manufacturing.aid +
+	chemical.ancilliary.use +
+	production.ratio.activity.index +
+	maxnum.chem.onsite +
+	clean.air.act.chems +
+	hap.chems +
+	pbt.chems
+	|
+	year +
+	  facility.id.fe +
+	  border.county.fe +
+	  chemical.id.fe +
+	  chemical.year.fe +
+	  border.county.year
+  ,
+  data = triQc,
+  cluster = ~c(chemical.id, naics.code, facility.state)
+)
+fixest::etable(sdid_improved_monitoring_hprr, agg = "ATT", digits = 3, digits.stats = 3)
+fixest::etable(sdid_improved_monitoring_hprr, agg = "cohort", digits = 3, digits.stats = 3)
+#======================================================================================================================#
+### Inventory management: Inventory Management, Others---high payroll to revenue ratio
+#======================================================================================================================#
+sdid_inventory_mgt_others_hprr <- fixest::feols(
+  other.immgts.immgt ~ sunab(ch.year, year):high.payroll.revenue +
+	e.treated +
+	treated:high.payroll.revenue +
+	post:high.payroll.revenue +
+	treated +
+	high.payroll.revenue +
+	post +
+	gdppc.1 +
+	annual.avg.estabs.1 +
+	cpi.1 +
+	federal.facility +
+	produced.chem.facility +
+	imported.chem.facility +
+	chemical.formulation.component +
+	chemical.article.component +
+	chemical.manufacturing.aid +
+	chemical.ancilliary.use +
+	production.ratio.activity.index +
+	maxnum.chem.onsite +
+	clean.air.act.chems +
+	hap.chems +
+	pbt.chems
+	|
+	year +
+	  facility.id.fe +
+	  border.county.fe +
+	  chemical.id.fe +
+	  chemical.year.fe +
+	  border.county.year
+  ,
+  data = triQc,
+  cluster = ~c(chemical.id, naics.code, facility.state)
+)
+fixest::etable(sdid_inventory_mgt_others_hprr, agg = "ATT", digits = 3, digits.stats = 3)
+fixest::etable(sdid_inventory_mgt_others_hprr, agg = "cohort", digits = 3, digits.stats = 3)
+#======================================================================================================================#
+### Operations: Operating Practices & Training---high payroll to revenue ratio
+#======================================================================================================================#
+sdid_operating_practices_training_hprr <- fixest::feols(
+  operating.practices.training ~ sunab(ch.year, year):high.payroll.revenue +
+	e.treated +
+	treated:high.payroll.revenue +
+	post:high.payroll.revenue +
+	treated +
+	high.payroll.revenue +
+	post +
+	gdppc.1 +
+	annual.avg.estabs.1 +
+	cpi.1 +
+	federal.facility +
+	produced.chem.facility +
+	imported.chem.facility +
+	chemical.formulation.component +
+	chemical.article.component +
+	chemical.manufacturing.aid +
+	chemical.ancilliary.use +
+	production.ratio.activity.index +
+	maxnum.chem.onsite +
+	clean.air.act.chems +
+	hap.chems +
+	pbt.chems
+	|
+	year +
+	  facility.id.fe +
+	  border.county.fe +
+	  chemical.id.fe +
+	  chemical.year.fe +
+	  border.county.year
+  ,
+  data = triQc,
+  cluster = ~c(chemical.id, naics.code, facility.state)
+)
+fixest::etable(sdid_operating_practices_training_hprr, agg = "ATT", digits = 3, digits.stats = 3)
+fixest::etable(sdid_operating_practices_training_hprr, agg = "cohort", digits = 3, digits.stats = 3)
+#======================================================================================================================#
+### Operations: Improved Scheduling Operation---high payroll to revenue ratio
+#======================================================================================================================#
+sdid_improved_schedule_operation_hprr <- fixest::feols(
+  improved.schdule.operation.procedures.opt ~ sunab(ch.year, year):high.payroll.revenue +
+	e.treated +
+	treated:high.payroll.revenue +
+	post:high.payroll.revenue +
+	treated +
+	high.payroll.revenue +
+	post +
+	gdppc.1 +
+	annual.avg.estabs.1 +
+	cpi.1 +
+	federal.facility +
+	produced.chem.facility +
+	imported.chem.facility +
+	chemical.formulation.component +
+	chemical.article.component +
+	chemical.manufacturing.aid +
+	chemical.ancilliary.use +
+	production.ratio.activity.index +
+	maxnum.chem.onsite +
+	clean.air.act.chems +
+	hap.chems +
+	pbt.chems
+	|
+	year +
+	  facility.id.fe +
+	  border.county.fe +
+	  chemical.id.fe +
+	  chemical.year.fe +
+	  border.county.year
+  ,
+  data = triQc,
+  cluster = ~c(chemical.id, naics.code, facility.state)
+)
+fixest::etable(sdid_improved_schedule_operation_hprr, agg = "ATT", digits = 3, digits.stats = 3)
+fixest::etable(sdid_improved_schedule_operation_hprr, agg = "cohort", digits = 3, digits.stats = 3)
+#======================================================================================================================#
+### Operations: Changed Production Schedule---high payroll to revenue ratio
+#======================================================================================================================#
+sdid_changed_prod_schedule_hprr <- fixest::feols(
+  changed.production.schedule.opt ~ sunab(ch.year, year):high.payroll.revenue +
+	e.treated +
+	treated:high.payroll.revenue +
+	post:high.payroll.revenue +
+	treated +
+	high.payroll.revenue +
+	post +
+	gdppc.1 +
+	annual.avg.estabs.1 +
+	cpi.1 +
+	federal.facility +
+	produced.chem.facility +
+	imported.chem.facility +
+	chemical.formulation.component +
+	chemical.article.component +
+	chemical.manufacturing.aid +
+	chemical.ancilliary.use +
+	production.ratio.activity.index +
+	maxnum.chem.onsite +
+	clean.air.act.chems +
+	hap.chems +
+	pbt.chems
+	|
+	year +
+	  facility.id.fe +
+	  border.county.fe +
+	  chemical.id.fe +
+	  chemical.year.fe +
+	  border.county.year
+  ,
+  data = triQc,
+  cluster = ~c(chemical.id, naics.code, facility.state)
+)
+fixest::etable(sdid_changed_prod_schedule_hprr, agg = "ATT", digits = 3, digits.stats = 3)
+fixest::etable(sdid_changed_prod_schedule_hprr, agg = "cohort", digits = 3, digits.stats = 3)
+#======================================================================================================================#
+### Operations: Inline Product Quality and Process Analysis---high payroll to revenue ratio
+#======================================================================================================================#
+sdid_inline_prod_quality_analysis_hprr <- fixest::feols(
+  intro.inline.productquality.process.analysis.opt ~ sunab(ch.year, year):high.payroll.revenue +
+	e.treated +
+	treated:high.payroll.revenue +
+	post:high.payroll.revenue +
+	treated +
+	high.payroll.revenue +
+	post +
+	gdppc.1 +
+	annual.avg.estabs.1 +
+	cpi.1 +
+	federal.facility +
+	produced.chem.facility +
+	imported.chem.facility +
+	chemical.formulation.component +
+	chemical.article.component +
+	chemical.manufacturing.aid +
+	chemical.ancilliary.use +
+	production.ratio.activity.index +
+	maxnum.chem.onsite +
+	clean.air.act.chems +
+	hap.chems +
+	pbt.chems
+	|
+	year +
+	  facility.id.fe +
+	  border.county.fe +
+	  chemical.id.fe +
+	  chemical.year.fe +
+	  border.county.year
+  ,
+  data = triQc,
+  cluster = ~c(chemical.id, naics.code, facility.state)
+)
+fixest::etable(sdid_inline_prod_quality_analysis_hprr, agg = "ATT", digits = 3, digits.stats = 3)
+fixest::etable(sdid_inline_prod_quality_analysis_hprr, agg = "cohort", digits = 3, digits.stats = 3)
+#======================================================================================================================#
+### Type of Production Technology
+# Labour intensive industries---High payroll or wages to revenue ratio
+# Capacity intensive industries---Low payroll or wages to revenue ratio
+#======================================================================================================================#
+### Total waste management onsite---high wages to revenue ratio
+#======================================================================================================================#
+sdid_waste_mgt_onsite_hwrr <- fixest::feols(
+  l.total.waste.management.onsite ~ sunab(ch.year, year):high.wages.revenue +
+	e.treated +
+	treated:high.wages.revenue +
+	post:high.wages.revenue +
+	treated +
+	high.wages.revenue +
+	post +
+	gdppc.1 +
+	annual.avg.estabs.1 +
+	cpi.1 +
+	federal.facility +
+	produced.chem.facility +
+	imported.chem.facility +
+	chemical.formulation.component +
+	chemical.article.component +
+	chemical.manufacturing.aid +
+	chemical.ancilliary.use +
+	production.ratio.activity.index +
+	maxnum.chem.onsite +
+	clean.air.act.chems +
+	hap.chems +
+	pbt.chems
+	|
+	year +
+	  facility.id.fe +
+	  border.county.fe +
+	  chemical.id.fe +
+	  chemical.year.fe +
+	  border.county.year
+  ,
+  data = triQc,
+  cluster = ~c(chemical.id, naics.code, facility.state)
+)
+etable(sdid_waste_mgt_onsite_hwrr, agg = "ATT", digits = 3, digits.stats = 3)
+etable(sdid_waste_mgt_onsite_hwrr, agg = "cohort", digits = 3, digits.stats = 3)
+#======================================================================================================================#
+### Treatment onsite---high wages to revenue ratio
+#======================================================================================================================#
+sdid_treatment_onsite_hwrr <- fixest::feols(
+  l.treatment.onsite ~ sunab(ch.year, year):high.wages.revenue +
+	e.treated +
+	treated:high.wages.revenue +
+	post:high.wages.revenue +
+	treated +
+	high.wages.revenue +
+	post +
+	gdppc.1 +
+	annual.avg.estabs.1 +
+	cpi.1 +
+	federal.facility +
+	produced.chem.facility +
+	imported.chem.facility +
+	chemical.formulation.component +
+	chemical.article.component +
+	chemical.manufacturing.aid +
+	chemical.ancilliary.use +
+	production.ratio.activity.index +
+	maxnum.chem.onsite +
+	clean.air.act.chems +
+	hap.chems +
+	pbt.chems
+	|
+	year +
+	  facility.id.fe +
+	  border.county.fe +
+	  chemical.id.fe +
+	  chemical.year.fe +
+	  border.county.year
+  ,
+  data = triQc,
+  cluster = ~c(chemical.id, naics.code, facility.state)
+)
+fixest::etable(sdid_treatment_onsite_hwrr, agg = "ATT", digits = 3, digits.stats = 3)
+fixest::etable(sdid_treatment_onsite_hwrr, agg = "cohort", digits = 3, digits.stats = 3)
+#======================================================================================================================#
+### Treatment method: Air emissions treatment onsite---high wages to revenue ratio
+#======================================================================================================================#
+sdid_air_emissions_treatment_hwrr <- fixest::feols(
+  l.air.emissions.treatment.onsite ~ sunab(ch.year, year):high.wages.revenue +
+	e.treated +
+	treated:high.wages.revenue +
+	post:high.wages.revenue +
+	treated +
+	high.wages.revenue +
+	post +
+	gdppc.1 +
+	annual.avg.estabs.1 +
+	cpi.1 +
+	federal.facility +
+	produced.chem.facility +
+	imported.chem.facility +
+	chemical.formulation.component +
+	chemical.article.component +
+	chemical.manufacturing.aid +
+	chemical.ancilliary.use +
+	production.ratio.activity.index +
+	maxnum.chem.onsite +
+	clean.air.act.chems +
+	hap.chems +
+	pbt.chems
+	|
+	year +
+	  facility.id.fe +
+	  border.county.fe +
+	  chemical.id.fe +
+	  chemical.year.fe +
+	  border.county.year
+  ,
+  data = triQc,
+  cluster = ~c(chemical.id, naics.code, facility.state)
+)
+fixest::etable(sdid_air_emissions_treatment_hwrr, agg = "ATT", digits = 3, digits.stats = 3)
+fixest::etable(sdid_air_emissions_treatment_hwrr, agg = "cohort", digits = 3, digits.stats = 3)
+#======================================================================================================================#
+### Treatment menthod: Biological treatment onsite---high wages to revenue ratio
+#======================================================================================================================#
+sdid_bio_treatment_hwrr <- fixest::feols(
+  l.biological.treatment.onsite ~ sunab(ch.year, year):high.wages.revenue +
+	e.treated +
+	treated:high.wages.revenue +
+	post:high.wages.revenue +
+	treated +
+	high.wages.revenue +
+	post +
+	gdppc.1 +
+	annual.avg.estabs.1 +
+	cpi.1 +
+	federal.facility +
+	produced.chem.facility +
+	imported.chem.facility +
+	chemical.formulation.component +
+	chemical.article.component +
+	chemical.manufacturing.aid +
+	chemical.ancilliary.use +
+	production.ratio.activity.index +
+	maxnum.chem.onsite +
+	clean.air.act.chems +
+	hap.chems +
+	pbt.chems
+	|
+	year +
+	  facility.id.fe +
+	  border.county.fe +
+	  chemical.id.fe +
+	  chemical.year.fe +
+	  border.county.year
+  ,
+  data = triQc,
+  cluster = ~c(chemical.id, naics.code, facility.state)
+)
+fixest::etable(sdid_bio_treatment_hwrr, agg = "ATT", digits = 3, digits.stats = 3)
+fixest::etable(sdid_bio_treatment_hwrr, agg = "cohort", digits = 3, digits.stats = 3)
+#======================================================================================================================#
+### Treatment menthod: Chemical treatment onsite---high wages to revenue ratio
+#======================================================================================================================#
+sdid_chem_treatment_hwrr <- fixest::feols(
+  l.chemical.treatment.onsite ~ sunab(ch.year, year):high.wages.revenue +
+	e.treated +
+	treated:high.wages.revenue +
+	post:high.wages.revenue +
+	treated +
+	high.wages.revenue +
+	post +
+	gdppc.1 +
+	annual.avg.estabs.1 +
+	cpi.1 +
+	federal.facility +
+	produced.chem.facility +
+	imported.chem.facility +
+	chemical.formulation.component +
+	chemical.article.component +
+	chemical.manufacturing.aid +
+	chemical.ancilliary.use +
+	production.ratio.activity.index +
+	maxnum.chem.onsite +
+	clean.air.act.chems +
+	hap.chems +
+	pbt.chems
+	|
+	year +
+	  facility.id.fe +
+	  border.county.fe +
+	  chemical.id.fe +
+	  chemical.year.fe +
+	  border.county.year
+  ,
+  data = triQc,
+  cluster = ~c(chemical.id, naics.code, facility.state)
+)
+fixest::etable(sdid_chem_treatment_hwrr, agg = "ATT", digits = 3, digits.stats = 3)
+fixest::etable(sdid_chem_treatment_hwrr, agg = "cohort", digits = 3, digits.stats = 3)
+#======================================================================================================================#
+### Treatment menthod: Physical treatment onsite---high wages to revenue ratio
+#======================================================================================================================#
+sdid_physical_treatment_hwrr <- fixest::feols(
+  l.physical.treatment.onsite ~ sunab(ch.year, year):high.wages.revenue +
+	e.treated +
+	treated:high.wages.revenue +
+	post:high.wages.revenue +
+	treated +
+	high.wages.revenue +
+	post +
+	gdppc.1 +
+	annual.avg.estabs.1 +
+	cpi.1 +
+	federal.facility +
+	produced.chem.facility +
+	imported.chem.facility +
+	chemical.formulation.component +
+	chemical.article.component +
+	chemical.manufacturing.aid +
+	chemical.ancilliary.use +
+	production.ratio.activity.index +
+	maxnum.chem.onsite +
+	clean.air.act.chems +
+	hap.chems +
+	pbt.chems
+	|
+	year +
+	  facility.id.fe +
+	  border.county.fe +
+	  chemical.id.fe +
+	  chemical.year.fe +
+	  border.county.year
+  ,
+  data = triQc,
+  cluster = ~c(chemical.id, naics.code, facility.state)
+)
+fixest::etable(sdid_physical_treatment_hwrr, agg = "ATT", digits = 3, digits.stats = 3)
+fixest::etable(sdid_physical_treatment_hwrr, agg = "cohort", digits = 3, digits.stats = 3)
+#======================================================================================================================#
+### Treatment menthod: Incineration thermal treatment onsite---high wages to revenue ratio
+#======================================================================================================================#
+sdid_incineration_treatment_hwrr <- fixest::feols(
+  l.incineration.thermal.treatment.onsite ~ sunab(ch.year, year):high.wages.revenue +
+	e.treated +
+	treated:high.wages.revenue +
+	post:high.wages.revenue +
+	treated +
+	high.wages.revenue +
+	post +
+	gdppc.1 +
+	annual.avg.estabs.1 +
+	cpi.1 +
+	federal.facility +
+	produced.chem.facility +
+	imported.chem.facility +
+	chemical.formulation.component +
+	chemical.article.component +
+	chemical.manufacturing.aid +
+	chemical.ancilliary.use +
+	production.ratio.activity.index +
+	maxnum.chem.onsite +
+	clean.air.act.chems +
+	hap.chems +
+	pbt.chems
+	|
+	year +
+	  facility.id.fe +
+	  border.county.fe +
+	  chemical.id.fe +
+	  chemical.year.fe +
+	  border.county.year
+  ,
+  data = triQc,
+  cluster = ~c(chemical.id, naics.code, facility.state)
+)
+fixest::etable(sdid_incineration_treatment_hwrr, agg = "ATT", digits = 3, digits.stats = 3)
+fixest::etable(sdid_incineration_treatment_hwrr, agg = "cohort", digits = 3, digits.stats = 3)
+#======================================================================================================================#
+### Energy recovery onsite---high wages to revenue ratio
+#======================================================================================================================#
+sdid_energy_recovery_hwrr <- fixest::feols(
+  l.energy.recovery.onsite ~ sunab(ch.year, year):high.wages.revenue +
+	e.treated +
+	treated:high.wages.revenue +
+	post:high.wages.revenue +
+	treated +
+	high.wages.revenue +
+	post +
+	gdppc.1 +
+	annual.avg.estabs.1 +
+	cpi.1 +
+	federal.facility +
+	produced.chem.facility +
+	imported.chem.facility +
+	chemical.formulation.component +
+	chemical.article.component +
+	chemical.manufacturing.aid +
+	chemical.ancilliary.use +
+	production.ratio.activity.index +
+	maxnum.chem.onsite +
+	clean.air.act.chems +
+	hap.chems +
+	pbt.chems
+	|
+	year +
+	  facility.id.fe +
+	  border.county.fe +
+	  chemical.id.fe +
+	  chemical.year.fe +
+	  border.county.year
+  ,
+  data = triQc,
+  cluster = ~c(chemical.id, naics.code, facility.state)
+)
+fixest::etable(sdid_energy_recovery_hwrr, agg = "ATT", digits = 3, digits.stats = 3)
+fixest::etable(sdid_energy_recovery_hwrr, agg = "cohort", digits = 3, digits.stats = 3)
+#======================================================================================================================#
+### Energy recovery method: Industrial kiln onsite---high wages to revenue ratio
+#======================================================================================================================#
+sdid_ind_klin_hwrr <- fixest::feols(
+  l.industrial.kiln.onsite ~ sunab(ch.year, year):high.wages.revenue +
+	e.treated +
+	treated:high.wages.revenue +
+	post:high.wages.revenue +
+	treated +
+	high.wages.revenue +
+	post +
+	gdppc.1 +
+	annual.avg.estabs.1 +
+	cpi.1 +
+	federal.facility +
+	produced.chem.facility +
+	imported.chem.facility +
+	chemical.formulation.component +
+	chemical.article.component +
+	chemical.manufacturing.aid +
+	chemical.ancilliary.use +
+	production.ratio.activity.index +
+	maxnum.chem.onsite +
+	clean.air.act.chems +
+	hap.chems +
+	pbt.chems
+	|
+
+	year +
+	  facility.id.fe +
+	  border.county.fe +
+	  chemical.id.fe +
+	  chemical.year.fe +
+	  border.county.year
+  ,
+  data = triQc,
+  cluster = ~c(chemical.id, naics.code, facility.state)
+)
+fixest::etable(sdid_ind_klin_hwrr, agg = "ATT", digits = 3, digits.stats = 3)
+fixest::etable(sdid_ind_klin_hwrr, agg = "cohort", digits = 3, digits.stats = 3)
+#======================================================================================================================#
+### Energy recovery method: Industrial boiler onsite---high wages to revenue ratio
+#======================================================================================================================#
+sdid_ind_boiler_hwrr <- fixest::feols(
+  l.industrial.boiler.onsite ~ sunab(ch.year, year):high.wages.revenue +
+	e.treated +
+	treated:high.wages.revenue +
+	post:high.wages.revenue +
+	treated +
+	high.wages.revenue +
+	post +
+	gdppc.1 +
+	annual.avg.estabs.1 +
+	cpi.1 +
+	federal.facility +
+	produced.chem.facility +
+	imported.chem.facility +
+	chemical.formulation.component +
+	chemical.article.component +
+	chemical.manufacturing.aid +
+	chemical.ancilliary.use +
+	production.ratio.activity.index +
+	maxnum.chem.onsite +
+	clean.air.act.chems +
+	hap.chems +
+	pbt.chems
+	|
+	year +
+	  facility.id.fe +
+	  border.county.fe +
+	  chemical.id.fe +
+	  chemical.year.fe +
+	  border.county.year
+  ,
+  data = triQc,
+  cluster = ~c(chemical.id, naics.code, facility.state)
+)
+fixest::etable(sdid_ind_boiler_hwrr, agg = "ATT", digits = 3, digits.stats = 3)
+fixest::etable(sdid_ind_boiler_hwrr, agg = "cohort", digits = 3, digits.stats = 3)
+#======================================================================================================================#
+### Energy recovery method: Industrial furnace onsite---high wages to revenue ratio
+#======================================================================================================================#
+sdid_ind_furnace_hwrr <- fixest::feols(
+  l.industrial.furnace.onsite ~ sunab(ch.year, year):high.wages.revenue +
+	e.treated +
+	treated:high.wages.revenue +
+	post:high.wages.revenue +
+	treated +
+	high.wages.revenue +
+	post +
+	gdppc.1 +
+	annual.avg.estabs.1 +
+	cpi.1 +
+	federal.facility +
+	produced.chem.facility +
+	imported.chem.facility +
+	chemical.formulation.component +
+	chemical.article.component +
+	chemical.manufacturing.aid +
+	chemical.ancilliary.use +
+	production.ratio.activity.index +
+	maxnum.chem.onsite +
+	clean.air.act.chems +
+	hap.chems +
+	pbt.chems
+	|
+	year +
+	  facility.id.fe +
+	  border.county.fe +
+	  chemical.id.fe +
+	  chemical.year.fe +
+	  border.county.year
+  ,
+  data = triQc,
+  cluster = ~c(chemical.id, naics.code, facility.state)
+)
+fixest::etable(sdid_ind_furnace_hwrr, agg = "ATT", digits = 3, digits.stats = 3)
+fixest::etable(sdid_ind_furnace_hwrr, agg = "cohort", digits = 3, digits.stats = 3)
+#======================================================================================================================#
+### Recycling onsite---high wages to revenue ratio
+#======================================================================================================================#
+sdid_recycle_onsite_hwrr <- fixest::feols(
+  l.recycling.onsite ~ sunab(ch.year, year):high.wages.revenue +
+	e.treated +
+	treated:high.wages.revenue +
+	post:high.wages.revenue +
+	treated +
+	high.wages.revenue +
+	post +
+	gdppc.1 +
+	annual.avg.estabs.1 +
+	cpi.1 +
+	federal.facility +
+	produced.chem.facility +
+	imported.chem.facility +
+	chemical.formulation.component +
+	chemical.article.component +
+	chemical.manufacturing.aid +
+	chemical.ancilliary.use +
+	production.ratio.activity.index +
+	maxnum.chem.onsite +
+	clean.air.act.chems +
+	hap.chems +
+	pbt.chems
+	|
+	year +
+	  facility.id.fe +
+	  border.county.fe +
+	  chemical.id.fe +
+	  chemical.year.fe +
+	  border.county.year
+  ,
+  data = triQc,
+  cluster = ~c(chemical.id, naics.code, facility.state)
+)
+fixest::etable(sdid_recycle_onsite_hwrr, agg = "ATT", digits = 3, digits.stats = 3)
+fixest::etable(sdid_recycle_onsite_hwrr, agg = "cohort", digits = 3, digits.stats = 3)
+#======================================================================================================================#
+### Recycling process: Reuse onsite---high wages to revenue ratio
+#======================================================================================================================#
+sdid_reuse_onsite_hwrr <- fixest::feols(
+  l.reuse.onsite ~ sunab(ch.year, year):high.wages.revenue +
+	e.treated +
+	treated:high.wages.revenue +
+	post:high.wages.revenue +
+	treated +
+	high.wages.revenue +
+	post +
+	gdppc.1 +
+	annual.avg.estabs.1 +
+	cpi.1 +
+	federal.facility +
+	produced.chem.facility +
+	imported.chem.facility +
+	chemical.formulation.component +
+	chemical.article.component +
+	chemical.manufacturing.aid +
+	chemical.ancilliary.use +
+	production.ratio.activity.index +
+	maxnum.chem.onsite +
+	clean.air.act.chems +
+	hap.chems +
+	pbt.chems
+	|
+	year +
+	  facility.id.fe +
+	  border.county.fe +
+	  chemical.id.fe +
+	  chemical.year.fe +
+	  border.county.year
+  ,
+  data = triQc,
+  cluster = ~c(chemical.id, naics.code, facility.state)
+)
+fixest::etable(sdid_reuse_onsite_hwrr, agg = "ATT", digits = 3, digits.stats = 3)
+fixest::etable(sdid_reuse_onsite_hwrr, agg = "cohort", digits = 3, digits.stats = 3)
+#======================================================================================================================#
+### Recycling process: Metal recovery onsite---high wages to revenue ratio
+#======================================================================================================================#
+sdid_metal_recovery_hwrr <- fixest::feols(
+  l.metal.recovery.onsite ~ sunab(ch.year, year):high.wages.revenue +
+	e.treated +
+	treated:high.wages.revenue +
+	post:high.wages.revenue +
+	treated +
+	high.wages.revenue +
+	post +
+	gdppc.1 +
+	annual.avg.estabs.1 +
+	cpi.1 +
+	federal.facility +
+	produced.chem.facility +
+	imported.chem.facility +
+	chemical.formulation.component +
+	chemical.article.component +
+	chemical.manufacturing.aid +
+	chemical.ancilliary.use +
+	production.ratio.activity.index +
+	maxnum.chem.onsite +
+	clean.air.act.chems +
+	hap.chems +
+	pbt.chems
+	|
+	year +
+	  facility.id.fe +
+	  border.county.fe +
+	  chemical.id.fe +
+	  chemical.year.fe +
+	  border.county.year
+  ,
+  data = triQc,
+  cluster = ~c(chemical.id, naics.code, facility.state)
+)
+fixest::etable(sdid_metal_recovery_hwrr, agg = "ATT", digits = 3, digits.stats = 3)
+fixest::etable(sdid_metal_recovery_hwrr, agg = "cohort", digits = 3, digits.stats = 3)
+#======================================================================================================================#
+### Recycling process: Solvent recovery onsite---high wages to revenue ratio
+#======================================================================================================================#
+sdid_solvent_recovery_hwrr <- fixest::feols(
+  l.solvent.recovery.onsite ~ sunab(ch.year, year):high.wages.revenue +
+	e.treated +
+	treated:high.wages.revenue +
+	post:high.wages.revenue +
+	treated +
+	high.wages.revenue +
+	post +
+	gdppc.1 +
+	annual.avg.estabs.1 +
+	cpi.1 +
+	federal.facility +
+	produced.chem.facility +
+	imported.chem.facility +
+	chemical.formulation.component +
+	chemical.article.component +
+	chemical.manufacturing.aid +
+	chemical.ancilliary.use +
+	production.ratio.activity.index +
+	maxnum.chem.onsite +
+	clean.air.act.chems +
+	hap.chems +
+	pbt.chems
+	|
+	year +
+	  facility.id.fe +
+	  border.county.fe +
+	  chemical.id.fe +
+	  chemical.year.fe +
+	  border.county.year
+  ,
+  data = triQc,
+  cluster = ~c(chemical.id, naics.code, facility.state)
+)
+fixest::etable(sdid_solvent_recovery_hwrr, agg = "ATT", digits = 3, digits.stats = 3)
+fixest::etable(sdid_solvent_recovery_hwrr, agg = "cohort", digits = 3, digits.stats = 3)
+#======================================================================================================================#
+### Onsite: Source Reduction Activities---high wages to revenue ratio (labour intensive)
+#======================================================================================================================#
+sdid_source_reduction_hwrr <- fixest::feols(
+  source.reduction ~ sunab(ch.year, year):high.wages.revenue +
+	e.treated +
+	treated:high.wages.revenue +
+	post:high.wages.revenue +
+	treated +
+	high.wages.revenue +
+	post +
+	gdppc.1 +
+	annual.avg.estabs.1 +
+	cpi.1 +
+	federal.facility +
+	produced.chem.facility +
+	imported.chem.facility +
+	chemical.formulation.component +
+	chemical.article.component +
+	chemical.manufacturing.aid +
+	chemical.ancilliary.use +
+	production.ratio.activity.index +
+	maxnum.chem.onsite +
+	clean.air.act.chems +
+	hap.chems +
+	pbt.chems
+	|
+	year +
+	  facility.id.fe +
+	  border.county.fe +
+	  chemical.id.fe +
+	  chemical.year.fe +
+	  border.county.year
+  ,
+  data = triQc,
+  cluster = ~c(chemical.id, naics.code, facility.state)
+)
+fixest::etable(sdid_source_reduction_hwrr, agg = "ATT", digits = 3, digits.stats = 3)
+fixest::etable(sdid_source_reduction_hwrr, agg = "cohort", digits = 3, digits.stats = 3)
+#======================================================================================================================#
+### Material Substitution---high wages to revenue (wages to revenue ratio)
+#======================================================================================================================#
+sdid_mat_submod_hwrr <- fixest::feols(
+  material.subandmod ~ sunab(ch.year, year):high.wages.revenue +
+	e.treated +
+	treated:high.wages.revenue +
+	post:high.wages.revenue +
+	treated +
+	high.wages.revenue +
+	post +
+	gdppc.1 +
+	annual.avg.estabs.1 +
+	cpi.1 +
+	federal.facility +
+	produced.chem.facility +
+	imported.chem.facility +
+	chemical.formulation.component +
+	chemical.article.component +
+	chemical.manufacturing.aid +
+	chemical.ancilliary.use +
+	production.ratio.activity.index +
+	maxnum.chem.onsite +
+	clean.air.act.chems +
+	hap.chems +
+	pbt.chems
+	|
+	year +
+	  facility.id.fe +
+	  border.county.fe +
+	  chemical.id.fe +
+	  chemical.year.fe +
+	  border.county.year
+  ,
+  data = triQc,
+  cluster = ~c(chemical.id, naics.code, facility.state)
+)
+fixest::etable(sdid_mat_submod_hwrr, agg = "ATT", digits = 3, digits.stats = 3)
+fixest::etable(sdid_mat_submod_hwrr, agg = "cohort", digits = 3, digits.stats = 3)
+#======================================================================================================================#
+### Material: Organic Solvent Substitution---high wages ratio (wages to revenue ratio)
+#======================================================================================================================#
+sdid_organic_solvent_hwrr <- fixest::feols(
+  sub.organic.solvent.matsubmod ~ sunab(ch.year, year):high.wages.revenue +
+	e.treated +
+	treated:high.wages.revenue +
+	post:high.wages.revenue +
+	treated +
+	high.wages.revenue +
+	post +
+	gdppc.1 +
+	annual.avg.estabs.1 +
+	cpi.1 +
+	federal.facility +
+	produced.chem.facility +
+	imported.chem.facility +
+	chemical.formulation.component +
+	chemical.article.component +
+	chemical.manufacturing.aid +
+	chemical.ancilliary.use +
+	production.ratio.activity.index +
+	maxnum.chem.onsite +
+	clean.air.act.chems +
+	hap.chems +
+	pbt.chems
+	|
+	year +
+	  facility.id.fe +
+	  border.county.fe +
+	  chemical.id.fe +
+	  chemical.year.fe +
+	  border.county.year
+  ,
+  data = triQc,
+  cluster = ~c(chemical.id, naics.code, facility.state)
+)
+fixest::etable(sdid_organic_solvent_hwrr, agg = "ATT", digits = 3, digits.stats = 3)
+fixest::etable(sdid_organic_solvent_hwrr, agg = "cohort", digits = 3, digits.stats = 3)
+#======================================================================================================================#
+### Material: Feedstock and Reactive Chemical Substitution---high wage ratio (wages to revenue ratio)
+#======================================================================================================================#
+sdid_feedstock_reactchems_hwrr <- fixest::feols(
+  sub.rawm.feedstock.reactchem.matsubmod ~ sunab(ch.year, year):high.wages.revenue +
+	e.treated +
+	treated:high.wages.revenue +
+	post:high.wages.revenue +
+	treated +
+	high.wages.revenue +
+	post +
+	gdppc.1 +
+	annual.avg.estabs.1 +
+	cpi.1 +
+	federal.facility +
+	produced.chem.facility +
+	imported.chem.facility +
+	chemical.formulation.component +
+	chemical.article.component +
+	chemical.manufacturing.aid +
+	chemical.ancilliary.use +
+	production.ratio.activity.index +
+	maxnum.chem.onsite +
+	clean.air.act.chems +
+	hap.chems +
+	pbt.chems
+	|
+	year +
+	  facility.id.fe +
+	  border.county.fe +
+	  chemical.id.fe +
+	  chemical.year.fe +
+	  border.county.year
+  ,
+  data = triQc,
+  cluster = ~c(chemical.id, naics.code, facility.state)
+)
+fixest::etable(sdid_feedstock_reactchems_hwrr, agg = "ATT", digits = 3, digits.stats = 3)
+fixest::etable(sdid_feedstock_reactchems_hwrr, agg = "cohort", digits = 3, digits.stats = 3)
+#======================================================================================================================#
+### Material: manufacturing, processing aids, and ancillary chemical Substitution---high wages ratio
+#======================================================================================================================#
+sdid_manu_aid_hwrr <- fixest::feols(
+  sub.manu.proccess.ancilliary.chems.matsubmod ~ sunab(ch.year, year):high.wages.revenue +
+	e.treated +
+	treated:high.wages.revenue +
+	post:high.wages.revenue +
+	treated +
+	high.wages.revenue +
+	post +
+	gdppc.1 +
+	annual.avg.estabs.1 +
+	cpi.1 +
+	federal.facility +
+	produced.chem.facility +
+	imported.chem.facility +
+	chemical.formulation.component +
+	chemical.article.component +
+	chemical.manufacturing.aid +
+	chemical.ancilliary.use +
+	production.ratio.activity.index +
+	maxnum.chem.onsite +
+	clean.air.act.chems +
+	hap.chems +
+	pbt.chems
+	|
+	year +
+	  facility.id.fe +
+	  border.county.fe +
+	  chemical.id.fe +
+	  chemical.year.fe +
+	  border.county.year
+  ,
+  data = triQc,
+  cluster = ~c(chemical.id, naics.code, facility.state)
+)
+fixest::etable(sdid_manu_aid_hwrr, agg = "ATT", digits = 3, digits.stats = 3)
+fixest::etable(sdid_manu_aid_hwrr, agg = "cohort", digits = 3, digits.stats = 3)
+#======================================================================================================================#
+### Material: Increase Purity of Chemicals---high wages to revenue ratio
+#======================================================================================================================#
+sdid_mat_purity_hwrr <- fixest::feols(
+  mod.content.grade.purity.chems.matsubmod ~ sunab(ch.year, year):high.wages.revenue +
+	e.treated +
+	treated:high.wages.revenue +
+	post:high.wages.revenue +
+	treated +
+	high.wages.revenue +
+	post +
+	gdppc.1 +
+	annual.avg.estabs.1 +
+	cpi.1 +
+	federal.facility +
+	produced.chem.facility +
+	imported.chem.facility +
+	chemical.formulation.component +
+	chemical.article.component +
+	chemical.manufacturing.aid +
+	chemical.ancilliary.use +
+	production.ratio.activity.index +
+	maxnum.chem.onsite +
+	clean.air.act.chems +
+	hap.chems +
+	pbt.chems
+	|
+	year +
+	  facility.id.fe +
+	  border.county.fe +
+	  chemical.id.fe +
+	  chemical.year.fe +
+	  border.county.year
+  ,
+  data = triQc,
+  cluster = ~c(chemical.id, naics.code, facility.state)
+)
+fixest::etable(sdid_mat_purity_hwrr, agg = "ATT", digits = 3, digits.stats = 3)
+fixest::etable(sdid_mat_purity_hwrr, agg = "cohort", digits = 3, digits.stats = 3)
+#======================================================================================================================#
+### Material: Clean Fuel---high wages to revenue ratio
+#======================================================================================================================#
+sdid_clean_fuel_hwrr <- fixest::feols(
+  sub.fuel.matsubmod ~ sunab(ch.year, year):high.wages.revenue +
+	e.treated +
+	treated:high.wages.revenue +
+	post:high.wages.revenue +
+	treated +
+	high.wages.revenue +
+	post +
+	gdppc.1 +
+	annual.avg.estabs.1 +
+	cpi.1 +
+	federal.facility +
+	produced.chem.facility +
+	imported.chem.facility +
+	chemical.formulation.component +
+	chemical.article.component +
+	chemical.manufacturing.aid +
+	chemical.ancilliary.use +
+	production.ratio.activity.index +
+	maxnum.chem.onsite +
+	clean.air.act.chems +
+	hap.chems +
+	pbt.chems
+	|
+	year +
+	  facility.id.fe +
+	  border.county.fe +
+	  chemical.id.fe +
+	  chemical.year.fe +
+	  border.county.year
+  ,
+  data = triQc,
+  cluster = ~c(chemical.id, naics.code, facility.state)
+)
+fixest::etable(sdid_clean_fuel_hwrr, agg = "ATT", digits = 3, digits.stats = 3)
+fixest::etable(sdid_clean_fuel_hwrr, agg = "cohort", digits = 3, digits.stats = 3)
+#======================================================================================================================#
+### Product modification: Energy Cost Intensity---high wages to revenue ratio
+#======================================================================================================================#
+sdid_energy_intensity_hwrr <- fixest::feols(
+  l.energy.cost.intensity ~ sunab(ch.year, year):high.wages.revenue +
+	e.treated +
+	treated:high.wages.revenue +
+	post:high.wages.revenue +
+	treated +
+	high.wages.revenue +
+	post +
+	gdppc.1 +
+	annual.avg.estabs.1 +
+	cpi.1 +
+	federal.facility +
+	produced.chem.facility +
+	imported.chem.facility +
+	chemical.formulation.component +
+	chemical.article.component +
+	chemical.manufacturing.aid +
+	chemical.ancilliary.use +
+	production.ratio.activity.index +
+	maxnum.chem.onsite +
+	clean.air.act.chems +
+	hap.chems +
+	pbt.chems
+	|
+	year +
+	  facility.id.fe +
+	  border.county.fe +
+	  chemical.id.fe +
+	  chemical.year.fe +
+	  border.county.year
+  ,
+  data = triQc,
+  cluster = ~c(chemical.id, naics.code, facility.state)
+)
+fixest::etable(sdid_energy_intensity_hwrr, agg = "ATT", digits = 3, digits.stats = 3)
+fixest::etable(sdid_energy_intensity_hwrr, agg = "cohort", digits = 3, digits.stats = 3)
+#======================================================================================================================#
+### Material: Other material modification---high wages to revenue ratio
+#======================================================================================================================#
+sdid_mat_others_hwrr <- fixest::feols(
+  other.matmods.matsubmod ~ sunab(ch.year, year):high.wages.revenue +
+	e.treated +
+	treated:high.wages.revenue +
+	post:high.wages.revenue +
+	treated +
+	high.wages.revenue +
+	post +
+	gdppc.1 +
+	annual.avg.estabs.1 +
+	cpi.1 +
+	federal.facility +
+	produced.chem.facility +
+	imported.chem.facility +
+	chemical.formulation.component +
+	chemical.article.component +
+	chemical.manufacturing.aid +
+	chemical.ancilliary.use +
+	production.ratio.activity.index +
+	maxnum.chem.onsite +
+	clean.air.act.chems +
+	hap.chems +
+	pbt.chems
+	|
+	year +
+	  facility.id.fe +
+	  border.county.fe +
+	  chemical.id.fe +
+	  chemical.year.fe +
+	  border.county.year
+  ,
+  data = triQc,
+  cluster = ~c(chemical.id, naics.code, facility.state)
+)
+fixest::etable(sdid_mat_others_hwrr, agg = "ATT", digits = 3, digits.stats = 3)
+fixest::etable(sdid_mat_others_hwrr, agg = "cohort", digits = 3, digits.stats = 3)
+#======================================================================================================================#
+### Product modification---high wages to revenue ratio
+#======================================================================================================================#
+sdid_prod_mod_hwrr <- fixest::feols(
+  product.modification ~ sunab(ch.year, year):high.wages.revenue +
+	e.treated +
+	treated:high.wages.revenue +
+	post:high.wages.revenue +
+	treated +
+	high.wages.revenue +
+	post +
+	gdppc.1 +
+	annual.avg.estabs.1 +
+	cpi.1 +
+	federal.facility +
+	produced.chem.facility +
+	imported.chem.facility +
+	chemical.formulation.component +
+	chemical.article.component +
+	chemical.manufacturing.aid +
+	chemical.ancilliary.use +
+	production.ratio.activity.index +
+	maxnum.chem.onsite +
+	clean.air.act.chems +
+	hap.chems +
+	pbt.chems
+	|
+	year +
+	  facility.id.fe +
+	  border.county.fe +
+	  chemical.id.fe +
+	  chemical.year.fe +
+	  border.county.year
+  , data = triQc,
+  cluster = ~c(chemical.id, naics.code, facility.state)
+)
+fixest::etable(sdid_prod_mod_hwrr, agg = "ATT", digits = 3, digits.stats = 3)
+fixest::etable(sdid_prod_mod_hwrr, agg = "cohort", digits = 3, digits.stats = 3)
+#======================================================================================================================#
+### Product modification: New Product Line---high wages to revenue ratio
+#======================================================================================================================#
+sdid_new_prod_hine_hwrr <- fixest::feols(
+  devd.newproductline.pmod ~ sunab(ch.year, year):high.wages.revenue +
+	e.treated +
+	treated:high.wages.revenue +
+	post:high.wages.revenue +
+	treated +
+	high.wages.revenue +
+	post +
+	gdppc.1 +
+	annual.avg.estabs.1 +
+	cpi.1 +
+	federal.facility +
+	produced.chem.facility +
+	imported.chem.facility +
+	chemical.formulation.component +
+	chemical.article.component +
+	chemical.manufacturing.aid +
+	chemical.ancilliary.use +
+	production.ratio.activity.index +
+	maxnum.chem.onsite +
+	clean.air.act.chems +
+	hap.chems +
+	pbt.chems
+	|
+	year +
+	  facility.id.fe +
+	  border.county.fe +
+	  chemical.id.fe +
+	  chemical.year.fe +
+	  border.county.year
+  ,
+  data = triQc,
+  cluster = ~c(chemical.id, naics.code, facility.state)
+)
+fixest::etable(sdid_new_prod_hine_hwrr, agg = "ATT", digits = 3, digits.stats = 3)
+fixest::etable(sdid_new_prod_hine_hwrr, agg = "cohort", digits = 3, digits.stats = 3)
+#======================================================================================================================#
+### Product modification: Modified Packaging---high wages to revenue ratio
+#======================================================================================================================#
+sdid_mod_packaging_hwrr <- fixest::feols(
+  mod.packaging.pmod ~ sunab(ch.year, year):high.wages.revenue +
+	e.treated +
+	treated:high.wages.revenue +
+	post:high.wages.revenue +
+	treated +
+	high.wages.revenue +
+	post +
+	gdppc.1 +
+	annual.avg.estabs.1 +
+	cpi.1 +
+	federal.facility +
+	produced.chem.facility +
+	imported.chem.facility +
+	chemical.formulation.component +
+	chemical.article.component +
+	chemical.manufacturing.aid +
+	chemical.ancilliary.use +
+	production.ratio.activity.index +
+	maxnum.chem.onsite +
+	clean.air.act.chems +
+	hap.chems +
+	pbt.chems
+	|
+	year +
+	  facility.id.fe +
+	  border.county.fe +
+	  chemical.id.fe +
+	  chemical.year.fe +
+	  border.county.year
+  ,
+  data = triQc,
+  cluster = ~c(chemical.id, naics.code, facility.state)
+)
+fixest::etable(sdid_mod_packaging_hwrr, agg = "ATT", digits = 3, digits.stats = 3)
+fixest::etable(sdid_mod_packaging_hwrr, agg = "cohort", digits = 3, digits.stats = 3)
+#======================================================================================================================#
+### Product modification: Other Product Modification---high wages to revenue ratio
+#======================================================================================================================#
+sdid_prod_mod_others_hwrr <- fixest::feols(
+  other.pmods.pmod ~ sunab(ch.year, year):high.wages.revenue +
+	e.treated +
+	treated:high.wages.revenue +
+	post:high.wages.revenue +
+	treated +
+	high.wages.revenue +
+	post +
+	gdppc.1 +
+	annual.avg.estabs.1 +
+	cpi.1 +
+	federal.facility +
+	produced.chem.facility +
+	imported.chem.facility +
+	chemical.formulation.component +
+	chemical.article.component +
+	chemical.manufacturing.aid +
+	chemical.ancilliary.use +
+	production.ratio.activity.index +
+	maxnum.chem.onsite +
+	clean.air.act.chems +
+	hap.chems +
+	pbt.chems
+	|
+	year +
+	  facility.id.fe +
+	  border.county.fe +
+	  chemical.id.fe +
+	  chemical.year.fe +
+	  border.county.year
+  ,
+  data = triQc,
+  cluster = ~c(chemical.id, naics.code, facility.state)
+)
+fixest::etable(sdid_prod_mod_others_hwrr, agg = "ATT", digits = 3, digits.stats = 3)
+fixest::etable(sdid_prod_mod_others_hwrr, agg = "cohort", digits = 3, digits.stats = 3)
+#======================================================================================================================#
+### Process modification: Process and Equipment Modification---high wages to revenue ratio
+#======================================================================================================================#
+sdid_process_equip_mod_hwrr <- fixest::feols(
+  process.equip.modification ~ sunab(ch.year, year):high.wages.revenue +
+	e.treated +
+	treated:high.wages.revenue +
+	post:high.wages.revenue +
+	treated +
+	high.wages.revenue +
+	post +
+	gdppc.1 +
+	annual.avg.estabs.1 +
+	cpi.1 +
+	federal.facility +
+	produced.chem.facility +
+	imported.chem.facility +
+	chemical.formulation.component +
+	chemical.article.component +
+	chemical.manufacturing.aid +
+	chemical.ancilliary.use +
+	production.ratio.activity.index +
+	maxnum.chem.onsite +
+	clean.air.act.chems +
+	hap.chems +
+	pbt.chems
+	|
+	year +
+	  facility.id.fe +
+	  border.county.fe +
+	  chemical.id.fe +
+	  chemical.year.fe +
+	  border.county.year
+  ,
+  data = triQc,
+  cluster = ~c(chemical.id, naics.code, facility.state)
+)
+fixest::etable(sdid_process_equip_mod_hwrr, agg = "ATT", digits = 3, digits.stats = 3)
+fixest::etable(sdid_process_equip_mod_hwrr, agg = "cohort", digits = 3, digits.stats = 3)
+#======================================================================================================================#
+### Process modification: Optimised Process Efficiency---high wages to revenue ratio
+#======================================================================================================================#
+sdid_optimised_process_efficiency_hwrr <- fixest::feols(
+  optimised.process.efficiency.pequipmod ~ sunab(ch.year, year):high.wages.revenue +
+	e.treated +
+	treated:high.wages.revenue +
+	post:high.wages.revenue +
+	treated +
+	high.wages.revenue +
+	post +
+	gdppc.1 +
+	annual.avg.estabs.1 +
+	cpi.1 +
+	federal.facility +
+	produced.chem.facility +
+	imported.chem.facility +
+	chemical.formulation.component +
+	chemical.article.component +
+	chemical.manufacturing.aid +
+	chemical.ancilliary.use +
+	production.ratio.activity.index +
+	maxnum.chem.onsite +
+	clean.air.act.chems +
+	hap.chems +
+	pbt.chems
+	|
+	year +
+	  facility.id.fe +
+	  border.county.fe +
+	  chemical.id.fe +
+	  chemical.year.fe +
+	  border.county.year
+  ,
+  data = triQc,
+  cluster = ~c(chemical.id, naics.code, facility.state)
+)
+fixest::etable(sdid_optimised_process_efficiency_hwrr, agg = "ATT", digits = 3, digits.stats = 3)
+fixest::etable(sdid_optimised_process_efficiency_hwrr, agg = "cohort", digits = 3, digits.stats = 3)
+#======================================================================================================================#
+### Process modification: Recirculation in Process---high wages to revenue ratio
+#======================================================================================================================#
+sdid_recirculate_inprocess_hwrr <- fixest::feols(
+  recirculationinprocess.pequipmod ~ sunab(ch.year, year):high.wages.revenue +
+	e.treated +
+	treated:high.wages.revenue +
+	post:high.wages.revenue +
+	treated +
+	high.wages.revenue +
+	post +
+	gdppc.1 +
+	annual.avg.estabs.1 +
+	cpi.1 +
+	federal.facility +
+	produced.chem.facility +
+	imported.chem.facility +
+	chemical.formulation.component +
+	chemical.article.component +
+	chemical.manufacturing.aid +
+	chemical.ancilliary.use +
+	production.ratio.activity.index +
+	maxnum.chem.onsite +
+	clean.air.act.chems +
+	hap.chems +
+	pbt.chems
+	|
+	year +
+	  facility.id.fe +
+	  border.county.fe +
+	  chemical.id.fe +
+	  chemical.year.fe +
+	  border.county.year
+  ,
+  data = triQc,
+  cluster = ~c(chemical.id, naics.code, facility.state)
+)
+fixest::etable(sdid_recirculate_inprocess_hwrr, agg = "ATT", digits = 3, digits.stats = 3)
+fixest::etable(sdid_recirculate_inprocess_hwrr, agg = "cohort", digits = 3, digits.stats = 3)
+#======================================================================================================================#
+### Process modification: New Technology and Technique in manufacturing process---high wages to revenue ratio
+#======================================================================================================================#
+sdid_new_tech_hwrr <- fixest::feols(
+  newtech.technique.process.pequipmod ~ sunab(ch.year, year):high.wages.revenue +
+	e.treated +
+	treated:high.wages.revenue +
+	post:high.wages.revenue +
+	treated +
+	high.wages.revenue +
+	post +
+	gdppc.1 +
+	annual.avg.estabs.1 +
+	cpi.1 +
+	federal.facility +
+	produced.chem.facility +
+	imported.chem.facility +
+	chemical.formulation.component +
+	chemical.article.component +
+	chemical.manufacturing.aid +
+	chemical.ancilliary.use +
+	production.ratio.activity.index +
+	maxnum.chem.onsite +
+	clean.air.act.chems +
+	hap.chems +
+	pbt.chems
+	|
+	year +
+	  facility.id.fe +
+	  border.county.fe +
+	  chemical.id.fe +
+	  chemical.year.fe +
+	  border.county.year
+  ,
+  data = triQc,
+  cluster = ~c(chemical.id, naics.code, facility.state)
+)
+fixest::etable(sdid_new_tech_hwrr, agg = "ATT", digits = 3, digits.stats = 3)
+fixest::etable(sdid_new_tech_hwrr, agg = "cohort", digits = 3, digits.stats = 3)
+#======================================================================================================================#
+### Process modification: Recycling to reuse---high wages to revenue ratio
+#======================================================================================================================#
+sdid_recylce_dummy_hwrr <- fixest::feols(
+  recycling.dummy ~ sunab(ch.year, year):high.wages.revenue +
+	e.treated +
+	treated:high.wages.revenue +
+	post:high.wages.revenue +
+	treated +
+	high.wages.revenue +
+	post +
+	gdppc.1 +
+	annual.avg.estabs.1 +
+	cpi.1 +
+	federal.facility +
+	produced.chem.facility +
+	imported.chem.facility +
+	chemical.formulation.component +
+	chemical.article.component +
+	chemical.manufacturing.aid +
+	chemical.ancilliary.use +
+	production.ratio.activity.index +
+	maxnum.chem.onsite +
+	clean.air.act.chems +
+	hap.chems +
+	pbt.chems
+	|
+	year +
+	  facility.id.fe +
+	  border.county.fe +
+	  chemical.id.fe +
+	  chemical.year.fe +
+	  border.county.year
+  ,
+  data = triQc,
+  cluster = ~c(chemical.id, naics.code, facility.state)
+)
+fixest::etable(sdid_recylce_dummy_hwrr, agg = "ATT", digits = 3, digits.stats = 3)
+fixest::etable(sdid_recylce_dummy_hwrr, agg = "cohort", digits = 3, digits.stats = 3)
+#======================================================================================================================#
+### Process modification: Research & Development---high wages to revenue ratio
+#======================================================================================================================#
+sdid_research_hwrr <- fixest::feols(
+  r.and.d ~ sunab(ch.year, year):high.wages.revenue +
+	e.treated +
+	treated:high.wages.revenue +
+	post:high.wages.revenue +
+	treated +
+	high.wages.revenue +
+	post +
+	gdppc.1 +
+	annual.avg.estabs.1 +
+	cpi.1 +
+	federal.facility +
+	produced.chem.facility +
+	imported.chem.facility +
+	chemical.formulation.component +
+	chemical.article.component +
+	chemical.manufacturing.aid +
+	chemical.ancilliary.use +
+	production.ratio.activity.index +
+	maxnum.chem.onsite +
+	clean.air.act.chems +
+	hap.chems +
+	pbt.chems
+	|
+	year +
+	  facility.id.fe +
+	  border.county.fe +
+	  chemical.id.fe +
+	  chemical.year.fe +
+	  border.county.year
+  ,
+  data = triQc,
+  cluster = ~c(chemical.id, naics.code, facility.state)
+)
+fixest::etable(sdid_research_hwrr, agg = "ATT", digits = 3, digits.stats = 3)
+fixest::etable(sdid_research_hwrr, agg = "cohort", digits = 3, digits.stats = 3)
+#======================================================================================================================#
+### Process modification: Process Modification, Others---high wages to revenue ratio
+#======================================================================================================================#
+sdid_process_mod_others_hwrr <- fixest::feols(
+  other.pequipmods.pequipmod ~ sunab(ch.year, year):high.wages.revenue +
+	e.treated +
+	treated:high.wages.revenue +
+	post:high.wages.revenue +
+	treated +
+	high.wages.revenue +
+	post +
+	gdppc.1 +
+	annual.avg.estabs.1 +
+	cpi.1 +
+	federal.facility +
+	produced.chem.facility +
+	imported.chem.facility +
+	chemical.formulation.component +
+	chemical.article.component +
+	chemical.manufacturing.aid +
+	chemical.ancilliary.use +
+	production.ratio.activity.index +
+	maxnum.chem.onsite +
+	clean.air.act.chems +
+	hap.chems +
+	pbt.chems
+	|
+	year +
+	  facility.id.fe +
+	  border.county.fe +
+	  chemical.id.fe +
+	  chemical.year.fe +
+	  border.county.year
+  ,
+  data = triQc,
+  cluster = ~c(chemical.id, naics.code, facility.state)
+)
+fixest::etable(sdid_process_mod_others_hwrr, agg = "ATT", digits = 3, digits.stats = 3)
+fixest::etable(sdid_process_mod_others_hwrr, agg = "cohort", digits = 3, digits.stats = 3)
+#======================================================================================================================#
+### Process modification: Total factor productivity---high wages to revenue ratio
+#======================================================================================================================#
+sdid_tfp_hwrr <- fixest::feols(
+  l.tfp5 ~ sunab(ch.year, year):high.wages.revenue +
+	e.treated +
+	treated:high.wages.revenue +
+	post:high.wages.revenue +
+	treated +
+	high.wages.revenue +
+	post +
+	gdppc.1 +
+	annual.avg.estabs.1 +
+	cpi.1 +
+	federal.facility +
+	produced.chem.facility +
+	imported.chem.facility +
+	chemical.formulation.component +
+	chemical.article.component +
+	chemical.manufacturing.aid +
+	chemical.ancilliary.use +
+	production.ratio.activity.index +
+	maxnum.chem.onsite +
+	clean.air.act.chems +
+	hap.chems +
+	pbt.chems
+	|
+	year +
+	  facility.id.fe +
+	  border.county.fe +
+	  chemical.id.fe +
+	  chemical.year.fe +
+	  border.county.year
+  ,
+  data = triQc,
+  cluster = ~c(chemical.id, naics.code, facility.state)
+)
+fixest::etable(sdid_tfp_hwrr, agg = "ATT", digits = 3, digits.stats = 3)
+fixest::etable(sdid_tfp_hwrr, agg = "cohort", digits = 3, digits.stats = 3)
+#======================================================================================================================#
+### Inventory management: Inventory Material Management---high wages to revenue ratio
+#======================================================================================================================#
+sdid_inventory_mat_mgt_hwrr <- fixest::feols(
+  inventory.material.mgt ~ sunab(ch.year, year):high.wages.revenue +
+	e.treated +
+	treated:high.wages.revenue +
+	post:high.wages.revenue +
+	treated +
+	high.wages.revenue +
+	post +
+	gdppc.1 +
+	annual.avg.estabs.1 +
+	cpi.1 +
+	federal.facility +
+	produced.chem.facility +
+	imported.chem.facility +
+	chemical.formulation.component +
+	chemical.article.component +
+	chemical.manufacturing.aid +
+	chemical.ancilliary.use +
+	production.ratio.activity.index +
+	maxnum.chem.onsite +
+	clean.air.act.chems +
+	hap.chems +
+	pbt.chems
+	|
+	year +
+	  facility.id.fe +
+	  border.county.fe +
+	  chemical.id.fe +
+	  chemical.year.fe +
+	  border.county.year
+  ,
+  data = triQc,
+  cluster = ~c(chemical.id, naics.code, facility.state)
+)
+fixest::etable(sdid_inventory_mat_mgt_hwrr, agg = "ATT", digits = 3, digits.stats = 3)
+fixest::etable(sdid_inventory_mat_mgt_hwrr, agg = "cohort", digits = 3, digits.stats = 3)
+#======================================================================================================================#
+### Inventory management: Better Labelling and Testing---high wages to revenue ratio
+#======================================================================================================================#
+sdid_better_habelling_testing_hwrr <- fixest::feols(
+  better.labelling.testing.immgt ~ sunab(ch.year, year):high.wages.revenue +
+	e.treated +
+	treated:high.wages.revenue +
+	post:high.wages.revenue +
+	treated +
+	high.wages.revenue +
+	post +
+	gdppc.1 +
+	annual.avg.estabs.1 +
+	cpi.1 +
+	federal.facility +
+	produced.chem.facility +
+	imported.chem.facility +
+	chemical.formulation.component +
+	chemical.article.component +
+	chemical.manufacturing.aid +
+	chemical.ancilliary.use +
+	production.ratio.activity.index +
+	maxnum.chem.onsite +
+	clean.air.act.chems +
+	hap.chems +
+	pbt.chems
+	|
+	year +
+	  facility.id.fe +
+	  border.county.fe +
+	  chemical.id.fe +
+	  chemical.year.fe +
+	  border.county.year
+  ,
+  data = triQc,
+  cluster = ~c(chemical.id, naics.code, facility.state)
+)
+fixest::etable(sdid_better_habelling_testing_hwrr, agg = "ATT", digits = 3, digits.stats = 3)
+fixest::etable(sdid_better_habelling_testing_hwrr, agg = "cohort", digits = 3, digits.stats = 3)
+#======================================================================================================================#
+### Inventory management: Containers size change---high wages to revenue ratio
+#======================================================================================================================#
+sdid_containers_sizechange_hwrr <- fixest::feols(
+  containers.sizechange.immgt ~ sunab(ch.year, year):high.wages.revenue +
+	e.treated +
+	treated:high.wages.revenue +
+	post:high.wages.revenue +
+	treated +
+	high.wages.revenue +
+	post +
+	gdppc.1 +
+	annual.avg.estabs.1 +
+	cpi.1 +
+	federal.facility +
+	produced.chem.facility +
+	imported.chem.facility +
+	chemical.formulation.component +
+	chemical.article.component +
+	chemical.manufacturing.aid +
+	chemical.ancilliary.use +
+	production.ratio.activity.index +
+	maxnum.chem.onsite +
+	clean.air.act.chems +
+	hap.chems +
+	pbt.chems
+	|
+	year +
+	  facility.id.fe +
+	  border.county.fe +
+	  chemical.id.fe +
+	  chemical.year.fe +
+	  border.county.year
+  ,
+  data = triQc,
+  cluster = ~c(chemical.id, naics.code, facility.state)
+)
+fixest::etable(sdid_containers_sizechange_hwrr, agg = "ATT", digits = 3, digits.stats = 3)
+fixest::etable(sdid_containers_sizechange_hwrr, agg = "cohort", digits = 3, digits.stats = 3)
+#======================================================================================================================#
+### Inventory management: Improved material handling operations---high wages to revenue ratio
+#======================================================================================================================#
+sdid_mat_handling_hwrr <- fixest::feols(
+  improved.materialhandling.operations.immgt ~ sunab(ch.year, year):high.wages.revenue +
+	e.treated +
+	treated:high.wages.revenue +
+	post:high.wages.revenue +
+	treated +
+	high.wages.revenue +
+	post +
+	gdppc.1 +
+	annual.avg.estabs.1 +
+	cpi.1 +
+	federal.facility +
+	produced.chem.facility +
+	imported.chem.facility +
+	chemical.formulation.component +
+	chemical.article.component +
+	chemical.manufacturing.aid +
+	chemical.ancilliary.use +
+	production.ratio.activity.index +
+	maxnum.chem.onsite +
+	clean.air.act.chems +
+	hap.chems +
+	pbt.chems
+	|
+	year +
+	  facility.id.fe +
+	  border.county.fe +
+	  chemical.id.fe +
+	  chemical.year.fe +
+	  border.county.year
+  ,
+  data = triQc,
+  cluster = ~c(chemical.id, naics.code, facility.state)
+)
+fixest::etable(sdid_mat_handling_hwrr, agg = "ATT", digits = 3, digits.stats = 3)
+fixest::etable(sdid_mat_handling_hwrr, agg = "cohort", digits = 3, digits.stats = 3)
+#======================================================================================================================#
+### Inventory management: Improved monitoring---high wages to revenue ratio
+#======================================================================================================================#
+sdid_improved_monitoring_hwrr <- fixest::feols(
+  improved.monitoring.immgt ~ sunab(ch.year, year):high.wages.revenue +
+	e.treated +
+	treated:high.wages.revenue +
+	post:high.wages.revenue +
+	treated +
+	high.wages.revenue +
+	post +
+	gdppc.1 +
+	annual.avg.estabs.1 +
+	cpi.1 +
+	federal.facility +
+	produced.chem.facility +
+	imported.chem.facility +
+	chemical.formulation.component +
+	chemical.article.component +
+	chemical.manufacturing.aid +
+	chemical.ancilliary.use +
+	production.ratio.activity.index +
+	maxnum.chem.onsite +
+	clean.air.act.chems +
+	hap.chems +
+	pbt.chems
+	|
+	year +
+	  facility.id.fe +
+	  border.county.fe +
+	  chemical.id.fe +
+	  chemical.year.fe +
+	  border.county.year
+  ,
+  data = triQc,
+  cluster = ~c(chemical.id, naics.code, facility.state)
+)
+fixest::etable(sdid_improved_monitoring_hwrr, agg = "ATT", digits = 3, digits.stats = 3)
+fixest::etable(sdid_improved_monitoring_hwrr, agg = "cohort", digits = 3, digits.stats = 3)
+#======================================================================================================================#
+### Inventory management: Inventory Management, Others---high wages to revenue ratio
+#======================================================================================================================#
+sdid_inventory_mgt_others_hwrr <- fixest::feols(
+  other.immgts.immgt ~ sunab(ch.year, year):high.wages.revenue +
+	e.treated +
+	treated:high.wages.revenue +
+	post:high.wages.revenue +
+	treated +
+	high.wages.revenue +
+	post +
+	gdppc.1 +
+	annual.avg.estabs.1 +
+	cpi.1 +
+	federal.facility +
+	produced.chem.facility +
+	imported.chem.facility +
+	chemical.formulation.component +
+	chemical.article.component +
+	chemical.manufacturing.aid +
+	chemical.ancilliary.use +
+	production.ratio.activity.index +
+	maxnum.chem.onsite +
+	clean.air.act.chems +
+	hap.chems +
+	pbt.chems
+	|
+	year +
+	  facility.id.fe +
+	  border.county.fe +
+	  chemical.id.fe +
+	  chemical.year.fe +
+	  border.county.year
+  ,
+  data = triQc,
+  cluster = ~c(chemical.id, naics.code, facility.state)
+)
+fixest::etable(sdid_inventory_mgt_others_hwrr, agg = "ATT", digits = 3, digits.stats = 3)
+fixest::etable(sdid_inventory_mgt_others_hwrr, agg = "cohort", digits = 3, digits.stats = 3)
+#======================================================================================================================#
+### Operations: Operating Practices & Training---high wages to revenue ratio
+#======================================================================================================================#
+sdid_operating_practices_training_hwrr <- fixest::feols(
+  operating.practices.training ~ sunab(ch.year, year):high.wages.revenue +
+	e.treated +
+	treated:high.wages.revenue +
+	post:high.wages.revenue +
+	treated +
+	high.wages.revenue +
+	post +
+	gdppc.1 +
+	annual.avg.estabs.1 +
+	cpi.1 +
+	federal.facility +
+	produced.chem.facility +
+	imported.chem.facility +
+	chemical.formulation.component +
+	chemical.article.component +
+	chemical.manufacturing.aid +
+	chemical.ancilliary.use +
+	production.ratio.activity.index +
+	maxnum.chem.onsite +
+	clean.air.act.chems +
+	hap.chems +
+	pbt.chems
+	|
+	year +
+	  facility.id.fe +
+	  border.county.fe +
+	  chemical.id.fe +
+	  chemical.year.fe +
+	  border.county.year
+  ,
+  data = triQc,
+  cluster = ~c(chemical.id, naics.code, facility.state)
+)
+fixest::etable(sdid_operating_practices_training_hwrr, agg = "ATT", digits = 3, digits.stats = 3)
+fixest::etable(sdid_operating_practices_training_hwrr, agg = "cohort", digits = 3, digits.stats = 3)
+#======================================================================================================================#
+### Operations: Improved Scheduling Operation---high wages to revenue ratio
+#======================================================================================================================#
+sdid_improved_schedule_operation_hwrr <- fixest::feols(
+  improved.schdule.operation.procedures.opt ~ sunab(ch.year, year):high.wages.revenue +
+	e.treated +
+	treated:high.wages.revenue +
+	post:high.wages.revenue +
+	treated +
+	high.wages.revenue +
+	post +
+	gdppc.1 +
+	annual.avg.estabs.1 +
+	cpi.1 +
+	federal.facility +
+	produced.chem.facility +
+	imported.chem.facility +
+	chemical.formulation.component +
+	chemical.article.component +
+	chemical.manufacturing.aid +
+	chemical.ancilliary.use +
+	production.ratio.activity.index +
+	maxnum.chem.onsite +
+	clean.air.act.chems +
+	hap.chems +
+	pbt.chems
+	|
+	year +
+	  facility.id.fe +
+	  border.county.fe +
+	  chemical.id.fe +
+	  chemical.year.fe +
+	  border.county.year
+  ,
+  data = triQc,
+  cluster = ~c(chemical.id, naics.code, facility.state)
+)
+fixest::etable(sdid_improved_schedule_operation_hwrr, agg = "ATT", digits = 3, digits.stats = 3)
+fixest::etable(sdid_improved_schedule_operation_hwrr, agg = "cohort", digits = 3, digits.stats = 3)
+#======================================================================================================================#
+### Operations: Changed Production Schedule---high wages to revenue ratio
+#======================================================================================================================#
+sdid_changed_prod_schedule_hwrr <- fixest::feols(
+  changed.production.schedule.opt ~ sunab(ch.year, year):high.wages.revenue +
+	e.treated +
+	treated:high.wages.revenue +
+	post:high.wages.revenue +
+	treated +
+	high.wages.revenue +
+	post +
 	gdppc.1 +
 	annual.avg.estabs.1 +
 	cpi.1 +
@@ -1533,10 +5395,16 @@ sdid_changed_prod_schedule <- fixest::feols(
 fixest::etable(sdid_changed_prod_schedule, agg = "ATT", digits = 3, digits.stats = 3)
 fixest::etable(sdid_changed_prod_schedule, agg = "cohort", digits = 3, digits.stats = 3)
 #======================================================================================================================#
-### Operations: Inline Product Quality and Process Analysis
+### Operations: Inline Product Quality and Process Analysis---high wages to revenue ratio
 #======================================================================================================================#
-sdid_inline_prod_quality_analysis <- fixest::feols(
-  intro.inline.productquality.process.analysis.opt ~ sunab(ch.year, year) +
+sdid_inline_prod_quality_analysis_hwrr <- fixest::feols(
+  intro.inline.productquality.process.analysis.opt ~ sunab(ch.year, year):high.wages.revenue +
+	e.treated +
+	treated:high.wages.revenue +
+	post:high.wages.revenue +
+	treated +
+	high.wages.revenue +
+	post +
 	gdppc.1 +
 	annual.avg.estabs.1 +
 	cpi.1 +
@@ -1563,6 +5431,45 @@ sdid_inline_prod_quality_analysis <- fixest::feols(
   data = triQc,
   cluster = ~c(chemical.id, naics.code, facility.state)
 )
-fixest::etable(sdid_inline_prod_quality_analysis, agg = "ATT", digits = 3, digits.stats = 3)
-fixest::etable(sdid_inline_prod_quality_analysis, agg = "cohort", digits = 3, digits.stats = 3)
+fixest::etable(sdid_inline_prod_quality_analysis_hwrr, agg = "ATT", digits = 3, digits.stats = 3)
+fixest::etable(sdid_inline_prod_quality_analysis_hwrr, agg = "cohort", digits = 3, digits.stats = 3)
+#======================================================================================================================#
+### Operations: Inline Product Quality and Process Analysis---high wages to revenue ratio
+#======================================================================================================================#
+sdid_inline_prod_quality_analysis_hwrr <- fixest::feols(
+  intro.inline.productquality.process.analysis.opt ~ sunab(ch.year, year):high.wages.revenue +
+	e.treated +
+	treated:high.wages.revenue +
+	post:high.wages.revenue +
+	treated +
+	high.wages.revenue +
+	post +
+	gdppc.1 +
+	annual.avg.estabs.1 +
+	cpi.1 +
+	federal.facility +
+	produced.chem.facility +
+	imported.chem.facility +
+	chemical.formulation.component +
+	chemical.article.component +
+	chemical.manufacturing.aid +
+	chemical.ancilliary.use +
+	production.ratio.activity.index +
+	maxnum.chem.onsite +
+	clean.air.act.chems +
+	hap.chems +
+	pbt.chems
+	|
+	year +
+	  facility.id.fe +
+	  border.county.fe +
+	  chemical.id.fe +
+	  chemical.year.fe +
+	  border.county.year
+  ,
+  data = triQc,
+  cluster = ~c(chemical.id, naics.code, facility.state)
+)
+fixest::etable(sdid_inline_prod_quality_analysis_hwrr, agg = "ATT", digits = 3, digits.stats = 3)
+fixest::etable(sdid_inline_prod_quality_analysis_hwrr, agg = "cohort", digits = 3, digits.stats = 3)
 #======================================================================================================================#
