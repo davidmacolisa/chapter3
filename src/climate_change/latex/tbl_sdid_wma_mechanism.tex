@@ -1,0 +1,33 @@
+% Please add the following required packages to your document preamble:
+% \usepackage{booktabs}
+% \usepackage{graphicx}
+\begin{table}[H]
+    \centering
+    \caption{Onsite Waste Management Activities}
+    \label{tab:mechanisms-onsite-waste-management-activities}
+    \resizebox{\columnwidth}{!}{%
+        \begin{tabular}{@{}llllllllllll@{}}
+            \toprule\toprule
+            & \multicolumn{5}{c}{Production Technology} & \multicolumn{5}{c}{Financially Constrained} \\ \cmidrule(lr){2-6} \cmidrule(lr){7-11}
+            Waste Management Activities (log) & \multicolumn{3}{c}{Treatment} & \multicolumn{2}{c}{Energy Recovery \& Recycling} & \multicolumn{3}{c}{Treatment} & \multicolumn{2}{c}{Recycling} \\ \cmidrule(lr){3-4} \cmidrule(lr){5-6} \cmidrule(lr){8-9} \cmidrule(lr){10-11}
+            & total     & biological & incineration & boiler    & recycling & total     & biological & physical  & recycling & reuse \\ \midrule
+            $Treated^{e} \cdot D$ & -0.115    & 0.014*     & 0.018**      & 0.006**   & -0.251    & 0.033     & -0.012     & -0.038*   & 0.009 & -0.002 \\
+            & (0.181)   & (0.008)    & (0.008)      & (0.003)   & (0.179)   & (0.190)   & (0.015)    & (0.023)   & (0.146)   & (0.015)   \\
+            $Treated^{e}$         & -0.230*   & -0.022***  & -0.011       & -0.002    & -0.160**  & -0.252*   & -0.013**   & -0.007    & -0.222** & -0.018*** \\
+            & (0.119)   & (0.008)    & (0.010)      & (0.002)   & (0.067)   & (0.147)   & (0.005)    & (0.013)   & (0.100)   & (0.006)   \\
+            controls              & Yes       & Yes        & Yes          & Yes       & Yes       & Yes       & Yes        & Yes       & Yes       & Yes       \\
+            year FE               & Yes       & Yes        & Yes          & Yes       & Yes       & Yes       & Yes        & Yes       & Yes       & Yes       \\
+            facility FE           & Yes       & Yes        & Yes          & Yes       & Yes       & Yes       & Yes        & Yes       & Yes       & Yes       \\
+            border-county FE      & Yes       & Yes        & Yes          & Yes       & Yes       & Yes       & Yes        & Yes       & Yes       & Yes       \\
+            toxic chemical FE     & Yes       & Yes        & Yes          & Yes       & Yes       & Yes       & Yes        & Yes       & Yes       & Yes       \\
+            toxic chemical LTs    & Yes       & Yes        & Yes          & Yes       & Yes       & Yes       & Yes        & Yes       & Yes       & Yes       \\
+            border-county LTs     & Yes       & Yes        & Yes          & Yes       & Yes       & Yes       & Yes        & Yes       & Yes       & Yes       \\ \midrule
+            Observations          & 1,893,689 & 1,893,689  & 1,893,689    & 1,893,689 & 1,893,689 & 1,893,689 & 1,893,689 & 1,893,689 & 1,893,689 & 1,893,689 \\
+            $R^2$                 & 0.779     & 0.615      & 0.668        & 0.683     & 0.751     & 0.780     & 0.616      & 0.644     & 0.751     & 0.006     \\ \bottomrule\bottomrule
+        \end{tabular}%
+    }
+    \begin{minipage}{\columnwidth}
+        \vspace{0.05in}
+        \tiny \textbf{NOTES:} These results are obtained from estimating model~\ref{eq:mechanisms-waste-management}. ***, **, and * denote significance levels at the less than $1\%$, $5\%$, and $10\%$, respectively. The result for the production technology column is based on total payroll to revenue ratio.
+    \end{minipage}
+\end{table}

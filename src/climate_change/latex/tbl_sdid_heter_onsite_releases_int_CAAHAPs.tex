@@ -1,0 +1,37 @@
+% Please add the following required packages to your document preamble:
+% \usepackage{booktabs}
+% \usepackage{graphicx}
+\begin{table}[H]
+    \centering
+    \caption{Onsite Releases Intensity for CAA Chemicals or HAPs}
+    \label{tab:heterogeneous-onsite-releases-int-caa-haps}
+    \resizebox{\columnwidth}{!}{%
+        \begin{tabular}{@{}llllllll@{}}
+            \toprule\toprule
+            Onsite releases intensity (log) & total     & air emissions & point air & fugitive air & water discharge & land releases & surface impoundment \\ \midrule
+            $Treated^{e} \cdot D$           & -0.719*** & -0.579**      & -0.293    & -0.882***    & -0.194**        & -0.016        & 0.000               \\
+            & (0.244)   & (0.234)       & (0.204)   & (0.334)      & (0.093)         & (0.025)       & (0.004)             \\
+            $Treated^{e}$                   & 0.843***  & 0.685***      & 0.346*    & 0.957***     & 0.209**         & 0.004         & 0.011**             \\
+            & (0.249)   & (0.237)       & (0.203)   & (0.342)      & (0.092)         & (0.015)       & (0.005)             \\
+            cohort 2014 $\cdot D$           & -0.697*** & -0.527**      & -0.214    & -0.921***    & -0.249**        & -0.015        & 0.002               \\
+            & (0.254)   & (0.237)       & (0.207)   & (0.339)      & (0.098)         & (0.032)       & (0.006)             \\
+            cohort 2014 $\cdot D$           & -0.755*** & -0.666***     & -0.425**  & -0.818**     & -0.102          & -0.018        & -0.004              \\
+            & (0.233)   & (0.234)       & (0.206)   & (0.329)      & (0.089)         & (0.026)       & (0.003)             \\
+            cohort 2014 $\cdot D$           & -0.717*** & -0.641***     & -0.369*   & -0.830**     & -0.151*         & 0.047         & -0.005              \\
+            & (0.255)   & (0.237)       & (0.202)   & (0.340)      & (0.084)         & (0.034)       & (0.006)             \\
+            controls                        & Yes       & Yes           & Yes       & Yes          & Yes             & Yes           & Yes                 \\
+            year FE                         & Yes       & Yes           & Yes       & Yes          & Yes             & Yes           & Yes                 \\
+            facility FE                     & Yes       & Yes           & Yes       & Yes          & Yes             & Yes           & Yes                 \\
+            border-county FE                & Yes       & Yes           & Yes       & Yes          & Yes             & Yes           & Yes                 \\
+            toxic chemical FE               & Yes       & Yes           & Yes       & Yes          & Yes             & Yes           & Yes                 \\
+            toxic chemical LTs              & Yes       & Yes           & Yes       & Yes          & Yes             & Yes           & Yes                 \\
+            border-county LTs               & Yes       & Yes           & Yes       & Yes          & Yes             & Yes           & Yes                 \\ \midrule
+            Observations                    & 1,893,689 & 1,893,689     & 1,893,689 & 1,893,689    & 1,893,689       & 1,893,689     & 1,893,689           \\
+            $R^2$                           & 0.727     & 0.745         & 0.718     & 0.670        & 0.592           & 0.507         & 0.159               \\ \bottomrule \bottomrule
+        \end{tabular}%
+    }
+    \begin{minipage}{\columnwidth}
+        \vspace{0.05in}
+        \tiny NOTES: These results are obtained from estimating model~\ref{eq:heterogeneous-onsite-releases-intensity-caahaps}. Three-way clustered robust standard errors are reported in parentheses, and clustered at the toxic chemical, industry and state levels. ***, **, and * denote significance levels at the less than $1\%$, $5\%$ and $10\%$, respectively.
+    \end{minipage}
+\end{table}

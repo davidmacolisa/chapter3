@@ -1,0 +1,33 @@
+% Please add the following required packages to your document preamble:
+% \usepackage{booktabs}
+% \usepackage{graphicx}
+\begin{table}[H]
+    \centering
+    \caption{Financial Constraints: Onsite Source Reduction Activities}
+    \label{tab:finc-onsite-source-reduction-activities-prr}
+    \resizebox{\columnwidth}{!}{%
+        \begin{tabular}{@{}lllllllllllll@{}}
+            \toprule\toprule
+            Source Reduction Activities & \multicolumn{5}{c}{Material Substitution} & \multicolumn{5}{c}{Process Modification}   & \multicolumn{1}{c}{Operations Activities}   & \multicolumn{1}{c}{Inventory Management} \\
+            \cmidrule(lr){3-6} \cmidrule(lr){7-11} \cmidrule(lr){12-12} \cmidrule(lr){13-13}
+            & all       & material  & organic solvent & clean fuel & energy cost intensity & new tech  & recycling & recirculation & r and d   & tfp       & operating trainings & imp material handle \\ \midrule
+            $Treated^{e} \cdot D$ & -0.030    & 0.008***  & 0.001*          & -0.008     & 0.070***              & 0.014***  & -0.017**  & 0.006**       & -0.006**  & 0.090***  & -0.007***           & 0.003*              \\
+            & (0.029)   & (0.002)   & (0.000)         & (0.008)    & (0.018)               & (0.002)   & (0.008)   & (0.003)       & (0.003)   & (0.008)   & (0.002)             & (0.002)             \\
+            $Treated^{e}$         & -0.059**  & 0.004*    & -0.002***       & -0.012***  & -0.030***             & -0.009*** & -0.018*** & -0.003        & 0.002*    & -0.004    & -0.002**            & -0.009***           \\
+            & (0.023)   & (0.002)   & (0.001)         & (0.003)    & (0.008)               & (0.002)   & (0.007)   & (0.002)       & (0.001)   & (0.003)   & (0.001)             & (0.003)             \\
+            controls              & Yes       & Yes       & Yes             & Yes        & Yes                   & Yes       & Yes       & Yes           & Yes       & Yes       & Yes                 & Yes                 \\
+            year FE               & Yes       & Yes       & Yes             & Yes        & Yes                   & Yes       & Yes       & Yes           & Yes       & Yes       & Yes                 & Yes                 \\
+            facility FE           & Yes       & Yes       & Yes             & Yes        & Yes                   & Yes       & Yes       & Yes           & Yes       & Yes       & Yes                 & Yes                 \\
+            border-county FE      & Yes       & Yes       & Yes             & Yes        & Yes                   & Yes       & Yes       & Yes           & Yes       & Yes       & Yes                 & Yes                 \\
+            toxic chemical FE     & Yes       & Yes       & Yes             & Yes        & Yes                   & Yes       & Yes       & Yes           & Yes       & Yes       & Yes                 & Yes                 \\
+            toxic chemical LTs    & Yes       & Yes       & Yes             & Yes        & Yes                   & Yes       & Yes       & Yes           & Yes       & Yes       & Yes                 & Yes                 \\
+            border-county LTs     & Yes       & Yes       & Yes             & Yes        & Yes                   & Yes       & Yes       & Yes           & Yes       & Yes       & Yes                 & Yes                 \\ \midrule
+            Observations          & 1,893,689 & 1,893,689 & 1,893,689       & 1,893,689  & 1,893,689             & 1,893,689 & 1,893,689 & 1,893,689     & 1,893,689 & 1,893,689 & 1,893,689           & 1,893,689           \\
+            $R^2$                 & 0.700     & 0.233     & 0.091           & 0.779      & 0.988                 & 0.354     & 0.503     & 0.231         & 0.954     & 0.738     & 0.167               & 0.425               \\ \bottomrule\bottomrule
+        \end{tabular}%
+    }
+    \begin{minipage}{\columnwidth}
+        \vspace{0.05in}
+        \tiny NOTES: These results are obtained from estimating model~\ref{eq:mechanisms-source-reduction}. ***, **, and * denote significance levels at the less than $1\%$, $5\%$ and $10\%$, respectively. SRA means source reduction activities.
+    \end{minipage}
+\end{table}

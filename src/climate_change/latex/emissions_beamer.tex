@@ -1,6 +1,8 @@
+%======================================================================================================================%
 \documentclass[aspectratio = 169]{beamer}
 %======================================================================================================================%
-% Preamble
+% Preamble and Packages
+%======================================================================================================================%
 \usepackage[
     backend = biber,
     style = apa,
@@ -16,7 +18,7 @@
 \usepackage{hyperref}
 \hypersetup{colorlinks = true, citecolor = blue, linkcolor = blue, urlcolor = blue, hypertexnames = true}
 \newcommand{\shortlink}[1]{\href{https://www.#1}{\texttt{#1}}}
-
+%======================================================================================================================%
 \DeclareCiteCommand{\cite} % Ensures author-year hyperlink applies to \cite
 {\usebibmacro{prenote}}
 {\usebibmacro{citeindex}%
@@ -37,7 +39,7 @@
 \printtext[bibhyperref]{\printnames{labelname} \mkbibparens{\printfield{year}}}}
 {\multicitedelim}
 {\usebibmacro{postnote}}
-
+%======================================================================================================================%
 % Packages
 \usepackage{graphicx} % Required for inserting images
 \usepackage{amsmath}
@@ -66,7 +68,7 @@
 \setbeamercolor{progress bar}{use = palette primary, fg = primary}
 
 %\setbeamercovered{transparent}
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%======================================================================================================================%
 % Title and Authors
 \title[]{Unforeseen Minimum Wage Consequences}
 
@@ -144,6 +146,8 @@
         \input{fig_sdid_industry_costs}
         \hypertarget{Industry Costs}{}
         \hyperlink{tab:baseline-costs}{\beamergotobutton{Costs}}
+        \hypertarget{Skilled Costs}{}
+        \hyperlink{tab:baseline-costs-skilled}{\beamergotobutton{Skilled Costs}}
     \end{frame}
 
     \begin{frame}[shrink = 30]{Employment and Hours}
@@ -152,6 +156,8 @@
         \hyperlink{tab:baseline-employment-hours}{\beamergotobutton{Employment}}
         \hypertarget{Cross-County Worker Mobility}{}
         \hyperlink{tab:baseline-worker-mobility}{\beamergotobutton{Worker Mobility}}
+        \hypertarget{Employment Skilled}{}
+        \hyperlink{fig:baseline-employment-skilled}{\beamergotobutton{Employment Skilled}}
     \end{frame}
 
     \begin{frame}[shrink = 30]{Outputs}
@@ -224,14 +230,16 @@
     \section{Concluding Remarks}\label{sec:concluding-remarks}
     \begin{frame}{Concluding Remarks}
         \begin{itemize}
-            \item Heterogeneous environmental consequences of raising MW
-            \item Mostly dominated in highest emitting industries, highly concentrated industries, high GDP counties
-            \item Potentially carcinogenic to humans in point air emissions intensities
-            \item Adverse effects on aquatic lives through water discharge intensities
-            \item Consequential even in highly regulated domains (CAA, HAPs, and PBTs)---Point air emission intensities
+            \item Heterogeneous environmental consequences of raising MW.
+            \item Increasing for high financially-constrained-capital-intensive industries.
+            \item Decreasing for less financially-constrained-labour-intensive industries.
+            \item The increase is dominated in highest emitting and less competitive industries, especially in HAPs.
+            \item The decrease is dominated in high competitive industries.
+            \item Potentially carcinogenic to humans in point and fugitive air emissions intensities.
+            \item Consequential even in highly regulated domains (CAA and HAPs) from point sources.
         \end{itemize}
     \end{frame}
-%=======================================================================================================================%
+%======================================================================================================================%
     \begin{frame}[allowframebreaks, noframenumbering]
         \hypertarget{fig:distribution-releases-intensity}{}
         \begin{figure}
@@ -311,10 +319,24 @@
         \fontsize{9}{11}\selectfont
     \end{frame}
 
+    \begin{frame}[shrink = 5, allowframebreaks, noframenumbering]
+        \hypertarget{tab:baseline-costs-skilled}{}
+        \input{fig_sdid_industry_costs_skilled}
+        \hyperlink{Skilled Costs}{\beamergotobutton{Return}}
+        \fontsize{9}{11}\selectfont
+    \end{frame}
+
     \begin{frame}[shrink = 30, allowframebreaks, noframenumbering]
         \hypertarget{tab:baseline-employment-hours}{}
         \input{tbl_sdid_baseline_employ_hours}
         \hyperlink{Employment and Hours}{\beamergotobutton{Return}}
+        \fontsize{9}{11}\selectfont
+    \end{frame}
+
+    \begin{frame}[shrink = 30, allowframebreaks, noframenumbering]
+        \hypertarget{fig:baseline-employment-skilled}{}
+        \input{fig_sdid_emp_hours_skilled}
+        \hyperlink{Employment Skilled}{\beamergotobutton{Return}}
         \fontsize{9}{11}\selectfont
     \end{frame}
 
@@ -362,38 +384,38 @@
 
     \begin{frame}[shrink = 5, allowframebreaks, noframenumbering]
         \hypertarget{tab:mechanism-waste-management}{}
-        \input{tbl_sdid_mechanism_onsite_waste_mgt}
+        \input{tbl_sdid_wma_mechanism}
         \hyperlink{Mechanism Waste Management}{\beamergotobutton{Return}}
         \fontsize{9}{11}\selectfont
     \end{frame}
 
     \begin{frame}[shrink = 20, allowframebreaks, noframenumbering]
         \hypertarget{tab:mechanism-source-reduction}{}
-        \input{tbl_sdid_mechanism_onsite_sra}
+        \input{tbl_sdid_sra_prod_tech_mechanisms_prr}
         \hyperlink{Mechanism Source Reduction}{\beamergotobutton{Return}}
         \fontsize{9}{11}\selectfont
     \end{frame}
 
     \begin{frame}[shrink = 3, allowframebreaks, noframenumbering]
         \hypertarget{tab:mechanism-material-products-submod}{}
-        \input{tbl_sdid_mechanism_onsite_sra_matsub_prod}
+        \input{tbl_sdid_sra_prod_tech_mechanisms_prr}
         \hyperlink{Mechanism Material Products}{\beamergotobutton{Return}}
         \fontsize{9}{11}\selectfont
     \end{frame}
 
     \begin{frame}[shrink = 3, allowframebreaks, noframenumbering]
         \hypertarget{tab:mechanism-process}{}
-        \input{tbl_sdid_mechanism_onsite_sra_process}
+        \input{tbl_sdid_processmod_inventorymgt_mechanism}
         \hyperlink{Mechanism Process}{\beamergotobutton{Return}}
         \fontsize{9}{11}\selectfont
     \end{frame}
 
-    \begin{frame}[shrink = 3, allowframebreaks, noframenumbering]
-        \hypertarget{tab:mechanism-inventory-operations}{}
-        \input{tbl_sdid_mechanism_onsite_sra_inventory_operations}
-        \hyperlink{Mechanism Inventory Operations}{\beamergotobutton{Return}}
-        \fontsize{9}{11}\selectfont
-    \end{frame}
+%    \begin{frame}[shrink = 3, allowframebreaks, noframenumbering]
+%        \hypertarget{tab:mechanism-inventory-operations}{}
+%        \input{tbl_sdid_mechanism_onsite_sra_inventory_operations}
+%        \hyperlink{Mechanism Inventory Operations}{\beamergotobutton{Return}}
+%        \fontsize{9}{11}\selectfont
+%    \end{frame}
 %======================================================================================================================%
 %    \begin{frame}{}
 %        \centering
