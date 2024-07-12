@@ -271,44 +271,6 @@ sdid_source_reduction_hrpr <- fixest::feols(
 )
 fixest::etable(sdid_source_reduction_hrpr, agg = "ATT", digits = 3, digits.stats = 3)
 #======================================================================================================================#
-### Material Substitution---high profit margin (revenue to profit ratio)
-#======================================================================================================================#
-sdid_mat_submod_hrpr <- fixest::feols(
-  material.subandmod ~ sunab(ch.year, year):high.profit.margin +
-	e.treated +
-	treated:high.profit.margin +
-	post:high.profit.margin +
-	treated +
-	high.profit.margin +
-	post +
-	gdppc.1 +
-	annual.avg.estabs.1 +
-	cpi.1 +
-	federal.facility +
-	produced.chem.facility +
-	imported.chem.facility +
-	chemical.formulation.component +
-	chemical.article.component +
-	chemical.manufacturing.aid +
-	chemical.ancilliary.use +
-	production.ratio.activity.index +
-	maxnum.chem.onsite +
-	clean.air.act.chems +
-	hap.chems +
-	pbt.chems
-	|
-	year +
-	  facility.id.fe +
-	  border.county.fe +
-	  chemical.id.fe +
-	  chemical.year.fe +
-	  border.county.year
-  ,
-  data = triQc,
-  cluster = ~c(chemical.id, naics.code, facility.state)
-)
-fixest::etable(sdid_mat_submod_hrpr, agg = "ATT", digits = 3, digits.stats = 3)
-#======================================================================================================================#
 ### Material: Organic Solvent Substitution---high profit margin (revenue to profit ratio)
 #======================================================================================================================#
 sdid_organic_solvent_hrpr <- fixest::feols(
@@ -536,44 +498,6 @@ sdid_recylce_dummy_hrpr <- fixest::feols(
   cluster = ~c(chemical.id, naics.code, facility.state)
 )
 fixest::etable(sdid_recylce_dummy_hrpr, agg = "ATT", digits = 3, digits.stats = 3)
-#======================================================================================================================#
-### Process modification: Research & Development---high profit margin
-#======================================================================================================================#
-sdid_research_hrpr <- fixest::feols(
-  r.and.d ~ sunab(ch.year, year):high.profit.margin +
-	e.treated +
-	treated:high.profit.margin +
-	post:high.profit.margin +
-	treated +
-	high.profit.margin +
-	post +
-	gdppc.1 +
-	annual.avg.estabs.1 +
-	cpi.1 +
-	federal.facility +
-	produced.chem.facility +
-	imported.chem.facility +
-	chemical.formulation.component +
-	chemical.article.component +
-	chemical.manufacturing.aid +
-	chemical.ancilliary.use +
-	production.ratio.activity.index +
-	maxnum.chem.onsite +
-	clean.air.act.chems +
-	hap.chems +
-	pbt.chems
-	|
-	year +
-	  facility.id.fe +
-	  border.county.fe +
-	  chemical.id.fe +
-	  chemical.year.fe +
-	  border.county.year
-  ,
-  data = triQc,
-  cluster = ~c(chemical.id, naics.code, facility.state)
-)
-fixest::etable(sdid_research_hrpr, agg = "ATT", digits = 3, digits.stats = 3)
 #======================================================================================================================#
 ### Process modification: Total factor productivity---high profit margin
 #======================================================================================================================#
@@ -920,44 +844,6 @@ sdid_source_reduction_hprr <- fixest::feols(
   cluster = ~c(chemical.id, naics.code, facility.state)
 )
 fixest::etable(sdid_source_reduction_hprr, agg = "ATT", digits = 3, digits.stats = 3)
-#======================================================================================================================#
-### Material Substitution---high payroll to revenue (payroll to revenue ratio)
-#======================================================================================================================#
-sdid_mat_submod_hprr <- fixest::feols(
-  material.subandmod ~ sunab(ch.year, year):high.payroll.revenue +
-	e.treated +
-	treated:high.payroll.revenue +
-	post:high.payroll.revenue +
-	treated +
-	high.payroll.revenue +
-	post +
-	gdppc.1 +
-	annual.avg.estabs.1 +
-	cpi.1 +
-	federal.facility +
-	produced.chem.facility +
-	imported.chem.facility +
-	chemical.formulation.component +
-	chemical.article.component +
-	chemical.manufacturing.aid +
-	chemical.ancilliary.use +
-	production.ratio.activity.index +
-	maxnum.chem.onsite +
-	clean.air.act.chems +
-	hap.chems +
-	pbt.chems
-	|
-	year +
-	  facility.id.fe +
-	  border.county.fe +
-	  chemical.id.fe +
-	  chemical.year.fe +
-	  border.county.year
-  ,
-  data = triQc,
-  cluster = ~c(chemical.id, naics.code, facility.state)
-)
-fixest::etable(sdid_mat_submod_hprr, agg = "ATT", digits = 3, digits.stats = 3)
 #======================================================================================================================#
 ### Material: Increase Purity of Chemicals---high payroll to revenue ratio
 #======================================================================================================================#
@@ -1532,44 +1418,6 @@ sdid_source_reduction_hwrr <- fixest::feols(
   cluster = ~c(chemical.id, naics.code, facility.state)
 )
 fixest::etable(sdid_source_reduction_hwrr, agg = "ATT", digits = 3, digits.stats = 3)
-#======================================================================================================================#
-### Material Substitution---high wages to revenue (wages to revenue ratio)
-#======================================================================================================================#
-sdid_mat_submod_hwrr <- fixest::feols(
-  material.subandmod ~ sunab(ch.year, year):high.wages.revenue +
-	e.treated +
-	treated:high.wages.revenue +
-	post:high.wages.revenue +
-	treated +
-	high.wages.revenue +
-	post +
-	gdppc.1 +
-	annual.avg.estabs.1 +
-	cpi.1 +
-	federal.facility +
-	produced.chem.facility +
-	imported.chem.facility +
-	chemical.formulation.component +
-	chemical.article.component +
-	chemical.manufacturing.aid +
-	chemical.ancilliary.use +
-	production.ratio.activity.index +
-	maxnum.chem.onsite +
-	clean.air.act.chems +
-	hap.chems +
-	pbt.chems
-	|
-	year +
-	  facility.id.fe +
-	  border.county.fe +
-	  chemical.id.fe +
-	  chemical.year.fe +
-	  border.county.year
-  ,
-  data = triQc,
-  cluster = ~c(chemical.id, naics.code, facility.state)
-)
-fixest::etable(sdid_mat_submod_hwrr, agg = "ATT", digits = 3, digits.stats = 3)
 #======================================================================================================================#
 ### Material: Increase Purity of Chemicals---high wages to revenue ratio
 #======================================================================================================================#
