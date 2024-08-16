@@ -19,6 +19,7 @@ setwd(dir = "C:/Users/david/OneDrive/Documents/ULMS/PhD/")
 #======================================================================================================================#
 ### Loading Data
 #======================================================================================================================#
+source(file = "./Thesis/chapter3/src/climate_change/codes/functions.R", echo = T)
 file <- "./Data_PhD/US/BLS/onsite/triQc_on.rds"
 triQc <- read_rds(file = file)
 #======================================================================================================================#
@@ -32,44 +33,17 @@ sort(unique(triQc$rel.year))
 #======================================================================================================================#
 ### Treatment Selection
 #======================================================================================================================#
-treat_sel <- fixest::feols(
+treat_sel <- feols(
   e.treated ~ sw0(
 	gdp.1 +
 	  gdppc.1 +
 	  pinc.1 +
-	  population.1 +
 	  annual.avg.estabs.1 +
 	  cpi.1 +
 	  entire.facility +
 	  private.facility +
 	  federal.facility
   )
-	|
-	csw(
-	  year,
-	  fips.code.fe,
-	  border.county.fe,
-	  border.county.year.fe
-	)
-  ,
-  data = triQc,
-  cluster = ~facility.state,
-)
-fixest::etable(treat_sel, digits = 3, digits.stats = 3)
-#======================================================================================================================#
-### Wage per hour
-#======================================================================================================================#
-reg_wagephr <- fixest::feols(
-  wage.perhr ~ e.treated +
-	sw0(
-	  gdppc.1 +
-		annual.avg.estabs.1 +
-		population.1 +
-		cpi.1 +
-		entire.facility +
-		private.facility +
-		federal.facility
-	)
 	|
 	csw(,
 	  year,
@@ -81,7 +55,18 @@ reg_wagephr <- fixest::feols(
   data = triQc,
   cluster = ~facility.state,
 )
-fixest::etable(reg_wagephr, digits = 3, digits.stats = 3)
+etable(treat_sel, digits = 3, digits.stats = 3)
+#======================================================================================================================#
+### Wage per hour
+#======================================================================================================================#
+reg_wagephr <- did_preliminary(
+  data = triQc,
+  depvar = "wage.perhr",
+  ATT = "e.treated",
+  cluster = ~facility.state,
+  did_county_fes = did_county_fes
+)
+etable(reg_wagephr, digits = 3, digits.stats = 3)
 #----------------------------------------------------------------------------------------------------------------------#
 # Get de Chaisemartin and D'Haultfoeuille Decomposition
 dCDH_decomp <- twowayfeweights(
@@ -99,24 +84,12 @@ sum(dCDH_decomp$weight[dCDH_decomp$weight >= 0])
 # Negative weights
 sum(dCDH_decomp$weight[dCDH_decomp$weight < 0])
 #----------------------------------------------------------------------------------------------------------------------#
-reg_wagephr <- fixest::feols(
-  l.wage.perhr ~
-	i(rel.year, ref = c(-1, Inf)) +
-	  gdppc.1 +
-	  annual.avg.estabs.1 +
-	  population.1 +
-	  cpi.1 +
-	  entire.facility +
-	  private.facility +
-	  federal.facility
-	  |
-	  year +
-		fips.code.fe +
-		border.county.fe +
-		border.county.year.fe
-  ,
+reg_wagephr <- dynamic_did_preliminary(
   data = triQc,
+  depvar = "l.wage.perhr",
+  relative_year = "rel.year",
   cluster = ~facility.state,
+  county_fes = county_fes
 )
 etable(reg_wagephr, digits = 3, digits.stats = 3)
 iplot(reg_wagephr, xlim = c(-3, 3), ylim = c(-0.15, 0.15), col = "blue",
@@ -130,46 +103,23 @@ linearHypothesis(reg_wagephr, paste0(names(pre_treat_coef), " = 0"), test = "F")
 #----------------------------------------------------------------------------------------------------------------------#
 # Sun and Abraham (2020)
 #----------------------------------------------------------------------------------------------------------------------#
-sdid_wages <- feols(
-  wage.perhr ~ sunab(ch.year, year) +
-	gdppc.1 +
-	annual.avg.estabs.1 +
-	population.1 +
-	cpi.1 +
-	entire.facility +
-	private.facility +
-	federal.facility
-	|
-	csw(,
-	  year,
-	  fips.code.fe,
-	  border.county.fe,
-	  border.county.year.fe
-	),
+sdid_wages <- sdid_preliminary(
+  data = triQc,
+  depvar = "wage.perhr",
+  ATT = "sunab(ch.year, year)",
   cluster = ~facility.state,
-  data = triQc
+  did_county_fes = did_county_fes
 )
 etable(sdid_wages, agg = "ATT", digits = 3, digits.stats = 3)
 etable(sdid_wages, agg = "cohort", digits = 3, digits.stats = 3)
 etable(sdid_wages, digits.stats = 3, digits = 3)
 
-sdid_wages <- feols(
-  l.wage.perhr ~ sunab(ch.year, year) +
-	gdppc.1 +
-	annual.avg.estabs.1 +
-	population.1 +
-	cpi.1 +
-	entire.facility +
-	private.facility +
-	federal.facility
-	|
-	year +
-	  fips.code.fe +
-	  border.county.fe +
-	  border.county.year.fe
-  ,
+sdid_wages <- dynamic_sdid_preliminary(
+  data = triQc,
+  depvar = "l.wage.perhr",
+  ATT = "sunab(ch.year, year)",
   cluster = ~facility.state,
-  data = triQc
+  county_fes = county_fes
 )
 etable(sdid_wages, digits.stats = 3, digits = 3)
 iplot(list(sdid_wages, reg_wagephr),
@@ -184,29 +134,14 @@ legend(x = "bottomright", legend = c("Sun and Abraham (2020) ATT: $0.889* (0.452
 #======================================================================================================================#
 ### Labour cost: Industry Pay---Total payroll
 #======================================================================================================================#
-reg_pay <- fixest::feols(
-  l.pay ~ e.treated +
-	sw0(
-	  gdppc.1 +
-		annual.avg.estabs.1 +
-		population.1 +
-		cpi.1 +
-		entire.facility +
-		private.facility +
-		federal.facility
-	)
-	|
-	csw(,
-	  year,
-	  fips.code.fe,
-	  border.county.fe,
-	  border.county.year.fe
-	)
-  ,
+reg_pay <- did_preliminary(
   data = triQc,
+  depvar = "pay",
+  ATT = "e.treated",
   cluster = ~facility.state,
+  did_county_fes = did_county_fes
 )
-fixest::etable(reg_pay, digits = 3, digits.stats = 3)
+etable(reg_pay, digits = 3, digits.stats = 3)
 #----------------------------------------------------------------------------------------------------------------------#
 # Get de Chaisemartin and D'Haultfoeuille Decomposition
 dCDH_decomp <- twowayfeweights(
@@ -224,29 +159,17 @@ sum(dCDH_decomp$weight[dCDH_decomp$weight >= 0])
 # Negative weights
 sum(dCDH_decomp$weight[dCDH_decomp$weight < 0])
 #----------------------------------------------------------------------------------------------------------------------#
-reg_pay <- fixest::feols(
-  l.pay ~ i(rel.year, ref = c(-1, Inf)) +
-	gdppc.1 +
-	annual.avg.estabs.1 +
-	population.1 +
-	cpi.1 +
-	entire.facility +
-	private.facility +
-	federal.facility
-	|
-	year +
-	  fips.code.fe +
-	  border.county.fe +
-	  border.county.year.fe
-  ,
+reg_pay <- dynamic_did_preliminary(
   data = triQc,
+  depvar = "l.pay",
+  relative_year = "rel.year",
   cluster = ~facility.state,
+  county_fes = county_fes
 )
-
-fixest::etable(reg_pay, digits = 3, digits.stats = 3)
-fixest::iplot(reg_pay, xlim = c(-3, 3), ylim = c(-0.3, 0.3), col = "blue",
-			  main = "Total Payroll", xlab = "relative year",
-			  lwd = 1, cex = 4, pt.cex = 3, pt.col = "red", pt.join = T, ci.lwd = 5, ci.lty = 1) %>%
+etable(reg_pay, digits = 3, digits.stats = 3)
+iplot(reg_pay, xlim = c(-3, 3), ylim = c(-0.3, 0.3), col = "blue",
+	  main = "Total Payroll", xlab = "relative year",
+	  lwd = 1, cex = 4, pt.cex = 3, pt.col = "red", pt.join = T, ci.lwd = 5, ci.lty = 1) %>%
   abline(v = -1, col = "red", lty = 2, lwd = 2)
 ### Testing for pre-trends
 pre_treat_coef <- coef(reg_pay)[grep(pattern = "rel.year", names(coef(reg_pay)))]
@@ -255,45 +178,23 @@ linearHypothesis(reg_pay, paste0(names(pre_treat_coef), " = 0"), test = "F")
 #----------------------------------------------------------------------------------------------------------------------#
 # Sun and Abraham (2020)
 #----------------------------------------------------------------------------------------------------------------------#
-sdid_pay <- feols(
-  l.pay ~ sunab(ch.year, year) +
-	gdppc.1 +
-	annual.avg.estabs.1 +
-	population.1 +
-	cpi.1 +
-	entire.facility +
-	private.facility +
-	federal.facility
-	|
-	csw(,
-	  year,
-	  fips.code.fe,
-	  border.county.fe,
-	  border.county.year.fe
-	),
+sdid_pay <- sdid_preliminary(
+  data = triQc,
+  depvar = "l.pay",
+  ATT = "sunab(ch.year, year)",
   cluster = ~facility.state,
-  data = triQc
+  did_county_fes = did_county_fes
 )
 etable(sdid_pay, agg = "ATT", digits = 3, digits.stats = 3)
 etable(sdid_pay, agg = "cohort", digits = 3, digits.stats = 3)
 etable(sdid_pay, digits.stats = 3, digits = 3)
 
-sdid_pay <- feols(
-  l.pay ~ sunab(ch.year, year) +
-	gdppc.1 +
-	annual.avg.estabs.1 +
-	population.1 +
-	cpi.1 +
-	entire.facility +
-	private.facility +
-	federal.facility
-	|
-	year +
-	  fips.code.fe +
-	  border.county.fe +
-	  border.county.year.fe,
+sdid_pay <- dynamic_sdid_preliminary(
+  data = triQc,
+  depvar = "l.pay",
+  ATT = "sunab(ch.year, year)",
   cluster = ~facility.state,
-  data = triQc
+  county_fes = county_fes
 )
 etable(sdid_pay, digits.stats = 3, digits = 3)
 iplot(
@@ -309,29 +210,14 @@ legend(x = "bottomright", legend = c("Sun and Abraham (2020) ATT: 0.043* (0.025)
 #======================================================================================================================#
 ### Material cost: Industry material cost (log)
 #======================================================================================================================#
-reg_matcost <- fixest::feols(
-  l.matcost ~ e.treated +
-	sw0(
-	  gdppc.1 +
-		annual.avg.estabs.1 +
-		population.1 +
-		cpi.1 +
-		entire.facility +
-		private.facility +
-		federal.facility
-	)
-	|
-	csw(,
-	  year,
-	  fips.code.fe,
-	  border.county.fe,
-	  border.county.year.fe
-	)
-  ,
+reg_matcost <- did_preliminary(
   data = triQc,
+  depvar = "l.matcost",
+  ATT = "e.treated",
   cluster = ~facility.state,
+  did_county_fes = did_county_fes
 )
-fixest::etable(reg_matcost, digits = 3, digits.stats = 3)
+etable(reg_matcost, digits = 3, digits.stats = 3)
 #----------------------------------------------------------------------------------------------------------------------#
 # Get de Chaisemartin and D'Haultfoeuille Decomposition
 dCDH_decomp <- twowayfeweights(
@@ -349,28 +235,17 @@ sum(dCDH_decomp$weight[dCDH_decomp$weight >= 0])
 # Negative weights
 sum(dCDH_decomp$weight[dCDH_decomp$weight < 0])
 #----------------------------------------------------------------------------------------------------------------------#
-reg_matcost <- fixest::feols(
-  l.matcost ~ i(rel.year, ref = c(-1, Inf)) +
-	gdppc.1 +
-	annual.avg.estabs.1 +
-	population.1 +
-	cpi.1 +
-	entire.facility +
-	private.facility +
-	federal.facility
-	|
-	year +
-	  fips.code.fe +
-	  border.county.fe +
-	  border.county.year.fe
-  ,
+reg_matcost <- dynamic_did_preliminary(
   data = triQc,
+  depvar = "l.matcost",
+  relative_year = "rel.year",
   cluster = ~facility.state,
+  county_fes = county_fes
 )
-fixest::etable(reg_matcost, digits = 3, digits.stats = 3)
-fixest::iplot(reg_matcost, xlim = c(-3, 3), ylim = c(-0.6, 0.6), col = "blue",
-			  main = "Material Cost (log)", xlab = "relative year",
-			  lwd = 1, cex = 4, pt.cex = 3, pt.col = "red", pt.join = T, ci.lwd = 5, ci.lty = 1) %>%
+etable(reg_matcost, digits = 3, digits.stats = 3)
+iplot(reg_matcost, xlim = c(-3, 3), ylim = c(-0.6, 0.6), col = "blue",
+	  main = "Material Cost (log)", xlab = "relative year",
+	  lwd = 1, cex = 4, pt.cex = 3, pt.col = "red", pt.join = T, ci.lwd = 5, ci.lty = 1) %>%
   abline(v = -1, col = "red", lty = 2, lwd = 2)
 ### Testing for pre-trends
 pre_treat_coef <- coef(reg_matcost)[grep(pattern = "rel.year", names(coef(reg_matcost)))]
@@ -379,46 +254,23 @@ linearHypothesis(reg_matcost, paste0(names(pre_treat_coef), " = 0"), test = "F")
 #----------------------------------------------------------------------------------------------------------------------#
 # Sun and Abraham (2020)
 #----------------------------------------------------------------------------------------------------------------------#
-sdid_matcost <- feols(
-  l.matcost ~ sunab(ch.year, year) +
-	gdppc.1 +
-	annual.avg.estabs.1 +
-	population.1 +
-	cpi.1 +
-	entire.facility +
-	private.facility +
-	federal.facility
-	|
-	csw(,
-	  year,
-	  fips.code.fe,
-	  border.county.fe,
-	  border.county.year.fe
-	),
+sdid_matcost <- sdid_preliminary(
+  data = triQc,
+  depvar = "l.matcost",
+  ATT = "sunab(ch.year, year)",
   cluster = ~facility.state,
-  data = triQc
+  did_county_fes = did_county_fes
 )
-# The ATTs:
 etable(sdid_matcost, agg = "ATT", digits.stats = 3, digits = 3)
 etable(sdid_matcost, agg = "cohort", digits.stats = 3, digits = 3)
 etable(sdid_matcost, digits.stats = 3, digits = 3)
 
-sdid_matcost <- feols(
-  l.matcost ~ sunab(ch.year, year) +
-	gdppc.1 +
-	annual.avg.estabs.1 +
-	population.1 +
-	cpi.1 +
-	entire.facility +
-	private.facility +
-	federal.facility
-	|
-	year +
-	  fips.code.fe +
-	  border.county.fe +
-	  border.county.year.fe,
+sdid_matcost <- dynamic_sdid_preliminary(
+  data = triQc,
+  depvar = "l.matcost",
+  ATT = "sunab(ch.year, year)",
   cluster = ~facility.state,
-  data = triQc
+  county_fes = county_fes
 )
 etable(sdid_matcost, digits.stats = 3, digits = 3)
 iplot(
@@ -482,29 +334,12 @@ sum_up(triQc, c(wage.range, low.skilled.workers, wage.perhr))
 #======================================================================================================================#
 ### Wage per hour for low-skilled vs high-skilled workers
 #======================================================================================================================#
-sdid_wages_lowskilled <- feols(
-  l.wage.perhr ~ sunab(ch.year, year):low.skilled.workers +
-	e.treated +
-	treated:low.skilled.workers +
-	post:low.skilled.workers +
-	treated +
-	low.skilled.workers +
-	post +
-	gdppc.1 +
-	annual.avg.estabs.1 +
-	population.1 +
-	cpi.1 +
-	entire.facility +
-	private.facility +
-	federal.facility
-	|
-	year +
-	  fips.code.fe +
-	  border.county.fe +
-	  border.county.year.fe
-  ,
+sdid_wages_lowskilled <- sdid_preliminary_heter_1(
+  data = triQc,
+  depvar = "l.wage.perhr",
+  interact_var = "low.skilled.workers",
   cluster = ~facility.state,
-  data = triQc
+  county_fes = county_fes
 )
 etable(sdid_wages_lowskilled, digits.stats = 3, digits = 3)
 etable(sdid_wages_lowskilled, agg = "ATT", digits = 3, digits.stats = 3)
@@ -516,29 +351,12 @@ iplot(sdid_wages_lowskilled, xlim = c(-3, 3), ylim = c(-0.5, 0.7), col = c("blue
 ) %>%
   abline(v = -1, col = "red", lty = 2, lwd = 2)
 
-sdid_wages_highskilled <- feols(
-  l.wage.perhr ~ sunab(ch.year, year) +
-	e.treated:low.skilled.workers +
-	treated:low.skilled.workers +
-	post:low.skilled.workers +
-	treated +
-	low.skilled.workers +
-	post +
-	gdppc.1 +
-	annual.avg.estabs.1 +
-	population.1 +
-	cpi.1 +
-	entire.facility +
-	private.facility +
-	federal.facility
-	|
-	year +
-	  fips.code.fe +
-	  border.county.fe +
-	  border.county.year.fe
-  ,
+sdid_wages_highskilled <- sdid_preliminary_heter_0(
+  data = triQc,
+  depvar = "l.wage.perhr",
+  interact_var = "low.skilled.workers",
   cluster = ~facility.state,
-  data = triQc
+  county_fes = county_fes
 )
 etable(sdid_wages_highskilled, digits.stats = 3, digits = 3)
 iplot(sdid_wages_highskilled, xlim = c(-3, 3), ylim = c(-0.05, 0.15), col = c("blue", "pink"),
@@ -550,29 +368,12 @@ iplot(sdid_wages_highskilled, xlim = c(-3, 3), ylim = c(-0.05, 0.15), col = c("b
 #======================================================================================================================#
 ### Labour cost: Industry Pay---Total payroll for low-skilled vs high-skilled workers
 #======================================================================================================================#
-sdid_pay_lowskilled <- feols(
-  l.pay ~ sunab(ch.year, year):low.skilled.workers +
-	e.treated +
-	treated:low.skilled.workers +
-	post:low.skilled.workers +
-	treated +
-	low.skilled.workers +
-	post +
-	gdppc.1 +
-	annual.avg.estabs.1 +
-	population.1 +
-	cpi.1 +
-	entire.facility +
-	private.facility +
-	federal.facility
-	|
-	year +
-	  fips.code.fe +
-	  border.county.fe +
-	  border.county.year.fe
-  ,
+sdid_pay_lowskilled <- sdid_preliminary_heter_1(
+  data = triQc,
+  depvar = "l.pay",
+  interact_var = "low.skilled.workers",
   cluster = ~facility.state,
-  data = triQc
+  county_fes = county_fes
 )
 etable(sdid_pay_lowskilled, digits.stats = 3, digits = 3)
 etable(sdid_pay_lowskilled, agg = "ATT", digits = 3, digits.stats = 3)
@@ -584,29 +385,12 @@ iplot(sdid_pay_lowskilled, xlim = c(-3, 3), ylim = c(-2, 1.5), col = c("blue", "
 ) %>%
   abline(v = -1, col = "red", lty = 2, lwd = 2)
 
-sdid_pay_highskilled <- feols(
-  l.pay ~ sunab(ch.year, year) +
-	e.treated:low.skilled.workers +
-	treated:low.skilled.workers +
-	post:low.skilled.workers +
-	treated +
-	low.skilled.workers +
-	post +
-	gdppc.1 +
-	annual.avg.estabs.1 +
-	population.1 +
-	cpi.1 +
-	entire.facility +
-	private.facility +
-	federal.facility
-	|
-	year +
-	  fips.code.fe +
-	  border.county.fe +
-	  border.county.year.fe
-  ,
+sdid_pay_highskilled <- sdid_preliminary_heter_0(
+  data = triQc,
+  depvar = "l.pay",
+  interact_var = "low.skilled.workers",
   cluster = ~facility.state,
-  data = triQc
+  county_fes = county_fes
 )
 etable(sdid_pay_highskilled, digits.stats = 3, digits = 3)
 iplot(sdid_pay_highskilled, xlim = c(-3, 3), ylim = c(-0.3, 0.2), col = c("blue", "pink"),
@@ -646,30 +430,14 @@ dev.off()
 #======================================================================================================================#
 ### Industry: Employment
 #======================================================================================================================#
-reg_emp <- fixest::feols(
-  l.emp ~ e.treated +
-	sw0(
-	  gdppc.1 +
-		annual.avg.estabs.1 +
-		population.1 +
-		cpi.1 +
-		entire.facility +
-		private.facility +
-		federal.facility
-	)
-	|
-	csw(,
-	  year,
-	  fips.code.fe,
-	  border.county.fe,
-	  border.county.year.fe
-	)
-  ,
+reg_emp <- did_preliminary(
   data = triQc,
+  depvar = "l.emp",
+  ATT = "e.treated",
   cluster = ~facility.state,
+  did_county_fes = did_county_fes
 )
-
-fixest::etable(reg_emp, digits = 3, digits.stats = 3)
+etable(reg_emp, digits = 3, digits.stats = 3)
 #----------------------------------------------------------------------------------------------------------------------#
 # Get de Chaisemartin and D'Haultfoeuille Decomposition
 dCDH_decomp <- twowayfeweights(
@@ -687,29 +455,17 @@ sum(dCDH_decomp$weight[dCDH_decomp$weight >= 0])
 # Negative weights
 sum(dCDH_decomp$weight[dCDH_decomp$weight < 0])
 #----------------------------------------------------------------------------------------------------------------------#
-reg_emp <- fixest::feols(
-  l.emp ~ i(rel.year, ref = c(-1, Inf)) +
-	gdppc.1 +
-	annual.avg.estabs.1 +
-	population.1 +
-	cpi.1 +
-	entire.facility +
-	private.facility +
-	federal.facility
-	|
-	year +
-	  fips.code.fe +
-	  border.county.fe +
-	  border.county.year.fe
-  ,
+reg_emp <- dynamic_did_preliminary(
   data = triQc,
+  depvar = "l.emp",
+  relative_year = "rel.year",
   cluster = ~facility.state,
+  county_fes = county_fes
 )
-
-fixest::etable(reg_emp, digits = 3, digits.stats = 3)
-fixest::iplot(reg_emp, xlim = c(-3, 3), ylim = c(-0.32, 0.2), col = "blue",
-			  main = "Industry Employment (log)", xlab = "relative year",
-			  lwd = 1, cex = 4, pt.cex = 3, pt.col = "red", pt.join = T, ci.lwd = 5, ci.lty = 1) %>%
+etable(reg_emp, digits = 3, digits.stats = 3)
+iplot(reg_emp, xlim = c(-3, 3), ylim = c(-0.32, 0.2), col = "blue",
+	  main = "Industry Employment (log)", xlab = "relative year",
+	  lwd = 1, cex = 4, pt.cex = 3, pt.col = "red", pt.join = T, ci.lwd = 5, ci.lty = 1) %>%
   abline(v = -1, col = "red", lty = 2, lwd = 2)
 ### Testing for pre-trends
 pre_treat_coef <- coef(reg_emp)[grep(pattern = "rel.year", names(coef(reg_emp)))]
@@ -718,45 +474,23 @@ linearHypothesis(reg_emp, paste0(names(pre_treat_coef), " = 0"), test = "F")
 #----------------------------------------------------------------------------------------------------------------------#
 # Sun and Abraham (2020)
 #----------------------------------------------------------------------------------------------------------------------#
-sdid_emp <- feols(
-  l.emp ~ sunab(ch.year, year) +
-	gdppc.1 +
-	annual.avg.estabs.1 +
-	population.1 +
-	cpi.1 +
-	entire.facility +
-	private.facility +
-	federal.facility
-	|
-	csw(,
-	  year,
-	  fips.code.fe,
-	  border.county.fe,
-	  border.county.year.fe
-	),
+sdid_emp <- sdid_preliminary(
+  data = triQc,
+  depvar = "l.emp",
+  ATT = "sunab(ch.year, year)",
   cluster = ~facility.state,
-  data = triQc
+  county_fes = county_fes
 )
 etable(sdid_emp, agg = "ATT", digits.stats = 3, digits = 3)
 etable(sdid_emp, agg = "cohort", digits.stats = 3, digits = 3)
 etable(sdid_emp, digits.stats = 3, digits = 3)
 
-sdid_emp <- feols(
-  l.emp ~ sunab(ch.year, year) +
-	gdppc.1 +
-	annual.avg.estabs.1 +
-	population.1 +
-	cpi.1 +
-	entire.facility +
-	private.facility +
-	federal.facility
-	|
-	year +
-	  fips.code.fe +
-	  border.county.fe +
-	  border.county.year.fe,
+sdid_emp <- dynamic_sdid_preliminary(
+  data = triQc,
+  depvar = "l.emp",
+  ATT = "sunab(ch.year, year)",
   cluster = ~facility.state,
-  data = triQc
+  county_fes = county_fes
 )
 etable(sdid_emp, digits.stats = 3, digits = 3)
 iplot(
@@ -772,29 +506,14 @@ legend(x = "bottomright", legend = c("Sun and Abraham (2020) ATT: -0.002 (0.025)
 #======================================================================================================================#
 ### Industry: Production workers
 #======================================================================================================================#
-reg_prodworkers <- fixest::feols(
-  l.prode ~ e.treated +
-	sw0(
-	  gdppc.1 +
-		annual.avg.estabs.1 +
-		population.1 +
-		cpi.1 +
-		entire.facility +
-		private.facility +
-		federal.facility
-	)
-	|
-	csw(,
-	  year,
-	  fips.code.fe,
-	  border.county.fe,
-	  border.county.year.fe
-	)
-  ,
+reg_prodworkers <- did_preliminary(
   data = triQc,
+  depvar = "l.prode",
+  ATT = "e.treated",
   cluster = ~facility.state,
+  did_county_fes = did_county_fes
 )
-fixest::etable(reg_prodworkers, digits = 3, digits.stats = 3)
+etable(reg_prodworkers, digits = 3, digits.stats = 3)
 #----------------------------------------------------------------------------------------------------------------------#
 # Get de Chaisemartin and D'Haultfoeuille Decomposition
 dCDH_decomp <- twowayfeweights(
@@ -812,28 +531,17 @@ sum(dCDH_decomp$weight[dCDH_decomp$weight >= 0])
 # Negative weights
 sum(dCDH_decomp$weight[dCDH_decomp$weight < 0])
 #----------------------------------------------------------------------------------------------------------------------#
-reg_prodworkers <- fixest::feols(
-  l.prode ~ i(rel.year, ref = c(-1, Inf)) +
-	gdppc.1 +
-	annual.avg.estabs.1 +
-	population.1 +
-	cpi.1 +
-	entire.facility +
-	private.facility +
-	federal.facility
-	|
-	year +
-	  fips.code.fe +
-	  border.county.fe +
-	  border.county.year.fe
-  ,
+reg_prodworkers <- dynamic_did_preliminary(
   data = triQc,
+  depvar = "l.prode",
+  relative_year = "rel.year",
   cluster = ~facility.state,
+  county_fes = county_fes
 )
-fixest::etable(reg_prodworkers, digits = 3, digits.stats = 3)
-fixest::iplot(reg_prodworkers, xlim = c(-3, 3), ylim = c(-0.4, 0.2), col = "blue",
-			  main = "Production Workers (log)", xlab = "relative year",
-			  lwd = 1, cex = 4, pt.cex = 3, pt.col = "red", pt.join = T, ci.lwd = 5, ci.lty = 1) %>%
+etable(reg_prodworkers, digits = 3, digits.stats = 3)
+iplot(reg_prodworkers, xlim = c(-3, 3), ylim = c(-0.4, 0.2), col = "blue",
+	  main = "Production Workers (log)", xlab = "relative year",
+	  lwd = 1, cex = 4, pt.cex = 3, pt.col = "red", pt.join = T, ci.lwd = 5, ci.lty = 1) %>%
   abline(v = -1, col = "red", lty = 2, lwd = 2)
 ### Testing for pre-trends
 pre_treat_coef <- coef(reg_prodworkers)[grep(pattern = "rel.year", names(coef(reg_prodworkers)))]
@@ -842,45 +550,23 @@ linearHypothesis(reg_prodworkers, paste0(names(pre_treat_coef), " = 0"), test = 
 #----------------------------------------------------------------------------------------------------------------------#
 # Sun and Abraham (2020)
 #----------------------------------------------------------------------------------------------------------------------#
-sdid_prodworkers <- feols(
-  l.prode ~ sunab(ch.year, year) +
-	gdppc.1 +
-	annual.avg.estabs.1 +
-	population.1 +
-	cpi.1 +
-	entire.facility +
-	private.facility +
-	federal.facility
-	|
-	csw(,
-	  year,
-	  fips.code.fe,
-	  border.county.fe,
-	  border.county.year.fe
-	),
+sdid_prodworkers <- sdid_preliminary(
+  data = triQc,
+  depvar = "l.prode",
+  ATT = "sunab(ch.year, year)",
   cluster = ~facility.state,
-  data = triQc
+  did_county_fes = did_county_fes
 )
 etable(sdid_prodworkers, agg = "ATT", digits.stats = 3, digits = 3)
 etable(sdid_prodworkers, agg = "cohort", digits.stats = 3, digits = 3)
 etable(sdid_prodworkers, digits.stats = 3, digits = 3)
 
-sdid_prodworkers <- feols(
-  l.prode ~ sunab(ch.year, year) +
-	gdppc.1 +
-	annual.avg.estabs.1 +
-	population.1 +
-	cpi.1 +
-	entire.facility +
-	private.facility +
-	federal.facility
-	|
-	year +
-	  fips.code.fe +
-	  border.county.fe +
-	  border.county.year.fe,
+sdid_prodworkers <- dynamic_sdid_preliminary(
+  data = triQc,
+  depvar = "l.prode",
+  ATT = "sunab(ch.year, year)",
   cluster = ~facility.state,
-  data = triQc
+  county_fes = county_fes
 )
 etable(sdid_prodworkers, digits.stats = 3, digits = 3)
 etable(sdid_prodworkers, digits.stats = 3, digits = 3)
@@ -897,29 +583,14 @@ legend(x = "bottomright", legend = c("Sun and Abraham (2020) ATT: -0.023 (0.033)
 #======================================================================================================================#
 ### Industry: Production hours
 #======================================================================================================================#
-reg_phours <- fixest::feols(
-  l.prodh ~ e.treated +
-	sw0(
-	  gdppc.1 +
-		annual.avg.estabs.1 +
-		population.1 +
-		cpi.1 +
-		entire.facility +
-		private.facility +
-		federal.facility
-	)
-	|
-	csw(,
-	  year,
-	  fips.code.fe,
-	  border.county.fe,
-	  border.county.year.fe
-	)
-  ,
+reg_phours <- did_preliminary(
   data = triQc,
+  depvar = "l.prodh",
+  ATT = "e.treated",
   cluster = ~facility.state,
+  did_county_fes = did_county_fes
 )
-fixest::etable(reg_phours, digits = 3, digits.stats = 3)
+etable(reg_phours, digits = 3, digits.stats = 3)
 #----------------------------------------------------------------------------------------------------------------------#
 # Get de Chaisemartin and D'Haultfoeuille Decomposition
 dCDH_decomp <- twowayfeweights(
@@ -937,28 +608,17 @@ sum(dCDH_decomp$weight[dCDH_decomp$weight >= 0])
 # Negative weights
 sum(dCDH_decomp$weight[dCDH_decomp$weight < 0])
 #----------------------------------------------------------------------------------------------------------------------#
-reg_phours <- fixest::feols(
-  l.prodh ~ i(rel.year, ref = c(-1, Inf)) +
-	gdppc.1 +
-	annual.avg.estabs.1 +
-	population.1 +
-	cpi.1 +
-	entire.facility +
-	private.facility +
-	federal.facility
-	|
-	year +
-	  fips.code.fe +
-	  border.county.fe +
-	  border.county.year.fe
-  ,
+reg_phours <- dynamic_did_preliminary(
   data = triQc,
+  depvar = "l.prodh",
+  relative_year = "rel.year",
   cluster = ~facility.state,
+  county_fes = county_fes
 )
-fixest::etable(reg_phours, digits = 3, digits.stats = 3)
-fixest::iplot(reg_phours, xlim = c(-3, 3), ylim = c(-0.4, 0.3), col = "blue",
-			  main = "Workers' Hours (log)", xlab = "relative year",
-			  lwd = 1, cex = 4, pt.cex = 3, pt.col = "red", pt.join = T, ci.lwd = 5, ci.lty = 1) %>%
+etable(reg_phours, digits = 3, digits.stats = 3)
+iplot(reg_phours, xlim = c(-3, 3), ylim = c(-0.4, 0.3), col = "blue",
+	  main = "Workers' Hours (log)", xlab = "relative year",
+	  lwd = 1, cex = 4, pt.cex = 3, pt.col = "red", pt.join = T, ci.lwd = 5, ci.lty = 1) %>%
   abline(v = -1, col = "red", lty = 2, lwd = 2)
 ### Testing for pre-trends
 pre_treat_coef <- coef(reg_phours)[grep(pattern = "rel.year", names(coef(reg_phours)))]
@@ -967,45 +627,23 @@ linearHypothesis(reg_phours, paste0(names(pre_treat_coef), " = 0"), test = "F")
 #----------------------------------------------------------------------------------------------------------------------#
 # Sun and Abraham (2020)
 #----------------------------------------------------------------------------------------------------------------------#
-sdid_phours <- feols(
-  l.prodh ~ sunab(ch.year, year) +
-	gdppc.1 +
-	annual.avg.estabs.1 +
-	population.1 +
-	cpi.1 +
-	entire.facility +
-	private.facility +
-	federal.facility
-	|
-	csw(,
-	  year,
-	  fips.code.fe,
-	  border.county.fe,
-	  border.county.year.fe
-	),
+sdid_phours <- sdid_preliminary(
+  data = triQc,
+  depvar = "l.prodh",
+  ATT = "sunab(ch.year, year)",
   cluster = ~facility.state,
-  data = triQc
+  did_county_fes = did_county_fes
 )
 etable(sdid_phours, agg = "ATT", digits.stats = 3, digits = 3)
 etable(sdid_phours, agg = "cohort", digits.stats = 3, digits = 3)
 etable(sdid_phours, digits.stats = 3, digits = 3)
 
-sdid_phours <- feols(
-  l.prodh ~ sunab(ch.year, year) +
-	gdppc.1 +
-	annual.avg.estabs.1 +
-	population.1 +
-	cpi.1 +
-	entire.facility +
-	private.facility +
-	federal.facility
-	|
-	year +
-	  fips.code.fe +
-	  border.county.fe +
-	  border.county.year.fe,
+sdid_phours <- dynamic_sdid_preliminary(
+  data = triQc,
+  depvar = "l.prodh",
+  ATT = "sunab(ch.year, year)",
   cluster = ~facility.state,
-  data = triQc
+  county_fes = county_fes
 )
 etable(sdid_phours, digits.stats = 3, digits = 3)
 iplot(
@@ -1055,29 +693,12 @@ dev.off()
 #======================================================================================================================#
 ### Employment for low-skilled vs high-skilled workers
 #======================================================================================================================#
-sdid_emp_lowskilled <- feols(
-  l.emp ~ sunab(ch.year, year):low.skilled.workers +
-	e.treated +
-	treated:low.skilled.workers +
-	post:low.skilled.workers +
-	treated +
-	low.skilled.workers +
-	post +
-	gdppc.1 +
-	annual.avg.estabs.1 +
-	population.1 +
-	cpi.1 +
-	entire.facility +
-	private.facility +
-	federal.facility
-	|
-	year +
-	  fips.code.fe +
-	  border.county.fe +
-	  border.county.year.fe
-  ,
+sdid_emp_lowskilled <- sdid_preliminary_heter_1(
+  data = triQc,
+  depvar = "l.emp",
+  interact_var = "low.skilled.workers",
   cluster = ~facility.state,
-  data = triQc
+  county_fes = county_fes
 )
 etable(sdid_emp_lowskilled, digits.stats = 3, digits = 3)
 etable(sdid_emp_lowskilled, agg = "ATT", digits = 3, digits.stats = 3)
@@ -1089,29 +710,12 @@ iplot(sdid_emp_lowskilled, xlim = c(-3, 3), ylim = c(-1.5, 0.7), col = c("blue",
 ) %>%
   abline(v = -1, col = "red", lty = 2, lwd = 2)
 
-sdid_emp_highskilled <- feols(
-  l.emp ~ sunab(ch.year, year) +
-	e.treated:low.skilled.workers +
-	treated:low.skilled.workers +
-	post:low.skilled.workers +
-	treated +
-	low.skilled.workers +
-	post +
-	gdppc.1 +
-	annual.avg.estabs.1 +
-	population.1 +
-	cpi.1 +
-	entire.facility +
-	private.facility +
-	federal.facility
-	|
-	year +
-	  fips.code.fe +
-	  border.county.fe +
-	  border.county.year.fe
-  ,
+sdid_emp_highskilled <- sdid_preliminary_heter_0(
+  data = triQc,
+  depvar = "l.emp",
+  interact_var = "high.skilled.workers",
   cluster = ~facility.state,
-  data = triQc
+  county_fes = county_fes
 )
 etable(sdid_emp_highskilled, digits.stats = 3, digits = 3)
 iplot(sdid_emp_highskilled, xlim = c(-3, 3), ylim = c(-0.3, 0.2), col = c("blue", "pink"),
@@ -1123,29 +727,12 @@ iplot(sdid_emp_highskilled, xlim = c(-3, 3), ylim = c(-0.3, 0.2), col = c("blue"
 #======================================================================================================================#
 ### Production workers for low-skilled vs high-skilled workers
 #======================================================================================================================#
-sdid_prodworkers_lowskilled <- feols(
-  l.prodw ~ sunab(ch.year, year):low.skilled.workers +
-	e.treated +
-	treated:low.skilled.workers +
-	post:low.skilled.workers +
-	treated +
-	low.skilled.workers +
-	post +
-	gdppc.1 +
-	annual.avg.estabs.1 +
-	population.1 +
-	cpi.1 +
-	entire.facility +
-	private.facility +
-	federal.facility
-	|
-	year +
-	  fips.code.fe +
-	  border.county.fe +
-	  border.county.year.fe
-  ,
+sdid_prodworkers_lowskilled <- sdid_preliminary_heter_1(
+  data = triQc,
+  depvar = "l.prodw",
+  interact_var = "low.skilled.workers",
   cluster = ~facility.state,
-  data = triQc
+  county_fes = county_fes
 )
 etable(sdid_prodworkers_lowskilled, digits.stats = 3, digits = 3)
 etable(sdid_prodworkers_lowskilled, agg = "ATT", digits = 3, digits.stats = 3)
@@ -1157,29 +744,12 @@ iplot(sdid_prodworkers_lowskilled, xlim = c(-3, 3), ylim = c(-1.8, 1.5), col = c
 ) %>%
   abline(v = -1, col = "red", lty = 2, lwd = 2)
 
-sdid_prodworkers_highskilled <- feols(
-  l.prodw ~ sunab(ch.year, year) +
-	e.treated:low.skilled.workers +
-	treated:low.skilled.workers +
-	post:low.skilled.workers +
-	treated +
-	low.skilled.workers +
-	post +
-	gdppc.1 +
-	annual.avg.estabs.1 +
-	population.1 +
-	cpi.1 +
-	entire.facility +
-	private.facility +
-	federal.facility
-	|
-	year +
-	  fips.code.fe +
-	  border.county.fe +
-	  border.county.year.fe
-  ,
+sdid_prodworkers_highskilled <- sdid_preliminary_heter_0(
+  data = triQc,
+  depvar = "l.prodw",
+  interact_var = "high.skilled.workers",
   cluster = ~facility.state,
-  data = triQc
+  county_fes = county_fes
 )
 etable(sdid_prodworkers_highskilled, digits.stats = 3, digits = 3)
 iplot(sdid_prodworkers_highskilled, xlim = c(-3, 3), ylim = c(-0.35, 0.2), col = c("blue", "pink"),
@@ -1191,29 +761,12 @@ iplot(sdid_prodworkers_highskilled, xlim = c(-3, 3), ylim = c(-0.35, 0.2), col =
 #======================================================================================================================#
 ### Production Hours for low-skilled vs high-skilled workers
 #======================================================================================================================#
-sdid_prodhours_lowskilled <- feols(
-  l.prodh ~ sunab(ch.year, year):low.skilled.workers +
-	e.treated +
-	treated:low.skilled.workers +
-	post:low.skilled.workers +
-	treated +
-	low.skilled.workers +
-	post +
-	gdppc.1 +
-	annual.avg.estabs.1 +
-	population.1 +
-	cpi.1 +
-	entire.facility +
-	private.facility +
-	federal.facility
-	|
-	year +
-	  fips.code.fe +
-	  border.county.fe +
-	  border.county.year.fe
-  ,
+sdid_prodhours_lowskilled <- sdid_preliminary_heter_1(
+  data = triQc,
+  depvar = "l.prodh",
+  interact_var = "low.skilled.workers",
   cluster = ~facility.state,
-  data = triQc
+  county_fes = county_fes
 )
 etable(sdid_prodhours_lowskilled, digits.stats = 3, digits = 3)
 etable(sdid_prodhours_lowskilled, agg = "ATT", digits = 3, digits.stats = 3)
@@ -1225,29 +778,12 @@ iplot(sdid_prodhours_lowskilled, xlim = c(-3, 3), ylim = c(-1.5, 0.85), col = c(
 ) %>%
   abline(v = -1, col = "red", lty = 2, lwd = 2)
 
-sdid_prodhours_highskilled <- feols(
-  l.prodh ~ sunab(ch.year, year) +
-	e.treated:low.skilled.workers +
-	treated:low.skilled.workers +
-	post:low.skilled.workers +
-	treated +
-	low.skilled.workers +
-	post +
-	gdppc.1 +
-	annual.avg.estabs.1 +
-	population.1 +
-	cpi.1 +
-	entire.facility +
-	private.facility +
-	federal.facility
-	|
-	year +
-	  fips.code.fe +
-	  border.county.fe +
-	  border.county.year.fe
-  ,
+sdid_prodhours_highskilled <- sdid_preliminary_heter_0(
+  data = triQc,
+  depvar = "l.prodh",
+  interact_var = "high.skilled.workers",
   cluster = ~facility.state,
-  data = triQc
+  county_fes = county_fes
 )
 etable(sdid_prodhours_highskilled, digits.stats = 3, digits = 3)
 iplot(sdid_prodhours_highskilled, xlim = c(-3, 3), ylim = c(-0.4, 0.2), col = c("blue", "pink"),
@@ -1299,29 +835,14 @@ dev.off()
 #======================================================================================================================#
 ### Industry: Industry Output
 #======================================================================================================================#
-reg_output <- fixest::feols(
-  l.vadd ~ e.treated +
-	sw0(
-	  gdppc.1 +
-		annual.avg.estabs.1 +
-		population.1 +
-		cpi.1 +
-		entire.facility +
-		private.facility +
-		federal.facility
-	)
-	|
-	csw(,
-	  year,
-	  fips.code.fe,
-	  border.county.fe,
-	  border.county.year.fe
-	)
-  ,
+reg_output <- did_preliminary(
   data = triQc,
+  depvar = "l.output",
+  ATT = "e.treated",
   cluster = ~facility.state,
+  did_county_fes = did_county_fes
 )
-fixest::etable(reg_output, digits = 3, digits.stats = 3)
+etable(reg_output, digits = 3, digits.stats = 3)
 #----------------------------------------------------------------------------------------------------------------------#
 # Get de Chaisemartin and D'Haultfoeuille Decomposition
 dCDH_decomp <- twowayfeweights(
@@ -1339,28 +860,17 @@ sum(dCDH_decomp$weight[dCDH_decomp$weight >= 0])
 # Negative weights
 sum(dCDH_decomp$weight[dCDH_decomp$weight < 0])
 #----------------------------------------------------------------------------------------------------------------------#
-reg_output <- fixest::feols(
-  l.vadd ~ i(rel.year, ref = c(-1, Inf)) +
-	gdppc.1 +
-	annual.avg.estabs.1 +
-	population.1 +
-	cpi.1 +
-	entire.facility +
-	private.facility +
-	federal.facility
-	|
-	year +
-	  fips.code.fe +
-	  border.county.fe +
-	  border.county.year.fe
-  ,
+reg_output <- dynamic_did_preliminary(
   data = triQc,
+  depvar = "l.output",
+  relative_year = "rel.year",
   cluster = ~facility.state,
+  county_fes = county_fes
 )
-fixest::etable(reg_output, digits = 3, digits.stats = 3)
-fixest::iplot(reg_output, xlim = c(-3, 3), ylim = c(-0.3, 0.3), col = "blue",
-			  main = "Industry Output (log)", xlab = "relative year",
-			  lwd = 1, cex = 4, pt.cex = 3, pt.col = "red", pt.join = T, ci.lwd = 5, ci.lty = 1) %>%
+etable(reg_output, digits = 3, digits.stats = 3)
+iplot(reg_output, xlim = c(-3, 3), ylim = c(-0.3, 0.3), col = "blue",
+	  main = "Industry Output (log)", xlab = "relative year",
+	  lwd = 1, cex = 4, pt.cex = 3, pt.col = "red", pt.join = T, ci.lwd = 5, ci.lty = 1) %>%
   abline(v = -1, col = "red", lty = 2, lwd = 2)
 ### Testing for pre-trends
 pre_treat_coef <- coef(reg_output)[grep(pattern = "rel.year", names(coef(reg_output)))]
@@ -1369,45 +879,23 @@ linearHypothesis(reg_output, paste0(names(pre_treat_coef), " = 0"), test = "F")
 #----------------------------------------------------------------------------------------------------------------------#
 # Sun and Abraham (2020)
 #----------------------------------------------------------------------------------------------------------------------#
-sdid_output <- feols(
-  l.vadd ~ sunab(ch.year, year) +
-	gdppc.1 +
-	annual.avg.estabs.1 +
-	population.1 +
-	cpi.1 +
-	entire.facility +
-	private.facility +
-	federal.facility
-	|
-	csw(,
-	  year,
-	  fips.code.fe,
-	  border.county.fe,
-	  border.county.year.fe
-	),
+sdid_output <- sdid_preliminary(
+  data = triQc,
+  depvar = "l.output",
+  ATT = "sunab(ch.year, year)",
   cluster = ~facility.state,
-  data = triQc
+  did_county_fes = did_county_fes
 )
 etable(sdid_output, agg = "ATT", digits.stats = 3, digits = 3)
 etable(sdid_output, agg = "cohort", digits.stats = 3, digits = 3)
 etable(sdid_output, digits.stats = 3, digits = 3)
 
-sdid_output <- feols(
-  l.vadd ~ sunab(ch.year, year) +
-	gdppc.1 +
-	annual.avg.estabs.1 +
-	population.1 +
-	cpi.1 +
-	entire.facility +
-	private.facility +
-	federal.facility
-	|
-	year +
-	  fips.code.fe +
-	  border.county.fe +
-	  border.county.year.fe,
+sdid_output <- dynamic_sdid_preliminary(
+  data = triQc,
+  depvar = "l.output",
+  ATT = "sunab(ch.year, year)",
   cluster = ~facility.state,
-  data = triQc
+  county_fes = county_fes
 )
 etable(sdid_output, digits.stats = 3, digits = 3)
 iplot(
@@ -1423,29 +911,14 @@ legend(x = "bottomright", legend = c("Sun and Abraham (2020) ATT: 0.125*** (0.03
 #======================================================================================================================#
 ### Industry: Output per hour
 #======================================================================================================================#
-reg_outputprhr <- fixest::feols(
-  l.output.perhr ~ e.treated +
-	sw0(
-	  gdppc.1 +
-		annual.avg.estabs.1 +
-		population.1 +
-		cpi.1 +
-		entire.facility +
-		private.facility +
-		federal.facility
-	)
-	|
-	csw(,
-	  year,
-	  fips.code.fe,
-	  border.county.fe,
-	  border.county.year.fe
-	)
-  ,
+reg_outputprhr <- did_preliminary(
   data = triQc,
+  depvar = "l.output.perhr",
+  ATT = "e.treated",
   cluster = ~facility.state,
+  did_county_fes = did_county_fes
 )
-fixest::etable(reg_outputprhr, digits = 3, digits.stats = 3)
+etable(reg_outputprhr, digits = 3, digits.stats = 3)
 #----------------------------------------------------------------------------------------------------------------------#
 # Get de Chaisemartin and D'Haultfoeuille Decomposition
 dCDH_decomp <- twowayfeweights(
@@ -1463,28 +936,17 @@ sum(dCDH_decomp$weight[dCDH_decomp$weight >= 0])
 # Negative weights
 sum(dCDH_decomp$weight[dCDH_decomp$weight < 0])
 #----------------------------------------------------------------------------------------------------------------------#
-reg_outputprhr <- fixest::feols(
-  l.output.perhr ~ i(rel.year, ref = c(-1, Inf)) +
-	gdppc.1 +
-	annual.avg.estabs.1 +
-	population.1 +
-	cpi.1 +
-	entire.facility +
-	private.facility +
-	federal.facility
-	|
-	year +
-	  fips.code.fe +
-	  border.county.fe +
-	  border.county.year.fe
-  ,
+reg_outputprhr <- dynamic_did_preliminary(
   data = triQc,
+  depvar = "l.output.perhr",
+  relative_year = "rel.year",
   cluster = ~facility.state,
+  county_fes = county_fes
 )
-fixest::etable(reg_outputprhr, digits = 3, digits.stats = 3)
-fixest::iplot(reg_outputprhr, xlim = c(-3, 3), ylim = c(-0.5, 0.5), col = "blue",
-			  main = "Output per Hour (log)", xlab = "relative year",
-			  lwd = 1, cex = 4, pt.cex = 3, pt.col = "red", pt.join = T, ci.lwd = 5, ci.lty = 1) %>%
+etable(reg_outputprhr, digits = 3, digits.stats = 3)
+iplot(reg_outputprhr, xlim = c(-3, 3), ylim = c(-0.5, 0.5), col = "blue",
+	  main = "Output per Hour (log)", xlab = "relative year",
+	  lwd = 1, cex = 4, pt.cex = 3, pt.col = "red", pt.join = T, ci.lwd = 5, ci.lty = 1) %>%
   abline(v = -1, col = "red", lty = 2, lwd = 2)
 ### Testing for pre-trends
 pre_treat_coef <- coef(reg_outputprhr)[grep(pattern = "rel.year", names(coef(reg_outputprhr)))]
@@ -1493,45 +955,23 @@ linearHypothesis(reg_outputprhr, paste0(names(pre_treat_coef), " = 0"), test = "
 #----------------------------------------------------------------------------------------------------------------------#
 # Sun and Abraham (2020)
 #----------------------------------------------------------------------------------------------------------------------#
-sdid_outputprhr <- feols(
-  l.output.perhr ~ sunab(ch.year, year) +
-	gdppc.1 +
-	annual.avg.estabs.1 +
-	population.1 +
-	cpi.1 +
-	entire.facility +
-	private.facility +
-	federal.facility
-	|
-	csw(,
-	  year,
-	  fips.code.fe,
-	  border.county.fe,
-	  border.county.year.fe
-	),
+sdid_outputprhr <- sdid_preliminary(
+  data = triQc,
+  depvar = "l.output.perhr",
+  ATT = "sunab(ch.year, year)",
   cluster = ~facility.state,
-  data = triQc
+  did_county_fes = did_county_fes
 )
 etable(sdid_outputprhr, agg = "ATT", digits.stats = 3, digits = 3)
 etable(sdid_outputprhr, agg = "cohort", digits.stats = 3, digits = 3)
 etable(sdid_outputprhr, digits.stats = 3, digits = 3)
 
-sdid_outputprhr <- feols(
-  l.output.perhr ~ sunab(ch.year, year) +
-	gdppc.1 +
-	annual.avg.estabs.1 +
-	population.1 +
-	cpi.1 +
-	entire.facility +
-	private.facility +
-	federal.facility
-	|
-	year +
-	  fips.code.fe +
-	  border.county.fe +
-	  border.county.year.fe,
+sdid_outputprhr <- dynamic_sdid_preliminary(
+  data = triQc,
+  depvar = "l.output.perhr",
+  ATT = "sunab(ch.year, year)",
   cluster = ~facility.state,
-  data = triQc
+  county_fes = county_fes
 )
 etable(sdid_outputprhr, digits.stats = 3, digits = 3)
 iplot(
@@ -1547,30 +987,14 @@ legend(x = "bottomright", legend = c("Sun and Abraham (2020) ATT: 0.144*** (0.03
 #======================================================================================================================#
 ### Industry: Output per Worker
 #======================================================================================================================#
-reg_outputperworker <- fixest::feols(
-  l.output.perworker ~ e.treated +
-	sw0(
-	  gdppc.1 +
-		annual.avg.estabs.1 +
-		population.1 +
-		cpi.1 +
-		entire.facility +
-		private.facility +
-		federal.facility
-	)
-	|
-	csw(,
-	  year,
-	  fips.code.fe,
-	  border.county.fe,
-	  border.county.year.fe
-	)
-  ,
+reg_outputperworker <- did_preliminary(
   data = triQc,
+  depvar = "l.output.perworker",
+  ATT = "e.treated",
   cluster = ~facility.state,
+  did_county_fes = did_county_fes
 )
-
-fixest::etable(reg_outputperworker, digits = 3, digits.stats = 3)
+etable(reg_outputperworker, digits = 3, digits.stats = 3)
 #----------------------------------------------------------------------------------------------------------------------#
 # Get de Chaisemartin and D'Haultfoeuille Decomposition
 dCDH_decomp <- twowayfeweights(
@@ -1588,28 +1012,17 @@ sum(dCDH_decomp$weight[dCDH_decomp$weight >= 0])
 # Negative weights
 sum(dCDH_decomp$weight[dCDH_decomp$weight < 0])
 #----------------------------------------------------------------------------------------------------------------------#
-reg_outputperworker <- fixest::feols(
-  l.output.perworker ~ i(rel.year, ref = c(-1, Inf)) +
-	gdppc.1 +
-	annual.avg.estabs.1 +
-	population.1 +
-	cpi.1 +
-	entire.facility +
-	private.facility +
-	federal.facility
-	|
-	year +
-	  fips.code.fe +
-	  border.county.fe +
-	  border.county.year.fe
-  ,
+reg_outputperworker <- dynamic_did_preliminary(
   data = triQc,
+  depvar = "l.output.perworker",
+  relative_year = "rel.year",
   cluster = ~facility.state,
+  county_fes = county_fes
 )
-fixest::etable(reg_outputperworker, digits = 3, digits.stats = 3)
-fixest::iplot(reg_outputperworker, xlim = c(-3, 3), ylim = c(-0.5, 0.5), col = "blue",
-			  main = "Output per Worker (log)", xlab = "relative year",
-			  lwd = 1, cex = 4, pt.cex = 3, pt.col = "red", pt.join = T, ci.lwd = 5, ci.lty = 1) %>%
+etable(reg_outputperworker, digits = 3, digits.stats = 3)
+iplot(reg_outputperworker, xlim = c(-3, 3), ylim = c(-0.5, 0.5), col = "blue",
+	  main = "Output per Worker (log)", xlab = "relative year",
+	  lwd = 1, cex = 4, pt.cex = 3, pt.col = "red", pt.join = T, ci.lwd = 5, ci.lty = 1) %>%
   abline(v = -1, col = "red", lty = 2, lwd = 2)
 ### Testing for pre-trends
 pre_treat_coef <- coef(reg_outputperworker)[grep(pattern = "rel.year", names(coef(reg_outputperworker)))]
@@ -1618,45 +1031,23 @@ linearHypothesis(reg_outputperworker, paste0(names(pre_treat_coef), " = 0"), tes
 #----------------------------------------------------------------------------------------------------------------------#
 # Sun and Abraham (2020)
 #----------------------------------------------------------------------------------------------------------------------#
-sdid_outputperworker <- feols(
-  l.output.perworker ~ sunab(ch.year, year) +
-	gdppc.1 +
-	annual.avg.estabs.1 +
-	population.1 +
-	cpi.1 +
-	entire.facility +
-	private.facility +
-	federal.facility
-	|
-	csw(,
-	  year,
-	  fips.code.fe,
-	  border.county.fe,
-	  border.county.year.fe
-	),
+sdid_outputperworker <- sdid_preliminary(
+  data = triQc,
+  depvar = "l.output.perworker",
+  ATT = "sunab(ch.year, year)",
   cluster = ~facility.state,
-  data = triQc
+  did_county_fes = did_county_fes
 )
 etable(sdid_outputperworker, agg = "ATT", digits.stats = 3, digits = 3)
 etable(sdid_outputperworker, agg = "cohort", digits.stats = 3, digits = 3)
 etable(sdid_outputperworker, digits.stats = 3, digits = 3)
 
-sdid_outputperworker <- feols(
-  l.output.perworker ~ sunab(ch.year, year) +
-	gdppc.1 +
-	annual.avg.estabs.1 +
-	population.1 +
-	cpi.1 +
-	entire.facility +
-	private.facility +
-	federal.facility
-	|
-	year +
-	  fips.code.fe +
-	  border.county.fe +
-	  border.county.year.fe,
+sdid_outputperworker <- dynamic_sdid_preliminary(
+  data = triQc,
+  depvar = "l.output.perworker",
+  ATT = "sunab(ch.year, year)",
   cluster = ~facility.state,
-  data = triQc
+  county_fes = county_fes
 )
 etable(sdid_outputperworker, digits.stats = 3, digits = 3)
 iplot(
@@ -1720,30 +1111,14 @@ triQc <- triQc %>%
 	l.profitmargin = log(revenue.to.profit)
   )
 #----------------------------------------------------------------------------------------------------------------------#
-reg_profit <- fixest::feols(
-  l.profit ~ e.treated +
-	sw0(
-	  gdppc.1 +
-		annual.avg.estabs.1 +
-		population.1 +
-		cpi.1 +
-		entire.facility +
-		private.facility +
-		federal.facility
-	)
-	|
-	csw(,
-	  year,
-	  fips.code.fe,
-	  border.county.fe,
-	  border.county.year.fe
-	)
-  ,
+reg_profit <- did_preliminary(
   data = triQc,
+  depvar = "l.profit",
+  ATT = "e.treated",
   cluster = ~facility.state,
+  did_county_fes = did_county_fes
 )
-
-fixest::etable(reg_profit, digits = 3, digits.stats = 3)
+etable(reg_profit, digits = 3, digits.stats = 3)
 #----------------------------------------------------------------------------------------------------------------------#
 # Get de Chaisemartin and D'Haultfoeuille Decomposition
 dCDH_decomp <- twowayfeweights(
@@ -1761,29 +1136,17 @@ sum(dCDH_decomp$weight[dCDH_decomp$weight >= 0])
 # Negative weights
 sum(dCDH_decomp$weight[dCDH_decomp$weight < 0])
 #----------------------------------------------------------------------------------------------------------------------#
-reg_profit <- fixest::feols(
-  l.profit ~ i(rel.year, ref = c(-1, Inf)) +
-	gdppc.1 +
-	annual.avg.estabs.1 +
-	population.1 +
-	cpi.1 +
-	entire.facility +
-	private.facility +
-	federal.facility
-	|
-	year +
-	  fips.code.fe +
-	  border.county.fe +
-	  border.county.year.fe
-  ,
+reg_profit <- dynamic_did_preliminary(
   data = triQc,
+  depvar = "l.profit",
+  relative_year = "rel.year",
   cluster = ~facility.state,
+  county_fes = county_fes
 )
-
-fixest::etable(reg_profit, digits = 3, digits.stats = 3)
-fixest::iplot(reg_profit, xlim = c(-3, 3), ylim = c(-0.2, 0.4), col = "blue",
-			  main = "Industry Profits (log)", xlab = "relative year",
-			  lwd = 1, cex = 4, pt.cex = 3, pt.col = "red", pt.join = T, ci.lwd = 5, ci.lty = 1) %>%
+etable(reg_profit, digits = 3, digits.stats = 3)
+iplot(reg_profit, xlim = c(-3, 3), ylim = c(-0.2, 0.4), col = "blue",
+	  main = "Industry Profits (log)", xlab = "relative year",
+	  lwd = 1, cex = 4, pt.cex = 3, pt.col = "red", pt.join = T, ci.lwd = 5, ci.lty = 1) %>%
   abline(v = -1, col = "red", lty = 2, lwd = 2)
 ### Testing for pre-trends
 pre_treat_coef <- coef(reg_profit)[grep(pattern = "rel.year", names(coef(reg_profit)))]
@@ -1792,45 +1155,23 @@ linearHypothesis(reg_profit, paste0(names(pre_treat_coef), " = 0"), test = "F")
 #----------------------------------------------------------------------------------------------------------------------#
 # Sun and Abraham (2020)
 #----------------------------------------------------------------------------------------------------------------------#
-sdid_profit <- feols(
-  l.profit ~ sunab(ch.year, year) +
-	gdppc.1 +
-	annual.avg.estabs.1 +
-	population.1 +
-	cpi.1 +
-	entire.facility +
-	private.facility +
-	federal.facility
-	|
-	csw(,
-	  year,
-	  fips.code.fe,
-	  border.county.fe,
-	  border.county.year.fe
-	),
+sdid_profit <- sdid_preliminary(
+  data = triQc,
+  depvar = "l.profit",
+  ATT = "sunab(ch.year, year)",
   cluster = ~facility.state,
-  data = triQc
+  did_county_fes = did_county_fes
 )
 etable(sdid_profit, agg = "ATT", digits.stats = 3, digits = 3)
 etable(sdid_profit, agg = "cohort", digits.stats = 3, digits = 3)
 etable(sdid_profit, digits.stats = 3, digits = 3)
 
-sdid_profit <- feols(
-  l.profit ~ sunab(ch.year, year) +
-	gdppc.1 +
-	annual.avg.estabs.1 +
-	population.1 +
-	cpi.1 +
-	entire.facility +
-	private.facility +
-	federal.facility
-	|
-	year +
-	  fips.code.fe +
-	  border.county.fe +
-	  border.county.year.fe,
+sdid_profit <- dynamic_sdid_preliminary(
+  data = triQc,
+  depvar = "l.profit",
+  ATT = "sunab(ch.year, year)",
   cluster = ~facility.state,
-  data = triQc
+  county_fes = county_fes
 )
 etable(sdid_profit, digits.stats = 3, digits = 3)
 iplot(
@@ -1846,30 +1187,14 @@ legend(x = "bottomright", legend = c("Sun and Abraham (2020) ATT: 0.156*** (0.03
 #======================================================================================================================#
 ### Profit margin
 #======================================================================================================================#
-reg_profit_margin <- fixest::feols(
-  l.profitmargin ~ e.treated +
-	sw0(
-	  gdppc.1 +
-		annual.avg.estabs.1 +
-		population.1 +
-		cpi.1 +
-		entire.facility +
-		private.facility +
-		federal.facility
-	)
-	|
-	csw(,
-	  year,
-	  fips.code.fe,
-	  border.county.fe,
-	  border.county.year.fe
-	)
-  ,
+reg_profit_margin <- did_preliminary(
   data = triQc,
+  depvar = "l.profitmargin",
+  ATT = "e.treated",
   cluster = ~facility.state,
+  did_county_fes = did_county_fes
 )
-
-fixest::etable(reg_profit_margin, digits = 3, digits.stats = 3)
+etable(reg_profit_margin, digits = 3, digits.stats = 3)
 #----------------------------------------------------------------------------------------------------------------------#
 # Get de Chaisemartin and D'Haultfoeuille Decomposition
 dCDH_decomp <- twowayfeweights(
@@ -1887,29 +1212,17 @@ sum(dCDH_decomp$weight[dCDH_decomp$weight >= 0])
 # Negative weights
 sum(dCDH_decomp$weight[dCDH_decomp$weight < 0])
 #----------------------------------------------------------------------------------------------------------------------#
-reg_profit_margin <- fixest::feols(
-  l.profitmargin ~ i(rel.year, ref = c(-1, Inf)) +
-	gdppc.1 +
-	annual.avg.estabs.1 +
-	population.1 +
-	cpi.1 +
-	entire.facility +
-	private.facility +
-	federal.facility
-	|
-	year +
-	  fips.code.fe +
-	  border.county.fe +
-	  border.county.year.fe
-  ,
+reg_profit_margin <- dynamic_did_preliminary(
   data = triQc,
+  depvar = "l.profitmargin",
+  relative_year = "rel.year",
   cluster = ~facility.state,
+  county_fes = county_fes
 )
-
-fixest::etable(reg_profit_margin, digits = 3, digits.stats = 3)
-fixest::iplot(reg_profit_margin, xlim = c(-3, 3), ylim = c(-0.32, 0.2), col = "blue",
-			  main = "Profit Margin (log)", xlab = "relative year",
-			  lwd = 1, cex = 4, pt.cex = 3, pt.col = "red", pt.join = T, ci.lwd = 5, ci.lty = 1) %>%
+etable(reg_profit_margin, digits = 3, digits.stats = 3)
+iplot(reg_profit_margin, xlim = c(-3, 3), ylim = c(-0.32, 0.2), col = "blue",
+	  main = "Profit Margin (log)", xlab = "relative year",
+	  lwd = 1, cex = 4, pt.cex = 3, pt.col = "red", pt.join = T, ci.lwd = 5, ci.lty = 1) %>%
   abline(v = -1, col = "red", lty = 2, lwd = 2)
 ### Testing for pre-trends
 pre_treat_coef <- coef(reg_profit_margin)[grep(pattern = "rel.year", names(coef(reg_profit_margin)))]
@@ -1918,45 +1231,23 @@ linearHypothesis(reg_profit_margin, paste0(names(pre_treat_coef), " = 0"), test 
 #----------------------------------------------------------------------------------------------------------------------#
 # Sun and Abraham (2020)
 #----------------------------------------------------------------------------------------------------------------------#
-sdid_profit_margin <- feols(
-  l.profitmargin ~ sunab(ch.year, year) +
-	gdppc.1 +
-	annual.avg.estabs.1 +
-	population.1 +
-	cpi.1 +
-	entire.facility +
-	private.facility +
-	federal.facility
-	|
-	csw(,
-	  year,
-	  fips.code.fe,
-	  border.county.fe,
-	  border.county.year.fe
-	),
+sdid_profit_margin <- sdid_preliminary(
+  data = triQc,
+  depvar = "l.profitmargin",
+  ATT = "sunab(ch.year, year)",
   cluster = ~facility.state,
-  data = triQc
+  did_county_fes = did_county_fes
 )
 etable(sdid_profit_margin, agg = "ATT", digits.stats = 3, digits = 3)
 etable(sdid_profit_margin, agg = "cohort", digits.stats = 3, digits = 3)
 etable(sdid_profit_margin, digits.stats = 3, digits = 3)
 
-sdid_profit_margin <- feols(
-  l.profitmargin ~ sunab(ch.year, year) +
-	gdppc.1 +
-	annual.avg.estabs.1 +
-	population.1 +
-	cpi.1 +
-	entire.facility +
-	private.facility +
-	federal.facility
-	|
-	year +
-	  fips.code.fe +
-	  border.county.fe +
-	  border.county.year.fe,
+sdid_profit_margin <- dynamic_sdid_preliminary(
+  data = triQc,
+  depvar = "l.profitmargin",
+  ATT = "sunab(ch.year, year)",
   cluster = ~facility.state,
-  data = triQc
+  county_fes = county_fes
 )
 etable(sdid_profit_margin, digits.stats = 3, digits = 3)
 iplot(

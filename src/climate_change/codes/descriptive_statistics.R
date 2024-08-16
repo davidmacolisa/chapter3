@@ -28,6 +28,24 @@ triQs_potw <- read_rds(file = file)
 #======================================================================================================================#
 ### The samples
 #======================================================================================================================#
+triQc %>%
+  group_by(treated, year) %>%
+  summarise(
+	total.releases.onsite.intensity = mean(total.releases.onsite.intensity),
+  ) %>%
+  ggplot(aes(x = year, y = total.releases.onsite.intensity, color = factor(treated))) + geom_line()
+sum_up(triQc, total.releases.onsite.intensity)
+
+triQc %>%
+  group_by(highest.emitt.ind, year) %>%
+  summarise(
+	total.releases.onsite.intensity = sum(total.releases.onsite.intensity),
+  ) %>%
+  ggplot(aes(x = factor(highest.emitt.ind), y = total.releases.onsite.intensity)) +
+  geom_boxplot() +
+  coord_flip()
+
+
 # Onsite
 nrow(triQc)
 n_distinct(triQc$facility.id)
@@ -108,8 +126,8 @@ sort(unique((triQc_potw$potw.state)))
 chemicals_onsite <- triQc %>%
   select(
 	chemical.id, chemical.name, chemical.classification, carcinogenic.chems,
-	clean.air.act.chems, metal.restrict.tri, chemical.formulation.component, chemical.article.component,
-	chemical.manufacturing.aid, chemical.ancilliary.use
+	clean.air.act.chems, metal.restrict.tri, chemical.formulation.component,
+	chemical.article.component, chemical.manufacturing.aid, chemical.ancilliary.use
   ) %>%
   mutate(
 	tri = ifelse(chemical.classification == "TRI", yes = 1, no = 0),
@@ -254,7 +272,6 @@ var_def2 <- triQc_potw %>% select(c(facility.id, treated, ind.output:l.tfp5))
 #======================================================================================================================#
 # Distribution of NAICS industries
 naics_distribution <- triQc %>%
-  select(industry.name, naics.code) %>%
   group_by(industry.name) %>%
   summarise(naics.code = n()) %>%
   ggplot(aes(x = industry.name, y = naics.code)) +
@@ -269,10 +286,10 @@ dev.off()
 #======================================================================================================================#
 # Distribution of total releases intensity onsite by NAICS industries
 releases_distribution_sum_naics <- triQc %>%
-  select(industry.name, naics.code, total.releases.onsite.intensity) %>%
   group_by(industry.name) %>%
-  summarise(naics.code = n(),
-			total.releases.onsite.intensity = sum(total.releases.onsite.intensity, na.rm = TRUE)) %>%
+  summarise(
+	total.releases.onsite.intensity = sum(total.releases.onsite.intensity, na.rm = TRUE)
+  ) %>%
   ggplot(aes(x = industry.name, y = total.releases.onsite.intensity)) +
   geom_bar(stat = "identity", fill = "blue") +
   labs(
@@ -285,10 +302,10 @@ releases_distribution_sum_naics <- triQc %>%
 		axis.title.x = element_text(size = 20))
 
 releases_distribution_mean_naics <- triQc %>%
-  select(industry.name, naics.code, total.releases.onsite.intensity) %>%
   group_by(industry.name) %>%
-  summarise(naics.code = n(),
-			total.releases.onsite.intensity = mean(total.releases.onsite.intensity, na.rm = TRUE)) %>%
+  summarise(
+	total.releases.onsite.intensity = mean(total.releases.onsite.intensity, na.rm = TRUE)
+  ) %>%
   ggplot(aes(x = industry.name, y = total.releases.onsite.intensity)) +
   geom_bar(stat = "identity", fill = "blue") +
   labs(
@@ -305,10 +322,10 @@ dev.off()
 #======================================================================================================================#
 # Distribution of total air emissions intensity onsite by NAICS industries
 air_emissions_distribution_sum_naics <- triQc %>%
-  select(industry.name, naics.code, total.air.emissions.onsite.intensity) %>%
   group_by(industry.name) %>%
-  summarise(naics.code = n(),
-			total.air.emissions.onsite.intensity = sum(total.air.emissions.onsite.intensity, na.rm = TRUE)) %>%
+  summarise(
+	total.air.emissions.onsite.intensity = sum(total.air.emissions.onsite.intensity, na.rm = TRUE)
+  ) %>%
   ggplot(aes(x = industry.name, y = total.air.emissions.onsite.intensity)) +
   geom_bar(stat = "identity", fill = "blue") +
   labs(
@@ -321,10 +338,10 @@ air_emissions_distribution_sum_naics <- triQc %>%
 		axis.title.x = element_text(size = 20))
 
 air_emissions_distribution_mean_naics <- triQc %>%
-  select(industry.name, naics.code, total.air.emissions.onsite.intensity) %>%
   group_by(industry.name) %>%
-  summarise(naics.code = n(),
-			total.air.emissions.onsite.intensity = mean(total.air.emissions.onsite.intensity, na.rm = TRUE)) %>%
+  summarise(
+	total.air.emissions.onsite.intensity = mean(total.air.emissions.onsite.intensity, na.rm = TRUE)
+  ) %>%
   ggplot(aes(x = industry.name, y = total.air.emissions.onsite.intensity)) +
   geom_bar(stat = "identity", fill = "blue") +
   labs(
@@ -342,10 +359,10 @@ dev.off()
 #======================================================================================================================#
 # Distribution of total land releases intensity onsite by NAICS industries
 land_releases_distribution_sum_naics <- triQc %>%
-  select(industry.name, naics.code, total.land.releases.onsite.intensity) %>%
   group_by(industry.name) %>%
-  summarise(naics.code = n(),
-			total.land.releases.onsite.intensity = sum(total.land.releases.onsite.intensity, na.rm = TRUE)) %>%
+  summarise(
+	total.land.releases.onsite.intensity = sum(total.land.releases.onsite.intensity, na.rm = TRUE)
+  ) %>%
   ggplot(aes(x = industry.name, y = total.land.releases.onsite.intensity)) +
   geom_bar(stat = "identity", fill = "blue") +
   labs(
@@ -358,10 +375,10 @@ land_releases_distribution_sum_naics <- triQc %>%
 		axis.title.x = element_text(size = 20))
 
 land_releases_distribution_mean_naics <- triQc %>%
-  select(industry.name, naics.code, total.land.releases.onsite.intensity) %>%
   group_by(industry.name) %>%
-  summarise(naics.code = n(),
-			total.land.releases.onsite.intensity = mean(total.land.releases.onsite.intensity, na.rm = TRUE)) %>%
+  summarise(
+	total.land.releases.onsite.intensity = mean(total.land.releases.onsite.intensity, na.rm = TRUE)
+  ) %>%
   ggplot(aes(x = industry.name, y = total.land.releases.onsite.intensity)) +
   geom_bar(stat = "identity", fill = "blue") +
   labs(
@@ -379,11 +396,10 @@ dev.off()
 #======================================================================================================================#
 # Distribution of total surfae water discharge intensity onsite by NAICS industries
 surface_water_distribution_sum_naics <- triQc %>%
-  select(industry.name, naics.code, total.surface.water.discharge.onsite.intensity) %>%
   group_by(industry.name) %>%
-  summarise(naics.code = n(),
-			total.surface.water.discharge.onsite.intensity = sum(total.surface.water.discharge.onsite.intensity, na.rm
-			  = TRUE)) %>%
+  summarise(
+	total.surface.water.discharge.onsite.intensity = sum(total.surface.water.discharge.onsite.intensity, na.rm = TRUE)
+  ) %>%
   ggplot(aes(x = industry.name, y = total.surface.water.discharge.onsite.intensity)) +
   geom_bar(stat = "identity", fill = "blue") +
   labs(
@@ -396,12 +412,9 @@ surface_water_distribution_sum_naics <- triQc %>%
 		axis.title.x = element_text(size = 20))
 
 surface_water_distribution_mean_naics <- triQc %>%
-  select(industry.name, naics.code, total.surface.water.discharge.onsite.intensity) %>%
   group_by(industry.name) %>%
   summarise(
-	naics.code = n(),
-	total.surface.water.discharge.onsite.intensity = mean(total.surface.water.discharge.onsite.intensity,
-														  na.rm = TRUE)
+	total.surface.water.discharge.onsite.intensity = mean(total.surface.water.discharge.onsite.intensity, na.rm = TRUE)
   ) %>%
   ggplot(aes(x = industry.name, y = total.surface.water.discharge.onsite.intensity)) +
   geom_bar(stat = "identity", fill = "blue") +
@@ -419,10 +432,8 @@ dev.off()
 #======================================================================================================================#
 # Distribution of total releases intensity onsite between the Treated and Control States
 releases_distribution_sum_states <- triQc %>%
-  select(facility.state, industry.name, naics.code, treated, total.releases.onsite.intensity) %>%
   group_by(facility.state) %>%
   summarise(
-	naics.code = n(),
 	total.releases.onsite.intensity = sum(total.releases.onsite.intensity, na.rm = TRUE),
 	treated = treated %>% unique()
   ) %>%
@@ -438,10 +449,8 @@ releases_distribution_sum_states <- triQc %>%
 		axis.title.x = element_text(size = 10))
 
 releases_distribution_mean_states <- triQc %>%
-  select(facility.state, industry.name, naics.code, treated, total.releases.onsite.intensity) %>%
   group_by(facility.state) %>%
   summarise(
-	naics.code = n(),
 	total.releases.onsite.intensity = mean(total.releases.onsite.intensity, na.rm = TRUE),
 	treated = treated %>% unique()
   ) %>%
@@ -461,10 +470,8 @@ dev.off()
 #======================================================================================================================#
 # Distribution of total releases intensity onsite between the Treated and Control States
 air_emissions_distribution_sum_states <- triQc %>%
-  select(facility.state, industry.name, naics.code, treated, total.air.emissions.onsite.intensity) %>%
   group_by(facility.state) %>%
   summarise(
-	naics.code = n(),
 	total.air.emissions.onsite.intensity = sum(total.air.emissions.onsite.intensity, na.rm = TRUE),
 	treated = treated %>% unique()
   ) %>%
@@ -480,10 +487,8 @@ air_emissions_distribution_sum_states <- triQc %>%
 		axis.title.x = element_text(size = 10))
 
 air_emissions_distribution_mean_states <- triQc %>%
-  select(facility.state, industry.name, naics.code, treated, total.air.emissions.onsite.intensity) %>%
   group_by(facility.state) %>%
   summarise(
-	naics.code = n(),
 	total.air.emissions.onsite.intensity = mean(total.air.emissions.onsite.intensity, na.rm = TRUE),
 	treated = treated %>% unique()
   ) %>%
@@ -504,10 +509,8 @@ dev.off()
 #======================================================================================================================#
 # Distribution of total land releases intensity onsite between the Treated and Control States
 land_releases_distribution_sum_states <- triQc %>%
-  select(facility.state, industry.name, naics.code, treated, total.land.releases.onsite.intensity) %>%
   group_by(facility.state) %>%
   summarise(
-	naics.code = n(),
 	total.land.releases.onsite.intensity = sum(total.land.releases.onsite.intensity, na.rm = TRUE),
 	treated = treated %>% unique()
   ) %>%
@@ -523,10 +526,8 @@ land_releases_distribution_sum_states <- triQc %>%
 		axis.title.x = element_text(size = 10))
 
 land_releases_distribution_mean_states <- triQc %>%
-  select(facility.state, industry.name, naics.code, treated, total.land.releases.onsite.intensity) %>%
   group_by(facility.state) %>%
   summarise(
-	naics.code = n(),
 	total.land.releases.onsite.intensity = mean(total.land.releases.onsite.intensity, na.rm = TRUE),
 	treated = treated %>% unique()
   ) %>%
@@ -547,10 +548,8 @@ dev.off()
 #======================================================================================================================#
 # Distribution of total surface water discharge intensity onsite between the Treated and Control States
 water_discharge_distribution_sum_states <- triQc %>%
-  select(facility.state, industry.name, naics.code, treated, total.surface.water.discharge.onsite.intensity) %>%
   group_by(facility.state) %>%
   summarise(
-	naics.code = n(),
 	total.surface.water.discharge.onsite.intensity = sum(total.surface.water.discharge.onsite.intensity, na.rm = TRUE),
 	treated = treated %>% unique()
   ) %>%
@@ -566,10 +565,8 @@ water_discharge_distribution_sum_states <- triQc %>%
 		axis.title.x = element_text(size = 10))
 
 water_discharge_distribution_mean_states <- triQc %>%
-  select(facility.state, industry.name, naics.code, treated, total.surface.water.discharge.onsite.intensity) %>%
   group_by(facility.state) %>%
   summarise(
-	naics.code = n(),
 	total.surface.water.discharge.onsite.intensity = mean(total.surface.water.discharge.onsite.intensity, na.rm =
 	  TRUE),
 	treated = treated %>% unique()
@@ -589,45 +586,13 @@ pdf(file = "./Thesis/chapter3/src/climate_change/latex/fig_water_discharge_distr
 water_discharge_distribution_sum_states + water_discharge_distribution_mean_states
 dev.off()
 #======================================================================================================================#
-# Distribution of industries by ownership
-triQc %>%
-  select(
-	facility.state, industry.name, naics.code, own_code, federal.facility,
-	govt.owned.facility
-  ) %>%
-  mutate(
-	ownership = case_when(
-	  federal.facility == 1 ~ "federal",
-	  govt.owned.facility == 1 ~ "state",
-	  own_code == 5 ~ "private"
-	)
-  ) %>%
-  filter(!is.na(ownership)) %>%  # Filter out rows where ownership is NA
-  group_by(ownership) %>%
-  summarise(
-	naics.code = n(),
-	own.code = own_code %>% unique()
-  ) %>%
-  ggplot(aes(x = ownership, y = naics.code)) +
-  geom_bar(stat = "identity", fill = "blue") +
-  labs(
-	title = "Distribution of Industries by Ownership Type",
-	x = "Ownership Types",
-	y = "counts"
-  ) +
-  theme_bw() +
-  theme(axis.text.x = element_text(angle = 90, vjust = 0.05, hjust = 1, size = 15),
-		axis.title.x = element_text(size = 10))
-#======================================================================================================================#
 ### Distribution of total onsite releases by chemical groups
 #======================================================================================================================#
 # Distribution of total onsite releases intensity across states by carcinogenic chemicals
 releases_distribution_carcinogenic <- triQc %>%
   filter(carcinogenic.chems == 1) %>%
-  select(facility.state, total.releases.onsite.intensity, treated) %>%
   group_by(facility.state) %>%
   summarise(
-	naics.code = n(),
 	total.releases.onsite.intensity = mean(total.releases.onsite.intensity, na.rm = TRUE),
 	treated = treated %>% unique()
   ) %>%
@@ -649,10 +614,8 @@ dev.off()
 # Distribution of total onsite releases intensity across states by carcinogenic chemicals
 releases_distribution_caa <- triQc %>%
   filter(clean.air.act.chems == 1) %>%
-  select(facility.state, total.releases.onsite.intensity, treated) %>%
   group_by(facility.state) %>%
   summarise(
-	naics.code = n(),
 	total.releases.onsite.intensity = mean(total.releases.onsite.intensity, na.rm = TRUE),
 	treated = treated %>% unique()
   ) %>%
@@ -673,10 +636,8 @@ dev.off()
 # Distribution of total onsite releases intensity across states by carcinogenic chemicals
 releases_distribution_haps <- triQc %>%
   filter(hap.chems == 1) %>%
-  select(facility.state, total.releases.onsite.intensity, treated) %>%
   group_by(facility.state) %>%
   summarise(
-	naics.code = n(),
 	total.releases.onsite.intensity = mean(total.releases.onsite.intensity, na.rm = TRUE),
 	treated = treated %>% unique()
   ) %>%
@@ -697,10 +658,8 @@ dev.off()
 # Distribution of total onsite releases intensity across states by carcinogenic chemicals
 releases_distribution_pbts <- triQc %>%
   filter(pbt.chems == 1) %>%
-  select(facility.state, total.releases.onsite.intensity, treated) %>%
   group_by(facility.state) %>%
   summarise(
-	naics.code = n(),
 	total.releases.onsite.intensity = mean(total.releases.onsite.intensity, na.rm = TRUE),
 	treated = treated %>% unique()
   ) %>%
@@ -723,7 +682,6 @@ dev.off()
 plot.motivation <- triQc %>%
   group_by(treated, year) %>%
   summarise(
-	total.releases.onsite = mean(total.releases.onsite, na.rm = TRUE),
 	total.releases.onsite.intensity = mean(total.releases.onsite.intensity, na.rm = TRUE),
 	total.air.emissions.onsite.intensity = mean(total.air.emissions.onsite.intensity, na.rm = TRUE),
 	total.point.air.emissions.onsite.intensity = mean(total.point.air.emissions.onsite.intensity, na.rm = TRUE),
@@ -737,27 +695,6 @@ plot.motivation <- triQc %>%
 #----------------------------------------------------------------------------------------------------------------------#
 # Plot of total releases
 colours_grid <- c("treated states" = "blue2", "control states" = "red2")
-#----------------------------------------------------------------------------------------------------------------------#
-total_releases_plot <- ggplot(
-  data = plot.motivation,
-  aes(x = year, y = total.releases.onsite, colour = treatment)
-) +
-  geom_line(size = 1) +
-  geom_point(size = 1) +
-  labs(
-	y = "total releases (lbs)",
-	title = "Total Releases (Onsite) by Treatment"
-  ) +
-  geom_vline(xintercept = c(2014, 2015, 2017), linetype = "dashed", colour = "black") +
-  scale_x_continuous(labels = as.character(plot.motivation$year), breaks = plot.motivation$year) +
-  scale_colour_manual(values = colours_grid) +
-  theme(
-	legend.key.size = unit(x = 0.2, units = "in"),
-	legend.key.width = unit(x = 0.35, units = "in"),
-	legend.justification = c("left", "top"),  # Adjust legend position
-	legend.position = c(x = 0.1, y = 0.8),  # Adjust x and y position
-  )
-
 #----------------------------------------------------------------------------------------------------------------------#
 # Plot of total releases intensity
 #----------------------------------------------------------------------------------------------------------------------#
@@ -913,24 +850,28 @@ dev.off()
 # Facility and County level
 #----------------------------------------------------------------------------------------------------------------------#
 library(mosaic)
-pre <- sum_up(df = triQc %>% filter(year == 2013),
-			  c(gdp.pc, annual_avg_estabs, emp, entire.facility, private.facility,
-				produced.chem.facility, imported.chem.facility, chemical.formulation.component,
-				chemical.manufacturing.aid, chemical.ancilliary.use, production.ratio.activity.index,
-				maxnum.chem.onsite),
-			  d = F) %>%
+pre <- sum_up(
+  df = triQc %>% filter(year == 2013),
+  c(gdp.pc, annual_avg_estabs, emp, entire.facility, private.facility,
+	produced.chem.facility, imported.chem.facility, chemical.formulation.component,
+	chemical.manufacturing.aid, chemical.ancilliary.use, production.ratio.activity.index,
+	maxnum.chem.onsite),
+  d = F
+) %>%
   select(-c(Obs, Missing, Min, Max)) %>%
   rename(SD = StdDev) %>%
   mutate(across(where(is.numeric), ~round(., digits = 2)))
 
-pre_summ <- sum_up(df = triQc %>%
-  filter(year == 2013) %>%
-  group_by(treated),
-				   c(gdp.pc, annual_avg_estabs, emp, entire.facility, private.facility,
-					 produced.chem.facility, imported.chem.facility, chemical.formulation.component,
-					 chemical.manufacturing.aid, chemical.ancilliary.use, production.ratio.activity.index,
-					 maxnum.chem.onsite),
-				   d = F) %>%
+pre_summ <- sum_up(
+  df = triQc %>%
+	filter(year == 2013) %>%
+	group_by(treated),
+  c(gdp.pc, annual_avg_estabs, emp, entire.facility, private.facility,
+	produced.chem.facility, imported.chem.facility, chemical.formulation.component,
+	chemical.manufacturing.aid, chemical.ancilliary.use, production.ratio.activity.index,
+	maxnum.chem.onsite),
+  d = F
+) %>%
   select(-c(Obs, Missing, StdDev, Min, Max)) %>%
   mutate(across(where(is.numeric), ~round(., digits = 2)))
 
@@ -959,24 +900,28 @@ writeLines(bal_test_tex, con = "./Thesis/chapter3/src/climate_change/latex/tbl_b
 #----------------------------------------------------------------------------------------------------------------------#
 # State level
 #----------------------------------------------------------------------------------------------------------------------#
-pre <- sum_up(df = triQs %>% filter(year == 2013),
-			  c(gdp.pc, annual_avg_estabs, emp, entire.facility, private.facility,
-				produced.chem.facility, imported.chem.facility, chemical.formulation.component,
-				chemical.manufacturing.aid, chemical.ancilliary.use, production.ratio.activity.index,
-				maxnum.chem.onsite),
-			  d = F) %>%
+pre <- sum_up(
+  df = triQs %>% filter(year == 2013),
+  c(gdp.pc, annual_avg_estabs, emp, entire.facility, private.facility,
+	produced.chem.facility, imported.chem.facility, chemical.formulation.component,
+	chemical.manufacturing.aid, chemical.ancilliary.use, production.ratio.activity.index,
+	maxnum.chem.onsite),
+  d = F
+) %>%
   select(-c(Obs, Missing, Min, Max)) %>%
   rename(SD = StdDev) %>%
   mutate(across(where(is.numeric), ~round(., digits = 2)))
 
-pre_summ <- sum_up(df = triQs %>%
-  filter(year == 2013) %>%
-  group_by(treated),
-				   c(gdp.pc, annual_avg_estabs, emp, entire.facility, private.facility,
-					 produced.chem.facility, imported.chem.facility, chemical.formulation.component,
-					 chemical.manufacturing.aid, chemical.ancilliary.use, production.ratio.activity.index,
-					 maxnum.chem.onsite),
-				   d = F) %>%
+pre_summ <- sum_up(
+  df = triQs %>%
+	filter(year == 2013) %>%
+	group_by(treated),
+  c(gdp.pc, annual_avg_estabs, emp, entire.facility, private.facility,
+	produced.chem.facility, imported.chem.facility, chemical.formulation.component,
+	chemical.manufacturing.aid, chemical.ancilliary.use, production.ratio.activity.index,
+	maxnum.chem.onsite),
+  d = F
+) %>%
   select(-c(Obs, Missing, StdDev, Min, Max)) %>%
   mutate(across(where(is.numeric), ~round(., digits = 2)))
 
@@ -1005,21 +950,23 @@ writeLines(bal_test_tex, con = "./Thesis/chapter3/src/climate_change/latex/tbl_b
 #======================================================================================================================#
 ### Summary Statistics (Onsite)
 #======================================================================================================================#
-summ <- sum_up(df = triQc,
-			   c(total.releases.onsite.intensity, total.air.emissions.onsite.intensity,
-				 total.fug.air.emissions.onsite.intensity, total.point.air.emissions.onsite.intensity,
-				 total.surface.water.discharge.onsite.intensity, total.num.receiving.streams.onsite,
-				 total.underground.injection.onsite.intensity, total.landfills.onsite.intensity,
-				 total.releases.toland.treatment.onsite.intensity, total.surface.impoundment.onsite.intensity,
-				 total.land.releases.onsite.intensity, total.land.releases.other.onsite.intensity,
-				 total.release.onsite.catastrophicevents.intensity, vadd, prode, prodw, prodh, matcost,
-				 output.perhr, output.perworker, wage.perhr, pay, federal.facility, gdp.pc, annual_avg_estabs, emp,
-				 cpi,
-				 produced.chem.facility, imported.chem.facility, chemical.formulation.component,
-				 chemical.manufacturing.aid, chemical.ancilliary.use, production.ratio.activity.index,
-				 maxnum.chem.onsite, population
-			   ),
-			   d = F) %>%
+summ <- sum_up(
+  df = triQc,
+  c(total.releases.onsite.intensity, total.air.emissions.onsite.intensity,
+	total.fug.air.emissions.onsite.intensity, total.point.air.emissions.onsite.intensity,
+	total.surface.water.discharge.onsite.intensity, total.num.receiving.streams.onsite,
+	total.underground.injection.onsite.intensity, total.landfills.onsite.intensity,
+	total.releases.toland.treatment.onsite.intensity, total.surface.impoundment.onsite.intensity,
+	total.land.releases.onsite.intensity, total.land.releases.other.onsite.intensity,
+	total.release.onsite.catastrophicevents.intensity, vadd, prode, prodw, prodh, matcost,
+	output.perhr, output.perworker, wage.perhr, pay, federal.facility, gdp.pc, annual_avg_estabs, emp,
+	cpi,
+	produced.chem.facility, imported.chem.facility, chemical.formulation.component,
+	chemical.manufacturing.aid, chemical.ancilliary.use, production.ratio.activity.index,
+	maxnum.chem.onsite, population
+  ),
+  d = F
+) %>%
   select(-Missing) %>%
   mutate(across(where(is.numeric), ~round(., digits = 2)))
 
@@ -1034,17 +981,19 @@ writeLines(summ_tex, con = "./Thesis/chapter3/src/climate_change/latex/tbl_summ_
 #======================================================================================================================#
 ### Summary Statistics (Offsite)
 #======================================================================================================================#
-summ_off <- sum_up(df = triQc_off,
-				   c(
-					 total.releases.offsite.intensity, total.releases.unknown.offsite.intensity,
-					 total.releases.wastebroker.offsite.intensity, total.releases.other.mgt.offsite.intensity,
-					 total.releases.metalsolidify.offsite.intensity, total.releases.storage.offsite.intensity,
-					 total.wastewater.releases.offsite.intensity, total.land.releases.offsite.intensity,
-					 total.land.releases.other.offsite.intensity, total.surface.impoundment.offsite.intensity,
-					 total.releases.toland.treatment.offsite.intensity, total.landfills.offsite.intensity,
-					 total.underground.injection.offsite.intensity
-				   ),
-				   d = F) %>%
+summ_off <- sum_up(
+  df = triQc_off,
+  c(
+	total.releases.offsite.intensity, total.releases.unknown.offsite.intensity,
+	total.releases.wastebroker.offsite.intensity, total.releases.other.mgt.offsite.intensity,
+	total.releases.metalsolidify.offsite.intensity, total.releases.storage.offsite.intensity,
+	total.wastewater.releases.offsite.intensity, total.land.releases.offsite.intensity,
+	total.land.releases.other.offsite.intensity, total.surface.impoundment.offsite.intensity,
+	total.releases.toland.treatment.offsite.intensity, total.landfills.offsite.intensity,
+	total.underground.injection.offsite.intensity
+  ),
+  d = F
+) %>%
   select(-Missing) %>%
   mutate(across(where(is.numeric), ~round(., digits = 2)))
 
@@ -1079,20 +1028,12 @@ writeLines(summ_potw_tex, con = "./Thesis/chapter3/src/climate_change/latex/tbl_
 #======================================================================================================================#
 mech_onsite <- sum_up(
   df = triQc,
-  c(total.waste.management.onsite, treatment.onsite, air.emissions.treatment.onsite,
-	biological.treatment.onsite, chemical.treatment.onsite, incineration.thermal.treatment.onsite,
-	physical.treatment.onsite, energy.recovery.onsite, industrial.kiln.onsite, industrial.furnace.onsite,
-	industrial.boiler.onsite, recycling.onsite, metal.recovery.onsite, solvent.recovery.onsite, reuse.onsite,
-	source.reduction, material.subandmod, sub.fuel.matsubmod, sub.organic.solvent.matsubmod,
-	sub.rawm.feedstock.reactchem.matsubmod, sub.manu.proccess.ancilliary.chems.matsubmod,
-	mod.content.grade.purity.chems.matsubmod, other.matmods.matsubmod, product.modification,
-	devd.newproductline.pmod, mod.packaging.pmod, other.pmods.pmod, process.equip.modification,
-	optimised.process.efficiency.pequipmod, recirculationinprocess.pequipmod,
-	newtech.technique.process.pequipmod, other.pequipmods.pequipmod, inventory.material.mgt,
-	better.labelling.testing.immgt, containers.sizechange.immgt, improved.materialhandling.operations.immgt,
-	improved.monitoring.immgt, other.immgts.immgt, operating.practices.training,
-	improved.schdule.operation.procedures.opt, changed.production.schedule.opt, energy.intensity,
-	intro.inline.productquality.process.analysis.opt, r.and.d, waste.water.treatment, recycling.dummy)) %>%
+  c(total.waste.management.onsite, biological.treatment.onsite, incineration.thermal.treatment.onsite,
+	physical.treatment.onsite, industrial.boiler.onsite, recycling.onsite, reuse.onsite, source.reduction,
+	sub.fuel.matsubmod, sub.organic.solvent.matsubmod, mod.content.grade.purity.chems.matsubmod,
+	recirculationinprocess.pequipmod, newtech.technique.process.pequipmod, containers.sizechange.immgt,
+	improved.materialhandling.operations.immgt, energy.cost.intensity, tfp5, recycling.dummy)
+) %>%
   select(-Missing) %>%
   mutate(across(where(is.numeric), ~round(., digits = 2)))
 

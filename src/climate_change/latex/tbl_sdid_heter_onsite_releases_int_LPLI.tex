@@ -1,0 +1,37 @@
+% Please add the following required packages to your document preamble:
+% \usepackage{booktabs}
+% \usepackage{graphicx}
+\begin{table}[H]
+    \centering
+    \caption{Onsite Releases Intensity for Low-Profit-Labour- v. Low-Profit-Capital-Intensive Manufacturing Industries}
+    \label{tab:heterogeneous-onsite-releases-int-lpli}
+    \resizebox{\columnwidth}{!}{%
+        \begin{tabular}{@{}llllllll@{}}
+            \toprule\toprule
+            Onsite releases intensity (log) & total     & air emissions & point air & fugitive air & water discharge & land releases & surface impoundment \\ \midrule
+            $Treated^{e}$                   & -0.163*   & -0.091        & -0.124    & 0.109*       & 0.002           & -0.038        & -0.004              \\
+            & (0.088)   & (0.076)       & (0.091)   & (0.056)      & (0.062)         & (0.042)       & (0.004)             \\
+            $Treated$                       & 0.080     & 0.021         & 0.044     & -0.094*      & -0.019          & 0.028         & 0.004               \\
+            & (0.091)   & (0.076)       & (0.094)   & (0.055)      & (0.070)         & (0.039)       & (0.005)             \\
+            cohort 2014                     & -0.094    & -0.031        & -0.094    & 0.146**      & -0.009          & -0.013        & -0.006              \\
+            & (0.095)   & (0.080)       & (0.096)   & (0.058)      & (0.070)         & (0.040)       & (0.005)             \\
+            cohort 2015                     & -0.255**  & -0.173*       & -0.164*   & 0.057        & 0.017           & -0.072        & -0.002              \\
+            & (0.101)   & (0.090)       & (0.096)   & (0.075)      & (0.057)         & (0.054)       & (0.005)             \\
+            cohort 2017                     & 0.052     & 0.050         & -0.045    & 0.465*       & -0.041          & 0.075         & -0.005              \\
+            & (0.272)   & (0.242)       & (0.192)   & (0.282)      & (0.087)         & (0.056)       & (0.007)             \\
+            controls                        & Yes       & Yes           & Yes       & Yes          & Yes             & Yes           & Yes                 \\
+            year FE                         & Yes       & Yes           & Yes       & Yes          & Yes             & Yes           & Yes                 \\
+            facility FE                     & Yes       & Yes           & Yes       & Yes          & Yes             & Yes           & Yes                 \\
+            border-county FE                & Yes       & Yes           & Yes       & Yes          & Yes             & Yes           & Yes                 \\
+            toxic chemical FE               & Yes       & Yes           & Yes       & Yes          & Yes             & Yes           & Yes                 \\
+            toxic chemical LTs              & Yes       & Yes           & Yes       & Yes          & Yes             & Yes           & Yes                 \\
+            border-county LTs               & Yes       & Yes           & Yes       & Yes          & Yes             & Yes           & Yes                 \\ \midrule
+            Observations                    & 1,107,927 & 1,107,927     & 1,107,927 & 1,107,927    & 1,107,927       & 1,107,927     & 1,107,927           \\
+            $R^2$                           & 0.788     & 0.798         & 0.791     & 0.684        & 0.638           & 0.519         & 0.225               \\\bottomrule \bottomrule
+        \end{tabular}%
+    }
+    \begin{minipage}{\columnwidth}
+        \vspace{0.05in}
+        \tiny NOTES: These results are obtained from estimating equation~\ref{eq:heterogeneous-onsite-releases-intensity-protech}. Three-way clustered robust standard errors are reported in parentheses, and clustered at the toxic chemical, industry and state levels. ***, **, and * denote significance levels at the less than $1\%$, $5\%$ and $10\%$, respectively.
+    \end{minipage}
+\end{table}
