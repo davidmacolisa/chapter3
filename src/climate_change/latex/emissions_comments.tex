@@ -1,0 +1,106 @@
+\documentclass[12pt, english]{article}
+%======================================================================================================================%
+% Preamble
+\usepackage[
+    backend = biber,
+    style = apa,
+    citestyle = authoryear-comp,
+    sorting = ydnt,
+    mincitenames = 1,
+    maxcitenames = 2,
+    uniquelist = minyear
+]{biblatex}
+\addbibresource{emissions.bib}
+%\AtBeginBibliography{\small}
+
+\usepackage{hyperref}
+\hypersetup{colorlinks = true, citecolor = blue, linkcolor = blue, urlcolor = blue, hypertexnames = true}
+\newcommand{\shortlink}[1]{\href{https://www.#1}{\texttt{#1}}}
+
+\DeclareCiteCommand{\cite} % Ensures author-year hyperlink applies to \cite
+{\usebibmacro{prenote}}
+{\usebibmacro{citeindex}%
+\printtext[bibhyperref]{\usebibmacro{cite}}}
+{\multicitedelim}
+{\usebibmacro{postnote}}
+
+\DeclareCiteCommand{\parencite}[\mkbibparens] % Ensures author-year hyperlink applies to \parencite
+{\usebibmacro{prenote}}
+{\usebibmacro{citeindex}%
+\printtext[bibhyperref]{\usebibmacro{cite}}}
+{\multicitedelim}
+{\usebibmacro{postnote}}
+
+\DeclareCiteCommand{\cite} % Ensures that year appears in parentheses
+{\usebibmacro{prenote}}
+{\usebibmacro{citeindex}%
+\printtext[bibhyperref]{\printnames{labelname} \mkbibparens{\printfield{year}}}}
+{\multicitedelim}
+{\usebibmacro{postnote}}
+
+\usepackage{authblk}
+\usepackage{times}
+\usepackage{parskip}
+\usepackage{graphicx}
+\usepackage{amsmath}
+\usepackage{amsfonts}
+\usepackage{mathrsfs}
+\usepackage{float}
+\usepackage{geometry}
+\geometry{papersize = {9in, 11in}, left = 2.5cm, right = 2.5cm, top = 2.5cm, bottom = 2.5cm}
+\usepackage{scrextend}
+\usepackage[doublespacing]{setspace}
+\usepackage{textcomp}
+\usepackage{csquotes}
+
+% Tables Packages
+\usepackage{booktabs}
+\usepackage{titlesec} %for modified section numbering
+\setcounter{secnumdepth}{4}  % How deep you want to number
+\titleformat{\paragraph}
+{\normalfont\normalsize\bfseries}{\theparagraph}{1em}{}
+\titlespacing*{\paragraph}
+{0pt}{3.25ex plus 1ex minus 0.2ex}{1.5ex plus 0.2ex}
+
+%Appendix
+\usepackage[toc, page]{appendix}
+\usepackage{titleps}
+\usepackage{caption}
+\usepackage{supertabular}
+
+%======================================================================================================================%
+% Title Page
+\title{{Comments and Progress Report: Unforeseen Minimum Wage Consequences}}
+\author[1]{Davidmac O. Ekeocha}
+\affil[1]{
+    University of Liverpool Management School \\
+    \texttt{davidmac.ekeocha@liverpool.ac.uk}
+}
+%\affil[2]{University of Liverpool Management School}
+%\affil[3]{University of Liverpool Management School}
+
+\date{\today}
+
+%======================================================================================================================%
+\begin{document}
+    \maketitle
+%----------------------------------------------------------------------------------------------------------------------%
+    \section*{List of comments and responses}
+    This document highlights the most recent changes to the original submission.
+
+    \date{\texttt{12 August 2024}}
+    \begin{itemize}
+        \item \textit{Comments:} Move the baseline results to the appendix.
+        \item \textit{Response:} I think that presenting the baseline results in the main text is important to aid a coherent discussion. However, I have moved the corresponding baseline heterogeneous effects and robustness results to the appendix.
+        \item \textit{Comments:} Classify the heterogeneous dimensions conditional on the first pre-treatment period.
+        \item \textit{Response:} All constructed heterogeneous dimensions have been re-constructed and reanalyzed accordingly.
+        \item \textit{Comments:} Conduct similar heterogeneous analysis by industry structure for the baseline.
+        \item \textit{Response:} I show the results of this heterogeneous analysis based on these dimensions low- v. high-skilled workers, high- v. low-profit manufacturing industries, and labour- v. capital-intensive manufacturing industries. Although, most reviewed famous literatures limited theirs to the type of workers in the industry as a sufficient baseline evidence~\parencite{cengiz2019effect, gopalan2021state, clemens2019making, dube2010minimum, dustmann2022reallocation}. I believe that the intuition for this choice is that the target of the minimum wage (MW) policy is on industry workforce regardless of the industry structure.
+        \item \textit{Comments:} Address one heterogeneous dimension at a time and call it what it is.
+        \item \textit{Response:} I have shown the correlation matrix in Figure~\ref{fig:correlation-het} which shows no correlations across the main heterogeneous dimensions. Based on this, I have constructed dummies of high-profit-labour-intensive v. high-profit-capital-intensive manufacturing industries, and low-profit-labour-intensive v. low-profit-capital-intensive manufacturing industries. \input{fig_correlation_heter}
+    \end{itemize}
+%======================================================================================================================%
+    \newpage
+    \printbibliography
+\end{document}
+%======================================================================================================================%

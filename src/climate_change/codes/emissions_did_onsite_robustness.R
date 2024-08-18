@@ -25,7 +25,7 @@ did_total_releases_catastrophicevents <- did_releases(
   depvar = "l.total.release.onsite.catastrophicevents.intensity",
   ATT = "e.treated",
   cluster = ~c(chemical.id, naics.code, facility.state),
-  did_tri_fes = did_tri_fes()
+  fes = did_tri_fes()
 )
 etable(did_total_releases_catastrophicevents, digits = 3, digits.stats = 3)
 #----------------------------------------------------------------------------------------------------------------------#
@@ -50,7 +50,7 @@ did_total_releases_catastrophicevents <- dynamic_did_releases(
   depvar = "l.total.release.onsite.catastrophicevents.intensity",
   relative_year = "rel.year",
   cluster = ~c(chemical.id, naics.code, facility.state),
-  did_county_fes = did_county_fes
+  fes = tri_fes()
 )
 etable(did_total_releases_catastrophicevents, digits = 3, digits.stats = 3)
 iplot(did_total_releases_catastrophicevents, xlim = c(-3, 3), ylim = c(-0.5, 0.5), col = "blue",
@@ -70,7 +70,7 @@ sdid_total_releases_catastrophicevents <- sdid_releases(
   depvar = "l.total.release.onsite.catastrophicevents.intensity",
   ATT = "sunab(ch.year, year)",
   cluster = ~c(chemical.id, naics.code, facility.state),
-  did_tri_fes = did_tri_fes()
+  fes = did_tri_fes()
 )
 etable(sdid_total_releases_catastrophicevents, agg = "ATT", digits = 3, digits.stats = 3)
 etable(sdid_total_releases_catastrophicevents, agg = "cohort", digits = 3, digits.stats = 3)
@@ -80,7 +80,7 @@ sdid_total_releases_catastrophicevents <- dynamic_sdid_releases(
   depvar = "l.total.release.onsite.catastrophicevents.intensity",
   relative_year = "rel.year",
   cluster = ~c(chemical.id, naics.code, facility.state),
-  did_county_fes = did_county_fes
+  fes = tri_fes()
 )
 etable(sdid_total_releases_catastrophicevents, agg = "ATT", digits = 3, digits.stats = 3)
 etable(sdid_total_releases_catastrophicevents, agg = "cohort", digits = 3, digits.stats = 3)

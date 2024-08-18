@@ -51,10 +51,14 @@ triQc <- triQc %>%
 								   high.profit == 1 & labour.intensive == 0 ~ 0),
 	low.profit.labour = case_when(high.profit == 0 & labour.intensive == 1 ~ 1,
 								  high.profit == 0 & labour.intensive == 0 ~ 0),
+	high.profit.capital = case_when(high.profit == 1 & labour.intensive == 0 ~ 1,
+									high.profit == 1 & labour.intensive == 1 ~ 0),
+	low.profit.capital = case_when(high.profit == 0 & labour.intensive == 0 ~ 1,
+								   high.profit == 0 & labour.intensive == 1 ~ 0),
   )
 
 triQc %>% sum_up(c(high.payroll.revenue, high.wages.revenue, high.profit, labour.intensive,
-				   high.profit.labour, low.profit.labour))
+				   high.profit.labour, low.profit.labour, high.profit.capital, low.profit.capital))
 #======================================================================================================================#
 ### Waste Management Activities - Onsite
 #======================================================================================================================#
@@ -227,19 +231,42 @@ sdid_tfp_hpli <- sdid_releases_heter_1(
 )
 etable(sdid_tfp_hpli, agg = "ATT", digits = 3, digits.stats = 3)
 etable(sdid_tfp_hpli, agg = "cohort", digits = 3, digits.stats = 3)
-#TODO: Rename other inventory management
 #======================================================================================================================#
-### Inventory management: Others---high profit and production technology
+### Process modification: Modified spray equipment---high profit and production technology
 #======================================================================================================================#
-sdid_others_immgt_hpli <- sdid_releases_heter_1(
+sdid_modified_spray_equipment_hpli <- sdid_releases_heter_1(
   data = triQc,
-  depvar = "other.immgts.immgt",
+  depvar = "modified.spray.equipment.pequipmod",
   interact_var = "high.profit.labour",
   tri_fes = tri_fes(),
   cluster = ~c(chemical.id, naics.code, facility.state)
 )
-etable(sdid_others_immgt_hpli, agg = "ATT", digits = 3, digits.stats = 3)
-etable(sdid_others_immgt_hpli, agg = "cohort", digits = 3, digits.stats = 3)
+etable(sdid_modified_spray_equipment_hpli, agg = "ATT", digits = 3, digits.stats = 3)
+etable(sdid_modified_spray_equipment_hpli, agg = "cohort", digits = 3, digits.stats = 3)
+#======================================================================================================================#
+### Inventory management: Changes in inventory control---high profit and production technology
+#======================================================================================================================#
+sdid_changes_inventory_control_hpli <- sdid_releases_heter_1(
+  data = triQc,
+  depvar = "changes.inventory.control.immgt",
+  interact_var = "high.profit.labour",
+  tri_fes = tri_fes(),
+  cluster = ~c(chemical.id, naics.code, facility.state)
+)
+etable(sdid_changes_inventory_control_hpli, agg = "ATT", digits = 3, digits.stats = 3)
+etable(sdid_changes_inventory_control_hpli, agg = "cohort", digits = 3, digits.stats = 3)
+#======================================================================================================================#
+### Inventory management: Implemented inspection and monitoring---high profit and production technology
+#======================================================================================================================#
+sdid_impl_inspection_monitoring_hpli <- sdid_releases_heter_1(
+  data = triQc,
+  depvar = "impl.inspection.monitoring.leak.spill.immgt",
+  interact_var = "high.profit.labour",
+  tri_fes = tri_fes(),
+  cluster = ~c(chemical.id, naics.code, facility.state)
+)
+etable(sdid_impl_inspection_monitoring_hpli, agg = "ATT", digits = 3, digits.stats = 3)
+etable(sdid_impl_inspection_monitoring_hpli, agg = "cohort", digits = 3, digits.stats = 3)
 #======================================================================================================================#
 ### Operations: Operating Practices & Training---high profit and production technology
 #======================================================================================================================#
@@ -265,86 +292,31 @@ sdid_changed_prod_schedule_hpli <- sdid_releases_heter_1(
 etable(sdid_changed_prod_schedule_hpli, agg = "ATT", digits = 3, digits.stats = 3)
 etable(sdid_changed_prod_schedule_hpli, agg = "cohort", digits = 3, digits.stats = 3)
 #======================================================================================================================#
-### Waste Management Activities - Onsite
+### Operations: Improved procedure loading and transfer---high profit and production technology
 #======================================================================================================================#
-### Low profit and labour intensive vs low profit and capital intensive
-#======================================================================================================================#
-### Treatment method: Chemical treatment onsite---high profit and production technology
-#======================================================================================================================#
-sdid_chemical_treatment_lpli <- sdid_releases_heter_1(
+sdid_impr_procedure_loading_transfer_hpli <- sdid_releases_heter_1(
   data = triQc,
-  depvar = "l.chemical.treatment.onsite",
-  interact_var = "low.profit.labour",
+  depvar = "impr.procedures.loading.transfer.opt",
+  interact_var = "high.profit.labour",
   tri_fes = tri_fes(),
   cluster = ~c(chemical.id, naics.code, facility.state)
 )
-etable(sdid_chemical_treatment_lpli, agg = "ATT", digits = 3, digits.stats = 3)
+etable(sdid_impr_procedure_loading_transfer_hpli, agg = "ATT", digits = 3, digits.stats = 3)
+etable(sdid_impr_procedure_loading_transfer_hpli, agg = "cohort", digits = 3, digits.stats = 3)
 #======================================================================================================================#
-### Treatment method: Thermal treatment onsite---high profit and production technology
+### Operations: Changes in Operating Practices---high profit and production technology
 #======================================================================================================================#
-sdid_thermal_treatment_lpli <- sdid_releases_heter_1(
+sdid_changes_operating_practices_hpli <- sdid_releases_heter_1(
   data = triQc,
-  depvar = "l.incineration.thermal.treatment.onsite",
-  interact_var = "low.profit.labour",
+  depvar = "changes.operating.practices.inventory.control.opt",
+  interact_var = "high.profit.labour",
   tri_fes = tri_fes(),
   cluster = ~c(chemical.id, naics.code, facility.state)
 )
-etable(sdid_thermal_treatment_lpli, agg = "ATT", digits = 3, digits.stats = 3)
-#======================================================================================================================#
-### Treatment method: Physical treatment onsite---low profit and production technology
-#======================================================================================================================#
-sdid_physical_treatment_lpli <- sdid_releases_heter_1(
-  data = triQc,
-  depvar = "l.physical.treatment.onsite",
-  interact_var = "low.profit.labour",
-  tri_fes = tri_fes(),
-  cluster = ~c(chemical.id, naics.code, facility.state)
-)
-etable(sdid_physical_treatment_lpli, agg = "ATT", digits = 3, digits.stats = 3)
-#======================================================================================================================#
-### Recycling onsite---low profit and production technology
-#======================================================================================================================#
-sdid_recycle_onsite_lpli <- sdid_releases_heter_1(
-  data = triQc,
-  depvar = "l.recycling.onsite",
-  interact_var = "low.profit.labour",
-  tri_fes = tri_fes(),
-  cluster = ~c(chemical.id, naics.code, facility.state)
-)
-etable(sdid_recycle_onsite_lpli, agg = "ATT", digits = 3, digits.stats = 3)
-#======================================================================================================================#
-### Recycling process: Reuse onsite---low profit and production technology
-#======================================================================================================================#
-sdid_reuse_onsite_lpli <- sdid_releases_heter_1(
-  data = triQc,
-  depvar = "l.reuse.onsite",
-  interact_var = "low.profit.labour",
-  tri_fes = tri_fes(),
-  cluster = ~c(chemical.id, naics.code, facility.state)
-)
-etable(sdid_reuse_onsite_lpli, agg = "ATT", digits = 3, digits.stats = 3)
+etable(sdid_changes_operating_practices_hpli, agg = "ATT", digits = 3, digits.stats = 3)
+etable(sdid_changes_operating_practices_hpli, agg = "cohort", digits = 3, digits.stats = 3)
 #======================================================================================================================#
 ### Onsite: Source Reduction Activities---low profit and production technology
-#======================================================================================================================#
-sdid_source_reduction_lpli <- sdid_releases_heter_1(
-  data = triQc,
-  depvar = "source.reduction",
-  interact_var = "low.profit.labour",
-  tri_fes = tri_fes(),
-  cluster = ~c(chemical.id, naics.code, facility.state)
-)
-etable(sdid_source_reduction_lpli, agg = "ATT", digits = 3, digits.stats = 3)
-#======================================================================================================================#
-### Material: Organic Solvent Substitution---low profit and production technology
-#======================================================================================================================#
-sdid_organic_solvent_lpli <- sdid_releases_heter_1(
-  data = triQc,
-  depvar = "sub.organic.solvent.matsubmod",
-  interact_var = "low.profit.labour",
-  tri_fes = tri_fes(),
-  cluster = ~c(chemical.id, naics.code, facility.state)
-)
-etable(sdid_organic_solvent_lpli, agg = "ATT", digits = 3, digits.stats = 3)
 #======================================================================================================================#
 ### Material: Clean Fuel---low profit and production technology
 #======================================================================================================================#
@@ -356,6 +328,7 @@ sdid_clean_fuel_lpli <- sdid_releases_heter_1(
   cluster = ~c(chemical.id, naics.code, facility.state)
 )
 etable(sdid_clean_fuel_lpli, agg = "ATT", digits = 3, digits.stats = 3)
+etable(sdid_clean_fuel_lpli, agg = "cohort", digits = 3, digits.stats = 3)
 #======================================================================================================================#
 ### Process modification: Recirculation in Process---low profit and production technology
 #======================================================================================================================#
@@ -367,17 +340,7 @@ sdid_recirculate_inprocess_lpli <- sdid_releases_heter_1(
   cluster = ~c(chemical.id, naics.code, facility.state)
 )
 etable(sdid_recirculate_inprocess_lpli, agg = "ATT", digits = 3, digits.stats = 3)
-#======================================================================================================================#
-### Process modification: Recycling to reuse---low profit and production technology
-#======================================================================================================================#
-sdid_recylce_dummy_lpli <- sdid_releases_heter_1(
-  data = triQc,
-  depvar = "recycling.dummy",
-  interact_var = "low.profit.labour",
-  tri_fes = tri_fes(),
-  cluster = ~c(chemical.id, naics.code, facility.state)
-)
-etable(sdid_recylce_dummy_lpli, agg = "ATT", digits = 3, digits.stats = 3)
+etable(sdid_recirculate_inprocess_lpli, agg = "cohort", digits = 3, digits.stats = 3)
 #======================================================================================================================#
 ### Process modification: Total factor productivity---low profit and production technology
 #======================================================================================================================#
@@ -389,56 +352,49 @@ sdid_tfp_lpli <- sdid_releases_heter_1(
   cluster = ~c(chemical.id, naics.code, facility.state)
 )
 etable(sdid_tfp_lpli, agg = "ATT", digits = 3, digits.stats = 3)
+etable(sdid_tfp_lpli, agg = "cohort", digits = 3, digits.stats = 3)
 #======================================================================================================================#
-### Inventory management: Improved material handling operations---low profit and production technology
+### Process modification: Modified spray equipment---high profit and production technology
 #======================================================================================================================#
-sdid_mat_handling_lpli <- sdid_releases_heter_1(
+sdid_modified_spray_equipment_lpli <- sdid_releases_heter_1(
   data = triQc,
-  depvar = "improved.materialhandling.operations.immgt",
+  depvar = "modified.spray.equipment.pequipmod",
   interact_var = "low.profit.labour",
   tri_fes = tri_fes(),
   cluster = ~c(chemical.id, naics.code, facility.state)
 )
-etable(sdid_mat_handling_lpli, agg = "ATT", digits = 3, digits.stats = 3)
+etable(sdid_modified_spray_equipment_lpli, agg = "ATT", digits = 3, digits.stats = 3)
+etable(sdid_modified_spray_equipment_lpli, agg = "cohort", digits = 3, digits.stats = 3)
 #======================================================================================================================#
-### Inventory management: Improved material handling operations---low profit and production technology
+### Inventory management: Changes in inventory control---low profit and production technology
 #======================================================================================================================#
-sdid_other_immgt_lpli <- sdid_releases_heter_1(
+sdid_changes_inventory_control_lpli <- sdid_releases_heter_1(
   data = triQc,
-  depvar = "other.immgts.immgt",
+  depvar = "changes.inventory.control.immgt",
   interact_var = "low.profit.labour",
   tri_fes = tri_fes(),
   cluster = ~c(chemical.id, naics.code, facility.state)
 )
-etable(sdid_other_immgt_lpli, agg = "ATT", digits = 3, digits.stats = 3)
+etable(sdid_changes_inventory_control_lpli, agg = "ATT", digits = 3, digits.stats = 3)
+etable(sdid_changes_inventory_control_lpli, agg = "cohort", digits = 3, digits.stats = 3)
 #======================================================================================================================#
-### Operations: Improved production schedule---low profit and production technology
+### Operations: Improved procedure loading and transfer---low profit and production technology
 #======================================================================================================================#
-sdid_impr_prod_schedule_lpli <- sdid_releases_heter_1(
+sdid_impr_procedure_loading_transfer_lpli <- sdid_releases_heter_1(
   data = triQc,
-  depvar = "improved.schdule.operation.procedures.opt",
+  depvar = "impr.procedures.loading.transfer.opt",
   interact_var = "low.profit.labour",
   tri_fes = tri_fes(),
   cluster = ~c(chemical.id, naics.code, facility.state)
 )
-etable(sdid_impr_prod_schedule_lpli, agg = "ATT", digits = 3, digits.stats = 3)
-#======================================================================================================================#
-### Operations: Improved production schedule---low profit and production technology
-#======================================================================================================================#
-sdid_intro_inline_prod_lpli <- sdid_releases_heter_1(
-  data = triQc,
-  depvar = "intro.inline.productquality.process.analysis.opt",
-  interact_var = "low.profit.labour",
-  tri_fes = tri_fes(),
-  cluster = ~c(chemical.id, naics.code, facility.state)
-)
-etable(sdid_intro_inline_prod_lpli, agg = "ATT", digits = 3, digits.stats = 3)
+etable(sdid_impr_procedure_loading_transfer_lpli, agg = "ATT", digits = 3, digits.stats = 3)
+etable(sdid_impr_procedure_loading_transfer_lpli, agg = "cohort", digits = 3, digits.stats = 3)
 #======================================================================================================================#
 ### Type of Production Technology
-# Labour intensive industries---High payroll and wages to revenue ratio
+# Labour intensive industries---high payroll and wages to revenue ratio
 # Capacity intensive industries---Low payroll and wages to revenue ratio
 #======================================================================================================================#
-### Total waste management onsite---high payroll to revenue ratio
+### Total waste management onsite---high payroll and wages to revenue ratio
 #======================================================================================================================#
 sdid_waste_mgt_onsite_li <- sdid_releases_heter_1(
   data = triQc,
@@ -449,7 +405,7 @@ sdid_waste_mgt_onsite_li <- sdid_releases_heter_1(
 )
 etable(sdid_waste_mgt_onsite_li, agg = "ATT", digits = 3, digits.stats = 3)
 #======================================================================================================================#
-### Treatment method: Biological treatment onsite---high payroll to revenue ratio
+### Treatment method: Biological treatment onsite---high payroll and wages to revenue ratio
 #======================================================================================================================#
 sdid_bio_treatment_li <- sdid_releases_heter_1(
   data = triQc,
@@ -460,7 +416,7 @@ sdid_bio_treatment_li <- sdid_releases_heter_1(
 )
 etable(sdid_bio_treatment_li, agg = "ATT", digits = 3, digits.stats = 3)
 #======================================================================================================================#
-### Treatment method: Incineration thermal treatment onsite---high payroll to revenue ratio
+### Treatment method: Incineration thermal treatment onsite---high payroll and wages to revenue ratio
 #======================================================================================================================#
 sdid_incineration_treatment_li <- sdid_releases_heter_1(
   data = triQc,
@@ -471,7 +427,7 @@ sdid_incineration_treatment_li <- sdid_releases_heter_1(
 )
 etable(sdid_incineration_treatment_li, agg = "ATT", digits = 3, digits.stats = 3)
 #======================================================================================================================#
-### Energy recovery method: Industrial boiler onsite---high payroll to revenue ratio
+### Energy recovery method: Industrial boiler onsite---high payroll and wages to revenue ratio
 #======================================================================================================================#
 sdid_ind_boiler_li <- sdid_releases_heter_1(
   data = triQc,
@@ -482,7 +438,7 @@ sdid_ind_boiler_li <- sdid_releases_heter_1(
 )
 etable(sdid_ind_boiler_li, agg = "ATT", digits = 3, digits.stats = 3)
 #======================================================================================================================#
-### Recycling onsite---high payroll to revenue ratio
+### Recycling onsite---high payroll and wages to revenue ratio
 #======================================================================================================================#
 sdid_recycle_onsite_li <- sdid_releases_heter_1(
   data = triQc,
@@ -493,7 +449,7 @@ sdid_recycle_onsite_li <- sdid_releases_heter_1(
 )
 etable(sdid_recycle_onsite_li, agg = "ATT", digits = 3, digits.stats = 3)
 #======================================================================================================================#
-### Onsite: Source Reduction Activities---high payroll to revenue ratio (labour intensive)
+### Onsite: Source Reduction Activities---high payroll and wages to revenue ratio (labour intensive)
 #======================================================================================================================#
 sdid_source_reduction_li <- sdid_releases_heter_1(
   data = triQc,
@@ -504,7 +460,7 @@ sdid_source_reduction_li <- sdid_releases_heter_1(
 )
 etable(sdid_source_reduction_li, agg = "ATT", digits = 3, digits.stats = 3)
 #======================================================================================================================#
-### Material: Increase Purity of Chemicals---high payroll to revenue ratio
+### Material: Increase Purity of Chemicals---high payroll and wages to revenue ratio
 #======================================================================================================================#
 sdid_mat_purity_li <- sdid_releases_heter_1(
   data = triQc,
@@ -515,7 +471,7 @@ sdid_mat_purity_li <- sdid_releases_heter_1(
 )
 etable(sdid_mat_purity_li, agg = "ATT", digits = 3, digits.stats = 3)
 #======================================================================================================================#
-### Material: Clean Fuel---high payroll to revenue ratio
+### Material: Clean Fuel---high payroll and wages to revenue ratio
 #======================================================================================================================#
 sdid_clean_fuel_li <- sdid_releases_heter_1(
   data = triQc,
@@ -526,7 +482,7 @@ sdid_clean_fuel_li <- sdid_releases_heter_1(
 )
 etable(sdid_clean_fuel_li, agg = "ATT", digits = 3, digits.stats = 3)
 #======================================================================================================================#
-### Material modification: Energy Cost Intensity---high payroll to revenue ratio
+### Material modification: Energy Cost Intensity---high payroll and wages to revenue ratio
 #======================================================================================================================#
 sdid_energy_cost_intensity_li <- sdid_releases_heter_1(
   data = triQc,
@@ -537,7 +493,7 @@ sdid_energy_cost_intensity_li <- sdid_releases_heter_1(
 )
 etable(sdid_energy_cost_intensity_li, agg = "ATT", digits = 3, digits.stats = 3)
 #======================================================================================================================#
-### Process modification: New Technology and Technique in manufacturing process---high wages to revenue ratio
+### Process modification: New Technology and Technique in manufacturing process---low wages to revenue ratio
 #======================================================================================================================#
 sdid_new_tech_li <- sdid_releases_heter_1(
   data = triQc,
@@ -548,7 +504,7 @@ sdid_new_tech_li <- sdid_releases_heter_1(
 )
 etable(sdid_new_tech_li, agg = "ATT", digits = 3, digits.stats = 3)
 #======================================================================================================================#
-### Process modification: Recycling to reuse---high payroll to revenue ratio
+### Process modification: Recycling to reuse---high payroll and wages to revenue ratio
 #======================================================================================================================#
 sdid_recylce_dummy_li <- sdid_releases_heter_1(
   data = triQc,
@@ -559,7 +515,7 @@ sdid_recylce_dummy_li <- sdid_releases_heter_1(
 )
 etable(sdid_recylce_dummy_li, agg = "ATT", digits = 3, digits.stats = 3)
 #======================================================================================================================#
-### Inventory management: Containers size change---high payroll to revenue ratio
+### Inventory management: Containers size change---high payroll and wages to revenue ratio
 #======================================================================================================================#
 sdid_containers_sizechange_li <- sdid_releases_heter_1(
   data = triQc,
@@ -570,7 +526,7 @@ sdid_containers_sizechange_li <- sdid_releases_heter_1(
 )
 etable(sdid_containers_sizechange_li, agg = "ATT", digits = 3, digits.stats = 3)
 #======================================================================================================================#
-### Inventory management: Improved material handling operations---high payroll to revenue ratio
+### Inventory management: Improved material handling operations---high payroll and wages to revenue ratio
 #======================================================================================================================#
 sdid_mat_handling_li <- sdid_releases_heter_1(
   data = triQc,
@@ -581,7 +537,7 @@ sdid_mat_handling_li <- sdid_releases_heter_1(
 )
 etable(sdid_mat_handling_li, agg = "ATT", digits = 3, digits.stats = 3)
 #======================================================================================================================#
-### Operations: Operating Practices & Training---high payroll to revenue ratio
+### Operations: Operating Practices & Training---high payroll and wages to revenue ratio
 #======================================================================================================================#
 sdid_operating_practices_training_li <- sdid_releases_heter_1(
   data = triQc,
@@ -592,7 +548,7 @@ sdid_operating_practices_training_li <- sdid_releases_heter_1(
 )
 etable(sdid_operating_practices_training_li, agg = "ATT", digits = 3, digits.stats = 3)
 #======================================================================================================================#
-### Operations: Inline Product Quality and Process Analysis---high payroll to revenue ratio
+### Operations: Inline Product Quality and Process Analysis---high payroll and wages to revenue ratio
 #======================================================================================================================#
 sdid_inline_prod_quality_analysis_li <- sdid_releases_heter_1(
   data = triQc,

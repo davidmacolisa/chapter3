@@ -24,9 +24,9 @@ did_county_fes <- function() {
 }
 
 #======================================================================================================================#
-### DID Preliminary Functions
+### DID baseline Functions
 #======================================================================================================================#
-did_preliminary <- function(data, depvar, ATT, cluster = NULL, did_county_fes) {
+did_baseline <- function(data, depvar, ATT, cluster = NULL, fes) {
   vars <- c("gdppc.1", "annual.avg.estabs.1", "cpi.1", "entire.facility", "private.facility", "federal.facility")
 
   formula <- as.formula(
@@ -35,7 +35,7 @@ did_preliminary <- function(data, depvar, ATT, cluster = NULL, did_county_fes) {
 	  "sw0(",
 	  paste(vars, collapse = "+", sep = " "),
 	  ")", "|",
-	  as.character(did_county_fes())
+	  as.character(fes)
 	)
   )
 
@@ -49,7 +49,7 @@ did_preliminary <- function(data, depvar, ATT, cluster = NULL, did_county_fes) {
   return(model)
 }
 
-dynamic_did_preliminary <- function(data, depvar, relative_year, cluster = NULL, county_fes) {
+dynamic_did_baseline <- function(data, depvar, relative_year, cluster = NULL, fes) {
   # Define the regressors
   vars <- c("gdppc.1", "annual.avg.estabs.1", "cpi.1", "entire.facility", "private.facility", "federal.facility")
 
@@ -58,7 +58,7 @@ dynamic_did_preliminary <- function(data, depvar, relative_year, cluster = NULL,
 	paste0(
 	  depvar, " ~ ", "i(", relative_year, ", ref = c(-1, Inf)", ") +",
 	  paste(vars, collapse = "+", sep = " "), "|",
-	  as.character(county_fes())
+	  as.character(fes)
 	)
   )
 
@@ -73,9 +73,9 @@ dynamic_did_preliminary <- function(data, depvar, relative_year, cluster = NULL,
 }
 
 #======================================================================================================================#
-### SDID Preliminary Functions
+### SDID baseline Functions
 #======================================================================================================================#
-sdid_preliminary <- function(data, depvar, ATT, cluster = NULL, did_county_fes) {
+sdid_baseline <- function(data, depvar, ATT, cluster = NULL, fes) {
   # Define the regressors
   vars <- c("gdppc.1", "annual.avg.estabs.1", "cpi.1", "entire.facility", "private.facility", "federal.facility")
 
@@ -86,7 +86,7 @@ sdid_preliminary <- function(data, depvar, ATT, cluster = NULL, did_county_fes) 
 	  "sw0(",
 	  paste(vars, collapse = "+", sep = " "),
 	  ")", "|",
-	  as.character(did_county_fes())
+	  as.character(fes)
 	)
   )
 
@@ -100,7 +100,7 @@ sdid_preliminary <- function(data, depvar, ATT, cluster = NULL, did_county_fes) 
   return(model)
 }
 
-dynamic_sdid_preliminary <- function(data, depvar, ATT, cluster = NULL, county_fes) {
+dynamic_sdid_baseline <- function(data, depvar, ATT, cluster = NULL, fes) {
   # Define the regressors
   vars <- c("gdppc.1", "annual.avg.estabs.1", "cpi.1", "entire.facility", "private.facility", "federal.facility")
 
@@ -109,7 +109,7 @@ dynamic_sdid_preliminary <- function(data, depvar, ATT, cluster = NULL, county_f
 	paste0(
 	  depvar, " ~ ", ATT, " + ",
 	  paste(vars, collapse = "+", sep = " "), "|",
-	  as.character(county_fes())
+	  as.character(fes)
 	)
   )
 
@@ -124,9 +124,9 @@ dynamic_sdid_preliminary <- function(data, depvar, ATT, cluster = NULL, county_f
 }
 
 #======================================================================================================================#
-# SDID preliminary heterogeneous functions
+# SDID baseline heterogeneous functions
 #======================================================================================================================#
-sdid_preliminary_heter_1 <- function(data, depvar, interact_var, cluster = NULL, county_fes) {
+sdid_baseline_heter_1 <- function(data, depvar, interact_var, cluster = NULL, fes) {
   # Define the regressors
   vars <- c("gdppc.1", "annual.avg.estabs.1", "cpi.1", "entire.facility", "private.facility", "federal.facility")
 
@@ -141,7 +141,7 @@ sdid_preliminary_heter_1 <- function(data, depvar, interact_var, cluster = NULL,
 	  interact_var, "+",
 	  "post +",
 	  paste(vars, collapse = "+", sep = " "), "|",
-	  as.character(county_fes())
+	  as.character(fes)
 	)
   )
 
@@ -155,7 +155,7 @@ sdid_preliminary_heter_1 <- function(data, depvar, interact_var, cluster = NULL,
   return(model)
 }
 
-sdid_preliminary_heter_0 <- function(data, depvar, interact_var, cluster = NULL, county_fes) {
+sdid_baseline_heter_0 <- function(data, depvar, interact_var, cluster = NULL, fes) {
   # Define the regressors
   vars <- c("gdppc.1", "annual.avg.estabs.1", "cpi.1", "entire.facility", "private.facility", "federal.facility")
 
@@ -170,7 +170,36 @@ sdid_preliminary_heter_0 <- function(data, depvar, interact_var, cluster = NULL,
 	  interact_var, "+",
 	  "post +",
 	  paste(vars, collapse = "+", sep = " "), "|",
-	  as.character(county_fes())
+	  as.character(fes)
+	)
+  )
+
+  # Fit the model using feols
+  model <- feols(
+	formula,
+	cluster = cluster,
+	data = data
+  )
+
+  return(model)
+}
+
+sdid_baseline_heter_mobility <- function(data, depvar, interact_var, cluster = NULL, fes) {
+  # Define the regressors
+  vars <- c("gdppc.1", "annual.avg.estabs.1", "cpi.1", "entire.facility", "private.facility", "federal.facility")
+
+  # Construct the formula dynamically
+  formula <- as.formula(
+	paste0(
+	  depvar, " ~ ", "sunab(ch.year, year):", interact_var, " + ",
+	  "e.treated +",
+	  "treated:", interact_var, " + ",
+	  "post:", interact_var, " + ",
+	  "treated +",
+	  interact_var, "+",
+	  "post +",
+	  paste(vars, collapse = "+", sep = " "),
+	  "|", as.character(fes)
 	)
   )
 
@@ -216,7 +245,7 @@ did_tri_fes <- function() {
 #======================================================================================================================#
 ### DID Releases Functions
 #======================================================================================================================#
-did_releases <- function(data, depvar, ATT, cluster = NULL, did_tri_fes) {
+did_releases <- function(data, depvar, ATT, cluster = NULL, fes) {
   # Define the regressors
   vars <- c("gdppc.1", "annual.avg.estabs.1", "cpi.1", "federal.facility", "produced.chem.facility",
 			"imported.chem.facility", "chemical.formulation.component", "chemical.article.component",
@@ -230,7 +259,7 @@ did_releases <- function(data, depvar, ATT, cluster = NULL, did_tri_fes) {
 	  "sw0(",
 	  paste(vars, collapse = "+", sep = " "),
 	  ")", "|",
-	  as.character(did_tri_fes())
+	  as.character(fes)
 	)
   )
 
@@ -244,7 +273,7 @@ did_releases <- function(data, depvar, ATT, cluster = NULL, did_tri_fes) {
   return(model)
 }
 
-dynamic_did_releases <- function(data, depvar, relative_year, cluster = NULL, tri_fes) {
+dynamic_did_releases <- function(data, depvar, relative_year, cluster = NULL, fes) {
   # Define the regressors
   vars <- c("gdppc.1", "annual.avg.estabs.1", "cpi.1", "federal.facility", "produced.chem.facility",
 			"imported.chem.facility", "chemical.formulation.component", "chemical.article.component",
@@ -256,7 +285,7 @@ dynamic_did_releases <- function(data, depvar, relative_year, cluster = NULL, tr
 	paste0(
 	  depvar, " ~ ", "i(", relative_year, ", ref = c(-1, Inf)", ") +",
 	  paste(vars, collapse = "+", sep = " "), "|",
-	  as.character(tri_fes())
+	  as.character(fes)
 	)
   )
 
@@ -273,7 +302,7 @@ dynamic_did_releases <- function(data, depvar, relative_year, cluster = NULL, tr
 #======================================================================================================================#
 ### SDID Releases Functions
 #======================================================================================================================#
-sdid_releases <- function(data, depvar, ATT, cluster = NULL, did_tri_fes) {
+sdid_releases <- function(data, depvar, ATT, cluster = NULL, fes) {
   # Define the regressors
   vars <- c("gdppc.1", "annual.avg.estabs.1", "cpi.1", "federal.facility", "produced.chem.facility",
 			"imported.chem.facility", "chemical.formulation.component", "chemical.article.component",
@@ -287,7 +316,7 @@ sdid_releases <- function(data, depvar, ATT, cluster = NULL, did_tri_fes) {
 	  "sw0(",
 	  paste(vars, collapse = "+", sep = " "),
 	  ")", "|",
-	  as.character(did_tri_fes())
+	  as.character(fes)
 	)
   )
 
@@ -301,7 +330,7 @@ sdid_releases <- function(data, depvar, ATT, cluster = NULL, did_tri_fes) {
   return(model)
 }
 
-dynamic_sdid_releases <- function(data, depvar, ATT, cluster = NULL, tri_fes) {
+dynamic_sdid_releases <- function(data, depvar, ATT, cluster = NULL, fes) {
   # Define the regressors
   vars <- c("gdppc.1", "annual.avg.estabs.1", "cpi.1", "federal.facility", "produced.chem.facility",
 			"imported.chem.facility", "chemical.formulation.component", "chemical.article.component",
@@ -313,7 +342,7 @@ dynamic_sdid_releases <- function(data, depvar, ATT, cluster = NULL, tri_fes) {
 	paste0(
 	  depvar, " ~ ", ATT, " + ",
 	  paste(vars, collapse = "+", sep = " "), "|",
-	  as.character(tri_fes())
+	  as.character(fes)
 	)
   )
 
@@ -330,7 +359,7 @@ dynamic_sdid_releases <- function(data, depvar, ATT, cluster = NULL, tri_fes) {
 #======================================================================================================================#
 ### SDID Heterogeneous Functions
 #======================================================================================================================#
-sdid_releases_heter_1 <- function(data, depvar, interact_var, tri_fes, cluster = NULL) {
+sdid_releases_heter_1 <- function(data, depvar, interact_var, cluster = NULL, fes) {
   # Define the regressors
   vars <- c("gdppc.1", "annual.avg.estabs.1", "cpi.1", "federal.facility", "produced.chem.facility",
 			"imported.chem.facility", "chemical.formulation.component", "chemical.article.component",
@@ -349,7 +378,7 @@ sdid_releases_heter_1 <- function(data, depvar, interact_var, tri_fes, cluster =
 	  "post + ",
 	  paste(vars, collapse = "+", sep = " "),
 	  "|",
-	  as.character(tri_fes())
+	  as.character(fes)
 	)
   )
 
@@ -363,7 +392,7 @@ sdid_releases_heter_1 <- function(data, depvar, interact_var, tri_fes, cluster =
   return(model)
 }
 
-sdid_releases_heter_0 <- function(data, depvar, interact_var, tri_fes, cluster = NULL) {
+sdid_releases_heter_0 <- function(data, depvar, interact_var, cluster = NULL, fes) {
   # Define the regressors
   vars <- c("gdppc.1", "annual.avg.estabs.1", "cpi.1", "federal.facility", "produced.chem.facility",
 			"imported.chem.facility", "chemical.formulation.component", "chemical.article.component",
@@ -382,7 +411,7 @@ sdid_releases_heter_0 <- function(data, depvar, interact_var, tri_fes, cluster =
 	  "post + ",
 	  paste(vars, collapse = "+", sep = " "),
 	  "|",
-	  as.character(tri_fes())
+	  as.character(fes)
 	)
   )
 
@@ -397,7 +426,7 @@ sdid_releases_heter_0 <- function(data, depvar, interact_var, tri_fes, cluster =
 #======================================================================================================================#
 ### SDID Heterogeneous Functions---EPA: CAA, HAPs and PBT chemicals
 #======================================================================================================================#
-sdid_releases_heter_epa_1 <- function(data, depvar, interact_var, tri_fes, cluster = NULL) {
+sdid_releases_heter_epa_1 <- function(data, depvar, interact_var, cluster = NULL, fes) {
   # Define the regressors
   vars <- c("gdppc.1", "annual.avg.estabs.1", "cpi.1", "federal.facility", "produced.chem.facility",
 			"imported.chem.facility", "chemical.formulation.component", "chemical.article.component",
@@ -416,7 +445,7 @@ sdid_releases_heter_epa_1 <- function(data, depvar, interact_var, tri_fes, clust
 	  "post + ",
 	  paste(vars, collapse = "+", sep = " "),
 	  "|",
-	  as.character(tri_fes())
+	  as.character(fes)
 	)
   )
 
@@ -430,7 +459,7 @@ sdid_releases_heter_epa_1 <- function(data, depvar, interact_var, tri_fes, clust
   return(model)
 }
 
-sdid_releases_heter_epa_0 <- function(data, depvar, interact_var, tri_fes, cluster = NULL) {
+sdid_releases_heter_epa_0 <- function(data, depvar, interact_var, cluster = NULL, fes) {
   # Define the regressors
   vars <- c("gdppc.1", "annual.avg.estabs.1", "cpi.1", "federal.facility", "produced.chem.facility",
 			"imported.chem.facility", "chemical.formulation.component", "chemical.article.component",
@@ -449,7 +478,7 @@ sdid_releases_heter_epa_0 <- function(data, depvar, interact_var, tri_fes, clust
 	  "post + ",
 	  paste(vars, collapse = "+", sep = " "),
 	  "|",
-	  as.character(tri_fes())
+	  as.character(fes)
 	)
   )
 
@@ -460,5 +489,4 @@ sdid_releases_heter_epa_0 <- function(data, depvar, interact_var, tri_fes, clust
 	cluster = cluster
   )
 }
-
 #======================================================================================================================#

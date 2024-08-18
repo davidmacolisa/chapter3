@@ -33,7 +33,7 @@ did_total_releases <- did_releases(
   depvar = "l.total.releases.onsite.intensity",
   ATT = "e.treated",
   cluster = ~c(chemical.id, naics.code, facility.state),
-  did_tri_fes = did_tri_fes()
+  fes = did_tri_fes()
 )
 etable(did_total_releases, digits = 3, digits.stats = 3)
 #----------------------------------------------------------------------------------------------------------------------#
@@ -58,7 +58,7 @@ did_total_releases <- dynamic_did_releases(
   depvar = "l.total.releases.onsite.intensity",
   relative_year = "rel.year",
   cluster = ~c(chemical.id, naics.code, facility.state),
-  tri_fes = tri_fes
+  fes = tri_fes()
 )
 etable(did_total_releases, digits = 3, digits.stats = 3)
 iplot(did_total_releases, xlim = c(-3, 3), ylim = c(-0.5, 0.5), col = "blue",
@@ -77,7 +77,7 @@ sdid_total_releases <- sdid_releases(
   depvar = "l.total.releases.onsite.intensity",
   ATT = "sunab(ch.year, year)",
   cluster = ~c(chemical.id, naics.code, facility.state),
-  did_tri_fes = did_tri_fes()
+  fes = did_tri_fes()
 )
 etable(sdid_total_releases, agg = "ATT", digits = 3, digits.stats = 3)
 etable(sdid_total_releases, agg = "cohort", digits = 3, digits.stats = 3)
@@ -88,7 +88,7 @@ sdid_total_releases <- dynamic_sdid_releases(
   depvar = "l.total.releases.onsite.intensity",
   ATT = "sunab(ch.year, year)",
   cluster = ~c(chemical.id, naics.code, facility.state),
-  tri_fes = tri_fes
+  fes = tri_fes()
 )
 etable(sdid_total_releases, digits.stats = 3, digits = 3)
 iplot(list(sdid_total_releases, did_total_releases),
@@ -123,7 +123,7 @@ did_air <- did_releases(
   depvar = "l.total.air.emissions.onsite.intensity",
   ATT = "e.treated",
   cluster = ~c(chemical.id, naics.code, facility.state),
-  did_tri_fes = did_tri_fes()
+  fes = did_tri_fes()
 )
 etable(did_air, digits = 3, digits.stats = 3)
 #----------------------------------------------------------------------------------------------------------------------#
@@ -148,7 +148,7 @@ did_air <- dynamic_did_releases(
   depvar = "l.total.air.emissions.onsite.intensity",
   relative_year = "rel.year",
   cluster = ~c(chemical.id, naics.code, facility.state),
-  tri_fes = tri_fes
+  fes = tri_fes()
 )
 etable(did_air, digits = 3, digits.stats = 3)
 iplot(did_air, xlim = c(-3, 3), ylim = c(-0.4, 0.4), col = "blue",
@@ -167,7 +167,7 @@ sdid_air <- sdid_releases(
   depvar = "l.total.air.emissions.onsite.intensity",
   ATT = "sunab(ch.year, year)",
   cluster = ~c(chemical.id, naics.code, facility.state),
-  did_tri_fes = did_tri_fes()
+  fes = did_tri_fes()
 )
 etable(sdid_air, agg = "ATT", digits = 3, digits.stats = 3)
 etable(sdid_air, agg = "cohort", digits = 3, digits.stats = 3)
@@ -178,7 +178,7 @@ sdid_air <- dynamic_sdid_releases(
   depvar = "l.total.air.emissions.onsite.intensity",
   ATT = "sunab(ch.year, year)",
   cluster = ~c(chemical.id, naics.code, facility.state),
-  tri_fes = tri_fes
+  fes = tri_fes()
 )
 etable(sdid_air, digits.stats = 3, digits = 3)
 iplot(
@@ -199,7 +199,7 @@ did_point_air <- did_releases(
   depvar = "l.total.point.air.emissions.onsite.intensity",
   ATT = "e.treated",
   cluster = ~c(chemical.id, naics.code, facility.state),
-  did_tri_fes = did_tri_fes()
+  fes = did_tri_fes()
 )
 etable(did_point_air, digits = 3, digits.stats = 3)
 #----------------------------------------------------------------------------------------------------------------------#
@@ -224,7 +224,7 @@ did_point_air <- dynamic_did_releases(
   depvar = "l.total.point.air.emissions.onsite.intensity",
   relative_year = "rel.year",
   cluster = ~c(chemical.id, naics.code, facility.state),
-  tri_fes = tri_fes
+  fes = tri_fes()
 )
 etable(did_point_air, digits = 3, digits.stats = 3)
 iplot(did_point_air, xlim = c(-3, 3), ylim = c(-0.3, 0.3), col = "blue",
@@ -243,7 +243,7 @@ sdid_point_air <- sdid_releases(
   depvar = "l.total.point.air.emissions.onsite.intensity",
   ATT = "sunab(ch.year, year)",
   cluster = ~c(chemical.id, naics.code, facility.state),
-  did_tri_fes = did_tri_fes()
+  fes = did_tri_fes()
 )
 etable(sdid_point_air, agg = "ATT", digits = 3, digits.stats = 3)
 etable(sdid_point_air, agg = "cohort", digits = 3, digits.stats = 3)
@@ -254,7 +254,7 @@ sdid_point_air <- dynamic_sdid_releases(
   depvar = "l.total.point.air.emissions.onsite.intensity",
   ATT = "sunab(ch.year, year)",
   cluster = ~c(chemical.id, naics.code, facility.state),
-  tri_fes = tri_fes
+  fes = tri_fes()
 )
 etable(sdid_point_air, digits.stats = 3, digits = 3)
 iplot(
@@ -275,7 +275,7 @@ did_fug_air <- did_releases(
   depvar = "l.total.fug.air.emissions.onsite.intensity",
   ATT = "e.treated",
   cluster = ~c(chemical.id, naics.code, facility.state),
-  did_tri_fes = did_tri_fes()
+  fes = did_tri_fes()
 )
 etable(did_fug_air, digits = 3, digits.stats = 3)
 #----------------------------------------------------------------------------------------------------------------------#
@@ -300,7 +300,7 @@ did_fug_air <- dynamic_did_releases(
   depvar = "l.total.fug.air.emissions.onsite.intensity",
   relative_year = "rel.year",
   cluster = ~c(chemical.id, naics.code, facility.state),
-  tri_fes = tri_fes
+  fes = tri_fes()
 )
 etable(did_fug_air, digits = 3, digits.stats = 3)
 iplot(did_fug_air, xlim = c(-3, 3), ylim = c(-0.3, 0.3), col = "blue",
@@ -319,7 +319,7 @@ sdid_fug_air <- sdid_releases(
   depvar = "l.total.fug.air.emissions.onsite.intensity",
   ATT = "sunab(ch.year, year)",
   cluster = ~c(chemical.id, naics.code, facility.state),
-  did_tri_fes = did_tri_fes()
+  fes = did_tri_fes()
 )
 etable(sdid_fug_air, agg = "ATT", digits = 3, digits.stats = 3)
 etable(sdid_fug_air, agg = "cohort", digits = 3, digits.stats = 3)
@@ -330,7 +330,7 @@ sdid_fug_air <- dynamic_sdid_releases(
   depvar = "l.total.fug.air.emissions.onsite.intensity",
   ATT = "sunab(ch.year, year)",
   cluster = ~c(chemical.id, naics.code, facility.state),
-  tri_fes = tri_fes
+  fes = tri_fes()
 )
 etable(sdid_fug_air, digits.stats = 3, digits = 3)
 iplot(
@@ -385,7 +385,7 @@ did_water_disc <- did_releases(
   depvar = "l.total.surface.water.discharge.onsite.intensity",
   ATT = "e.treated",
   cluster = ~c(chemical.id, naics.code, facility.state),
-  did_tri_fes = did_tri_fes()
+  fes = did_tri_fes()
 )
 etable(did_water_disc, digits = 3, digits.stats = 3)
 #----------------------------------------------------------------------------------------------------------------------#
@@ -410,7 +410,7 @@ did_water_disc <- dynamic_did_releases(
   depvar = "l.total.surface.water.discharge.onsite.intensity",
   relative_year = "rel.year",
   cluster = ~c(chemical.id, naics.code, facility.state),
-  tri_fes = tri_fes
+  fes = tri_fes()
 )
 etable(did_water_disc, digits = 3, digits.stats = 3)
 iplot(did_water_disc, xlim = c(-3, 3), ylim = c(-0.25, 0.25), col = "blue",
@@ -429,7 +429,7 @@ sdid_water_disc <- sdid_releases(
   depvar = "l.total.surface.water.discharge.onsite.intensity",
   ATT = "sunab(ch.year, year)",
   cluster = ~c(chemical.id, naics.code, facility.state),
-  did_tri_fes = did_tri_fes()
+  fes = did_tri_fes()
 )
 etable(sdid_water_disc, agg = "ATT", digits = 3, digits.stats = 3)
 etable(sdid_water_disc, agg = "cohort", digits = 3, digits.stats = 3)
@@ -440,7 +440,7 @@ did_water_disc <- dynamic_sdid_releases(
   depvar = "l.total.surface.water.discharge.onsite.intensity",
   ATT = "sunab(ch.year, year)",
   cluster = ~c(chemical.id, naics.code, facility.state),
-  tri_fes = tri_fes
+  fes = tri_fes()
 )
 etable(sdid_water_disc, digits.stats = 3, digits = 3)
 iplot(
@@ -461,7 +461,7 @@ did_receiving_streams <- did_releases(
   depvar = "l.total.num.receiving.streams.onsite",
   ATT = "e.treated",
   cluster = ~c(chemical.id, naics.code, facility.state),
-  did_tri_fes = did_tri_fes()
+  fes = did_tri_fes()
 )
 etable(did_receiving_streams, digits = 3, digits.stats = 3)
 #----------------------------------------------------------------------------------------------------------------------#
@@ -486,7 +486,7 @@ did_receiving_streams <- dynamic_did_releases(
   depvar = "l.total.num.receiving.streams.onsite",
   relative_year = "rel.year",
   cluster = ~c(chemical.id, naics.code, facility.state),
-  tri_fes = tri_fes
+  fes = tri_fes()
 )
 etable(did_receiving_streams, digits = 3, digits.stats = 3)
 iplot(did_receiving_streams, xlim = c(-3, 3), ylim = c(-0.15, 0.15), col = "blue",
@@ -505,7 +505,7 @@ sdid_receiving_streams <- sdid_releases(
   depvar = "l.total.num.receiving.streams.onsite",
   ATT = "sunab(ch.year, year)",
   cluster = ~c(chemical.id, naics.code, facility.state),
-  did_tri_fes = did_tri_fes()
+  fes = did_tri_fes()
 )
 etable(sdid_receiving_streams, agg = "ATT", digits = 3, digits.stats = 3)
 etable(sdid_receiving_streams, agg = "cohort", digits = 3, digits.stats = 3)
@@ -516,7 +516,7 @@ sdid_receiving_streams <- dynamic_did_releases(
   depvar = "l.total.num.receiving.streams.onsite",
   relative_year = "rel.year",
   cluster = ~c(chemical.id, naics.code, facility.state),
-  tri_fes = tri_fes
+  fes = tri_fes()
 )
 etable(sdid_receiving_streams, digits.stats = 3, digits = 3)
 iplot(
@@ -561,7 +561,7 @@ did_land_releases <- did_releases(
   depvar = "l.total.land.releases.onsite.intensity",
   ATT = "e.treated",
   cluster = ~c(chemical.id, naics.code, facility.state),
-  did_tri_fes = did_tri_fes()
+  fes = did_tri_fes()
 )
 etable(did_land_releases, digits = 3, digits.stats = 3)
 #----------------------------------------------------------------------------------------------------------------------#
@@ -586,7 +586,7 @@ did_land_releases <- dynamic_did_releases(
   depvar = "l.total.land.releases.onsite.intensity",
   relative_year = "rel.year",
   cluster = ~c(chemical.id, naics.code, facility.state),
-  tri_fes = tri_fes
+  fes = tri_fes()
 )
 etable(did_land_releases, digits = 3, digits.stats = 3)
 iplot(did_land_releases, xlim = c(-3, 3), ylim = c(-0.1, 0.1), col = "blue",
@@ -605,7 +605,7 @@ sdid_land_releases <- sdid_releases(
   depvar = "l.total.land.releases.onsite.intensity",
   ATT = "sunab(ch.year, year)",
   cluster = ~c(chemical.id, naics.code, facility.state),
-  did_tri_fes = did_tri_fes()
+  fes = did_tri_fes()
 )
 etable(sdid_land_releases, agg = "ATT", digits = 3, digits.stats = 3)
 etable(sdid_land_releases, agg = "cohort", digits = 3, digits.stats = 3)
@@ -616,7 +616,7 @@ sdid_land_releases <- dynamic_sdid_releases(
   depvar = "l.total.land.releases.onsite.intensity",
   ATT = "sunab(ch.year, year)",
   cluster = ~c(chemical.id, naics.code, facility.state),
-  tri_fes = tri_fes
+  fes = tri_fes()
 )
 etable(sdid_land_releases, digits.stats = 3, digits = 3)
 iplot(
@@ -637,7 +637,7 @@ did_undground_inject <- did_releases(
   depvar = "l.total.underground.injection.onsite.intensity",
   ATT = "e.treated",
   cluster = ~c(chemical.id, naics.code, facility.state),
-  did_tri_fes = did_tri_fes()
+  fes = did_tri_fes()
 )
 etable(did_undground_inject, digits = 3, digits.stats = 3)
 #----------------------------------------------------------------------------------------------------------------------#
@@ -662,7 +662,7 @@ did_undground_inject <- dynamic_did_releases(
   depvar = "l.total.underground.injection.onsite.intensity",
   relative_year = "rel.year",
   cluster = ~c(chemical.id, naics.code, facility.state),
-  tri_fes = tri_fes
+  fes = tri_fes()
 )
 etable(did_undground_inject, digits = 3, digits.stats = 3)
 iplot(did_undground_inject, xlim = c(-3, 3), ylim = c(-0.009, 0.009), col = "blue",
@@ -681,7 +681,7 @@ sdid_undground_inject <- sdid_releases(
   depvar = "l.total.underground.injection.onsite.intensity",
   ATT = "sunab(ch.year, year)",
   cluster = ~c(chemical.id, naics.code, facility.state),
-  did_tri_fes = did_tri_fes()
+  fes = did_tri_fes()
 )
 etable(sdid_undground_inject, agg = "ATT", digits = 3, digits.stats = 3)
 etable(sdid_undground_inject, agg = "cohort", digits = 3, digits.stats = 3)
@@ -692,7 +692,7 @@ sdid_undground_inject <- dynamic_sdid_releases(
   depvar = "l.total.underground.injection.onsite.intensity",
   ATT = "sunab(ch.year, year)",
   cluster = ~c(chemical.id, naics.code, facility.state),
-  tri_fes = tri_fes
+  fes = tri_fes()
 )
 etable(sdid_undground_inject, digits.stats = 3, digits = 3)
 iplot(
@@ -713,7 +713,7 @@ did_landfills <- did_releases(
   depvar = "l.total.landfills.onsite.intensity",
   ATT = "e.treated",
   cluster = ~c(chemical.id, naics.code, facility.state),
-  did_tri_fes = did_tri_fes()
+  fes = did_tri_fes()
 )
 etable(did_landfills, digits = 3, digits.stats = 3)
 #----------------------------------------------------------------------------------------------------------------------#
@@ -738,7 +738,7 @@ did_landfills <- dynamic_did_releases(
   depvar = "l.total.landfills.onsite.intensity",
   relative_year = "rel.year",
   cluster = ~c(chemical.id, naics.code, facility.state),
-  tri_fes = tri_fes
+  fes = tri_fes()
 )
 etable(did_landfills, digits = 3, digits.stats = 3)
 iplot(did_landfills, xlim = c(-3, 3), ylim = c(-0.03, 0.03), col = "blue",
@@ -757,7 +757,7 @@ sdid_landfills <- sdid_releases(
   depvar = "l.total.landfills.onsite.intensity",
   ATT = "sunab(ch.year, year)",
   cluster = ~c(chemical.id, naics.code, facility.state),
-  did_tri_fes = did_tri_fes()
+  fes = did_tri_fes()
 )
 etable(sdid_landfills, agg = "ATT", digits = 3, digits.stats = 3)
 etable(sdid_landfills, agg = "cohort", digits = 3, digits.stats = 3)
@@ -768,7 +768,7 @@ sdid_landfills <- dynamic_sdid_releases(
   depvar = "l.total.landfills.onsite.intensity",
   ATT = "sunab(ch.year, year)",
   cluster = ~c(chemical.id, naics.code, facility.state),
-  tri_fes = tri_fes
+  fes = tri_fes()
 )
 etable(sdid_landfills, digits.stats = 3, digits = 3)
 iplot(
@@ -789,7 +789,7 @@ did_release_toland <- did_releases(
   depvar = "l.total.releases.toland.treatment.onsite.intensity",
   ATT = "e.treated",
   cluster = ~c(chemical.id, naics.code, facility.state),
-  did_tri_fes = did_tri_fes()
+  fes = did_tri_fes()
 )
 etable(did_release_toland, digits = 3, digits.stats = 3)
 #----------------------------------------------------------------------------------------------------------------------#
@@ -814,7 +814,7 @@ did_release_toland <- dynamic_did_releases(
   depvar = "l.total.releases.toland.treatment.onsite.intensity",
   relative_year = "rel.year",
   cluster = ~c(chemical.id, naics.code, facility.state),
-  tri_fes = tri_fes
+  fes = tri_fes()
 )
 etable(did_release_toland, digits = 3, digits.stats = 3)
 iplot(did_release_toland, xlim = c(-3, 3), ylim = c(-0.05, 0.05), col = "blue",
@@ -833,7 +833,7 @@ sdid_release_toland <- sdid_releases(
   depvar = "l.total.releases.toland.treatment.onsite.intensity",
   ATT = "sunab(ch.year, year)",
   cluster = ~c(chemical.id, naics.code, facility.state),
-  did_tri_fes = did_tri_fes()
+  fes = did_tri_fes()
 )
 etable(sdid_release_toland, agg = "ATT", digits = 3, digits.stats = 3)
 etable(sdid_release_toland, agg = "cohort", digits = 3, digits.stats = 3)
@@ -844,7 +844,7 @@ sdid_release_toland <- dynamic_sdid_releases(
   depvar = "l.total.releases.toland.treatment.onsite.intensity",
   ATT = "sunab(ch.year, year)",
   cluster = ~c(chemical.id, naics.code, facility.state),
-  tri_fes = tri_fes
+  fes = tri_fes()
 )
 etable(sdid_release_toland, digits.stats = 3, digits = 3)
 iplot(
@@ -865,7 +865,7 @@ did_surface_impoundment <- did_releases(
   depvar = "l.total.surface.impoundment.onsite.intensity",
   ATT = "e.treated",
   cluster = ~c(chemical.id, naics.code, facility.state),
-  did_tri_fes = did_tri_fes()
+  fes = did_tri_fes()
 )
 etable(did_surface_impoundment, digits = 3, digits.stats = 3)
 #----------------------------------------------------------------------------------------------------------------------#
@@ -890,7 +890,7 @@ did_surface_impoundment <- dynamic_did_releases(
   depvar = "l.total.surface.impoundment.onsite.intensity",
   relative_year = "rel.year",
   cluster = ~c(chemical.id, naics.code, facility.state),
-  tri_fes = tri_fes
+  fes = tri_fes()
 )
 etable(did_surface_impoundment, digits = 3, digits.stats = 3)
 iplot(did_surface_impoundment, xlim = c(-3, 3), ylim = c(-0.02, 0.08), col = "blue",
@@ -909,7 +909,7 @@ sdid_surface_impoundment <- sdid_releases(
   depvar = "l.total.surface.impoundment.onsite.intensity",
   ATT = "sunab(ch.year, year)",
   cluster = ~c(chemical.id, naics.code, facility.state),
-  did_tri_fes = did_tri_fes()
+  fes = did_tri_fes()
 )
 etable(sdid_surface_impoundment, agg = "ATT", digits = 3, digits.stats = 3)
 etable(sdid_surface_impoundment, agg = "cohort", digits = 3, digits.stats = 3)
@@ -920,7 +920,7 @@ sdid_surface_impoundment <- dynamic_sdid_releases(
   depvar = "l.total.surface.impoundment.onsite.intensity",
   ATT = "sunab(ch.year, year)",
   cluster = ~c(chemical.id, naics.code, facility.state),
-  tri_fes = tri_fes
+  fes = tri_fes()
 )
 etable(sdid_surface_impoundment, digits.stats = 3, digits = 3)
 iplot(
@@ -941,7 +941,7 @@ did_land_releases_others <- did_releases(
   depvar = "l.total.land.releases.other.onsite.intensity",
   ATT = "e.treated",
   cluster = ~c(chemical.id, naics.code, facility.state),
-  did_tri_fes = did_tri_fes()
+  fes = did_tri_fes()
 )
 etable(did_land_releases_others, digits = 3, digits.stats = 3)
 #----------------------------------------------------------------------------------------------------------------------#
@@ -966,7 +966,7 @@ did_land_releases_others <- dynamic_did_releases(
   depvar = "l.total.land.releases.other.onsite.intensity",
   relative_year = "rel.year",
   cluster = ~c(chemical.id, naics.code, facility.state),
-  tri_fes = tri_fes
+  fes = tri_fes()
 )
 etable(did_land_releases_others, digits = 3, digits.stats = 3)
 iplot(did_land_releases_others, xlim = c(-3, 3), ylim = c(-0.1, 0.1), col = "blue",
@@ -985,7 +985,7 @@ sdid_land_releases_others <- sdid_releases(
   depvar = "l.total.land.releases.other.onsite.intensity",
   ATT = "sunab(ch.year, year)",
   cluster = ~c(chemical.id, naics.code, facility.state),
-  did_tri_fes = did_tri_fes()
+  fes = did_tri_fes()
 )
 etable(sdid_land_releases_others, agg = "ATT", digits = 3, digits.stats = 3)
 etable(sdid_land_releases_others, agg = "cohort", digits = 3, digits.stats = 3)
@@ -996,7 +996,7 @@ sdid_land_releases_others <- dynamic_sdid_releases(
   depvar = "l.total.land.releases.other.onsite.intensity",
   ATT = "sunab(ch.year, year)",
   cluster = ~c(chemical.id, naics.code, facility.state),
-  tri_fes = tri_fes
+  fes = tri_fes()
 )
 etable(sdid_land_releases_others, digits.stats = 3, digits = 3)
 iplot(

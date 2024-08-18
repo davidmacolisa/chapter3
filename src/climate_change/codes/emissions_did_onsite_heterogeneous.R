@@ -68,7 +68,7 @@ sdid_total_releases_hpli <- sdid_releases_heter_1(
   data = triQc,
   depvar = "l.total.releases.onsite.intensity",
   interact_var = "high.profit.labour",
-  tri_fes = tri_fes(),
+  fes = tri_fes(),
   cluster = ~c(chemical.id, naics.code, facility.state)
 )
 etable(sdid_total_releases_hpli, digits = 3, digits.stats = 3)
@@ -83,7 +83,7 @@ sdid_total_releases_hpci <- sdid_releases_heter_0(
   data = triQc,
   depvar = "l.total.releases.onsite.intensity",
   interact_var = "high.profit.labour",
-  tri_fes = tri_fes(),
+  fes = tri_fes(),
   cluster = ~c(chemical.id, naics.code, facility.state)
 )
 etable(sdid_total_releases_hpci, digits = 3, digits.stats = 3)
@@ -98,7 +98,7 @@ sdid_air_hpli <- sdid_releases_heter_1(
   data = triQc,
   depvar = "l.total.air.emissions.onsite.intensity",
   interact_var = "high.profit.labour",
-  tri_fes = tri_fes(),
+  fes = tri_fes(),
   cluster = ~c(chemical.id, naics.code, facility.state)
 )
 etable(sdid_air_hpli, digits = 3, digits.stats = 3)
@@ -113,7 +113,7 @@ sdid_air_hpci <- sdid_releases_heter_0(
   data = triQc,
   depvar = "l.total.air.emissions.onsite.intensity",
   interact_var = "high.profit.labour",
-  tri_fes = tri_fes(),
+  fes = tri_fes(),
   cluster = ~c(chemical.id, naics.code, facility.state)
 )
 etable(sdid_air_hpci, digits = 3, digits.stats = 3)
@@ -128,7 +128,7 @@ sdid_point_air_hpli <- sdid_releases_heter_1(
   data = triQc,
   depvar = "l.total.point.air.emissions.onsite.intensity",
   interact_var = "high.profit.labour",
-  tri_fes = tri_fes(),
+  fes = tri_fes(),
   cluster = ~c(chemical.id, naics.code, facility.state)
 )
 etable(sdid_point_air_hpli, digits = 3, digits.stats = 3)
@@ -143,7 +143,7 @@ sdid_point_air_hpci <- sdid_releases_heter_0(
   data = triQc,
   depvar = "l.total.point.air.emissions.onsite.intensity",
   interact_var = "high.profit.labour",
-  tri_fes = tri_fes(),
+  fes = tri_fes(),
   cluster = ~c(chemical.id, naics.code, facility.state)
 )
 etable(sdid_point_air_hpci, digits = 3, digits.stats = 3)
@@ -158,7 +158,7 @@ sdid_fug_air_hpli <- sdid_releases_heter_1(
   data = triQc,
   depvar = "l.total.fug.air.emissions.onsite.intensity",
   interact_var = "high.profit.labour",
-  tri_fes = tri_fes(),
+  fes = tri_fes(),
   cluster = ~c(chemical.id, naics.code, facility.state)
 )
 etable(sdid_fug_air_hpli, digits = 3, digits.stats = 3)
@@ -173,7 +173,7 @@ sdid_fug_air_hpci <- sdid_releases_heter_0(
   data = triQc,
   depvar = "l.total.fug.air.emissions.onsite.intensity",
   interact_var = "high.profit.labour",
-  tri_fes = tri_fes(),
+  fes = tri_fes(),
   cluster = ~c(chemical.id, naics.code, facility.state)
 )
 etable(sdid_fug_air_hpci, digits = 3, digits.stats = 3)
@@ -188,7 +188,7 @@ sdid_water_disc_hpli <- sdid_releases_heter_1(
   data = triQc,
   depvar = "l.total.surface.water.discharge.onsite.intensity",
   interact_var = "high.profit.labour",
-  tri_fes = tri_fes(),
+  fes = tri_fes(),
   cluster = ~c(chemical.id, naics.code, facility.state)
 )
 etable(sdid_water_disc_hpli, digits = 3, digits.stats = 3)
@@ -203,7 +203,7 @@ sdid_water_disc_hpci <- sdid_releases_heter_0(
   data = triQc,
   depvar = "l.total.surface.water.discharge.onsite.intensity",
   interact_var = "high.profit.labour",
-  tri_fes = tri_fes(),
+  fes = tri_fes(),
   cluster = ~c(chemical.id, naics.code, facility.state)
 )
 etable(sdid_water_disc_hpci, digits = 3, digits.stats = 3)
@@ -218,7 +218,7 @@ sdid_land_releases_hpli <- sdid_releases_heter_1(
   data = triQc,
   depvar = "l.total.land.releases.onsite.intensity",
   interact_var = "high.profit.labour",
-  tri_fes = tri_fes(),
+  fes = tri_fes(),
   cluster = ~c(chemical.id, naics.code, facility.state)
 )
 etable(sdid_land_releases_hpli, digits = 3, digits.stats = 3)
@@ -233,7 +233,7 @@ sdid_land_releases_hpci <- sdid_releases_heter_0(
   data = triQc,
   depvar = "l.total.land.releases.onsite.intensity",
   interact_var = "high.profit.labour",
-  tri_fes = tri_fes(),
+  fes = tri_fes(),
   cluster = ~c(chemical.id, naics.code, facility.state)
 )
 etable(sdid_land_releases_hpci, digits = 3, digits.stats = 3)
@@ -248,7 +248,7 @@ sdid_surface_impoundment_hpli <- sdid_releases_heter_1(
   data = triQc,
   depvar = "l.total.surface.impoundment.onsite.intensity",
   interact_var = "high.profit.labour",
-  tri_fes = tri_fes(),
+  fes = tri_fes(),
   cluster = ~c(chemical.id, naics.code, facility.state)
 )
 etable(sdid_surface_impoundment_hpli, digits = 3, digits.stats = 3)
@@ -263,7 +263,7 @@ sdid_surface_impoundment_hpci <- sdid_releases_heter_0(
   data = triQc,
   depvar = "l.total.surface.impoundment.onsite.intensity",
   interact_var = "high.profit.labour",
-  tri_fes = tri_fes(),
+  fes = tri_fes(),
   cluster = ~c(chemical.id, naics.code, facility.state)
 )
 etable(sdid_surface_impoundment_hpci, digits = 3, digits.stats = 3)
@@ -342,7 +342,7 @@ sdid_total_releases_lpli <- sdid_releases_heter_1(
   data = triQc,
   depvar = "l.total.releases.onsite.intensity",
   interact_var = "low.profit.labour",
-  tri_fes = tri_fes(),
+  fes = tri_fes(),
   cluster = ~c(chemical.id, naics.code, facility.state)
 )
 etable(sdid_total_releases_lpli, digits = 3, digits.stats = 3)
@@ -357,7 +357,7 @@ sdid_total_releases_lpci <- sdid_releases_heter_0(
   data = triQc,
   depvar = "l.total.releases.onsite.intensity",
   interact_var = "low.profit.labour",
-  tri_fes = tri_fes(),
+  fes = tri_fes(),
   cluster = ~c(chemical.id, naics.code, facility.state)
 )
 etable(sdid_total_releases_lpci, digits = 3, digits.stats = 3)
@@ -372,7 +372,7 @@ sdid_air_lpli <- sdid_releases_heter_1(
   data = triQc,
   depvar = "l.total.air.emissions.onsite.intensity",
   interact_var = "low.profit.labour",
-  tri_fes = tri_fes(),
+  fes = tri_fes(),
   cluster = ~c(chemical.id, naics.code, facility.state)
 )
 etable(sdid_air_lpli, digits = 3, digits.stats = 3)
@@ -387,7 +387,7 @@ sdid_air_lpci <- sdid_releases_heter_0(
   data = triQc,
   depvar = "l.total.air.emissions.onsite.intensity",
   interact_var = "low.profit.labour",
-  tri_fes = tri_fes(),
+  fes = tri_fes(),
   cluster = ~c(chemical.id, naics.code, facility.state)
 )
 etable(sdid_air_lpci, digits = 3, digits.stats = 3)
@@ -402,7 +402,7 @@ sdid_point_air_lpli <- sdid_releases_heter_1(
   data = triQc,
   depvar = "l.total.point.air.emissions.onsite.intensity",
   interact_var = "low.profit.labour",
-  tri_fes = tri_fes(),
+  fes = tri_fes(),
   cluster = ~c(chemical.id, naics.code, facility.state)
 )
 etable(sdid_point_air_lpli, digits = 3, digits.stats = 3)
@@ -417,7 +417,7 @@ sdid_point_air_lpci <- sdid_releases_heter_0(
   data = triQc,
   depvar = "l.total.point.air.emissions.onsite.intensity",
   interact_var = "low.profit.labour",
-  tri_fes = tri_fes(),
+  fes = tri_fes(),
   cluster = ~c(chemical.id, naics.code, facility.state)
 )
 etable(sdid_point_air_lpci, digits = 3, digits.stats = 3)
@@ -432,7 +432,7 @@ sdid_fug_air_lpli <- sdid_releases_heter_1(
   data = triQc,
   depvar = "l.total.fug.air.emissions.onsite.intensity",
   interact_var = "low.profit.labour",
-  tri_fes = tri_fes(),
+  fes = tri_fes(),
   cluster = ~c(chemical.id, naics.code, facility.state)
 )
 etable(sdid_fug_air_lpli, digits = 3, digits.stats = 3)
@@ -447,7 +447,7 @@ sdid_fug_air_lpci <- sdid_releases_heter_0(
   data = triQc,
   depvar = "l.total.fug.air.emissions.onsite.intensity",
   interact_var = "low.profit.labour",
-  tri_fes = tri_fes(),
+  fes = tri_fes(),
   cluster = ~c(chemical.id, naics.code, facility.state)
 )
 etable(sdid_fug_air_lpci, digits = 3, digits.stats = 3)
@@ -462,7 +462,7 @@ sdid_water_disc_lpli <- sdid_releases_heter_1(
   data = triQc,
   depvar = "l.total.surface.water.discharge.onsite.intensity",
   interact_var = "low.profit.labour",
-  tri_fes = tri_fes(),
+  fes = tri_fes(),
   cluster = ~c(chemical.id, naics.code, facility.state)
 )
 etable(sdid_water_disc_lpli, digits = 3, digits.stats = 3)
@@ -477,7 +477,7 @@ sdid_water_disc_lpci <- sdid_releases_heter_0(
   data = triQc,
   depvar = "l.total.surface.water.discharge.onsite.intensity",
   interact_var = "low.profit.labour",
-  tri_fes = tri_fes(),
+  fes = tri_fes(),
   cluster = ~c(chemical.id, naics.code, facility.state)
 )
 etable(sdid_water_disc_lpci, digits = 3, digits.stats = 3)
@@ -492,7 +492,7 @@ sdid_land_releases_lpli <- sdid_releases_heter_1(
   data = triQc,
   depvar = "l.total.land.releases.onsite.intensity",
   interact_var = "low.profit.labour",
-  tri_fes = tri_fes(),
+  fes = tri_fes(),
   cluster = ~c(chemical.id, naics.code, facility.state)
 )
 etable(sdid_land_releases_lpli, digits = 3, digits.stats = 3)
@@ -507,7 +507,7 @@ sdid_land_releases_lpci <- sdid_releases_heter_0(
   data = triQc,
   depvar = "l.total.land.releases.onsite.intensity",
   interact_var = "low.profit.labour",
-  tri_fes = tri_fes(),
+  fes = tri_fes(),
   cluster = ~c(chemical.id, naics.code, facility.state)
 )
 etable(sdid_land_releases_lpci, digits = 3, digits.stats = 3)
@@ -522,7 +522,7 @@ sdid_surface_impoundment_lpli <- sdid_releases_heter_1(
   data = triQc,
   depvar = "l.total.surface.impoundment.onsite.intensity",
   interact_var = "low.profit.labour",
-  tri_fes = tri_fes(),
+  fes = tri_fes(),
   cluster = ~c(chemical.id, naics.code, facility.state)
 )
 etable(sdid_surface_impoundment_lpli, digits = 3, digits.stats = 3)
@@ -537,7 +537,7 @@ sdid_surface_impoundment_lpci <- sdid_releases_heter_0(
   data = triQc,
   depvar = "l.total.surface.impoundment.onsite.intensity",
   interact_var = "low.profit.labour",
-  tri_fes = tri_fes(),
+  fes = tri_fes(),
   cluster = ~c(chemical.id, naics.code, facility.state)
 )
 etable(sdid_surface_impoundment_lpci, digits = 3, digits.stats = 3)
@@ -615,7 +615,7 @@ sdid_total_releases_li <- sdid_releases_heter_1(
   data = triQc,
   depvar = "l.total.releases.onsite.intensity",
   interact_var = "labour.intensive",
-  tri_fes = tri_fes(),
+  fes = tri_fes(),
   cluster = ~c(chemical.id, naics.code, facility.state)
 )
 etable(sdid_total_releases_li, digits = 3, digits.stats = 3)
@@ -630,7 +630,7 @@ sdid_total_releases_ci <- sdid_releases_heter_0(
   data = triQc,
   depvar = "l.total.releases.onsite.intensity",
   interact_var = "labour.intensive",
-  tri_fes = tri_fes(),
+  fes = tri_fes(),
   cluster = ~c(chemical.id, naics.code, facility.state)
 )
 etable(sdid_total_releases_ci, digits = 3, digits.stats = 3)
@@ -645,7 +645,7 @@ sdid_air_li <- sdid_releases_heter_1(
   data = triQc,
   depvar = "l.total.air.emissions.onsite.intensity",
   interact_var = "labour.intensive",
-  tri_fes = tri_fes(),
+  fes = tri_fes(),
   cluster = ~c(chemical.id, naics.code, facility.state)
 )
 etable(sdid_air_li, digits = 3, digits.stats = 3)
@@ -660,7 +660,7 @@ sdid_air_ci <- sdid_releases_heter_0(
   data = triQc,
   depvar = "l.total.air.emissions.onsite.intensity",
   interact_var = "labour.intensive",
-  tri_fes = tri_fes(),
+  fes = tri_fes(),
   cluster = ~c(chemical.id, naics.code, facility.state)
 )
 etable(sdid_air_ci, digits = 3, digits.stats = 3)
@@ -669,13 +669,13 @@ iplot(sdid_air_ci, xlim = c(-3, 3), ylim = c(-0.2, 0.4), col = "blue",
 	  lwd = 1, cex = 4, pt.cex = 3, pt.col = "red", pt.join = T, ci.lwd = 5, ci.lty = 1) %>%
   abline(v = -1, col = "red", lty = 2, lwd = 2)
 #======================================================================================================================#
-### Onsite: Total point air emissions intensity (payroll to revenue ratio)
+### Onsite: Total point air emissions intensity (payroll and wages to revenue ratio)
 #======================================================================================================================#
 sdid_point_air_li <- sdid_releases_heter_1(
   data = triQc,
   depvar = "l.total.point.air.emissions.onsite.intensity",
   interact_var = "labour.intensive",
-  tri_fes = tri_fes(),
+  fes = tri_fes(),
   cluster = ~c(chemical.id, naics.code, facility.state)
 )
 etable(sdid_point_air_li, digits = 3, digits.stats = 3)
@@ -690,7 +690,7 @@ sdid_point_air_ci <- sdid_releases_heter_0(
   data = triQc,
   depvar = "l.total.point.air.emissions.onsite.intensity",
   interact_var = "labour.intensive",
-  tri_fes = tri_fes(),
+  fes = tri_fes(),
   cluster = ~c(chemical.id, naics.code, facility.state)
 )
 etable(sdid_point_air_ci, digits = 3, digits.stats = 3)
@@ -699,13 +699,13 @@ iplot(sdid_point_air_ci, xlim = c(-3, 3), ylim = c(-0.2, 0.3), col = "blue",
 	  lwd = 1, cex = 4, pt.cex = 3, pt.col = "red", pt.join = T, ci.lwd = 5, ci.lty = 1) %>%
   abline(v = -1, col = "red", lty = 2, lwd = 2)
 #======================================================================================================================#
-### Onsite: Total Fugitive air emissions intensity (payroll to revenue ratio)
+### Onsite: Total Fugitive air emissions intensity (payroll and wages to revenue ratio)
 #======================================================================================================================#
 sdid_fug_air_li <- sdid_releases_heter_1(
   data = triQc,
   depvar = "l.total.fug.air.emissions.onsite.intensity",
   interact_var = "labour.intensive",
-  tri_fes = tri_fes(),
+  fes = tri_fes(),
   cluster = ~c(chemical.id, naics.code, facility.state)
 )
 etable(sdid_fug_air_li, digits = 3, digits.stats = 3)
@@ -720,7 +720,7 @@ sdid_fug_air_ci <- sdid_releases_heter_0(
   data = triQc,
   depvar = "l.total.fug.air.emissions.onsite.intensity",
   interact_var = "labour.intensive",
-  tri_fes = tri_fes(),
+  fes = tri_fes(),
   cluster = ~c(chemical.id, naics.code, facility.state)
 )
 etable(sdid_fug_air_ci, digits = 3, digits.stats = 3)
@@ -729,13 +729,13 @@ iplot(sdid_fug_air_ci, xlim = c(-3, 3), ylim = c(-0.2, 0.3), col = "blue",
 	  lwd = 1, cex = 4, pt.cex = 3, pt.col = "red", pt.join = T, ci.lwd = 5, ci.lty = 1) %>%
   abline(v = -1, col = "red", lty = 2, lwd = 2)
 #======================================================================================================================#
-### Onsite: Total Surface Water Discharge intensity (payroll to revenue ratio)
+### Onsite: Total Surface Water Discharge intensity (payroll and wages to revenue ratio)
 #======================================================================================================================#
 sdid_water_disc_li <- sdid_releases_heter_1(
   data = triQc,
   depvar = "l.total.surface.water.discharge.onsite.intensity",
   interact_var = "labour.intensive",
-  tri_fes = tri_fes(),
+  fes = tri_fes(),
   cluster = ~c(chemical.id, naics.code, facility.state)
 )
 etable(sdid_water_disc_li, digits = 3, digits.stats = 3)
@@ -750,7 +750,7 @@ sdid_water_disc_ci <- sdid_releases_heter_0(
   data = triQc,
   depvar = "l.total.surface.water.discharge.onsite.intensity",
   interact_var = "labour.intensive",
-  tri_fes = tri_fes(),
+  fes = tri_fes(),
   cluster = ~c(chemical.id, naics.code, facility.state)
 )
 etable(sdid_water_disc_ci, digits = 3, digits.stats = 3)
@@ -759,13 +759,13 @@ iplot(sdid_water_disc_ci, xlim = c(-3, 3), ylim = c(-0.3, 0.3), col = "blue",
 	  lwd = 1, cex = 4, pt.cex = 3, pt.col = "red", pt.join = T, ci.lwd = 5, ci.lty = 1) %>%
   abline(v = -1, col = "red", lty = 2, lwd = 2)
 #======================================================================================================================#
-### Onsite: Total Land Releases intensity (payroll to revenue ratio)
+### Onsite: Total Land Releases intensity (payroll and wages to revenue ratio)
 #======================================================================================================================#
 sdid_land_releases_li <- sdid_releases_heter_1(
   data = triQc,
   depvar = "l.total.land.releases.onsite.intensity",
   interact_var = "labour.intensive",
-  tri_fes = tri_fes(),
+  fes = tri_fes(),
   cluster = ~c(chemical.id, naics.code, facility.state)
 )
 etable(sdid_land_releases_li, digits = 3, digits.stats = 3)
@@ -780,7 +780,7 @@ sdid_land_releases_ci <- sdid_releases_heter_0(
   data = triQc,
   depvar = "l.total.land.releases.onsite.intensity",
   interact_var = "labour.intensive",
-  tri_fes = tri_fes(),
+  fes = tri_fes(),
   cluster = ~c(chemical.id, naics.code, facility.state)
 )
 etable(sdid_land_releases_ci, digits = 3, digits.stats = 3)
@@ -789,13 +789,13 @@ iplot(sdid_land_releases_ci, xlim = c(-3, 3), ylim = c(-0.15, 0.1), col = "blue"
 	  lwd = 1, cex = 4, pt.cex = 3, pt.col = "red", pt.join = T, ci.lwd = 5, ci.lty = 1) %>%
   abline(v = -1, col = "red", lty = 2, lwd = 2)
 #======================================================================================================================#
-### Onsite: Total Surface Impoundment intensity (payroll to revenue ratio)
+### Onsite: Total Surface Impoundment intensity (payroll and wages to revenue ratio)
 #======================================================================================================================#
 sdid_surface_impoundment_li <- sdid_releases_heter_1(
   data = triQc,
   depvar = "l.total.surface.impoundment.onsite.intensity",
   interact_var = "labour.intensive",
-  tri_fes = tri_fes(),
+  fes = tri_fes(),
   cluster = ~c(chemical.id, naics.code, facility.state)
 )
 etable(sdid_surface_impoundment_li, digits = 3, digits.stats = 3)
@@ -810,7 +810,7 @@ sdid_surface_impoundment_ci <- sdid_releases_heter_0(
   data = triQc,
   depvar = "l.total.surface.impoundment.onsite.intensity",
   interact_var = "labour.intensive",
-  tri_fes = tri_fes(),
+  fes = tri_fes(),
   cluster = ~c(chemical.id, naics.code, facility.state)
 )
 etable(sdid_surface_impoundment_ci, digits = 3, digits.stats = 3)
@@ -854,7 +854,7 @@ iplot(sdid_fug_air_ci, xlim = c(-3, 3), ylim = c(-0.2, 0.3), col = "blue",
 	  main = "Total Fugitive Air Emissions Intensity, CI", xlab = "relative year",
 	  lwd = 1, cex = 4, pt.cex = 3, pt.col = "red", pt.join = T, ci.lwd = 5, ci.lty = 1) %>%
   abline(v = -1, col = "red", lty = 2, lwd = 2)
-iplot(sdid_water_disc_li, xlim = c(-3, 3), ylim = c(-0.2, 0.1), col = "blue",
+iplot(sdid_water_disc_li, xlim = c(-3, 3), ylim = c(-0.3, 0.1), col = "blue",
 	  main = "Total Surface Water Discharge Intensity, LI", xlab = "relative year",
 	  lwd = 1, cex = 4, pt.cex = 3, pt.col = "red", pt.join = T, ci.lwd = 5, ci.lty = 1) %>%
   abline(v = -1, col = "red", lty = 2, lwd = 2)
@@ -896,7 +896,7 @@ sdid_total_releases_highemitt <- sdid_releases_heter_1(
   data = triQc,
   depvar = "l.total.releases.onsite.intensity",
   interact_var = "highest.emitt.ind",
-  tri_fes = tri_fes(),
+  fes = tri_fes(),
   cluster = ~c(chemical.id, naics.code, facility.state)
 )
 etable(sdid_total_releases_highemitt, digits = 3, digits.stats = 3)
@@ -911,7 +911,7 @@ sdid_total_releases_lowemitt <- sdid_releases_heter_0(
   data = triQc,
   depvar = "l.total.releases.onsite.intensity",
   interact_var = "highest.emitt.ind",
-  tri_fes = tri_fes(),
+  fes = tri_fes(),
   cluster = ~c(chemical.id, naics.code, facility.state)
 )
 etable(sdid_total_releases_lowemitt, digits = 3, digits.stats = 3)
@@ -926,7 +926,7 @@ sdid_air_highemitt <- sdid_releases_heter_1(
   data = triQc,
   depvar = "l.total.air.emissions.onsite.intensity",
   interact_var = "highest.emitt.ind",
-  tri_fes = tri_fes(),
+  fes = tri_fes(),
   cluster = ~c(chemical.id, naics.code, facility.state)
 )
 etable(sdid_air_highemitt, digits = 3, digits.stats = 3)
@@ -941,7 +941,7 @@ sdid_air_lowemitt <- sdid_releases_heter_0(
   data = triQc,
   depvar = "l.total.air.emissions.onsite.intensity",
   interact_var = "highest.emitt.ind",
-  tri_fes = tri_fes(),
+  fes = tri_fes(),
   cluster = ~c(chemical.id, naics.code, facility.state)
 )
 etable(sdid_air_lowemitt, digits = 3, digits.stats = 3)
@@ -956,7 +956,7 @@ sdid_point_air_highemitt <- sdid_releases_heter_1(
   data = triQc,
   depvar = "l.total.point.air.emissions.onsite.intensity",
   interact_var = "highest.emitt.ind",
-  tri_fes = tri_fes(),
+  fes = tri_fes(),
   cluster = ~c(chemical.id, naics.code, facility.state)
 )
 etable(sdid_point_air_highemitt, digits = 3, digits.stats = 3)
@@ -971,7 +971,7 @@ sdid_point_air_lowemitt <- sdid_releases_heter_0(
   data = triQc,
   depvar = "l.total.point.air.emissions.onsite.intensity",
   interact_var = "highest.emitt.ind",
-  tri_fes = tri_fes(),
+  fes = tri_fes(),
   cluster = ~c(chemical.id, naics.code, facility.state)
 )
 etable(sdid_point_air_lowemitt, digits = 3, digits.stats = 3)
@@ -986,7 +986,7 @@ sdid_fug_air_highemitt <- sdid_releases_heter_1(
   data = triQc,
   depvar = "l.total.fug.air.emissions.onsite.intensity",
   interact_var = "highest.emitt.ind",
-  tri_fes = tri_fes(),
+  fes = tri_fes(),
   cluster = ~c(chemical.id, naics.code, facility.state)
 )
 etable(sdid_fug_air_highemitt, digits = 3, digits.stats = 3)
@@ -1001,7 +1001,7 @@ sdid_fug_air_lowemitt <- sdid_releases_heter_0(
   data = triQc,
   depvar = "l.total.fug.air.emissions.onsite.intensity",
   interact_var = "highest.emitt.ind",
-  tri_fes = tri_fes(),
+  fes = tri_fes(),
   cluster = ~c(chemical.id, naics.code, facility.state)
 )
 etable(sdid_fug_air_lowemitt, digits = 3, digits.stats = 3)
@@ -1016,7 +1016,7 @@ sdid_water_disc_highemitt <- sdid_releases_heter_1(
   data = triQc,
   depvar = "l.total.surface.water.discharge.onsite.intensity",
   interact_var = "highest.emitt.ind",
-  tri_fes = tri_fes(),
+  fes = tri_fes(),
   cluster = ~c(chemical.id, naics.code, facility.state)
 )
 etable(sdid_water_disc_highemitt, digits = 3, digits.stats = 3)
@@ -1031,7 +1031,7 @@ sdid_water_disc_lowemitt <- sdid_releases_heter_0(
   data = triQc,
   depvar = "l.total.surface.water.discharge.onsite.intensity",
   interact_var = "highest.emitt.ind",
-  tri_fes = tri_fes(),
+  fes = tri_fes(),
   cluster = ~c(chemical.id, naics.code, facility.state)
 )
 etable(sdid_water_disc_lowemitt, digits = 3, digits.stats = 3)
@@ -1046,7 +1046,7 @@ sdid_land_releases_highemitt <- sdid_releases_heter_1(
   data = triQc,
   depvar = "l.total.land.releases.onsite.intensity",
   interact_var = "highest.emitt.ind",
-  tri_fes = tri_fes(),
+  fes = tri_fes(),
   cluster = ~c(chemical.id, naics.code, facility.state)
 )
 etable(sdid_land_releases_highemitt, digits = 3, digits.stats = 3)
@@ -1061,7 +1061,7 @@ sdid_land_releases_lowemitt <- sdid_releases_heter_0(
   data = triQc,
   depvar = "l.total.land.releases.onsite.intensity",
   interact_var = "highest.emitt.ind",
-  tri_fes = tri_fes(),
+  fes = tri_fes(),
   cluster = ~c(chemical.id, naics.code, facility.state)
 )
 etable(sdid_land_releases_lowemitt, digits = 3, digits.stats = 3)
@@ -1076,7 +1076,7 @@ sdid_surface_impound_highemitt <- sdid_releases_heter_1(
   data = triQc,
   depvar = "l.total.surface.impoundment.onsite.intensity",
   interact_var = "highest.emitt.ind",
-  tri_fes = tri_fes(),
+  fes = tri_fes(),
   cluster = ~c(chemical.id, naics.code, facility.state)
 )
 etable(sdid_surface_impound_highemitt, digits = 3, digits.stats = 3)
@@ -1091,7 +1091,7 @@ sdid_surface_impound_lowemitt <- sdid_releases_heter_0(
   data = triQc,
   depvar = "l.total.surface.impoundment.onsite.intensity",
   interact_var = "highest.emitt.ind",
-  tri_fes = tri_fes(),
+  fes = tri_fes(),
   cluster = ~c(chemical.id, naics.code, facility.state)
 )
 etable(sdid_surface_impound_lowemitt, digits = 3, digits.stats = 3)
@@ -1174,7 +1174,7 @@ sdid_total_releases_hgdp <- sdid_releases_heter_1(
   data = triQc,
   depvar = "l.total.releases.onsite.intensity",
   interact_var = "high.gdp",
-  tri_fes = tri_fes(),
+  fes = tri_fes(),
   cluster = ~c(chemical.id, naics.code, facility.state)
 )
 etable(sdid_total_releases_hgdp, digits = 3, digits.stats = 3)
@@ -1189,7 +1189,7 @@ sdid_total_releases_lgdp <- sdid_releases_heter_0(
   data = triQc,
   depvar = "l.total.releases.onsite.intensity",
   interact_var = "high.gdp",
-  tri_fes = tri_fes(),
+  fes = tri_fes(),
   cluster = ~c(chemical.id, naics.code, facility.state)
 )
 etable(sdid_total_releases_lgdp, digits = 3, digits.stats = 3)
@@ -1204,7 +1204,7 @@ sdid_air_hgdp <- sdid_releases_heter_1(
   data = triQc,
   depvar = "l.total.air.emissions.onsite.intensity",
   interact_var = "high.gdp",
-  tri_fes = tri_fes(),
+  fes = tri_fes(),
   cluster = ~c(chemical.id, naics.code, facility.state)
 )
 etable(sdid_air_hgdp, digits = 3, digits.stats = 3)
@@ -1219,7 +1219,7 @@ sdid_air_lgdp <- sdid_releases_heter_0(
   data = triQc,
   depvar = "l.total.air.emissions.onsite.intensity",
   interact_var = "high.gdp",
-  tri_fes = tri_fes(),
+  fes = tri_fes(),
   cluster = ~c(chemical.id, naics.code, facility.state)
 )
 etable(sdid_air_lgdp, digits = 3, digits.stats = 3)
@@ -1234,7 +1234,7 @@ sdid_point_air_hgdp <- sdid_releases_heter_1(
   data = triQc,
   depvar = "l.total.point.air.emissions.onsite.intensity",
   interact_var = "high.gdp",
-  tri_fes = tri_fes(),
+  fes = tri_fes(),
   cluster = ~c(chemical.id, naics.code, facility.state)
 )
 etable(sdid_point_air_hgdp, digits = 3, digits.stats = 3)
@@ -1249,7 +1249,7 @@ sdid_point_air_lgdp <- sdid_releases_heter_0(
   data = triQc,
   depvar = "l.total.point.air.emissions.onsite.intensity",
   interact_var = "high.gdp",
-  tri_fes = tri_fes(),
+  fes = tri_fes(),
   cluster = ~c(chemical.id, naics.code, facility.state)
 )
 etable(sdid_point_air_lgdp, digits = 3, digits.stats = 3)
@@ -1264,7 +1264,7 @@ sdid_fug_air_hgdp <- sdid_releases_heter_1(
   data = triQc,
   depvar = "l.total.fug.air.emissions.onsite.intensity",
   interact_var = "high.gdp",
-  tri_fes = tri_fes(),
+  fes = tri_fes(),
   cluster = ~c(chemical.id, naics.code, facility.state)
 )
 etable(sdid_fug_air_hgdp, digits = 3, digits.stats = 3)
@@ -1279,7 +1279,7 @@ sdid_fug_air_lgdp <- sdid_releases_heter_0(
   data = triQc,
   depvar = "l.total.fug.air.emissions.onsite.intensity",
   interact_var = "high.gdp",
-  tri_fes = tri_fes(),
+  fes = tri_fes(),
   cluster = ~c(chemical.id, naics.code, facility.state)
 )
 etable(sdid_fug_air_lgdp, digits = 3, digits.stats = 3)
@@ -1294,7 +1294,7 @@ sdid_water_disc_hgdp <- sdid_releases_heter_1(
   data = triQc,
   depvar = "l.total.surface.water.discharge.onsite.intensity",
   interact_var = "high.gdp",
-  tri_fes = tri_fes(),
+  fes = tri_fes(),
   cluster = ~c(chemical.id, naics.code, facility.state)
 )
 etable(sdid_water_disc_hgdp, digits = 3, digits.stats = 3)
@@ -1309,7 +1309,7 @@ sdid_water_disc_lgdp <- sdid_releases_heter_0(
   data = triQc,
   depvar = "l.total.surface.water.discharge.onsite.intensity",
   interact_var = "high.gdp",
-  tri_fes = tri_fes(),
+  fes = tri_fes(),
   cluster = ~c(chemical.id, naics.code, facility.state)
 )
 etable(sdid_water_disc_lgdp, digits = 3, digits.stats = 3)
@@ -1324,7 +1324,7 @@ sdid_land_releases_hgdp <- sdid_releases_heter_1(
   data = triQc,
   depvar = "l.total.land.releases.onsite.intensity",
   interact_var = "high.gdp",
-  tri_fes = tri_fes(),
+  fes = tri_fes(),
   cluster = ~c(chemical.id, naics.code, facility.state)
 )
 etable(sdid_land_releases_hgdp, digits = 3, digits.stats = 3)
@@ -1339,7 +1339,7 @@ sdid_land_releases_lgdp <- sdid_releases_heter_0(
   data = triQc,
   depvar = "l.total.land.releases.onsite.intensity",
   interact_var = "high.gdp",
-  tri_fes = tri_fes(),
+  fes = tri_fes(),
   cluster = ~c(chemical.id, naics.code, facility.state)
 )
 etable(sdid_land_releases_lgdp, digits = 3, digits.stats = 3)
@@ -1354,7 +1354,7 @@ sdid_surface_impound_hgdp <- sdid_releases_heter_1(
   data = triQc,
   depvar = "l.total.surface.impoundment.onsite.intensity",
   interact_var = "high.gdp",
-  tri_fes = tri_fes(),
+  fes = tri_fes(),
   cluster = ~c(chemical.id, naics.code, facility.state)
 )
 etable(sdid_surface_impound_hgdp, digits = 3, digits.stats = 3)
@@ -1369,7 +1369,7 @@ sdid_surface_impound_lgdp <- sdid_releases_heter_0(
   data = triQc,
   depvar = "l.total.surface.impoundment.onsite.intensity",
   interact_var = "high.gdp",
-  tri_fes = tri_fes(),
+  fes = tri_fes(),
   cluster = ~c(chemical.id, naics.code, facility.state)
 )
 etable(sdid_surface_impound_lgdp, digits = 3, digits.stats = 3)
@@ -1466,7 +1466,7 @@ sdid_total_releases_lowindconc <- sdid_releases_heter_1(
   data = triQc,
   depvar = "l.total.releases.onsite.intensity",
   interact_var = "low.ind.conc",
-  tri_fes = tri_fes(),
+  fes = tri_fes(),
   cluster = ~c(chemical.id, naics.code, facility.state)
 )
 etable(sdid_total_releases_lowindconc, digits = 3, digits.stats = 3)
@@ -1481,7 +1481,7 @@ sdid_total_releases_highindconc <- sdid_releases_heter_0(
   data = triQc,
   depvar = "l.total.releases.onsite.intensity",
   interact_var = "low.ind.conc",
-  tri_fes = tri_fes(),
+  fes = tri_fes(),
   cluster = ~c(chemical.id, naics.code, facility.state)
 )
 etable(sdid_total_releases_highindconc, digits = 3, digits.stats = 3)
@@ -1496,7 +1496,7 @@ sdid_air_lowindconc <- sdid_releases_heter_1(
   data = triQc,
   depvar = "l.total.air.emissions.onsite.intensity",
   interact_var = "low.ind.conc",
-  tri_fes = tri_fes(),
+  fes = tri_fes(),
   cluster = ~c(chemical.id, naics.code, facility.state)
 )
 etable(sdid_air_lowindconc, digits = 3, digits.stats = 3)
@@ -1511,7 +1511,7 @@ sdid_air_highindconc <- sdid_releases_heter_0(
   data = triQc,
   depvar = "l.total.air.emissions.onsite.intensity",
   interact_var = "low.ind.conc",
-  tri_fes = tri_fes(),
+  fes = tri_fes(),
   cluster = ~c(chemical.id, naics.code, facility.state)
 )
 etable(sdid_air_highindconc, digits = 3, digits.stats = 3)
@@ -1526,7 +1526,7 @@ sdid_point_air_lowindconc <- sdid_releases_heter_1(
   data = triQc,
   depvar = "l.total.point.air.emissions.onsite.intensity",
   interact_var = "low.ind.conc",
-  tri_fes = tri_fes(),
+  fes = tri_fes(),
   cluster = ~c(chemical.id, naics.code, facility.state)
 )
 etable(sdid_point_air_lowindconc, digits = 3, digits.stats = 3)
@@ -1541,7 +1541,7 @@ sdid_point_air_highindconc <- sdid_releases_heter_0(
   data = triQc,
   depvar = "l.total.point.air.emissions.onsite.intensity",
   interact_var = "low.ind.conc",
-  tri_fes = tri_fes(),
+  fes = tri_fes(),
   cluster = ~c(chemical.id, naics.code, facility.state)
 )
 etable(sdid_point_air_highindconc, digits = 3, digits.stats = 3)
@@ -1556,7 +1556,7 @@ sdid_fug_air_lowindconc <- sdid_releases_heter_1(
   data = triQc,
   depvar = "l.total.fug.air.emissions.onsite.intensity",
   interact_var = "low.ind.conc",
-  tri_fes = tri_fes(),
+  fes = tri_fes(),
   cluster = ~c(chemical.id, naics.code, facility.state)
 )
 etable(sdid_fug_air_lowindconc, digits = 3, digits.stats = 3)
@@ -1571,7 +1571,7 @@ sdid_fug_air_highindconc <- sdid_releases_heter_0(
   data = triQc,
   depvar = "l.total.fug.air.emissions.onsite.intensity",
   interact_var = "low.ind.conc",
-  tri_fes = tri_fes(),
+  fes = tri_fes(),
   cluster = ~c(chemical.id, naics.code, facility.state)
 )
 etable(sdid_fug_air_highindconc, digits = 3, digits.stats = 3)
@@ -1586,7 +1586,7 @@ sdid_water_disc_lowindconc <- sdid_releases_heter_1(
   data = triQc,
   depvar = "l.total.surface.water.discharge.onsite.intensity",
   interact_var = "low.ind.conc",
-  tri_fes = tri_fes(),
+  fes = tri_fes(),
   cluster = ~c(chemical.id, naics.code, facility.state)
 )
 etable(sdid_water_disc_lowindconc, digits = 3, digits.stats = 3)
@@ -1601,7 +1601,7 @@ sdid_water_disc_highindconc <- sdid_releases_heter_0(
   data = triQc,
   depvar = "l.total.surface.water.discharge.onsite.intensity",
   interact_var = "low.ind.conc",
-  tri_fes = tri_fes(),
+  fes = tri_fes(),
   cluster = ~c(chemical.id, naics.code, facility.state)
 )
 etable(sdid_water_disc_highindconc, digits = 3, digits.stats = 3)
@@ -1616,7 +1616,7 @@ sdid_land_releases_lowindconc <- sdid_releases_heter_1(
   data = triQc,
   depvar = "l.total.land.releases.onsite.intensity",
   interact_var = "low.ind.conc",
-  tri_fes = tri_fes(),
+  fes = tri_fes(),
   cluster = ~c(chemical.id, naics.code, facility.state)
 )
 etable(sdid_land_releases_lowindconc, digits = 3, digits.stats = 3)
@@ -1631,7 +1631,7 @@ sdid_land_releases_highindconc <- sdid_releases_heter_0(
   data = triQc,
   depvar = "l.total.land.releases.onsite.intensity",
   interact_var = "low.ind.conc",
-  tri_fes = tri_fes(),
+  fes = tri_fes(),
   cluster = ~c(chemical.id, naics.code, facility.state)
 )
 etable(sdid_land_releases_highindconc, digits = 3, digits.stats = 3)
@@ -1646,7 +1646,7 @@ sdid_surface_impoundment_lowindconc <- sdid_releases_heter_1(
   data = triQc,
   depvar = "l.total.surface.impoundment.onsite.intensity",
   interact_var = "low.ind.conc",
-  tri_fes = tri_fes(),
+  fes = tri_fes(),
   cluster = ~c(chemical.id, naics.code, facility.state)
 )
 etable(sdid_surface_impoundment_lowindconc, digits = 3, digits.stats = 3)
@@ -1661,7 +1661,7 @@ sdid_surface_impoundment_highindconc <- sdid_releases_heter_0(
   data = triQc,
   depvar = "l.total.surface.impoundment.onsite.intensity",
   interact_var = "low.ind.conc",
-  tri_fes = tri_fes(),
+  fes = tri_fes(),
   cluster = ~c(chemical.id, naics.code, facility.state)
 )
 etable(sdid_surface_impoundment_highindconc, digits = 3, digits.stats = 3)
@@ -1739,7 +1739,7 @@ sdid_total_releases_carcinogenic <- sdid_releases_heter_1(
   data = triQc,
   depvar = "l.total.releases.onsite.intensity",
   interact_var = "carcinogenic.chems",
-  tri_fes = tri_fes(),
+  fes = tri_fes(),
   cluster = ~c(chemical.id, naics.code, facility.state)
 )
 etable(sdid_total_releases_carcinogenic, digits = 3, digits.stats = 3)
@@ -1754,7 +1754,7 @@ sdid_total_releases_noncarcinogenic <- sdid_releases_heter_0(
   data = triQc,
   depvar = "l.total.releases.onsite.intensity",
   interact_var = "carcinogenic.chems",
-  tri_fes = tri_fes(),
+  fes = tri_fes(),
   cluster = ~c(chemical.id, naics.code, facility.state)
 )
 etable(sdid_total_releases_noncarcinogenic, digits = 3, digits.stats = 3)
@@ -1769,7 +1769,7 @@ sdid_air_carcinogenic <- sdid_releases_heter_1(
   data = triQc,
   depvar = "l.total.air.emissions.onsite.intensity",
   interact_var = "carcinogenic.chems",
-  tri_fes = tri_fes(),
+  fes = tri_fes(),
   cluster = ~c(chemical.id, naics.code, facility.state)
 )
 etable(sdid_air_carcinogenic, digits = 3, digits.stats = 3)
@@ -1784,7 +1784,7 @@ sdid_air_noncarcinogenic <- sdid_releases_heter_0(
   data = triQc,
   depvar = "l.total.air.emissions.onsite.intensity",
   interact_var = "carcinogenic.chems",
-  tri_fes = tri_fes(),
+  fes = tri_fes(),
   cluster = ~c(chemical.id, naics.code, facility.state)
 )
 etable(sdid_air_noncarcinogenic, digits = 3, digits.stats = 3)
@@ -1799,7 +1799,7 @@ sdid_point_air_carcinogenic <- sdid_releases_heter_1(
   data = triQc,
   depvar = "l.total.point.air.emissions.onsite.intensity",
   interact_var = "carcinogenic.chems",
-  tri_fes = tri_fes(),
+  fes = tri_fes(),
   cluster = ~c(chemical.id, naics.code, facility.state)
 )
 etable(sdid_point_air_carcinogenic, digits = 3, digits.stats = 3)
@@ -1814,7 +1814,7 @@ sdid_point_air_noncarcinogenic <- sdid_releases_heter_0(
   data = triQc,
   depvar = "l.total.point.air.emissions.onsite.intensity",
   interact_var = "carcinogenic.chems",
-  tri_fes = tri_fes(),
+  fes = tri_fes(),
   cluster = ~c(chemical.id, naics.code, facility.state)
 )
 etable(sdid_point_air_noncarcinogenic, digits = 3, digits.stats = 3)
@@ -1829,7 +1829,7 @@ sdid_fug_air_carcinogenic <- sdid_releases_heter_1(
   data = triQc,
   depvar = "l.total.fug.air.emissions.onsite.intensity",
   interact_var = "carcinogenic.chems",
-  tri_fes = tri_fes(),
+  fes = tri_fes(),
   cluster = ~c(chemical.id, naics.code, facility.state)
 )
 etable(sdid_fug_air_carcinogenic, digits = 3, digits.stats = 3)
@@ -1844,7 +1844,7 @@ sdid_fug_air_noncarcinogenic <- sdid_releases_heter_0(
   data = triQc,
   depvar = "l.total.fug.air.emissions.onsite.intensity",
   interact_var = "carcinogenic.chems",
-  tri_fes = tri_fes(),
+  fes = tri_fes(),
   cluster = ~c(chemical.id, naics.code, facility.state)
 )
 etable(sdid_fug_air_noncarcinogenic, digits = 3, digits.stats = 3)
@@ -1859,7 +1859,7 @@ sdid_water_disc_carcinogenic <- sdid_releases_heter_1(
   data = triQc,
   depvar = "l.total.surface.water.discharge.onsite.intensity",
   interact_var = "carcinogenic.chems",
-  tri_fes = tri_fes(),
+  fes = tri_fes(),
   cluster = ~c(chemical.id, naics.code, facility.state)
 )
 etable(sdid_water_disc_carcinogenic, digits = 3, digits.stats = 3)
@@ -1874,7 +1874,7 @@ sdid_water_disc_noncarcinogenic <- sdid_releases_heter_0(
   data = triQc,
   depvar = "l.total.surface.water.discharge.onsite.intensity",
   interact_var = "carcinogenic.chems",
-  tri_fes = tri_fes(),
+  fes = tri_fes(),
   cluster = ~c(chemical.id, naics.code, facility.state)
 )
 etable(sdid_water_disc_noncarcinogenic, digits = 3, digits.stats = 3)
@@ -1889,7 +1889,7 @@ sdid_land_releases_carcinogenic <- sdid_releases_heter_1(
   data = triQc,
   depvar = "l.total.land.releases.onsite.intensity",
   interact_var = "carcinogenic.chems",
-  tri_fes = tri_fes(),
+  fes = tri_fes(),
   cluster = ~c(chemical.id, naics.code, facility.state)
 )
 etable(sdid_land_releases_carcinogenic, digits = 3, digits.stats = 3)
@@ -1904,7 +1904,7 @@ sdid_land_releases_noncarcinogenic <- sdid_releases_heter_0(
   data = triQc,
   depvar = "l.total.land.releases.onsite.intensity",
   interact_var = "carcinogenic.chems",
-  tri_fes = tri_fes(),
+  fes = tri_fes(),
   cluster = ~c(chemical.id, naics.code, facility.state)
 )
 etable(sdid_land_releases_noncarcinogenic, digits = 3, digits.stats = 3)
@@ -1919,7 +1919,7 @@ sdid_surface_impoundment_carcinogenic <- sdid_releases_heter_1(
   data = triQc,
   depvar = "l.total.surface.impoundment.onsite.intensity",
   interact_var = "carcinogenic.chems",
-  tri_fes = tri_fes(),
+  fes = tri_fes(),
   cluster = ~c(chemical.id, naics.code, facility.state)
 )
 etable(sdid_surface_impoundment_carcinogenic, digits = 3, digits.stats = 3)
@@ -1934,7 +1934,7 @@ sdid_surface_impoundment_noncarcinogenic <- sdid_releases_heter_0(
   data = triQc,
   depvar = "l.total.surface.impoundment.onsite.intensity",
   interact_var = "carcinogenic.chems",
-  tri_fes = tri_fes(),
+  fes = tri_fes(),
   cluster = ~c(chemical.id, naics.code, facility.state)
 )
 etable(sdid_surface_impoundment_noncarcinogenic, digits = 3, digits.stats = 3)
@@ -2021,7 +2021,7 @@ sdid_total_releases_caahaps <- sdid_releases_heter_epa_1(
   data = triQc,
   depvar = "l.total.releases.onsite.intensity",
   interact_var = "caa.haps",
-  tri_fes = tri_fes(),
+  fes = tri_fes(),
   cluster = ~c(chemical.id, naics.code, facility.state)
 )
 etable(sdid_total_releases_caahaps, digits = 3, digits.stats = 3)
@@ -2036,7 +2036,7 @@ sdid_total_releases_noncaahaps <- sdid_releases_heter_epa_0(
   data = triQc,
   depvar = "l.total.releases.onsite.intensity",
   interact_var = "caa.haps",
-  tri_fes = tri_fes(),
+  fes = tri_fes(),
   cluster = ~c(chemical.id, naics.code, facility.state)
 )
 etable(sdid_total_releases_noncaahaps, digits = 3, digits.stats = 3)
@@ -2051,7 +2051,7 @@ sdid_air_caahaps <- sdid_releases_heter_epa_1(
   data = triQc,
   depvar = "l.total.air.emissions.onsite.intensity",
   interact_var = "caa.haps",
-  tri_fes = tri_fes(),
+  fes = tri_fes(),
   cluster = ~c(chemical.id, naics.code, facility.state)
 )
 etable(sdid_air_caahaps, digits = 3, digits.stats = 3)
@@ -2066,7 +2066,7 @@ sdid_air_noncaahaps <- sdid_releases_heter_epa_0(
   data = triQc,
   depvar = "l.total.air.emissions.onsite.intensity",
   interact_var = "caa.haps",
-  tri_fes = tri_fes(),
+  fes = tri_fes(),
   cluster = ~c(chemical.id, naics.code, facility.state)
 )
 etable(sdid_air_noncaahaps, digits = 3, digits.stats = 3)
@@ -2081,7 +2081,7 @@ sdid_point_air_caahaps <- sdid_releases_heter_epa_1(
   data = triQc,
   depvar = "l.total.point.air.emissions.onsite.intensity",
   interact_var = "caa.haps",
-  tri_fes = tri_fes(),
+  fes = tri_fes(),
   cluster = ~c(chemical.id, naics.code, facility.state)
 )
 etable(sdid_point_air_caahaps, digits = 3, digits.stats = 3)
@@ -2096,7 +2096,7 @@ sdid_point_air_noncaahaps <- sdid_releases_heter_epa_0(
   data = triQc,
   depvar = "l.total.point.air.emissions.onsite.intensity",
   interact_var = "caa.haps",
-  tri_fes = tri_fes(),
+  fes = tri_fes(),
   cluster = ~c(chemical.id, naics.code, facility.state)
 )
 etable(sdid_point_air_noncaahaps, digits = 3, digits.stats = 3)
@@ -2111,7 +2111,7 @@ sdid_fug_air_caahaps <- sdid_releases_heter_epa_1(
   data = triQc,
   depvar = "l.total.fug.air.emissions.onsite.intensity",
   interact_var = "caa.haps",
-  tri_fes = tri_fes(),
+  fes = tri_fes(),
   cluster = ~c(chemical.id, naics.code, facility.state)
 )
 etable(sdid_fug_air_caahaps, digits = 3, digits.stats = 3)
@@ -2126,7 +2126,7 @@ sdid_fug_air_noncaahaps <- sdid_releases_heter_epa_0(
   data = triQc,
   depvar = "l.total.fug.air.emissions.onsite.intensity",
   interact_var = "caa.haps",
-  tri_fes = tri_fes(),
+  fes = tri_fes(),
   cluster = ~c(chemical.id, naics.code, facility.state)
 )
 etable(sdid_fug_air_noncaahaps, digits = 3, digits.stats = 3)
@@ -2141,7 +2141,7 @@ sdid_water_disc_caahaps <- sdid_releases_heter_epa_1(
   data = triQc,
   depvar = "l.total.surface.water.discharge.onsite.intensity",
   interact_var = "caa.haps",
-  tri_fes = tri_fes(),
+  fes = tri_fes(),
   cluster = ~c(chemical.id, naics.code, facility.state)
 )
 etable(sdid_water_disc_caahaps, digits = 3, digits.stats = 3)
@@ -2156,7 +2156,7 @@ sdid_water_disc_noncaahaps <- sdid_releases_heter_epa_0(
   data = triQc,
   depvar = "l.total.surface.water.discharge.onsite.intensity",
   interact_var = "caa.haps",
-  tri_fes = tri_fes(),
+  fes = tri_fes(),
   cluster = ~c(chemical.id, naics.code, facility.state)
 )
 etable(sdid_water_disc_noncaahaps, digits = 3, digits.stats = 3)
@@ -2171,7 +2171,7 @@ sdid_land_releases_caahaps <- sdid_releases_heter_epa_1(
   data = triQc,
   depvar = "l.total.land.releases.onsite.intensity",
   interact_var = "caa.haps",
-  tri_fes = tri_fes(),
+  fes = tri_fes(),
   cluster = ~c(chemical.id, naics.code, facility.state)
 )
 etable(sdid_land_releases_caahaps, digits = 3, digits.stats = 3)
@@ -2186,7 +2186,7 @@ sdid_land_releases_noncaahaps <- sdid_releases_heter_epa_0(
   data = triQc,
   depvar = "l.total.land.releases.onsite.intensity",
   interact_var = "caa.haps",
-  tri_fes = tri_fes(),
+  fes = tri_fes(),
   cluster = ~c(chemical.id, naics.code, facility.state)
 )
 etable(sdid_land_releases_noncaahaps, digits = 3, digits.stats = 3)
@@ -2201,7 +2201,7 @@ sdid_surface_impoundment_caahaps <- sdid_releases_heter_epa_1(
   data = triQc,
   depvar = "l.total.surface.impoundment.onsite.intensity",
   interact_var = "caa.haps",
-  tri_fes = tri_fes(),
+  fes = tri_fes(),
   cluster = ~c(chemical.id, naics.code, facility.state)
 )
 etable(sdid_surface_impoundment_caahaps, digits = 3, digits.stats = 3)
@@ -2216,7 +2216,7 @@ sdid_surface_impoundment_noncaahaps <- sdid_releases_heter_epa_0(
   data = triQc,
   depvar = "l.total.surface.impoundment.onsite.intensity",
   interact_var = "caa.haps",
-  tri_fes = tri_fes(),
+  fes = tri_fes(),
   cluster = ~c(chemical.id, naics.code, facility.state)
 )
 etable(sdid_surface_impoundment_noncaahaps, digits = 3, digits.stats = 3)
@@ -2290,7 +2290,7 @@ sdid_total_releases_pbt <- sdid_releases_heter_epa_1(
   data = triQc,
   depvar = "l.total.releases.onsite.intensity",
   interact_var = "pbt.chems",
-  tri_fes = tri_fes(),
+  fes = tri_fes(),
   cluster = ~c(chemical.id, naics.code, facility.state)
 )
 etable(sdid_total_releases_pbt, digits = 3, digits.stats = 3)
@@ -2305,7 +2305,7 @@ sdid_total_releases_nonpbt <- sdid_releases_heter_epa_0(
   data = triQc,
   depvar = "l.total.releases.onsite.intensity",
   interact_var = "pbt.chems",
-  tri_fes = tri_fes(),
+  fes = tri_fes(),
   cluster = ~c(chemical.id, naics.code, facility.state)
 )
 etable(sdid_total_releases_nonpbt, digits = 3, digits.stats = 3)
@@ -2320,7 +2320,7 @@ sdid_air_pbt <- sdid_releases_heter_epa_1(
   data = triQc,
   depvar = "l.total.air.emissions.onsite.intensity",
   interact_var = "pbt.chems",
-  tri_fes = tri_fes(),
+  fes = tri_fes(),
   cluster = ~c(chemical.id, naics.code, facility.state)
 )
 etable(sdid_air_pbt, digits = 3, digits.stats = 3)
@@ -2335,7 +2335,7 @@ sdid_air_nonpbt <- sdid_releases_heter_epa_0(
   data = triQc,
   depvar = "l.total.air.emissions.onsite.intensity",
   interact_var = "pbt.chems",
-  tri_fes = tri_fes(),
+  fes = tri_fes(),
   cluster = ~c(chemical.id, naics.code, facility.state)
 )
 etable(sdid_air_nonpbt, digits = 3, digits.stats = 3)
@@ -2350,7 +2350,7 @@ sdid_point_air_pbt <- sdid_releases_heter_epa_1(
   data = triQc,
   depvar = "l.total.point.air.emissions.onsite.intensity",
   interact_var = "pbt.chems",
-  tri_fes = tri_fes(),
+  fes = tri_fes(),
   cluster = ~c(chemical.id, naics.code, facility.state)
 )
 etable(sdid_point_air_pbt, digits = 3, digits.stats = 3)
@@ -2365,7 +2365,7 @@ sdid_point_air_nonpbt <- sdid_releases_heter_epa_0(
   data = triQc,
   depvar = "l.total.point.air.emissions.onsite.intensity",
   interact_var = "pbt.chems",
-  tri_fes = tri_fes(),
+  fes = tri_fes(),
   cluster = ~c(chemical.id, naics.code, facility.state)
 )
 etable(sdid_point_air_nonpbt, digits = 3, digits.stats = 3)
@@ -2380,7 +2380,7 @@ sdid_fug_air_pbt <- sdid_releases_heter_epa_1(
   data = triQc,
   depvar = "l.total.fug.air.emissions.onsite.intensity",
   interact_var = "pbt.chems",
-  tri_fes = tri_fes(),
+  fes = tri_fes(),
   cluster = ~c(chemical.id, naics.code, facility.state)
 )
 etable(sdid_fug_air_pbt, digits = 3, digits.stats = 3)
@@ -2395,7 +2395,7 @@ sdid_fug_air_nonpbt <- sdid_releases_heter_epa_0(
   data = triQc,
   depvar = "l.total.fug.air.emissions.onsite.intensity",
   interact_var = "pbt.chems",
-  tri_fes = tri_fes(),
+  fes = tri_fes(),
   cluster = ~c(chemical.id, naics.code, facility.state)
 )
 etable(sdid_fug_air_nonpbt, digits = 3, digits.stats = 3)
@@ -2410,7 +2410,7 @@ sdid_water_disc_pbt <- sdid_releases_heter_epa_1(
   data = triQc,
   depvar = "l.total.surface.water.discharge.onsite.intensity",
   interact_var = "pbt.chems",
-  tri_fes = tri_fes(),
+  fes = tri_fes(),
   cluster = ~c(chemical.id, naics.code, facility.state)
 )
 etable(sdid_water_disc_pbt, digits = 3, digits.stats = 3)
@@ -2425,7 +2425,7 @@ sdid_water_disc_nonpbt <- sdid_releases_heter_epa_0(
   data = triQc,
   depvar = "l.total.surface.water.discharge.onsite.intensity",
   interact_var = "pbt.chems",
-  tri_fes = tri_fes(),
+  fes = tri_fes(),
   cluster = ~c(chemical.id, naics.code, facility.state)
 )
 etable(sdid_water_disc_nonpbt, digits = 3, digits.stats = 3)
@@ -2440,7 +2440,7 @@ sdid_land_releases_pbt <- sdid_releases_heter_epa_1(
   data = triQc,
   depvar = "l.total.land.releases.onsite.intensity",
   interact_var = "pbt.chems",
-  tri_fes = tri_fes(),
+  fes = tri_fes(),
   cluster = ~c(chemical.id, naics.code, facility.state)
 )
 etable(sdid_land_releases_pbt, digits = 3, digits.stats = 3)
@@ -2455,7 +2455,7 @@ sdid_land_releases_nonpbt <- sdid_releases_heter_epa_0(
   data = triQc,
   depvar = "l.total.land.releases.onsite.intensity",
   interact_var = "pbt.chems",
-  tri_fes = tri_fes(),
+  fes = tri_fes(),
   cluster = ~c(chemical.id, naics.code, facility.state)
 )
 etable(sdid_land_releases_nonpbt, digits = 3, digits.stats = 3)
@@ -2470,7 +2470,7 @@ sdid_surface_impoundment_pbt <- sdid_releases_heter_epa_1(
   data = triQc,
   depvar = "l.total.surface.impoundment.onsite.intensity",
   interact_var = "pbt.chems",
-  tri_fes = tri_fes(),
+  fes = tri_fes(),
   cluster = ~c(chemical.id, naics.code, facility.state)
 )
 etable(sdid_surface_impoundment_pbt, digits = 3, digits.stats = 3)
@@ -2485,7 +2485,7 @@ sdid_surface_impoundment_nonpbt <- sdid_releases_heter_epa_0(
   data = triQc,
   depvar = "l.total.surface.impoundment.onsite.intensity",
   interact_var = "pbt.chems",
-  tri_fes = tri_fes(),
+  fes = tri_fes(),
   cluster = ~c(chemical.id, naics.code, facility.state)
 )
 etable(sdid_surface_impoundment_nonpbt, digits = 3, digits.stats = 3)
@@ -2558,7 +2558,7 @@ dev.off()
 corr_plot <- cor(x = triQc %>% select(c(
   high.profit, high.payroll.revenue, high.wages.revenue, labour.intensive,
   highest.emitt.ind, high.gdp, low.ind.conc, carcinogenic.chems, clean.air.act.chems, hap.chems,
-  pbt.chems, caa.haps
+  pbt.chems, caa.haps, low.skilled.workers
 )), method = "pearson")
 
 correlation_het <- corrplot::corrplot(

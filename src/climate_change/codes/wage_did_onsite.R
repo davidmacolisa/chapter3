@@ -1,8 +1,8 @@
 #======================================================================================================================#
 ### PhD Chapter 3
-### Indirect Consequences of a Raising Minimum Wage
+### Unforseen Minimum Wage Consequences
 ### 30 October 2023
-### Use Regression Discontinuity Analysis
+### Use Staggered DID with border-county identification
 #======================================================================================================================#
 ### Packages
 #======================================================================================================================#
@@ -59,12 +59,12 @@ etable(treat_sel, digits = 3, digits.stats = 3)
 #======================================================================================================================#
 ### Wage per hour
 #======================================================================================================================#
-reg_wagephr <- did_preliminary(
+reg_wagephr <- did_baseline(
   data = triQc,
   depvar = "wage.perhr",
   ATT = "e.treated",
   cluster = ~facility.state,
-  did_county_fes = did_county_fes
+  fes = did_county_fes()
 )
 etable(reg_wagephr, digits = 3, digits.stats = 3)
 #----------------------------------------------------------------------------------------------------------------------#
@@ -84,12 +84,12 @@ sum(dCDH_decomp$weight[dCDH_decomp$weight >= 0])
 # Negative weights
 sum(dCDH_decomp$weight[dCDH_decomp$weight < 0])
 #----------------------------------------------------------------------------------------------------------------------#
-reg_wagephr <- dynamic_did_preliminary(
+reg_wagephr <- dynamic_did_baseline(
   data = triQc,
   depvar = "l.wage.perhr",
   relative_year = "rel.year",
   cluster = ~facility.state,
-  county_fes = county_fes
+  fes = county_fes()
 )
 etable(reg_wagephr, digits = 3, digits.stats = 3)
 iplot(reg_wagephr, xlim = c(-3, 3), ylim = c(-0.15, 0.15), col = "blue",
@@ -103,23 +103,23 @@ linearHypothesis(reg_wagephr, paste0(names(pre_treat_coef), " = 0"), test = "F")
 #----------------------------------------------------------------------------------------------------------------------#
 # Sun and Abraham (2020)
 #----------------------------------------------------------------------------------------------------------------------#
-sdid_wages <- sdid_preliminary(
+sdid_wages <- sdid_baseline(
   data = triQc,
   depvar = "wage.perhr",
   ATT = "sunab(ch.year, year)",
   cluster = ~facility.state,
-  did_county_fes = did_county_fes
+  fes = did_tri_fes()
 )
 etable(sdid_wages, agg = "ATT", digits = 3, digits.stats = 3)
 etable(sdid_wages, agg = "cohort", digits = 3, digits.stats = 3)
 etable(sdid_wages, digits.stats = 3, digits = 3)
 
-sdid_wages <- dynamic_sdid_preliminary(
+sdid_wages <- dynamic_sdid_baseline(
   data = triQc,
   depvar = "l.wage.perhr",
   ATT = "sunab(ch.year, year)",
   cluster = ~facility.state,
-  county_fes = county_fes
+  fes = county_fes()
 )
 etable(sdid_wages, digits.stats = 3, digits = 3)
 iplot(list(sdid_wages, reg_wagephr),
@@ -134,12 +134,12 @@ legend(x = "bottomright", legend = c("Sun and Abraham (2020) ATT: $0.889* (0.452
 #======================================================================================================================#
 ### Labour cost: Industry Pay---Total payroll
 #======================================================================================================================#
-reg_pay <- did_preliminary(
+reg_pay <- did_baseline(
   data = triQc,
   depvar = "pay",
   ATT = "e.treated",
   cluster = ~facility.state,
-  did_county_fes = did_county_fes
+  fes = did_county_fes()
 )
 etable(reg_pay, digits = 3, digits.stats = 3)
 #----------------------------------------------------------------------------------------------------------------------#
@@ -159,12 +159,12 @@ sum(dCDH_decomp$weight[dCDH_decomp$weight >= 0])
 # Negative weights
 sum(dCDH_decomp$weight[dCDH_decomp$weight < 0])
 #----------------------------------------------------------------------------------------------------------------------#
-reg_pay <- dynamic_did_preliminary(
+reg_pay <- dynamic_did_baseline(
   data = triQc,
   depvar = "l.pay",
   relative_year = "rel.year",
   cluster = ~facility.state,
-  county_fes = county_fes
+  fes = county_fes()
 )
 etable(reg_pay, digits = 3, digits.stats = 3)
 iplot(reg_pay, xlim = c(-3, 3), ylim = c(-0.3, 0.3), col = "blue",
@@ -178,23 +178,23 @@ linearHypothesis(reg_pay, paste0(names(pre_treat_coef), " = 0"), test = "F")
 #----------------------------------------------------------------------------------------------------------------------#
 # Sun and Abraham (2020)
 #----------------------------------------------------------------------------------------------------------------------#
-sdid_pay <- sdid_preliminary(
+sdid_pay <- sdid_baseline(
   data = triQc,
   depvar = "l.pay",
   ATT = "sunab(ch.year, year)",
   cluster = ~facility.state,
-  did_county_fes = did_county_fes
+  fes = did_county_fes()
 )
 etable(sdid_pay, agg = "ATT", digits = 3, digits.stats = 3)
 etable(sdid_pay, agg = "cohort", digits = 3, digits.stats = 3)
 etable(sdid_pay, digits.stats = 3, digits = 3)
 
-sdid_pay <- dynamic_sdid_preliminary(
+sdid_pay <- dynamic_sdid_baseline(
   data = triQc,
   depvar = "l.pay",
   ATT = "sunab(ch.year, year)",
   cluster = ~facility.state,
-  county_fes = county_fes
+  fes = county_fes()
 )
 etable(sdid_pay, digits.stats = 3, digits = 3)
 iplot(
@@ -210,12 +210,12 @@ legend(x = "bottomright", legend = c("Sun and Abraham (2020) ATT: 0.043* (0.025)
 #======================================================================================================================#
 ### Material cost: Industry material cost (log)
 #======================================================================================================================#
-reg_matcost <- did_preliminary(
+reg_matcost <- did_baseline(
   data = triQc,
   depvar = "l.matcost",
   ATT = "e.treated",
   cluster = ~facility.state,
-  did_county_fes = did_county_fes
+  fes = did_county_fes()
 )
 etable(reg_matcost, digits = 3, digits.stats = 3)
 #----------------------------------------------------------------------------------------------------------------------#
@@ -235,12 +235,12 @@ sum(dCDH_decomp$weight[dCDH_decomp$weight >= 0])
 # Negative weights
 sum(dCDH_decomp$weight[dCDH_decomp$weight < 0])
 #----------------------------------------------------------------------------------------------------------------------#
-reg_matcost <- dynamic_did_preliminary(
+reg_matcost <- dynamic_did_baseline(
   data = triQc,
   depvar = "l.matcost",
   relative_year = "rel.year",
   cluster = ~facility.state,
-  county_fes = county_fes
+  fes = county_fes()
 )
 etable(reg_matcost, digits = 3, digits.stats = 3)
 iplot(reg_matcost, xlim = c(-3, 3), ylim = c(-0.6, 0.6), col = "blue",
@@ -254,23 +254,23 @@ linearHypothesis(reg_matcost, paste0(names(pre_treat_coef), " = 0"), test = "F")
 #----------------------------------------------------------------------------------------------------------------------#
 # Sun and Abraham (2020)
 #----------------------------------------------------------------------------------------------------------------------#
-sdid_matcost <- sdid_preliminary(
+sdid_matcost <- sdid_baseline(
   data = triQc,
   depvar = "l.matcost",
   ATT = "sunab(ch.year, year)",
   cluster = ~facility.state,
-  did_county_fes = did_county_fes
+  fes = did_county_fes()
 )
 etable(sdid_matcost, agg = "ATT", digits.stats = 3, digits = 3)
 etable(sdid_matcost, agg = "cohort", digits.stats = 3, digits = 3)
 etable(sdid_matcost, digits.stats = 3, digits = 3)
 
-sdid_matcost <- dynamic_sdid_preliminary(
+sdid_matcost <- dynamic_sdid_baseline(
   data = triQc,
   depvar = "l.matcost",
   ATT = "sunab(ch.year, year)",
   cluster = ~facility.state,
-  county_fes = county_fes
+  fes = county_fes()
 )
 etable(sdid_matcost, digits.stats = 3, digits = 3)
 iplot(
@@ -318,124 +318,14 @@ legend(x = "bottomright", legend = c("Sun and Abraham (2020) ATT: 0.1291* (0.069
 	   col = c("red", "black"), pch = 19, pt.cex = 2, bty = "n")
 dev.off()
 #======================================================================================================================#
-### Low skilled vs high skilled workers---Approximated
-#======================================================================================================================#
-# Low skilled are approximated by using industry workers in each manufacturing facility whose wages are below the 30th
-# percentile.
-#======================================================================================================================#
-triQc <- triQc %>%
-  group_by(naics.code, facility.id) %>%
-  mutate(
-	wage.range = quantile(wage.perhr, probs = 0.30),
-	low.skilled.workers = ifelse(test = (wage.perhr < wage.range), yes = 1, no = 0),
-  ) %>%
-  ungroup()
-sum_up(triQc, c(wage.range, low.skilled.workers, wage.perhr))
-#======================================================================================================================#
-### Wage per hour for low-skilled vs high-skilled workers
-#======================================================================================================================#
-sdid_wages_lowskilled <- sdid_preliminary_heter_1(
-  data = triQc,
-  depvar = "l.wage.perhr",
-  interact_var = "low.skilled.workers",
-  cluster = ~facility.state,
-  county_fes = county_fes
-)
-etable(sdid_wages_lowskilled, digits.stats = 3, digits = 3)
-etable(sdid_wages_lowskilled, agg = "ATT", digits = 3, digits.stats = 3)
-etable(sdid_wages_lowskilled, agg = "cohort", digits = 3, digits.stats = 3)
-iplot(sdid_wages_lowskilled, xlim = c(-3, 3), ylim = c(-0.5, 0.7), col = c("blue", "pink"),
-	  main = "Hourly wage (log), Low-skilled Workers", xlab = "relative year", lwd = 1, cex = 4,
-	  pt.cex = 1.5, pt.col = c("red", "black"), pt.join = T,
-	  ci.lwd = 5, ci.lty = 1
-) %>%
-  abline(v = -1, col = "red", lty = 2, lwd = 2)
-
-sdid_wages_highskilled <- sdid_preliminary_heter_0(
-  data = triQc,
-  depvar = "l.wage.perhr",
-  interact_var = "low.skilled.workers",
-  cluster = ~facility.state,
-  county_fes = county_fes
-)
-etable(sdid_wages_highskilled, digits.stats = 3, digits = 3)
-iplot(sdid_wages_highskilled, xlim = c(-3, 3), ylim = c(-0.05, 0.15), col = c("blue", "pink"),
-	  main = "Hourly wage (log), High-skilled Workers", xlab = "relative year", lwd = 1, cex = 4,
-	  pt.cex = 1.5, pt.col = c("red", "black"), pt.join = T,
-	  ci.lwd = 5, ci.lty = 1
-) %>%
-  abline(v = -1, col = "red", lty = 2, lwd = 2)
-#======================================================================================================================#
-### Labour cost: Industry Pay---Total payroll for low-skilled vs high-skilled workers
-#======================================================================================================================#
-sdid_pay_lowskilled <- sdid_preliminary_heter_1(
-  data = triQc,
-  depvar = "l.pay",
-  interact_var = "low.skilled.workers",
-  cluster = ~facility.state,
-  county_fes = county_fes
-)
-etable(sdid_pay_lowskilled, digits.stats = 3, digits = 3)
-etable(sdid_pay_lowskilled, agg = "ATT", digits = 3, digits.stats = 3)
-etable(sdid_pay_lowskilled, agg = "cohort", digits = 3, digits.stats = 3)
-iplot(sdid_pay_lowskilled, xlim = c(-3, 3), ylim = c(-2, 1.5), col = c("blue", "pink"),
-	  main = "Total Payroll (log), Low-skilled Workers", xlab = "relative year", lwd = 1, cex = 4,
-	  pt.cex = 1.5, pt.col = c("red", "black"), pt.join = T,
-	  ci.lwd = 5, ci.lty = 1
-) %>%
-  abline(v = -1, col = "red", lty = 2, lwd = 2)
-
-sdid_pay_highskilled <- sdid_preliminary_heter_0(
-  data = triQc,
-  depvar = "l.pay",
-  interact_var = "low.skilled.workers",
-  cluster = ~facility.state,
-  county_fes = county_fes
-)
-etable(sdid_pay_highskilled, digits.stats = 3, digits = 3)
-iplot(sdid_pay_highskilled, xlim = c(-3, 3), ylim = c(-0.3, 0.2), col = c("blue", "pink"),
-	  main = "Total Payroll (log), High-skilled Workers", xlab = "relative year", lwd = 1, cex = 4,
-	  pt.cex = 1.5, pt.col = c("red", "black"), pt.join = T,
-	  ci.lwd = 5, ci.lty = 1
-) %>%
-  abline(v = -1, col = "red", lty = 2, lwd = 2)
-#======================================================================================================================#
-pdf(file = "./Thesis/chapter3/src/climate_change/latex/fig_sdid_industry_costs_skilled.pdf", width = 16, height = 4)
-par(mfrow = c(1, 4))
-iplot(sdid_wages_lowskilled, xlim = c(-3, 3), ylim = c(-0.5, 0.7), col = c("blue", "pink"),
-	  main = "Hourly wage (log), Low-skilled Workers", xlab = "relative year", lwd = 1, cex = 4,
-	  pt.cex = 1.5, pt.col = c("red", "black"), pt.join = T,
-	  ci.lwd = 5, ci.lty = 1
-) %>%
-  abline(v = -1, col = "red", lty = 2, lwd = 2)
-iplot(sdid_wages_highskilled, xlim = c(-3, 3), ylim = c(-0.05, 0.15), col = c("blue", "pink"),
-	  main = "Hourly wage (log), High-skilled Workers", xlab = "relative year", lwd = 1, cex = 4,
-	  pt.cex = 1.5, pt.col = c("red", "black"), pt.join = T,
-	  ci.lwd = 5, ci.lty = 1
-) %>%
-  abline(v = -1, col = "red", lty = 2, lwd = 2)
-iplot(sdid_pay_lowskilled, xlim = c(-3, 3), ylim = c(-2, 1.5), col = c("blue", "pink"),
-	  main = "Total Payroll (log), Low-skilled Workers", xlab = "relative year", lwd = 1, cex = 4,
-	  pt.cex = 1.5, pt.col = c("red", "black"), pt.join = T,
-	  ci.lwd = 5, ci.lty = 1
-) %>%
-  abline(v = -1, col = "red", lty = 2, lwd = 2)
-iplot(sdid_pay_highskilled, xlim = c(-3, 3), ylim = c(-0.3, 0.2), col = c("blue", "pink"),
-	  main = "Total Payroll (log), High-skilled Workers", xlab = "relative year", lwd = 1, cex = 4,
-	  pt.cex = 1.5, pt.col = c("red", "black"), pt.join = T,
-	  ci.lwd = 5, ci.lty = 1
-) %>%
-  abline(v = -1, col = "red", lty = 2, lwd = 2)
-dev.off()
-#======================================================================================================================#
 ### Industry: Employment
 #======================================================================================================================#
-reg_emp <- did_preliminary(
+reg_emp <- did_baseline(
   data = triQc,
   depvar = "l.emp",
   ATT = "e.treated",
   cluster = ~facility.state,
-  did_county_fes = did_county_fes
+  fes = did_county_fes()
 )
 etable(reg_emp, digits = 3, digits.stats = 3)
 #----------------------------------------------------------------------------------------------------------------------#
@@ -455,12 +345,12 @@ sum(dCDH_decomp$weight[dCDH_decomp$weight >= 0])
 # Negative weights
 sum(dCDH_decomp$weight[dCDH_decomp$weight < 0])
 #----------------------------------------------------------------------------------------------------------------------#
-reg_emp <- dynamic_did_preliminary(
+reg_emp <- dynamic_did_baseline(
   data = triQc,
   depvar = "l.emp",
   relative_year = "rel.year",
   cluster = ~facility.state,
-  county_fes = county_fes
+  fes = county_fes()
 )
 etable(reg_emp, digits = 3, digits.stats = 3)
 iplot(reg_emp, xlim = c(-3, 3), ylim = c(-0.32, 0.2), col = "blue",
@@ -474,23 +364,23 @@ linearHypothesis(reg_emp, paste0(names(pre_treat_coef), " = 0"), test = "F")
 #----------------------------------------------------------------------------------------------------------------------#
 # Sun and Abraham (2020)
 #----------------------------------------------------------------------------------------------------------------------#
-sdid_emp <- sdid_preliminary(
+sdid_emp <- sdid_baseline(
   data = triQc,
   depvar = "l.emp",
   ATT = "sunab(ch.year, year)",
   cluster = ~facility.state,
-  county_fes = county_fes
+  fes = county_fes()
 )
 etable(sdid_emp, agg = "ATT", digits.stats = 3, digits = 3)
 etable(sdid_emp, agg = "cohort", digits.stats = 3, digits = 3)
 etable(sdid_emp, digits.stats = 3, digits = 3)
 
-sdid_emp <- dynamic_sdid_preliminary(
+sdid_emp <- dynamic_sdid_baseline(
   data = triQc,
   depvar = "l.emp",
   ATT = "sunab(ch.year, year)",
   cluster = ~facility.state,
-  county_fes = county_fes
+  fes = county_fes()
 )
 etable(sdid_emp, digits.stats = 3, digits = 3)
 iplot(
@@ -506,12 +396,12 @@ legend(x = "bottomright", legend = c("Sun and Abraham (2020) ATT: -0.002 (0.025)
 #======================================================================================================================#
 ### Industry: Production workers
 #======================================================================================================================#
-reg_prodworkers <- did_preliminary(
+reg_prodworkers <- did_baseline(
   data = triQc,
   depvar = "l.prode",
   ATT = "e.treated",
   cluster = ~facility.state,
-  did_county_fes = did_county_fes
+  fes = did_county_fes()
 )
 etable(reg_prodworkers, digits = 3, digits.stats = 3)
 #----------------------------------------------------------------------------------------------------------------------#
@@ -531,12 +421,12 @@ sum(dCDH_decomp$weight[dCDH_decomp$weight >= 0])
 # Negative weights
 sum(dCDH_decomp$weight[dCDH_decomp$weight < 0])
 #----------------------------------------------------------------------------------------------------------------------#
-reg_prodworkers <- dynamic_did_preliminary(
+reg_prodworkers <- dynamic_did_baseline(
   data = triQc,
   depvar = "l.prode",
   relative_year = "rel.year",
   cluster = ~facility.state,
-  county_fes = county_fes
+  fes = county_fes()
 )
 etable(reg_prodworkers, digits = 3, digits.stats = 3)
 iplot(reg_prodworkers, xlim = c(-3, 3), ylim = c(-0.4, 0.2), col = "blue",
@@ -550,23 +440,23 @@ linearHypothesis(reg_prodworkers, paste0(names(pre_treat_coef), " = 0"), test = 
 #----------------------------------------------------------------------------------------------------------------------#
 # Sun and Abraham (2020)
 #----------------------------------------------------------------------------------------------------------------------#
-sdid_prodworkers <- sdid_preliminary(
+sdid_prodworkers <- sdid_baseline(
   data = triQc,
   depvar = "l.prode",
   ATT = "sunab(ch.year, year)",
   cluster = ~facility.state,
-  did_county_fes = did_county_fes
+  fes = did_county_fes()
 )
 etable(sdid_prodworkers, agg = "ATT", digits.stats = 3, digits = 3)
 etable(sdid_prodworkers, agg = "cohort", digits.stats = 3, digits = 3)
 etable(sdid_prodworkers, digits.stats = 3, digits = 3)
 
-sdid_prodworkers <- dynamic_sdid_preliminary(
+sdid_prodworkers <- dynamic_sdid_baseline(
   data = triQc,
   depvar = "l.prode",
   ATT = "sunab(ch.year, year)",
   cluster = ~facility.state,
-  county_fes = county_fes
+  fes = county_fes()
 )
 etable(sdid_prodworkers, digits.stats = 3, digits = 3)
 etable(sdid_prodworkers, digits.stats = 3, digits = 3)
@@ -583,12 +473,12 @@ legend(x = "bottomright", legend = c("Sun and Abraham (2020) ATT: -0.023 (0.033)
 #======================================================================================================================#
 ### Industry: Production hours
 #======================================================================================================================#
-reg_phours <- did_preliminary(
+reg_phours <- did_baseline(
   data = triQc,
   depvar = "l.prodh",
   ATT = "e.treated",
   cluster = ~facility.state,
-  did_county_fes = did_county_fes
+  fes = did_county_fes()
 )
 etable(reg_phours, digits = 3, digits.stats = 3)
 #----------------------------------------------------------------------------------------------------------------------#
@@ -608,12 +498,12 @@ sum(dCDH_decomp$weight[dCDH_decomp$weight >= 0])
 # Negative weights
 sum(dCDH_decomp$weight[dCDH_decomp$weight < 0])
 #----------------------------------------------------------------------------------------------------------------------#
-reg_phours <- dynamic_did_preliminary(
+reg_phours <- dynamic_did_baseline(
   data = triQc,
   depvar = "l.prodh",
   relative_year = "rel.year",
   cluster = ~facility.state,
-  county_fes = county_fes
+  fes = county_fes()
 )
 etable(reg_phours, digits = 3, digits.stats = 3)
 iplot(reg_phours, xlim = c(-3, 3), ylim = c(-0.4, 0.3), col = "blue",
@@ -627,23 +517,23 @@ linearHypothesis(reg_phours, paste0(names(pre_treat_coef), " = 0"), test = "F")
 #----------------------------------------------------------------------------------------------------------------------#
 # Sun and Abraham (2020)
 #----------------------------------------------------------------------------------------------------------------------#
-sdid_phours <- sdid_preliminary(
+sdid_phours <- sdid_baseline(
   data = triQc,
   depvar = "l.prodh",
   ATT = "sunab(ch.year, year)",
   cluster = ~facility.state,
-  did_county_fes = did_county_fes
+  fes = did_county_fes()
 )
 etable(sdid_phours, agg = "ATT", digits.stats = 3, digits = 3)
 etable(sdid_phours, agg = "cohort", digits.stats = 3, digits = 3)
 etable(sdid_phours, digits.stats = 3, digits = 3)
 
-sdid_phours <- dynamic_sdid_preliminary(
+sdid_phours <- dynamic_sdid_baseline(
   data = triQc,
   depvar = "l.prodh",
   ATT = "sunab(ch.year, year)",
   cluster = ~facility.state,
-  county_fes = county_fes
+  fes = county_fes()
 )
 etable(sdid_phours, digits.stats = 3, digits = 3)
 iplot(
@@ -663,8 +553,7 @@ iplot(
   list(sdid_emp, reg_emp),
   xlim = c(-3, 3), ylim = c(-0.35, 0.2), col = c("blue", "pink"),
   main = "Industry Employment (log)", xlab = "relative year", lwd = 1, cex = 4,
-  pt.cex = 1.5, pt.col = c("red", "black"), pt.join = T,
-  ci.lwd = 5, ci.lty = 1
+  pt.cex = 1.5, pt.col = c("red", "black"), pt.join = T, ci.lwd = 5, ci.lty = 1
 ) %>%
   abline(v = -1, col = "red", lty = 2, lwd = 2)
 legend(x = "bottomright", legend = c("Sun and Abraham (2020) ATT: -0.002 (0.025)", "TWFE ATT: 0.000 (0.022)"),
@@ -691,156 +580,14 @@ legend(x = "bottomright", legend = c("Sun and Abraham (2020) ATT: -0.019 (0.033)
 	   col = c("red", "black"), pch = 19, pt.cex = 2, bty = "n")
 dev.off()
 #======================================================================================================================#
-### Employment for low-skilled vs high-skilled workers
-#======================================================================================================================#
-sdid_emp_lowskilled <- sdid_preliminary_heter_1(
-  data = triQc,
-  depvar = "l.emp",
-  interact_var = "low.skilled.workers",
-  cluster = ~facility.state,
-  county_fes = county_fes
-)
-etable(sdid_emp_lowskilled, digits.stats = 3, digits = 3)
-etable(sdid_emp_lowskilled, agg = "ATT", digits = 3, digits.stats = 3)
-etable(sdid_emp_lowskilled, agg = "cohort", digits = 3, digits.stats = 3)
-iplot(sdid_emp_lowskilled, xlim = c(-3, 3), ylim = c(-1.5, 0.7), col = c("blue", "pink"),
-	  main = "Employment (log), Low-skilled Workers", xlab = "relative year", lwd = 1, cex = 4,
-	  pt.cex = 1.5, pt.col = c("red", "black"), pt.join = T,
-	  ci.lwd = 5, ci.lty = 1
-) %>%
-  abline(v = -1, col = "red", lty = 2, lwd = 2)
-
-sdid_emp_highskilled <- sdid_preliminary_heter_0(
-  data = triQc,
-  depvar = "l.emp",
-  interact_var = "high.skilled.workers",
-  cluster = ~facility.state,
-  county_fes = county_fes
-)
-etable(sdid_emp_highskilled, digits.stats = 3, digits = 3)
-iplot(sdid_emp_highskilled, xlim = c(-3, 3), ylim = c(-0.3, 0.2), col = c("blue", "pink"),
-	  main = "Employment (log), High-skilled Workers", xlab = "relative year", lwd = 1, cex = 4,
-	  pt.cex = 1.5, pt.col = c("red", "black"), pt.join = T,
-	  ci.lwd = 5, ci.lty = 1
-) %>%
-  abline(v = -1, col = "red", lty = 2, lwd = 2)
-#======================================================================================================================#
-### Production workers for low-skilled vs high-skilled workers
-#======================================================================================================================#
-sdid_prodworkers_lowskilled <- sdid_preliminary_heter_1(
-  data = triQc,
-  depvar = "l.prodw",
-  interact_var = "low.skilled.workers",
-  cluster = ~facility.state,
-  county_fes = county_fes
-)
-etable(sdid_prodworkers_lowskilled, digits.stats = 3, digits = 3)
-etable(sdid_prodworkers_lowskilled, agg = "ATT", digits = 3, digits.stats = 3)
-etable(sdid_prodworkers_lowskilled, agg = "cohort", digits = 3, digits.stats = 3)
-iplot(sdid_prodworkers_lowskilled, xlim = c(-3, 3), ylim = c(-1.8, 1.5), col = c("blue", "pink"),
-	  main = "Production Workers (log), Low-skilled Workers", xlab = "relative year", lwd = 1, cex = 4,
-	  pt.cex = 1.5, pt.col = c("red", "black"), pt.join = T,
-	  ci.lwd = 5, ci.lty = 1
-) %>%
-  abline(v = -1, col = "red", lty = 2, lwd = 2)
-
-sdid_prodworkers_highskilled <- sdid_preliminary_heter_0(
-  data = triQc,
-  depvar = "l.prodw",
-  interact_var = "high.skilled.workers",
-  cluster = ~facility.state,
-  county_fes = county_fes
-)
-etable(sdid_prodworkers_highskilled, digits.stats = 3, digits = 3)
-iplot(sdid_prodworkers_highskilled, xlim = c(-3, 3), ylim = c(-0.35, 0.2), col = c("blue", "pink"),
-	  main = "Production Workers (log), High-skilled Workers", xlab = "relative year", lwd = 1, cex = 4,
-	  pt.cex = 1.5, pt.col = c("red", "black"), pt.join = T,
-	  ci.lwd = 5, ci.lty = 1
-) %>%
-  abline(v = -1, col = "red", lty = 2, lwd = 2)
-#======================================================================================================================#
-### Production Hours for low-skilled vs high-skilled workers
-#======================================================================================================================#
-sdid_prodhours_lowskilled <- sdid_preliminary_heter_1(
-  data = triQc,
-  depvar = "l.prodh",
-  interact_var = "low.skilled.workers",
-  cluster = ~facility.state,
-  county_fes = county_fes
-)
-etable(sdid_prodhours_lowskilled, digits.stats = 3, digits = 3)
-etable(sdid_prodhours_lowskilled, agg = "ATT", digits = 3, digits.stats = 3)
-etable(sdid_prodhours_lowskilled, agg = "cohort", digits = 3, digits.stats = 3)
-iplot(sdid_prodhours_lowskilled, xlim = c(-3, 3), ylim = c(-1.5, 0.85), col = c("blue", "pink"),
-	  main = "Production Hours (log), Low-skilled Workers", xlab = "relative year", lwd = 1, cex = 4,
-	  pt.cex = 1.5, pt.col = c("red", "black"), pt.join = T,
-	  ci.lwd = 5, ci.lty = 1
-) %>%
-  abline(v = -1, col = "red", lty = 2, lwd = 2)
-
-sdid_prodhours_highskilled <- sdid_preliminary_heter_0(
-  data = triQc,
-  depvar = "l.prodh",
-  interact_var = "high.skilled.workers",
-  cluster = ~facility.state,
-  county_fes = county_fes
-)
-etable(sdid_prodhours_highskilled, digits.stats = 3, digits = 3)
-iplot(sdid_prodhours_highskilled, xlim = c(-3, 3), ylim = c(-0.4, 0.2), col = c("blue", "pink"),
-	  main = "Production Hours (log), High-skilled Workers", xlab = "relative year", lwd = 1, cex = 4,
-	  pt.cex = 1.5, pt.col = c("red", "black"), pt.join = T,
-	  ci.lwd = 5, ci.lty = 1
-) %>%
-  abline(v = -1, col = "red", lty = 2, lwd = 2)
-#======================================================================================================================#
-pdf(file = "./Thesis/chapter3/src/climate_change/latex/fig_sdid_emp_hours_skilled.pdf", width = 12, height = 6)
-par(mfrow = c(2, 3))
-iplot(sdid_emp_lowskilled, xlim = c(-3, 3), ylim = c(-1.5, 0.7), col = c("blue", "pink"),
-	  main = "Employment (log), Low-skilled Workers", xlab = "relative year", lwd = 1, cex = 4,
-	  pt.cex = 1.5, pt.col = c("red", "black"), pt.join = T,
-	  ci.lwd = 5, ci.lty = 1
-) %>%
-  abline(v = -1, col = "red", lty = 2, lwd = 2)
-iplot(sdid_emp_highskilled, xlim = c(-3, 3), ylim = c(-0.3, 0.2), col = c("blue", "pink"),
-	  main = "Employment (log), High-skilled Workers", xlab = "relative year", lwd = 1, cex = 4,
-	  pt.cex = 1.5, pt.col = c("red", "black"), pt.join = T,
-	  ci.lwd = 5, ci.lty = 1
-) %>%
-  abline(v = -1, col = "red", lty = 2, lwd = 2)
-iplot(sdid_prodworkers_lowskilled, xlim = c(-3, 3), ylim = c(-1.8, 1.5), col = c("blue", "pink"),
-	  main = "Production Workers (log), Low-skilled Workers", xlab = "relative year", lwd = 1, cex = 4,
-	  pt.cex = 1.5, pt.col = c("red", "black"), pt.join = T,
-	  ci.lwd = 5, ci.lty = 1
-) %>%
-  abline(v = -1, col = "red", lty = 2, lwd = 2)
-iplot(sdid_prodworkers_highskilled, xlim = c(-3, 3), ylim = c(-0.35, 0.2), col = c("blue", "pink"),
-	  main = "Production Workers (log), High-skilled Workers", xlab = "relative year", lwd = 1, cex = 4,
-	  pt.cex = 1.5, pt.col = c("red", "black"), pt.join = T,
-	  ci.lwd = 5, ci.lty = 1
-) %>%
-  abline(v = -1, col = "red", lty = 2, lwd = 2)
-iplot(sdid_prodhours_lowskilled, xlim = c(-3, 3), ylim = c(-1.5, 0.85), col = c("blue", "pink"),
-	  main = "Production Hours (log), Low-skilled Workers", xlab = "relative year", lwd = 1, cex = 4,
-	  pt.cex = 1.5, pt.col = c("red", "black"), pt.join = T,
-	  ci.lwd = 5, ci.lty = 1
-) %>%
-  abline(v = -1, col = "red", lty = 2, lwd = 2)
-iplot(sdid_prodhours_highskilled, xlim = c(-3, 3), ylim = c(-0.4, 0.2), col = c("blue", "pink"),
-	  main = "Production Hours (log), High-skilled Workers", xlab = "relative year", lwd = 1, cex = 4,
-	  pt.cex = 1.5, pt.col = c("red", "black"), pt.join = T,
-	  ci.lwd = 5, ci.lty = 1
-) %>%
-  abline(v = -1, col = "red", lty = 2, lwd = 2)
-dev.off()
-#======================================================================================================================#
 ### Industry: Industry Output
 #======================================================================================================================#
-reg_output <- did_preliminary(
+reg_output <- did_baseline(
   data = triQc,
   depvar = "l.output",
   ATT = "e.treated",
   cluster = ~facility.state,
-  did_county_fes = did_county_fes
+  fes = did_county_fes()
 )
 etable(reg_output, digits = 3, digits.stats = 3)
 #----------------------------------------------------------------------------------------------------------------------#
@@ -860,12 +607,12 @@ sum(dCDH_decomp$weight[dCDH_decomp$weight >= 0])
 # Negative weights
 sum(dCDH_decomp$weight[dCDH_decomp$weight < 0])
 #----------------------------------------------------------------------------------------------------------------------#
-reg_output <- dynamic_did_preliminary(
+reg_output <- dynamic_did_baseline(
   data = triQc,
   depvar = "l.output",
   relative_year = "rel.year",
   cluster = ~facility.state,
-  county_fes = county_fes
+  fes = county_fes()
 )
 etable(reg_output, digits = 3, digits.stats = 3)
 iplot(reg_output, xlim = c(-3, 3), ylim = c(-0.3, 0.3), col = "blue",
@@ -879,23 +626,23 @@ linearHypothesis(reg_output, paste0(names(pre_treat_coef), " = 0"), test = "F")
 #----------------------------------------------------------------------------------------------------------------------#
 # Sun and Abraham (2020)
 #----------------------------------------------------------------------------------------------------------------------#
-sdid_output <- sdid_preliminary(
+sdid_output <- sdid_baseline(
   data = triQc,
   depvar = "l.output",
   ATT = "sunab(ch.year, year)",
   cluster = ~facility.state,
-  did_county_fes = did_county_fes
+  fes = did_county_fes()
 )
 etable(sdid_output, agg = "ATT", digits.stats = 3, digits = 3)
 etable(sdid_output, agg = "cohort", digits.stats = 3, digits = 3)
 etable(sdid_output, digits.stats = 3, digits = 3)
 
-sdid_output <- dynamic_sdid_preliminary(
+sdid_output <- dynamic_sdid_baseline(
   data = triQc,
   depvar = "l.output",
   ATT = "sunab(ch.year, year)",
   cluster = ~facility.state,
-  county_fes = county_fes
+  fes = county_fes()
 )
 etable(sdid_output, digits.stats = 3, digits = 3)
 iplot(
@@ -911,12 +658,12 @@ legend(x = "bottomright", legend = c("Sun and Abraham (2020) ATT: 0.125*** (0.03
 #======================================================================================================================#
 ### Industry: Output per hour
 #======================================================================================================================#
-reg_outputprhr <- did_preliminary(
+reg_outputprhr <- did_baseline(
   data = triQc,
   depvar = "l.output.perhr",
   ATT = "e.treated",
   cluster = ~facility.state,
-  did_county_fes = did_county_fes
+  fes = did_county_fes()
 )
 etable(reg_outputprhr, digits = 3, digits.stats = 3)
 #----------------------------------------------------------------------------------------------------------------------#
@@ -936,12 +683,12 @@ sum(dCDH_decomp$weight[dCDH_decomp$weight >= 0])
 # Negative weights
 sum(dCDH_decomp$weight[dCDH_decomp$weight < 0])
 #----------------------------------------------------------------------------------------------------------------------#
-reg_outputprhr <- dynamic_did_preliminary(
+reg_outputprhr <- dynamic_did_baseline(
   data = triQc,
   depvar = "l.output.perhr",
   relative_year = "rel.year",
   cluster = ~facility.state,
-  county_fes = county_fes
+  fes = county_fes()
 )
 etable(reg_outputprhr, digits = 3, digits.stats = 3)
 iplot(reg_outputprhr, xlim = c(-3, 3), ylim = c(-0.5, 0.5), col = "blue",
@@ -955,23 +702,23 @@ linearHypothesis(reg_outputprhr, paste0(names(pre_treat_coef), " = 0"), test = "
 #----------------------------------------------------------------------------------------------------------------------#
 # Sun and Abraham (2020)
 #----------------------------------------------------------------------------------------------------------------------#
-sdid_outputprhr <- sdid_preliminary(
+sdid_outputprhr <- sdid_baseline(
   data = triQc,
   depvar = "l.output.perhr",
   ATT = "sunab(ch.year, year)",
   cluster = ~facility.state,
-  did_county_fes = did_county_fes
+  fes = did_county_fes()
 )
 etable(sdid_outputprhr, agg = "ATT", digits.stats = 3, digits = 3)
 etable(sdid_outputprhr, agg = "cohort", digits.stats = 3, digits = 3)
 etable(sdid_outputprhr, digits.stats = 3, digits = 3)
 
-sdid_outputprhr <- dynamic_sdid_preliminary(
+sdid_outputprhr <- dynamic_sdid_baseline(
   data = triQc,
   depvar = "l.output.perhr",
   ATT = "sunab(ch.year, year)",
   cluster = ~facility.state,
-  county_fes = county_fes
+  fes = county_fes()
 )
 etable(sdid_outputprhr, digits.stats = 3, digits = 3)
 iplot(
@@ -987,12 +734,12 @@ legend(x = "bottomright", legend = c("Sun and Abraham (2020) ATT: 0.144*** (0.03
 #======================================================================================================================#
 ### Industry: Output per Worker
 #======================================================================================================================#
-reg_outputperworker <- did_preliminary(
+reg_outputperworker <- did_baseline(
   data = triQc,
   depvar = "l.output.perworker",
   ATT = "e.treated",
   cluster = ~facility.state,
-  did_county_fes = did_county_fes
+  fes = did_county_fes()
 )
 etable(reg_outputperworker, digits = 3, digits.stats = 3)
 #----------------------------------------------------------------------------------------------------------------------#
@@ -1012,12 +759,12 @@ sum(dCDH_decomp$weight[dCDH_decomp$weight >= 0])
 # Negative weights
 sum(dCDH_decomp$weight[dCDH_decomp$weight < 0])
 #----------------------------------------------------------------------------------------------------------------------#
-reg_outputperworker <- dynamic_did_preliminary(
+reg_outputperworker <- dynamic_did_baseline(
   data = triQc,
   depvar = "l.output.perworker",
   relative_year = "rel.year",
   cluster = ~facility.state,
-  county_fes = county_fes
+  fes = county_fes()
 )
 etable(reg_outputperworker, digits = 3, digits.stats = 3)
 iplot(reg_outputperworker, xlim = c(-3, 3), ylim = c(-0.5, 0.5), col = "blue",
@@ -1031,23 +778,23 @@ linearHypothesis(reg_outputperworker, paste0(names(pre_treat_coef), " = 0"), tes
 #----------------------------------------------------------------------------------------------------------------------#
 # Sun and Abraham (2020)
 #----------------------------------------------------------------------------------------------------------------------#
-sdid_outputperworker <- sdid_preliminary(
+sdid_outputperworker <- sdid_baseline(
   data = triQc,
   depvar = "l.output.perworker",
   ATT = "sunab(ch.year, year)",
   cluster = ~facility.state,
-  did_county_fes = did_county_fes
+  fes = did_county_fes()
 )
 etable(sdid_outputperworker, agg = "ATT", digits.stats = 3, digits = 3)
 etable(sdid_outputperworker, agg = "cohort", digits.stats = 3, digits = 3)
 etable(sdid_outputperworker, digits.stats = 3, digits = 3)
 
-sdid_outputperworker <- dynamic_sdid_preliminary(
+sdid_outputperworker <- dynamic_sdid_baseline(
   data = triQc,
   depvar = "l.output.perworker",
   ATT = "sunab(ch.year, year)",
   cluster = ~facility.state,
-  county_fes = county_fes
+  fes = county_fes()
 )
 etable(sdid_outputperworker, digits.stats = 3, digits = 3)
 iplot(
@@ -1111,12 +858,12 @@ triQc <- triQc %>%
 	l.profitmargin = log(revenue.to.profit)
   )
 #----------------------------------------------------------------------------------------------------------------------#
-reg_profit <- did_preliminary(
+reg_profit <- did_baseline(
   data = triQc,
   depvar = "l.profit",
   ATT = "e.treated",
   cluster = ~facility.state,
-  did_county_fes = did_county_fes
+  fes = did_county_fes()
 )
 etable(reg_profit, digits = 3, digits.stats = 3)
 #----------------------------------------------------------------------------------------------------------------------#
@@ -1136,12 +883,12 @@ sum(dCDH_decomp$weight[dCDH_decomp$weight >= 0])
 # Negative weights
 sum(dCDH_decomp$weight[dCDH_decomp$weight < 0])
 #----------------------------------------------------------------------------------------------------------------------#
-reg_profit <- dynamic_did_preliminary(
+reg_profit <- dynamic_did_baseline(
   data = triQc,
   depvar = "l.profit",
   relative_year = "rel.year",
   cluster = ~facility.state,
-  county_fes = county_fes
+  fes = county_fes()
 )
 etable(reg_profit, digits = 3, digits.stats = 3)
 iplot(reg_profit, xlim = c(-3, 3), ylim = c(-0.2, 0.4), col = "blue",
@@ -1155,23 +902,23 @@ linearHypothesis(reg_profit, paste0(names(pre_treat_coef), " = 0"), test = "F")
 #----------------------------------------------------------------------------------------------------------------------#
 # Sun and Abraham (2020)
 #----------------------------------------------------------------------------------------------------------------------#
-sdid_profit <- sdid_preliminary(
+sdid_profit <- sdid_baseline(
   data = triQc,
   depvar = "l.profit",
   ATT = "sunab(ch.year, year)",
   cluster = ~facility.state,
-  did_county_fes = did_county_fes
+  fes = did_county_fes()
 )
 etable(sdid_profit, agg = "ATT", digits.stats = 3, digits = 3)
 etable(sdid_profit, agg = "cohort", digits.stats = 3, digits = 3)
 etable(sdid_profit, digits.stats = 3, digits = 3)
 
-sdid_profit <- dynamic_sdid_preliminary(
+sdid_profit <- dynamic_sdid_baseline(
   data = triQc,
   depvar = "l.profit",
   ATT = "sunab(ch.year, year)",
   cluster = ~facility.state,
-  county_fes = county_fes
+  fes = county_fes()
 )
 etable(sdid_profit, digits.stats = 3, digits = 3)
 iplot(
@@ -1187,12 +934,12 @@ legend(x = "bottomright", legend = c("Sun and Abraham (2020) ATT: 0.156*** (0.03
 #======================================================================================================================#
 ### Profit margin
 #======================================================================================================================#
-reg_profit_margin <- did_preliminary(
+reg_profit_margin <- did_baseline(
   data = triQc,
   depvar = "l.profitmargin",
   ATT = "e.treated",
   cluster = ~facility.state,
-  did_county_fes = did_county_fes
+  fes = did_county_fes()
 )
 etable(reg_profit_margin, digits = 3, digits.stats = 3)
 #----------------------------------------------------------------------------------------------------------------------#
@@ -1212,12 +959,12 @@ sum(dCDH_decomp$weight[dCDH_decomp$weight >= 0])
 # Negative weights
 sum(dCDH_decomp$weight[dCDH_decomp$weight < 0])
 #----------------------------------------------------------------------------------------------------------------------#
-reg_profit_margin <- dynamic_did_preliminary(
+reg_profit_margin <- dynamic_did_baseline(
   data = triQc,
   depvar = "l.profitmargin",
   relative_year = "rel.year",
   cluster = ~facility.state,
-  county_fes = county_fes
+  fes = county_fes()
 )
 etable(reg_profit_margin, digits = 3, digits.stats = 3)
 iplot(reg_profit_margin, xlim = c(-3, 3), ylim = c(-0.32, 0.2), col = "blue",
@@ -1231,23 +978,23 @@ linearHypothesis(reg_profit_margin, paste0(names(pre_treat_coef), " = 0"), test 
 #----------------------------------------------------------------------------------------------------------------------#
 # Sun and Abraham (2020)
 #----------------------------------------------------------------------------------------------------------------------#
-sdid_profit_margin <- sdid_preliminary(
+sdid_profit_margin <- sdid_baseline(
   data = triQc,
   depvar = "l.profitmargin",
   ATT = "sunab(ch.year, year)",
   cluster = ~facility.state,
-  did_county_fes = did_county_fes
+  fes = did_county_fes()
 )
 etable(sdid_profit_margin, agg = "ATT", digits.stats = 3, digits = 3)
 etable(sdid_profit_margin, agg = "cohort", digits.stats = 3, digits = 3)
 etable(sdid_profit_margin, digits.stats = 3, digits = 3)
 
-sdid_profit_margin <- dynamic_sdid_preliminary(
+sdid_profit_margin <- dynamic_sdid_baseline(
   data = triQc,
   depvar = "l.profitmargin",
   ATT = "sunab(ch.year, year)",
   cluster = ~facility.state,
-  county_fes = county_fes
+  fes = county_fes()
 )
 etable(sdid_profit_margin, digits.stats = 3, digits = 3)
 iplot(
