@@ -880,6 +880,283 @@ iplot(sdid_surface_impoundment_ci, xlim = c(-3, 3), ylim = c(-0.01, 0.07), col =
   abline(v = -1, col = "red", lty = 2, lwd = 2)
 dev.off()
 #======================================================================================================================#
+### Profit Levels
+#======================================================================================================================#
+### Onsite: Total releases intensity (high profit)
+#======================================================================================================================#
+sdid_total_releases_hp <- sdid_releases_heter_1(
+  data = triQc,
+  depvar = "l.total.releases.onsite.intensity",
+  interact_var = "high.profit",
+  fes = tri_fes(),
+  cluster = ~c(chemical.id, naics.code, facility.state)
+)
+etable(sdid_total_releases_hp, digits = 3, digits.stats = 3)
+etable(sdid_total_releases_hp, agg = "ATT", digits = 3, digits.stats = 3)
+etable(sdid_total_releases_hp, agg = "cohort", digits = 3, digits.stats = 3)
+iplot(sdid_total_releases_hp, xlim = c(-3, 3), ylim = c(-0.2, 0.6), col = "blue",
+	  main = "Total Onsite Releases Intensity, HP", xlab = "relative year",
+	  lwd = 1, cex = 4, pt.cex = 3, pt.col = "red", pt.join = T, ci.lwd = 5, ci.lty = 1) %>%
+  abline(v = -1, col = "red", lty = 2, lwd = 2)
+
+sdid_total_releases_lp <- sdid_releases_heter_0(
+  data = triQc,
+  depvar = "l.total.releases.onsite.intensity",
+  interact_var = "high.profit",
+  fes = tri_fes(),
+  cluster = ~c(chemical.id, naics.code, facility.state)
+)
+etable(sdid_total_releases_lp, digits = 3, digits.stats = 3)
+iplot(sdid_total_releases_lp, xlim = c(-3, 3), ylim = c(-0.4, 0.35), col = "blue",
+	  main = "Total Onsite Releases Intensity, LP", xlab = "relative year",
+	  lwd = 1, cex = 4, pt.cex = 3, pt.col = "red", pt.join = T, ci.lwd = 5, ci.lty = 1) %>%
+  abline(v = -1, col = "red", lty = 2, lwd = 2)
+#======================================================================================================================#
+### Onsite: Total air emissions intensity (high profit)
+#======================================================================================================================#
+sdid_air_hp <- sdid_releases_heter_1(
+  data = triQc,
+  depvar = "l.total.air.emissions.onsite.intensity",
+  interact_var = "high.profit",
+  fes = tri_fes(),
+  cluster = ~c(chemical.id, naics.code, facility.state)
+)
+etable(sdid_air_hp, digits = 3, digits.stats = 3)
+etable(sdid_air_hp, agg = "ATT", digits = 3, digits.stats = 3)
+etable(sdid_air_hp, agg = "cohort", digits = 3, digits.stats = 3)
+iplot(sdid_air_hp, xlim = c(-3, 3), ylim = c(-0.2, 0.5), col = "blue",
+	  main = "Total Onsite Air Emissions Intensity, HP", xlab = "relative year",
+	  lwd = 1, cex = 4, pt.cex = 3, pt.col = "red", pt.join = T, ci.lwd = 5, ci.lty = 1) %>%
+  abline(v = -1, col = "red", lty = 2, lwd = 2)
+
+sdid_air_lp <- sdid_releases_heter_0(
+  data = triQc,
+  depvar = "l.total.air.emissions.onsite.intensity",
+  interact_var = "high.profit",
+  fes = tri_fes(),
+  cluster = ~c(chemical.id, naics.code, facility.state)
+)
+etable(sdid_air_lp, digits = 3, digits.stats = 3)
+iplot(sdid_air_lp, xlim = c(-3, 3), ylim = c(-0.25, 0.35), col = "blue",
+	  main = "Total Onsite Air Emissions Intensity, LP", xlab = "relative year",
+	  lwd = 1, cex = 4, pt.cex = 3, pt.col = "red", pt.join = T, ci.lwd = 5, ci.lty = 1) %>%
+  abline(v = -1, col = "red", lty = 2, lwd = 2)
+#======================================================================================================================#
+### Onsite: Total point air emissions intensity (high.profit)
+#======================================================================================================================#
+sdid_point_air_hp <- sdid_releases_heter_1(
+  data = triQc,
+  depvar = "l.total.point.air.emissions.onsite.intensity",
+  interact_var = "high.profit",
+  fes = tri_fes(),
+  cluster = ~c(chemical.id, naics.code, facility.state)
+)
+etable(sdid_point_air_hp, digits = 3, digits.stats = 3)
+etable(sdid_point_air_hp, agg = "ATT", digits = 3, digits.stats = 3)
+etable(sdid_point_air_hp, agg = "cohort", digits = 3, digits.stats = 3)
+iplot(sdid_point_air_hp, xlim = c(-3, 3), ylim = c(-0.2, 0.4), col = "blue",
+	  main = "Total Point Air Emissions Intensity, HP", xlab = "relative year",
+	  lwd = 1, cex = 4, pt.cex = 3, pt.col = "red", pt.join = T, ci.lwd = 5, ci.lty = 1) %>%
+  abline(v = -1, col = "red", lty = 2, lwd = 2)
+
+sdid_point_air_lp <- sdid_releases_heter_0(
+  data = triQc,
+  depvar = "l.total.point.air.emissions.onsite.intensity",
+  interact_var = "high.profit",
+  fes = tri_fes(),
+  cluster = ~c(chemical.id, naics.code, facility.state)
+)
+etable(sdid_point_air_lp, digits = 3, digits.stats = 3)
+iplot(sdid_point_air_lp, xlim = c(-3, 3), ylim = c(-0.3, 0.3), col = "blue",
+	  main = "Total Point Air Emissions Intensity, LP", xlab = "relative year",
+	  lwd = 1, cex = 4, pt.cex = 3, pt.col = "red", pt.join = T, ci.lwd = 5, ci.lty = 1) %>%
+  abline(v = -1, col = "red", lty = 2, lwd = 2)
+#======================================================================================================================#
+### Onsite: Total Fugitive air emissions intensity (high.profit)
+#======================================================================================================================#
+sdid_fug_air_hp <- sdid_releases_heter_1(
+  data = triQc,
+  depvar = "l.total.fug.air.emissions.onsite.intensity",
+  interact_var = "high.profit",
+  fes = tri_fes(),
+  cluster = ~c(chemical.id, naics.code, facility.state)
+)
+etable(sdid_fug_air_hp, digits = 3, digits.stats = 3)
+etable(sdid_fug_air_hp, agg = "ATT", digits = 3, digits.stats = 3)
+etable(sdid_fug_air_hp, agg = "cohort", digits = 3, digits.stats = 3)
+iplot(sdid_fug_air_hp, xlim = c(-3, 3), ylim = c(-0.15, 0.3), col = "blue",
+	  main = "Total Fugitive Air Emissions Intensity, HP", xlab = "relative year",
+	  lwd = 1, cex = 4, pt.cex = 3, pt.col = "red", pt.join = T, ci.lwd = 5, ci.lty = 1) %>%
+  abline(v = -1, col = "red", lty = 2, lwd = 2)
+
+sdid_fug_air_lp <- sdid_releases_heter_0(
+  data = triQc,
+  depvar = "l.total.fug.air.emissions.onsite.intensity",
+  interact_var = "high.profit",
+  fes = tri_fes(),
+  cluster = ~c(chemical.id, naics.code, facility.state)
+)
+etable(sdid_fug_air_lp, digits = 3, digits.stats = 3)
+iplot(sdid_fug_air_lp, xlim = c(-3, 3), ylim = c(-0.15, 0.25), col = "blue",
+	  main = "Total Fugitive Air Emissions Intensity, LP", xlab = "relative year",
+	  lwd = 1, cex = 4, pt.cex = 3, pt.col = "red", pt.join = T, ci.lwd = 5, ci.lty = 1) %>%
+  abline(v = -1, col = "red", lty = 2, lwd = 2)
+#======================================================================================================================#
+### Onsite: Total Surface Water Discharge intensity (high.profit)
+#======================================================================================================================#
+sdid_water_disc_hp <- sdid_releases_heter_1(
+  data = triQc,
+  depvar = "l.total.surface.water.discharge.onsite.intensity",
+  interact_var = "high.profit",
+  fes = tri_fes(),
+  cluster = ~c(chemical.id, naics.code, facility.state)
+)
+etable(sdid_water_disc_hp, digits = 3, digits.stats = 3)
+etable(sdid_water_disc_hp, agg = "ATT", digits = 3, digits.stats = 3)
+etable(sdid_water_disc_hp, agg = "cohort", digits = 3, digits.stats = 3)
+iplot(sdid_water_disc_hp, xlim = c(-3, 3), ylim = c(-0.25, 0.25), col = "blue",
+	  main = "Total Surface Water Discharge Intensity, HP", xlab = "relative year",
+	  lwd = 1, cex = 4, pt.cex = 3, pt.col = "red", pt.join = T, ci.lwd = 5, ci.lty = 1) %>%
+  abline(v = -1, col = "red", lty = 2, lwd = 2)
+
+sdid_water_disc_lp <- sdid_releases_heter_0(
+  data = triQc,
+  depvar = "l.total.surface.water.discharge.onsite.intensity",
+  interact_var = "high.profit",
+  fes = tri_fes(),
+  cluster = ~c(chemical.id, naics.code, facility.state)
+)
+etable(sdid_water_disc_lp, digits = 3, digits.stats = 3)
+iplot(sdid_water_disc_lp, xlim = c(-3, 3), ylim = c(-0.35, 0.2), col = "blue",
+	  main = "Total Surface Water Discharge Intensity, LP", xlab = "relative year",
+	  lwd = 1, cex = 4, pt.cex = 3, pt.col = "red", pt.join = T, ci.lwd = 5, ci.lty = 1) %>%
+  abline(v = -1, col = "red", lty = 2, lwd = 2)
+#======================================================================================================================#
+### Onsite: Total Land Releases intensity (high.profit)
+#======================================================================================================================#
+sdid_land_releases_hp <- sdid_releases_heter_1(
+  data = triQc,
+  depvar = "l.total.land.releases.onsite.intensity",
+  interact_var = "high.profit",
+  fes = tri_fes(),
+  cluster = ~c(chemical.id, naics.code, facility.state)
+)
+etable(sdid_land_releases_hp, digits = 3, digits.stats = 3)
+etable(sdid_land_releases_hp, agg = "ATT", digits = 3, digits.stats = 3)
+etable(sdid_land_releases_hp, agg = "cohort", digits = 3, digits.stats = 3)
+iplot(sdid_land_releases_hp, xlim = c(-3, 3), ylim = c(-0.05, 0.1), col = "blue",
+	  main = "Total Land Releases Intensity, HP", xlab = "relative year",
+	  lwd = 1, cex = 4, pt.cex = 3, pt.col = "red", pt.join = T, ci.lwd = 5, ci.lty = 1) %>%
+  abline(v = -1, col = "red", lty = 2, lwd = 2)
+
+sdid_land_releases_lp <- sdid_releases_heter_0(
+  data = triQc,
+  depvar = "l.total.land.releases.onsite.intensity",
+  interact_var = "high.profit",
+  fes = tri_fes(),
+  cluster = ~c(chemical.id, naics.code, facility.state)
+)
+etable(sdid_land_releases_lp, digits = 3, digits.stats = 3)
+iplot(sdid_land_releases_lp, xlim = c(-3, 3), ylim = c(-0.15, 0.05), col = "blue",
+	  main = "Total Land Releases Intensity, LP", xlab = "relative year",
+	  lwd = 1, cex = 4, pt.cex = 3, pt.col = "red", pt.join = T, ci.lwd = 5, ci.lty = 1) %>%
+  abline(v = -1, col = "red", lty = 2, lwd = 2)
+#======================================================================================================================#
+### Onsite: Total Surface Impoundment intensity (high.profit)
+#======================================================================================================================#
+sdid_surface_impoundment_hp <- sdid_releases_heter_1(
+  data = triQc,
+  depvar = "l.total.surface.impoundment.onsite.intensity",
+  interact_var = "high.profit",
+  fes = tri_fes(),
+  cluster = ~c(chemical.id, naics.code, facility.state)
+)
+etable(sdid_surface_impoundment_hp, digits = 3, digits.stats = 3)
+etable(sdid_surface_impoundment_hp, agg = "ATT", digits = 3, digits.stats = 3)
+etable(sdid_surface_impoundment_hp, agg = "cohort", digits = 3, digits.stats = 3)
+iplot(sdid_surface_impoundment_hp, xlim = c(-3, 3), ylim = c(-0.04, 0.06), col = "blue",
+	  main = "Total Surface Impoundment Intensity, HP", xlab = "relative year",
+	  lwd = 1, cex = 4, pt.cex = 3, pt.col = "red", pt.join = T, ci.lwd = 5, ci.lty = 1) %>%
+  abline(v = -1, col = "red", lty = 2, lwd = 2)
+
+sdid_surface_impoundment_lp <- sdid_releases_heter_0(
+  data = triQc,
+  depvar = "l.total.surface.impoundment.onsite.intensity",
+  interact_var = "high.profit",
+  fes = tri_fes(),
+  cluster = ~c(chemical.id, naics.code, facility.state)
+)
+etable(sdid_surface_impoundment_lp, digits = 3, digits.stats = 3)
+iplot(sdid_surface_impoundment_lp, xlim = c(-3, 3), ylim = c(-0.01, 0.04), col = "blue",
+	  main = "Total Surface Impoundment Intensity, LP", xlab = "relative year",
+	  lwd = 1, cex = 4, pt.cex = 3, pt.col = "red", pt.join = T, ci.lwd = 5, ci.lty = 1) %>%
+  abline(v = -1, col = "red", lty = 2, lwd = 2)
+#======================================================================================================================#
+pdf(file = "./Thesis/chapter3/src/climate_change/latex/fig_sdid_total_onsite_releases_int_high_profit.pdf",
+	width = 22, height = 10)
+par(mfrow = c(3, 5))
+iplot(sdid_total_releases_hp, xlim = c(-3, 3), ylim = c(-0.2, 0.6), col = "blue",
+	  main = "Total Onsite Releases Intensity, HP", xlab = "relative year",
+	  lwd = 1, cex = 4, pt.cex = 3, pt.col = "red", pt.join = T, ci.lwd = 5, ci.lty = 1) %>%
+  abline(v = -1, col = "red", lty = 2, lwd = 2)
+iplot(sdid_total_releases_lp, xlim = c(-3, 3), ylim = c(-0.4, 0.35), col = "blue",
+	  main = "Total Onsite Releases Intensity, LP", xlab = "relative year",
+	  lwd = 1, cex = 4, pt.cex = 3, pt.col = "red", pt.join = T, ci.lwd = 5, ci.lty = 1) %>%
+  abline(v = -1, col = "red", lty = 2, lwd = 2)
+iplot(sdid_air_hp, xlim = c(-3, 3), ylim = c(-0.2, 0.5), col = "blue",
+	  main = "Total Onsite Air Emissions Intensity, HP", xlab = "relative year",
+	  lwd = 1, cex = 4, pt.cex = 3, pt.col = "red", pt.join = T, ci.lwd = 5, ci.lty = 1) %>%
+  abline(v = -1, col = "red", lty = 2, lwd = 2)
+iplot(sdid_air_lp, xlim = c(-3, 3), ylim = c(-0.25, 0.35), col = "blue",
+	  main = "Total Onsite Air Emissions Intensity, LP", xlab = "relative year",
+	  lwd = 1, cex = 4, pt.cex = 3, pt.col = "red", pt.join = T, ci.lwd = 5, ci.lty = 1) %>%
+  abline(v = -1, col = "red", lty = 2, lwd = 2)
+iplot(sdid_air_lp, xlim = c(-3, 3), ylim = c(-0.25, 0.35), col = "blue",
+	  main = "Total Onsite Air Emissions Intensity, LP", xlab = "relative year",
+	  lwd = 1, cex = 4, pt.cex = 3, pt.col = "red", pt.join = T, ci.lwd = 5, ci.lty = 1) %>%
+  abline(v = -1, col = "red", lty = 2, lwd = 2)
+iplot(sdid_point_air_hp, xlim = c(-3, 3), ylim = c(-0.2, 0.4), col = "blue",
+	  main = "Total Point Air Emissions Intensity, HP", xlab = "relative year",
+	  lwd = 1, cex = 4, pt.cex = 3, pt.col = "red", pt.join = T, ci.lwd = 5, ci.lty = 1) %>%
+  abline(v = -1, col = "red", lty = 2, lwd = 2)
+iplot(sdid_point_air_lp, xlim = c(-3, 3), ylim = c(-0.3, 0.3), col = "blue",
+	  main = "Total Point Air Emissions Intensity, LP", xlab = "relative year",
+	  lwd = 1, cex = 4, pt.cex = 3, pt.col = "red", pt.join = T, ci.lwd = 5, ci.lty = 1) %>%
+  abline(v = -1, col = "red", lty = 2, lwd = 2)
+iplot(sdid_fug_air_hp, xlim = c(-3, 3), ylim = c(-0.15, 0.3), col = "blue",
+	  main = "Total Fugitive Air Emissions Intensity, HP", xlab = "relative year",
+	  lwd = 1, cex = 4, pt.cex = 3, pt.col = "red", pt.join = T, ci.lwd = 5, ci.lty = 1) %>%
+  abline(v = -1, col = "red", lty = 2, lwd = 2)
+iplot(sdid_fug_air_lp, xlim = c(-3, 3), ylim = c(-0.15, 0.25), col = "blue",
+	  main = "Total Fugitive Air Emissions Intensity, LP", xlab = "relative year",
+	  lwd = 1, cex = 4, pt.cex = 3, pt.col = "red", pt.join = T, ci.lwd = 5, ci.lty = 1) %>%
+  abline(v = -1, col = "red", lty = 2, lwd = 2)
+iplot(sdid_water_disc_hp, xlim = c(-3, 3), ylim = c(-0.25, 0.25), col = "blue",
+	  main = "Total Surface Water Discharge Intensity, HP", xlab = "relative year",
+	  lwd = 1, cex = 4, pt.cex = 3, pt.col = "red", pt.join = T, ci.lwd = 5, ci.lty = 1) %>%
+  abline(v = -1, col = "red", lty = 2, lwd = 2)
+iplot(sdid_water_disc_lp, xlim = c(-3, 3), ylim = c(-0.35, 0.2), col = "blue",
+	  main = "Total Surface Water Discharge Intensity, LP", xlab = "relative year",
+	  lwd = 1, cex = 4, pt.cex = 3, pt.col = "red", pt.join = T, ci.lwd = 5, ci.lty = 1) %>%
+  abline(v = -1, col = "red", lty = 2, lwd = 2)
+iplot(sdid_land_releases_hp, xlim = c(-3, 3), ylim = c(-0.05, 0.1), col = "blue",
+	  main = "Total Land Releases Intensity, HP", xlab = "relative year",
+	  lwd = 1, cex = 4, pt.cex = 3, pt.col = "red", pt.join = T, ci.lwd = 5, ci.lty = 1) %>%
+  abline(v = -1, col = "red", lty = 2, lwd = 2)
+iplot(sdid_land_releases_lp, xlim = c(-3, 3), ylim = c(-0.15, 0.05), col = "blue",
+	  main = "Total Land Releases Intensity, LP", xlab = "relative year",
+	  lwd = 1, cex = 4, pt.cex = 3, pt.col = "red", pt.join = T, ci.lwd = 5, ci.lty = 1) %>%
+  abline(v = -1, col = "red", lty = 2, lwd = 2)
+iplot(sdid_surface_impoundment_hp, xlim = c(-3, 3), ylim = c(-0.04, 0.06), col = "blue",
+	  main = "Total Surface Impoundment Intensity, HP", xlab = "relative year",
+	  lwd = 1, cex = 4, pt.cex = 3, pt.col = "red", pt.join = T, ci.lwd = 5, ci.lty = 1) %>%
+  abline(v = -1, col = "red", lty = 2, lwd = 2)
+iplot(sdid_surface_impoundment_lp, xlim = c(-3, 3), ylim = c(-0.01, 0.04), col = "blue",
+	  main = "Total Surface Impoundment Intensity, LP", xlab = "relative year",
+	  lwd = 1, cex = 4, pt.cex = 3, pt.col = "red", pt.join = T, ci.lwd = 5, ci.lty = 1) %>%
+  abline(v = -1, col = "red", lty = 2, lwd = 2)
+dev.off()
+#======================================================================================================================#
 ### Highest Emitting Industries
 #======================================================================================================================#
 triQc <- triQc %>%
