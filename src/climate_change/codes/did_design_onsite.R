@@ -1,6 +1,6 @@
 #======================================================================================================================#
 ### PhD Chapter 3
-### Indirect Consequences of a Raising Minimum Wage
+### Unforseen Minimum Wage Consequences
 ### 30 November 2023
 ### Using Border-County Designs
 #======================================================================================================================#
@@ -136,7 +136,8 @@ triQc <- triQc %>%
 		# chemical.manufacturing.aid == 1 &
 		comment.text == "Reduction of on hand chemicals aided in avoiding material expiration contributing to waste.  Continue to tighten operational controls and extend chemical usage life to reduce generation of waste." |
 		comment.text == "In 2009 we replaced our thermal oxidizer to a more efficient unit.  It has both increased our capture and detruction efficiencies as well as reduced our consumption of natural gas in our manufacturing processes.  Though our processes require the use of chemical processing aids, we are truly committed to source reduction and minimizing our emissions and waste wherever possible via employee suggestion and support from our vendor base." |
-		comment.text == "Reduce the amount of Chemical as a processing aid in the formulations of the product" ~ 1, T ~ 0
+		comment.text == "Reduce the amount of Chemical as a processing aid in the formulations of the product"
+		~ 1, T ~ 0
 	),
 	mod.content.grade.purity.chems.matsubmod = case_when(
 	  classification == "Source Reduction" &
@@ -165,8 +166,8 @@ triQc <- triQc %>%
 	  classification == "Source Reduction" &
 		grepl(pattern = "reformulate", x = comment.text, ignore.case = T) |
 		grepl(pattern = "new product", x = comment.text, ignore.case = T) |
-		comment.type.description == "W84 - Developed a new chemical product to replace previous chemical product" ~ 1,
-	  T ~ 0
+		comment.type.description == "W84 - Developed a new chemical product to replace previous chemical product"
+		~ 1, T ~ 0
 	),
 	alt.dim.comp.design.pmod = case_when(
 	  classification == "Source Reduction" &
@@ -211,6 +212,14 @@ triQc <- triQc %>%
 	  classification == "Source Reduction" &
 		comment.type.description == "W58 - Other process modifications" ~ 1, T ~ 0
 	),
+	modified.spray.equipment.pequipmod = case_when(
+	  classification == "Source Reduction" &
+		comment.type.description == "W72 - Modified spray systems or equipment" ~ 1, T ~ 0
+	),
+	impr.application.techniques.pequipmod = case_when(
+	  classification == "Source Reduction" &
+		comment.type.description == "W74 - Improved application techniques" ~ 1, T ~ 0
+	),
 
 	# Operation
 	improved.schdule.operation.procedures.opt = case_when(
@@ -229,6 +238,19 @@ triQc <- triQc %>%
 	  classification == "Source Reduction" &
 		(comment.type.description == "W32 - Improved procedures for loading, unloading, and transfer operations" |
 		  grepl(pattern = "operating practice", x = comment.text, ignore.case = T)) ~ 1, T ~ 0
+	),
+	impr.procedures.loading.transfer.opt = case_when(
+	  classification == "Source Reduction" &
+		(comment.type.description == "W32 - Improved procedures for loading, unloading, and transfer operations") ~ 1,
+	  T ~ 0
+	),
+	changes.operating.practices.inventory.control.opt = case_when(
+	  classification == "Source Reduction" &
+		comment.type.description == "W19 - Other changes in operating practices Inventory Control" ~ 1, T ~ 0
+	),
+	impr.rinse.equipment.opt = case_when(
+	  classification == "Source Reduction" &
+		comment.type.description == "W68 - Improved rinse equipment operation" ~ 1, T ~ 0
 	),
 
 	# Inventory and material management
@@ -252,10 +274,22 @@ triQc <- triQc %>%
 	  classification == "Source Reduction" &
 		grepl(pattern = "handling", x = comment.text, ignore.case = T) ~ 1, T ~ 0
 	),
-	other.immgts.immgt = case_when(
+	changes.inventory.control.immgt = case_when(
 	  classification == "Source Reduction" &
-		comment.type.description == "W19 - Other changes in operating practices Inventory Control" |
 		comment.type.description == "W29 - Other changes in inventory control" ~ 1, T ~ 0
+	),
+	impr.storage.stacking.procedures.immgt = case_when(
+	  classification == "Source Reduction" &
+		comment.type.description == "W31 - Improved storage or stacking procedures" ~ 1, T ~ 0
+	),
+	impl.inspection.monitoring.leak.spill.immgt = case_when(
+	  classification == "Source Reduction" &
+		comment.type.description == "W36 - Implemented inspection or monitoring program of potential spill or leak sources"
+		~ 1, T ~ 0
+	),
+	modified.containment.procedures.cleaning.unit.immgt = case_when(
+	  classification == "Source Reduction" &
+		comment.type.description == "W63 - Modified containment procedures for cleaning units" ~ 1, T ~ 0
 	),
 
 	# Other mechanisms
@@ -263,6 +297,12 @@ triQc <- triQc %>%
 	  grepl(pattern = "waste water treatment", x = comment.text, ignore.case = T) ~ 1, T ~ 0
 	),
 	recycling.dummy = case_when(comment.type.description == "Recycling" ~ 1, T ~ 0),
+	req.spec.technique = case_when(comment.type.description == "B2 - Require technical information on pollution prevention techniques applicable to specific production processes." ~ 1, T ~ 0),
+	unsuccessful.sra = case_when(comment.type.description == "B4 - Source reduction activities were implemented but were unsuccessful." ~ 1, T ~ 0),
+	reg.permits = case_when(comment.type.description == "B5 - Specific regulatory/permit burdens." ~ 1, T ~ 0),
+	no.add.reduction = case_when(comment.type.description == "B6 - Pollution prevention previously implemented - additional reduction does not appear technically or economically feas" ~ 1, T ~ 0),
+	no.sub.tech = case_when(comment.type.description == "B7 - No known substitutes or alternative technologies." ~ 1, T ~ 0),
+	no.feas.reduction = case_when(comment.type.description == "B8 - A reduction does not appear to be technically feasible" ~ 1, T ~ 0),
   ) %>%
   select(-c(pfas.chems, elemental.metal.included, chemical.intermediate.uses))
 
@@ -280,13 +320,17 @@ sum_up(triQc, c(energy.recovery.onsite, industrial.kiln.onsite, industrial.furna
 				devd.newproductline.pmod, alt.dim.comp.design.pmod, mod.packaging.pmod, other.pmods.pmod,
 				process.equip.modification, optimised.process.efficiency.pequipmod,
 				recirculationinprocess.pequipmod, newtech.technique.process.pequipmod,
-				equipment.upgrade.update.pequipmod,
+				equipment.upgrade.update.pequipmod, modified.spray.equipment.pequipmod,
 				other.pequipmods.pequipmod, inventory.material.mgt, better.labelling.testing.immgt,
-				containers.sizechange.immgt,
-				improved.materialhandling.operations.immgt, improved.monitoring.immgt, other.immgts.immgt,
+				containers.sizechange.immgt, impr.application.techniques.pequipmod,
+				improved.materialhandling.operations.immgt, improved.monitoring.immgt,
 				operating.practices.training, improved.schdule.operation.procedures.opt, waste.water.treatment,
-				recycling.dummy,
-				changed.production.schedule.opt, intro.inline.productquality.process.analysis.opt))
+				recycling.dummy, changed.production.schedule.opt, impr.procedures.loading.transfer.opt,
+				intro.inline.productquality.process.analysis.opt, impr.rinse.equipment.opt,
+				changes.operating.practices.inventory.control.opt,
+				changes.inventory.control.immgt, impr.storage.stacking.procedures.immgt,
+				impl.inspection.monitoring.leak.spill.immgt,
+				modified.containment.procedures.cleaning.unit.immgt))
 #======================================================================================================================#
 ### Keeping only complete cases
 #======================================================================================================================#
@@ -304,7 +348,7 @@ triQc <- triQc %>% mutate(
 	no = total.release.onsite.catastrophicevents)
 )
 
-table(is.na(triQc$total.release.onsite.catastrophicevents))
+sum(is.na(triQc$total.release.onsite.catastrophicevents))
 sum_up(triQc, total.release.onsite.catastrophicevents)
 
 sum(is.na(triQc))
@@ -323,12 +367,17 @@ sum_up(triQc, c(energy.recovery.onsite, industrial.kiln.onsite, industrial.furna
 				devd.newproductline.pmod, mod.packaging.pmod, other.pmods.pmod,
 				process.equip.modification, optimised.process.efficiency.pequipmod,
 				recirculationinprocess.pequipmod, newtech.technique.process.pequipmod,
+				modified.spray.equipment.pequipmod,
 				other.pequipmods.pequipmod, inventory.material.mgt, better.labelling.testing.immgt,
-				containers.sizechange.immgt,
-				improved.materialhandling.operations.immgt, improved.monitoring.immgt, other.immgts.immgt,
+				containers.sizechange.immgt, impr.application.techniques.pequipmod,
+				improved.materialhandling.operations.immgt, improved.monitoring.immgt,
 				operating.practices.training, improved.schdule.operation.procedures.opt, waste.water.treatment,
-				recycling.dummy,
-				changed.production.schedule.opt, intro.inline.productquality.process.analysis.opt))
+				recycling.dummy, changed.production.schedule.opt, impr.procedures.loading.transfer.opt,
+				intro.inline.productquality.process.analysis.opt, impr.rinse.equipment.opt,
+				changes.operating.practices.inventory.control.opt,
+				changes.inventory.control.immgt, impr.storage.stacking.procedures.immgt,
+				impl.inspection.monitoring.leak.spill.immgt,
+				modified.containment.procedures.cleaning.unit.immgt))
 
 # sum(is.na(triQc$facility.id))
 # triQc_na <- triQc[triQc$facility.id == "NA",]
@@ -520,38 +569,37 @@ triQc <- triQc %>%
 	other.matmods.matsubmod = as.numeric(other.matmods.matsubmod),
 	product.modification = as.numeric(product.modification),
 	devd.newproductline.pmod = as.numeric(devd.newproductline.pmod),
-	# alt.dim.comp.design.pmod = as.numeric(alt.dim.comp.design.pmod),
 	mod.packaging.pmod = as.numeric(mod.packaging.pmod),
 	other.pmods.pmod = as.numeric(other.pmods.pmod),
 	process.equip.modification = as.numeric(process.equip.modification),
 	optimised.process.efficiency.pequipmod = as.numeric(optimised.process.efficiency.pequipmod),
 	recirculationinprocess.pequipmod = as.numeric(recirculationinprocess.pequipmod),
 	newtech.technique.process.pequipmod = as.numeric(newtech.technique.process.pequipmod),
-	# equipment.upgrade.update.pequipmod = as.numeric(equipment.upgrade.update.pequipmod),
 	other.pequipmods.pequipmod = as.numeric(other.pequipmods.pequipmod),
 	inventory.material.mgt = as.numeric(inventory.material.mgt),
 	better.labelling.testing.immgt = as.numeric(better.labelling.testing.immgt),
 	containers.sizechange.immgt = as.numeric(containers.sizechange.immgt),
 	improved.materialhandling.operations.immgt = as.numeric(improved.materialhandling.operations.immgt),
 	improved.monitoring.immgt = as.numeric(improved.monitoring.immgt),
-	other.immgts.immgt = as.numeric(other.immgts.immgt),
 	operating.practices.training = as.numeric(operating.practices.training),
 	improved.schdule.operation.procedures.opt = as.numeric(improved.schdule.operation.procedures.opt),
 	changed.production.schedule.opt = as.numeric(changed.production.schedule.opt),
 	intro.inline.productquality.process.analysis.opt = as.numeric(intro.inline.productquality.process.analysis.opt),
+	# chemical.intermediate.uses = as.numeric(chemical.intermediate.uses),
+	# elemental.metal.included = as.numeric(elemental.metal.included),
+	# equipment.upgrade.update.pequipmod = as.numeric(equipment.upgrade.update.pequipmod),
+	# alt.dim.comp.design.pmod = as.numeric(alt.dim.comp.design.pmod),
 	trade.secret = as.numeric(trade.secret),
 	sanitised = as.numeric(sanitised),
 	entire.facility = as.numeric(entire.facility),
 	federal.facility = as.numeric(federal.facility),
 	govt.owned.facility = as.numeric(govt.owned.facility),
-	# elemental.metal.included = as.numeric(elemental.metal.included),
 	clean.air.act.chems = as.numeric(clean.air.act.chems),
 	carcinogenic.chems = as.numeric(carcinogenic.chems),
 	metal.restrict.tri = as.numeric(metal.restrict.tri),
 	produced.chem.facility = as.numeric(produced.chem.facility),
 	imported.chem.facility = as.numeric(imported.chem.facility),
 	pi.chem.facility = as.numeric(pi.chem.facility),
-	# chemical.intermediate.uses = as.numeric(chemical.intermediate.uses),
 	chemical.formulation.component = as.numeric(chemical.formulation.component),
 	chemical.article.component = as.numeric(chemical.article.component),
 	chemical.manufacturing.aid = as.numeric(chemical.manufacturing.aid),
@@ -642,7 +690,6 @@ glimpse(triQc)
 #         containers.sizechange.immgt +
 #         improved.materialhandling.operations.immgt +
 #         improved.monitoring.immgt +
-#         other.immgts.immgt +
 #         operating.practices.training +
 #         improved.schdule.operation.procedures.opt +
 #         changed.production.schedule.opt +
@@ -685,7 +732,7 @@ glimpse(triQc)
 #         prodw +
 #         vship +
 #         matcost +
-#         vadd +
+#         output +
 #         invest +
 #         invent +
 #         energy +
@@ -819,7 +866,6 @@ glimpse(triQc)
 #         containers.sizechange.immgt +
 #         improved.materialhandling.operations.immgt +
 #         improved.monitoring.immgt +
-#         other.immgts.immgt +
 #         operating.practices.training +
 #         improved.schdule.operation.procedures.opt +
 #         changed.production.schedule.opt +
@@ -867,7 +913,7 @@ glimpse(triQc)
 #         prodw +
 #         vship +
 #         matcost +
-#         vadd +
+#         output +
 #         invest +
 #         invent +
 #         energy +
@@ -948,7 +994,6 @@ glimpse(triQc)
 #     containers.sizechange.immgt = as.numeric(containers.sizechange.immgt),
 #     improved.materialhandling.operations.immgt = as.numeric(improved.materialhandling.operations.immgt),
 #     improved.monitoring.immgt = as.numeric(improved.monitoring.immgt),
-#     other.immgts.immgt = as.numeric(other.immgts.immgt),
 #     operating.practices.training = as.numeric(operating.practices.training),
 #     improved.schdule.operation.procedures.opt = as.numeric(improved.schdule.operation.procedures.opt),
 #     changed.production.schedule.opt = as.numeric(changed.production.schedule.opt),
@@ -995,54 +1040,55 @@ glimpse(triQc)
 #======================================================================================================================#
 ### Standardising variable formats
 #======================================================================================================================#
-# triQc <- triQc %>% mutate(ind.output.lb = vadd * 1000)
+# triQc <- triQc %>% mutate(ind.output.lb = output * 1000)
 #======================================================================================================================#
 ### Variables Creation
 ### Log Transformations with x + 1 to correct for 0
 #======================================================================================================================#
 # If $1 bill weighs 1 gram; and 454 grams = 1lb. Then, $454 bills = 1lb. Thus, ind.output.lb = ind.output / 454
 triQc <- triQc %>%
+  rename(output = vadd) %>%
   mutate(
-	vadd = vadd / 100,
-	l.vadd = log(x = vadd),
-	output.perworker = vadd / emp,
+	output = output / 100,
+	l.output = log(x = output),
+	output.perworker = output / emp,
 	l.output.perworker = log(x = output.perworker),
-	output.perhr = vadd / prodh,
+	output.perhr = output / prodh,
 	l.output.perhr = log(x = output.perhr),
 	wage.perhr = prodw / prodh,
 	l.wage.perhr = log(x = wage.perhr),
-	energy.cost.intensity = energy / vadd,
+	energy.cost.intensity = energy / output,
 	l.energy.cost.intensity = log(x = energy.cost.intensity),
-	total.air.emissions.onsite.intensity = total.air.emissions.onsite / vadd,
+	total.air.emissions.onsite.intensity = total.air.emissions.onsite / output,
 	l.total.air.emissions.onsite.intensity = log(x = total.air.emissions.onsite.intensity + 1),
-	total.fug.air.emissions.onsite.intensity = total.fug.air.emissions.onsite / vadd,
+	total.fug.air.emissions.onsite.intensity = total.fug.air.emissions.onsite / output,
 	l.total.fug.air.emissions.onsite.intensity = log(x = total.fug.air.emissions.onsite.intensity + 1),
-	total.point.air.emissions.onsite.intensity = total.point.air.emissions.onsite / vadd,
+	total.point.air.emissions.onsite.intensity = total.point.air.emissions.onsite / output,
 	l.total.point.air.emissions.onsite.intensity = log(x = total.point.air.emissions.onsite.intensity + 1),
-	total.surface.water.discharge.onsite.intensity = total.surface.water.discharge.onsite / vadd,
+	total.surface.water.discharge.onsite.intensity = total.surface.water.discharge.onsite / output,
 	l.total.surface.water.discharge.onsite.intensity = log(x = total.surface.water.discharge.onsite.intensity + 1),
 	l.total.num.receiving.streams.onsite = log(x = total.num.receiving.streams.onsite + 1),
-	total.underground.injection.I.wells.onsite.intensity = total.underground.injection.I.wells.onsite / vadd,
+	total.underground.injection.I.wells.onsite.intensity = total.underground.injection.I.wells.onsite / output,
 	l.total.underground.injection.I.wells.onsite.intensity =
 	  log(x = total.underground.injection.I.wells.onsite.intensity + 1),
-	total.underground.injection.I.IV.wells.onsite.intensity = total.underground.injection.I.IV.wells.onsite / vadd,
+	total.underground.injection.I.IV.wells.onsite.intensity = total.underground.injection.I.IV.wells.onsite / output,
 	l.total.underground.injection.I.IV.wells.onsite.intensity =
 	  log(x = total.underground.injection.I.IV.wells.onsite.intensity + 1),
-	total.underground.injection.onsite.intensity = total.underground.injection.onsite / vadd,
+	total.underground.injection.onsite.intensity = total.underground.injection.onsite / output,
 	l.total.underground.injection.onsite.intensity = log(x = total.underground.injection.onsite.intensity + 1),
-	total.landfills.onsite.intensity = total.landfills.onsite / vadd,
+	total.landfills.onsite.intensity = total.landfills.onsite / output,
 	l.total.landfills.onsite.intensity = log(x = total.landfills.onsite.intensity + 1),
-	total.releases.toland.treatment.onsite.intensity = total.releases.toland.treatment.onsite / vadd,
+	total.releases.toland.treatment.onsite.intensity = total.releases.toland.treatment.onsite / output,
 	l.total.releases.toland.treatment.onsite.intensity = log(x = total.releases.toland.treatment.onsite.intensity + 1),
-	total.surface.impoundment.onsite.intensity = total.surface.impoundment.onsite / vadd,
+	total.surface.impoundment.onsite.intensity = total.surface.impoundment.onsite / output,
 	l.total.surface.impoundment.onsite.intensity = log(x = total.surface.impoundment.onsite.intensity + 1),
-	total.land.releases.other.onsite.intensity = total.land.releases.other.onsite / vadd,
+	total.land.releases.other.onsite.intensity = total.land.releases.other.onsite / output,
 	l.total.land.releases.other.onsite.intensity = log(x = total.land.releases.other.onsite.intensity + 1),
-	total.land.releases.onsite.intensity = total.land.releases.onsite / vadd,
+	total.land.releases.onsite.intensity = total.land.releases.onsite / output,
 	l.total.land.releases.onsite.intensity = log(x = total.land.releases.onsite.intensity + 1),
-	total.releases.onsite.intensity = total.releases.onsite / vadd,
+	total.releases.onsite.intensity = total.releases.onsite / output,
 	l.total.releases.onsite.intensity = log(x = total.releases.onsite.intensity + 1),
-	total.release.onsite.catastrophicevents.intensity = total.release.onsite.catastrophicevents / vadd,
+	total.release.onsite.catastrophicevents.intensity = total.release.onsite.catastrophicevents / output,
 	l.total.release.onsite.catastrophicevents.intensity =
 	  log(x = total.release.onsite.catastrophicevents.intensity + 1),
 	l.industrial.kiln.onsite = log(x = (industrial.kiln.onsite + 1)),
@@ -1086,7 +1132,7 @@ triQc <- triQc %>%
 	l.matcost = log(matcost),
 	l.invest = log(invest),
 	l.invent = log(invent),
-	l.vadd = log(vadd),
+	l.output = log(output),
 	l.revenue = log(vship),
 	l.cap = log(cap),
 	l.equip = log(equip),
@@ -1098,14 +1144,7 @@ triQc <- triQc %>%
 	gdp.1 = stats::lag(gdp, k = 1),
 	pinc.1 = stats::lag(personal_income, k = 1),
 	annual.avg.estabs.1 = stats::lag(annual_avg_estabs, k = 1),
-	population.1 = stats::lag(population, k = 1),
-	cap.1 = stats::lag(cap, k = 1),
-	equip.1 = stats::lag(equip, k = 1),
-	plant.1 = stats::lag(plant, k = 1),
-	vadd.1 = stats::lag(vadd, k = 1),
-	revenue.1 = stats::lag(vship, k = 1),
-	invest.1 = stats::lag(invest, k = 1),
-	invent.1 = stats::lag(invent, k = 1),
+	population.1 = stats::lag(population, k = 1)
   )
 
 #======================================================================================================================#
