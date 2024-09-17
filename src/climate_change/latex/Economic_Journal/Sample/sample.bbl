@@ -1,0 +1,288 @@
+\begin{thebibliography}{46}
+\newcommand{\enquote}[1]{`#1'}
+\providecommand{\natexlab}[1]{#1}
+\expandafter\ifx\csname urlstyle\endcsname\relax
+  \providecommand{\doi}[1]{doi:\discretionary{}{}{}#1}\else
+  \providecommand{\doi}{doi:\discretionary{}{}{}\begingroup
+  \urlstyle{rm}\Url}\fi
+
+\bibitem[{Acerbi and Gundacker(2019)}]{Acerbi2019}
+Acerbi, F. and Gundacker, S. (2019). \enquote{Understanding and simulating
+  {SiPMs}}, \emph{Nucl. Instr. Meth. Phys. Res. Sect. A}, vol. 926, pp. 16--35,
+  \doi{10.1016/j.nima.2018.11.118}.
+
+\bibitem[{Acerbi \emph{et~al.}(2018)Acerbi, Paternoster, Gola, Regazzoni, Zorzi
+  and Piemonte}]{Acerbi2018}
+Acerbi, F., Paternoster, G., Gola, A., Regazzoni, V., Zorzi, N. and Piemonte,
+  C. (2018). \enquote{High-density silicon photomultipliers: Performance and
+  linearity evaluation for high efficiency and dynamic-range applications},
+  \emph{{IEEE} J. Quantum Electron.}, vol.~54(2), pp. 1--7.
+
+\bibitem[{Agostinelli(2003)}]{Agostinelli2003}
+Agostinelli, S.{\em et~al}. (2003). \enquote{{GEANT4 - A simulation toolkit}},
+  \emph{Nucl. Instr. Meth. Phys. Res. Sect. A}, vol. 506(3), pp. 250--303.
+
+\bibitem[{Allison(2006)}]{Allison2006}
+Allison, J.{\em et~al}. (2006). \enquote{{Geant4 developments and
+  applications}}, \emph{{IEEE} Trans. Nucl. Sci.}, vol.~53(1), pp. 270--278.
+
+\bibitem[{Brown \emph{et~al.}(2014)Brown, Gundacker, Taylor, Tummeltshammer,
+  Auffray, Lecoq and Papakonstantinou}]{Brown2014}
+Brown, M.S., Gundacker, S., Taylor, A., Tummeltshammer, C., Auffray, E., Lecoq,
+  P. and Papakonstantinou, I. (2014). \enquote{{Influence of depth of
+  interaction upon the performance of scintillator detectors}}, \emph{PLoS
+  One}, vol.~9(5), pp. 1--11.
+
+\bibitem[{Cates \emph{et~al.}(2018)Cates, Gundacker, Auffray, Lecoq and
+  Levin}]{Cates2018}
+Cates, J.W., Gundacker, S., Auffray, E., Lecoq, P. and Levin, C.S. (2018).
+  \enquote{Improved single photon time resolution for analog {SiPMs} with front
+  end readout that reduces influence of electronic noise}, \emph{Phys. Med.
+  Biol.}, vol.~63(18), p. 185022.
+
+\bibitem[{Cates \emph{et~al.}(2015)Cates, Vinke and Levin}]{Cates2015}
+Cates, J.W., Vinke, R. and Levin, C.S. (2015). \enquote{{Analytical calculation
+  of the lower bound on timing resolution for PET scintillation detectors
+  comprising high-aspect-ratio crystal elements.}}, \emph{Phys. Med. Biol.},
+  vol.~60(13), pp. 5141--61.
+
+\bibitem[{Cherry \emph{et~al.}(2012)Cherry, Sorenson and Phelps}]{Cherry2012}
+Cherry, S.R., Sorenson, J.A. and Phelps, M.E. (2012). \emph{Physics in Nuclear
+  Medicine}, Elsevier.
+
+\bibitem[{Conti(2011)}]{Conti2011}
+Conti, M. (2011). \enquote{{Focus on time-of-flight PET: the benefits of
+  improved time resolution}}, \emph{Eur. J. Nucl. Med. Mol. Imaging},
+  vol.~38(6), pp. 1147--1157.
+
+\bibitem[{Defrise \emph{et~al.}(2018)Defrise, Rezaei and Nuyts}]{Defrise2018}
+Defrise, M., Rezaei, A. and Nuyts, J. (2018). \enquote{Time-of-flight {PET}
+  time calibration using data consistency}, \emph{Phys. Med. Biol.},
+  vol.~63(10), p. 105006.
+
+\bibitem[{Gundacker \emph{et~al.}(2013)Gundacker, Auffray, Frisch, Jarron,
+  Knapitsch, Meyer, Pizzichemi and Lecoq}]{Gundacker2013}
+Gundacker, S., Auffray, E., Frisch, B., Jarron, P., Knapitsch, A., Meyer, T.,
+  Pizzichemi, M. and Lecoq, P. (2013). \enquote{{Time of flight positron
+  emission tomography towards 100ps resolution with {L(Y)SO}: {a}n experimental
+  and theoretical analysis}}, \emph{J. Instrum.}, vol.~8(07), pp.
+  P07014--P07014.
+
+\bibitem[{Gundacker \emph{et~al.}(2015)Gundacker, Auffray, Jarron, Meyer and
+  Lecoq}]{Gundacker2015}
+Gundacker, S., Auffray, E., Jarron, P., Meyer, T. and Lecoq, P. (2015).
+  \enquote{{On the comparison of analog and digital SiPM readout in terms of
+  expected timing performance}}, \emph{Nucl. Instr. Meth. Phys. Res. A}, vol.
+  787, pp. 6--11.
+
+\bibitem[{Gundacker \emph{et~al.}(2016a)Gundacker, Auffray, Pauwels and
+  Lecoq}]{Gundacker2016}
+Gundacker, S., Auffray, E., Pauwels, K. and Lecoq, P. (2016a).
+  \enquote{{Measurement of intrinsic rise times for various L(Y)SO and LuAG
+  scintillators with a general study of prompt photons to achieve 10 ps in
+  TOF-PET}}, \emph{Phys. Med. Biol.}, vol.~61(7), pp. 2802--37.
+
+\bibitem[{Gundacker \emph{et~al.}(2014)Gundacker, Knapitsch, Auffray, Jarron,
+  Meyer and Lecoq}]{Gundacker2014}
+Gundacker, S., Knapitsch, A., Auffray, E., Jarron, P., Meyer, T. and Lecoq, P.
+  (2014). \enquote{{Time resolution deterioration with increasing crystal
+  length in a TOF-PET system}}, \emph{Nucl. Instr. Meth. Phys. Res. A}, vol.
+  737, pp. 92--100.
+
+\bibitem[{Gundacker \emph{et~al.}(2019)Gundacker, Turtos, Auffray, Paganoni and
+  Lecoq}]{Gundacker2019}
+Gundacker, S., Turtos, R.M., Auffray, E., Paganoni, M. and Lecoq, P. (2019).
+  \enquote{High-frequency {SiPM} readout advances measured coincidence time
+  resolution limits in {TOF}-{PET}}, \emph{Phys. Med. Biol.}, vol.~64(5), p.
+  055012.
+
+\bibitem[{Karp \emph{et~al.}(2008)Karp, Surti, Daube-Witherspoon and
+  Muehllehner}]{Karp2008}
+Karp, J.S., Surti, S., Daube-Witherspoon, M.E. and Muehllehner, G. (2008).
+  \enquote{Benefit of time-of-flight in {PET}: experimental and clinical
+  results}, \emph{J. Nucl. Med.}, vol.~49(3), pp. 462--470.
+
+\bibitem[{Lecomte(2009)}]{Lecomte2009}
+Lecomte, R. (2009). \enquote{{Novel detector technology for clinical {PET}}},
+  \emph{Eur. J. Nucl. Med. Mol. Imaging}, vol.~36(SUPPL. 1), pp. 69--85.
+
+\bibitem[{Lecoq(2017)}]{Lecoq2017}
+Lecoq, P. (2017). \enquote{{Pushing the Limits in Time-of-Flight PET Imaging}},
+  \emph{{IEEE} Trans. Radiat. Plasma Med. Sci.}, vol.~1(6), pp. 473--485.
+
+\bibitem[{Li(2019)}]{Li2019}
+Li, Y. (2019). \enquote{Consistency equations in native detector coordinates
+  and timing calibration for time-of-flight {PET}}, \emph{Biomed. Phys. Eng.
+  Express.}, vol.~5(2), p. 025010.
+
+\bibitem[{Loignon-Houle \emph{et~al.}(2017a)Loignon-Houle, Bergeron, Pepin,
+  Charlebois and Lecomte}]{LoignonHoule2017a}
+Loignon-Houle, F., Bergeron, M., Pepin, C.M., Charlebois, S.A. and Lecomte, R.
+  (2017a). \enquote{Simulation of scintillation light output in {LYSO}
+  scintillators through a full factorial design}, \emph{Phys. Med. Biol.},
+  vol.~62(2), pp. 669--683, \doi{10.1088/1361-6560/62/2/669}.
+
+\bibitem[{Loignon-Houle \emph{et~al.}(2017b)Loignon-Houle, Pepin, Charlebois
+  and Lecomte}]{LoignonHoule2017b}
+Loignon-Houle, F., Pepin, C.M., Charlebois, S.A. and Lecomte, R. (2017b).
+  \enquote{Reflectivity quenching of {ESR} multilayer polymer film reflector in
+  optically bonded scintillator arrays}, \emph{Nucl. Instr. Meth. Phys. Res.
+  Sec. A}, vol. 851, pp. 62--67, \doi{10.1016/j.nima.2017.01.051}.
+
+\bibitem[{Lucchini \emph{et~al.}(2016)Lucchini, Babin, Bohacek, Gundacker,
+  Kamada, Nikl, Petrosyan, Yoshikawa and Auffray}]{Lucchini2016}
+Lucchini, M., Babin, V., Bohacek, P., Gundacker, S., Kamada, K., Nikl, M.,
+  Petrosyan, A., Yoshikawa, A. and Auffray, E. (2016). \enquote{{Effect of Mg2+
+  ions co-doping on timing performance and radiation tolerance of Cerium doped
+  Gd$_3$Al$_2$Ga$_3$O$_{12}$ crystals}}, \emph{Nucl. Instr. Meth. Phys. Res.
+  Sec. A}, vol. 816, pp. 176--183.
+
+\bibitem[{MacDonald and Dahlbom(1998)}]{MacDonald1998}
+MacDonald, L. and Dahlbom, M. (1998). \enquote{Depth of interaction for {PET}
+  using segmented crystals}, \emph{{IEEE} Trans. Nucl. Sci.}, vol.~45(4), pp.
+  2144--2148.
+
+\bibitem[{Mini-Circuits(2020)}]{Minicircuits}
+Mini-Circuits (2020). \emph{Datasheet Mini-Circuits ZX60-43-S+ amplifier}.
+
+\bibitem[{Moses and Derenzo(1999)}]{Moses1999}
+Moses, W.W. and Derenzo, S.E. (1999). \enquote{{Prospects for time-of-flight
+  PET using LSO scintillator}}, \emph{IEEE Trans. Nucl. Sci.}, vol.~46(3 PART
+  2), pp. 474--478.
+
+\bibitem[{Nemallapudi \emph{et~al.}(2016)Nemallapudi, Gundacker, Lecoq and
+  Auffray}]{Nemallapudi2016}
+Nemallapudi, M., Gundacker, S., Lecoq, P. and Auffray, E. (2016).
+  \enquote{{Single photon time resolution of state of the art SiPMs}}, \emph{J.
+  Instrum.}, vol.~11(10), pp. P10016--P10016.
+
+\bibitem[{Nolet \emph{et~al.}(2018)Nolet, Parent, Roy, Mercier, Charlebois,
+  Fontaine and Pratte}]{Nolet2018}
+Nolet, F., Parent, S., Roy, N., Mercier, M.O., Charlebois, S., Fontaine, R. and
+  Pratte, J.F. (2018). \enquote{Quenching circuit and {SPAD} integrated in
+  {CMOS} 65 nm with 7.8 ps {FWHM} single photon timing resolution},
+  \emph{Instrum.}, vol.~2(4), p.~19, \doi{10.3390/instruments2040019}.
+
+\bibitem[{Otte \emph{et~al.}(2017)Otte, Garcia, Nguyen and
+  Purushotham}]{Otte2017}
+Otte, A.N., Garcia, D., Nguyen, T. and Purushotham, D. (2017).
+  \enquote{Characterization of three high efficiency and blue sensitive silicon
+  photomultipliers}, \emph{Nucl. Instr. Meth. Phys. Res. Sec. A}, vol. 846, pp.
+  106--125.
+
+\bibitem[{Pauwels \emph{et~al.}(2012)Pauwels, Auffray, Gundacker, Knapitsch and
+  Lecoq}]{Pauwels2012}
+Pauwels, K., Auffray, E., Gundacker, S., Knapitsch, A. and Lecoq, P. (2012).
+  \enquote{Effect of aspect ratio on the light output of scintillators},
+  \emph{{IEEE} Trans. Nucl. Sci.}, vol.~59(5), pp. 2340--2345,
+  \doi{10.1109/tns.2012.2183890}.
+
+\bibitem[{Pizzichemi \emph{et~al.}(2019)Pizzichemi, Polesel, Stringhini,
+  Gundacker, Lecoq, Tavernier, Paganoni and Auffray}]{Pizzichemi2019}
+Pizzichemi, M., Polesel, A., Stringhini, G., Gundacker, S., Lecoq, P.,
+  Tavernier, S., Paganoni, M. and Auffray, E. (2019). \enquote{On light sharing
+  {TOF}-{PET} modules with depth of interaction and 157 ps {FWHM} coincidence
+  time resolution}, \emph{Phys. Med. Biol.}, vol.~64(15), p. 155008,
+  \doi{10.1088/1361-6560/ab2cb0}.
+
+\bibitem[{Proch{\'{a}}zkov{\'{a}} \emph{et~al.}(2018)Proch{\'{a}}zkov{\'{a}},
+  {\v{C}}uba, Beitlerov{\'{a}}, Jar{\'{y}}, Omelkov and Nikl}]{Prochzkov2018}
+Proch{\'{a}}zkov{\'{a}}, L., {\v{C}}uba, V., Beitlerov{\'{a}}, A., Jar{\'{y}},
+  V., Omelkov, S. and Nikl, M. (2018). \enquote{Ultrafast {Zn(Cd, Mg)O:Ga}
+  nanoscintillators with luminescence tunable by band gap modulation},
+  \emph{Opt. Express}, vol.~26(22), p. 29482.
+
+\bibitem[{Roncali and Cherry(2013)}]{Roncali2013}
+Roncali, E. and Cherry, S.R. (2013). \enquote{Simulation of light transport in
+  scintillators based on 3d characterization of crystal surfaces}, \emph{Phys.
+  Med. Biol.}, vol.~58(7), pp. 2185--2198, \doi{10.1088/0031-9155/58/7/2185}.
+
+\bibitem[{Roncali \emph{et~al.}(2017)Roncali, Stockhoff and
+  Cherry}]{Roncali2017}
+Roncali, E., Stockhoff, M. and Cherry, S.R. (2017). \enquote{An integrated
+  model of scintillator-reflector properties for advanced simulations of
+  optical transport}, \emph{Phys. Med. Biol.}, vol.~62(12), pp. 4811--4830.
+
+\bibitem[{Schaart \emph{et~al.}(2016)Schaart, Charbon, Frach and
+  Schulz}]{Schaart2016}
+Schaart, D.R., Charbon, E., Frach, T. and Schulz, V. (2016). \enquote{Advances
+  in digital {SiPMs} and their application in biomedical imaging}, \emph{Nucl.
+  Instr. Meth. Phys. Res. Sec. A}, vol. 809, pp. 31--52.
+
+\bibitem[{Seifert \emph{et~al.}(2012)Seifert, van Dam and
+  Schaart}]{Seifert2012}
+Seifert, S., van Dam, H.T. and Schaart, D.R. (2012). \enquote{The lower bound
+  on the timing resolution of scintillation detectors}, \emph{Phys. Med.
+  Biol.}, vol.~57(7), pp. 1797--1814, \doi{10.1088/0031-9155/57/7/1797}.
+
+\bibitem[{SensL(2018)}]{Sensl}
+SensL (2018). \emph{Datasheet J-Series SiPM Sensors, Silicon Photomultipliers
+  (SiPM), High PDE and Timing Resolution Sensors in a TSV Package}, rev. 6.
+
+\bibitem[{{Ter Weele} \emph{et~al.}(2015){Ter Weele}, Schaart and
+  Dorenbos}]{TerWeele2015}
+{Ter Weele}, D.N., Schaart, D.R. and Dorenbos, P. (2015).
+  \enquote{{Scintillation detector timing resolution; A study by ray tracing
+  software}}, \emph{{IEEE} Trans. Nucl. Sci.}, vol.~62(5), pp. 1972--1980.
+
+\bibitem[{Therrien \emph{et~al.}(2018)Therrien, Lemaire, Lecoq, Fontaine and
+  Pratte}]{Therrien2018}
+Therrien, A., Lemaire, W., Lecoq, P., Fontaine, R. and Pratte, J.F. (2018).
+  \enquote{Energy discrimination for positron emission tomography using the
+  time information of the first detected photons}, \emph{JINST}, vol.~13(01),
+  pp. P01012--P01012, \doi{10.1088/1748-0221/13/01/p01012}.
+
+\bibitem[{Toussaint \emph{et~al.}(2019)Toussaint, Loignon-Houle, Dussault and
+  Lecomte}]{Toussaint2019}
+Toussaint, M., Loignon-Houle, F., Dussault, J.P. and Lecomte, R. (2019).
+  \enquote{Analytical model of {DOI}-induced time bias in ultra-fast
+  scintillation detectors for {TOF}-{PET}}, \emph{Phys. Med. Biol.},
+  vol.~64(6), p. 065009.
+
+\bibitem[{Turtos \emph{et~al.}(2016a)Turtos, Gundacker, Polovitsyn,
+  Christodoulou, Salomoni, Auffray, Moreels, Lecoq and Grim}]{Turtos2016a}
+Turtos, R., Gundacker, S., Polovitsyn, A., Christodoulou, S., Salomoni, M.,
+  Auffray, E., Moreels, I., Lecoq, P. and Grim, J. (2016a). \enquote{{Ultrafast
+  emission from colloidal nanocrystals under pulsed X-ray excitation}},
+  \emph{J. Instrum.}, vol.~11(10), pp. P10015--P10015.
+
+\bibitem[{Turtos \emph{et~al.}(2016b)Turtos, Gundacker, Pizzichemi, Ghezzi,
+  Pauwels, Auffray, Lecoq and Paganoni}]{Turtos2016b}
+Turtos, R.M., Gundacker, S., Pizzichemi, M., Ghezzi, A., Pauwels, K., Auffray,
+  E., Lecoq, P. and Paganoni, M. (2016b). \enquote{Measurement of {LYSO}
+  intrinsic light yield using electron excitation}, \emph{{IEEE} Trans. Nucl.
+  Sci.}, vol.~63(2), pp. 475--479.
+
+\bibitem[{van Sluis \emph{et~al.}(2019)van Sluis, de~Jong, Schaar, Noordzij,
+  van Snick, Dierckx, Borra, Willemsen and Boellaard}]{vanSluis2019}
+van Sluis, J., de~Jong, J., Schaar, J., Noordzij, W., van Snick, P., Dierckx,
+  R., Borra, R., Willemsen, A. and Boellaard, R. (2019). \enquote{Performance
+  characteristics of the {Digital Biograph Vision} {PET}/{CT} system}, \emph{J.
+  Nucl. Med.}, vol.~60(7), pp. 1031--1036, \doi{10.2967/jnumed.118.215418}.
+
+\bibitem[{Vandenberghe \emph{et~al.}(2016)Vandenberghe, Mikhaylova, D'Hoe,
+  Mollet and Karp}]{Vandenberghe2016}
+Vandenberghe, S., Mikhaylova, E., D'Hoe, E., Mollet, P. and Karp, J.S. (2016).
+  \enquote{{Recent developments in time-of-flight PET}}, \emph{{EJNMMI} Phys.},
+  vol.~3(1), p.~3.
+
+\bibitem[{Vinke \emph{et~al.}(2014)Vinke, Olcott, Cates and Levin}]{Vinke2014}
+Vinke, R., Olcott, P.D., Cates, J.W. and Levin, C.S. (2014). \enquote{{The
+  lower timing resolution bound for scintillators with non-negligible optical
+  photon transport time in time-of-flight PET.}}, \emph{Phys. Med. Biol.},
+  vol.~59(20), pp. 6215--6229.
+
+\bibitem[{Vinogradov(2018)}]{Vinogradov2018}
+Vinogradov, S. (2018). \enquote{Approximations of coincidence time resolution
+  models of scintillator detectors with leading edge discriminator},
+  \emph{Nucl. Instrum. Meth. Phys. Res. Sec. A}, vol. 912, pp. 149--153,
+  \doi{10.1016/j.nima.2017.11.009}.
+
+\bibitem[{Xie \emph{et~al.}(2020)Xie, Zhang, Huang, Gong, Xu and
+  Peng}]{Xie2020}
+Xie, S., Zhang, X., Huang, Q., Gong, Z., Xu, J. and Peng, Q. (2020).
+  \enquote{Methods to compensate the time walk errors in timing measurements
+  for {PET} detectors}, \emph{{IEEE} Trans. Rad. Plas. Med. Sci. (in press)},
+  pp. 1--1, \doi{10.1109/trpms.2020.2981388}.
+
+\end{thebibliography}

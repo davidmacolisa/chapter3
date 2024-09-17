@@ -1,0 +1,29 @@
+C:\Users\david\AppData\Local\Programs\Python\Python310
+
+# using texcount commands
+
+texcount main.tex
+texcount -sum main.tex
+texcount -sum -total main.tex
+texcount -sum -total -inc main.tex
+texcount -inc main.tex
+texcount -v main.tex		# to see detail counting
+texcount -v -html -inc .\nees.tex > word_count.html	#to export to html
+texcount -v -inc -merge .\nees.tex		#less verbose output
+texcount -v -inc -merge -total .\nees.tex		# even less verbose output
+texcount -v -inc -merge -total -1 .\nees.tex		#even less verbose output with only the number of words
+texcount -v -inc -merge -total -sum -1 .\nees.tex		#short and simple
+
+
+
+
+# to ignore counting acknowledgements or any section of choice
+
+%TC: Ignore
+...text...
+%TC:endignore
+
+
+
+# Tables Generator
+https://tablesgenerator.com/

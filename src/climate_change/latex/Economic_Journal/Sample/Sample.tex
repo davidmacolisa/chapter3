@@ -1,0 +1,231 @@
+\documentclass[demo]{OUP-EJ}
+
+\begin{document}
+
+
+\title[Short Article title]{Fast and automatic periacetabular osteotomy fragment pose estimation using intraoperatively implanted fiducials and single-view fluoroscopy}
+
+\author[1,3,*]{Michael K. Murray}
+
+\author[2,**]{Paul Norbury}
+
+\author[3,\S]{Robert Jones}
+
+\affil[1]{School of Mathematical Sciences, University of Adelaide, Adelaide, SA 5005, Australia}
+\affil[2]{School of Mathematics and Statistics, University of Melbourne, Vic 3010, Australia}
+
+\affil[3]{Department of Mathematics, Duke University, 120 Science Drive, Durham NC 27708 USA}
+
+\corres[*]{michael.murray@adelaide.edu.au}
+\corres[**]{norbury@unimelb.edu.au}
+
+
+\aunotes[\S]{Coppead Graduate School of Business, Federal University of Rio de Janeiro-RJ, Brazil.}
+
+
+\subjclass[2010]{81T13, 53C07, 14D21}
+
+\begin{abstract}
+This paper provides a rigorous derivation of a counterexample of Bourgain, related to a well-known question of pointwise a.e. convergence for the solution of the linear Schr\"odinger equation, for initial data in a Sobolev space. This counterexample combines ideas from analysis and number theory, and the present paper demonstrates how to build such counterexamples from first principles, and then optimize them.
+\end{abstract}
+
+\keywords{transfusion; walking blood bank; military medicine, exercise physiology}
+
+\dedication{Dedicated to the memory of Sir Michael Atiyah}
+
+\thanks{MKM acknowledges support under the  Australian
+Research Council's {\sl Discovery Projects} funding scheme (project number DP180100383).  PN acknowledges support under the  Australian
+Research Council's {\sl Discovery Projects} funding scheme (project numbers DP170102028 and DP180103891).
+}
+
+
+\subjclass[2010]{81T13, 53C07, 14D21}
+
+\maketitle
+
+
+\section{Introduction}\label{isect1}
+Positron emission tomography (PET) capabilities can be considerably improved with time-of-flight (TOF) measurement.
+TOF enhances contrast-to-noise ratio in PET images, enables faster image reconstruction convergence, allows shorter acquisition time or lower injected dose, and enables improved limited angle tomography~\citep{Karp2008,Vandenberghe2016,Lecoq2017}.
+These improvements can be achieved through a better coincidence time resolution (CTR) of the PET detectors~\citep{Conti2011}.
+
+\subsection{Materials and methods}\label{isect2}
+
+
+
+State-of-the-art CTR with clinical TOF-PET systems have recently reached 210~ps full-width at half maximum (FWHM) with 20~mm long detector crystals~\citep{vanSluis2019}.
+It is known that depth-of-interaction (DOI) measurement in PET scanners with long crystals can alleviate the parallax effect that causes a degradation of the spatial resolution off-center~\citep{Lecomte2009,Cherry2012}.
+A more recent motivation for DOI measurement is to counteract its degrading effect on CTR in TOF-PET detectors.
+Since the velocity of scintillation photons in crystals is reduced by a factor corresponding to the refractive index $n$ of the material, their propagation time is therefore longer than annihilation photons propagating at the speed of light in vacuum $c$.
+
+\subsubsection{Side/end signal readout}\label{isect3}
+
+For a given coincidence between two TOF-PET detectors, the coincidence timing is impacted by this difference in propagation speed if the DOI in the two detectors differs~\citep{Moses1999}.
+
+
+\paragraph{Experimental measurements}
+\label{sec:expMeas}
+
+
+With typical (TOF) PET detectors, the statistical nature of the scintillator light emission and the photosensor response results in a variance on the measured signal which usually is the main source of the timing imprecision.\footnote{
+Significant improvements in reducing these degrading effects are achieved by using materials with fast light emission~\citep{Lucchini2016,Turtos2016a,Prochzkov2018}, efficient photosensors with low time jitter~\citep{Schaart2016,Acerbi2018,Nolet2018} or fast readout electronics~\citep{Cates2018,Gundacker2019}.}
+
+\subparagraph{Head-to-head setup}
+\label{sec:headtoheadsetup}
+
+A CTR metric was recently proposed in which the timing signal contributions were separated in statistical variance-related effects and DOI-induced bias to estimate a mean square error~\citep{Toussaint2019}.
+The metric was evaluated with a simulation framework revealing the substantial magnitude of the DOI bias against other variance-related effects when ultra-fast detection conditions are explored.
+
+In this paper, an experimental validation of the analytical model proposed in \cite{Toussaint2019} is presented using a signal readout that allows the relative magnitude of the DOI-induced bias to be observable with typical scintillation detectors.
+We show that the metric using a DOI bias separated from variance-related effects is effective to describe the measured CTR of coincident detectors with or without DOI information.
+\begin{equation}
+        \label{eq:rmsehtoh}
+        \mathrm{RMSE}_{\mathrm{simul}}^{\mathrm{HtoH}}[\widehat{\theta}] = \left[\sum_{d_{ij}}\sum_{E_{ij}} \left( \mathrm{Var}(\widehat{\theta}^{\mathrm{coinc}}_{d_{ij},E_{ij}}) + (\mathrm{Bias}(\widehat{\theta}^{\mathrm{coinc}}_{d_{ij},E_{ij}}))^2 \right)\right]^{1/2}
+\end{equation}
+Assuming a Gaussian error of the estimator, a conversion to FWHM is then applied to obtain values as 2.355~$\times$~RMSE.
+This metric is therefore extended compared to the one used in \cite{Toussaint2019} by adding the energy contribution to the CTR.
+
+The following metric is used to predict the CTR of the head-to-head setup from the DOI-collimated setup experimental results
+\begin{equation}
+ \label{eq:rmsedoicoll}
+        \mathrm{RMSE}_{\mathrm{\textrm{exp}}}^{\mathrm{pred}} = \left[\sum_{d_{j}} \left( \mathrm{Var}^{\mathrm{meas}}_{d_{j}}) + (\mathrm{Bias}^{\mathrm{corr}}_{d_{j}})^2 \right) \mathsf{P}(d_{j}) \right]^{1/2}
+\end{equation}
+where the corrected bias for all the aforementioned time offsets is $\mathrm{Bias}^{\mathrm{corr}}_{d_{j}} = \mu_{d_j}^{\mathrm{meas}} - \Delta t^{\mathrm{TOF}} - \overline{t}^{\mathrm{rel}} - t_{d_j}^{\mathrm{miss}}$ with $\mu_{d_j}^{\mathrm{meas}}$ being the measured coincidence mean time difference of the head-on crystal (naturally merging over DOI $d_i$ and energies $E_{i,j}$) relative to the collimated crystal at DOI $d_j$.
+Note that $\mathsf{P}(d_{j})$ is adapted to reflect the experimental DOI irradiation width and the low-energy cut influence on DOI.
+
+
+In most current scintillation detectors, the timing blur due to difference in DOI between coincident detectors remains marginal relative to other factors.
+Here, in order to amplify the magnitude of DOI bias, a detection setup where the scintillation signal is read from the side near the end of the crystal (side/end readout), as shown in figure~\ref{fig:detector}, was chosen.
+
+
+\begin{figure}[!t]
+\centering
+ \includegraphics{PMBaba7d0f1}
+ \caption{Side/end readout schematic where the SiPM is coupled to one side face with a small opening towards the end of a crystal. This setup was chosen to enhance the effective propagation time difference between small and large DOI events.}
+ \label{fig:detector}
+\end{figure}
+
+
+\begin{table}[!t]
+\centering\caption{A summary of BB reconstruction errors for each surgery, specified by the cadaver specimen number and operative side.
+The means and standard deviations of reconstruction errors are given for the separate ilium and fragment BB constellations and also the entire set of BBs.
+For each surgery, four BBs were reconstructed for each of the ilium and fragment constellations.}
+\label{tab:results_bb_recon_errors}
+\begin{tabular*}{\textwidth}{@{\extracolsep\fill}l l l l}
+\hline
+Surgery & \multicolumn{3}{c}{Reconstruction errors (mm)} \\
+\cline{2-4}
+& Ilium BBs & Fragment BBs & All BBs \\
+\hline
+1 Left & $2.5 \pm        0.4$ & $3.2 \pm        0.2$ &  $2.9 \pm        0.5$ \\
+1 Right & $2.1 \pm      0.2$ &  $2.7 \pm        0.5$ &  $2.4 \pm        0.5$ \\
+2 Left & $1.6 \pm       0.3$ &  $1.4 \pm        0.2$ &  $1.5 \pm        0.3$ \\
+2 Right & $1.3 \pm      0.5$ &  $1.1 \pm        0.1$ &  $1.2 \pm        0.3$ \\
+3 Left & $1.3 \pm       0.3$ &  $1.1 \pm        0.4$ &  $1.2 \pm        0.3$ \\
+3 Right & $1.4 \pm      0.2$ &  $1.6 \pm        0.2$ &  $1.5 \pm        0.2$ \\
+\hline
+\end{tabular*}
+\end{table}
+
+
+\begin{theorem}
+Pose estimation was successfully performed on 18 total views (3 per surgery).
+The distributions of fragment rotation, LCE angle, and translation errors in rotation were below $3^{\circ}$ for 12 of the 18 cases, with a mean of $2.4^{\circ}$.
+When the rotation errors were decomposed about anatomical axes, only rotation about the IS axis had errors greater than $3^{\circ}$.
+In terms of both mean and standard deviation, rotation measurements about the AP axis were the most accurate, followed by LR, and then IS.
+\end{theorem}
+\begin{theorem}[Theorem Head]
+The maximum 3D LCE angle error was $1.8^{\circ}$ and the mean was $1.0^{\circ}$.
+The mean translation error was 2.1 mm, and was less than 3 mm for 15 of the 18 estimates.
+Mean translation errors about the anatomical axes were all within 0.2 mm of each other, and the maximum difference between standard deviations was 0.3 mm.
+An entire listing of errors for each pose estimate is shown in supplementary table~S-4.
+\end{theorem}
+
+\begin{proposition}[Proposition Head]
+The maximum 3D LCE angle error was $1.8^{\circ}$ and the mean was $1.0^{\circ}$.
+The mean translation error was 2.1 mm, and was less than 3 mm for 15 of the 18 estimates.
+Mean translation errors about the anatomical axes were all within 0.2 mm of each other, and the maximum difference between standard deviations was 0.3 mm.
+An entire listing of errors for each pose estimate is shown in supplementary table~S-4.
+\end{proposition}
+
+
+\begin{proof}
+In the third view for the left side of specimen~1, one ilium BB was outside the image bounds and not detected.
+On the left side of specimen~2, one of the ilium BBs was occluded by K-wire in each view and therefore not detected.
+Analysis of the postoperative CT revealed that this BB was actually dislodged by either: performance of the ilium osteotomy or insertion of the K-wire.
+The missed ilium detections in views 1 and 2 on the right side of specimen~2, were occluded by screws.
+Occlusion by K-wire also caused the missed ilium detection in view 2 on the right side of specimen~3.
+However, according to the postoperative CT this ilium BB was also displaced from the bone.
+The missed fragment BB detections were caused by K-wire occlusion.
+There were no missed detections of ipsilateral BBs that were present in the scene and not occluded by screws or K-wires.
+\end{proof}
+
+\begin{remark}
+In the third view for the left side of specimen~1, one ilium BB was outside the image bounds and not detected.
+On the left side of specimen~2, one of the ilium BBs was occluded by K-wire in each view and therefore not detected.
+Analysis of the postoperative CT revealed that this BB was actually dislodged by either: performance of the ilium osteotomy or insertion of the K-wire.
+\end{remark}
+
+\begin{ack}
+This work was supported by a Discovery Grant from the Natural Sciences and Engineering Research Council of Canada (NSERC). F. Loignon-Houle held an Alexander Graham Bell Canada Graduate Scholarship from NSERC while M. Toussaint held an Accelerate Scholarship from Mitacs. The Sherbrooke Molecular Imaging Center is a member of the FRQS-funded Research Center of CHUS (CRCHUS).
+\end{ack}
+
+
+
+
+\appendix
+
+\section{Basis Function Generation using Profile Interpolation}\label{app:basis_interp}
+
+The accuracy of the profile interpolation procedure is assessed by splitting the set of 10 positron-emitting fragment profiles and deposited dose profiles corresponding to the monoenergetic irradiations of the PMMA target into a training set and testing set.
+
+
+
+\section{Additional Information for $^{12}$C SOBPs} \label{app:weights}
+
+The weight values used in Monte Carlo simulation to deliver the flat $^{12}$C SOBP, the 3 $^{12}$C SOBPs containing well-defined dose maxima and/or minima, and 4 $^{12}$C SOBPs with randomised weights are presented in figure  \ref{fig:prof_interp_validation}.
+
+
+\begin{figure}[!b]
+\centering\includegraphics{figname}
+\caption{Profiles of $^{11}$C, $^{10}$C, and $^{15}$O fragment production and deposited dose profile resulting from irradiation of a homogeneous PMMA phantom by monoenergetic $^{12}$C beams with energies of 215~MeV\ u$^{-1}$, 245~MeV\ u$^{-1}$, 275~MeV\ u$^{-1}$ and 305~MeV\ u$^{-1}$ in Monte Carlo simulation, plotted against fragment and dose profiles estimated using the profile interpolation procedure.}\label{fig:prof_interp_validation}
+\end{figure}
+
+
+
+\begin{table}[t]
+\centering\caption{Mean relative error between true and interpolated $^{11}$C, $^{10}$C, $^{15}$O and deposited dose profiles, calculated in the entrance, SOBP and tail regions, relative to the maximum of the true profile in the specified region.}\label{tab:prof_interp_validation}
+\begin{tabular}{@{}lcccc@{}}
+\hline
+\multirow{2}{*}{Interpolated Profile}	&\multirow{2}{*}{Beam Energy (MeV\ u$^{-1}$)} & \multicolumn{3}{c}{Mean MRE (\%)}\\
+\cline{3-5}
+& & Entrance & SOBP & Tail \\
+\hline
+\multirow{4}{*}{$^{11}$C} & 215 & 0.49 & 5.81 & 0.41 \\
+& 245 & 0.51 & 4.04 & 0.41 \\
+& 275 & 0.92 & 5.07 & 0.37 \\
+& 305 & 1.01 & 4.19 & 0.48 \\
+\multirow{4}{*}{$^{10}$C} & 215 & 0.39 & 1.57 & 0.44 \\
+& 245 & 0.59 & 2.71 & 0.65 \\
+& 275 & 0.55 & 4.11 & 0.78 \\
+& 305 & 0.52 & 2.69 & 0.93 \\
+% \multirow{4}{*}{$^{15}$O} & 215 & 0.71 & 3.11 & 0.42 \\
+% & 245 & 0.49 & 2.79 & 0.53 \\
+% & 275 & 0.62 & 1.44 & 0.45 \\
+% & 305 & 0.66 & 3.24 & 0.86 \\
+\hline
+\end{tabular}
+\end{table}
+
+
+
+
+\nocite{*}
+
+\bibliographystyle{ejbib}
+
+\bibliography{sample}
+
+
+
+\end{document} 

@@ -11,11 +11,11 @@ setwd(dir = "C:/Users/david/OneDrive/Documents/ULMS/PhD/")
 #======================================================================================================================#
 ### Importing shapefiles
 #======================================================================================================================#
-source(file = "./Thesis/chapter3/src/climate_change/data/border_state_county_df.R", echo = T)
+source(file = "border_state_county_df.R", echo = T)
 #======================================================================================================================#
 ### Loading Data
 #======================================================================================================================#
-file <- "./Data_PhD/US/BLS/onsite/triQc_on.rds"
+file <- "../../../../../Data_PhD/US/BLS/onsite/triQc_on.rds"
 triQc <- read_rds(file = file)
 #======================================================================================================================#
 ### Summarize the number of treated and control states
@@ -24,46 +24,46 @@ triQc <- read_rds(file = file)
 border_mw_ch_tbl <- fac_states_df %>%
   filter(treated == 1) %>%
   mutate(
-    tot.ch.amt = ch.amt + sum2.sub.mw.ch,
-    end.mw = start.mw + tot.ch.amt
+	tot.ch.amt = ch.amt + sum2.sub.mw.ch,
+	end.mw = start.mw + tot.ch.amt
   ) %>%
   left_join(
-    y = fac_county_df %>%
-      filter(treated == 1) %>%
-      group_by(state.code) %>%
-      summarise(
-        treated.border.counties = n_distinct(treated.cluster.name)
-      ),
-    by = c("state.code" = "state.code")
+	y = fac_county_df %>%
+	  filter(treated == 1) %>%
+	  group_by(state.code) %>%
+	  summarise(
+		treated.border.counties = n_distinct(treated.cluster.name)
+	  ),
+	by = c("state.code" = "state.code")
   )
 
 # Control state information
 border_mw_ch_tbl <- border_mw_ch_tbl %>%
   left_join(
-    y = fac_states_df %>%
-      filter(treated == 0) %>%
-      group_by(match.state) %>%
-      summarise(
-        control.state.codes = paste0("(", paste0(
-          unique(state.code),
-          sep = "",
-          collapse = ", "
-        ), ")")
-      ),
-    by = c("state.code" = "match.state")
+	y = fac_states_df %>%
+	  filter(treated == 0) %>%
+	  group_by(match.state) %>%
+	  summarise(
+		control.state.codes = paste0("(", paste0(
+		  unique(state.code),
+		  sep = "",
+		  collapse = ", "
+		), ")")
+	  ),
+	by = c("state.code" = "match.state")
   ) %>%
   left_join(
-    y = fac_county_df %>%
-      filter(treated == 0) %>%
-      group_by(treated.match) %>%
-      summarise(
-        control.border.counties = n_distinct(control.cluster.name)
-      ),
-    by = c("state.code" = "treated.match")
+	y = fac_county_df %>%
+	  filter(treated == 0) %>%
+	  group_by(treated.match) %>%
+	  summarise(
+		control.border.counties = n_distinct(control.cluster.name)
+	  ),
+	by = c("state.code" = "treated.match")
   ) %>%
   select(
-    c(state.code, match.ch.year, match.ch.amt, sum2.sub.mw.ch, tot.ch.amt, start.mw, end.mw, control.state.codes,
-      treated.border.counties, control.border.counties)
+	c(state.code, match.ch.year, match.ch.amt, sum2.sub.mw.ch, tot.ch.amt, start.mw, end.mw, control.state.codes,
+	  treated.border.counties, control.border.counties)
   ) %>%
   arrange(desc(tot.ch.amt))
 sum(border_mw_ch_tbl$treated.border.counties, na.rm = TRUE)
@@ -72,14 +72,14 @@ sum(border_mw_ch_tbl$control.border.counties, na.rm = TRUE)
 # Treated state information
 treated_border <- triQc %>%
   select(
-    c(
-      facility.state, treated, treated.match, match.ch.year, match.ch.amt, sum2.sub.mw.ch, tot.ch.amt,
-      tot.ch.percent, start.mw, end.mw, control.match, treated.cluster.name, control.cluster.name
-    )
+	c(
+	  facility.state, treated, treated.match, match.ch.year, match.ch.amt, sum2.sub.mw.ch, tot.ch.amt,
+	  tot.ch.percent, start.mw, end.mw, control.match, treated.cluster.name, control.cluster.name
+	)
   ) %>%
   filter(treated == 1) %>%
   group_by(
-    facility.state, match.ch.year, match.ch.amt, sum2.sub.mw.ch, tot.ch.amt, tot.ch.percent, start.mw, end.mw
+	facility.state, match.ch.year, match.ch.amt, sum2.sub.mw.ch, tot.ch.amt, tot.ch.percent, start.mw, end.mw
   ) %>%
   summarise(treated.border.counties = n_distinct(treated.cluster.name))
 
@@ -89,20 +89,20 @@ border_county <- triQc %>%
   filter(treated == 0) %>%
   group_by(treated.match) %>%
   summarise(
-    control.state.codes = paste0("(", paste0(
-      sort(unique(control.match)),
-      sep = "",
-      collapse = ", "
-    ), ")"),
-    control.border.counties = n_distinct(control.cluster.name)
+	control.state.codes = paste0("(", paste0(
+	  sort(unique(control.match)),
+	  sep = "",
+	  collapse = ", "
+	), ")"),
+	control.border.counties = n_distinct(control.cluster.name)
   ) %>%
   left_join(
-    y = treated_border,
-    by = c("treated.match" = "facility.state")
+	y = treated_border,
+	by = c("treated.match" = "facility.state")
   ) %>%
   select(
-    c(treated.match, match.ch.year, match.ch.amt, sum2.sub.mw.ch, tot.ch.amt, tot.ch.percent,
-      start.mw, end.mw, control.state.codes, treated.border.counties, control.border.counties)
+	c(treated.match, match.ch.year, match.ch.amt, sum2.sub.mw.ch, tot.ch.amt, tot.ch.percent,
+	  start.mw, end.mw, control.state.codes, treated.border.counties, control.border.counties)
   ) %>%
   arrange(desc(tot.ch.amt))
 sum(border_county$treated.border.counties, na.rm = TRUE)

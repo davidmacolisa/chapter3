@@ -1,0 +1,513 @@
+\documentclass{OUP-EJ}
+
+\linespread{1}
+
+
+\begin{document}
+
+\noshorttitletrue
+
+\title[How to prepare an article for~publication~using~\LaTeXe]{How to prepare an article for~publication~using~\LaTeXe}
+
+\maketitle
+
+\section{Introduction: file preparation and submission}
+
+
+The \verb"OUP-EJ" \LaTeXe\ article class file is provided to help authors prepare articles for submission to \textit{The Economic Journal}.
+This document gives advice on how to prepare articles for submission, and specific instructions on how to use \verb"OUP-EJ.cls".
+
+The \verb"OUP-EJ" \LaTeXe\ class file is based on \verb+article.cls+, and all the basic and default \LaTeX\ commands and environments will remain the same.
+
+
+If you are using BibTeX, you might need to use a ejbib.bst to generate the .bbl file
+
+
+\section{Preparing your article}
+
+\subsection{Sample coding for the start of an article}\label{sec2}
+
+The code for the start of a title page of a typical paper in the \verb"OUP-EJ.cls" style might read:
+\small
+\begin{verbatim}
+\documentclass{OUP-EJ}
+
+\begin{document}
+
+\title[Short title]{Title of the article}
+
+\author[1,3,*]{P J Smith}
+
+\author[2,4,\dagger]{T M Collins}
+
+\author[3]{R J Jones}
+
+\affil[1]{Mathematics Faculty, Open University, Milton Keynes MK7~6AA, UK}
+
+\affil[2]{Department of Mathematics, Imperial College, Prince Consort Road,
+London SW7~2BZ, UK}
+
+\affil[3]{Department of Computer Science, University College London,
+Gower Street, London WC1E~6BT, UK}
+
+\affil[4]{Department of Physics, University of Bristol, Tyndalls Park Road,
+ Bristol BS8 1TS,}
+
+\corres[*]{Correspondence e-mail: xxxx@xxxx.com}
+
+\aunotes[\dagger]{Present address: Department of Physics, University
+of Bristol, Tyndalls Park Road, Bristol BS8 1TS, UK.}
+
+\begin{abstract}
+...
+\end{abstract}
+
+\keywords{magnetic moment, solar neutrinos, astrophysics}
+
+\dedication{Dedication goes here.}
+
+\thanks{Thanks statement.}
+
+\maketitle
+\end{verbatim}
+\normalsize
+
+
+\noindent The first line should be
+\verb"\documentclass{OUP-EJ}"  to load the preprint class
+file.  The normal text will be in the Computer Modern 10pt font.
+Although it is possible to choose a font other than Computer Modern by loading external packages, this is not recommended.
+
+The article text begins after \verb"\begin{document}".
+Authors of very long articles may find it convenient to separate
+their articles into a series of \LaTeX\ files, each containing one section, and each of which is called
+in turn by the primary file.  The files for each section should be read in from the current directory;
+please name the primary file clearly to enable us to run \LaTeX\ on this file.
+
+Authors may use any common \LaTeX\ \verb".sty" files.
+Authors may also define their own macros and definitions either in the main article \LaTeX\ file
+or in a separate \verb".tex" or \verb".sty" file that is read in by the
+main file, provided they do not overwrite existing definitions.
+It is helpful to the production staff if complicated author-defined macros are explained in a \LaTeX\ comment.
+
+\section{The title and abstract}
+
+If you use \verb"OUP-EJ.cls", the code for setting the title page information is slightly different from
+the normal default in \LaTeX.
+%If you are using a different class file, you do not need to mimic the appearance of
+%an \verb"OUP-EJ.cls" title page, but please ensure that all of the necessary information is present.
+
+\subsection{Titles and article types}
+
+The title is set using the command
+\verb"\title[short title]{#1}", where \verb"#1" is the title of the article. The
+first letter of the title should be capitalized with the rest in lower case.
+The title appears in bold case. Authors are asked to include a short title (40 characters or less) through the command \verb+\title[short title]{....}+.\bigskip
+
+\noindent Footnotes to titles may be given by using \verb"\thanks{Text of footnote.}" immediately after the abstract.
+Acknowledgment of funding should be included in the ``Acknowledgments'' section rather than in a footnote.
+
+\clearpage
+
+\subsection{Authors' names and addresses}
+
+For the authors' names, use the command
+\medskip
+
+\noindent
+\verb"\author[<affil indicators>]{Author Name}"
+\medskip
+
+\noindent
+Each author should be coded through the command \verb"\author{}"
+\bigskip
+
+\noindent The authors' affiliations follow the list of authors.
+Each address is set by using\newline
+\verb"\affil[<affil indicator>]{#1}"
+\bigskip
+
+\noindent Correspondence e-mail addresses are added by inserting the
+command\medskip
+
+\noindent
+\verb"\corres[<Author indicator>]{#1}"\medskip
+
+\noindent
+after the address(es) where \verb"#1" is the e-mail address.
+See Section~\ref{sec2} for sample coding. For more than one e-mail address, please use the same command with a different indicator, e.g, \verb+\corres[*]{...}+, \verb+\corres[**]{...}+.
+Please ensure that a corresponding author indicator should be added in the author field, e.g., \verb+\author[1,*]{Author Name}+.
+\bigskip
+
+\noindent
+Additional information that should appear as  appear as a footnote, such as a permanent address, etc, should be coded as \verb"\aunote[Author indicator]{Footnote details}"\newline e.g. \verb"\aunote[\dagger]{Footnote details}".
+
+\smallskip
+
+\noindent
+Please ensure that a footnote indicator should be added to the author field\newline e.g. \verb+\author[1,\dagger]{Author Name}+
+
+
+\subsection{The abstract}
+
+The abstract follows the addresses and
+should give readers concise information about the content
+of the article and indicate the main results obtained and conclusions
+drawn.  It should be enclosed between \verb"\begin{abstract}"
+and \verb"\end{abstract}" commands.
+Authors are requested to include an abstract, not exceeding 100 words.
+
+% \subsection{Subject classification numbers}
+% We no longer ask authors to supply Physics and Astronomy Classification System (PACS)
+% classification numbers.  For submissions to {\it Nonlinearity}\/ we ask that you should
+% supply Mathematics Subject Classification (MSC) codes.  MSC numbers are included after the abstract
+% using \verb"\ams{#1}".
+
+
+\subsection{Keywords}
+A list of keywords (each word no more than 20 characters) indicating the contents of the article,
+e.g., \verb"\keywords{kwd one, kwd two, kwd three}", after the end of the abstract.
+
+\subsection{Dedication}
+If a dedication is to be added in the submission, use the following code:\newline \verb+\dedication{Dedication goes here.}+
+
+
+\subsection{Subject classification numbers}
+Classification numbers are included after the abstract using \verb"\subjclass{....}".
+
+
+
+\subsection{Making a  title page}
+To print the title page information, use the code \verb"\maketitle"  before the start of the text.
+If \verb"\maketitle" is not included, the text of the
+article, title, authors' information, abstract and keywords would not be printed.
+
+\section{The text}
+\subsection{Sections, subsections and subsubsections}
+The text of articles may be divided into sections, subsections and, where necessary,
+subsubsections. To start a new section, end the previous paragraph and
+then include \verb"\section" followed by the section heading within braces.
+Numbering of sections is done {\it automatically} in the headings:
+sections will be 	numbered 1, 2, 3, etc., subsections will be numbered
+2.1, 2.2,  3.1, etc., and subsubsections will be numbered 2.3.1, 2.3.2,
+etc.  Subsections and subsubsections are
+similar to sections, but
+the commands are \verb"\subsection" and \verb"\subsubsection", respectively.
+\small\begin{verbatim}
+\section{This is the section title}
+\subsection{This is the subsection title}
+\end{verbatim}\normalsize
+
+\section{Tables}
+
+Statistical tables should be clearly headed and the reader should be able to understand the
+meaning of each row or column without searching in the text for explanations of symbols, etc.
+Units of measurement, base-dates for index numbers, geographical areas covered and sources
+should be clearly stated. Authors are fully responsible for the accuracy of the data and for
+checking their proofs. Whenever the authors feel that the reader would have difficulty in testing
+the derivation of their statistics, they should provide supplementary notes on the methods used.
+
+
+\subsection{Table formatting}
+\begin{itemize}
+\item Ensure that tables are large enough to be clearly readable on page;
+\item  Use consecutive Arabic numbers;
+\item Use short titles in italics with initial capitals;
+\item Do not use vertical lines or shading;
+\item Do not use more than 10 columns per table.
+\end{itemize}
+
+
+\clearpage
+
+
+\subsection{The basic table format}
+The standard form for a table in \verb"OUP-EJ.cls" is:
+\small\begin{verbatim}
+\begin{table}
+\centering
+\caption{Table caption.\label{label}}
+\begin{tabular}{@{}llll}
+\hline
+Head 1&Head 2&Head 3&Head 4\\
+\hline
+1.1&1.2&1.3&1.4\\
+2.1&2.2&2.3&2.4\\
+\hline
+\end{tabular}
+\end{indented}
+\end{table}
+\end{verbatim}\normalsize
+
+
+\section{Diagrams and figures}
+Diagrams and figures should be clearly drawn and accompanied by basic statistics that
+were required for their preparation, the axes must be clearly labelled and the reader must be
+able to understand the diagrams and figures without searching in the text for explanations.
+
+
+\subsection{Diagram and figure formatting}
+
+\begin{itemize}
+\item Ensure that diagrams and figures are large enough to be clearly readable on page;
+\item Use consecutive Arabic numbers;
+
+\item Use short titles in italics with initial capitals;
+\item Use just a few round numbers in the axes;
+\item Diagrams and figures should be of high resolution;
+\item Diagram and figure legends must be clearly readable in black and white.
+\end{itemize}
+
+
+
+\subsection{Inclusion of graphics files\label{figinc}}
+Graphics files can
+be included within figure and center environments at an
+appropriate point within the text using the following code:
+\small\begin{verbatim}
+\includegraphics{file.eps}
+\end{verbatim}\normalsize
+
+
+\clearpage
+
+\subsection{The basic figure format}
+The standard form for a figure in \verb"OUP-EJ.cls" is:
+\small\begin{verbatim}
+\begin{figure}
+\centering
+\includegraphics{file.eps}
+\caption{figure caption.\label{label}}
+\end{figure}
+\end{verbatim}\normalsize
+
+
+
+\section{Footnotes}
+
+\begin{itemize}
+\item Footnotes should be kept to a minimum;
+\item Use consecutive superscript Arabic numbers;
+\item Footnotes should appear after punctuation.
+\end{itemize}
+
+\enlargethispage*{96pt}%%%%%%%%%%%%%
+\section{Acronyms}
+
+\begin{itemize}
+\item First reference: Institute for Fiscal Studies (IFS)
+\item Subsequent references: IFS
+\end{itemize}
+
+\section{Quotations}
+\begin{itemize}
+\item Short quotation: Short quotations `should be in single inverted commas with citation
+and page reference'. (Brown, 1965, p.20)
+
+\item Long quotation: Long quotations should be separated from the main text, starting on a
+new line with a line space before and after. The paragraph should be indented. A
+citation should be included immediately under the quotation to the right.
+
+\hfill (Brown, 1965, p.20)
+\end{itemize}
+
+
+\section{Mathematics}
+The mathematical derivations necessary for justifying each step of the argument should
+accompany all articles with mathematical arguments.
+Please do not use smaller fonts in complex expressions, except for superscripts and subscripts.
+\begin{itemize}
+\item Numbers less than 1, but greater than -1 must have 0 before the decimal point.
+
+\item  All equations to which the text refers should be numbered consecutively as (1), (2), etc., on
+the right-hand side of the page. Equations included within the main bulk of text should,
+where possible, be kept on one line. If equations contain fractions, a slash “/” (solidus)
+should be used and the numerator and denominator enclosed with parentheses.
+
+\item  Algebra should include punctuation.
+\item  Percent should appear in the text as \%.
+\item  Algebra should have bold capitals for matrices, bold lower case for vectors and italic
+lower case for scalars.
+\item  Transposition is denoted by prime (A$^\prime$).
+\item  Fractions that are too complex to be kept within the text should be presented on a
+separate line.
+
+\item  Assumptions, corollaries, definitions, lemma, propositions and theorems should
+each be consecutively numbered 1,2,3 etc. Each category should follow on only from
+other numbers in that category (i.e. PROPOSITION 1, THEOREM 1, PROPOSITION 2,
+COROLLARY 1, THEOREM 2, PROPOSITION 3). Titles should be in small capitals, with
+the text following in italics. Algebra that does not follow the journal style will be queried
+during production.
+
+Each element is set by using the below listed commands:
+
+\begin{verbatim}
+Theorem:     \begin{theorem}[Optional head] ....     \end{theorem}
+Proposition: \begin{proposition}[Optional head] .... \end{proposition}
+Corollary:   \begin{corollary}[Optional head] ....   \end{corollary}
+Assumptions: \begin{assumption}[Optional head] ....  \end{assumption}
+Definitions: \begin{definition}[Optional head] ....  \end{definition}
+Remark:      \begin{remark}[Optional head] ....      \end{remark}
+Proof:       \begin{proof}[Optional head] ....       \end{proof}
+\end{verbatim}
+
+
+
+\end{itemize}
+
+
+\section{Appendices}
+If there are two or more appendices, they should be called Appendix A, Appendix B, etc.
+Numbered equations will be in the form (A.1), (A.2), etc.,
+figures will appear as figure A1, figure B1, etc and tables as table A1,
+table B1, etc.
+
+The command \verb"\appendix" is used to signify the start of the
+appendices. Thereafter, \verb"\section", \verb"\subsection", etc., will
+give the headings appropriate for an appendix. To obtain a simple heading of
+`Appendix', use the code \verb"\section*{Appendix}".
+
+
+
+\section{Acknowledgments}
+Authors wishing to acknowledge assistance or encouragement from
+colleagues, special work by technical staff or financial support from
+organizations should do so in an unnumbered `Acknowledgments' section
+immediately following the last numbered section of the paper. In \verb"OUP-EJ.cls", the
+command
+
+\begin{verbatim}
+\begin{ack}
+....
+\end{ack}
+\end{verbatim}
+sets the acknowledgments heading as an unnumbered
+section.
+
+The acknowledgments section should include the details of those for whom credit is due,
+e.g., funders, co-authors, research assistants or others. The `Acknowledgments' section
+should also provide the reference of the Research Ethics Board approval where applicable.
+
+
+
+\clearpage
+
+\section{Referencing\label{except}}
+
+As per the journal-specific style, we need to use Harvard (alphabetical) system.
+
+
+
+
+\subsection{Harvard (alphabetical) system}
+In the Harvard system, the name of the author appears in the text together
+with the year of publication. As appropriate, either the date or the name
+and date is included within parentheses.
+
+\subsection{BibTeX}
+
+We have a \verb+Bibtex+ file to help with your references. Latex users can download the file from https://academic.oup.com/DocumentLibrary/EJ/ejbib.txt
+(please note that the file extension should be changed to .bst for use in manuscript
+preparation). Please provide any related .bib, .bbl or .bst files.
+
+When using Bibtex, the bibliography style is set and the bibliography file is imported with the following two commands:
+\begin{verbatim}
+  \bibliographystyle{ejbib}
+  \bibliography{bibfile}
+\end{verbatim}
+where \verb+bibfile+ is the name of the bibliography \verb+.bib+ file, without the extension and \verb+ejbib+ is the  \verb+.bst+ name
+
+
+
+\subsection{Reference formatting in text}
+
+Where there are only two authors,
+both names should be given in the text; if there are more than two
+authors, only the first name should appear followed by `{\it et al}'.
+When two or
+more references have the same author group with the same year,
+they should be identified by including a, b, etc. after the date
+(e.g.\ 2012a). If several references to different pages of the same article
+occur, the appropriate page number may be given in the text, e.g.,\ Kitchen
+(2011, p.39).
+
+\begin{itemize}
+\item Single reference: Brown (1964), (Brown, 1964) or Brown (1964a,b; 1965)
+\item Multiple references in chronological order: (Green, 1963; Brown, 1971; Orange,
+1982,1985)
+\item Work with two authors: (Black and White, 2009)
+\item Work with more than two authors: (Purple et al., 2008)
+\item Chapters and pages: (Blue, 1996, ch.2); (Yellow, 2003, p.24)
+\end{itemize}
+
+\clearpage	
+
+\noindent We can achieve this in-text citations through the below commands:
+\begin{verbatim}
+coding                          Output
+======                          ======
+\citet{key} ==>>                Jones et al. (1990)
+\citet*{key} ==>>               Jones, Baker, and Smith (1990)
+\citep{key} ==>>                (Jones et al., 1990)
+\citep*{key} ==>>               (Jones, Baker, and Smith, 1990)
+\citep[chap. 2]{key} ==>>       (Jones et al., 1990, chap. 2)
+\citep[e.g.][]{key} ==>>        (e.g. Jones et al., 1990)
+\citep[e.g.][p. 32]{key} ==>>   (e.g. Jones et al., 1990, p. 32)
+\citeauthor{key} ==>>           Jones et al.
+\citeauthor*{key} ==>>          Jones, Baker, and Smith
+\citeyear{key} ==>>             1990
+\end{verbatim}
+
+
+
+The reference list at the end of an article consists of an
+unnumbered `References' section containing an
+alphabetical listing by authors' names. References with the same author list are ordered by date, with the oldest first.
+The reference list in the
+preprint style is started in \verb"OUP-EJ.cls" by including the command \verb"\begin{thebibliography}{}".
+Individual references start with \verb"\bibitem[Author(year)]{label}" and the reference list is completed with \verb"\end{thebibliography}".
+
+
+\section{Cross-referencing\label{xrefs}}
+
+The facility to cross-reference items in the text is very useful when
+composing articles as the precise form of the article may be uncertain at the start,
+and  revisions and amendments may subsequently be made.
+\LaTeX\ provides excellent facilities for doing cross-referencing,
+and these can be very useful in preparing articles.
+
+\subsection{References}
+\label{refs}
+
+When using \LaTeX , two passes (under certain circumstances, three passes)
+are necessary initially to get the cross-references right,
+but once they are correct a single run is usually sufficient provided an
+\verb".aux" file is available and the file
+is run to the end each time.  \verb"\label" may contain letters, numbers
+or punctuation characters but must not contain spaces or commas. It is also
+recommended that the underscore character \_{} is not used in cross-referencing. Thus labels of the form \verb"eq:partial", \verb"fig:run1", \verb"eq:dy'",
+etc., may be used. When several
+references occur together in the text, \verb"\cite" may be used with
+multiple labels with commas but no spaces separating them.
+
+
+\subsection{Equation numbers, sections, subsections, figures and
+tables}
+Labels for equation numbers, sections, subsections, figures and tables
+are all defined with the \verb"\label{label}" command and cross-references
+to them are made with the \verb"\ref{label}" command.
+
+Any section, subsection, subsubsection, appendix or subappendix
+command defines a section type label, e.g., 1, 2.2, A2, A1.2 depending
+on the context. A typical article might have in the code of its introduction
+`The results are discussed in section\verb"~\ref{disc}".' and
+the heading for the discussion section would be:
+\small\begin{verbatim}
+\section{Results}\label{disc}
+\end{verbatim}\normalsize
+Labels to sections, etc., may occur anywhere within that section except
+within another numbered environment.
+Within a maths environment, labels can be used to tag equations which are
+referred to within the text.
+
+\end{document} 

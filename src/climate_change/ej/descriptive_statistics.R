@@ -12,40 +12,22 @@ setwd(dir = "C:/Users/david/OneDrive/Documents/ULMS/PhD/")
 #======================================================================================================================#
 ### Loading Data
 #======================================================================================================================#
-file <- "./Data_PhD/US/BLS/onsite/triQc_on.rds"
+file <- "../../../../../Data_PhD/US/BLS/onsite/triQc_on.rds"
 triQc <- read_rds(file = file)
-file <- "./Data_PhD/US/BLS/offsite/triQc_off.rds"
+file <- "../../../../../Data_PhD/US/BLS/offsite/triQc_off.rds"
 triQc_off <- read_rds(file = file)
-file <- "./Data_PhD/US/BLS/offsite/triQc_potw.rds"
+file <- "../../../../../Data_PhD/US/BLS/offsite/triQc_potw.rds"
 triQc_potw <- read_rds(file = file)
 
-file <- "./Data_PhD/US/BLS/onsite/triQs_on.rds"
+file <- "../../../../../Data_PhD/US/BLS/onsite/triQs_on.rds"
 triQs <- read_rds(file = file)
-file <- "./Data_PhD/US/BLS/offsite/triQs_off.rds"
+file <- "../../../../../Data_PhD/US/BLS/offsite/triQs_off.rds"
 triQs_off <- read_rds(file = file)
-file <- "./Data_PhD/US/BLS/offsite/triQs_potw.rds"
+file <- "../../../../../Data_PhD/US/BLS/offsite/triQs_potw.rds"
 triQs_potw <- read_rds(file = file)
 #======================================================================================================================#
 ### The samples
 #======================================================================================================================#
-triQc %>%
-  group_by(treated, year) %>%
-  summarise(
-	total.releases.onsite.intensity = mean(total.releases.onsite.intensity),
-  ) %>%
-  ggplot(aes(x = year, y = total.releases.onsite.intensity, color = factor(treated))) + geom_line()
-sum_up(triQc, total.releases.onsite.intensity)
-
-triQc %>%
-  group_by(highest.emitt.ind, year) %>%
-  summarise(
-	total.releases.onsite.intensity = sum(total.releases.onsite.intensity),
-  ) %>%
-  ggplot(aes(x = factor(highest.emitt.ind), y = total.releases.onsite.intensity)) +
-  geom_boxplot() +
-  coord_flip()
-
-
 # Onsite
 nrow(triQc)
 n_distinct(triQc$facility.id)
@@ -146,7 +128,7 @@ chemicals_onsite <- triQc %>%
 	n.chem.art.comp = sum(chemical.article.component, na.rm = TRUE),
 	n.chem.manu.aid = sum(chemical.manufacturing.aid, na.rm = TRUE),
 	n.chem.anci.use = sum(chemical.ancilliary.use, na.rm = TRUE),
-	n.chem.sanitised = sum(sanitised, na.rm = TRUE),
+	# n.chem.sanitised = sum(sanitised, na.rm = TRUE),
   ) %>%
   mutate(onsite = "yes") %>%
   print(n = nrow(.)) %>%
@@ -262,12 +244,6 @@ chemicals_tex <- chems %>%
 cat(chemicals_tex)
 writeLines(chemicals_tex, con = "./Thesis/chapter3/src/climate_change/latex/tbl_chemicals1.tex")
 #======================================================================================================================#
-### Variable Definitions
-#======================================================================================================================#
-var_def <- triQc %>% select(c(facility.id, treated, ind.output:l.tfp5))
-var_def1 <- triQc_off %>% select(c(facility.id, treated, ind.output:l.tfp5))
-var_def2 <- triQc_potw %>% select(c(facility.id, treated, ind.output:l.tfp5))
-#======================================================================================================================#
 ### Descriptive Statistics
 #======================================================================================================================#
 # Distribution of NAICS industries
@@ -280,7 +256,7 @@ naics_distribution <- triQc %>%
   theme_bw() +
   theme(axis.text.x = element_text(angle = 90, vjust = 0.5, hjust = 1, size = 18),
 		axis.title.x = element_text(size = 18))
-pdf(file = "./Thesis/chapter3/src/climate_change/latex/fig_naics_distribution.pdf", width = 12, height = 10)
+pdf(file = "../latex/fig_naics_distribution.pdf", width = 12, height = 10)
 naics_distribution
 dev.off()
 #======================================================================================================================#
@@ -316,7 +292,7 @@ releases_distribution_mean_naics <- triQc %>%
   theme_bw() +
   theme(axis.text.x = element_text(angle = 90, vjust = 0.5, hjust = 1, size = 18),
 		axis.title.x = element_text(size = 20))
-pdf(file = "./Thesis/chapter3/src/climate_change/latex/fig_releases_distribution_naics.pdf", width = 20, height = 10)
+pdf(file = "../latex/fig_releases_distribution_naics.pdf", width = 20, height = 10)
 releases_distribution_sum_naics + releases_distribution_mean_naics
 dev.off()
 #======================================================================================================================#
@@ -352,7 +328,7 @@ air_emissions_distribution_mean_naics <- triQc %>%
   theme_bw() +
   theme(axis.text.x = element_text(angle = 90, vjust = 0.5, hjust = 1, size = 18),
 		axis.title.x = element_text(size = 20))
-pdf(file = "./Thesis/chapter3/src/climate_change/latex/fig_air_emissions_distribution_naics.pdf", width = 20, height
+pdf(file = "../latex/fig_air_emissions_distribution_naics.pdf", width = 20, height
   = 10)
 air_emissions_distribution_sum_naics + air_emissions_distribution_mean_naics
 dev.off()
@@ -389,7 +365,7 @@ land_releases_distribution_mean_naics <- triQc %>%
   theme_bw() +
   theme(axis.text.x = element_text(angle = 90, vjust = 0.5, hjust = 1, size = 18),
 		axis.title.x = element_text(size = 20))
-pdf(file = "./Thesis/chapter3/src/climate_change/latex/fig_land_releases_distribution_naics.pdf", width = 20, height
+pdf(file = "../latex/fig_land_releases_distribution_naics.pdf", width = 20, height
   = 10)
 land_releases_distribution_sum_naics + land_releases_distribution_mean_naics
 dev.off()
@@ -426,7 +402,7 @@ surface_water_distribution_mean_naics <- triQc %>%
   theme_bw() +
   theme(axis.text.x = element_text(angle = 90, vjust = 0.5, hjust = 1, size = 18),
 		axis.title.x = element_text(size = 20))
-pdf(file = "./Thesis/chapter3/src/climate_change/latex/fig_water_distribution_naics.pdf", width = 20, height = 10)
+pdf(file = "../latex/fig_water_distribution_naics.pdf", width = 20, height = 10)
 surface_water_distribution_sum_naics + surface_water_distribution_mean_naics
 dev.off()
 #======================================================================================================================#
@@ -464,7 +440,7 @@ releases_distribution_mean_states <- triQc %>%
   theme_bw() +
   theme(axis.text.x = element_text(angle = 0, vjust = 0.0, hjust = 0.5, size = 15),
 		axis.title.x = element_text(size = 10))
-pdf(file = "./Thesis/chapter3/src/climate_change/latex/fig_releases_distribution_state.pdf", width = 23, height = 5)
+pdf(file = "../latex/fig_releases_distribution_state.pdf", width = 23, height = 5)
 releases_distribution_sum_states + releases_distribution_mean_states
 dev.off()
 #======================================================================================================================#
@@ -502,7 +478,7 @@ air_emissions_distribution_mean_states <- triQc %>%
   theme_bw() +
   theme(axis.text.x = element_text(angle = 0, vjust = 0.0, hjust = 0.5, size = 15),
 		axis.title.x = element_text(size = 10))
-pdf(file = "./Thesis/chapter3/src/climate_change/latex/fig_air_emissions_distribution_state.pdf", width = 23, height
+pdf(file = "../latex/fig_air_emissions_distribution_state.pdf", width = 23, height
   = 5)
 air_emissions_distribution_sum_states + air_emissions_distribution_mean_states
 dev.off()
@@ -541,7 +517,7 @@ land_releases_distribution_mean_states <- triQc %>%
   theme_bw() +
   theme(axis.text.x = element_text(angle = 0, vjust = 0, hjust = 0.5, size = 15),
 		axis.title.x = element_text(size = 10))
-pdf(file = "./Thesis/chapter3/src/climate_change/latex/fig_land_releases_distribution_state.pdf", width = 23, height
+pdf(file = "../latex/fig_land_releases_distribution_state.pdf", width = 23, height
   = 5)
 land_releases_distribution_sum_states + land_releases_distribution_mean_states
 dev.off()
@@ -581,7 +557,7 @@ water_discharge_distribution_mean_states <- triQc %>%
   theme_bw() +
   theme(axis.text.x = element_text(angle = 0, vjust = 0, hjust = 0.5, size = 15),
 		axis.title.x = element_text(size = 10))
-pdf(file = "./Thesis/chapter3/src/climate_change/latex/fig_water_discharge_distribution_state.pdf", width = 23,
+pdf(file = "../latex/fig_water_discharge_distribution_state.pdf", width = 23,
 	height = 5)
 water_discharge_distribution_sum_states + water_discharge_distribution_mean_states
 dev.off()
@@ -606,7 +582,7 @@ releases_distribution_carcinogenic <- triQc %>%
   theme_bw() +
   theme(axis.text.x = element_text(angle = 0, vjust = 0, hjust = 0.5, size = 15),
 		axis.title.x = element_text(size = 10))
-pdf(file = "./Thesis/chapter3/src/climate_change/latex/fig_releases_distribution_carcinogenic.pdf", width = 12,
+pdf(file = "../latex/fig_releases_distribution_carcinogenic.pdf", width = 12,
 	height = 5)
 releases_distribution_carcinogenic
 dev.off()
@@ -629,7 +605,7 @@ releases_distribution_caa <- triQc %>%
   theme_bw() +
   theme(axis.text.x = element_text(angle = 0, vjust = 0.0, hjust = 0.5, size = 15),
 		axis.title.x = element_text(size = 10))
-pdf(file = "./Thesis/chapter3/src/climate_change/latex/fig_releases_distribution_caa.pdf", width = 12, height = 5)
+pdf(file = "../latex/fig_releases_distribution_caa.pdf", width = 12, height = 5)
 releases_distribution_caa
 dev.off()
 
@@ -651,7 +627,7 @@ releases_distribution_haps <- triQc %>%
   theme_bw() +
   theme(axis.text.x = element_text(angle = 0, vjust = 0.0, hjust = 0.5, size = 15),
 		axis.title.x = element_text(size = 10))
-pdf(file = "./Thesis/chapter3/src/climate_change/latex/fig_releases_distribution_haps.pdf", width = 12, height = 5)
+pdf(file = "../latex/fig_releases_distribution_haps.pdf", width = 12, height = 5)
 releases_distribution_haps
 dev.off()
 
@@ -673,7 +649,7 @@ releases_distribution_pbts <- triQc %>%
   theme_bw() +
   theme(axis.text.x = element_text(angle = 0, vjust = 0, hjust = 0.5, size = 15),
 		axis.title.x = element_text(size = 10))
-pdf(file = "./Thesis/chapter3/src/climate_change/latex/fig_releases_distribution_pbts.pdf", width = 12, height = 5)
+pdf(file = "../latex/fig_releases_distribution_pbts.pdf", width = 12, height = 5)
 releases_distribution_pbts
 dev.off()
 #======================================================================================================================#
@@ -833,7 +809,7 @@ total_land_plot <- ggplot(
 	legend.position = c(x = 0.1, y = 0.6),  # Adjust x and y position
   )
 
-pdf(file = "./Thesis/chapter3/src/climate_change/latex/motivation_plots.pdf", width = 18, height = 8)
+pdf(file = "../latex/motivation_plots.pdf", width = 18, height = 8)
 total_releases_int_plot +
   total_air_plot +
   total_point_air_plot +
@@ -958,10 +934,9 @@ summ <- sum_up(
 	total.underground.injection.onsite.intensity, total.landfills.onsite.intensity,
 	total.releases.toland.treatment.onsite.intensity, total.surface.impoundment.onsite.intensity,
 	total.land.releases.onsite.intensity, total.land.releases.other.onsite.intensity,
-	total.release.onsite.catastrophicevents.intensity, vadd, prode, prodw, prodh, matcost,
+	total.release.onsite.catastrophicevents.intensity, output, prode, prodw, prodh, matcost,
 	output.perhr, output.perworker, wage.perhr, pay, federal.facility, gdp.pc, annual_avg_estabs, emp,
-	cpi,
-	produced.chem.facility, imported.chem.facility, chemical.formulation.component,
+	cpi, produced.chem.facility, imported.chem.facility, chemical.formulation.component,
 	chemical.manufacturing.aid, chemical.ancilliary.use, production.ratio.activity.index,
 	maxnum.chem.onsite, population
   ),
@@ -1094,7 +1069,7 @@ gdppc_pre <- ggplot(gdppc_data, aes(x = year, y = coefficients, color = "red", s
   theme(legend.position = "none") +
   ylim(-0.6, 0.6) +
   scale_x_continuous(breaks = seq(min(year), max(year), by = 1))
-
+gdppc_pre
 #----------------------------------------------------------------------------------------------------------------------#
 # GDP
 #----------------------------------------------------------------------------------------------------------------------#
@@ -1142,7 +1117,7 @@ gdp_pre <- ggplot(gdp_data, aes(x = year, y = coefficients, color = "red", size 
   theme(legend.position = "none") +
   ylim(-0.9, 0.9) +
   scale_x_continuous(breaks = seq(min(year), max(year), by = 1))
-
+gdp_pre
 #----------------------------------------------------------------------------------------------------------------------#
 # Population
 #----------------------------------------------------------------------------------------------------------------------#
@@ -1190,7 +1165,7 @@ pop_pre <- ggplot(pop_data, aes(x = year, y = coefficients, color = "red", size 
   theme(legend.position = "none") +
   ylim(-0.9, 0.9) +
   scale_x_continuous(breaks = seq(min(year), max(year), by = 1))
-
+pop_pre
 #----------------------------------------------------------------------------------------------------------------------#
 # industry employment
 #----------------------------------------------------------------------------------------------------------------------#
@@ -1238,7 +1213,7 @@ emp_pre <- ggplot(emp_data, aes(x = year, y = coefficients, color = "red", size 
   theme(legend.position = "none") +
   ylim(-0.6, 0.6) +
   scale_x_continuous(breaks = seq(min(year), max(year), by = 1))
-
+emp_pre
 #----------------------------------------------------------------------------------------------------------------------#
 # Annual average establishments (county)
 #----------------------------------------------------------------------------------------------------------------------#
@@ -1285,7 +1260,7 @@ estabs_pre <- ggplot(estabs_data, aes(x = year, y = coefficients, color = "red",
   theme(legend.position = "none") +
   ylim(-0.6, 0.6) +
   scale_x_continuous(breaks = seq(min(year), max(year), by = 1))
-
+estabs_pre
 #----------------------------------------------------------------------------------------------------------------------#
 # Inflation (city)
 #----------------------------------------------------------------------------------------------------------------------#
@@ -1332,7 +1307,7 @@ cpi_pre <- ggplot(cpi_data, aes(x = year, y = coefficients, color = "red", size 
   theme(legend.position = "none") +
   ylim(-0.9, 0.9) +
   scale_x_continuous(breaks = seq(min(year), max(year), by = 1))
-
+cpi_pre
 #----------------------------------------------------------------------------------------------------------------------#
 # Produced chemical at facility
 #----------------------------------------------------------------------------------------------------------------------#
@@ -1379,7 +1354,7 @@ prod_chem_fac_pre <- ggplot(prod_chem_fac_data, aes(x = year, y = coefficients, 
   theme(legend.position = "none") +
   ylim(-0.9, 0.9) +
   scale_x_continuous(breaks = seq(min(year), max(year), by = 1))
-
+prod_chem_fac_pre
 #----------------------------------------------------------------------------------------------------------------------#
 # Imported chemical at facility
 #----------------------------------------------------------------------------------------------------------------------#
@@ -1426,7 +1401,7 @@ imp_chem_fac_pre <- ggplot(imp_chem_fac_data, aes(x = year, y = coefficients, co
   theme(legend.position = "none") +
   ylim(-0.4, 0.4) +
   scale_x_continuous(breaks = seq(min(year), max(year), by = 1))
-
+imp_chem_fac_pre
 #----------------------------------------------------------------------------------------------------------------------#
 # Chemical formulation component
 #----------------------------------------------------------------------------------------------------------------------#
@@ -1473,7 +1448,7 @@ chem_form_comp_pre <- ggplot(did_chem_form_comp_data, aes(x = year, y = coeffici
   theme(legend.position = "none") +
   ylim(-0.4, 0.4) +
   scale_x_continuous(breaks = seq(min(year), max(year), by = 1))
-
+chem_form_comp_pre
 #----------------------------------------------------------------------------------------------------------------------#
 # Chemical article component
 #----------------------------------------------------------------------------------------------------------------------#
@@ -1520,7 +1495,7 @@ chem_art_comp_pre <- ggplot(did_chem_art_comp_data, aes(x = year, y = coefficien
   theme(legend.position = "none") +
   ylim(-0.4, 0.4) +
   scale_x_continuous(breaks = seq(min(year), max(year), by = 1))
-
+chem_art_comp_pre
 #----------------------------------------------------------------------------------------------------------------------#
 # Chemical manufacturing aid
 #----------------------------------------------------------------------------------------------------------------------#
@@ -1567,7 +1542,7 @@ chem_manu_aid_pre <- ggplot(did_chem_manu_aid_data, aes(x = year, y = coefficien
   theme(legend.position = "none") +
   ylim(-0.4, 0.4) +
   scale_x_continuous(breaks = seq(min(year), max(year), by = 1))
-
+chem_manu_aid_pre
 #----------------------------------------------------------------------------------------------------------------------#
 # Chemical ancilliary use
 #----------------------------------------------------------------------------------------------------------------------#
@@ -1614,7 +1589,7 @@ chem_anc_use_pre <- ggplot(did_chem_anc_use_data, aes(x = year, y = coefficients
   theme(legend.position = "none") +
   ylim(-0.4, 0.4) +
   scale_x_continuous(breaks = seq(min(year), max(year), by = 1))
-
+chem_anc_use_pre
 #----------------------------------------------------------------------------------------------------------------------#
 # Production or activity index
 #----------------------------------------------------------------------------------------------------------------------#
@@ -1661,7 +1636,7 @@ prod_activity_pre <- ggplot(did_prod_activity_data, aes(x = year, y = coefficien
   theme(legend.position = "none") +
   ylim(-0.4, 0.4) +
   scale_x_continuous(breaks = seq(min(year), max(year), by = 1))
-
+prod_activity_pre
 #----------------------------------------------------------------------------------------------------------------------#
 # Maximum number of chemical onsite
 #----------------------------------------------------------------------------------------------------------------------#
@@ -1708,8 +1683,9 @@ max_num_chem_pre <- ggplot(did_max_num_chem_data, aes(x = year, y = coefficients
   theme(legend.position = "none") +
   ylim(-0.4, 0.4) +
   scale_x_continuous(breaks = seq(min(year), max(year), by = 1))
+max_num_chem_pre
 
-pdf(file = "./Thesis/chapter3/src/climate_change/latex/fig_pre_evolution.pdf", width = 23, height = 15)
+pdf(file = "../latex/fig_pre_evolution.pdf", width = 23, height = 15)
 gdppc_pre +
   gdp_pre +
   pop_pre +
@@ -1774,7 +1750,7 @@ gdppc_pre_state <- ggplot(gdppc_data_state, aes(x = year, y = coefficients, colo
   theme(legend.position = "none") +
   ylim(-0.6, 0.6) +
   scale_x_continuous(breaks = seq(min(year), max(year), by = 1))
-
+gdppc_pre_state
 #----------------------------------------------------------------------------------------------------------------------#
 # GDP
 #----------------------------------------------------------------------------------------------------------------------#
@@ -1822,7 +1798,7 @@ gdp_pre_state <- ggplot(gdp_data, aes(x = year, y = coefficients, color = "red",
   theme(legend.position = "none") +
   ylim(-1, 1.5) +
   scale_x_continuous(breaks = seq(min(year), max(year), by = 1))
-
+gdp_pre_state
 #----------------------------------------------------------------------------------------------------------------------#
 # Population
 #----------------------------------------------------------------------------------------------------------------------#
@@ -1870,7 +1846,7 @@ pop_pre_state <- ggplot(pop_data, aes(x = year, y = coefficients, color = "red",
   theme(legend.position = "none") +
   ylim(-2, 2) +
   scale_x_continuous(breaks = seq(min(year), max(year), by = 1))
-
+pop_pre_state
 #----------------------------------------------------------------------------------------------------------------------#
 # industry employment
 #----------------------------------------------------------------------------------------------------------------------#
@@ -1917,7 +1893,7 @@ emp_pre_state <- ggplot(emp_data_state, aes(x = year, y = coefficients, color = 
   theme(legend.position = "none") +
   ylim(-0.6, 0.6) +
   scale_x_continuous(breaks = seq(min(year), max(year), by = 1))
-
+emp_pre_state
 #----------------------------------------------------------------------------------------------------------------------#
 # Annual average establishments (state)
 #----------------------------------------------------------------------------------------------------------------------#
@@ -1964,7 +1940,7 @@ estabs_pre_state <- ggplot(estabs_data_state, aes(x = year, y = coefficients, co
   theme(legend.position = "none") +
   ylim(-0.9, 0.9) +
   scale_x_continuous(breaks = seq(min(year), max(year), by = 1))
-
+estabs_pre_state
 #----------------------------------------------------------------------------------------------------------------------#
 # Inflation (city)
 #----------------------------------------------------------------------------------------------------------------------#
@@ -2011,7 +1987,7 @@ cpi_pre_state <- ggplot(cpi_data, aes(x = year, y = coefficients, color = "red",
   theme(legend.position = "none") +
   ylim(-0.1, 0.1) +
   scale_x_continuous(breaks = seq(min(year), max(year), by = 1))
-
+cpi_pre_state
 #----------------------------------------------------------------------------------------------------------------------#
 # Produced chemical at facility
 #----------------------------------------------------------------------------------------------------------------------#
@@ -2058,7 +2034,7 @@ prod_chem_fac_pre_state <- ggplot(prod_chem_fac_data, aes(x = year, y = coeffici
   theme(legend.position = "none") +
   ylim(-0.9, 0.9) +
   scale_x_continuous(breaks = seq(min(year), max(year), by = 1))
-
+prod_chem_fac_pre_state
 #----------------------------------------------------------------------------------------------------------------------#
 # Imported chemical at facility
 #----------------------------------------------------------------------------------------------------------------------#
@@ -2105,7 +2081,7 @@ imp_chem_fac_pre_state <- ggplot(imp_chem_fac_data, aes(x = year, y = coefficien
   theme(legend.position = "none") +
   ylim(-0.4, 0.4) +
   scale_x_continuous(breaks = seq(min(year), max(year), by = 1))
-
+imp_chem_fac_pre_state
 #----------------------------------------------------------------------------------------------------------------------#
 # Chemical formulation component
 #----------------------------------------------------------------------------------------------------------------------#
@@ -2153,7 +2129,7 @@ chem_form_comp_pre_state <- ggplot(
   theme(legend.position = "none") +
   ylim(-0.4, 0.4) +
   scale_x_continuous(breaks = seq(min(year), max(year), by = 1))
-
+chem_form_comp_pre_state
 #----------------------------------------------------------------------------------------------------------------------#
 # Chemical article component
 #----------------------------------------------------------------------------------------------------------------------#
@@ -2200,7 +2176,7 @@ chem_art_comp_pre_state <- ggplot(did_chem_art_comp_data, aes(x = year, y = coef
   theme(legend.position = "none") +
   ylim(-0.4, 0.4) +
   scale_x_continuous(breaks = seq(min(year), max(year), by = 1))
-
+chem_art_comp_pre_state
 #----------------------------------------------------------------------------------------------------------------------#
 # Chemical manufacturing aid
 #----------------------------------------------------------------------------------------------------------------------#
@@ -2247,7 +2223,7 @@ chem_manu_aid_pre_state <- ggplot(did_chem_manu_aid_data, aes(x = year, y = coef
   theme(legend.position = "none") +
   ylim(-0.2, 0.2) +
   scale_x_continuous(breaks = seq(min(year), max(year), by = 1))
-
+chem_manu_aid_pre_state
 #----------------------------------------------------------------------------------------------------------------------#
 # Chemical ancilliary use
 #----------------------------------------------------------------------------------------------------------------------#
@@ -2294,7 +2270,7 @@ chem_anc_use_pre_state <- ggplot(did_chem_anc_use_data, aes(x = year, y = coeffi
   theme(legend.position = "none") +
   ylim(-0.6, 0.6) +
   scale_x_continuous(breaks = seq(min(year), max(year), by = 1))
-
+chem_anc_use_pre_state
 #----------------------------------------------------------------------------------------------------------------------#
 # Production or activity index
 #----------------------------------------------------------------------------------------------------------------------#
@@ -2341,7 +2317,7 @@ prod_activity_pre_state <- ggplot(did_prod_activity_data, aes(x = year, y = coef
   theme(legend.position = "none") +
   ylim(-0.4, 0.4) +
   scale_x_continuous(breaks = seq(min(year), max(year), by = 1))
-
+prod_activity_pre_state
 #----------------------------------------------------------------------------------------------------------------------#
 # Maximum number of chemical onsite
 #----------------------------------------------------------------------------------------------------------------------#
@@ -2388,8 +2364,8 @@ max_num_chem_pre_state <- ggplot(did_max_num_chem_data, aes(x = year, y = coeffi
   theme(legend.position = "none") +
   ylim(-0.4, 0.4) +
   scale_x_continuous(breaks = seq(min(year), max(year), by = 1))
-
-pdf(file = "./Thesis/chapter3/src/climate_change/latex/fig_pre_evolution_state.pdf", width = 23, height = 15)
+max_num_chem_pre_state
+pdf(file = "../latex/fig_pre_evolution_state.pdf", width = 23, height = 15)
 gdppc_pre_state +
   gdp_pre_state +
   pop_pre_state +

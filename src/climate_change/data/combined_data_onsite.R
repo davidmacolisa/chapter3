@@ -13,7 +13,7 @@ setwd(dir = "C:/Users/david/OneDrive/Documents/ULMS/PhD/")
 #======================================================================================================================#
 ### Loading shapefiles---State and County borders
 #======================================================================================================================#
-source(file = "./Thesis/chapter3/src/climate_change/data/border_state_county_df.R", echo = T)
+source(file = "../ej/border_state_county_df.R", echo = T)
 #======================================================================================================================#
 ### Loading US county and zipcode data
 #======================================================================================================================#
@@ -33,16 +33,16 @@ start_time <- Sys.time()
 tri <- readRDS(file = filepath) %>%
   filter(year >= 2011 & year <= 2017) %>%
   filter(
-    facility.state %in% c(
-      #treated states
-      "AR", "CA", "DE", "ME", "MA", "MD", "MI", "MN", "NE", "NJ", "NY", "SD", "WV",
-      #control states
-      "GA", "IA", "ID", "IL", "IN", "KS", "KY", "NH", "NM", "NV", "NC", "ND", "OK",
-      "PA", "TX", "UT", "VA", "WI", "WY"
-    )
+	facility.state %in% c(
+	  #treated states
+	  "AR", "CA", "DE", "ME", "MA", "MD", "MI", "MN", "NE", "NJ", "NY", "SD", "WV",
+	  #control states
+	  "GA", "IA", "ID", "IL", "IN", "KS", "KY", "NH", "NM", "NV", "NC", "ND", "OK",
+	  "PA", "TX", "UT", "VA", "WI", "WY"
+	)
   ) %>%
   select(
-    -c(naics.sector.code, offsite.province, offsite.countryid, mixture)
+	-c(naics.sector.code, offsite.province, offsite.countryid, mixture)
   ) %>%
   data.frame()
 
@@ -83,8 +83,8 @@ gc()
 county_data_df <- county_df %>%
   select(county_state, county_name, fips_code) %>%
   left_join(
-    y = zip_df %>% select(c(fips_code, zip_code)),
-    by = c("fips_code" = "fips_code")
+	y = zip_df %>% select(c(fips_code, zip_code)),
+	by = c("fips_code" = "fips_code")
   )
 
 # sort(unique(tri$facility.zipcode))
@@ -185,16 +185,16 @@ start_time <- Sys.time()
 triM <- tri %>%
   group_by(facility.state, facility.county) %>%
   mutate(
-    facility.longitude = as.numeric(facility.longitude),
-    facility.latitude = as.numeric(facility.latitude)
+	facility.longitude = as.numeric(facility.longitude),
+	facility.latitude = as.numeric(facility.latitude)
   ) %>%
   left_join(
-    y = county_data_df %>% select(-c(county_state, county_name)),
-    by = c("facility.zipcode" = "zip_code")
+	y = county_data_df %>% select(-c(county_state, county_name)),
+	by = c("facility.zipcode" = "zip_code")
   ) %>%
   left_join(
-    y = county_df %>% select(-c(county_state, county_name)),
-    by = c("fips_code" = "fips_code")
+	y = county_df %>% select(-c(county_state, county_name)),
+	by = c("fips_code" = "fips_code")
   ) %>%
   data.frame()
 end_time <- Sys.time()
@@ -231,7 +231,6 @@ tri$facility.zipcode <- ifelse(
   no = tri$facility.zipcode
 )
 
-
 sort(unique(triM_na[triM_na$facility.state == "GA",]$facility.zipcode))
 sort(unique(triM_na[triM_na$facility.state == "GA",]$facility.county))
 # GA: Replace the zipcode with the matching zipcode for the same county name in county_data_df
@@ -240,7 +239,6 @@ tri$facility.zipcode <- ifelse(
   yes = "30103",
   no = tri$facility.zipcode
 )
-
 
 sort(unique(triM_na[triM_na$facility.state == "IA",]$facility.zipcode))
 sort(unique(triM_na[triM_na$facility.state == "IA",]$facility.county))
@@ -251,7 +249,6 @@ tri$facility.zipcode <- ifelse(
   no = tri$facility.zipcode
 )
 
-
 sort(unique(triM_na[triM_na$facility.state == "ID",]$facility.zipcode))
 sort(unique(triM_na[triM_na$facility.state == "ID",]$facility.county))
 # ID: Replace the zipcode with the matching zipcode for the same county name in county_data_df
@@ -261,7 +258,6 @@ tri$facility.zipcode <- ifelse(
   no = tri$facility.zipcode
 )
 
-
 sort(unique(triM_na[triM_na$facility.state == "IN",]$facility.zipcode))
 sort(unique(triM_na[triM_na$facility.state == "IN",]$facility.county))
 # IN: Replace the zipcode with the matching zipcode for the same county name in county_data_df
@@ -270,7 +266,6 @@ tri$facility.zipcode <- ifelse(
   yes = "47513",
   no = tri$facility.zipcode
 )
-
 
 sort(unique(triM_na[triM_na$facility.state == "KY",]$facility.zipcode))
 sort(unique(triM_na[triM_na$facility.state == "KY",]$facility.county))
@@ -315,7 +310,6 @@ tri$facility.zipcode <- ifelse(
   no = tri$facility.zipcode
 )
 
-
 sort(unique(triM_na[triM_na$facility.state == "MN",]$facility.zipcode))
 sort(unique(triM_na[triM_na$facility.state == "MN",]$facility.county))
 # MN: Replace the zipcode with the matching zipcode for the same county name in county_data_df
@@ -324,7 +318,6 @@ tri$facility.zipcode <- ifelse(
   yes = "55910",
   no = tri$facility.zipcode
 )
-
 
 sort(unique(triM_na[triM_na$facility.state == "NV",]$facility.zipcode))
 sort(unique(triM_na[triM_na$facility.state == "NV",]$facility.county))
@@ -340,7 +333,6 @@ tri$facility.zipcode <- ifelse(
   no = tri$facility.zipcode
 )
 
-
 sort(unique(triM_na[triM_na$facility.state == "OK",]$facility.zipcode))
 sort(unique(triM_na[triM_na$facility.state == "OK",]$facility.county))
 # OK: Replace the zipcode with the matching zipcode for the same county name in county_data_df
@@ -349,7 +341,6 @@ tri$facility.zipcode <- ifelse(
   yes = "73055",
   no = tri$facility.zipcode
 )
-
 
 sort(unique(triM_na[triM_na$facility.state == "PA",]$facility.zipcode))
 sort(unique(triM_na[triM_na$facility.state == "PA",]$facility.county))
@@ -364,7 +355,6 @@ tri$facility.zipcode <- ifelse(
   yes = "16101",
   no = tri$facility.zipcode
 )
-
 
 sort(unique(triM_na[triM_na$facility.state == "SD",]$facility.zipcode))
 sort(unique(triM_na[triM_na$facility.state == "SD",]$facility.county))
@@ -389,7 +379,6 @@ tri$facility.zipcode <- ifelse(
   no = tri$facility.zipcode
 )
 
-
 sort(unique(triM_na[triM_na$facility.state == "WI",]$facility.zipcode))
 sort(unique(triM_na[triM_na$facility.state == "WI",]$facility.county))
 # WI: Replace the zipcode with the matching zipcode for the same county name in county_data_df
@@ -398,7 +387,6 @@ tri$facility.zipcode <- ifelse(
   yes = "53015",
   no = tri$facility.zipcode
 )
-
 
 sort(unique(triM_na[triM_na$facility.state == "WY",]$facility.zipcode))
 sort(unique(triM_na[triM_na$facility.state == "WY",]$facility.county))
@@ -416,16 +404,16 @@ start_time <- Sys.time()
 triM <- tri %>%
   group_by(facility.state, facility.county) %>%
   mutate(
-    facility.longitude = as.numeric(facility.longitude),
-    facility.latitude = as.numeric(facility.latitude)
+	facility.longitude = as.numeric(facility.longitude),
+	facility.latitude = as.numeric(facility.latitude)
   ) %>%
   left_join(
-    y = county_data_df %>% select(-c(county_state, county_name)),
-    by = c("facility.zipcode" = "zip_code")
+	y = county_data_df %>% select(-c(county_state, county_name)),
+	by = c("facility.zipcode" = "zip_code")
   ) %>%
   left_join(
-    y = county_df %>% select(-c(county_state, county_name)),
-    by = c("fips_code" = "fips_code")
+	y = county_df %>% select(-c(county_state, county_name)),
+	by = c("fips_code" = "fips_code")
   ) %>%
   data.frame()
 end_time <- Sys.time()
@@ -539,7 +527,7 @@ qcew <- read_rds(file = "./Data_PhD/US/BLS/qcew.rds") %>%
   filter(own_code %in% c("1", "2", "3", "4", "5")) %>% # Ownership codes
   filter(agglvl_code %in% "78") %>% #county level 6-digits naics code, aggreagation level codes
   select(area_fips:avg_annual_pay, oty_total_annual_wages_chg, oty_total_annual_wages_pct_chg,
-         oty_avg_annual_pay_chg, oty_avg_annual_pay_pct_chg) %>%
+		 oty_avg_annual_pay_chg, oty_avg_annual_pay_pct_chg) %>%
   rename(naics.code = industry_code, fips_code = area_fips)
 end_time <- Sys.time()
 end_time - start_time
@@ -560,27 +548,27 @@ start_time <- Sys.time()
 triQ <- triM %>%
   group_by(fips_code, naics.code, year) %>%
   mutate(
-    year = as.numeric(year),
+	year = as.numeric(year),
   ) %>%
   # Join BLS-CPI data for US city averages
   left_join(
-    y = read_rds(file = "./Data_PhD/US/BLS/cpi/cpi.rds") %>%
-      mutate(year = as.numeric(year)),
-    by = c("year" = "year"),
+	y = read_rds(file = "./Data_PhD/US/BLS/cpi/cpi.rds") %>%
+	  mutate(year = as.numeric(year)),
+	by = c("year" = "year"),
   ) %>%
   # Join BEA data for county level macro data
   left_join(
-    y = bea %>%
-      # select(-c(county_name)) %>%
-      mutate(year = as.numeric(year)),
-    by = c("fips_code" = "fips_code", "facility.county" = "county_name", "facility.state" = "county_state",
-           "year" = "year"),
+	y = bea %>%
+	  # select(-c(county_name)) %>%
+	  mutate(year = as.numeric(year)),
+	by = c("fips_code" = "fips_code", "facility.county" = "county_name", "facility.state" = "county_state",
+		   "year" = "year"),
   ) %>%
   left_join(
-    y = qcew %>%
-      select(c(year, fips_code, own_code, naics.code, annual_avg_estabs:avg_annual_pay)) %>%
-      mutate(year = as.numeric(year)),
-    by = c("naics.code" = "naics.code", "fips_code" = "fips_code", "year" = "year"),
+	y = qcew %>%
+	  select(c(year, fips_code, own_code, naics.code, annual_avg_estabs:avg_annual_pay)) %>%
+	  mutate(year = as.numeric(year)),
+	by = c("naics.code" = "naics.code", "fips_code" = "fips_code", "year" = "year"),
   ) %>%
   data.frame()
 end_time <- Sys.time()
@@ -601,13 +589,13 @@ start_time <- Sys.time()
 triQ_manu <- triQ %>%
   filter(industry.category == "Manufacturing") %>%
   left_join(
-    # y = read_csv(file = "./Data_PhD/US/NBER/nberces5818v1_n1997.csv") %>%
-    y = read_rds(file = "./Data_PhD/US/NBER/nber_ces.rds") %>%
-      filter(year >= 2011 & year <= 2017) %>%
-      mutate(naics.code = as.character(naics)) %>%
-      select(c(naics.code, year:plant, tfp4, tfp5)) %>%
-      data.frame(),
-    by = c("year" = "year", "naics.code" = "naics.code")
+	# y = read_csv(file = "./Data_PhD/US/NBER/nberces5818v1_n1997.csv") %>%
+	y = read_rds(file = "./Data_PhD/US/NBER/nber_ces.rds") %>%
+	  filter(year >= 2011 & year <= 2017) %>%
+	  mutate(naics.code = as.character(naics)) %>%
+	  select(c(naics.code, year:plant, tfp4, tfp5)) %>%
+	  data.frame(),
+	by = c("year" = "year", "naics.code" = "naics.code")
   ) %>%
   data.frame()
 end_time <- Sys.time()
@@ -623,78 +611,78 @@ sort(unique(triQ_manu$facility.state))
 glimpse(triQ_manu)
 triQ_manu <- triQ_manu %>%
   mutate(
-    facility.latitude = as.character(facility.latitude),
-    facility.longitude = as.character(facility.longitude),
-    industrial.kiln.onsite = as.character(industrial.kiln.onsite),
-    industrial.furnace.onsite = as.character(industrial.furnace.onsite),
-    industrial.boiler.onsite = as.character(industrial.boiler.onsite),
-    metal.recovery.onsite = as.character(metal.recovery.onsite),
-    solvent.recovery.onsite = as.character(solvent.recovery.onsite),
-    reuse.onsite = as.character(reuse.onsite),
-    biological.treatment.onsite = as.character(biological.treatment.onsite),
-    chemical.treatment.onsite = as.character(chemical.treatment.onsite),
-    incineration.thermal.treatment.onsite = as.character(incineration.thermal.treatment.onsite),
-    physical.treatment.onsite = as.character(physical.treatment.onsite),
-    material.subandmod = as.character(material.subandmod),
-    sub.fuel.matsubmod = as.character(sub.fuel.matsubmod),
-    sub.organic.solvent.matsubmod = as.character(sub.organic.solvent.matsubmod),
-    sub.rawm.feedstock.reactchem.matsubmod = as.character(sub.rawm.feedstock.reactchem.matsubmod),
-    sub.manu.proccess.ancilliary.chems.matsubmod = as.character(sub.manu.proccess.ancilliary.chems.matsubmod),
-    mod.content.grade.purity.chems.matsubmod = as.character(mod.content.grade.purity.chems.matsubmod),
-    other.matmods.matsubmod = as.character(other.matmods.matsubmod),
-    product.modification = as.character(product.modification),
-    devd.newproductline.pmod = as.character(devd.newproductline.pmod),
-    alt.dim.comp.design.pmod = as.character(alt.dim.comp.design.pmod),
-    mod.packaging.pmod = as.character(mod.packaging.pmod),
-    other.pmods.pmod = as.character(other.pmods.pmod),
-    process.equip.modification = as.character(process.equip.modification),
-    optimised.process.efficiency.pequipmod = as.character(optimised.process.efficiency.pequipmod),
-    recirculationinprocess.pequipmod = as.character(recirculationinprocess.pequipmod),
-    newtech.technique.process.pequipmod = as.character(newtech.technique.process.pequipmod),
-    equipment.upgrade.update.pequipmod = as.character(equipment.upgrade.update.pequipmod),
-    other.pequipmods.pequipmod = as.character(other.pequipmods.pequipmod),
-    inventory.material.mgt = as.character(inventory.material.mgt),
-    better.labelling.testing.immgt = as.character(better.labelling.testing.immgt),
-    containers.sizechange.immgt = as.character(containers.sizechange.immgt),
-    improved.materialhandling.operations.immgt = as.character(improved.materialhandling.operations.immgt),
-    improved.monitoring.immgt = as.character(improved.monitoring.immgt),
-    other.immgts.immgt = as.character(other.immgts.immgt),
-    operating.practices.training = as.character(operating.practices.training),
-    improved.schdule.operation.procedures.opt = as.character(improved.schdule.operation.procedures.opt),
-    changed.production.schedule.opt = as.character(changed.production.schedule.opt),
-    intro.inline.productquality.process.analysis.opt = as.character(intro.inline.productquality.process.analysis.opt),
-    trade.secret = as.character(trade.secret),
-    sanitised = as.character(sanitised),
-    entire.facility = as.character(entire.facility),
-    federal.facility = as.character(federal.facility),
-    govt.owned.facility = as.character(govt.owned.facility),
-    elemental.metal.included = as.character(elemental.metal.included),
-    clean.air.act.chems = as.character(clean.air.act.chems),
-    carcinogenic.chems = as.character(carcinogenic.chems),
-    pfas.chems = as.character(pfas.chems),
-    metal.restrict.tri = as.character(metal.restrict.tri),
-    produced.chem.facility = as.character(produced.chem.facility),
-    imported.chem.facility = as.character(imported.chem.facility),
-    pi.chem.facility = as.character(pi.chem.facility),
-    chemical.intermediate.uses = as.character(chemical.intermediate.uses),
-    chemical.formulation.component = as.character(chemical.formulation.component),
-    chemical.article.component = as.character(chemical.article.component),
-    chemical.manufacturing.aid = as.character(chemical.manufacturing.aid),
-    chemical.ancilliary.use = as.character(chemical.ancilliary.use),
-    zip.length = as.character(zip.length),
-    offsite.zip.length = as.character(offsite.zip.length),
-    potw.zip.length = as.character(potw.zip.length),
-    personal_income = as.numeric(personal_income),
-    gdp = as.numeric(gdp),
-    compensation_to_employees = as.numeric(compensation_to_employees),
-    regional_price_parity = as.numeric(regional_price_parity),
-    annual_avg_estabs = as.numeric(annual_avg_estabs),
-    annual_avg_emplvl = as.numeric(annual_avg_emplvl),
-    total_annual_wages = as.numeric(total_annual_wages),
-    taxable_annual_wages = as.numeric(taxable_annual_wages),
-    annual_contributions = as.numeric(annual_contributions),
-    annual_avg_wkly_wage = as.numeric(annual_avg_wkly_wage),
-    avg_annual_pay = as.numeric(avg_annual_pay)
+	facility.latitude = as.character(facility.latitude),
+	facility.longitude = as.character(facility.longitude),
+	industrial.kiln.onsite = as.character(industrial.kiln.onsite),
+	industrial.furnace.onsite = as.character(industrial.furnace.onsite),
+	industrial.boiler.onsite = as.character(industrial.boiler.onsite),
+	metal.recovery.onsite = as.character(metal.recovery.onsite),
+	solvent.recovery.onsite = as.character(solvent.recovery.onsite),
+	reuse.onsite = as.character(reuse.onsite),
+	biological.treatment.onsite = as.character(biological.treatment.onsite),
+	chemical.treatment.onsite = as.character(chemical.treatment.onsite),
+	incineration.thermal.treatment.onsite = as.character(incineration.thermal.treatment.onsite),
+	physical.treatment.onsite = as.character(physical.treatment.onsite),
+	material.subandmod = as.character(material.subandmod),
+	sub.fuel.matsubmod = as.character(sub.fuel.matsubmod),
+	sub.organic.solvent.matsubmod = as.character(sub.organic.solvent.matsubmod),
+	sub.rawm.feedstock.reactchem.matsubmod = as.character(sub.rawm.feedstock.reactchem.matsubmod),
+	sub.manu.proccess.ancilliary.chems.matsubmod = as.character(sub.manu.proccess.ancilliary.chems.matsubmod),
+	mod.content.grade.purity.chems.matsubmod = as.character(mod.content.grade.purity.chems.matsubmod),
+	other.matmods.matsubmod = as.character(other.matmods.matsubmod),
+	product.modification = as.character(product.modification),
+	devd.newproductline.pmod = as.character(devd.newproductline.pmod),
+	alt.dim.comp.design.pmod = as.character(alt.dim.comp.design.pmod),
+	mod.packaging.pmod = as.character(mod.packaging.pmod),
+	other.pmods.pmod = as.character(other.pmods.pmod),
+	process.equip.modification = as.character(process.equip.modification),
+	optimised.process.efficiency.pequipmod = as.character(optimised.process.efficiency.pequipmod),
+	recirculationinprocess.pequipmod = as.character(recirculationinprocess.pequipmod),
+	newtech.technique.process.pequipmod = as.character(newtech.technique.process.pequipmod),
+	equipment.upgrade.update.pequipmod = as.character(equipment.upgrade.update.pequipmod),
+	other.pequipmods.pequipmod = as.character(other.pequipmods.pequipmod),
+	inventory.material.mgt = as.character(inventory.material.mgt),
+	better.labelling.testing.immgt = as.character(better.labelling.testing.immgt),
+	containers.sizechange.immgt = as.character(containers.sizechange.immgt),
+	improved.materialhandling.operations.immgt = as.character(improved.materialhandling.operations.immgt),
+	improved.monitoring.immgt = as.character(improved.monitoring.immgt),
+	other.immgts.immgt = as.character(other.immgts.immgt),
+	operating.practices.training = as.character(operating.practices.training),
+	improved.schdule.operation.procedures.opt = as.character(improved.schdule.operation.procedures.opt),
+	changed.production.schedule.opt = as.character(changed.production.schedule.opt),
+	intro.inline.productquality.process.analysis.opt = as.character(intro.inline.productquality.process.analysis.opt),
+	trade.secret = as.character(trade.secret),
+	sanitised = as.character(sanitised),
+	entire.facility = as.character(entire.facility),
+	federal.facility = as.character(federal.facility),
+	govt.owned.facility = as.character(govt.owned.facility),
+	elemental.metal.included = as.character(elemental.metal.included),
+	clean.air.act.chems = as.character(clean.air.act.chems),
+	carcinogenic.chems = as.character(carcinogenic.chems),
+	pfas.chems = as.character(pfas.chems),
+	metal.restrict.tri = as.character(metal.restrict.tri),
+	produced.chem.facility = as.character(produced.chem.facility),
+	imported.chem.facility = as.character(imported.chem.facility),
+	pi.chem.facility = as.character(pi.chem.facility),
+	chemical.intermediate.uses = as.character(chemical.intermediate.uses),
+	chemical.formulation.component = as.character(chemical.formulation.component),
+	chemical.article.component = as.character(chemical.article.component),
+	chemical.manufacturing.aid = as.character(chemical.manufacturing.aid),
+	chemical.ancilliary.use = as.character(chemical.ancilliary.use),
+	zip.length = as.character(zip.length),
+	offsite.zip.length = as.character(offsite.zip.length),
+	potw.zip.length = as.character(potw.zip.length),
+	personal_income = as.numeric(personal_income),
+	gdp = as.numeric(gdp),
+	compensation_to_employees = as.numeric(compensation_to_employees),
+	regional_price_parity = as.numeric(regional_price_parity),
+	annual_avg_estabs = as.numeric(annual_avg_estabs),
+	annual_avg_emplvl = as.numeric(annual_avg_emplvl),
+	total_annual_wages = as.numeric(total_annual_wages),
+	taxable_annual_wages = as.numeric(taxable_annual_wages),
+	annual_contributions = as.numeric(annual_contributions),
+	annual_avg_wkly_wage = as.numeric(annual_avg_wkly_wage),
+	avg_annual_pay = as.numeric(avg_annual_pay)
   )
 #======================================================================================================================#
 ### Merging triQ_manu with the US shapfile for border county design.
@@ -705,8 +693,8 @@ triQ_manu <- triQ_manu %>%
 n_distinct(fac_county_df$fips_code)
 triQB <- triQ_manu %>%
   right_join(
-    y = fac_county_df,
-    by = c("fips_code" = "fips_code")
+	y = fac_county_df,
+	by = c("fips_code" = "fips_code")
   )
 glimpse(triQB)
 triQB_na <- triQB[is.na(triQB$facility.zipcode),]

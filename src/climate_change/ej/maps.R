@@ -10,7 +10,7 @@ setwd(dir = "C:/Users/david/OneDrive/Documents/ULMS/PhD/")
 #======================================================================================================================#
 ### Loading Data
 #======================================================================================================================#
-file <- "./Data_PhD/US/BLS/onsite/triQc_on.rds"
+file <- "../../../../../Data_PhD/US/BLS/onsite/triQc_on.rds"
 triQc <- read_rds(file = file)
 #======================================================================================================================#
 # Get state data from usmap package
@@ -32,10 +32,10 @@ border_state_map <- plot_usmap(
   scale_fill_gradient(low = "azure", high = "pink") +
   labs(title = "Treated vs. Control Border States") +
   theme(
-    legend.position = c(x = 0.75, y = 0.08),
-    legend.key.width = unit(x = 0.3, units = "in"),
-    legend.key.height = unit(x = 0.3, units = "in"),
-    legend.text = element_text(size = 10),
+	legend.position = c(x = 0.75, y = 0.08),
+	legend.key.width = unit(x = 0.3, units = "in"),
+	legend.key.height = unit(x = 0.3, units = "in"),
+	legend.text = element_text(size = 10),
   ) +
   theme_bw()
 #======================================================================================================================#
@@ -63,10 +63,10 @@ border_county_map <- plot_usmap(
   scale_fill_gradient(low = "azure", high = "pink") +
   labs(title = "Treated vs. Control Counties") +
   theme(
-    legend.position = c(x = 0.75, y = 0.08),
-    legend.key.width = unit(x = 0.3, units = "in"),
-    legend.key.height = unit(x = 0.3, units = "in"),
-    legend.text = element_text(size = 10),
+	legend.position = c(x = 0.75, y = 0.08),
+	legend.key.width = unit(x = 0.3, units = "in"),
+	legend.key.height = unit(x = 0.3, units = "in"),
+	legend.text = element_text(size = 10),
   ) +
   theme_bw()
 

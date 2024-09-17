@@ -6,11 +6,13 @@
 #======================================================================================================================#
 ### Packages
 #======================================================================================================================#
+# install.packages(pkgs = c("tidyverse", "statar"))
 library(tidyverse)
 library(statar)
+# install.packages(pkgs = "remotes")
+# library(remotes)
+# remotes::install_github(repo = "davidsovich/usgeogr", build_vignettes = TRUE, force = TRUE, build = FALSE)
 library(usgeogr)
-# install.packages("remotes")
-# remotes::install_github("davidsovich/usgeogr")
 #======================================================================================================================#
 ### Working Directory
 #======================================================================================================================#
@@ -30,10 +32,9 @@ triQ <- read_rds(file = "./Data_PhD/US/BLS/triQ.rds") %>%
   ) %>%
   select(
 	c(
-	  year, facility.id, facility.zipcode, zip.length, facility.city, fips_code, facility.county, facility.state,
-	  state,
-	  lat, long, zip.length, naics.code, industry.name, chemical.id, chemical.name, chemical.classification,
-	  unit.of.measure,
+	  year, facility.id, facility.zipcode, zip.length, facility.city, fips_code, facility.county,
+	  facility.state, state, lat, long, zip.length, naics.code, industry.name, chemical.id, chemical.name,
+	  chemical.classification, unit.of.measure,
 	  # air pollution emissions
 	  total.fug.air.emissions.onsite, total.point.air.emissions.onsite, total.air.emissions.onsite,
 	  # water pollution
@@ -121,8 +122,10 @@ triQc <- triQc %>%
 		comment.text == "Transitioned from use of two fossil fuel (#6 oil) boilers to a biomass gasification unit" |
 		comment.text == "Replaced Coal boiler with natural gas boiler." |
 		comment.text == "Replaced Coal fired boiler with natural gas boiler" |
-		comment.text == "Switched from #6 Fuel Oil to Natural Gas fired boilerInitiated work to eventually substitute less toxic colorant for lead containing colorant" |
-		comment.text == "Switched from burning coal in winter to only natural gas.  Coal combustion was responsible for the coincidental manufacturing of chromium compounds." |
+		comment.text == "Switched from #6 Fuel Oil to Natural Gas fired boilerInitiated work to eventually substitute
+		less toxic colorant for lead containing colorant" |
+		comment.text == "Switched from burning coal in winter to only natural gas.  Coal combustion was responsible
+		for the coincidental manufacturing of chromium compounds." |
 		comment.text == "Switched over from coal burning (winter) to only natural gas." |
 		comment.text == "Switched to natural gas in 2011.  Did not use #6 fuel oil in RY 2013." ~ 1, T ~ 0
 	),
@@ -134,8 +137,13 @@ triQc <- triQc %>%
 	  classification == "Source Reduction" &
 		# chemical.ancilliary.use == 1 &
 		# chemical.manufacturing.aid == 1 &
-		comment.text == "Reduction of on hand chemicals aided in avoiding material expiration contributing to waste.  Continue to tighten operational controls and extend chemical usage life to reduce generation of waste." |
-		comment.text == "In 2009 we replaced our thermal oxidizer to a more efficient unit.  It has both increased our capture and detruction efficiencies as well as reduced our consumption of natural gas in our manufacturing processes.  Though our processes require the use of chemical processing aids, we are truly committed to source reduction and minimizing our emissions and waste wherever possible via employee suggestion and support from our vendor base." |
+		comment.text == "Reduction of on hand chemicals aided in avoiding material expiration contributing to waste.
+		Continue to tighten operational controls and extend chemical usage life to reduce generation of waste." |
+		comment.text == "In 2009 we replaced our thermal oxidizer to a more efficient unit.  It has both increased our
+		 capture and detruction efficiencies as well as reduced our consumption of natural gas in our manufacturing
+		 processes.  Though our processes require the use of chemical processing aids, we are truly committed to
+		 source reduction and minimizing our emissions and waste wherever possible via employee suggestion and support
+		  from our vendor base." |
 		comment.text == "Reduce the amount of Chemical as a processing aid in the formulations of the product"
 		~ 1, T ~ 0
 	),
@@ -228,11 +236,13 @@ triQc <- triQc %>%
 	),
 	intro.inline.productquality.process.analysis.opt = case_when(
 	  classification == "Source Reduction" &
-		comment.type.description == "W15 - Introduced an in-line product quality monitoring or other process analysis system" ~ 1, T ~ 0
+		comment.type.description == "W15 - Introduced an in-line product quality monitoring or other process analysis
+		system" ~ 1, T ~ 0
 	),
 	changed.production.schedule.opt = case_when(
 	  classification == "Source Reduction" &
-		comment.type.description == "W14 - Changed production schedule to minimize equipment and feedstock changeovers" ~ 1, T ~ 0
+		comment.type.description == "W14 - Changed production schedule to minimize equipment and feedstock
+		changeovers" ~ 1, T ~ 0
 	),
 	operating.practices.training = case_when(
 	  classification == "Source Reduction" &
@@ -284,7 +294,8 @@ triQc <- triQc %>%
 	),
 	impl.inspection.monitoring.leak.spill.immgt = case_when(
 	  classification == "Source Reduction" &
-		comment.type.description == "W36 - Implemented inspection or monitoring program of potential spill or leak sources"
+		comment.type.description == "W36 - Implemented inspection or monitoring program of potential spill or leak
+		sources"
 		~ 1, T ~ 0
 	),
 	modified.containment.procedures.cleaning.unit.immgt = case_when(
@@ -297,12 +308,17 @@ triQc <- triQc %>%
 	  grepl(pattern = "waste water treatment", x = comment.text, ignore.case = T) ~ 1, T ~ 0
 	),
 	recycling.dummy = case_when(comment.type.description == "Recycling" ~ 1, T ~ 0),
-	req.spec.technique = case_when(comment.type.description == "B2 - Require technical information on pollution prevention techniques applicable to specific production processes." ~ 1, T ~ 0),
-	unsuccessful.sra = case_when(comment.type.description == "B4 - Source reduction activities were implemented but were unsuccessful." ~ 1, T ~ 0),
+	req.spec.technique = case_when(comment.type.description == "B2 - Require technical information on pollution
+	prevention techniques applicable to specific production processes." ~ 1, T ~ 0),
+	unsuccessful.sra = case_when(comment.type.description == "B4 - Source reduction activities were implemented but
+	were unsuccessful." ~ 1, T ~ 0),
 	reg.permits = case_when(comment.type.description == "B5 - Specific regulatory/permit burdens." ~ 1, T ~ 0),
-	no.add.reduction = case_when(comment.type.description == "B6 - Pollution prevention previously implemented - additional reduction does not appear technically or economically feas" ~ 1, T ~ 0),
-	no.sub.tech = case_when(comment.type.description == "B7 - No known substitutes or alternative technologies." ~ 1, T ~ 0),
-	no.feas.reduction = case_when(comment.type.description == "B8 - A reduction does not appear to be technically feasible" ~ 1, T ~ 0),
+	no.add.reduction = case_when(comment.type.description == "B6 - Pollution prevention previously implemented -
+	additional reduction does not appear technically or economically feas" ~ 1, T ~ 0),
+	no.sub.tech = case_when(comment.type.description == "B7 - No known substitutes or alternative technologies." ~ 1,
+							T ~ 0),
+	no.feas.reduction = case_when(comment.type.description == "B8 - A reduction does not appear to be technically
+	feasible" ~ 1, T ~ 0),
   ) %>%
   select(-c(pfas.chems, elemental.metal.included, chemical.intermediate.uses))
 

@@ -1,16 +1,17 @@
 #======================================================================================================================#
 ### PhD Chapter 3
-### Indirect Consequences of a Raising Minimum Wage
+### Unforeseen Minimum Wage Consequences
 ### 30 November 2023
-### Using Border-County Designs
+### Using Cross Border-County Designs
 #======================================================================================================================#
 ### Packages
 #======================================================================================================================#
+# install.packages(pkgs = c("tidyverse", "statar"))
 library(tidyverse)
 library(statar)
+# install.packages(pkgs = "remotes")
+remotes::install_github(repo = "davidsovich/usgeogr", build_vignettes = TRUE, force = TRUE)
 library(usgeogr)
-# install.packages("remotes")
-# remotes::install_github("davidsovich/usgeogr")
 library(usmap)
 #======================================================================================================================#
 ### Working Directory
@@ -21,11 +22,11 @@ setwd(dir = "C:/Users/david/OneDrive/Documents/ULMS/PhD/")
 #======================================================================================================================#
 gc()
 start_time <- Sys.time()
-triQ.manu <- read_rds(file = "./Data_PhD/US/BLS/triQ.manu.rds") %>%
+triQ.manu <- read_rds(file = "./Data_PhD/US/BLS/onsite/triQc_on.rds") %>%
   group_by(facility.id, year) %>%
   select(
 	c(
-	  year, facility.id, facility.zipcode, facility.city, facility.county, facility.state.code, facility.state,
+	  year, facility.id, facility.zipcode, facility.city, facility.county, facility.state, state,
 	  facility.latitude, facility.longitude, offsite.id, offsite.facility.id, offsite.zipcode, offsite.city,
 	  offsite.county, offsite.state, offsite.countryid, potw.id, potw.zipcode, potw.city, potw.county, potw.state,
 	  fips_code, neighbor_state, neighbor_fips_code, neighbor_lat, neighbor_long,
