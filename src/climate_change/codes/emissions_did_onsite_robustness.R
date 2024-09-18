@@ -12,6 +12,7 @@ library(ggplot2)
 ## Working Directory
 #======================================================================================================================#
 setwd(dir = "C:/Users/david/OneDrive/Documents/ULMS/PhD/")
+source(file = "./Thesis/chapter3/src/climate_change/codes/functions.R", echo = T)
 #======================================================================================================================#
 ### Loading Data
 #======================================================================================================================#
@@ -102,1456 +103,493 @@ iplot(
 legend(x = "bottomright", legend = c("Sun and Abraham (2020) ATT: -0.010 (0.058)", "TWFE ATT: -0.044 (0.044)"),
 	   col = c("red", "black"), pch = 19, pt.cex = 2, bty = "n")
 dev.off()
-# TODO continue here!
 #======================================================================================================================#
 ### Alternative clustering of the SEs
 #======================================================================================================================#
 ### Onsite: Total releases intensity
 #======================================================================================================================#
-did_total_releases <- feols(
-  l.total.releases.onsite.intensity ~ sunab(ch.year, year) +
-	gdppc.1 +
-	annual.avg.estabs.1 +
-	cpi.1 +
-	federal.facility +
-	produced.chem.facility +
-	imported.chem.facility +
-	chemical.formulation.component +
-	chemical.article.component +
-	chemical.manufacturing.aid +
-	chemical.ancilliary.use +
-	production.ratio.activity.index +
-	maxnum.chem.onsite +
-	clean.air.act.chems +
-	hap.chems +
-	pbt.chems
-	|
-	year +
-	  facility.id.fe +
-	  border.county.fe +
-	  chemical.id.fe +
-	  chemical.year.fe +
-	  border.county.year,
+did_total_releases <- sdid_releases(
   data = triQc,
+  depvar = "l.total.releases.onsite.intensity",
+  ATT = "sunab(ch.year, year)",
   cluster = ~facility.id,
+  fes = tri_fes()
 )
 etable(did_total_releases, agg = "ATT", digits = 3, digits.stats = 3)
 etable(did_total_releases, agg = "cohort", digits = 3, digits.stats = 3)
 
-did_total_releases <- feols(
-  l.total.releases.onsite.intensity ~ sunab(ch.year, year) +
-	gdppc.1 +
-	annual.avg.estabs.1 +
-	cpi.1 +
-	federal.facility +
-	produced.chem.facility +
-	imported.chem.facility +
-	chemical.formulation.component +
-	chemical.article.component +
-	chemical.manufacturing.aid +
-	chemical.ancilliary.use +
-	production.ratio.activity.index +
-	maxnum.chem.onsite +
-	clean.air.act.chems +
-	hap.chems +
-	pbt.chems
-	|
-	year +
-	  facility.id.fe +
-	  border.county.fe +
-	  chemical.id.fe +
-	  chemical.year.fe +
-	  border.county.year,
+did_total_releases <- sdid_releases(
   data = triQc,
+  depvar = "l.total.releases.onsite.intensity",
+  ATT = "sunab(ch.year, year)",
   cluster = ~facility.zipcode,
+  fes = tri_fes()
 )
-
 etable(did_total_releases, agg = "ATT", digits = 3, digits.stats = 3)
 etable(did_total_releases, agg = "cohort", digits = 3, digits.stats = 3)
 
-did_total_releases <- feols(
-  l.total.releases.onsite.intensity ~ sunab(ch.year, year) +
-	gdppc.1 +
-	annual.avg.estabs.1 +
-	cpi.1 +
-	federal.facility +
-	produced.chem.facility +
-	imported.chem.facility +
-	chemical.formulation.component +
-	chemical.article.component +
-	chemical.manufacturing.aid +
-	chemical.ancilliary.use +
-	production.ratio.activity.index +
-	maxnum.chem.onsite +
-	clean.air.act.chems +
-	hap.chems +
-	pbt.chems
-	|
-	year +
-	  facility.id.fe +
-	  border.county.fe +
-	  chemical.id.fe +
-	  chemical.year.fe +
-	  border.county.year,
+did_total_releases <- sdid_releases(
   data = triQc,
+  depvar = "l.total.releases.onsite.intensity",
+  ATT = "sunab(ch.year, year)",
   cluster = ~fips.code,
+  fes = tri_fes()
 )
-
 etable(did_total_releases, agg = "ATT", digits = 3, digits.stats = 3)
 etable(did_total_releases, agg = "cohort", digits = 3, digits.stats = 3)
 
-did_total_releases <- feols(
-  l.total.releases.onsite.intensity ~ sunab(ch.year, year) +
-	gdppc.1 +
-	annual.avg.estabs.1 +
-	cpi.1 +
-	federal.facility +
-	produced.chem.facility +
-	imported.chem.facility +
-	chemical.formulation.component +
-	chemical.article.component +
-	chemical.manufacturing.aid +
-	chemical.ancilliary.use +
-	production.ratio.activity.index +
-	maxnum.chem.onsite +
-	clean.air.act.chems +
-	hap.chems +
-	pbt.chems
-	|
-	year +
-	  facility.id.fe +
-	  border.county.fe +
-	  chemical.id.fe +
-	  chemical.year.fe +
-	  border.county.year,
+did_total_releases <- sdid_releases(
   data = triQc,
+  depvar = "l.total.releases.onsite.intensity",
+  ATT = "sunab(ch.year, year)",
   cluster = ~naics.code,
+  fes = tri_fes()
 )
 etable(did_total_releases, agg = "ATT", digits = 3, digits.stats = 3)
 etable(did_total_releases, agg = "cohort", digits = 3, digits.stats = 3)
 
-did_total_releases <- feols(
-  l.total.releases.onsite.intensity ~ sunab(ch.year, year) +
-	gdppc.1 +
-	annual.avg.estabs.1 +
-	cpi.1 +
-	federal.facility +
-	produced.chem.facility +
-	imported.chem.facility +
-	chemical.formulation.component +
-	chemical.article.component +
-	chemical.manufacturing.aid +
-	chemical.ancilliary.use +
-	production.ratio.activity.index +
-	maxnum.chem.onsite +
-	clean.air.act.chems +
-	hap.chems +
-	pbt.chems
-	|
-	year +
-	  facility.id.fe +
-	  border.county.fe +
-	  chemical.id.fe +
-	  chemical.year.fe +
-	  border.county.year,
+did_total_releases <- sdid_releases(
   data = triQc,
+  depvar = "l.total.releases.onsite.intensity",
+  ATT = "sunab(ch.year, year)",
   cluster = ~chemical.id,
+  fes = tri_fes()
 )
 etable(did_total_releases, agg = "ATT", digits = 3, digits.stats = 3)
 etable(did_total_releases, agg = "cohort", digits = 3, digits.stats = 3)
 
-did_total_releases <- feols(
-  l.total.releases.onsite.intensity ~ sunab(ch.year, year) +
-	gdppc.1 +
-	annual.avg.estabs.1 +
-	cpi.1 +
-	federal.facility +
-	produced.chem.facility +
-	imported.chem.facility +
-	chemical.formulation.component +
-	chemical.article.component +
-	chemical.manufacturing.aid +
-	chemical.ancilliary.use +
-	production.ratio.activity.index +
-	maxnum.chem.onsite +
-	clean.air.act.chems +
-	hap.chems +
-	pbt.chems
-	|
-	year +
-	  facility.id.fe +
-	  border.county.fe +
-	  chemical.id.fe +
-	  chemical.year.fe +
-	  border.county.year,
+did_total_releases <- sdid_releases(
   data = triQc,
+  depvar = "l.total.releases.onsite.intensity",
+  ATT = "sunab(ch.year, year)",
   cluster = ~facility.state,
+  fes = tri_fes()
 )
 etable(did_total_releases, agg = "ATT", digits = 3, digits.stats = 3)
 etable(did_total_releases, agg = "cohort", digits = 3, digits.stats = 3)
 
-did_total_releases <- feols(
-  l.total.releases.onsite.intensity ~ sunab(ch.year, year) +
-	gdppc.1 +
-	annual.avg.estabs.1 +
-	cpi.1 +
-	federal.facility +
-	produced.chem.facility +
-	imported.chem.facility +
-	chemical.formulation.component +
-	chemical.article.component +
-	chemical.manufacturing.aid +
-	chemical.ancilliary.use +
-	production.ratio.activity.index +
-	maxnum.chem.onsite +
-	clean.air.act.chems +
-	hap.chems +
-	pbt.chems
-	|
-	year +
-	  facility.id.fe +
-	  border.county.fe +
-	  chemical.id.fe +
-	  chemical.year.fe +
-	  border.county.year,
+did_total_releases <- sdid_releases(
   data = triQc,
+  depvar = "l.total.releases.onsite.intensity",
+  ATT = "sunab(ch.year, year)",
   cluster = ~c(facility.state, chemical.id),
+  fes = tri_fes()
 )
 etable(did_total_releases, agg = "ATT", digits = 3, digits.stats = 3)
 etable(did_total_releases, agg = "cohort", digits = 3, digits.stats = 3)
 
-did_total_releases <- feols(
-  l.total.releases.onsite.intensity ~ sunab(ch.year, year) +
-	gdppc.1 +
-	annual.avg.estabs.1 +
-	cpi.1 +
-	federal.facility +
-	produced.chem.facility +
-	imported.chem.facility +
-	chemical.formulation.component +
-	chemical.article.component +
-	chemical.manufacturing.aid +
-	chemical.ancilliary.use +
-	production.ratio.activity.index +
-	maxnum.chem.onsite +
-	clean.air.act.chems +
-	hap.chems +
-	pbt.chems
-	|
-	year +
-	  facility.id.fe +
-	  border.county.fe +
-	  chemical.id.fe +
-	  chemical.year.fe +
-	  border.county.year,
+did_total_releases <- sdid_releases(
   data = triQc,
+  depvar = "l.total.releases.onsite.intensity",
+  ATT = "sunab(ch.year, year)",
   cluster = ~c(facility.state, naics.code),
+  fes = tri_fes()
 )
 etable(did_total_releases, agg = "ATT", digits = 3, digits.stats = 3)
 etable(did_total_releases, agg = "cohort", digits = 3, digits.stats = 3)
 
-did_total_releases <- feols(
-  l.total.releases.onsite.intensity ~ sunab(ch.year, year) +
-	gdppc.1 +
-	annual.avg.estabs.1 +
-	cpi.1 +
-	federal.facility +
-	produced.chem.facility +
-	imported.chem.facility +
-	chemical.formulation.component +
-	chemical.article.component +
-	chemical.manufacturing.aid +
-	chemical.ancilliary.use +
-	production.ratio.activity.index +
-	maxnum.chem.onsite +
-	clean.air.act.chems +
-	hap.chems +
-	pbt.chems
-	|
-	year +
-	  facility.id.fe +
-	  border.county.fe +
-	  chemical.id.fe +
-	  chemical.year.fe +
-	  border.county.year,
+did_total_releases <- sdid_releases(
   data = triQc,
+  depvar = "l.total.releases.onsite.intensity",
+  ATT = "sunab(ch.year, year)",
   cluster = ~c(chemical.id, naics.code),
+  fes = tri_fes()
 )
 etable(did_total_releases, agg = "ATT", digits = 3, digits.stats = 3)
 etable(did_total_releases, agg = "cohort", digits = 3, digits.stats = 3)
 
-did_total_releases <- feols(
-  l.total.releases.onsite.intensity ~ sunab(ch.year, year) +
-	gdppc.1 +
-	annual.avg.estabs.1 +
-	cpi.1 +
-	federal.facility +
-	produced.chem.facility +
-	imported.chem.facility +
-	chemical.formulation.component +
-	chemical.article.component +
-	chemical.manufacturing.aid +
-	chemical.ancilliary.use +
-	production.ratio.activity.index +
-	maxnum.chem.onsite +
-	clean.air.act.chems +
-	hap.chems +
-	pbt.chems
-	|
-	year +
-	  facility.id.fe +
-	  border.county.fe +
-	  chemical.id.fe +
-	  chemical.year.fe +
-	  border.county.year,
+did_total_releases <- sdid_releases(
   data = triQc,
+  depvar = "l.total.releases.onsite.intensity",
+  ATT = "sunab(ch.year, year)",
   cluster = ~c(chemical.id, facility.state),
+  fes = tri_fes()
 )
 etable(did_total_releases, agg = "ATT", digits = 3, digits.stats = 3)
 etable(did_total_releases, agg = "cohort", digits = 3, digits.stats = 3)
 
-did_total_releases <- feols(
-  l.total.releases.onsite.intensity ~ sunab(ch.year, year) +
-	gdppc.1 +
-	annual.avg.estabs.1 +
-	cpi.1 +
-	federal.facility +
-	produced.chem.facility +
-	imported.chem.facility +
-	chemical.formulation.component +
-	chemical.article.component +
-	chemical.manufacturing.aid +
-	chemical.ancilliary.use +
-	production.ratio.activity.index +
-	maxnum.chem.onsite +
-	clean.air.act.chems +
-	hap.chems +
-	pbt.chems
-	|
-	year +
-	  facility.id.fe +
-	  border.county.fe +
-	  chemical.id.fe +
-	  chemical.year.fe +
-	  border.county.year,
+did_total_releases <- sdid_releases(
   data = triQc,
+  depvar = "l.total.releases.onsite.intensity",
+  ATT = "sunab(ch.year, year)",
   cluster = ~c(facility.id, facility.state),
+  fes = tri_fes()
 )
 etable(did_total_releases, agg = "ATT", digits = 3, digits.stats = 3)
 etable(did_total_releases, agg = "cohort", digits = 3, digits.stats = 3)
 
-did_total_releases <- feols(
-  l.total.releases.onsite.intensity ~ sunab(ch.year, year) +
-	gdppc.1 +
-	annual.avg.estabs.1 +
-	cpi.1 +
-	federal.facility +
-	produced.chem.facility +
-	imported.chem.facility +
-	chemical.formulation.component +
-	chemical.article.component +
-	chemical.manufacturing.aid +
-	chemical.ancilliary.use +
-	production.ratio.activity.index +
-	maxnum.chem.onsite +
-	clean.air.act.chems +
-	hap.chems +
-	pbt.chems
-	|
-	year +
-	  facility.id.fe +
-	  border.county.fe +
-	  chemical.id.fe +
-	  chemical.year.fe +
-	  border.county.year,
+did_total_releases <- sdid_releases(
   data = triQc,
+  depvar = "l.total.releases.onsite.intensity",
+  ATT = "sunab(ch.year, year)",
   cluster = ~c(naics.code, facility.state),
+  fes = tri_fes()
 )
 etable(did_total_releases, agg = "ATT", digits = 3, digits.stats = 3)
 etable(did_total_releases, agg = "cohort", digits = 3, digits.stats = 3)
 #======================================================================================================================#
 ### Onsite: Total Air Emissions Intensity
 #======================================================================================================================#
-did_air <- feols(
-  l.total.air.emissions.onsite.intensity ~ sunab(ch.year, year) +
-	gdppc.1 +
-	annual.avg.estabs.1 +
-	cpi.1 +
-	federal.facility +
-	produced.chem.facility +
-	imported.chem.facility +
-	chemical.formulation.component +
-	chemical.article.component +
-	chemical.manufacturing.aid +
-	chemical.ancilliary.use +
-	production.ratio.activity.index +
-	maxnum.chem.onsite +
-	clean.air.act.chems +
-	hap.chems +
-	pbt.chems
-	|
-	year +
-	  facility.id.fe +
-	  border.county.fe +
-	  chemical.id.fe +
-	  chemical.year.fe +
-	  border.county.year,
+did_air <- sdid_releases(
   data = triQc,
+  depvar = "l.total.air.emissions.onsite.intensity",
+  ATT = "sunab(ch.year, year)",
   cluster = ~facility.id,
+  fes = tri_fes()
 )
 etable(did_air, agg = "ATT", digits = 3, digits.stats = 3)
 etable(did_air, agg = "cohort", digits = 3, digits.stats = 3)
 
-did_air <- feols(
-  l.total.air.emissions.onsite.intensity ~ sunab(ch.year, year) +
-	gdppc.1 +
-	annual.avg.estabs.1 +
-	cpi.1 +
-	federal.facility +
-	produced.chem.facility +
-	imported.chem.facility +
-	chemical.formulation.component +
-	chemical.article.component +
-	chemical.manufacturing.aid +
-	chemical.ancilliary.use +
-	production.ratio.activity.index +
-	maxnum.chem.onsite +
-	clean.air.act.chems +
-	hap.chems +
-	pbt.chems
-	|
-	year +
-	  facility.id.fe +
-	  border.county.fe +
-	  chemical.id.fe +
-	  chemical.year.fe +
-	  border.county.year,
+did_air <- sdid_releases(
   data = triQc,
+  depvar = "l.total.air.emissions.onsite.intensity",
+  ATT = "sunab(ch.year, year)",
   cluster = ~facility.zipcode,
+  fes = tri_fes()
 )
 etable(did_air, agg = "ATT", digits = 3, digits.stats = 3)
 etable(did_air, agg = "cohort", digits = 3, digits.stats = 3)
 
-did_air <- feols(
-  l.total.air.emissions.onsite.intensity ~ sunab(ch.year, year) +
-	gdppc.1 +
-	annual.avg.estabs.1 +
-	cpi.1 +
-	federal.facility +
-	produced.chem.facility +
-	imported.chem.facility +
-	chemical.formulation.component +
-	chemical.article.component +
-	chemical.manufacturing.aid +
-	chemical.ancilliary.use +
-	production.ratio.activity.index +
-	maxnum.chem.onsite +
-	clean.air.act.chems +
-	hap.chems +
-	pbt.chems
-	|
-	year +
-	  facility.id.fe +
-	  border.county.fe +
-	  chemical.id.fe +
-	  chemical.year.fe +
-	  border.county.year,
+did_air <- sdid_releases(
   data = triQc,
+  depvar = "l.total.air.emissions.onsite.intensity",
+  ATT = "sunab(ch.year, year)",
   cluster = ~fips.code,
+  fes = tri_fes()
 )
 etable(did_air, agg = "ATT", digits = 3, digits.stats = 3)
 etable(did_air, agg = "cohort", digits = 3, digits.stats = 3)
 
-did_air <- feols(
-  l.total.air.emissions.onsite.intensity ~ sunab(ch.year, year) +
-	gdppc.1 +
-	annual.avg.estabs.1 +
-	cpi.1 +
-	federal.facility +
-	produced.chem.facility +
-	imported.chem.facility +
-	chemical.formulation.component +
-	chemical.article.component +
-	chemical.manufacturing.aid +
-	chemical.ancilliary.use +
-	production.ratio.activity.index +
-	maxnum.chem.onsite +
-	clean.air.act.chems +
-	hap.chems +
-	pbt.chems
-	|
-	year +
-	  facility.id.fe +
-	  border.county.fe +
-	  chemical.id.fe +
-	  chemical.year.fe +
-	  border.county.year,
+did_air <- sdid_releases(
   data = triQc,
+  depvar = "l.total.air.emissions.onsite.intensity",
+  ATT = "sunab(ch.year, year)",
   cluster = ~naics.code,
+  fes = tri_fes()
 )
 etable(did_air, agg = "ATT", digits = 3, digits.stats = 3)
 etable(did_air, agg = "cohort", digits = 3, digits.stats = 3)
 
-did_air <- feols(
-  l.total.air.emissions.onsite.intensity ~ sunab(ch.year, year) +
-	gdppc.1 +
-	annual.avg.estabs.1 +
-	cpi.1 +
-	federal.facility +
-	produced.chem.facility +
-	imported.chem.facility +
-	chemical.formulation.component +
-	chemical.article.component +
-	chemical.manufacturing.aid +
-	chemical.ancilliary.use +
-	production.ratio.activity.index +
-	maxnum.chem.onsite +
-	clean.air.act.chems +
-	hap.chems +
-	pbt.chems
-	|
-	year +
-	  facility.id.fe +
-	  border.county.fe +
-	  chemical.id.fe +
-	  chemical.year.fe +
-	  border.county.year,
+did_air <- sdid_releases(
   data = triQc,
+  depvar = "l.total.air.emissions.onsite.intensity",
+  ATT = "sunab(ch.year, year)",
   cluster = ~chemical.id,
+  fes = tri_fes()
 )
 etable(did_air, agg = "ATT", digits = 3, digits.stats = 3)
 etable(did_air, agg = "cohort", digits = 3, digits.stats = 3)
 
-did_air <- feols(
-  l.total.air.emissions.onsite.intensity ~ sunab(ch.year, year) +
-	gdppc.1 +
-	annual.avg.estabs.1 +
-	cpi.1 +
-	federal.facility +
-	produced.chem.facility +
-	imported.chem.facility +
-	chemical.formulation.component +
-	chemical.article.component +
-	chemical.manufacturing.aid +
-	chemical.ancilliary.use +
-	production.ratio.activity.index +
-	maxnum.chem.onsite +
-	clean.air.act.chems +
-	hap.chems +
-	pbt.chems
-	|
-	year +
-	  facility.id.fe +
-	  border.county.fe +
-	  chemical.id.fe +
-	  chemical.year.fe +
-	  border.county.year,
+did_air <- sdid_releases(
   data = triQc,
+  depvar = "l.total.air.emissions.onsite.intensity",
+  ATT = "sunab(ch.year, year)",
   cluster = ~facility.state,
+  fes = tri_fes()
 )
 etable(did_air, agg = "ATT", digits = 3, digits.stats = 3)
 etable(did_air, agg = "cohort", digits = 3, digits.stats = 3)
 
-did_air <- feols(
-  l.total.air.emissions.onsite.intensity ~ sunab(ch.year, year) +
-	gdppc.1 +
-	annual.avg.estabs.1 +
-	cpi.1 +
-	federal.facility +
-	produced.chem.facility +
-	imported.chem.facility +
-	chemical.formulation.component +
-	chemical.article.component +
-	chemical.manufacturing.aid +
-	chemical.ancilliary.use +
-	production.ratio.activity.index +
-	maxnum.chem.onsite +
-	clean.air.act.chems +
-	hap.chems +
-	pbt.chems
-	|
-	year +
-	  facility.id.fe +
-	  border.county.fe +
-	  chemical.id.fe +
-	  chemical.year.fe +
-	  border.county.year,
+did_air <- sdid_releases(
   data = triQc,
+  depvar = "l.total.air.emissions.onsite.intensity",
+  ATT = "sunab(ch.year, year)",
   cluster = ~c(facility.id, chemical.id),
+  fes = tri_fes()
 )
 etable(did_air, agg = "ATT", digits = 3, digits.stats = 3)
 etable(did_air, agg = "cohort", digits = 3, digits.stats = 3)
 
-did_air <- feols(
-  l.total.air.emissions.onsite.intensity ~ sunab(ch.year, year) +
-	gdppc.1 +
-	annual.avg.estabs.1 +
-	cpi.1 +
-	federal.facility +
-	produced.chem.facility +
-	imported.chem.facility +
-	chemical.formulation.component +
-	chemical.article.component +
-	chemical.manufacturing.aid +
-	chemical.ancilliary.use +
-	production.ratio.activity.index +
-	maxnum.chem.onsite +
-	clean.air.act.chems +
-	hap.chems +
-	pbt.chems
-	|
-	year +
-	  facility.id.fe +
-	  border.county.fe +
-	  chemical.id.fe +
-	  chemical.year.fe +
-	  border.county.year,
+did_air <- sdid_releases(
   data = triQc,
+  depvar = "l.total.air.emissions.onsite.intensity",
+  ATT = "sunab(ch.year, year)",
   cluster = ~c(facility.id, naics.code),
+  fes = tri_fes()
 )
 etable(did_air, agg = "ATT", digits = 3, digits.stats = 3)
 etable(did_air, agg = "cohort", digits = 3, digits.stats = 3)
 
-did_air <- feols(
-  l.total.air.emissions.onsite.intensity ~ sunab(ch.year, year) +
-	gdppc.1 +
-	annual.avg.estabs.1 +
-	cpi.1 +
-	federal.facility +
-	produced.chem.facility +
-	imported.chem.facility +
-	chemical.formulation.component +
-	chemical.article.component +
-	chemical.manufacturing.aid +
-	chemical.ancilliary.use +
-	production.ratio.activity.index +
-	maxnum.chem.onsite +
-	clean.air.act.chems +
-	hap.chems +
-	pbt.chems
-	|
-	year +
-	  facility.id.fe +
-	  border.county.fe +
-	  chemical.id.fe +
-	  chemical.year.fe +
-	  border.county.year,
+did_air <- sdid_releases(
   data = triQc,
+  depvar = "l.total.air.emissions.onsite.intensity",
+  ATT = "sunab(ch.year, year)",
   cluster = ~c(chemical.id, naics.code),
+  fes = tri_fes()
 )
 etable(did_air, agg = "ATT", digits = 3, digits.stats = 3)
 etable(did_air, agg = "cohort", digits = 3, digits.stats = 3)
 
-did_air <- feols(
-  l.total.air.emissions.onsite.intensity ~ sunab(ch.year, year) +
-	gdppc.1 +
-	annual.avg.estabs.1 +
-	cpi.1 +
-	federal.facility +
-	produced.chem.facility +
-	imported.chem.facility +
-	chemical.formulation.component +
-	chemical.article.component +
-	chemical.manufacturing.aid +
-	chemical.ancilliary.use +
-	production.ratio.activity.index +
-	maxnum.chem.onsite +
-	clean.air.act.chems +
-	hap.chems +
-	pbt.chems
-	|
-	year +
-	  facility.id.fe +
-	  border.county.fe +
-	  chemical.id.fe +
-	  chemical.year.fe +
-	  border.county.year,
+did_air <- sdid_releases(
   data = triQc,
+  depvar = "l.total.air.emissions.onsite.intensity",
+  ATT = "sunab(ch.year, year)",
   cluster = ~c(chemical.id, facility.state),
+  fes = tri_fes()
 )
 etable(did_air, agg = "ATT", digits = 3, digits.stats = 3)
 etable(did_air, agg = "cohort", digits = 3, digits.stats = 3)
 
-did_air <- feols(
-  l.total.air.emissions.onsite.intensity ~ sunab(ch.year, year) +
-	gdppc.1 +
-	annual.avg.estabs.1 +
-	cpi.1 +
-	federal.facility +
-	produced.chem.facility +
-	imported.chem.facility +
-	chemical.formulation.component +
-	chemical.article.component +
-	chemical.manufacturing.aid +
-	chemical.ancilliary.use +
-	production.ratio.activity.index +
-	maxnum.chem.onsite +
-	clean.air.act.chems +
-	hap.chems +
-	pbt.chems
-	|
-	year +
-	  facility.id.fe +
-	  border.county.fe +
-	  chemical.id.fe +
-	  chemical.year.fe +
-	  border.county.year,
+did_air <- sdid_releases(
   data = triQc,
+  depvar = "l.total.air.emissions.onsite.intensity",
+  ATT = "sunab(ch.year, year)",
   cluster = ~c(facility.id, facility.state),
+  fes = tri_fes()
 )
 etable(did_air, agg = "ATT", digits = 3, digits.stats = 3)
 etable(did_air, agg = "cohort", digits = 3, digits.stats = 3)
 
-did_air <- feols(
-  l.total.air.emissions.onsite.intensity ~ sunab(ch.year, year) +
-	gdppc.1 +
-	annual.avg.estabs.1 +
-	cpi.1 +
-	federal.facility +
-	produced.chem.facility +
-	imported.chem.facility +
-	chemical.formulation.component +
-	chemical.article.component +
-	chemical.manufacturing.aid +
-	chemical.ancilliary.use +
-	production.ratio.activity.index +
-	maxnum.chem.onsite +
-	clean.air.act.chems +
-	hap.chems +
-	pbt.chems
-	|
-	year +
-	  facility.id.fe +
-	  border.county.fe +
-	  chemical.id.fe +
-	  chemical.year.fe +
-	  border.county.year,
+did_air <- sdid_releases(
   data = triQc,
+  depvar = "l.total.air.emissions.onsite.intensity",
+  ATT = "sunab(ch.year, year)",
   cluster = ~c(naics.code, facility.state),
+  fes = tri_fes()
 )
 etable(did_air, agg = "ATT", digits = 3, digits.stats = 3)
 etable(did_air, agg = "cohort", digits = 3, digits.stats = 3)
 #======================================================================================================================#
 ### Onsite: Total surface water discharge intensity
 #======================================================================================================================#
-did_water_disc <- feols(
-  l.total.surface.water.discharge.onsite.intensity ~ sunab(ch.year, year) +
-	gdppc.1 +
-	annual.avg.estabs.1 +
-	cpi.1 +
-	federal.facility +
-	produced.chem.facility +
-	imported.chem.facility +
-	chemical.formulation.component +
-	chemical.article.component +
-	chemical.manufacturing.aid +
-	chemical.ancilliary.use +
-	production.ratio.activity.index +
-	maxnum.chem.onsite +
-	clean.air.act.chems +
-	hap.chems +
-	pbt.chems
-	|
-	year +
-	  facility.id.fe +
-	  border.county.fe +
-	  chemical.id.fe +
-	  chemical.year.fe +
-	  border.county.year,
+did_water_disc <- sdid_releases(
   data = triQc,
+  depvar = "l.total.surface.water.discharge.onsite.intensity",
+  ATT = "sunab(ch.year, year)",
   cluster = ~facility.id,
+  fes = tri_fes()
 )
 etable(did_water_disc, agg = "ATT", digits = 3, digits.stats = 3)
 etable(did_water_disc, agg = "cohort", digits = 3, digits.stats = 3)
 
-did_water_disc <- feols(
-  l.total.surface.water.discharge.onsite.intensity ~ sunab(ch.year, year) +
-	gdppc.1 +
-	annual.avg.estabs.1 +
-	cpi.1 +
-	federal.facility +
-	produced.chem.facility +
-	imported.chem.facility +
-	chemical.formulation.component +
-	chemical.article.component +
-	chemical.manufacturing.aid +
-	chemical.ancilliary.use +
-	production.ratio.activity.index +
-	maxnum.chem.onsite +
-	clean.air.act.chems +
-	hap.chems +
-	pbt.chems
-	|
-	year +
-	  facility.id.fe +
-	  border.county.fe +
-	  chemical.id.fe +
-	  chemical.year.fe +
-	  border.county.year,
+did_water_disc <- sdid_releases(
   data = triQc,
+  depvar = "l.total.surface.water.discharge.onsite.intensity",
+  ATT = "sunab(ch.year, year)",
   cluster = ~facility.zipcode,
+  fes = tri_fes()
 )
 etable(did_water_disc, agg = "ATT", digits = 3, digits.stats = 3)
 etable(did_water_disc, agg = "cohort", digits = 3, digits.stats = 3)
 
-did_water_disc <- feols(
-  l.total.surface.water.discharge.onsite.intensity ~ sunab(ch.year, year) +
-	gdppc.1 +
-	annual.avg.estabs.1 +
-	cpi.1 +
-	federal.facility +
-	produced.chem.facility +
-	imported.chem.facility +
-	chemical.formulation.component +
-	chemical.article.component +
-	chemical.manufacturing.aid +
-	chemical.ancilliary.use +
-	production.ratio.activity.index +
-	maxnum.chem.onsite +
-	clean.air.act.chems +
-	hap.chems +
-	pbt.chems
-	|
-	year +
-	  facility.id.fe +
-	  border.county.fe +
-	  chemical.id.fe +
-	  chemical.year.fe +
-	  border.county.year,
+did_water_disc <- sdid_releases(
   data = triQc,
+  depvar = "l.total.surface.water.discharge.onsite.intensity",
+  ATT = "sunab(ch.year, year)",
   cluster = ~fips.code,
+  fes = tri_fes()
 )
 etable(did_water_disc, agg = "ATT", digits = 3, digits.stats = 3)
 etable(did_water_disc, agg = "cohort", digits = 3, digits.stats = 3)
 
-did_water_disc <- feols(
-  l.total.surface.water.discharge.onsite.intensity ~ sunab(ch.year, year) +
-	gdppc.1 +
-	annual.avg.estabs.1 +
-	cpi.1 +
-	federal.facility +
-	produced.chem.facility +
-	imported.chem.facility +
-	chemical.formulation.component +
-	chemical.article.component +
-	chemical.manufacturing.aid +
-	chemical.ancilliary.use +
-	production.ratio.activity.index +
-	maxnum.chem.onsite +
-	clean.air.act.chems +
-	hap.chems +
-	pbt.chems
-	|
-	year +
-	  facility.id.fe +
-	  border.county.fe +
-	  chemical.id.fe +
-	  chemical.year.fe +
-	  border.county.year,
+did_water_disc <- sdid_releases(
   data = triQc,
+  depvar = "l.total.surface.water.discharge.onsite.intensity",
+  ATT = "sunab(ch.year, year)",
   cluster = ~naics.code,
+  fes = tri_fes()
 )
 etable(did_water_disc, agg = "ATT", digits = 3, digits.stats = 3)
 etable(did_water_disc, agg = "cohort", digits = 3, digits.stats = 3)
 
-did_water_disc <- feols(
-  l.total.surface.water.discharge.onsite.intensity ~ sunab(ch.year, year) +
-	gdppc.1 +
-	annual.avg.estabs.1 +
-	cpi.1 +
-	federal.facility +
-	produced.chem.facility +
-	imported.chem.facility +
-	chemical.formulation.component +
-	chemical.article.component +
-	chemical.manufacturing.aid +
-	chemical.ancilliary.use +
-	production.ratio.activity.index +
-	maxnum.chem.onsite +
-	clean.air.act.chems +
-	hap.chems +
-	pbt.chems
-	|
-	year +
-	  facility.id.fe +
-	  border.county.fe +
-	  chemical.id.fe +
-	  chemical.year.fe +
-	  border.county.year,
+did_water_disc <- sdid_releases(
   data = triQc,
+  depvar = "l.total.surface.water.discharge.onsite.intensity",
+  ATT = "sunab(ch.year, year)",
   cluster = ~chemical.id,
+  fes = tri_fes()
 )
 etable(did_water_disc, agg = "ATT", digits = 3, digits.stats = 3)
 etable(did_water_disc, agg = "cohort", digits = 3, digits.stats = 3)
 
-did_water_disc <- feols(
-  l.total.surface.water.discharge.onsite.intensity ~ sunab(ch.year, year) +
-	gdppc.1 +
-	annual.avg.estabs.1 +
-	cpi.1 +
-	federal.facility +
-	produced.chem.facility +
-	imported.chem.facility +
-	chemical.formulation.component +
-	chemical.article.component +
-	chemical.manufacturing.aid +
-	chemical.ancilliary.use +
-	production.ratio.activity.index +
-	maxnum.chem.onsite +
-	clean.air.act.chems +
-	hap.chems +
-	pbt.chems
-	|
-	year +
-	  facility.id.fe +
-	  border.county.fe +
-	  chemical.id.fe +
-	  chemical.year.fe +
-	  border.county.year,
+did_water_disc <- sdid_releases(
   data = triQc,
+  depvar = "l.total.surface.water.discharge.onsite.intensity",
+  ATT = "sunab(ch.year, year)",
   cluster = ~facility.state,
+  fes = tri_fes()
 )
 etable(did_water_disc, agg = "ATT", digits = 3, digits.stats = 3)
 etable(did_water_disc, agg = "cohort", digits = 3, digits.stats = 3)
 
-did_water_disc <- feols(
-  l.total.surface.water.discharge.onsite.intensity ~ sunab(ch.year, year) +
-	gdppc.1 +
-	annual.avg.estabs.1 +
-	cpi.1 +
-	federal.facility +
-	produced.chem.facility +
-	imported.chem.facility +
-	chemical.formulation.component +
-	chemical.article.component +
-	chemical.manufacturing.aid +
-	chemical.ancilliary.use +
-	production.ratio.activity.index +
-	maxnum.chem.onsite +
-	clean.air.act.chems +
-	hap.chems +
-	pbt.chems
-	|
-	year +
-	  facility.id.fe +
-	  border.county.fe +
-	  chemical.id.fe +
-	  chemical.year.fe +
-	  border.county.year,
+did_water_disc <- sdid_releases(
   data = triQc,
+  depvar = "l.total.surface.water.discharge.onsite.intensity",
+  ATT = "sunab(ch.year, year)",
   cluster = ~c(facility.id, chemical.id),
+  fes = tri_fes()
 )
 etable(did_water_disc, agg = "ATT", digits = 3, digits.stats = 3)
 etable(did_water_disc, agg = "cohort", digits = 3, digits.stats = 3)
 
-did_water_disc <- feols(
-  l.total.surface.water.discharge.onsite.intensity ~ sunab(ch.year, year) +
-	gdppc.1 +
-	annual.avg.estabs.1 +
-	cpi.1 +
-	federal.facility +
-	produced.chem.facility +
-	imported.chem.facility +
-	chemical.formulation.component +
-	chemical.article.component +
-	chemical.manufacturing.aid +
-	chemical.ancilliary.use +
-	production.ratio.activity.index +
-	maxnum.chem.onsite +
-	clean.air.act.chems +
-	hap.chems +
-	pbt.chems
-	|
-	year +
-	  facility.id.fe +
-	  border.county.fe +
-	  chemical.id.fe +
-	  chemical.year.fe +
-	  border.county.year,
+did_water_disc <- sdid_releases(
   data = triQc,
+  depvar = "l.total.surface.water.discharge.onsite.intensity",
+  ATT = "sunab(ch.year, year)",
   cluster = ~c(facility.id, naics.code),
+  fes = tri_fes()
 )
 etable(did_water_disc, agg = "ATT", digits = 3, digits.stats = 3)
 etable(did_water_disc, agg = "cohort", digits = 3, digits.stats = 3)
 
-did_water_disc <- feols(
-  l.total.surface.water.discharge.onsite.intensity ~ sunab(ch.year, year) +
-	gdppc.1 +
-	annual.avg.estabs.1 +
-	cpi.1 +
-	federal.facility +
-	produced.chem.facility +
-	imported.chem.facility +
-	chemical.formulation.component +
-	chemical.article.component +
-	chemical.manufacturing.aid +
-	chemical.ancilliary.use +
-	production.ratio.activity.index +
-	maxnum.chem.onsite +
-	clean.air.act.chems +
-	hap.chems +
-	pbt.chems
-	|
-	year +
-	  facility.id.fe +
-	  border.county.fe +
-	  chemical.id.fe +
-	  chemical.year.fe +
-	  border.county.year,
+did_water_disc <- sdid_releases(
   data = triQc,
+  depvar = "l.total.surface.water.discharge.onsite.intensity",
+  ATT = "sunab(ch.year, year)",
   cluster = ~c(chemical.id, naics.code),
+  fes = tri_fes()
 )
 etable(did_water_disc, agg = "ATT", digits = 3, digits.stats = 3)
 etable(did_water_disc, agg = "cohort", digits = 3, digits.stats = 3)
 
-did_water_disc <- feols(
-  l.total.surface.water.discharge.onsite.intensity ~ sunab(ch.year, year) +
-	gdppc.1 +
-	annual.avg.estabs.1 +
-	cpi.1 +
-	federal.facility +
-	produced.chem.facility +
-	imported.chem.facility +
-	chemical.formulation.component +
-	chemical.article.component +
-	chemical.manufacturing.aid +
-	chemical.ancilliary.use +
-	production.ratio.activity.index +
-	maxnum.chem.onsite +
-	clean.air.act.chems +
-	hap.chems +
-	pbt.chems
-	|
-	year +
-	  facility.id.fe +
-	  border.county.fe +
-	  chemical.id.fe +
-	  chemical.year.fe +
-	  border.county.year,
+did_water_disc <- sdid_releases(
   data = triQc,
+  depvar = "l.total.surface.water.discharge.onsite.intensity",
+  ATT = "sunab(ch.year, year)",
   cluster = ~c(chemical.id, facility.state),
+  fes = tri_fes()
 )
 etable(did_water_disc, agg = "ATT", digits = 3, digits.stats = 3)
 etable(did_water_disc, agg = "cohort", digits = 3, digits.stats = 3)
 
-did_water_disc <- feols(
-  l.total.surface.water.discharge.onsite.intensity ~ sunab(ch.year, year) +
-	gdppc.1 +
-	annual.avg.estabs.1 +
-	cpi.1 +
-	federal.facility +
-	produced.chem.facility +
-	imported.chem.facility +
-	chemical.formulation.component +
-	chemical.article.component +
-	chemical.manufacturing.aid +
-	chemical.ancilliary.use +
-	production.ratio.activity.index +
-	maxnum.chem.onsite +
-	clean.air.act.chems +
-	hap.chems +
-	pbt.chems
-	|
-	year +
-	  facility.id.fe +
-	  border.county.fe +
-	  chemical.id.fe +
-	  chemical.year.fe +
-	  border.county.year,
+did_water_disc <- sdid_releases(
   data = triQc,
+  depvar = "l.total.surface.water.discharge.onsite.intensity",
+  ATT = "sunab(ch.year, year)",
   cluster = ~c(facility.id, facility.state),
+  fes = tri_fes()
 )
 etable(did_water_disc, agg = "ATT", digits = 3, digits.stats = 3)
 etable(did_water_disc, agg = "cohort", digits = 3, digits.stats = 3)
 
-did_water_disc <- feols(
-  l.total.surface.water.discharge.onsite.intensity ~ sunab(ch.year, year) +
-	gdppc.1 +
-	annual.avg.estabs.1 +
-	cpi.1 +
-	federal.facility +
-	produced.chem.facility +
-	imported.chem.facility +
-	chemical.formulation.component +
-	chemical.article.component +
-	chemical.manufacturing.aid +
-	chemical.ancilliary.use +
-	production.ratio.activity.index +
-	maxnum.chem.onsite +
-	clean.air.act.chems +
-	hap.chems +
-	pbt.chems
-	|
-	year +
-	  facility.id.fe +
-	  border.county.fe +
-	  chemical.id.fe +
-	  chemical.year.fe +
-	  border.county.year,
+did_water_disc <- sdid_releases(
   data = triQc,
+  depvar = "l.total.surface.water.discharge.onsite.intensity",
+  ATT = "sunab(ch.year, year)",
   cluster = ~c(naics.code, facility.state),
+  fes = tri_fes()
 )
 etable(did_water_disc, agg = "ATT", digits = 3, digits.stats = 3)
 etable(did_water_disc, agg = "cohort", digits = 3, digits.stats = 3)
 #======================================================================================================================#
 ### Onsite: Total land releases intensity
 #======================================================================================================================#
-did_land_releases <- feols(
-  l.total.land.releases.onsite.intensity ~ sunab(ch.year, year) +
-	gdppc.1 +
-	annual.avg.estabs.1 +
-	cpi.1 +
-	federal.facility +
-	produced.chem.facility +
-	imported.chem.facility +
-	chemical.formulation.component +
-	chemical.article.component +
-	chemical.manufacturing.aid +
-	chemical.ancilliary.use +
-	production.ratio.activity.index +
-	maxnum.chem.onsite +
-	clean.air.act.chems +
-	hap.chems +
-	pbt.chems
-	|
-	year +
-	  facility.id.fe +
-	  border.county.fe +
-	  chemical.id.fe +
-	  chemical.year.fe +
-	  border.county.year,
+did_land_releases <- sdid_releases(
   data = triQc,
+  depvar = "l.total.land.releases.onsite.intensity",
+  ATT = "sunab(ch.year, year)",
   cluster = ~facility.id,
+  fes = tri_fes()
 )
 etable(did_land_releases, agg = "ATT", digits = 3, digits.stats = 3)
 etable(did_land_releases, agg = "cohort", digits = 3, digits.stats = 3)
 
-did_land_releases <- feols(
-  l.total.land.releases.onsite.intensity ~ sunab(ch.year, year) +
-	gdppc.1 +
-	annual.avg.estabs.1 +
-	cpi.1 +
-	federal.facility +
-	produced.chem.facility +
-	imported.chem.facility +
-	chemical.formulation.component +
-	chemical.article.component +
-	chemical.manufacturing.aid +
-	chemical.ancilliary.use +
-	production.ratio.activity.index +
-	maxnum.chem.onsite +
-	clean.air.act.chems +
-	hap.chems +
-	pbt.chems
-	|
-	year +
-	  facility.id.fe +
-	  border.county.fe +
-	  chemical.id.fe +
-	  chemical.year.fe +
-	  border.county.year,
+did_land_releases <- sdid_releases(
   data = triQc,
+  depvar = "l.total.land.releases.onsite.intensity",
+  ATT = "sunab(ch.year, year)",
   cluster = ~facility.zipcode,
+  fes = tri_fes()
 )
 etable(did_land_releases, agg = "ATT", digits = 3, digits.stats = 3)
 etable(did_land_releases, agg = "cohort", digits = 3, digits.stats = 3)
 
-did_land_releases <- feols(
-  l.total.land.releases.onsite.intensity ~ sunab(ch.year, year) +
-	gdppc.1 +
-	annual.avg.estabs.1 +
-	cpi.1 +
-	federal.facility +
-	produced.chem.facility +
-	imported.chem.facility +
-	chemical.formulation.component +
-	chemical.article.component +
-	chemical.manufacturing.aid +
-	chemical.ancilliary.use +
-	production.ratio.activity.index +
-	maxnum.chem.onsite +
-	clean.air.act.chems +
-	hap.chems +
-	pbt.chems
-	|
-	year +
-	  facility.id.fe +
-	  border.county.fe +
-	  chemical.id.fe +
-	  chemical.year.fe +
-	  border.county.year,
+did_land_releases <- sdid_releases(
   data = triQc,
+  depvar = "l.total.land.releases.onsite.intensity",
+  ATT = "sunab(ch.year, year)",
   cluster = ~fips.code,
+  fes = tri_fes()
 )
 etable(did_land_releases, agg = "ATT", digits = 3, digits.stats = 3)
 etable(did_land_releases, agg = "cohort", digits = 3, digits.stats = 3)
 
-did_land_releases <- feols(
-  l.total.land.releases.onsite.intensity ~ sunab(ch.year, year) +
-	gdppc.1 +
-	annual.avg.estabs.1 +
-	cpi.1 +
-	federal.facility +
-	produced.chem.facility +
-	imported.chem.facility +
-	chemical.formulation.component +
-	chemical.article.component +
-	chemical.manufacturing.aid +
-	chemical.ancilliary.use +
-	production.ratio.activity.index +
-	maxnum.chem.onsite +
-	clean.air.act.chems +
-	hap.chems +
-	pbt.chems
-	|
-	year +
-	  facility.id.fe +
-	  border.county.fe +
-	  chemical.id.fe +
-	  chemical.year.fe +
-	  border.county.year,
+did_land_releases <- sdid_releases(
   data = triQc,
+  depvar = "l.total.land.releases.onsite.intensity",
+  ATT = "sunab(ch.year, year)",
   cluster = ~naics.code,
+  fes = tri_fes()
 )
 etable(did_land_releases, agg = "ATT", digits = 3, digits.stats = 3)
 etable(did_land_releases, agg = "cohort", digits = 3, digits.stats = 3)
 
-did_land_releases <- feols(
-  l.total.land.releases.onsite.intensity ~ sunab(ch.year, year) +
-	gdppc.1 +
-	annual.avg.estabs.1 +
-	cpi.1 +
-	federal.facility +
-	produced.chem.facility +
-	imported.chem.facility +
-	chemical.formulation.component +
-	chemical.article.component +
-	chemical.manufacturing.aid +
-	chemical.ancilliary.use +
-	production.ratio.activity.index +
-	maxnum.chem.onsite +
-	clean.air.act.chems +
-	hap.chems +
-	pbt.chems
-	|
-	year +
-	  facility.id.fe +
-	  border.county.fe +
-	  chemical.id.fe +
-	  chemical.year.fe +
-	  border.county.year,
+did_land_releases <- sdid_releases(
   data = triQc,
+  depvar = "l.total.land.releases.onsite.intensity",
+  ATT = "sunab(ch.year, year)",
   cluster = ~chemical.id,
+  fes = tri_fes()
 )
 etable(did_land_releases, agg = "ATT", digits = 3, digits.stats = 3)
 etable(did_land_releases, agg = "cohort", digits = 3, digits.stats = 3)
 
-did_land_releases <- feols(
-  l.total.land.releases.onsite.intensity ~ sunab(ch.year, year) +
-	gdppc.1 +
-	annual.avg.estabs.1 +
-	cpi.1 +
-	federal.facility +
-	produced.chem.facility +
-	imported.chem.facility +
-	chemical.formulation.component +
-	chemical.article.component +
-	chemical.manufacturing.aid +
-	chemical.ancilliary.use +
-	production.ratio.activity.index +
-	maxnum.chem.onsite +
-	clean.air.act.chems +
-	hap.chems +
-	pbt.chems
-	|
-	year +
-	  facility.id.fe +
-	  border.county.fe +
-	  chemical.id.fe +
-	  chemical.year.fe +
-	  border.county.year,
+did_land_releases <- sdid_releases(
   data = triQc,
+  depvar = "l.total.land.releases.onsite.intensity",
+  ATT = "sunab(ch.year, year)",
   cluster = ~facility.state,
+  fes = tri_fes()
 )
 etable(did_land_releases, agg = "ATT", digits = 3, digits.stats = 3)
 etable(did_land_releases, agg = "cohort", digits = 3, digits.stats = 3)
 
-did_land_releases <- feols(
-  l.total.land.releases.onsite.intensity ~ sunab(ch.year, year) +
-	gdppc.1 +
-	annual.avg.estabs.1 +
-	cpi.1 +
-	federal.facility +
-	produced.chem.facility +
-	imported.chem.facility +
-	chemical.formulation.component +
-	chemical.article.component +
-	chemical.manufacturing.aid +
-	chemical.ancilliary.use +
-	production.ratio.activity.index +
-	maxnum.chem.onsite +
-	clean.air.act.chems +
-	hap.chems +
-	pbt.chems
-	|
-	year +
-	  facility.id.fe +
-	  border.county.fe +
-	  chemical.id.fe +
-	  chemical.year.fe +
-	  border.county.year,
+did_land_releases <- sdid_releases(
   data = triQc,
+  depvar = "l.total.land.releases.onsite.intensity",
+  ATT = "sunab(ch.year, year)",
   cluster = ~c(facility.id, chemical.id),
+  fes = tri_fes()
 )
 etable(did_land_releases, agg = "ATT", digits = 3, digits.stats = 3)
 etable(did_land_releases, agg = "cohort", digits = 3, digits.stats = 3)
 
-did_land_releases <- feols(
-  l.total.land.releases.onsite.intensity ~ sunab(ch.year, year) +
-	gdppc.1 +
-	annual.avg.estabs.1 +
-	cpi.1 +
-	federal.facility +
-	produced.chem.facility +
-	imported.chem.facility +
-	chemical.formulation.component +
-	chemical.article.component +
-	chemical.manufacturing.aid +
-	chemical.ancilliary.use +
-	production.ratio.activity.index +
-	maxnum.chem.onsite +
-	clean.air.act.chems +
-	hap.chems +
-	pbt.chems
-	|
-	year +
-	  facility.id.fe +
-	  border.county.fe +
-	  chemical.id.fe +
-	  chemical.year.fe +
-	  border.county.year,
+did_land_releases <- sdid_releases(
   data = triQc,
+  depvar = "l.total.land.releases.onsite.intensity",
+  ATT = "sunab(ch.year, year)",
   cluster = ~c(facility.id, naics.code),
+  fes = tri_fes()
 )
 etable(did_land_releases, agg = "ATT", digits = 3, digits.stats = 3)
 etable(did_land_releases, agg = "cohort", digits = 3, digits.stats = 3)
 
-did_land_releases <- feols(
-  l.total.land.releases.onsite.intensity ~ sunab(ch.year, year) +
-	gdppc.1 +
-	annual.avg.estabs.1 +
-	cpi.1 +
-	federal.facility +
-	produced.chem.facility +
-	imported.chem.facility +
-	chemical.formulation.component +
-	chemical.article.component +
-	chemical.manufacturing.aid +
-	chemical.ancilliary.use +
-	production.ratio.activity.index +
-	maxnum.chem.onsite +
-	clean.air.act.chems +
-	hap.chems +
-	pbt.chems
-	|
-	year +
-	  facility.id.fe +
-	  border.county.fe +
-	  chemical.id.fe +
-	  chemical.year.fe +
-	  border.county.year,
+did_land_releases <- sdid_releases(
   data = triQc,
+  depvar = "l.total.land.releases.onsite.intensity",
+  ATT = "sunab(ch.year, year)",
   cluster = ~c(chemical.id, naics.code),
+  fes = tri_fes()
 )
 etable(did_land_releases, agg = "ATT", digits = 3, digits.stats = 3)
 etable(did_land_releases, agg = "cohort", digits = 3, digits.stats = 3)
 
-did_land_releases <- feols(
-  l.total.land.releases.onsite.intensity ~ sunab(ch.year, year) +
-	gdppc.1 +
-	annual.avg.estabs.1 +
-	cpi.1 +
-	federal.facility +
-	produced.chem.facility +
-	imported.chem.facility +
-	chemical.formulation.component +
-	chemical.article.component +
-	chemical.manufacturing.aid +
-	chemical.ancilliary.use +
-	production.ratio.activity.index +
-	maxnum.chem.onsite +
-	clean.air.act.chems +
-	hap.chems +
-	pbt.chems
-	|
-	year +
-	  facility.id.fe +
-	  border.county.fe +
-	  chemical.id.fe +
-	  chemical.year.fe +
-	  border.county.year,
+did_land_releases <- sdid_releases(
   data = triQc,
+  depvar = "l.total.land.releases.onsite.intensity",
+  ATT = "sunab(ch.year, year)",
   cluster = ~c(chemical.id, facility.state),
+  fes = tri_fes()
 )
 etable(did_land_releases, agg = "ATT", digits = 3, digits.stats = 3)
 etable(did_land_releases, agg = "cohort", digits = 3, digits.stats = 3)
 
-did_land_releases <- feols(
-  l.total.land.releases.onsite.intensity ~ sunab(ch.year, year) +
-	gdppc.1 +
-	annual.avg.estabs.1 +
-	cpi.1 +
-	federal.facility +
-	produced.chem.facility +
-	imported.chem.facility +
-	chemical.formulation.component +
-	chemical.article.component +
-	chemical.manufacturing.aid +
-	chemical.ancilliary.use +
-	production.ratio.activity.index +
-	maxnum.chem.onsite +
-	clean.air.act.chems +
-	hap.chems +
-	pbt.chems
-	|
-	year +
-	  facility.id.fe +
-	  border.county.fe +
-	  chemical.id.fe +
-	  chemical.year.fe +
-	  border.county.year,
+did_land_releases <- sdid_releases(
   data = triQc,
+  depvar = "l.total.land.releases.onsite.intensity",
+  ATT = "sunab(ch.year, year)",
   cluster = ~c(facility.id, facility.state),
+  fes = tri_fes()
 )
 etable(did_land_releases, agg = "ATT", digits = 3, digits.stats = 3)
 etable(did_land_releases, agg = "cohort", digits = 3, digits.stats = 3)
 
-did_land_releases <- feols(
-  l.total.land.releases.onsite.intensity ~ sunab(ch.year, year) +
-	gdppc.1 +
-	annual.avg.estabs.1 +
-	cpi.1 +
-	federal.facility +
-	produced.chem.facility +
-	imported.chem.facility +
-	chemical.formulation.component +
-	chemical.article.component +
-	chemical.manufacturing.aid +
-	chemical.ancilliary.use +
-	production.ratio.activity.index +
-	maxnum.chem.onsite +
-	clean.air.act.chems +
-	hap.chems +
-	pbt.chems
-	|
-	year +
-	  facility.id.fe +
-	  border.county.fe +
-	  chemical.id.fe +
-	  chemical.year.fe +
-	  border.county.year,
+did_land_releases <- sdid_releases(
   data = triQc,
+  depvar = "l.total.land.releases.onsite.intensity",
+  ATT = "sunab(ch.year, year)",
   cluster = ~c(naics.code, facility.state),
+  fes = tri_fes()
 )
 etable(did_land_releases, agg = "ATT", digits = 3, digits.stats = 3)
 etable(did_land_releases, agg = "cohort", digits = 3, digits.stats = 3)

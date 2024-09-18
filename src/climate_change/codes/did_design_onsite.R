@@ -122,10 +122,8 @@ triQc <- triQc %>%
 		comment.text == "Transitioned from use of two fossil fuel (#6 oil) boilers to a biomass gasification unit" |
 		comment.text == "Replaced Coal boiler with natural gas boiler." |
 		comment.text == "Replaced Coal fired boiler with natural gas boiler" |
-		comment.text == "Switched from #6 Fuel Oil to Natural Gas fired boilerInitiated work to eventually substitute
-		less toxic colorant for lead containing colorant" |
-		comment.text == "Switched from burning coal in winter to only natural gas.  Coal combustion was responsible
-		for the coincidental manufacturing of chromium compounds." |
+		comment.text == "Switched from #6 Fuel Oil to Natural Gas fired boilerInitiated work to eventually substitute less toxic colorant for lead containing colorant" |
+		comment.text == "Switched from burning coal in winter to only natural gas.  Coal combustion was responsible for the coincidental manufacturing of chromium compounds." |
 		comment.text == "Switched over from coal burning (winter) to only natural gas." |
 		comment.text == "Switched to natural gas in 2011.  Did not use #6 fuel oil in RY 2013." ~ 1, T ~ 0
 	),
@@ -137,13 +135,8 @@ triQc <- triQc %>%
 	  classification == "Source Reduction" &
 		# chemical.ancilliary.use == 1 &
 		# chemical.manufacturing.aid == 1 &
-		comment.text == "Reduction of on hand chemicals aided in avoiding material expiration contributing to waste.
-		Continue to tighten operational controls and extend chemical usage life to reduce generation of waste." |
-		comment.text == "In 2009 we replaced our thermal oxidizer to a more efficient unit.  It has both increased our
-		 capture and detruction efficiencies as well as reduced our consumption of natural gas in our manufacturing
-		 processes.  Though our processes require the use of chemical processing aids, we are truly committed to
-		 source reduction and minimizing our emissions and waste wherever possible via employee suggestion and support
-		  from our vendor base." |
+		comment.text == "Reduction of on hand chemicals aided in avoiding material expiration contributing to waste.  Continue to tighten operational controls and extend chemical usage life to reduce generation of waste." |
+		comment.text == "In 2009 we replaced our thermal oxidizer to a more efficient unit.  It has both increased our capture and detruction efficiencies as well as reduced our consumption of natural gas in our manufacturing processes.  Though our processes require the use of chemical processing aids, we are truly committed to source reduction and minimizing our emissions and waste wherever possible via employee suggestion and support from our vendor base." |
 		comment.text == "Reduce the amount of Chemical as a processing aid in the formulations of the product"
 		~ 1, T ~ 0
 	),
@@ -236,13 +229,11 @@ triQc <- triQc %>%
 	),
 	intro.inline.productquality.process.analysis.opt = case_when(
 	  classification == "Source Reduction" &
-		comment.type.description == "W15 - Introduced an in-line product quality monitoring or other process analysis
-		system" ~ 1, T ~ 0
+		comment.type.description == "W15 - Introduced an in-line product quality monitoring or other process analysis system" ~ 1, T ~ 0
 	),
 	changed.production.schedule.opt = case_when(
 	  classification == "Source Reduction" &
-		comment.type.description == "W14 - Changed production schedule to minimize equipment and feedstock
-		changeovers" ~ 1, T ~ 0
+		comment.type.description == "W14 - Changed production schedule to minimize equipment and feedstock changeovers" ~ 1, T ~ 0
 	),
 	operating.practices.training = case_when(
 	  classification == "Source Reduction" &
@@ -294,8 +285,7 @@ triQc <- triQc %>%
 	),
 	impl.inspection.monitoring.leak.spill.immgt = case_when(
 	  classification == "Source Reduction" &
-		comment.type.description == "W36 - Implemented inspection or monitoring program of potential spill or leak
-		sources"
+		comment.type.description == "W36 - Implemented inspection or monitoring program of potential spill or leak sources"
 		~ 1, T ~ 0
 	),
 	modified.containment.procedures.cleaning.unit.immgt = case_when(
@@ -308,17 +298,13 @@ triQc <- triQc %>%
 	  grepl(pattern = "waste water treatment", x = comment.text, ignore.case = T) ~ 1, T ~ 0
 	),
 	recycling.dummy = case_when(comment.type.description == "Recycling" ~ 1, T ~ 0),
-	req.spec.technique = case_when(comment.type.description == "B2 - Require technical information on pollution
-	prevention techniques applicable to specific production processes." ~ 1, T ~ 0),
-	unsuccessful.sra = case_when(comment.type.description == "B4 - Source reduction activities were implemented but
-	were unsuccessful." ~ 1, T ~ 0),
+	req.spec.technique = case_when(comment.type.description == "B2 - Require technical information on pollution prevention techniques applicable to specific production processes." ~ 1, T ~ 0),
+	unsuccessful.sra = case_when(comment.type.description == "B4 - Source reduction activities were implemented but were unsuccessful." ~ 1, T ~ 0),
 	reg.permits = case_when(comment.type.description == "B5 - Specific regulatory/permit burdens." ~ 1, T ~ 0),
-	no.add.reduction = case_when(comment.type.description == "B6 - Pollution prevention previously implemented -
-	additional reduction does not appear technically or economically feas" ~ 1, T ~ 0),
+	no.add.reduction = case_when(comment.type.description == "B6 - Pollution prevention previously implemented - additional reduction does not appear technically or economically feas" ~ 1, T ~ 0),
 	no.sub.tech = case_when(comment.type.description == "B7 - No known substitutes or alternative technologies." ~ 1,
 							T ~ 0),
-	no.feas.reduction = case_when(comment.type.description == "B8 - A reduction does not appear to be technically
-	feasible" ~ 1, T ~ 0),
+	no.feas.reduction = case_when(comment.type.description == "B8 - A reduction does not appear to be technically feasible" ~ 1, T ~ 0),
   ) %>%
   select(-c(pfas.chems, elemental.metal.included, chemical.intermediate.uses))
 
@@ -626,419 +612,242 @@ triQc <- triQc %>%
 	waste.water.treatment = as.numeric(waste.water.treatment),
   )
 glimpse(triQc)
-#======================================================================================================================#
-### Facility-level aggregation---Onsite
-#======================================================================================================================#
-# library(collapse)
-# triQf <- triQc %>%
-#   collap(
-#     X = .,
-#     by = ~
-#       year +
-#         # facility.id +
-#         facility.zipcode +
-#         facility.city +
-#         fips_code +
-#         facility.county +
-#         facility.state +
-#         state +
-#         lat +
-#         long +
-#         zip.length +
-#         naics.code +
-#         industry.name +
-#         chemical.id +
-#         chemical.name +
-#         chemical.classification +
-#         unit.of.measure +
-#         total.fug.air.emissions.onsite +
-#         total.point.air.emissions.onsite +
-#         total.air.emissions.onsite +
-#         total.num.receiving.streams.onsite +
-#         total.surface.water.discharge.onsite +
-#         total.underground.injection.I.wells.onsite +
-#         total.underground.injection.I.IV.wells.onsite +
-#         total.underground.injection.onsite +
-#         total.landfills.onsite +
-#         total.releases.toland.treatment.onsite +
-#         total.surface.impoundment.onsite +
-#         total.land.releases.other.onsite +
-#         total.land.releases.onsite +
-#         total.releases.onsite +
-#         energy.recovery.onsite +
-#         industrial.kiln.onsite +
-#         industrial.furnace.onsite +
-#         industrial.boiler.onsite +
-#         recycling.onsite +
-#         metal.recovery.onsite +
-#         solvent.recovery.onsite +
-#         reuse.onsite +
-#         biological.treatment.onsite +
-#         chemical.treatment.onsite +
-#         incineration.thermal.treatment.onsite +
-#         physical.treatment.onsite +
-#         material.subandmod +
-#         produced.chem.facility +
-#         imported.chem.facility +
-#         pi.chem.facility +
-#         treatment.onsite +
-#         air.emissions.treatment.onsite +
-#         total.waste.management.onsite +
-#         sub.fuel.matsubmod +
-#         sub.organic.solvent.matsubmod +
-#         sub.rawm.feedstock.reactchem.matsubmod +
-#         sub.manu.proccess.ancilliary.chems.matsubmod +
-#         mod.content.grade.purity.chems.matsubmod +
-#         other.matmods.matsubmod +
-#         product.modification +
-#         devd.newproductline.pmod +
-#         alt.dim.comp.design.pmod +
-#         mod.packaging.pmod +
-#         other.pmods.pmod +
-#         process.equip.modification +
-#         optimised.process.efficiency.pequipmod +
-#         recirculationinprocess.pequipmod +
-#         newtech.technique.process.pequipmod +
-#         equipment.upgrade.update.pequipmod +
-#         other.pequipmods.pequipmod +
-#         inventory.material.mgt +
-#         better.labelling.testing.immgt +
-#         containers.sizechange.immgt +
-#         improved.materialhandling.operations.immgt +
-#         improved.monitoring.immgt +
-#         operating.practices.training +
-#         improved.schdule.operation.procedures.opt +
-#         changed.production.schedule.opt +
-#         intro.inline.productquality.process.analysis.opt +
-#         maxnum.chem.onsite +
-#         trade.secret +
-#         sanitised +
-#         entire.facility +
-#         federal.facility +
-#         govt.owned.facility +
-#         elemental.metal.included +
-#         clean.air.act.chems +
-#         carcinogenic.chems +
-#         metal.restrict.tri +
-#         production.ratio.activity.index +
-#         chemical.intermediate.uses +
-#         chemical.formulation.component +
-#         chemical.article.component +
-#         chemical.manufacturing.aid +
-#         chemical.ancilliary.use +
-#         cpi +
-#         personal_income +
-#         gdp +
-#         compensation_to_employees +
-#         bea_unit +
-#         regional_price_parity +
-#         bea_rpp_unit +
-#         own_code +
-#         annual_avg_estabs +
-#         annual_avg_emplvl +
-#         total_annual_wages +
-#         taxable_annual_wages +
-#         annual_contributions +
-#         annual_avg_wkly_wage +
-#         avg_annual_pay +
-#         emp +
-#         pay +
-#         prode +
-#         prodh +
-#         prodw +
-#         vship +
-#         matcost +
-#         output +
-#         invest +
-#         invent +
-#         energy +
-#         cap +
-#         equip +
-#         plant +
-#         tfp4 +
-#         tfp5 +
-#         population +
-#         treated +
-#         treated.match +
-#         control.match +
-#         overlap +
-#         state.border.id +
-#         treated.cluster.name +
-#         control.cluster.name +
-#         treated.cluster.id +
-#         control.cluster.id +
-#         cbcp.id +
-#         treated.cluster.population +
-#         control.cluster.population +
-#         treated.cluster.lat +
-#         treated.cluster.long +
-#         control.cluster.lat +
-#         control.cluster.long +
-#         ch.year +
-#         ch.amt +
-#         sum2.sub.mw.ch +
-#         start.mw +
-#         end.mw +
-#         match.ch.amt +
-#         match.ch.year +
-#         dist.to.border
-#     ,
-#     na.rm = T,
-#     FUN = fsum,
-#     catFUN = fmode,
-#     keep.col.order = T,
-#     return = "long"
-#   ) %>%
-#   select(-c(Function, facility.id))
-#
-# triQf <- triQf[complete.cases(triQf),]
-# sum(is.na(triQf))
-# sort(unique(triQf$year))
-# sort(unique(triQf$state))
-# sort(unique(triQf$chemical.name))
-# n_distinct(triQf$state)
-# n_distinct(triQf$facility.id)
-# n_distinct(triQf$facility.zipcode)
-# n_distinct(triQf$facility.city)
-# n_distinct(triQf$fips_code)
-# n_distinct(triQf$facility.county)
-# n_distinct(triQf$chemical.name)
-# n_distinct(triQf$naics.code)
-# n_distinct(triQf$industry.name)
+# TODO: Collapse the triQc to the state level
 #======================================================================================================================#
 ### For the state-level analysis---Onsite
 ### Collapse triQc to state level
 #======================================================================================================================#
-# library(collapse)
-# triQs <- triQc %>%
-#   collap(
-#     X = .,
-#     by = ~
-#       year +
-#         facility.id +
-#         facility.zipcode +
-#         zip.length +
-#         fips_code +
-#         facility.state +
-#         state +
-#         naics.code +
-#         industry.name +
-#         chemical.id +
-#         chemical.name +
-#         chemical.classification +
-#         unit.of.measure +
-#         total.fug.air.emissions.onsite +
-#         total.point.air.emissions.onsite +
-#         total.air.emissions.onsite +
-#         total.num.receiving.streams.onsite +
-#         total.surface.water.discharge.onsite +
-#         total.underground.injection.I.wells.onsite +
-#         total.underground.injection.I.IV.wells.onsite +
-#         total.underground.injection.onsite +
-#         total.landfills.onsite +
-#         total.releases.toland.treatment.onsite +
-#         total.surface.impoundment.onsite +
-#         total.land.releases.other.onsite +
-#         total.land.releases.onsite +
-#         total.releases.onsite +
-#         energy.recovery.onsite +
-#         industrial.kiln.onsite +
-#         industrial.furnace.onsite +
-#         industrial.boiler.onsite +
-#         recycling.onsite +
-#         metal.recovery.onsite +
-#         solvent.recovery.onsite +
-#         reuse.onsite +
-#         biological.treatment.onsite +
-#         chemical.treatment.onsite +
-#         incineration.thermal.treatment.onsite +
-#         physical.treatment.onsite +
-#         material.subandmod +
-#         produced.chem.facility +
-#         imported.chem.facility +
-#         pi.chem.facility +
-#         treatment.onsite +
-#         air.emissions.treatment.onsite +
-#         total.waste.management.onsite +
-#         sub.fuel.matsubmod +
-#         sub.organic.solvent.matsubmod +
-#         sub.rawm.feedstock.reactchem.matsubmod +
-#         sub.manu.proccess.ancilliary.chems.matsubmod +
-#         mod.content.grade.purity.chems.matsubmod +
-#         other.matmods.matsubmod +
-#         product.modification +
-#         devd.newproductline.pmod +
-#         # alt.dim.comp.design.pmod +
-#         mod.packaging.pmod +
-#         other.pmods.pmod +
-#         process.equip.modification +
-#         optimised.process.efficiency.pequipmod +
-#         recirculationinprocess.pequipmod +
-#         newtech.technique.process.pequipmod +
-#         # equipment.upgrade.update.pequipmod +
-#         other.pequipmods.pequipmod +
-#         inventory.material.mgt +
-#         better.labelling.testing.immgt +
-#         containers.sizechange.immgt +
-#         improved.materialhandling.operations.immgt +
-#         improved.monitoring.immgt +
-#         operating.practices.training +
-#         improved.schdule.operation.procedures.opt +
-#         changed.production.schedule.opt +
-#         intro.inline.productquality.process.analysis.opt +
-#         maxnum.chem.onsite +
-#         trade.secret +
-#         sanitised +
-#         entire.facility +
-#         private.facility +
-#         federal.facility +
-#         govt.owned.facility +
-#         # elemental.metal.included +
-#         clean.air.act.chems +
-#         carcinogenic.chems +
-#         metal.restrict.tri +
-#         production.ratio.activity.index +
-#         # chemical.intermediate.uses +
-#         chemical.formulation.component +
-#         chemical.article.component +
-#         chemical.manufacturing.aid +
-#         chemical.ancilliary.use +
-#         source.reduction +
-#         r.and.d +
-#         waste.water.treatment +
-#         recycling.dummy +
-#         cpi +
-#         personal_income +
-#         gdp +
-#         compensation_to_employees +
-#         bea_unit +
-#         regional_price_parity +
-#         bea_rpp_unit +
-#         own_code +
-#         annual_avg_estabs +
-#         annual_avg_emplvl +
-#         total_annual_wages +
-#         taxable_annual_wages +
-#         annual_contributions +
-#         annual_avg_wkly_wage +
-#         avg_annual_pay +
-#         emp +
-#         pay +
-#         prode +
-#         prodh +
-#         prodw +
-#         vship +
-#         matcost +
-#         output +
-#         invest +
-#         invent +
-#         energy +
-#         cap +
-#         equip +
-#         plant +
-#         tfp4 +
-#         tfp5 +
-#         population +
-#         treated +
-#         treated.match +
-#         control.match +
-#         # treated.cluster.name +
-#         # treated.cluster.id +
-#         # control.cluster.name +
-#         # control.cluster.id +
-#         # cbcp.id +
-#         # treated.cluster.population +
-#         # control.cluster.population +
-#         # treated.cluster.lat +
-#         # treated.cluster.long +
-#         # control.cluster.lat +
-#         # control.cluster.long +
-#         overlap +
-#         state.border.id +
-#         ch.year +
-#         ch.amt +
-#         sum2.sub.mw.ch +
-#         tot.ch.amt +
-#         start.mw +
-#         end.mw +
-#         match.ch.amt +
-#         match.ch.year +
-#         dist.to.border
-#     ,
-#     na.rm = T,
-#     FUN = fsum,
-#     catFUN = fmode,
-#     keep.col.order = T,
-#     return = "long"
-#   ) %>%
-#   select(
-#     -c(Function, facility.city:facility.county, lat, long, treated.cluster.name:cbcp.id,
-#        treated.cluster.lat:control.cluster.long, treated.cluster.population, control.cluster.population
-#     )
-#   ) %>%
-#   mutate(
-#     industrial.kiln.onsite = as.numeric(industrial.kiln.onsite),
-#     industrial.furnace.onsite = as.numeric(industrial.furnace.onsite),
-#     industrial.boiler.onsite = as.numeric(industrial.boiler.onsite),
-#     metal.recovery.onsite = as.numeric(metal.recovery.onsite),
-#     solvent.recovery.onsite = as.numeric(solvent.recovery.onsite),
-#     reuse.onsite = as.numeric(reuse.onsite),
-#     biological.treatment.onsite = as.numeric(biological.treatment.onsite),
-#     chemical.treatment.onsite = as.numeric(chemical.treatment.onsite),
-#     incineration.thermal.treatment.onsite = as.numeric(incineration.thermal.treatment.onsite),
-#     physical.treatment.onsite = as.numeric(physical.treatment.onsite),
-#     material.subandmod = as.numeric(material.subandmod),
-#     sub.fuel.matsubmod = as.numeric(sub.fuel.matsubmod),
-#     sub.organic.solvent.matsubmod = as.numeric(sub.organic.solvent.matsubmod),
-#     sub.rawm.feedstock.reactchem.matsubmod = as.numeric(sub.rawm.feedstock.reactchem.matsubmod),
-#     sub.manu.proccess.ancilliary.chems.matsubmod = as.numeric(sub.manu.proccess.ancilliary.chems.matsubmod),
-#     mod.content.grade.purity.chems.matsubmod = as.numeric(mod.content.grade.purity.chems.matsubmod),
-#     other.matmods.matsubmod = as.numeric(other.matmods.matsubmod),
-#     product.modification = as.numeric(product.modification),
-#     devd.newproductline.pmod = as.numeric(devd.newproductline.pmod),
-#     # alt.dim.comp.design.pmod = as.numeric(alt.dim.comp.design.pmod),
-#     mod.packaging.pmod = as.numeric(mod.packaging.pmod),
-#     other.pmods.pmod = as.numeric(other.pmods.pmod),
-#     process.equip.modification = as.numeric(process.equip.modification),
-#     optimised.process.efficiency.pequipmod = as.numeric(optimised.process.efficiency.pequipmod),
-#     recirculationinprocess.pequipmod = as.numeric(recirculationinprocess.pequipmod),
-#     newtech.technique.process.pequipmod = as.numeric(newtech.technique.process.pequipmod),
-#     # equipment.upgrade.update.pequipmod = as.numeric(equipment.upgrade.update.pequipmod),
-#     other.pequipmods.pequipmod = as.numeric(other.pequipmods.pequipmod),
-#     inventory.material.mgt = as.numeric(inventory.material.mgt),
-#     better.labelling.testing.immgt = as.numeric(better.labelling.testing.immgt),
-#     containers.sizechange.immgt = as.numeric(containers.sizechange.immgt),
-#     improved.materialhandling.operations.immgt = as.numeric(improved.materialhandling.operations.immgt),
-#     improved.monitoring.immgt = as.numeric(improved.monitoring.immgt),
-#     operating.practices.training = as.numeric(operating.practices.training),
-#     improved.schdule.operation.procedures.opt = as.numeric(improved.schdule.operation.procedures.opt),
-#     changed.production.schedule.opt = as.numeric(changed.production.schedule.opt),
-#     intro.inline.productquality.process.analysis.opt = as.numeric(intro.inline.productquality.process.analysis.opt),
-#     trade.secret = as.numeric(trade.secret),
-#     sanitised = as.numeric(sanitised),
-#     entire.facility = as.numeric(entire.facility),
-#     federal.facility = as.numeric(federal.facility),
-#     govt.owned.facility = as.numeric(govt.owned.facility),
-#     # elemental.metal.included = as.numeric(elemental.metal.included),
-#     clean.air.act.chems = as.numeric(clean.air.act.chems),
-#     carcinogenic.chems = as.numeric(carcinogenic.chems),
-#     metal.restrict.tri = as.numeric(metal.restrict.tri),
-#     produced.chem.facility = as.numeric(produced.chem.facility),
-#     imported.chem.facility = as.numeric(imported.chem.facility),
-#     pi.chem.facility = as.numeric(pi.chem.facility),
-#     # chemical.intermediate.uses = as.numeric(chemical.intermediate.uses),
-#     chemical.formulation.component = as.numeric(chemical.formulation.component),
-#     chemical.article.component = as.numeric(chemical.article.component),
-#     chemical.manufacturing.aid = as.numeric(chemical.manufacturing.aid),
-#     chemical.ancilliary.use = as.numeric(chemical.ancilliary.use),
-#     r.and.d = as.numeric(r.and.d),
-#     waste.water.treatment = as.numeric(waste.water.treatment),
-#     recycling.dummy = as.numeric(recycling.dummy),
-#   )
-#
-# sum(is.na(triQs))
-# # na_columns <- colnames(triQs)[colSums(is.na(triQs)) > 0]
-# sort(unique(triQs$year))
+library(collapse)
+triQs <- triQc %>%
+  rename(output = vadd) %>%
+  collap(
+	X = .,
+	by = ~
+	  year +
+		# facility.id +
+		# facility.zipcode +
+		# zip.length +
+		# fips_code +
+		facility.state +
+		state +
+		naics.code +
+		industry.name +
+		chemical.id +
+		chemical.name +
+		chemical.classification +
+		unit.of.measure +
+		total.fug.air.emissions.onsite +
+		total.point.air.emissions.onsite +
+		total.air.emissions.onsite +
+		total.num.receiving.streams.onsite +
+		total.surface.water.discharge.onsite +
+		total.underground.injection.I.wells.onsite +
+		total.underground.injection.I.IV.wells.onsite +
+		total.underground.injection.onsite +
+		total.landfills.onsite +
+		total.releases.toland.treatment.onsite +
+		total.surface.impoundment.onsite +
+		total.land.releases.other.onsite +
+		total.land.releases.onsite +
+		total.releases.onsite +
+		energy.recovery.onsite +
+		industrial.kiln.onsite +
+		industrial.furnace.onsite +
+		industrial.boiler.onsite +
+		recycling.onsite +
+		metal.recovery.onsite +
+		solvent.recovery.onsite +
+		reuse.onsite +
+		biological.treatment.onsite +
+		chemical.treatment.onsite +
+		incineration.thermal.treatment.onsite +
+		physical.treatment.onsite +
+		material.subandmod +
+		produced.chem.facility +
+		imported.chem.facility +
+		pi.chem.facility +
+		treatment.onsite +
+		air.emissions.treatment.onsite +
+		total.waste.management.onsite +
+		sub.fuel.matsubmod +
+		sub.organic.solvent.matsubmod +
+		sub.rawm.feedstock.reactchem.matsubmod +
+		sub.manu.proccess.ancilliary.chems.matsubmod +
+		mod.content.grade.purity.chems.matsubmod +
+		other.matmods.matsubmod +
+		product.modification +
+		devd.newproductline.pmod +
+		# alt.dim.comp.design.pmod +
+		mod.packaging.pmod +
+		other.pmods.pmod +
+		process.equip.modification +
+		optimised.process.efficiency.pequipmod +
+		recirculationinprocess.pequipmod +
+		newtech.technique.process.pequipmod +
+		# equipment.upgrade.update.pequipmod +
+		other.pequipmods.pequipmod +
+		inventory.material.mgt +
+		better.labelling.testing.immgt +
+		containers.sizechange.immgt +
+		improved.materialhandling.operations.immgt +
+		improved.monitoring.immgt +
+		operating.practices.training +
+		improved.schdule.operation.procedures.opt +
+		changed.production.schedule.opt +
+		intro.inline.productquality.process.analysis.opt +
+		maxnum.chem.onsite +
+		trade.secret +
+		sanitised +
+		entire.facility +
+		private.facility +
+		federal.facility +
+		govt.owned.facility +
+		# elemental.metal.included +
+		clean.air.act.chems +
+		carcinogenic.chems +
+		metal.restrict.tri +
+		production.ratio.activity.index +
+		# chemical.intermediate.uses +
+		chemical.formulation.component +
+		chemical.article.component +
+		chemical.manufacturing.aid +
+		chemical.ancilliary.use +
+		source.reduction +
+		r.and.d +
+		waste.water.treatment +
+		recycling.dummy +
+		cpi +
+		personal_income +
+		gdp +
+		compensation_to_employees +
+		bea_unit +
+		regional_price_parity +
+		bea_rpp_unit +
+		own_code +
+		annual_avg_estabs +
+		annual_avg_emplvl +
+		total_annual_wages +
+		taxable_annual_wages +
+		annual_contributions +
+		annual_avg_wkly_wage +
+		avg_annual_pay +
+		emp +
+		pay +
+		prode +
+		prodh +
+		prodw +
+		vship +
+		matcost +
+		output +
+		invest +
+		invent +
+		energy +
+		cap +
+		equip +
+		plant +
+		tfp4 +
+		tfp5 +
+		population +
+		treated +
+		treated.match +
+		control.match +
+		# treated.cluster.name +
+		# treated.cluster.id +
+		# control.cluster.name +
+		# control.cluster.id +
+		# cbcp.id +
+		# treated.cluster.population +
+		# control.cluster.population +
+		# treated.cluster.lat +
+		# treated.cluster.long +
+		# control.cluster.lat +
+		# control.cluster.long +
+		overlap +
+		state.border.id +
+		ch.year +
+		ch.amt +
+		sum2.sub.mw.ch +
+		tot.ch.amt +
+		start.mw +
+		end.mw +
+		match.ch.amt +
+		match.ch.year +
+		dist.to.border
+	,
+	na.rm = T,
+	FUN = fsum,
+	catFUN = fmode,
+	keep.col.order = T,
+	return = "long"
+  ) %>%
+  select(
+	-c(Function, facility.city:facility.county, lat, long, treated.cluster.name:cbcp.id,
+	   treated.cluster.lat:control.cluster.long, treated.cluster.population, control.cluster.population
+	)
+  ) %>%
+  mutate(
+	industrial.kiln.onsite = as.numeric(industrial.kiln.onsite),
+	industrial.furnace.onsite = as.numeric(industrial.furnace.onsite),
+	industrial.boiler.onsite = as.numeric(industrial.boiler.onsite),
+	metal.recovery.onsite = as.numeric(metal.recovery.onsite),
+	solvent.recovery.onsite = as.numeric(solvent.recovery.onsite),
+	reuse.onsite = as.numeric(reuse.onsite),
+	biological.treatment.onsite = as.numeric(biological.treatment.onsite),
+	chemical.treatment.onsite = as.numeric(chemical.treatment.onsite),
+	incineration.thermal.treatment.onsite = as.numeric(incineration.thermal.treatment.onsite),
+	physical.treatment.onsite = as.numeric(physical.treatment.onsite),
+	material.subandmod = as.numeric(material.subandmod),
+	sub.fuel.matsubmod = as.numeric(sub.fuel.matsubmod),
+	sub.organic.solvent.matsubmod = as.numeric(sub.organic.solvent.matsubmod),
+	sub.rawm.feedstock.reactchem.matsubmod = as.numeric(sub.rawm.feedstock.reactchem.matsubmod),
+	sub.manu.proccess.ancilliary.chems.matsubmod = as.numeric(sub.manu.proccess.ancilliary.chems.matsubmod),
+	mod.content.grade.purity.chems.matsubmod = as.numeric(mod.content.grade.purity.chems.matsubmod),
+	other.matmods.matsubmod = as.numeric(other.matmods.matsubmod),
+	product.modification = as.numeric(product.modification),
+	devd.newproductline.pmod = as.numeric(devd.newproductline.pmod),
+	# alt.dim.comp.design.pmod = as.numeric(alt.dim.comp.design.pmod),
+	mod.packaging.pmod = as.numeric(mod.packaging.pmod),
+	other.pmods.pmod = as.numeric(other.pmods.pmod),
+	process.equip.modification = as.numeric(process.equip.modification),
+	optimised.process.efficiency.pequipmod = as.numeric(optimised.process.efficiency.pequipmod),
+	recirculationinprocess.pequipmod = as.numeric(recirculationinprocess.pequipmod),
+	newtech.technique.process.pequipmod = as.numeric(newtech.technique.process.pequipmod),
+	# equipment.upgrade.update.pequipmod = as.numeric(equipment.upgrade.update.pequipmod),
+	other.pequipmods.pequipmod = as.numeric(other.pequipmods.pequipmod),
+	inventory.material.mgt = as.numeric(inventory.material.mgt),
+	better.labelling.testing.immgt = as.numeric(better.labelling.testing.immgt),
+	containers.sizechange.immgt = as.numeric(containers.sizechange.immgt),
+	improved.materialhandling.operations.immgt = as.numeric(improved.materialhandling.operations.immgt),
+	improved.monitoring.immgt = as.numeric(improved.monitoring.immgt),
+	operating.practices.training = as.numeric(operating.practices.training),
+	improved.schdule.operation.procedures.opt = as.numeric(improved.schdule.operation.procedures.opt),
+	changed.production.schedule.opt = as.numeric(changed.production.schedule.opt),
+	intro.inline.productquality.process.analysis.opt = as.numeric(intro.inline.productquality.process.analysis.opt),
+	trade.secret = as.numeric(trade.secret),
+	sanitised = as.numeric(sanitised),
+	entire.facility = as.numeric(entire.facility),
+	federal.facility = as.numeric(federal.facility),
+	govt.owned.facility = as.numeric(govt.owned.facility),
+	# elemental.metal.included = as.numeric(elemental.metal.included),
+	clean.air.act.chems = as.numeric(clean.air.act.chems),
+	carcinogenic.chems = as.numeric(carcinogenic.chems),
+	metal.restrict.tri = as.numeric(metal.restrict.tri),
+	produced.chem.facility = as.numeric(produced.chem.facility),
+	imported.chem.facility = as.numeric(imported.chem.facility),
+	pi.chem.facility = as.numeric(pi.chem.facility),
+	# chemical.intermediate.uses = as.numeric(chemical.intermediate.uses),
+	chemical.formulation.component = as.numeric(chemical.formulation.component),
+	chemical.article.component = as.numeric(chemical.article.component),
+	chemical.manufacturing.aid = as.numeric(chemical.manufacturing.aid),
+	chemical.ancilliary.use = as.numeric(chemical.ancilliary.use),
+	r.and.d = as.numeric(r.and.d),
+	waste.water.treatment = as.numeric(waste.water.treatment),
+	recycling.dummy = as.numeric(recycling.dummy),
+  )
+
+sum(is.na(triQs))
+# na_columns <- colnames(triQs)[colSums(is.na(triQs)) > 0]
+sort(unique(triQs$year))
 #======================================================================================================================#
 ### TRI for researchers: source - https://shorturl.at/kqvy7
 ### CAUSING CANCER: source- https://ntp.niehs.nih.gov/whatwestudy/assessments/cancer/roc#toc1
@@ -1166,6 +975,39 @@ triQc <- triQc %>%
 #======================================================================================================================#
 ### Experiment Design
 #======================================================================================================================#
+# County
+#======================================================================================================================#
+triQc <- triQc %>%
+  rename(fips.code = fips_code) %>%
+  mutate(
+	hap.chems = case_when(chemical.classification == "TRI" ~ 1, T ~ 0),
+	dioxin.chems = case_when(chemical.classification == "Dioxin" ~ 1, T ~ 0),
+	pbt.chems = case_when(chemical.classification == "PBT" ~ 1, T ~ 0),
+  ) %>%
+  mutate(
+	e.treated = case_when(year >= ch.year ~ 1, T ~ 0), #states e-years away from the initial treatment year
+	rel.year = year - ch.year,
+	post = case_when(year == 2014 | year == 2015 | year == 2017 ~ 1, T ~ 0),
+	naics.code = as.numeric(naics.code),
+	facility.id = as.numeric(facility.id),
+	facility.zipcode = as.numeric(facility.zipcode),
+	facility.id.fe = as.numeric(as.factor(facility.id)),
+	chemical.id.fe = as.numeric(as.factor(chemical.id)),
+	facility.state.fe = as.numeric(as.factor(facility.state)),
+	fips.code.fe = as.numeric(as.factor(fips.code)),
+	fips.code = as.numeric(fips.code),
+	border.county = as.numeric(treated.cluster.id) * as.numeric(control.cluster.id),
+	border.county.fe = as.numeric(as.factor(border.county)),
+	border.state.fe = as.numeric(as.factor(treated.match)) * as.numeric(as.factor(control.match)),
+	chemical.year.fe = chemical.id.fe * year,
+	border.county.year.fe = border.county.fe * year,
+	border.county.year = border.county.fe * as.numeric(as.factor(year)),
+	border.state.year.fe = border.state.fe * year,
+	border.state.year = border.state.fe * as.numeric(as.factor(year))
+  )
+#======================================================================================================================#
+# State
+#======================================================================================================================#
 triQc <- triQc %>%
   rename(fips.code = fips_code) %>%
   mutate(
@@ -1199,14 +1041,14 @@ triQc <- triQc %>%
 #======================================================================================================================#
 zero_cols <- names(triQc)[colSums(triQc == 0) == nrow(triQc)]
 triQc <- triQc[, !names(triQc) %in% zero_cols]
-# zero_cols <- names(triQs)[colSums(triQs == 0) == nrow(triQs)]
-# triQs <- triQs[, !names(triQs) %in% zero_cols]
+zero_cols <- names(triQs)[colSums(triQs == 0) == nrow(triQs)]
+triQs <- triQs[, !names(triQs) %in% zero_cols]
 #======================================================================================================================#
 ### Save data
 #======================================================================================================================#
 start_time <- Sys.time()
 write_rds(triQc, file = "./Data_PhD/US/BLS/onsite/triQc_on.rds", compress = "xz")
-# write_rds(triQs, file = "./Data_PhD/US/BLS/onsite/triQs_on.rds", compress = "xz")
+write_rds(triQs, file = "./Data_PhD/US/BLS/onsite/triQs_on.rds", compress = "xz")
 end_time <- Sys.time()
 end_time - start_time
 #======================================================================================================================#

@@ -8,22 +8,22 @@ library(patchwork)
 #======================================================================================================================#
 ## Working Directory
 #======================================================================================================================#
-setwd(dir = "C:/Users/david/OneDrive/Documents/ULMS/PhD/")
+setwd(dir = "your_path")
 #======================================================================================================================#
 ### Loading Data
 #======================================================================================================================#
-file <- "../../../../../Data_PhD/US/BLS/onsite/triQc_on.rds"
+file <- "your_path/ej/triQ_onsite_econj.rds"
 triQc <- read_rds(file = file)
-file <- "../../../../../Data_PhD/US/BLS/offsite/triQc_off.rds"
+file <- "your_path/ej/triQ_offsite_econj.rds"
 triQc_off <- read_rds(file = file)
-file <- "../../../../../Data_PhD/US/BLS/offsite/triQc_potw.rds"
+file <- "your_path/ej/triQ_potws_econj.rds"
 triQc_potw <- read_rds(file = file)
 
-file <- "../../../../../Data_PhD/US/BLS/onsite/triQs_on.rds"
+file <- "your_path/ej/triQs_offsite_econj.rds"
 triQs <- read_rds(file = file)
-file <- "../../../../../Data_PhD/US/BLS/offsite/triQs_off.rds"
+file <- "your_path/ej/triQs_offsite_econj.rds"
 triQs_off <- read_rds(file = file)
-file <- "../../../../../Data_PhD/US/BLS/offsite/triQs_potw.rds"
+file <- "your_path/ej/triQs_potws_econj.rds"
 triQs_potw <- read_rds(file = file)
 #======================================================================================================================#
 ### The samples

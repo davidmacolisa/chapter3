@@ -17,18 +17,18 @@ start_time <- Sys.time()
 triQ <- read_rds(file = "./Data_PhD/US/BLS/triQ.rds") %>%
   group_by(facility.county) %>%
   mutate(
-    tot.ch.amt = ch.amt + sum2.sub.mw.ch,
-    end.mw = start.mw + tot.ch.amt
+	tot.ch.amt = ch.amt + sum2.sub.mw.ch,
+	end.mw = start.mw + tot.ch.amt
   ) %>%
   select(c(
-    year, facility.id, facility.zipcode, zip.length, facility.city, fips_code, facility.county, facility.state, state,
-    lat, long, offsite.id, offsite.facility.id, offsite.sequence.number, offsite.zipcode, offsite.city, offsite.county,
-    offsite.state, offsite.zip.length, potw.id, potw.zipcode, potw.zip.length, potw.city, potw.county, potw.state,
-    naics.code:unit.of.measure, contains(match = "potw"), maxnum.chem.onsite, entire.facility, federal.facility,
-    govt.owned.facility, comment.type, comment.type.description, comment.text, classification, clean.air.act.chems,
-    carcinogenic.chems, metal.restrict.tri:pi.chem.facility, chemical.formulation.component:chemical.ancilliary.use,
-    cpi, gdp, annual_avg_estabs, population, vadd, treated:sum2.sub.mw.ch, tot.ch.amt, start.mw, end.mw, match.ch.amt,
-    match.ch.year, dist.to.border
+	year, facility.id, facility.zipcode, zip.length, facility.city, fips_code, facility.county, facility.state, state,
+	lat, long, offsite.id, offsite.facility.id, offsite.sequence.number, offsite.zipcode, offsite.city, offsite.county,
+	offsite.state, offsite.zip.length, potw.id, potw.zipcode, potw.zip.length, potw.city, potw.county, potw.state,
+	naics.code:unit.of.measure, contains(match = "potw"), maxnum.chem.onsite, entire.facility, federal.facility,
+	govt.owned.facility, comment.type, comment.type.description, comment.text, classification, clean.air.act.chems,
+	carcinogenic.chems, metal.restrict.tri:pi.chem.facility, chemical.formulation.component:chemical.ancilliary.use,
+	cpi, gdp, annual_avg_estabs, population, vadd, treated:sum2.sub.mw.ch, tot.ch.amt, start.mw, end.mw, match.ch.amt,
+	match.ch.year, dist.to.border
   )) %>%
   select(-contains(match = "npotw")) %>%
   data.frame()
@@ -38,7 +38,7 @@ gc()
 
 triQc <- triQ %>%
   select(
-    -c(comment.type, comment.type.description, comment.text, classification, production.or.activity)
+	-c(comment.type, comment.type.description, comment.text, classification, production.or.activity)
   )
 
 sum(is.na(triQc))
@@ -67,7 +67,8 @@ if (!requireNamespace(package = "zoo", quietly = TRUE)) {
 
 library(zoo)
 filled_data <- zoo::na.locf(triQc$potw.id, maxgap = max(triQc$potw.zipcode), na.rm = FALSE)
-filled_data_after <- zoo::na.locf(triQc$potw.id, maxgap = max(triQc$potw.zipcode), fromLast = TRUE, na.rm = FALSE) # after
+filled_data_after <- zoo::na.locf(triQc$potw.id, maxgap = max(triQc$potw.zipcode), fromLast = TRUE, na.rm = FALSE) #
+# after
 
 # Combine before and after to get filled values
 filled_data <- ifelse(test = is.na(filled_data), yes = filled_data_after, no = filled_data)
@@ -190,9 +191,9 @@ check_ids <- function(df, id_var, year_var) {
 
   # Print a statement saying whether or not the IDs are the same across years
   if (same_ids) {
-    print("The IDs in the first year are the same across all other years.")
+	print("The IDs in the first year are the same across all other years.")
   } else {
-    print("The IDs in the first year are not the same across all other years.")
+	print("The IDs in the first year are not the same across all other years.")
   }
 }
 
@@ -323,17 +324,17 @@ check_ids(df = triQc, id_var = "potw.state", year_var = "year")
 #======================================================================================================================#
 triQc <- triQc %>%
   mutate(
-    entire.facility = as.numeric(entire.facility),
-    clean.air.act.chems = as.numeric(clean.air.act.chems),
-    carcinogenic.chems = as.numeric(carcinogenic.chems),
-    metal.restrict.tri = as.numeric(metal.restrict.tri),
-    produced.chem.facility = as.numeric(produced.chem.facility),
-    imported.chem.facility = as.numeric(imported.chem.facility),
-    pi.chem.facility = as.numeric(pi.chem.facility),
-    chemical.formulation.component = as.numeric(chemical.formulation.component),
-    chemical.article.component = as.numeric(chemical.article.component),
-    chemical.manufacturing.aid = as.numeric(chemical.manufacturing.aid),
-    chemical.ancilliary.use = as.numeric(chemical.ancilliary.use)
+	entire.facility = as.numeric(entire.facility),
+	clean.air.act.chems = as.numeric(clean.air.act.chems),
+	carcinogenic.chems = as.numeric(carcinogenic.chems),
+	metal.restrict.tri = as.numeric(metal.restrict.tri),
+	produced.chem.facility = as.numeric(produced.chem.facility),
+	imported.chem.facility = as.numeric(imported.chem.facility),
+	pi.chem.facility = as.numeric(pi.chem.facility),
+	chemical.formulation.component = as.numeric(chemical.formulation.component),
+	chemical.article.component = as.numeric(chemical.article.component),
+	chemical.manufacturing.aid = as.numeric(chemical.manufacturing.aid),
+	chemical.ancilliary.use = as.numeric(chemical.ancilliary.use)
   )
 glimpse(triQc)
 # glimpse(triQs)
@@ -357,20 +358,20 @@ glimpse(triQc)
 #======================================================================================================================#
 triQc <- triQc %>%
   mutate(
-    vadd = vadd / 100,
-    l.vadd = log(vadd),
-    potw.releases.underground.Iwells.offsite.intensity = potw.releases.underground.Iwells.offsite / vadd,
-    l.potw.releases.underground.Iwells.offsite.intensity = log((potw.releases.underground.Iwells.offsite / vadd) + 1),
-    potw.releases.underground.other.offsite.intensity = potw.releases.underground.other.offsite / vadd,
-    l.potw.releases.underground.other.offsite.intensity = log((potw.releases.underground.other.offsite / vadd) + 1),
-    total.potw.releases.offsite.intensity = total.potw.releases.offsite / vadd,
-    l.total.potw.releases.offsite.intensity = log((total.potw.releases.offsite / vadd) + 1),
-    l.potw.treatment.offsite = log(potw.treatment.offsite + 1),
-    l.total.potw.management.offsite = log(total.potw.management.offsite + 1),
-    gdp.pc = gdp / population,
-    gdppc.1 = stats::lag(gdp.pc, k = 1),
-    cpi.1 = stats::lag(cpi, k = 1),
-    annual.avg.estabs.1 = stats::lag(annual_avg_estabs, k = 1)
+	vadd = vadd / 100,
+	l.vadd = log(vadd),
+	potw.releases.underground.Iwells.offsite.intensity = potw.releases.underground.Iwells.offsite / vadd,
+	l.potw.releases.underground.Iwells.offsite.intensity = log((potw.releases.underground.Iwells.offsite / vadd) + 1),
+	potw.releases.underground.other.offsite.intensity = potw.releases.underground.other.offsite / vadd,
+	l.potw.releases.underground.other.offsite.intensity = log((potw.releases.underground.other.offsite / vadd) + 1),
+	total.potw.releases.offsite.intensity = total.potw.releases.offsite / vadd,
+	l.total.potw.releases.offsite.intensity = log((total.potw.releases.offsite / vadd) + 1),
+	l.potw.treatment.offsite = log(potw.treatment.offsite + 1),
+	l.total.potw.management.offsite = log(total.potw.management.offsite + 1),
+	gdp.pc = gdp / population,
+	gdppc.1 = stats::lag(gdp.pc, k = 1),
+	cpi.1 = stats::lag(cpi, k = 1),
+	annual.avg.estabs.1 = stats::lag(annual_avg_estabs, k = 1)
   )
 
 # triQs <- triQs %>%
@@ -397,39 +398,30 @@ triQc <- triQc %>%
 triQc <- triQc %>%
   rename(fips.code = fips_code) %>%
   mutate(
-    hap.chems = case_when(chemical.classification == "TRI" ~ 1, T ~ 0),
-    # dioxin.chems = case_when(chemical.classification == "Dioxin" ~ 1, T ~ 0),
-    pbt.chems = case_when(chemical.classification == "PBT" ~ 1, T ~ 0),
+	hap.chems = case_when(chemical.classification == "TRI" ~ 1, T ~ 0),
+	# dioxin.chems = case_when(chemical.classification == "Dioxin" ~ 1, T ~ 0),
+	pbt.chems = case_when(chemical.classification == "PBT" ~ 1, T ~ 0),
   ) %>%
   mutate(
-    e.treated = case_when(year >= ch.year ~ 1, T ~ 0), #states e-years away from the initial treatment year
-    rel.year = year - ch.year,
-    post = case_when(year == 2014 | year == 2015 | year == 2017 ~ 1, T ~ 0),
-    naics.code = as.numeric(naics.code),
-    facility.id = as.numeric(facility.id),
-    facility.zipcode = as.numeric(facility.zipcode),
-    facility.id.fe = as.numeric(as.factor(facility.id)),
-    chemical.id.fe = as.numeric(as.factor(chemical.id)),
-    facility.state.fe = as.numeric(as.factor(facility.state)),
-    fips.code.fe = as.numeric(as.factor(fips.code)),
-    fips.code = as.numeric(fips.code),
-    facility.county.fe = as.numeric(as.factor(facility.county)),
-    border.county = as.numeric(treated.cluster.id) * as.numeric(control.cluster.id),
-    border.county.fe = as.numeric(as.factor(border.county)),
-    border.state = as.numeric(as.factor(treated.match)) * as.numeric(as.factor(control.match)),
-    border.state.fe = as.numeric(as.factor(border.state)),
-    fac.chem.fe = facility.id.fe * chemical.id.fe,
-    fips.state.fe = fips.code.fe * facility.state.fe,
-    chem.ind.state = chemical.id.fe *
-      as.numeric(as.factor(naics.code)) *
-      facility.state.fe,
-    fips.year.fe = fips.code.fe * year,
-    facility.year.fe = facility.id.fe * year,
-    chemical.year.fe = chemical.id.fe * year,
-    border.county.year.fe = border.county.fe * year,
-    border.state.year.fe = border.state.fe * year,
-    state.year.fe = facility.state.fe * year,
-    fac.chem.year.fe = facility.id.fe * chemical.id.fe * year,
+	e.treated = case_when(year >= ch.year ~ 1, T ~ 0), #states e-years away from the initial treatment year
+	rel.year = year - ch.year,
+	post = case_when(year == 2014 | year == 2015 | year == 2017 ~ 1, T ~ 0),
+	naics.code = as.numeric(naics.code),
+	facility.id = as.numeric(facility.id),
+	facility.zipcode = as.numeric(facility.zipcode),
+	facility.id.fe = as.numeric(as.factor(facility.id)),
+	chemical.id.fe = as.numeric(as.factor(chemical.id)),
+	facility.state.fe = as.numeric(as.factor(facility.state)),
+	fips.code.fe = as.numeric(as.factor(fips.code)),
+	fips.code = as.numeric(fips.code),
+	border.county = as.numeric(treated.cluster.id) * as.numeric(control.cluster.id),
+	border.county.fe = as.numeric(as.factor(border.county)),
+	border.state.fe = as.numeric(as.factor(treated.match)) * as.numeric(as.factor(control.match)),
+	chemical.year.fe = chemical.id.fe * year,
+	border.county.year.fe = border.county.fe * year,
+	border.county.year = border.county.fe * as.numeric(as.factor(year)),
+	border.state.year.fe = border.state.fe * year,
+	border.state.year = border.state.fe * as.numeric(as.factor(year))
   )
 #======================================================================================================================#
 ### check for zero columns

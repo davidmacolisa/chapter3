@@ -26,6 +26,63 @@ triQc <- read_rds(file = file)
 sort(unique(triQc$year))
 sort(unique(triQc$rel.year))
 #======================================================================================================================#
+# Variable Selection for Journal
+#======================================================================================================================#
+# triQc <- triQc %>%
+#   select(
+# 	c( # Dependent Variables
+# 	  year:unit.of.measure, treated:dist.to.border, e.treated, rel.year, post,
+#
+# 	  total.releases.onsite.intensity,
+# 	  total.air.emissions.onsite.intensity, total.fug.air.emissions.onsite.intensity,
+# 	  total.point.air.emissions.onsite.intensity, total.surface.water.discharge.onsite.intensity,
+# 	  total.num.receiving.streams.onsite, total.underground.injection.onsite.intensity,
+# 	  total.landfills.onsite.intensity, total.releases.toland.treatment.onsite.intensity,
+# 	  total.surface.impoundment.onsite.intensity, total.land.releases.onsite.intensity,
+# 	  total.land.releases.other.onsite.intensity, total.release.onsite.catastrophicevents.intensity,
+#
+# 	  l.total.releases.onsite.intensity,
+# 	  l.total.air.emissions.onsite.intensity, l.total.fug.air.emissions.onsite.intensity,
+# 	  l.total.point.air.emissions.onsite.intensity, l.total.surface.water.discharge.onsite.intensity,
+# 	  l.total.num.receiving.streams.onsite, l.total.underground.injection.onsite.intensity,
+# 	  l.total.landfills.onsite.intensity, l.total.releases.toland.treatment.onsite.intensity,
+# 	  l.total.surface.impoundment.onsite.intensity, l.total.land.releases.onsite.intensity,
+# 	  l.total.land.releases.other.onsite.intensity, l.total.release.onsite.catastrophicevents.intensity,
+#
+# 	  output, prode, prodw, prodh, matcost, output.perhr, output.perworker, wage.perhr, pay, emp, energy,
+# 	  l.output, l.prode, l.prodw, l.prodh, l.matcost, l.output.perhr, l.output.perworker, l.wage.perhr,
+# 	  l.pay, vship,
+#
+# 	  # Regressors
+# 	  entire.facility, private.facility, federal.facility, govt.owned.facility, gdppc.1,
+# 	  annual.avg.estabs.1, cpi.1, produced.chem.facility, imported.chem.facility,
+# 	  chemical.formulation.component, chemical.manufacturing.aid, chemical.ancilliary.use,
+# 	  production.ratio.activity.index, maxnum.chem.onsite, population,
+#
+# 	  gdp, gdp.pc, cpi, cpi.1, pinc.1, annual_avg_estabs, federal.facility, produced.chem.facility,
+# 	  imported.chem.facility, chemical.formulation.component, chemical.article.component,
+# 	  chemical.manufacturing.aid, chemical.ancilliary.use, production.ratio.activity.index,
+# 	  maxnum.chem.onsite, clean.air.act.chems, hap.chems, pbt.chems, carcinogenic.chems,
+# 	  metal.restrict.tri,
+#
+# 	  # Mechanisms
+# 	  l.chemical.treatment.onsite, l.biological.treatment.onsite,
+# 	  l.incineration.thermal.treatment.onsite, l.physical.treatment.onsite,
+# 	  l.recycling.onsite, source.reduction, sub.organic.solvent.matsubmod,
+# 	  l.energy.cost.intensity, newtech.technique.process.pequipmod,
+# 	  recycling.dummy, modified.spray.equipment.pequipmod, l.energy.cost.intensity,
+# 	  changes.inventory.control.immgt, impl.inspection.monitoring.leak.spill.immgt,
+# 	  changed.production.schedule.opt, changes.operating.practices.inventory.control.opt,
+# 	  sub.fuel.matsubmod, recirculationinprocess.pequipmod, modified.spray.equipment.pequipmod,
+# 	  changes.inventory.control.immgt, impr.procedures.loading.transfer.opt,
+#
+# 	  # Fixed effects
+# 	  facility.id.fe, chemical.id.fe, fips.code.fe, border.county.fe, border.county.year,
+# 	  border.county.year.fe, chemical.year.fe, border.state.fe, border.state.year.fe
+# 	)
+#   )
+# write_rds(x = triQc, file = "./Thesis/chapter3/src/climate_change/data/triQ_onsite_econj.rds", compress = "gz")
+#======================================================================================================================#
 ### Onsite: Total releases intensity
 #======================================================================================================================#
 did_total_releases <- did_releases(
