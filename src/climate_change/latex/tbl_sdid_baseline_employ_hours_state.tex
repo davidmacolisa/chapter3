@@ -1,0 +1,36 @@
+% Please add the following required packages to your document preamble:
+% \usepackage{booktabs}
+% \usepackage{graphicx}
+\begin{table}[H]
+    \centering
+    \caption{Effect of the MW Policy on Employment and Production Workers' Hours}
+    \label{tab:baseline-employment-hours}
+    \resizebox{\columnwidth}{!}{%
+        \begin{tabular}{@{}lllllll@{}}
+            \toprule\toprule
+            & \multicolumn{2}{c}{Employment (log)} & \multicolumn{2}{c}{Production Workers (log)} & \multicolumn{2}{c}{Production Hours (log)} \\
+            \cmidrule(lr){2-3} \cmidrule(lr){4-5} \cmidrule(lr){6-7}
+            employment \& hours & 1         & 2         & 3         & 4         & 5         & 6         \\ \midrule
+            treated             & -0.053    & -0.002    & -0.084    & -0.029    & -0.082    & -0.027    \\
+            & (0.064)   & (0.039)   & (0.066)   & (0.039)   & (0.066)   & (0.039)   \\
+            cohort 2014         & -0.060    & -0.058**  & -0.101    & -0.095*** & -0.101    & -0.095*** \\
+            & (0.058)   & (0.026)   & (0.064)   & (0.028)   & (0.067)   & (0.029)   \\
+            cohort 2015         & -0.043    & 0.094     & -0.058    & 0.083     & -0.052    & 0.090     \\
+            & (0.134)   & (0.094)   & (0.131)   & (0.091)   & (0.127)   & (0.089)   \\
+            cohort 2017         & 0.106***  & -0.366*** & 0.114***  & -0.318*** & 0.136***  & -0.289*** \\
+            & (0.027)   & (0.031)   & (0.023)   & (0.034)   & (0.025)   & (0.034)   \\
+            controls            & Yes       & Yes       & Yes       & Yes       & Yes       & Yes       \\
+            year FE             & Yes       & Yes       & Yes       & Yes       & Yes       & Yes       \\
+            state FE            & Yes       & Yes       & Yes       & Yes       & Yes       & Yes       \\
+            border-state FE     & No        & Yes       & No        & Yes       & No        & Yes       \\
+            border-state LTs    & No        & Yes       & No        & Yes       & No        & Yes       \\ \midrule
+            Observations        & 1,893,689 & 1,893,689 & 1,893,689 & 1,893,689 & 1,893,689 & 1,893,689 \\
+            $R^2$               & 0.136     & 0.211     & 0.123     & 0.195     & 0.124     & 0.199     \\
+            Baseline Mean       & 44.99     & 44.99     & 31.42     & 31.42     & 64.82     & 64.82     \\ \bottomrule \bottomrule
+        \end{tabular}%
+    }
+    \begin{minipage}{\columnwidth}
+        \vspace{0.05in}
+        \tiny NOTES: These results are obtained from estimating model~\ref{eq:baseline-emp-hours}. Robust standard errors clustered at the state level are reported in parentheses. ***, **, and * denote significance levels at the less than $1\%$, $5\%$ and $10\%$, respectively.
+    \end{minipage}
+\end{table}

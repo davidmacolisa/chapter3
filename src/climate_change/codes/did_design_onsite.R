@@ -359,27 +359,9 @@ triQc <- triQc[complete.cases(triQc),]
 sort(unique(triQc$year))
 sum(is.na(triQc))
 
-sum_up(triQc, c(energy.recovery.onsite, industrial.kiln.onsite, industrial.furnace.onsite, industrial.boiler.onsite,
-				recycling.onsite, metal.recovery.onsite, solvent.recovery.onsite, reuse.onsite,
-				biological.treatment.onsite, chemical.treatment.onsite, incineration.thermal.treatment.onsite,
-				physical.treatment.onsite, material.subandmod, treatment.onsite, air.emissions.treatment.onsite,
-				total.waste.management.onsite, sub.fuel.matsubmod, sub.organic.solvent.matsubmod,
-				sub.rawm.feedstock.reactchem.matsubmod, sub.manu.proccess.ancilliary.chems.matsubmod,
-				mod.content.grade.purity.chems.matsubmod, other.matmods.matsubmod, product.modification,
-				devd.newproductline.pmod, mod.packaging.pmod, other.pmods.pmod,
-				process.equip.modification, optimised.process.efficiency.pequipmod,
-				recirculationinprocess.pequipmod, newtech.technique.process.pequipmod,
-				modified.spray.equipment.pequipmod,
-				other.pequipmods.pequipmod, inventory.material.mgt, better.labelling.testing.immgt,
-				containers.sizechange.immgt, impr.application.techniques.pequipmod,
-				improved.materialhandling.operations.immgt, improved.monitoring.immgt,
-				operating.practices.training, improved.schdule.operation.procedures.opt, waste.water.treatment,
-				recycling.dummy, changed.production.schedule.opt, impr.procedures.loading.transfer.opt,
-				intro.inline.productquality.process.analysis.opt, impr.rinse.equipment.opt,
-				changes.operating.practices.inventory.control.opt,
-				changes.inventory.control.immgt, impr.storage.stacking.procedures.immgt,
-				impl.inspection.monitoring.leak.spill.immgt,
-				modified.containment.procedures.cleaning.unit.immgt))
+sum_up(triQc, c(energy.recovery.onsite:material.subandmod,
+				treatment.onsite:intro.inline.productquality.process.analysis.opt,
+				impr.rinse.equipment.opt, source.reduction:no.feas.reduction))
 
 # sum(is.na(triQc$facility.id))
 # triQc_na <- triQc[triQc$facility.id == "NA",]
@@ -624,10 +606,7 @@ triQs <- triQc %>%
 	X = .,
 	by = ~
 	  year +
-		# facility.id +
-		# facility.zipcode +
-		# zip.length +
-		# fips_code +
+		facility.id +
 		facility.state +
 		state +
 		naics.code +
@@ -677,14 +656,12 @@ triQs <- triQc %>%
 		other.matmods.matsubmod +
 		product.modification +
 		devd.newproductline.pmod +
-		# alt.dim.comp.design.pmod +
 		mod.packaging.pmod +
 		other.pmods.pmod +
 		process.equip.modification +
 		optimised.process.efficiency.pequipmod +
 		recirculationinprocess.pequipmod +
 		newtech.technique.process.pequipmod +
-		# equipment.upgrade.update.pequipmod +
 		other.pequipmods.pequipmod +
 		inventory.material.mgt +
 		better.labelling.testing.immgt +
@@ -695,6 +672,7 @@ triQs <- triQc %>%
 		improved.schdule.operation.procedures.opt +
 		changed.production.schedule.opt +
 		intro.inline.productquality.process.analysis.opt +
+		total.release.onsite.catastrophicevents +
 		maxnum.chem.onsite +
 		trade.secret +
 		sanitised +
@@ -702,20 +680,14 @@ triQs <- triQc %>%
 		private.facility +
 		federal.facility +
 		govt.owned.facility +
-		# elemental.metal.included +
 		clean.air.act.chems +
 		carcinogenic.chems +
 		metal.restrict.tri +
 		production.ratio.activity.index +
-		# chemical.intermediate.uses +
 		chemical.formulation.component +
 		chemical.article.component +
 		chemical.manufacturing.aid +
 		chemical.ancilliary.use +
-		source.reduction +
-		r.and.d +
-		waste.water.treatment +
-		recycling.dummy +
 		cpi +
 		personal_income +
 		gdp +
@@ -751,28 +723,39 @@ triQs <- triQc %>%
 		treated +
 		treated.match +
 		control.match +
-		# treated.cluster.name +
-		# treated.cluster.id +
-		# control.cluster.name +
-		# control.cluster.id +
-		# cbcp.id +
-		# treated.cluster.population +
-		# control.cluster.population +
-		# treated.cluster.lat +
-		# treated.cluster.long +
-		# control.cluster.lat +
-		# control.cluster.long +
 		overlap +
 		state.border.id +
 		ch.year +
 		ch.amt +
 		sum2.sub.mw.ch +
 		tot.ch.amt +
+		tot.ch.percent +
 		start.mw +
 		end.mw +
 		match.ch.amt +
 		match.ch.year +
-		dist.to.border
+		dist.to.border +
+		private.facility +
+		source.reduction +
+		r.and.d +
+		modified.spray.equipment.pequipmod +
+		impr.application.techniques.pequipmod +
+		impr.procedures.loading.transfer.opt +
+		changes.operating.practices.inventory.control.opt +
+		impr.rinse.equipment.opt +
+		changes.inventory.control.immgt +
+		impr.storage.stacking.procedures.immgt +
+		impl.inspection.monitoring.leak.spill.immgt +
+		modified.containment.procedures.cleaning.unit.immgt +
+		other.immgts.immgt +
+		waste.water.treatment +
+		recycling.dummy +
+		req.spec.technique +
+		unsuccessful.sra +
+		reg.permits +
+		no.add.reduction +
+		no.sub.tech +
+		no.feas.reduction
 	,
 	na.rm = T,
 	FUN = fsum,
@@ -781,7 +764,7 @@ triQs <- triQc %>%
 	return = "long"
   ) %>%
   select(
-	-c(Function, facility.city:facility.county, lat, long, treated.cluster.name:cbcp.id,
+	-c(Function, facility.zipcode:facility.county, lat, long, treated.cluster.name:cbcp.id,
 	   treated.cluster.lat:control.cluster.long, treated.cluster.population, control.cluster.population
 	)
   ) %>%
@@ -846,7 +829,7 @@ triQs <- triQc %>%
   )
 
 sum(is.na(triQs))
-# na_columns <- colnames(triQs)[colSums(is.na(triQs)) > 0]
+na_columns <- colnames(triQs)[colSums(is.na(triQs)) > 0]
 sort(unique(triQs$year))
 #======================================================================================================================#
 ### TRI for researchers: source - https://shorturl.at/kqvy7
@@ -873,6 +856,107 @@ sort(unique(triQs$year))
 # If $1 bill weighs 1 gram; and 454 grams = 1lb. Then, $454 bills = 1lb. Thus, ind.output.lb = ind.output / 454
 triQc <- triQc %>%
   rename(output = vadd) %>%
+  mutate(
+	output = output / 100,
+	l.output = log(x = output),
+	output.perworker = output / emp,
+	l.output.perworker = log(x = output.perworker),
+	output.perhr = output / prodh,
+	l.output.perhr = log(x = output.perhr),
+	wage.perhr = prodw / prodh,
+	l.wage.perhr = log(x = wage.perhr),
+	energy.cost.intensity = energy / output,
+	l.energy.cost.intensity = log(x = energy.cost.intensity),
+	total.air.emissions.onsite.intensity = total.air.emissions.onsite / output,
+	l.total.air.emissions.onsite.intensity = log(x = total.air.emissions.onsite.intensity + 1),
+	total.fug.air.emissions.onsite.intensity = total.fug.air.emissions.onsite / output,
+	l.total.fug.air.emissions.onsite.intensity = log(x = total.fug.air.emissions.onsite.intensity + 1),
+	total.point.air.emissions.onsite.intensity = total.point.air.emissions.onsite / output,
+	l.total.point.air.emissions.onsite.intensity = log(x = total.point.air.emissions.onsite.intensity + 1),
+	total.surface.water.discharge.onsite.intensity = total.surface.water.discharge.onsite / output,
+	l.total.surface.water.discharge.onsite.intensity = log(x = total.surface.water.discharge.onsite.intensity + 1),
+	l.total.num.receiving.streams.onsite = log(x = total.num.receiving.streams.onsite + 1),
+	total.underground.injection.I.wells.onsite.intensity = total.underground.injection.I.wells.onsite / output,
+	l.total.underground.injection.I.wells.onsite.intensity =
+	  log(x = total.underground.injection.I.wells.onsite.intensity + 1),
+	total.underground.injection.I.IV.wells.onsite.intensity = total.underground.injection.I.IV.wells.onsite / output,
+	l.total.underground.injection.I.IV.wells.onsite.intensity =
+	  log(x = total.underground.injection.I.IV.wells.onsite.intensity + 1),
+	total.underground.injection.onsite.intensity = total.underground.injection.onsite / output,
+	l.total.underground.injection.onsite.intensity = log(x = total.underground.injection.onsite.intensity + 1),
+	total.landfills.onsite.intensity = total.landfills.onsite / output,
+	l.total.landfills.onsite.intensity = log(x = total.landfills.onsite.intensity + 1),
+	total.releases.toland.treatment.onsite.intensity = total.releases.toland.treatment.onsite / output,
+	l.total.releases.toland.treatment.onsite.intensity = log(x = total.releases.toland.treatment.onsite.intensity + 1),
+	total.surface.impoundment.onsite.intensity = total.surface.impoundment.onsite / output,
+	l.total.surface.impoundment.onsite.intensity = log(x = total.surface.impoundment.onsite.intensity + 1),
+	total.land.releases.other.onsite.intensity = total.land.releases.other.onsite / output,
+	l.total.land.releases.other.onsite.intensity = log(x = total.land.releases.other.onsite.intensity + 1),
+	total.land.releases.onsite.intensity = total.land.releases.onsite / output,
+	l.total.land.releases.onsite.intensity = log(x = total.land.releases.onsite.intensity + 1),
+	total.releases.onsite.intensity = total.releases.onsite / output,
+	l.total.releases.onsite.intensity = log(x = total.releases.onsite.intensity + 1),
+	total.release.onsite.catastrophicevents.intensity = total.release.onsite.catastrophicevents / output,
+	l.total.release.onsite.catastrophicevents.intensity =
+	  log(x = total.release.onsite.catastrophicevents.intensity + 1),
+	l.industrial.kiln.onsite = log(x = (industrial.kiln.onsite + 1)),
+	l.industrial.boiler.onsite = log(x = (industrial.boiler.onsite + 1)),
+	l.industrial.furnace.onsite = log(x = (industrial.furnace.onsite + 1)),
+	l.industrial.boiler.onsite = log(x = (industrial.boiler.onsite + 1)),
+	l.recycling.onsite = log(x = (recycling.onsite + 1)),
+	l.reuse.onsite = log(x = (reuse.onsite + 1)),
+	l.energy.recovery.onsite = log(x = (energy.recovery.onsite + 1)),
+	l.metal.recovery.onsite = log(x = (metal.recovery.onsite + 1)),
+	l.solvent.recovery.onsite = log(x = (solvent.recovery.onsite + 1)),
+	l.treatment.onsite = log(x = (treatment.onsite + 1)),
+	l.biological.treatment.onsite = log(x = (biological.treatment.onsite + 1)),
+	l.chemical.treatment.onsite = log(x = (chemical.treatment.onsite + 1)),
+	l.physical.treatment.onsite = log(x = (physical.treatment.onsite + 1)),
+	l.incineration.thermal.treatment.onsite = log(x = (incineration.thermal.treatment.onsite + 1)),
+	l.air.emissions.treatment.onsite = log(x = (air.emissions.treatment.onsite + 1)),
+	l.total.waste.management.onsite = log(x = (total.waste.management.onsite + 1)),
+	l.annual.avg.emplvl = log(x = (annual_avg_emplvl + 1)),
+	l.total.annual.wages = log(x = (total_annual_wages + 1)),
+	l.taxable.annual.wages = log(x = (taxable_annual_wages + 1)),
+	l.annual.contributions = log(x = (annual_contributions + 1)),
+	l.annual.avg.wkly.wages = log(x = (annual_avg_wkly_wage + 1)),
+	l.avg.annual.pay = log(x = (avg_annual_pay + 1)),
+	l.cpi = log(x = (cpi)),
+	annual.avg.emplvl.1 = stats::lag(annual_avg_emplvl, k = 1),
+	total.annual.wages.1 = stats::lag(total_annual_wages, k = 1),
+	taxable.annual.wages.1 = stats::lag(taxable_annual_wages, k = 1),
+	annual.contributions.1 = stats::lag(annual_contributions, k = 1),
+	annual.avg.wkly.wages.1 = stats::lag(annual_avg_wkly_wage, k = 1),
+	avg.annual.pay.1 = stats::lag(avg_annual_pay, k = 1),
+	private.naics = ifelse(test = own_code == 5, yes = 1, no = 0),
+	cpi.1 = stats::lag(cpi, k = 1),
+	emp.1 = stats::lag(emp, k = 1),
+	l.emp = log(emp),
+	l.pay = log(pay),
+	l.prode = log(prode),
+	l.prodh = log(prodh),
+	l.prodw = log(prodw),
+	l.revenue = log(vship),
+	l.matcost = log(matcost),
+	l.invest = log(invest),
+	l.invent = log(invent),
+	l.output = log(output),
+	l.revenue = log(vship),
+	l.cap = log(cap),
+	l.equip = log(equip),
+	l.plant = log(plant),
+	l.tfp4 = log(tfp4),
+	l.tfp5 = log(tfp5),
+	gdp.pc = gdp / population,
+	gdppc.1 = stats::lag(gdp.pc, k = 1),
+	gdp.1 = stats::lag(gdp, k = 1),
+	pinc.1 = stats::lag(personal_income, k = 1),
+	annual.avg.estabs.1 = stats::lag(annual_avg_estabs, k = 1),
+	population.1 = stats::lag(population, k = 1)
+  )
+
+triQs <- triQs %>%
+  # rename(output = vadd) %>%
   mutate(
 	output = output / 100,
 	l.output = log(x = output),
@@ -1008,8 +1092,8 @@ triQc <- triQc %>%
 #======================================================================================================================#
 # State
 #======================================================================================================================#
-triQc <- triQc %>%
-  rename(fips.code = fips_code) %>%
+triQs <- triQs %>%
+  # rename(fips.code = fips_code) %>%
   mutate(
 	hap.chems = case_when(chemical.classification == "TRI" ~ 1, T ~ 0),
 	dioxin.chems = case_when(chemical.classification == "Dioxin" ~ 1, T ~ 0),
@@ -1021,18 +1105,18 @@ triQc <- triQc %>%
 	post = case_when(year == 2014 | year == 2015 | year == 2017 ~ 1, T ~ 0),
 	naics.code = as.numeric(naics.code),
 	facility.id = as.numeric(facility.id),
-	facility.zipcode = as.numeric(facility.zipcode),
+	# facility.zipcode = as.numeric(facility.zipcode),
 	facility.id.fe = as.numeric(as.factor(facility.id)),
 	chemical.id.fe = as.numeric(as.factor(chemical.id)),
 	facility.state.fe = as.numeric(as.factor(facility.state)),
-	fips.code.fe = as.numeric(as.factor(fips.code)),
-	fips.code = as.numeric(fips.code),
-	border.county = as.numeric(treated.cluster.id) * as.numeric(control.cluster.id),
-	border.county.fe = as.numeric(as.factor(border.county)),
+	# fips.code.fe = as.numeric(as.factor(fips.code)),
+	# fips.code = as.numeric(fips.code),
+	# border.county = as.numeric(treated.cluster.id) * as.numeric(control.cluster.id),
+	# border.county.fe = as.numeric(as.factor(border.county)),
 	border.state.fe = as.numeric(as.factor(treated.match)) * as.numeric(as.factor(control.match)),
 	chemical.year.fe = chemical.id.fe * year,
-	border.county.year.fe = border.county.fe * year,
-	border.county.year = border.county.fe * as.numeric(as.factor(year)),
+	# border.county.year.fe = border.county.fe * year,
+	# border.county.year = border.county.fe * as.numeric(as.factor(year)),
 	border.state.year.fe = border.state.fe * year,
 	border.state.year = border.state.fe * as.numeric(as.factor(year))
   )

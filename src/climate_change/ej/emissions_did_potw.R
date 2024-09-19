@@ -7,15 +7,15 @@ library(car)
 #======================================================================================================================#
 ## Working Directory
 #======================================================================================================================#
-setwd(dir = "C:/Users/david/OneDrive/Documents/ULMS/PhD/")
-source(file = "./Thesis/chapter3/src/climate_change/codes/functions.R", echo = T)
+setwd(dir = "your_path")
+source(file = "your_path/functions.R", echo = T)
 #======================================================================================================================#
 ### Loading Data
 #======================================================================================================================#
-file <- "./Data_PhD/US/BLS/offsite/triQc_potw.rds"
+file <- "your_path/triQc_potws_econj.rds"
 triQc <- read_rds(file = file)
 #======================================================================================================================#
-### Labour Cost---Wage per hr, weekly wages, and  total wages
+### Labour Cost---Wage per hr, weekly wages, and total wages
 #======================================================================================================================#
 table(triQc$facility.state, triQc$ch.year)
 n_distinct(triQc$chemical.name)

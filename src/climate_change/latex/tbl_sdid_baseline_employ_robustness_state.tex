@@ -1,0 +1,36 @@
+% Please add the following required packages to your document preamble:
+% \usepackage{booktabs}
+% \usepackage{graphicx}
+\begin{table}[H]
+    \centering
+    \caption{Employment and Hours: Alternative Clustering of the SEs}
+    \label{tab:baseline-employ-robustness}
+    \resizebox{\columnwidth}{!}{%
+        \begin{tabular}{@{}lllllll@{}}
+            \toprule\toprule
+            & \multicolumn{2}{c}{Employment} & \multicolumn{2}{c}{Production Workers} & \multicolumn{2}{c}{Production Hours} \\
+            \cmidrule(lr){2-3} \cmidrule(lr){4-5} \cmidrule(lr){6-7}
+            Dependent Var.    & 1         & 2         & 3         & 4         & 5         & 6         \\ \midrule
+            $Treated^{e}$     & -0.002    & -0.002    & -0.029    & -0.029    & -0.027    & -0.027    \\
+            & (0.053)   & (0.050)   & (0.053)   & (0.049)   & (0.054)   & (0.049)   \\
+            cohort 2014       & -0.058    & -0.058    & -0.095*   & -0.095*   & -0.095*   & -0.095*   \\
+            & (0.058)   & (0.054)   & (0.059)   & (0.056)   & (0.060)   & (0.056)   \\
+            cohort 2015       & 0.094     & 0.094     & 0.083     & 0.083     & 0.090     & 0.090     \\
+            & (0.105)   & (0.108)   & (0.105)   & (0.106)   & (0.105)   & (0.106)   \\
+            cohort 2017       & -0.366    & -0.366    & -0.318    & -0.318    & -0.289    & -0.289    \\
+            & (0.340)   & (0.342)   & (0.366)   & (0.366)   & (0.358)   & (0.357)   \\
+            controls          & Yes       & Yes       & Yes       & Yes       & Yes       & Yes       \\
+            year FE           & Yes       & Yes       & Yes       & Yes       & Yes       & Yes       \\
+            state FE          & Yes       & Yes       & Yes       & Yes       & Yes       & Yes       \\
+            border-state FE   & Yes       & Yes       & Yes       & Yes       & Yes       & Yes       \\
+            border-state LTs  & Yes       & Yes       & Yes       & Yes       & Yes       & Yes       \\ \midrule
+            clustered at the: & facility  & industry  & facility  & industry  & facility  & industry  \\
+            Observations      & 1,893,689 & 1,893,689 & 1,893,689 & 1,893,689 & 1,893,689 & 1,893,689 \\
+            $R^2$             & 0.211     & 0.211     & 0.195     & 0.195     & 0.199     & 0.199     \\ \bottomrule \bottomrule
+        \end{tabular}%
+    }
+    \begin{minipage}{\columnwidth}
+        \vspace{0.05in}
+        \tiny NOTES: These results are obtained from estimating model~\ref{eq:baseline-emp-hours}. Robust standard errors clustered at the state level are reported in parentheses. ***, **, and * denote significance levels at the less than $1\%$, $5\%$ and $10\%$, respectively.
+    \end{minipage}
+\end{table}

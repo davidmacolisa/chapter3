@@ -23,9 +23,15 @@ For Employment, Production workers, and Hours, use "wage_did_onsite.R"
 
 For Output, output per hour, output per worker or labour productivity, use "wage_did_offsite.R"
 
+For Profits and profit margin, use "wage_did_offsite.R"
+
 Preliminary heterogeneity, use "wage_did_heterogeneous.R"
 
 Preliminary robustness checks, use "wage_did_robustness.R"
+
+The state-level results are in all "*_state.R" scripts.
+
+
 
 # Main regressions: Environmental effects
 # Onsite release intensities

@@ -1,5 +1,5 @@
 #======================================================================================================================#
-### County level Fixed Effect Functions
+### County and State level Fixed Effect Functions
 #======================================================================================================================#
 county_fes <- function() {
   fes <- paste(
@@ -18,6 +18,28 @@ did_county_fes <- function() {
 	"fips.code.fe",
 	"border.county.fe",
 	"border.county.year.fe)",
+	sep = ","
+  )
+  return(fes)
+}
+
+state_fes <- function() {
+  fes <- paste(
+	"year +",
+	"facility.state.fe +",
+	"border.state.fe +",
+	"border.state.year.fe"
+  )
+  return(fes)
+}
+
+did_state_fes <- function() {
+  fes <- paste(
+	"csw(",
+	"year",
+	"facility.state.fe",
+	"border.state.fe",
+	"border.state.year.fe)",
 	sep = ","
   )
   return(fes)
@@ -237,6 +259,32 @@ did_tri_fes <- function() {
 	"chemical.id.fe",
 	"chemical.year.fe",
 	"border.county.year)",
+	sep = ","
+  )
+  return(fes)
+}
+
+tri_state_fes <- function() {
+  fes <- paste(
+	"year +",
+	"facility.id.fe +",
+	"border.state.fe +",
+	"chemical.id.fe +",
+	"chemical.year.fe +",
+	"border.state.year"
+  )
+  return(fes)
+}
+
+did_tri_state_fes <- function() {
+  fes <- paste(
+	"csw(",
+	"year",
+	"facility.id.fe",
+	"border.state.fe",
+	"chemical.id.fe",
+	"chemical.year.fe",
+	"border.state.year)",
 	sep = ","
   )
   return(fes)

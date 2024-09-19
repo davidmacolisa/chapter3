@@ -15,12 +15,12 @@ library(car)
 #======================================================================================================================#
 ## Working Directory
 #======================================================================================================================#
-setwd(dir = "C:/Users/david/OneDrive/Documents/ULMS/PhD/")
+setwd(dir = "your_path")
 #======================================================================================================================#
 ### Loading Data
 #======================================================================================================================#
-source(file = "./Thesis/chapter3/src/climate_change/codes/functions.R", echo = T)
-file <- "./Data_PhD/US/BLS/onsite/triQc_on.rds"
+source(file = "your_path/functions.R", echo = T)
+file <- "your_path/triQc_onsite_econj.rds"
 triQc <- read_rds(file = file)
 #======================================================================================================================#
 ### Triple Differences
@@ -39,11 +39,10 @@ triQc <- triQc %>%
   ungroup()
 sum_up(triQc, c(low.skilled.workers, wage.perhr))
 #======================================================================================================================#
-### Financial Constraints
-### I proxy financial constraints by the first pre-treatment period ratio of industries profit margin. That is, the
-# ratio of industry revenue to profit, which measures the proportion of industry revenue allocated to profit.
-# Industries with profit margin lower than the median profit margin are more financially constrained, and those above
-# are low.
+### Profitability
+### I proxy profitability by the first pre-treatment period indutry profits.
+# Industries with profits lower than the median are more less profitable, and those above
+# are more profitable.
 #======================================================================================================================#
 triQc <- triQc %>%
   group_by(year, naics.code) %>%

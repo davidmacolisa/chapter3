@@ -1,0 +1,117 @@
+%======================================================================================================================%
+\documentclass{C:/Users/david/OneDrive/Documents/ULMS/PhD/Thesis/chapter3/src/climate_change/latex/Economic_Journal/OUP-EJ}
+%\documentclass{oup-authoring-template}
+%======================================================================================================================%
+% Preamble
+%\usepackage{times}
+\usepackage{float}
+\usepackage[a4paper, left=2.5cm, right=2.5cm]{geometry}
+\usepackage{hyperref}
+\hypersetup{colorlinks = true, citecolor = blue, linkcolor = blue, urlcolor = blue, hypertexnames = true}
+\newcommand{\shortlink}[1]{\href{https://www.#1}{\texttt{#1}}}
+%======================================================================================================================%
+\begin{document}
+%======================================================================================================================%
+% Title Page
+    \title[Online Supplementary Material]{Unforeseen Minimum Wage Consequences}
+    \author[1,*]{Davidmac O. Ekeocha}
+    \affil[1]{University of Liverpool Management School, Chatham Street, Liverpool, L69 7ZH, United Kingdom}
+    \corres[*]{Correspondence e-mail: davidmac.ekeocha@liverpool.ac.uk}
+    \aunotes[\dagger]{University of Liverpool Management School, Chatham Street, Liverpool, L69 7ZH, United Kingdom}
+%======================================================================================================================%
+    \begin{abstract}
+        \noindent This online supplementary material presents the state-level baseline results for the article, Unforeseen Minimum Wage Consequences. Although, I lost some statistical power due to small number of state clusters relative to the number of counties, the results here show consistency in the direction of the effects with the county-level results reported in the original manuscript.
+    \end{abstract}
+    \keywords{Minimum Wage, Toxic Releases, Staggered Difference-in-Differences, United States}
+%======================================================================================================================%
+    \maketitle
+%======================================================================================================================%
+
+
+    \section{Industry Costs, Employment and Outputs}\label{sec:industry-costs-employment-and-outputs}
+    The state-level preliminary analyses begin in this section by examining the effect of raising MW on manufacturing industry costs (labour and materials), employment, production workers and hours, and outputs. To rule out any possible treatment selection, I estimate this state-level equation:
+    \begin{equation}
+        Treated_{s,t}^e = \beta Z_{f,sp,t} + \lambda_{t} + \phi_{sp} + \delta_{s} + \zeta_{sp,t} + \epsilon_{f,sp,t}\label{eq:treatment-selection}
+    \end{equation}
+
+    Where $Treated_{s,t}^e = 1[t - G_{s,t}]$ denotes treated states that are $e$-periods away from the initial treatment date, and $G_{s,t}$ is the vector of initial treatment dates. $Z_{f,sp,t}$ is the vector of facilities by state-pair covariates, and $\beta$ is the vector of coefficients. Albeit, the year fixed effects, $\lambda_{t}$, nets out any inflationary effects, city-region inflation is explicitly controlled for in the model. Cross-border state-pair, $\phi_{sp}$, and state, $\delta_{s}$, fixed effects are controlled for to account for within cross-border state-pair and state differences that may affect the MW policy. Finally, I control for cross-border state-pair linear trends, $\zeta_{sp,t}$, to account for time-varying common shocks affecting the evolution of the MW policy in paired cross-border states. The result (reported in Table~\ref{tab:treatment-selection}) showed no significant treatment selection effects in the following covariates: lagged values of county-level gross domestic product (GDP), GDP per capita, annual average establishments; inflation; average number of establishments, industry ownership and coverage.
+    \input{tbl_treatment_selection_state}
+
+    \subsection{Baseline Results: Industry Costs}\label{subsec:baseline-results-industry-costs}
+    In what follows, I estimate the state-level wage responses of manufacturing industry employees in the baseline. The baseline model is given by:
+    \begin{equation}
+        C_{i,sp,t} = \beta Treated_{s,t}^e + \delta X_{v,s,t-1} + \omega F_{f,t} + \lambda_{t} + \sigma_{s} + \phi_{sp} + \zeta_{sp,t} + \epsilon_{i,sp,t},\label{eq:baseline-wages}
+    \end{equation}
+
+    where $C_{i,sp,t}$ is the vector of industry costs (hourly wages, total payroll and material costs) of manufacturing industry, $i$ in cross-border state pairs, $sp$ in the year, $t$. $Treated_{s,t}^e = \textbf{1}[t - G_{s,t}]$ is unity for the treated states that are $e$-periods away from the vector of initial treatment dates, $G_{s,t}$ and zero for the control states. $X_{v,s,t-1}$ denotes lagged values of county-level GDP per capita, annual average establishments, and city-region inflation~\citep{gopalan2021state, dube2010minimum, clemens2019making}. $F_{f,t}$ contains facility dummies on industry ownership.
+
+    I control for year fixed effects, $\lambda_{t}$ to account for time varying differences in the MW policy as well as trending inflation. Cross-border state-pair, $\phi_{sp}$ and state, $\sigma_{s}$ fixed effects are controlled for to account for within state-pair and state differences that may affect the MW policy such as within state industry compositions and political climate. Finally, $\zeta_{sp,t}$ is the cross-border state-pair linear trends to control for the evolution of common shocks in cross-border state-pairs. Standard errors are clustered at the state level as there are possibilities that changes in MW may be correlated within a state, and it is the level of the treatment.
+    \input{tbl_sdid_baseline_industry_costs_state}
+
+    The average treatment effect on the treated (ATT) is captured by $\beta$, which is the difference in the average effect of raising the MW floor on manufacturing industry costs in treated states relative to adjacent control states. The effects measured by $\beta$ are recovered using the~\citet{sun2021estimating} staggered difference-in-differences estimator, an improvement over the TWFE estimator.
+
+    The results on industry costs are reported in Table~\ref{tab:baseline-industry-costs}. I find that a higher MW policy increases manufacturing industry wages (labour costs) in treated states relative to adjacent control states. Manufacturing industry wages per hour rose by $\$0.70$. This result is close to the county-level estimate, and still higher than that documented in~\citet{gopalan2021state} for the industry-wide effect on hourly wages of $\$0.48$. I further document an increase in total payroll in treated states relative to adjacent control states by $4.4$ percentage points (ppts), as well as an increase in cost of materials in manufacturing industries.
+
+    The cohorts specific effects reveal that except for the $2017$ cohort where labour cost declined, it is positive for the $2014$ and $2015$ cohorts. Similarly, I find an increase in total payroll for the $2015$ cohort, and an increase in material cost for the $2014$ cohort. However, I find a declining effect in total payroll and material cost for the $2017$ cohort---Maine.
+    \input{fig_sdid_industry_costs_state}
+    \input{fig_sdid_industry_cost_heter_state}
+
+    Due to loss of statistical power at the state-level, the dynamic effects appear to be insignificant, however, they are consistent with the direction of impact in Figure~\ref{fig:baseline-manufacturing-industry-costs}. It shows increases in hourly wages, total payrolls and cost of materials in the post-treatment periods.
+
+    \subsection{Baseline Results: Employment and Hours}\label{subsec:baseline-results-employment-and-hours}
+    This subsection estimates the state-level effect of raising MW on employment of manufacturing industry workers and their production hours. The model is given by:
+    \begin{equation}
+        E_{i,sp,t} = \beta Treated_{s,t}^e + \delta X_{v,s,t-1} + \omega F_{f,t} + \lambda_{t} + \sigma_{s} + \phi_{sp} + \zeta_{sp,t} + \epsilon_{i,sp,t},\label{eq:baseline-emp-hours}
+    \end{equation}
+    where $E_{i,sp,t}$ is the vector of employment, total production workers and hours in manufacturing industry, $i$ in cross-border state pairs, $sp$ in the year, $t$. Standard errors are clustered at the state level.
+    \input{tbl_sdid_baseline_employ_hours_state}
+
+    The average treatment effect on the treated (ATT) is captured by $\beta$, which is the difference in the average effect of raising the MW floor on manufacturing industry employment, production workers and hours in treated states relative to adjacent control states.
+
+    The results are reported in Table~\ref{tab:baseline-employment-hours}. It reports results consistent with the county-level. It shows no significant changes in overall manufacturing industry employment, total production workers and hours following an MW policy in the treated states relative to adjacent control states. Particularly, the size of the effect suggests a sharp null effect of the MW policy on manufacturing industry employment including production workers and hours, after accounting for time-varying common shocks to border states. These results are consistent with the labour market literature assuming monopsonistic competition~\citep{card2000minimum, aaronson2018industry, cengiz2019effect, wong2019minimum, dustmann2022reallocation}.
+
+    However, I find heterogeneity in the cohort-specific effects. While there are disemployment effects in the $2014$ and $2017$ cohorts, there is a positive effect on employment in the $2015$ cohort. These disemployment effects as shown in Figure~\ref{fig:baseline-manufacturing-industry-employment-heter} are dominated in low-skilled workers, low-profit and labour-intensive industries, and driven by the declining number of production workers and hours due to higher labour costs. These disemployment effects explain the decline in total payroll and material cost in the $2017$ cohort in subsection~\ref{subsec:baseline-results-industry-costs}. On the other hand, the positive employment effect is dominated in high-skilled workers, high-profit and capital-intensive industries.
+
+    Similarly, the dynamic treatment effects in Figure~\ref{fig:baseline-employment-hours} show an insignificant positive post-treatment increases in manufacturing industry employment (including production workers and hours) followed by a decline in the third year.~\citet{neumark2019econometrics} argues that cross-border studies may be biased against detecting disemployment effects due to worker mobility spillovers. To test if my results are influenced by cross-state mobility, potentially violating the stable unit treatment assumption, I use the interaction of the staggered difference-in-differences coefficient with the distance between population centers. The principle here is that worker mobility to states/states with higher MW decreases as geographic distance to that state/state increases. Table~\ref{tab:baseline-cross-county-state-mobility} indicates that worker mobility does not affect the overall baseline results, including the positive employment effect specific to the $2015$ cohort. However, the disemployment effects observed for the $2014$ and $2017$ cohorts are explained by workers' unwillingness to commute to distant states with higher MW. This supports the hypothesis that worker mobility decreases with increasing distance to higher MW regions. This indicates that the higher MW policy heightens the reluctance of low-skilled manufacturing industry workers to commute to regions with higher MW, as the demand for high-skilled manufacturing industry workers increase. There is no evidence of pre-trends.
+    \input{fig_sdid_emp_hours_state}
+    \input{fig_sdid_industry_emp_hours_heter_state}
+
+    \subsection{Baseline Results: Industrial Output}\label{subsec:baseline-results-industrial-output}
+    This subsection estimates the effect of raising MW on outputs of the manufacturing industry. The model is given by:
+    \begin{equation}
+        Y_{i,sp,t} = \beta Treated_{s,t}^e + \delta X_{v,s,t-1} + \omega F_{f,t} + \lambda_{t} + \sigma_{s} + \phi_{sp} + \zeta_{sp,t} + \epsilon_{i,sp,t},\label{eq:baseline-output}
+    \end{equation}
+    where $Y_{i,sp,t}$ is the vector of manufacturing industry output, output per hour and output per worker (labour productivity), in manufacturing industry, $i$ in cross-border state pairs, $sp$ in the year, $t$. Standard errors are clustered at the state level.
+    \input{tbl_sdid_baseline_output_state}
+
+    The average treatment effect on the treated (ATT) is captured by $\beta$, which is the difference in the average effect of raising the MW floor on manufacturing industry output, output per hour and output per worker in treated states relative to adjacent control states.
+
+    The results are reported in Table~\ref{tab:baseline-industry-output}. Following an MW policy, I still document large statistically significant increases in manufacturing industry outputs by $13ppts$ in treated states for the $2014$ and $2015$ cohorts. Additionally, the output per hour and labour productivity rose by $14.4$ and $12.7$ (ppts), respectively. Thus, suggesting that for every $\$0.70/hr$ increase in wages, output per hour and labour productivity rise by those margins. Back of the envelop calculation shows that manufacturing industry output per hour and labour productivity increases by an additional $0.157 \cdot 2.62 \cdot \left(\frac{\$100m}{\$1m}\right) = \$41.13$ units per hour and $0.132 \cdot 3.65 \cdot \left(\frac{\$100m}{\$1000}\right) = \$48,180$ units per worker, respectively. The rising output is dominated amongst high-skilled workers, while labour productivity is dominated amongst low-profit industries.
+
+    The cohort-specific effects reveal significant and substantially strong increases in total output, output per hour and output per worker across all cohorts, except for the $2017$ cohort. The decline in overall output for the $2017$ cohort is still explained by the decline in employment and number of production hours in labour-intensive industries since low-skilled workers are less likely to commute to distant higher MW states. The state-level results are marginally largely than the county-level.
+
+    Figure~\ref{fig:baseline-industry-output} records consistent results. The MW policy caused instantaneous significant increases in manufacturing industry outputs, output per hour and output per worker in treated states relative to adjacent control states. The effects on output per hour and output per worker persists throughout the spectrum. Importantly, there is no evidence of significant pre-trends.
+    \input{fig_sdid_output_state}
+    \input{fig_sdid_industry_output_heter_state}
+
+    \subsection{Baseline Results: Industry Profits}\label{subsec:baseline-results-industry-profits}
+    Figure~\ref{fig:baseline-manufacturing-industry-profits} records consistent results with the county-level. Higher MW policies leads to higher profits for the manufacturing industry. Essential, this is driven by higher output levels amid higher labour costs and labour productivity.
+    \input{fig_sdid_industry_profits_state}
+
+    \subsection{Baseline Robustness}\label{subsec:baseline-robustness}
+    I conduct several robustness exercises to confirm the robustness of the baseline industry results presented above.
+
+    \subsubsection{Standard Errors} Standard errors are clustered at the facility, zipcode, industry NAICS codes, and state levels. I document that the state-level results are not sensitive to these alternative clustering at the facility and NAICS levels. See Tables~\ref{tab:baseline-cost-robustness},~\ref{tab:baseline-employ-robustness} and~\ref{tab:baseline-output-robustness}.
+    \input{tbl_sdid_baseline_cost_robustness_state}
+    \input{tbl_sdid_baseline_employ_robustness_state}
+    \input{tbl_sdid_baseline_output_robustness_state}
+
+    \subsubsection{Cross-Worker Mobility}\label{subsubsec:cross-worker-mobility}
+    The results here rejects the hypothesis of cross-worker state mobility.
+    \input{tbl_sdid_baseline_worker_mobility_state}
+%======================================================================================================================%
+    \bibliographystyle{C:/Users/david/OneDrive/Documents/ULMS/PhD/Thesis/chapter3/src/climate_change/latex/Economic_Journal/ejbib}
+    \bibliography{emissions}
+%======================================================================================================================%
+\end{document}
+%======================================================================================================================%

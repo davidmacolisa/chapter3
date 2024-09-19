@@ -15,12 +15,12 @@ library(car)
 #======================================================================================================================#
 ## Working Directory
 #======================================================================================================================#
-setwd(dir = "C:/Users/david/OneDrive/Documents/ULMS/PhD/")
+setwd(dir = "your_path")
 #======================================================================================================================#
 ### Loading Data
 #======================================================================================================================#
-source(file = "./Thesis/chapter3/src/climate_change/codes/functions.R", echo = T)
-file <- "./Data_PhD/US/BLS/onsite/triQc_on.rds"
+source(file = "your_path/functions.R", echo = T)
+file <- "your_path/triQc_onsite_econj.rds"
 triQc <- read_rds(file = file)
 #======================================================================================================================#
 ### Labour Cost---Wage per hour, per worker, material cost, profits, and outputs.
@@ -108,7 +108,7 @@ sdid_wages <- sdid_baseline(
   depvar = "wage.perhr",
   ATT = "sunab(ch.year, year)",
   cluster = ~facility.state,
-  fes = did_tri_fes()
+  fes = did_county_fes()
 )
 etable(sdid_wages, agg = "ATT", digits = 3, digits.stats = 3)
 etable(sdid_wages, agg = "cohort", digits = 3, digits.stats = 3)
@@ -369,7 +369,7 @@ sdid_emp <- sdid_baseline(
   depvar = "l.emp",
   ATT = "sunab(ch.year, year)",
   cluster = ~facility.state,
-  fes = county_fes()
+  fes = did_county_fes()
 )
 etable(sdid_emp, agg = "ATT", digits.stats = 3, digits = 3)
 etable(sdid_emp, agg = "cohort", digits.stats = 3, digits = 3)

@@ -14,8 +14,8 @@ setwd(dir = "C:/Users/david/OneDrive/Documents/ULMS/PhD/")
 #======================================================================================================================#
 ### Loading Scripts and Data
 #======================================================================================================================#
-source(file = "./Thesis/chapter3/src/climate_change/codes/functions.R", echo = T)
-file <- "./Data_PhD/US/BLS/onsite/triQc_on.rds"
+source(file = "your_path/functions.R", echo = T)
+file <- "your_path/triQc_onsite_econj.rds"
 triQc <- read_rds(file = file)
 #======================================================================================================================#
 ### Triple Differences

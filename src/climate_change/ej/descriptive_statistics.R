@@ -202,10 +202,7 @@ chemicals <- chemicals_onsite %>%
 	attribute = case_when(
 	  n.carcinogen > 0 ~ "carcinogenic",
 	  n.caa > 0 ~ "clean air act",
-	  # n.pfas > 0 ~ "polyfluoroalkyl",
 	  n.met.restr.tri > 0 ~ "metal restricted",
-	  # n.met.incl.tri > 0 ~ "elemental metal included",
-	  # n.chem.intm.uses > 0 ~ "intermediate uses",
 	  n.chem.form.comp > 0 ~ "formulation component",
 	  n.chem.art.comp > 0 ~ "article component",
 	  n.chem.manu.aid > 0 ~ "manufacturing aid",
@@ -213,7 +210,6 @@ chemicals <- chemicals_onsite %>%
 	  n.carcinogen == 0 |
 		n.caa == 0 |
 		n.met.restr.tri == 0 |
-		# n.met.incl.tri == 0 |
 		n.chem.form.comp == 0 |
 		n.chem.art.comp == 0 |
 		n.chem.manu.aid == 0 |
@@ -256,7 +252,7 @@ naics_distribution <- triQc %>%
   theme_bw() +
   theme(axis.text.x = element_text(angle = 90, vjust = 0.5, hjust = 1, size = 18),
 		axis.title.x = element_text(size = 18))
-pdf(file = "../latex/fig_naics_distribution.pdf", width = 12, height = 10)
+pdf(file = "./Thesis/chapter3/src/climate_change/latex/fig_naics_distribution.pdf", width = 12, height = 10)
 naics_distribution
 dev.off()
 #======================================================================================================================#
@@ -292,7 +288,7 @@ releases_distribution_mean_naics <- triQc %>%
   theme_bw() +
   theme(axis.text.x = element_text(angle = 90, vjust = 0.5, hjust = 1, size = 18),
 		axis.title.x = element_text(size = 20))
-pdf(file = "../latex/fig_releases_distribution_naics.pdf", width = 20, height = 10)
+pdf(file = "./Thesis/chapter3/src/climate_change/latex/fig_releases_distribution_naics.pdf", width = 20, height = 10)
 releases_distribution_sum_naics + releases_distribution_mean_naics
 dev.off()
 #======================================================================================================================#
@@ -328,7 +324,7 @@ air_emissions_distribution_mean_naics <- triQc %>%
   theme_bw() +
   theme(axis.text.x = element_text(angle = 90, vjust = 0.5, hjust = 1, size = 18),
 		axis.title.x = element_text(size = 20))
-pdf(file = "../latex/fig_air_emissions_distribution_naics.pdf", width = 20, height
+pdf(file = "./Thesis/chapter3/src/climate_change/latex/fig_air_emissions_distribution_naics.pdf", width = 20, height
   = 10)
 air_emissions_distribution_sum_naics + air_emissions_distribution_mean_naics
 dev.off()
@@ -365,7 +361,7 @@ land_releases_distribution_mean_naics <- triQc %>%
   theme_bw() +
   theme(axis.text.x = element_text(angle = 90, vjust = 0.5, hjust = 1, size = 18),
 		axis.title.x = element_text(size = 20))
-pdf(file = "../latex/fig_land_releases_distribution_naics.pdf", width = 20, height
+pdf(file = "./Thesis/chapter3/src/climate_change/latex/fig_land_releases_distribution_naics.pdf", width = 20, height
   = 10)
 land_releases_distribution_sum_naics + land_releases_distribution_mean_naics
 dev.off()
@@ -402,7 +398,7 @@ surface_water_distribution_mean_naics <- triQc %>%
   theme_bw() +
   theme(axis.text.x = element_text(angle = 90, vjust = 0.5, hjust = 1, size = 18),
 		axis.title.x = element_text(size = 20))
-pdf(file = "../latex/fig_water_distribution_naics.pdf", width = 20, height = 10)
+pdf(file = "./Thesis/chapter3/src/climate_change/latex/fig_water_distribution_naics.pdf", width = 20, height = 10)
 surface_water_distribution_sum_naics + surface_water_distribution_mean_naics
 dev.off()
 #======================================================================================================================#
@@ -440,7 +436,7 @@ releases_distribution_mean_states <- triQc %>%
   theme_bw() +
   theme(axis.text.x = element_text(angle = 0, vjust = 0.0, hjust = 0.5, size = 15),
 		axis.title.x = element_text(size = 10))
-pdf(file = "../latex/fig_releases_distribution_state.pdf", width = 23, height = 5)
+pdf(file = "./Thesis/chapter3/src/climate_change/latex/fig_releases_distribution_state.pdf", width = 23, height = 5)
 releases_distribution_sum_states + releases_distribution_mean_states
 dev.off()
 #======================================================================================================================#
@@ -478,7 +474,7 @@ air_emissions_distribution_mean_states <- triQc %>%
   theme_bw() +
   theme(axis.text.x = element_text(angle = 0, vjust = 0.0, hjust = 0.5, size = 15),
 		axis.title.x = element_text(size = 10))
-pdf(file = "../latex/fig_air_emissions_distribution_state.pdf", width = 23, height
+pdf(file = "./Thesis/chapter3/src/climate_change/latex/fig_air_emissions_distribution_state.pdf", width = 23, height
   = 5)
 air_emissions_distribution_sum_states + air_emissions_distribution_mean_states
 dev.off()
@@ -517,7 +513,7 @@ land_releases_distribution_mean_states <- triQc %>%
   theme_bw() +
   theme(axis.text.x = element_text(angle = 0, vjust = 0, hjust = 0.5, size = 15),
 		axis.title.x = element_text(size = 10))
-pdf(file = "../latex/fig_land_releases_distribution_state.pdf", width = 23, height
+pdf(file = "./Thesis/chapter3/src/climate_change/latex/fig_land_releases_distribution_state.pdf", width = 23, height
   = 5)
 land_releases_distribution_sum_states + land_releases_distribution_mean_states
 dev.off()
@@ -557,7 +553,7 @@ water_discharge_distribution_mean_states <- triQc %>%
   theme_bw() +
   theme(axis.text.x = element_text(angle = 0, vjust = 0, hjust = 0.5, size = 15),
 		axis.title.x = element_text(size = 10))
-pdf(file = "../latex/fig_water_discharge_distribution_state.pdf", width = 23,
+pdf(file = "./Thesis/chapter3/src/climate_change/latex/fig_water_discharge_distribution_state.pdf", width = 23,
 	height = 5)
 water_discharge_distribution_sum_states + water_discharge_distribution_mean_states
 dev.off()
@@ -582,7 +578,7 @@ releases_distribution_carcinogenic <- triQc %>%
   theme_bw() +
   theme(axis.text.x = element_text(angle = 0, vjust = 0, hjust = 0.5, size = 15),
 		axis.title.x = element_text(size = 10))
-pdf(file = "../latex/fig_releases_distribution_carcinogenic.pdf", width = 12,
+pdf(file = "./Thesis/chapter3/src/climate_change/latex/fig_releases_distribution_carcinogenic.pdf", width = 12,
 	height = 5)
 releases_distribution_carcinogenic
 dev.off()
@@ -605,7 +601,7 @@ releases_distribution_caa <- triQc %>%
   theme_bw() +
   theme(axis.text.x = element_text(angle = 0, vjust = 0.0, hjust = 0.5, size = 15),
 		axis.title.x = element_text(size = 10))
-pdf(file = "../latex/fig_releases_distribution_caa.pdf", width = 12, height = 5)
+pdf(file = "./Thesis/chapter3/src/climate_change/latex/fig_releases_distribution_caa.pdf", width = 12, height = 5)
 releases_distribution_caa
 dev.off()
 
@@ -627,7 +623,7 @@ releases_distribution_haps <- triQc %>%
   theme_bw() +
   theme(axis.text.x = element_text(angle = 0, vjust = 0.0, hjust = 0.5, size = 15),
 		axis.title.x = element_text(size = 10))
-pdf(file = "../latex/fig_releases_distribution_haps.pdf", width = 12, height = 5)
+pdf(file = "./Thesis/chapter3/src/climate_change/latex/fig_releases_distribution_haps.pdf", width = 12, height = 5)
 releases_distribution_haps
 dev.off()
 
@@ -649,7 +645,7 @@ releases_distribution_pbts <- triQc %>%
   theme_bw() +
   theme(axis.text.x = element_text(angle = 0, vjust = 0, hjust = 0.5, size = 15),
 		axis.title.x = element_text(size = 10))
-pdf(file = "../latex/fig_releases_distribution_pbts.pdf", width = 12, height = 5)
+pdf(file = "./Thesis/chapter3/src/climate_change/latex/fig_releases_distribution_pbts.pdf", width = 12, height = 5)
 releases_distribution_pbts
 dev.off()
 #======================================================================================================================#
@@ -809,7 +805,7 @@ total_land_plot <- ggplot(
 	legend.position = c(x = 0.1, y = 0.6),  # Adjust x and y position
   )
 
-pdf(file = "../latex/motivation_plots.pdf", width = 18, height = 8)
+pdf(file = "./Thesis/chapter3/src/climate_change/latex/motivation_plots.pdf", width = 18, height = 8)
 total_releases_int_plot +
   total_air_plot +
   total_point_air_plot +
@@ -998,28 +994,6 @@ summ_potw_tex <- summ_potw %>%
 # Print or save the LaTeX table
 cat(summ_potw_tex)
 writeLines(summ_potw_tex, con = "./Thesis/chapter3/src/climate_change/latex/tbl_summ_potw_tex1.tex")
-#======================================================================================================================#
-### Summary Statistics - Mechanisms
-#======================================================================================================================#
-mech_onsite <- sum_up(
-  df = triQc,
-  c(total.waste.management.onsite, biological.treatment.onsite, incineration.thermal.treatment.onsite,
-	physical.treatment.onsite, industrial.boiler.onsite, recycling.onsite, reuse.onsite, source.reduction,
-	sub.fuel.matsubmod, sub.organic.solvent.matsubmod, mod.content.grade.purity.chems.matsubmod,
-	recirculationinprocess.pequipmod, newtech.technique.process.pequipmod, containers.sizechange.immgt,
-	improved.materialhandling.operations.immgt, energy.cost.intensity, tfp5, recycling.dummy)
-) %>%
-  select(-Missing) %>%
-  mutate(across(where(is.numeric), ~round(., digits = 2)))
-
-# Convert data frame to LaTeX table
-mech_onsite_tex <- mech_onsite %>%
-  kable(format = "latex", label = "Descriptive Statistics: Onsite Mechanisms", booktabs = TRUE) %>%
-  kable_styling()
-
-# Print or save the LaTeX table
-cat(mech_onsite_tex)
-writeLines(mech_onsite_tex, con = "./Thesis/chapter3/src/climate_change/latex/tbl_summ_onsite_mechanisms1.tex")
 #======================================================================================================================#
 ### Pre-period regressions --- County
 #======================================================================================================================#
@@ -1685,7 +1659,7 @@ max_num_chem_pre <- ggplot(did_max_num_chem_data, aes(x = year, y = coefficients
   scale_x_continuous(breaks = seq(min(year), max(year), by = 1))
 max_num_chem_pre
 
-pdf(file = "../latex/fig_pre_evolution.pdf", width = 23, height = 15)
+pdf(file = "./Thesis/chapter3/src/climate_change/latex/fig_pre_evolution.pdf", width = 23, height = 15)
 gdppc_pre +
   gdp_pre +
   pop_pre +
@@ -2365,7 +2339,7 @@ max_num_chem_pre_state <- ggplot(did_max_num_chem_data, aes(x = year, y = coeffi
   ylim(-0.4, 0.4) +
   scale_x_continuous(breaks = seq(min(year), max(year), by = 1))
 max_num_chem_pre_state
-pdf(file = "../latex/fig_pre_evolution_state.pdf", width = 23, height = 15)
+pdf(file = "./Thesis/chapter3/src/climate_change/latex/fig_pre_evolution_state.pdf", width = 23, height = 15)
 gdppc_pre_state +
   gdp_pre_state +
   pop_pre_state +

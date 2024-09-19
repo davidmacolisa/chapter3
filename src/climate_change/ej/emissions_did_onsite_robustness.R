@@ -11,12 +11,12 @@ library(ggplot2)
 #======================================================================================================================#
 ## Working Directory
 #======================================================================================================================#
-setwd(dir = "C:/Users/david/OneDrive/Documents/ULMS/PhD/")
-source(file = "./Thesis/chapter3/src/climate_change/codes/functions.R", echo = T)
+setwd(dir = "your_path")
+source(file = "your_path/functions.R", echo = T)
 #======================================================================================================================#
 ### Loading Data
 #======================================================================================================================#
-file <- "./Data_PhD/US/BLS/onsite/triQc_on.rds"
+file <- "your_path/triQc_onsite_econj.rds"
 triQc <- read_rds(file = file)
 #======================================================================================================================#
 ### Onsite Placebo: Total releases intensity, from catastrophic events

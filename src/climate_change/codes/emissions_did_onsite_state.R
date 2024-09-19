@@ -15,25 +15,82 @@ library(car)
 #======================================================================================================================#
 ## Working Directory
 #======================================================================================================================#
-setwd(dir = "your_path")
+setwd(dir = "C:/Users/david/OneDrive/Documents/ULMS/PhD/")
 #======================================================================================================================#
 ### Loading Functions and Data
 #======================================================================================================================#
-source(file = "your_path/functions.R", echo = T)
-file <- "your_path/triQc_onsite_econj.rds"
-triQc <- read_rds(file = file)
+source(file = "./Thesis/chapter3/src/climate_change/codes/functions.R", echo = T)
+file <- "./Data_PhD/US/BLS/onsite/triQc_on.rds"
+triQs <- read_rds(file = file)
 
-sort(unique(triQc$year))
-sort(unique(triQc$rel.year))
+sort(unique(triQs$year))
+sort(unique(triQs$rel.year))
+#======================================================================================================================#
+# Variable Selection for Journal
+#======================================================================================================================#
+# triQs <- triQs %>%
+#   select(
+# 	c( # Dependent Variables
+# 	  year:unit.of.measure, treated:dist.to.border, e.treated, rel.year, post,
+#
+# 	  total.releases.onsite.intensity,
+# 	  total.air.emissions.onsite.intensity, total.fug.air.emissions.onsite.intensity,
+# 	  total.point.air.emissions.onsite.intensity, total.surface.water.discharge.onsite.intensity,
+# 	  total.num.receiving.streams.onsite, total.underground.injection.onsite.intensity,
+# 	  total.landfills.onsite.intensity, total.releases.toland.treatment.onsite.intensity,
+# 	  total.surface.impoundment.onsite.intensity, total.land.releases.onsite.intensity,
+# 	  total.land.releases.other.onsite.intensity, total.release.onsite.catastrophicevents.intensity,
+#
+# 	  l.total.releases.onsite.intensity,
+# 	  l.total.air.emissions.onsite.intensity, l.total.fug.air.emissions.onsite.intensity,
+# 	  l.total.point.air.emissions.onsite.intensity, l.total.surface.water.discharge.onsite.intensity,
+# 	  l.total.num.receiving.streams.onsite, l.total.underground.injection.onsite.intensity,
+# 	  l.total.landfills.onsite.intensity, l.total.releases.toland.treatment.onsite.intensity,
+# 	  l.total.surface.impoundment.onsite.intensity, l.total.land.releases.onsite.intensity,
+# 	  l.total.land.releases.other.onsite.intensity, l.total.release.onsite.catastrophicevents.intensity,
+#
+# 	  output, prode, prodw, prodh, matcost, output.perhr, output.perworker, wage.perhr, pay, emp, energy,
+# 	  l.output, l.prode, l.prodw, l.prodh, l.matcost, l.output.perhr, l.output.perworker, l.wage.perhr,
+# 	  l.pay, vship,
+#
+# 	  # Regressors
+# 	  entire.facility, private.facility, federal.facility, govt.owned.facility, gdppc.1,
+# 	  annual.avg.estabs.1, cpi.1, produced.chem.facility, imported.chem.facility,
+# 	  chemical.formulation.component, chemical.manufacturing.aid, chemical.ancilliary.use,
+# 	  production.ratio.activity.index, maxnum.chem.onsite, population,
+#
+# 	  gdp, gdp.pc, cpi, cpi.1, pinc.1, annual_avg_estabs, federal.facility, produced.chem.facility,
+# 	  imported.chem.facility, chemical.formulation.component, chemical.article.component,
+# 	  chemical.manufacturing.aid, chemical.ancilliary.use, production.ratio.activity.index,
+# 	  maxnum.chem.onsite, clean.air.act.chems, hap.chems, pbt.chems, carcinogenic.chems,
+# 	  metal.restrict.tri,
+#
+# 	  # Mechanisms
+# 	  l.chemical.treatment.onsite, l.biological.treatment.onsite,
+# 	  l.incineration.thermal.treatment.onsite, l.physical.treatment.onsite,
+# 	  l.recycling.onsite, source.reduction, sub.organic.solvent.matsubmod,
+# 	  l.energy.cost.intensity, newtech.technique.process.pequipmod,
+# 	  recycling.dummy, modified.spray.equipment.pequipmod, l.energy.cost.intensity,
+# 	  changes.inventory.control.immgt, impl.inspection.monitoring.leak.spill.immgt,
+# 	  changed.production.schedule.opt, changes.operating.practices.inventory.control.opt,
+# 	  sub.fuel.matsubmod, recirculationinprocess.pequipmod, modified.spray.equipment.pequipmod,
+# 	  changes.inventory.control.immgt, impr.procedures.loading.transfer.opt,
+#
+# 	  # Fixed effects
+# 	  facility.id.fe, chemical.id.fe, fips.code.fe, border.county.fe, border.county.year,
+# 	  border.county.year.fe, chemical.year.fe, border.state.fe, border.state.year.fe
+# 	)
+#   )
+# write_rds(x = triQs, file = "./Thesis/chapter3/src/climate_change/data/triQ_onsite_econj.rds", compress = "gz")
 #======================================================================================================================#
 ### Onsite: Total releases intensity
 #======================================================================================================================#
 did_total_releases <- did_releases(
-  data = triQc,
+  data = triQs,
   depvar = "l.total.releases.onsite.intensity",
   ATT = "e.treated",
   cluster = ~c(chemical.id, naics.code, facility.state),
-  fes = did_tri_fes()
+  fes = did_tri_state_fes()
 )
 etable(did_total_releases, digits = 3, digits.stats = 3)
 #----------------------------------------------------------------------------------------------------------------------#
@@ -44,7 +101,7 @@ dCDH_decomp <- twowayfeweights(
   T = "year",
   D = "e.treated",
   type = "feTR",
-  data = triQc,
+  data = triQs,
 )
 dCDH_decomp
 # Weakly Positive weights
@@ -54,11 +111,11 @@ sum(dCDH_decomp$weight[dCDH_decomp$weight >= 0])
 sum(dCDH_decomp$weight[dCDH_decomp$weight < 0])
 #----------------------------------------------------------------------------------------------------------------------#
 did_total_releases <- dynamic_did_releases(
-  data = triQc,
+  data = triQs,
   depvar = "l.total.releases.onsite.intensity",
   relative_year = "rel.year",
   cluster = ~c(chemical.id, naics.code, facility.state),
-  fes = tri_fes()
+  fes = tri_state_fes()
 )
 etable(did_total_releases, digits = 3, digits.stats = 3)
 iplot(did_total_releases, xlim = c(-3, 3), ylim = c(-0.5, 0.5), col = "blue",
@@ -73,22 +130,22 @@ linearHypothesis(did_total_releases, paste0(names(pre.treat.coef), " = 0"), test
 # Sun and Abraham (2020)
 #----------------------------------------------------------------------------------------------------------------------#
 sdid_total_releases <- sdid_releases(
-  data = triQc,
+  data = triQs,
   depvar = "l.total.releases.onsite.intensity",
   ATT = "sunab(ch.year, year)",
   cluster = ~c(chemical.id, naics.code, facility.state),
-  fes = did_tri_fes()
+  fes = did_tri_state_fes()
 )
 etable(sdid_total_releases, agg = "ATT", digits = 3, digits.stats = 3)
 etable(sdid_total_releases, agg = "cohort", digits = 3, digits.stats = 3)
 etable(sdid_total_releases, digits = 3, digits.stats = 3)
 
 sdid_total_releases <- dynamic_sdid_releases(
-  data = triQc,
+  data = triQs,
   depvar = "l.total.releases.onsite.intensity",
   ATT = "sunab(ch.year, year)",
   cluster = ~c(chemical.id, naics.code, facility.state),
-  fes = tri_fes()
+  fes = tri_state_fes()
 )
 etable(sdid_total_releases, digits.stats = 3, digits = 3)
 iplot(list(sdid_total_releases, did_total_releases),
@@ -119,11 +176,11 @@ dev.off()
 ### Onsite: Total air emissions intensity
 #======================================================================================================================#
 did_air <- did_releases(
-  data = triQc,
+  data = triQs,
   depvar = "l.total.air.emissions.onsite.intensity",
   ATT = "e.treated",
   cluster = ~c(chemical.id, naics.code, facility.state),
-  fes = did_tri_fes()
+  fes = did_tri_state_fes()
 )
 etable(did_air, digits = 3, digits.stats = 3)
 #----------------------------------------------------------------------------------------------------------------------#
@@ -134,7 +191,7 @@ dCDH_decomp <- twowayfeweights(
   T = "year",
   D = "e.treated",
   type = "feTR",
-  data = triQc,
+  data = triQs,
 )
 dCDH_decomp
 # Weakly Positive weights
@@ -144,11 +201,11 @@ sum(dCDH_decomp$weight[dCDH_decomp$weight >= 0])
 sum(dCDH_decomp$weight[dCDH_decomp$weight < 0])
 #----------------------------------------------------------------------------------------------------------------------#
 did_air <- dynamic_did_releases(
-  data = triQc,
+  data = triQs,
   depvar = "l.total.air.emissions.onsite.intensity",
   relative_year = "rel.year",
   cluster = ~c(chemical.id, naics.code, facility.state),
-  fes = tri_fes()
+  fes = tri_state_fes()
 )
 etable(did_air, digits = 3, digits.stats = 3)
 iplot(did_air, xlim = c(-3, 3), ylim = c(-0.4, 0.4), col = "blue",
@@ -163,22 +220,22 @@ linearHypothesis(did_air, paste0(names(pre.treat.coef), " = 0"), test = "F")
 # Sun and Abraham (2020)
 #----------------------------------------------------------------------------------------------------------------------#
 sdid_air <- sdid_releases(
-  data = triQc,
+  data = triQs,
   depvar = "l.total.air.emissions.onsite.intensity",
   ATT = "sunab(ch.year, year)",
   cluster = ~c(chemical.id, naics.code, facility.state),
-  fes = did_tri_fes()
+  fes = did_tri_state_fes()
 )
 etable(sdid_air, agg = "ATT", digits = 3, digits.stats = 3)
 etable(sdid_air, agg = "cohort", digits = 3, digits.stats = 3)
 etable(sdid_air, digits = 3, digits.stats = 3)
 
 sdid_air <- dynamic_sdid_releases(
-  data = triQc,
+  data = triQs,
   depvar = "l.total.air.emissions.onsite.intensity",
   ATT = "sunab(ch.year, year)",
   cluster = ~c(chemical.id, naics.code, facility.state),
-  fes = tri_fes()
+  fes = tri_state_fes()
 )
 etable(sdid_air, digits.stats = 3, digits = 3)
 iplot(
@@ -195,11 +252,11 @@ legend(x = "bottomright", legend = c("Sun and Abraham (2020) ATT: 0.102*** (0.03
 ### Onsite: Total point air emissions intensity
 #======================================================================================================================#
 did_point_air <- did_releases(
-  data = triQc,
+  data = triQs,
   depvar = "l.total.point.air.emissions.onsite.intensity",
   ATT = "e.treated",
   cluster = ~c(chemical.id, naics.code, facility.state),
-  fes = did_tri_fes()
+  fes = did_tri_state_fes()
 )
 etable(did_point_air, digits = 3, digits.stats = 3)
 #----------------------------------------------------------------------------------------------------------------------#
@@ -210,7 +267,7 @@ dCDH_decomp <- twowayfeweights(
   T = "year",
   D = "e.treated",
   type = "feTR",
-  data = triQc,
+  data = triQs,
 )
 dCDH_decomp
 # Weakly Positive weights
@@ -220,11 +277,11 @@ sum(dCDH_decomp$weight[dCDH_decomp$weight >= 0])
 sum(dCDH_decomp$weight[dCDH_decomp$weight < 0])
 #----------------------------------------------------------------------------------------------------------------------#
 did_point_air <- dynamic_did_releases(
-  data = triQc,
+  data = triQs,
   depvar = "l.total.point.air.emissions.onsite.intensity",
   relative_year = "rel.year",
   cluster = ~c(chemical.id, naics.code, facility.state),
-  fes = tri_fes()
+  fes = tri_state_fes()
 )
 etable(did_point_air, digits = 3, digits.stats = 3)
 iplot(did_point_air, xlim = c(-3, 3), ylim = c(-0.3, 0.3), col = "blue",
@@ -239,22 +296,22 @@ linearHypothesis(did_point_air, paste0(names(pre.treat.coef), " = 0"), test = "F
 # Sun and Abraham (2020)
 #----------------------------------------------------------------------------------------------------------------------#
 sdid_point_air <- sdid_releases(
-  data = triQc,
+  data = triQs,
   depvar = "l.total.point.air.emissions.onsite.intensity",
   ATT = "sunab(ch.year, year)",
   cluster = ~c(chemical.id, naics.code, facility.state),
-  fes = did_tri_fes()
+  fes = did_tri_state_fes()
 )
 etable(sdid_point_air, agg = "ATT", digits = 3, digits.stats = 3)
 etable(sdid_point_air, agg = "cohort", digits = 3, digits.stats = 3)
 etable(sdid_point_air, digits = 3, digits.stats = 3)
 
 sdid_point_air <- dynamic_sdid_releases(
-  data = triQc,
+  data = triQs,
   depvar = "l.total.point.air.emissions.onsite.intensity",
   ATT = "sunab(ch.year, year)",
   cluster = ~c(chemical.id, naics.code, facility.state),
-  fes = tri_fes()
+  fes = tri_state_fes()
 )
 etable(sdid_point_air, digits.stats = 3, digits = 3)
 iplot(
@@ -271,11 +328,11 @@ legend(x = "bottomright", legend = c("Sun and Abraham (2020) ATT: 0.049* (0.026)
 ### Onsite: Total fugitive air emissions intensity
 #======================================================================================================================#
 did_fug_air <- did_releases(
-  data = triQc,
+  data = triQs,
   depvar = "l.total.fug.air.emissions.onsite.intensity",
   ATT = "e.treated",
   cluster = ~c(chemical.id, naics.code, facility.state),
-  fes = did_tri_fes()
+  fes = did_tri_state_fes()
 )
 etable(did_fug_air, digits = 3, digits.stats = 3)
 #----------------------------------------------------------------------------------------------------------------------#
@@ -286,7 +343,7 @@ dCDH_decomp <- twowayfeweights(
   T = "year",
   D = "e.treated",
   type = "feTR",
-  data = triQc,
+  data = triQs,
 )
 dCDH_decomp
 # Weakly Positive weights
@@ -296,11 +353,11 @@ sum(dCDH_decomp$weight[dCDH_decomp$weight >= 0])
 sum(dCDH_decomp$weight[dCDH_decomp$weight < 0])
 #----------------------------------------------------------------------------------------------------------------------#
 did_fug_air <- dynamic_did_releases(
-  data = triQc,
+  data = triQs,
   depvar = "l.total.fug.air.emissions.onsite.intensity",
   relative_year = "rel.year",
   cluster = ~c(chemical.id, naics.code, facility.state),
-  fes = tri_fes()
+  fes = tri_state_fes()
 )
 etable(did_fug_air, digits = 3, digits.stats = 3)
 iplot(did_fug_air, xlim = c(-3, 3), ylim = c(-0.3, 0.3), col = "blue",
@@ -315,22 +372,22 @@ linearHypothesis(did_fug_air, paste0(names(pre.treat.coef), " = 0"), test = "F")
 # Sun and Abraham (2020)
 #----------------------------------------------------------------------------------------------------------------------#
 sdid_fug_air <- sdid_releases(
-  data = triQc,
+  data = triQs,
   depvar = "l.total.fug.air.emissions.onsite.intensity",
   ATT = "sunab(ch.year, year)",
   cluster = ~c(chemical.id, naics.code, facility.state),
-  fes = did_tri_fes()
+  fes = did_tri_state_fes()
 )
 etable(sdid_fug_air, agg = "ATT", digits = 3, digits.stats = 3)
 etable(sdid_fug_air, agg = "cohort", digits = 3, digits.stats = 3)
 etable(sdid_fug_air, digits = 3, digits.stats = 3)
 
 sdid_fug_air <- dynamic_sdid_releases(
-  data = triQc,
+  data = triQs,
   depvar = "l.total.fug.air.emissions.onsite.intensity",
   ATT = "sunab(ch.year, year)",
   cluster = ~c(chemical.id, naics.code, facility.state),
-  fes = tri_fes()
+  fes = tri_state_fes()
 )
 etable(sdid_fug_air, digits.stats = 3, digits = 3)
 iplot(
@@ -381,11 +438,11 @@ dev.off()
 ### Onsite: Total surface water discharge intensity
 #======================================================================================================================#
 did_water_disc <- did_releases(
-  data = triQc,
+  data = triQs,
   depvar = "l.total.surface.water.discharge.onsite.intensity",
   ATT = "e.treated",
   cluster = ~c(chemical.id, naics.code, facility.state),
-  fes = did_tri_fes()
+  fes = did_tri_state_fes()
 )
 etable(did_water_disc, digits = 3, digits.stats = 3)
 #----------------------------------------------------------------------------------------------------------------------#
@@ -396,7 +453,7 @@ dCDH_decomp <- twowayfeweights(
   T = "year",
   D = "e.treated",
   type = "feTR",
-  data = triQc,
+  data = triQs,
 )
 dCDH_decomp
 # Weakly Positive weights
@@ -406,11 +463,11 @@ sum(dCDH_decomp$weight[dCDH_decomp$weight >= 0])
 sum(dCDH_decomp$weight[dCDH_decomp$weight < 0])
 #----------------------------------------------------------------------------------------------------------------------#
 did_water_disc <- dynamic_did_releases(
-  data = triQc,
+  data = triQs,
   depvar = "l.total.surface.water.discharge.onsite.intensity",
   relative_year = "rel.year",
   cluster = ~c(chemical.id, naics.code, facility.state),
-  fes = tri_fes()
+  fes = tri_state_fes()
 )
 etable(did_water_disc, digits = 3, digits.stats = 3)
 iplot(did_water_disc, xlim = c(-3, 3), ylim = c(-0.25, 0.25), col = "blue",
@@ -425,22 +482,22 @@ linearHypothesis(did_water_disc, paste0(names(pre.treat.coef), " = 0"), test = "
 # Sun and Abraham (2020)
 #----------------------------------------------------------------------------------------------------------------------#
 sdid_water_disc <- sdid_releases(
-  data = triQc,
+  data = triQs,
   depvar = "l.total.surface.water.discharge.onsite.intensity",
   ATT = "sunab(ch.year, year)",
   cluster = ~c(chemical.id, naics.code, facility.state),
-  fes = did_tri_fes()
+  fes = did_tri_state_fes()
 )
 etable(sdid_water_disc, agg = "ATT", digits = 3, digits.stats = 3)
 etable(sdid_water_disc, agg = "cohort", digits = 3, digits.stats = 3)
 etable(sdid_water_disc, digits = 3, digits.stats = 3)
 
 did_water_disc <- dynamic_sdid_releases(
-  data = triQc,
+  data = triQs,
   depvar = "l.total.surface.water.discharge.onsite.intensity",
   ATT = "sunab(ch.year, year)",
   cluster = ~c(chemical.id, naics.code, facility.state),
-  fes = tri_fes()
+  fes = tri_state_fes()
 )
 etable(sdid_water_disc, digits.stats = 3, digits = 3)
 iplot(
@@ -457,11 +514,11 @@ legend(x = "bottomright", legend = c("Sun and Abraham (2020) ATT: 0.014 (0.030)"
 ### Onsite: Number of receiving streams
 #======================================================================================================================#
 did_receiving_streams <- did_releases(
-  data = triQc,
+  data = triQs,
   depvar = "l.total.num.receiving.streams.onsite",
   ATT = "e.treated",
   cluster = ~c(chemical.id, naics.code, facility.state),
-  fes = did_tri_fes()
+  fes = did_tri_state_fes()
 )
 etable(did_receiving_streams, digits = 3, digits.stats = 3)
 #----------------------------------------------------------------------------------------------------------------------#
@@ -472,7 +529,7 @@ dCDH_decomp <- twowayfeweights(
   T = "year",
   D = "e.treated",
   type = "feTR",
-  data = triQc,
+  data = triQs,
 )
 dCDH_decomp
 # Weakly Positive weights
@@ -482,11 +539,11 @@ sum(dCDH_decomp$weight[dCDH_decomp$weight >= 0])
 sum(dCDH_decomp$weight[dCDH_decomp$weight < 0])
 #----------------------------------------------------------------------------------------------------------------------#
 did_receiving_streams <- dynamic_did_releases(
-  data = triQc,
+  data = triQs,
   depvar = "l.total.num.receiving.streams.onsite",
   relative_year = "rel.year",
   cluster = ~c(chemical.id, naics.code, facility.state),
-  fes = tri_fes()
+  fes = tri_state_fes()
 )
 etable(did_receiving_streams, digits = 3, digits.stats = 3)
 iplot(did_receiving_streams, xlim = c(-3, 3), ylim = c(-0.15, 0.15), col = "blue",
@@ -501,22 +558,22 @@ linearHypothesis(did_receiving_streams, paste0(names(pre.treat.coef), " = 0"), t
 # Sun and Abraham (2020)
 #----------------------------------------------------------------------------------------------------------------------#
 sdid_receiving_streams <- sdid_releases(
-  data = triQc,
+  data = triQs,
   depvar = "l.total.num.receiving.streams.onsite",
   ATT = "sunab(ch.year, year)",
   cluster = ~c(chemical.id, naics.code, facility.state),
-  fes = did_tri_fes()
+  fes = did_tri_state_fes()
 )
 etable(sdid_receiving_streams, agg = "ATT", digits = 3, digits.stats = 3)
 etable(sdid_receiving_streams, agg = "cohort", digits = 3, digits.stats = 3)
 etable(sdid_receiving_streams, digits = 3, digits.stats = 3)
 
 sdid_receiving_streams <- dynamic_did_releases(
-  data = triQc,
+  data = triQs,
   depvar = "l.total.num.receiving.streams.onsite",
   relative_year = "rel.year",
   cluster = ~c(chemical.id, naics.code, facility.state),
-  fes = tri_fes()
+  fes = tri_state_fes()
 )
 etable(sdid_receiving_streams, digits.stats = 3, digits = 3)
 iplot(
@@ -557,11 +614,11 @@ dev.off()
 ### Onsite: Total land releases intensity
 #======================================================================================================================#
 did_land_releases <- did_releases(
-  data = triQc,
+  data = triQs,
   depvar = "l.total.land.releases.onsite.intensity",
   ATT = "e.treated",
   cluster = ~c(chemical.id, naics.code, facility.state),
-  fes = did_tri_fes()
+  fes = did_tri_state_fes()
 )
 etable(did_land_releases, digits = 3, digits.stats = 3)
 #----------------------------------------------------------------------------------------------------------------------#
@@ -572,7 +629,7 @@ dCDH_decomp <- twowayfeweights(
   T = "year",
   D = "e.treated",
   type = "feTR",
-  data = triQc,
+  data = triQs,
 )
 dCDH_decomp
 # Weakly Positive weights
@@ -582,11 +639,11 @@ sum(dCDH_decomp$weight[dCDH_decomp$weight >= 0])
 sum(dCDH_decomp$weight[dCDH_decomp$weight < 0])
 #----------------------------------------------------------------------------------------------------------------------#
 did_land_releases <- dynamic_did_releases(
-  data = triQc,
+  data = triQs,
   depvar = "l.total.land.releases.onsite.intensity",
   relative_year = "rel.year",
   cluster = ~c(chemical.id, naics.code, facility.state),
-  fes = tri_fes()
+  fes = tri_state_fes()
 )
 etable(did_land_releases, digits = 3, digits.stats = 3)
 iplot(did_land_releases, xlim = c(-3, 3), ylim = c(-0.1, 0.1), col = "blue",
@@ -601,22 +658,22 @@ linearHypothesis(did_land_releases, paste0(names(pre.treat.coef), " = 0"), test 
 # Sun and Abraham (2020)
 #----------------------------------------------------------------------------------------------------------------------#
 sdid_land_releases <- sdid_releases(
-  data = triQc,
+  data = triQs,
   depvar = "l.total.land.releases.onsite.intensity",
   ATT = "sunab(ch.year, year)",
   cluster = ~c(chemical.id, naics.code, facility.state),
-  fes = did_tri_fes()
+  fes = did_tri_state_fes()
 )
 etable(sdid_land_releases, agg = "ATT", digits = 3, digits.stats = 3)
 etable(sdid_land_releases, agg = "cohort", digits = 3, digits.stats = 3)
 etable(sdid_land_releases, digits = 3, digits.stats = 3)
 
 sdid_land_releases <- dynamic_sdid_releases(
-  data = triQc,
+  data = triQs,
   depvar = "l.total.land.releases.onsite.intensity",
   ATT = "sunab(ch.year, year)",
   cluster = ~c(chemical.id, naics.code, facility.state),
-  fes = tri_fes()
+  fes = tri_state_fes()
 )
 etable(sdid_land_releases, digits.stats = 3, digits = 3)
 iplot(
@@ -633,11 +690,11 @@ legend(x = "bottomright", legend = c("Sun and Abraham (2020) ATT: -0.011 (0.016)
 ### Onsite: Total underground injection intensity
 #======================================================================================================================#
 did_undground_inject <- did_releases(
-  data = triQc,
+  data = triQs,
   depvar = "l.total.underground.injection.onsite.intensity",
   ATT = "e.treated",
   cluster = ~c(chemical.id, naics.code, facility.state),
-  fes = did_tri_fes()
+  fes = did_tri_state_fes()
 )
 etable(did_undground_inject, digits = 3, digits.stats = 3)
 #----------------------------------------------------------------------------------------------------------------------#
@@ -648,7 +705,7 @@ dCDH_decomp <- twowayfeweights(
   T = "year",
   D = "e.treated",
   type = "feTR",
-  data = triQc,
+  data = triQs,
 )
 dCDH_decomp
 # Weakly Positive weights
@@ -658,11 +715,11 @@ sum(dCDH_decomp$weight[dCDH_decomp$weight >= 0])
 sum(dCDH_decomp$weight[dCDH_decomp$weight < 0])
 #----------------------------------------------------------------------------------------------------------------------#
 did_undground_inject <- dynamic_did_releases(
-  data = triQc,
+  data = triQs,
   depvar = "l.total.underground.injection.onsite.intensity",
   relative_year = "rel.year",
   cluster = ~c(chemical.id, naics.code, facility.state),
-  fes = tri_fes()
+  fes = tri_state_fes()
 )
 etable(did_undground_inject, digits = 3, digits.stats = 3)
 iplot(did_undground_inject, xlim = c(-3, 3), ylim = c(-0.009, 0.009), col = "blue",
@@ -677,22 +734,22 @@ linearHypothesis(did_undground_inject, paste0(names(pre.treat.coef), " = 0"), te
 # Sun and Abraham (2020)
 #----------------------------------------------------------------------------------------------------------------------#
 sdid_undground_inject <- sdid_releases(
-  data = triQc,
+  data = triQs,
   depvar = "l.total.underground.injection.onsite.intensity",
   ATT = "sunab(ch.year, year)",
   cluster = ~c(chemical.id, naics.code, facility.state),
-  fes = did_tri_fes()
+  fes = did_tri_state_fes()
 )
 etable(sdid_undground_inject, agg = "ATT", digits = 3, digits.stats = 3)
 etable(sdid_undground_inject, agg = "cohort", digits = 3, digits.stats = 3)
 etable(sdid_undground_inject, digits = 3, digits.stats = 3)
 
 sdid_undground_inject <- dynamic_sdid_releases(
-  data = triQc,
+  data = triQs,
   depvar = "l.total.underground.injection.onsite.intensity",
   ATT = "sunab(ch.year, year)",
   cluster = ~c(chemical.id, naics.code, facility.state),
-  fes = tri_fes()
+  fes = tri_state_fes()
 )
 etable(sdid_undground_inject, digits.stats = 3, digits = 3)
 iplot(
@@ -709,11 +766,11 @@ legend(x = "bottomright", legend = c("Sun and Abraham (2020) ATT: 0.000 (0.000)"
 ### Onsite: Total landfills intensity
 #======================================================================================================================#
 did_landfills <- did_releases(
-  data = triQc,
+  data = triQs,
   depvar = "l.total.landfills.onsite.intensity",
   ATT = "e.treated",
   cluster = ~c(chemical.id, naics.code, facility.state),
-  fes = did_tri_fes()
+  fes = did_tri_state_fes()
 )
 etable(did_landfills, digits = 3, digits.stats = 3)
 #----------------------------------------------------------------------------------------------------------------------#
@@ -724,7 +781,7 @@ dCDH_decomp <- twowayfeweights(
   T = "year",
   D = "e.treated",
   type = "feTR",
-  data = triQc,
+  data = triQs,
 )
 dCDH_decomp
 # Weakly Positive weights
@@ -734,11 +791,11 @@ sum(dCDH_decomp$weight[dCDH_decomp$weight >= 0])
 sum(dCDH_decomp$weight[dCDH_decomp$weight < 0])
 #----------------------------------------------------------------------------------------------------------------------#
 did_landfills <- dynamic_did_releases(
-  data = triQc,
+  data = triQs,
   depvar = "l.total.landfills.onsite.intensity",
   relative_year = "rel.year",
   cluster = ~c(chemical.id, naics.code, facility.state),
-  fes = tri_fes()
+  fes = tri_state_fes()
 )
 etable(did_landfills, digits = 3, digits.stats = 3)
 iplot(did_landfills, xlim = c(-3, 3), ylim = c(-0.03, 0.03), col = "blue",
@@ -753,22 +810,22 @@ linearHypothesis(did_landfills, paste0(names(pre.treat.coef), " = 0"), test = "F
 # Sun and Abraham (2020)
 #----------------------------------------------------------------------------------------------------------------------#
 sdid_landfills <- sdid_releases(
-  data = triQc,
+  data = triQs,
   depvar = "l.total.landfills.onsite.intensity",
   ATT = "sunab(ch.year, year)",
   cluster = ~c(chemical.id, naics.code, facility.state),
-  fes = did_tri_fes()
+  fes = did_tri_state_fes()
 )
 etable(sdid_landfills, agg = "ATT", digits = 3, digits.stats = 3)
 etable(sdid_landfills, agg = "cohort", digits = 3, digits.stats = 3)
 etable(sdid_landfills, digits = 3, digits.stats = 3)
 
 sdid_landfills <- dynamic_sdid_releases(
-  data = triQc,
+  data = triQs,
   depvar = "l.total.landfills.onsite.intensity",
   ATT = "sunab(ch.year, year)",
   cluster = ~c(chemical.id, naics.code, facility.state),
-  fes = tri_fes()
+  fes = tri_state_fes()
 )
 etable(sdid_landfills, digits.stats = 3, digits = 3)
 iplot(
@@ -785,11 +842,11 @@ legend(x = "bottomright", legend = c("Sun and Abraham (2020) ATT: 0.000 (0.003)"
 ### Onsite: Total releases to land treatment intensity
 #======================================================================================================================#
 did_release_toland <- did_releases(
-  data = triQc,
+  data = triQs,
   depvar = "l.total.releases.toland.treatment.onsite.intensity",
   ATT = "e.treated",
   cluster = ~c(chemical.id, naics.code, facility.state),
-  fes = did_tri_fes()
+  fes = did_tri_state_fes()
 )
 etable(did_release_toland, digits = 3, digits.stats = 3)
 #----------------------------------------------------------------------------------------------------------------------#
@@ -800,7 +857,7 @@ dCDH_decomp <- twowayfeweights(
   T = "year",
   D = "e.treated",
   type = "feTR",
-  data = triQc,
+  data = triQs,
 )
 dCDH_decomp
 # Weakly Positive weights
@@ -810,11 +867,11 @@ sum(dCDH_decomp$weight[dCDH_decomp$weight >= 0])
 sum(dCDH_decomp$weight[dCDH_decomp$weight < 0])
 #----------------------------------------------------------------------------------------------------------------------#
 did_release_toland <- dynamic_did_releases(
-  data = triQc,
+  data = triQs,
   depvar = "l.total.releases.toland.treatment.onsite.intensity",
   relative_year = "rel.year",
   cluster = ~c(chemical.id, naics.code, facility.state),
-  fes = tri_fes()
+  fes = tri_state_fes()
 )
 etable(did_release_toland, digits = 3, digits.stats = 3)
 iplot(did_release_toland, xlim = c(-3, 3), ylim = c(-0.05, 0.05), col = "blue",
@@ -829,22 +886,22 @@ linearHypothesis(did_release_toland, paste0(names(pre.treat.coef), " = 0"), test
 # Sun and Abraham (2020)
 #----------------------------------------------------------------------------------------------------------------------#
 sdid_release_toland <- sdid_releases(
-  data = triQc,
+  data = triQs,
   depvar = "l.total.releases.toland.treatment.onsite.intensity",
   ATT = "sunab(ch.year, year)",
   cluster = ~c(chemical.id, naics.code, facility.state),
-  fes = did_tri_fes()
+  fes = did_tri_state_fes()
 )
 etable(sdid_release_toland, agg = "ATT", digits = 3, digits.stats = 3)
 etable(sdid_release_toland, agg = "cohort", digits = 3, digits.stats = 3)
 etable(sdid_release_toland, digits = 3, digits.stats = 3)
 
 sdid_release_toland <- dynamic_sdid_releases(
-  data = triQc,
+  data = triQs,
   depvar = "l.total.releases.toland.treatment.onsite.intensity",
   ATT = "sunab(ch.year, year)",
   cluster = ~c(chemical.id, naics.code, facility.state),
-  fes = tri_fes()
+  fes = tri_state_fes()
 )
 etable(sdid_release_toland, digits.stats = 3, digits = 3)
 iplot(
@@ -861,11 +918,11 @@ legend(x = "bottomright", legend = c("Sun and Abraham (2020) ATT: 0.007 (0.012)"
 ### Onsite: Total surface impoundment intensity
 #======================================================================================================================#
 did_surface_impoundment <- did_releases(
-  data = triQc,
+  data = triQs,
   depvar = "l.total.surface.impoundment.onsite.intensity",
   ATT = "e.treated",
   cluster = ~c(chemical.id, naics.code, facility.state),
-  fes = did_tri_fes()
+  fes = did_tri_state_fes()
 )
 etable(did_surface_impoundment, digits = 3, digits.stats = 3)
 #----------------------------------------------------------------------------------------------------------------------#
@@ -876,7 +933,7 @@ dCDH_decomp <- twowayfeweights(
   T = "year",
   D = "e.treated",
   type = "feTR",
-  data = triQc,
+  data = triQs,
 )
 dCDH_decomp
 # Weakly Positive weights
@@ -886,11 +943,11 @@ sum(dCDH_decomp$weight[dCDH_decomp$weight >= 0])
 sum(dCDH_decomp$weight[dCDH_decomp$weight < 0])
 #----------------------------------------------------------------------------------------------------------------------#
 did_surface_impoundment <- dynamic_did_releases(
-  data = triQc,
+  data = triQs,
   depvar = "l.total.surface.impoundment.onsite.intensity",
   relative_year = "rel.year",
   cluster = ~c(chemical.id, naics.code, facility.state),
-  fes = tri_fes()
+  fes = tri_state_fes()
 )
 etable(did_surface_impoundment, digits = 3, digits.stats = 3)
 iplot(did_surface_impoundment, xlim = c(-3, 3), ylim = c(-0.02, 0.08), col = "blue",
@@ -905,22 +962,22 @@ linearHypothesis(did_surface_impoundment, paste0(names(pre.treat.coef), " = 0"),
 # Sun and Abraham (2020)
 #----------------------------------------------------------------------------------------------------------------------#
 sdid_surface_impoundment <- sdid_releases(
-  data = triQc,
+  data = triQs,
   depvar = "l.total.surface.impoundment.onsite.intensity",
   ATT = "sunab(ch.year, year)",
   cluster = ~c(chemical.id, naics.code, facility.state),
-  fes = did_tri_fes()
+  fes = did_tri_state_fes()
 )
 etable(sdid_surface_impoundment, agg = "ATT", digits = 3, digits.stats = 3)
 etable(sdid_surface_impoundment, agg = "cohort", digits = 3, digits.stats = 3)
 etable(sdid_surface_impoundment, digits = 3, digits.stats = 3)
 
 sdid_surface_impoundment <- dynamic_sdid_releases(
-  data = triQc,
+  data = triQs,
   depvar = "l.total.surface.impoundment.onsite.intensity",
   ATT = "sunab(ch.year, year)",
   cluster = ~c(chemical.id, naics.code, facility.state),
-  fes = tri_fes()
+  fes = tri_state_fes()
 )
 etable(sdid_surface_impoundment, digits.stats = 3, digits = 3)
 iplot(
@@ -937,11 +994,11 @@ legend(x = "bottomright", legend = c("Sun and Abraham (2020) ATT: 0.011* (0.006)
 ### Onsite: Total land releases others intensity
 #======================================================================================================================#
 did_land_releases_others <- did_releases(
-  data = triQc,
+  data = triQs,
   depvar = "l.total.land.releases.other.onsite.intensity",
   ATT = "e.treated",
   cluster = ~c(chemical.id, naics.code, facility.state),
-  fes = did_tri_fes()
+  fes = did_tri_state_fes()
 )
 etable(did_land_releases_others, digits = 3, digits.stats = 3)
 #----------------------------------------------------------------------------------------------------------------------#
@@ -952,7 +1009,7 @@ dCDH_decomp <- twowayfeweights(
   T = "year",
   D = "e.treated",
   type = "feTR",
-  data = triQc,
+  data = triQs,
 )
 dCDH_decomp
 # Weakly Positive weights
@@ -962,11 +1019,11 @@ sum(dCDH_decomp$weight[dCDH_decomp$weight >= 0])
 sum(dCDH_decomp$weight[dCDH_decomp$weight < 0])
 #----------------------------------------------------------------------------------------------------------------------#
 did_land_releases_others <- dynamic_did_releases(
-  data = triQc,
+  data = triQs,
   depvar = "l.total.land.releases.other.onsite.intensity",
   relative_year = "rel.year",
   cluster = ~c(chemical.id, naics.code, facility.state),
-  fes = tri_fes()
+  fes = tri_state_fes()
 )
 etable(did_land_releases_others, digits = 3, digits.stats = 3)
 iplot(did_land_releases_others, xlim = c(-3, 3), ylim = c(-0.1, 0.1), col = "blue",
@@ -981,22 +1038,22 @@ linearHypothesis(did_land_releases_others, paste0(names(pre.treat.coef), " = 0")
 # Sun and Abraham (2020)
 #----------------------------------------------------------------------------------------------------------------------#
 sdid_land_releases_others <- sdid_releases(
-  data = triQc,
+  data = triQs,
   depvar = "l.total.land.releases.other.onsite.intensity",
   ATT = "sunab(ch.year, year)",
   cluster = ~c(chemical.id, naics.code, facility.state),
-  fes = did_tri_fes()
+  fes = did_tri_state_fes()
 )
 etable(sdid_land_releases_others, agg = "ATT", digits = 3, digits.stats = 3)
 etable(sdid_land_releases_others, agg = "cohort", digits = 3, digits.stats = 3)
 etable(sdid_land_releases_others, digits = 3, digits.stats = 3)
 
 sdid_land_releases_others <- dynamic_sdid_releases(
-  data = triQc,
+  data = triQs,
   depvar = "l.total.land.releases.other.onsite.intensity",
   ATT = "sunab(ch.year, year)",
   cluster = ~c(chemical.id, naics.code, facility.state),
-  fes = tri_fes()
+  fes = tri_state_fes()
 )
 etable(sdid_land_releases_others, digits.stats = 3, digits = 3)
 iplot(
