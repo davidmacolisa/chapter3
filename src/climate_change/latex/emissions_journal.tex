@@ -54,7 +54,7 @@
     This section discusses the exogenous state minimum wage changes exploited in the covered sample period $(2011-2017)$, for the causal identification.
 
     \subsection{Minimum Wage Changes across States}\label{subsec:minimum-wage-changes-across-states}
-    About $27$ states raised MW between $2011$ and $2017$. Except for Nevada, the majority of the changes in MW between $2011-2013$ are attributed to inflation. However, following the labour union protests in $2012$ for higher MW, many states responded by instituting a one- or multiphased large MW changes~\citep{lathrop2021raises}. Specifically, $13$ states implemented a statutory MW raise of at least $\$0.5$ in $2014$, $2015$ and $2017$. Pertinently, there was no federal MW raise in the covered sample period. Table~\ref{tab:states-mw-changes} of Appendix I presents the state-level changes in MW for the sample period.
+    About $27$ states raised MW between $2011$ and $2017$. Except for Nevada, the majority of the changes in MW between $2011-2013$ are attributed to inflation. However, following the labour union protests in $2012$ for higher MW, many states responded by instituting a one- or multiphased large MW changes~\citep{lathrop2021raises}. Specifically, $13$ states implemented a statutory MW raise of at least $\$0.5$ in $2014$, $2015$ and $2017$. Pertinently, there was no federal MW raise in the covered sample period. Table~\ref{tab:states-mw-changes} of Appendix~\ref{sec:appendix-state-minimum-wage-and-balance-tests} presents the state-level changes in MW for the sample period.
 
     \subsection{Selecting the Treated and Control States}\label{subsec:selecting-the-treated-and-control-states}
     The identification strategy focuses on the copious state-level MW changes. Particularly, I restrict the sample to MW changes that meet the following conditions: $(i)$ states with a large MW raise of $\geq$ $\$0.5/hour$ in one year and had never raised their MW since $2012$; $(ii)$ subsequent raises must either be equal to or greater than $\$0.5/hour$ in the post year, or the sum of post-multiphase raises (in any $2$-years) must be equal or greater than the first initial raise for that state. These conditions ensure that the exploited MW changes capture the statutory MW policies, and not indexed to inflation. Thirteen $(13)$ states meet the above conditions. They include Arkansas, California, Delaware, Maine, Massachusetts, Maryland, Michigan, Minnesota, Nebraska, New Jersey, New York, South Dakota, and West Virginia.~\footnote{\tiny New Jersey and South Dakota do not meet the second condition but are included in the treated sample. Hence, I explicitly control for US city average inflation in the model to net out any inflationary effects. Controlling for the year fixed effects in the model nets out this inflationary effect.} Table~\ref{tab:states-mw-adjustments-t-and-c} provides a summary of the minimum wage adjustments in the sample.
@@ -67,6 +67,9 @@
     \input{fig_border_county_map}
 
     Each treated border county is paired with a cross-border control county, described as the pair of the adjacent treated and control counties. The identifying assumption in a cross-border county pair is that the evolution of economic conditions for the pairs is symmetric and parallel, but the MW levels vary discontinuously at the border. To address the concern raised in~\citet{neumark2014revisiting} on the validity of border counties as counterfactuals, Figures~\ref{fig:county-level-macroeconomic-trends-in-border-counties} and ~\ref{fig:state-level-macroeconomic-trends-in-border-states} present a comparison of economic conditions before the first initial year of the MW change. Along most of the observable pre-treatment variables, the trends appear to be statistically parallel for the treated and control border counties and states.~\footnote{\tiny Tables~\ref{tab:descriptive-statistics-control-border-counties} and~\ref{tab:descriptive-statistics-control-border-states} of Appendix~\ref{sec:appendix-state-minimum-wage-and-balance-tests} presents a comparison of the means of the pre-treatment variables for the treated and control border counties. For most of the variables, the results show no substantial differences in their means for the treated and control border counties. The state-level descriptive statistics uses state-level aggregated dataset.}
+
+
+    \section{Theoretical Framework}\label{sec:theoretical-framework}
 
 
     \section{The Data}\label{sec:data}
@@ -421,7 +424,6 @@
     \input{tbl_bal_test_state}
     \input{fig_pre_evolution}
     \input{fig_pre_evolution_state}
-
 
     \section{Descriptive Statistics, List of Toxic Chemicals, Trends, Mechanisms, and Correlations}\label{sec:appendix-descriptive-stat-list-of-toxic-chemicals-trends-mechanisms-and-correlations}
     \input{tbl_summ_on}

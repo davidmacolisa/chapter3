@@ -981,7 +981,8 @@ writeLines(summ_off_tex, con = "./Thesis/chapter3/src/climate_change/latex/tbl_s
 #======================================================================================================================#
 summ_potw <- sum_up(df = triQc_potw,
 					c(total.potw.releases.offsite.intensity, potw.releases.underground.other.offsite.intensity,
-					  potw.releases.underground.Iwells.offsite.intensity),
+					  potw.releases.underground.Iwells.offsite.intensity, total.potw.management.offsite,
+					  potw.treatment.offsite),
 					d = F) %>%
   select(-Missing) %>%
   mutate(across(where(is.numeric), ~round(., digits = 2)))
