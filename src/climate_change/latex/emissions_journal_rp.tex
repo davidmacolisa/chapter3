@@ -1,48 +1,55 @@
 %======================================================================================================================%
-\documentclass[numsec,webpdf,contemporary,large,namedate]{oup-authoring-template}% uncomment this line for author year citations and comment the above
+\documentclass[authoryear, preprint, twocolumn, 1p]{elsarticle}
 %======================================================================================================================%
-\onecolumn % for one column layouts
-%\usepackage{showframe}
-
-%\graphicspath{{Fig/}}
-% line numbers
-%\usepackage[mathlines, switch]{lineno}
-\usepackage[right]{lineno}
-\linenumbers
-\usepackage[doublespacing]{setspace}
-\usepackage{booktabs}
+%% Preamble
+\usepackage{natbib}
+%\biboptions{longnamesfirst, angle, semicolon, sort} % Citation options
+\usepackage{graphicx}
+\usepackage{parskip}
 \usepackage{float}
-%\usepackage{times}
-\usepackage[a4paper, left=2.5cm, right=2.5cm]{geometry}
+\usepackage{booktabs}
+\usepackage[toc, page]{appendix}
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{amsfonts}
+\usepackage{mathrsfs}
+\usepackage[doublespacing]{setspace}
+\usepackage{lineno}
+\linenumbers % Uncomment this line if you need line numbers for review
+\usepackage{geometry}
+\geometry{paperwidth=8.5in, paperheight=11in, left=0.5in, right=0.5in, top=0.5in, bottom=0.5in}
 \usepackage{hyperref}
 \hypersetup{colorlinks = true, citecolor = blue, linkcolor = blue, urlcolor = blue, hypertexnames = true}
 \newcommand{\shortlink}[1]{\href{https://www.#1}{\texttt{#1}}}
+\journal{Research Policy} % Specify the journal name
 %======================================================================================================================%
 \begin{document}
 %----------------------------------------------------------------------------------------------------------------------%
-    \journaltitle{Quarterly Journal of Economics}
-    \DOI{DOI HERE}
-    \copyrightyear{2024}
-%    \pubyear{2019}
-%    \access{Advance Access Publication Date: Day Month Year}
-    \appnotes{Paper}
-
-    \firstpage{1}
-
-    \subtitle{Firms Adjustments to Exogenous Shocks}
-    \title[Minimum Wage Pass-through]{Unforeseen Minimum Wage Consequences}
-    \author[$\ast$]{Davidmac Olisa Ekeocha \ORCID{0000-0001-7098-0874}}
-    \authormark{Ekeocha, D.O.}
-    \address[$\ast$]{\orgdiv{Management School}, \orgname{University of Liverpool}, \orgaddress{\street{Chatham Street}, \state{Liverpool}, \postcode{L69 7ZH}, \country{England, United Kingdom}}}
-    \corresp[$\ast$]{Corresponding author. \href{davidmac.ekeocha@liverpool.ac.uk}{davidmac.ekeocha@liverpool.ac.uk}}
+    \begin{frontmatter}
+        % Title Page
+        \title{Unforeseen Minimum Wage Consequences}
+%        \author[1]{Davidmac Olisa Ekeocha\corref{cor1}} % Include corresponding author footnote
+%        \ead{davidmac.ekeocha@liverpool.ac.uk} % Add your email address
+%        \cortext[cor1]{Corresponding author} % Corresponding author footnote
+%
+%        \affiliation[1]{organization={University of Liverpool}, % Add affiliation details
+%            addressline={Chatham Street},
+%            postcode={L69 7ZH},
+%            city={Liverpool},
+%            country={United Kingdom}}
 %----------------------------------------------------------------------------------------------------------------------%
-    \abstract{\noindent The question of other pathways firms adjust to arguably exogenous shocks remains nascent. I leverage statutory minimum wage policies on detailed facility-level toxic release inventory and manufacturing payroll data to uncover complex environmental outcomes that are potentially carcinogenic to humans and aquatic life. Toxic release intensities increased in high-profit-capital-intensive manufacturing industries, driven by air emissions, surface water discharges, and land releases, even in heavily regulated toxic chemical domains. This pollution effect is evident in the highest- and lowest-emitting industries in more competitive markets. In contrast, both low- and high-profit-labour-intensive manufacturing industries showed corresponding reductions in the same areas. Given the industry's production and profit maximization objectives, mechanism analyses, governed by the factor-substitution hypothesis, suggest that the nuanced environmental consequences are directly linked to corresponding inverse effects on respective onsite source reduction and waste management activities, particularly in green raw material substitutions, process and equipment modifications, operating practices, and inventory management. These results are robust to cross-county/state worker mobility spillover and falsification exercises from catastrophic events.}
+        \begin{abstract}
+            \noindent The question of other pathways firms adjust to arguably exogenous shocks remains nascent. I leverage statutory minimum wage policies on detailed facility-level toxic release inventory and manufacturing payroll data to uncover complex environmental outcomes that are potentially carcinogenic to humans and aquatic life. Toxic release intensities increased in high-profit-capital-intensive manufacturing industries, driven by air emissions, surface water discharges, and land releases, even in heavily regulated toxic chemical domains. This pollution effect is evident in the highest- and lowest-emitting industries in more competitive markets. In contrast, both low- and high-profit-labour-intensive manufacturing industries showed corresponding reductions in the same areas. Given the industry's production and profit maximization objectives, mechanism analyses, governed by the factor-substitution hypothesis, suggest that the nuanced environmental consequences are directly linked to corresponding inverse effects on respective onsite source reduction and waste management activities, particularly in green raw material substitutions, process and equipment modifications, operating practices, and inventory management. These results are robust to cross-county/state worker mobility spillover and falsification exercises from catastrophic events.
 
 %    Policymakers should consider incentivizing the reduction and management of toxic chemical releases in high-profit-capital-intensive industries, alongside statutory MW policies, to mitigate the adverse environmental impacts.
-
-    \keywords{Minimum Wage, Toxic Releases, Emissions, Staggered Difference-in-Differences, United States}
+        \end{abstract}
+        \begin{keyword}
+            Minimum Wage \sep Toxic Releases \sep Emissions \sep Staggered Difference-in-Differences \sep United States
+        \end{keyword}
+    \end{frontmatter}
 %----------------------------------------------------------------------------------------------------------------------%
-    \maketitle
+    \newpageafter{abstract}
+%    \maketitle
 %----------------------------------------------------------------------------------------------------------------------%
 
 
@@ -65,7 +72,7 @@
 
     The main results reveal that the environmental consequences of higher MW are nuanced as manufacturing industries adjust either towards capital- or labour-intensive technologies based on their profit maximization objectives. The increasing toxic release intensities in high-profit-capital-intensive manufacturing industries is dominated in the $2014$ and $2015$ cohorts. This increase is driven by rises in total air emissions intensities, from fugitive sources, surface water discharge, and land releases intensities. These increases are present in both highest- and lowest-emitting industries in high competitive environments, and even in highly regulated chemical domains by the Clean Air Act of $1970$ and as amended in $1990$, and the Toxic Substance Control Act of $1976$, potentially resulting to carcinogenic emissions. There is limited evidence of increased onsite releases intensity in low-profit-capital-intensive manufacturing industries. In contrast, onsite toxic release intensity in low- and high-profit-labour-intensive manufacturing industries decreased in the $2015$ cohort. This reduction is driven by corresponding decreases in point and fugitive air emissions intensities. Increases in surface impoundment intensity, particularly in $2015$ and $2017$ cohorts, also contribute to the differential decline.
 
-    The mechanism analyses reveal that the observed effects are transmitted through the reductions in both onsite source reduction and waste management activities. The analysis indicates that increased toxic release intensities in high-profit-capital-intensive manufacturing industries are primarily due to declines in green raw material substitutions, including the use of organic solvents and cleaner energy sources; process upgrades and equipment modifications, such as the adoption of new green technologies, recycling enhancements, and spray equipment optimization; inventory management improvements, including better packaging and storage practices; and better operating activities, such as leak inspections and the decommissioning of inefficient equipment. Additionally, significant reductions in waste management practices, including biological and physical waste treatment and recycling, further exacerbate the rise in toxic release intensities. Conversely, the decline in total release intensities in both low- and high-profit-labour-intensive manufacturing industries is attributable to improvements in the same areas. Specifically, the transition to clean energy sources, green organic solvents, advanced green technologies, process recirculation, spray equipment upgrades, enhanced packaging and storage, leak inspections, and the shutdown of inefficient equipment, alongside the increases in chemical and physical waste treatments and recycling, all contribute to the reduced toxic release intensities.
+    The mechanism analyses reveal that the observed effects are transmitted through the reductions in both onsite source reduction and waste management activities. The analysis indicates that increased toxic release intensities in high-profit-capital-intensive manufacturing industries are primarily due to declines in green raw material substitutions, including the use of organic solvents and cleaner energy sources; process upgrades and equipment modifications, such as the adoption of new green technologies, recycling enhancements, and spray equipment optimization; inventory management improvements, including better packaging and storage practices; and better operating activities, such as leak inspections and the decommissioning of inefficient equipment. Additionally, significant reductions in waste management practices, including biological and physical waste treatment and recycling, further exacerbate the rise in toxic release intensities. Conversely, the decline in total release intensities in both low- and high-profit-labour-intensive manufacturing industries is attributable to improvements in the same areas. Specifically, the transition to clean energy sources, green organic solvents, advanced green technologies, process recirculation, spray equipment upgrades, enhanced packaging and storage, leak inspections, and the shutdown of inefficient equipment, alongside the increases in chemical and physical waste treatments and recycling, all contribute to the reduced toxic release intensities. These dynamic mechanisms are highly conditional on the production output and profit maximization objectives of the manufacturing industries.
 
     The rest of the article is organized as follows: Section~\ref{sec:policy-context} provides the policy context of the study. Section~\ref{sec:data} discusses the data and descriptive statistics. Section~\ref{sec:industry-costs-employment-and-outputs} presents the effect on industry labour costs and employment, and robustness. Section~\ref{sec:onsite-toxic-releases} discusses the effects on onsite toxic releases intensities. Section~\ref{sec:robustness-exercises} discusses robustness exercises. Section~\ref{sec:heterogeneous-effects} focuses on the heterogeneous effects. Section~\ref{sec:mechanism-analyses} investigates the potential mechanisms. Section~\ref{sec:concluding-remarks} concludes with policy implications.
 
@@ -173,7 +180,7 @@
     However, I find heterogeneity in the cohort-specific effects. While there are disemployment effects in the $2014$ and $2017$ cohorts, there is a significant positive effect on employment in the $2015$ cohort. These disemployment effects as shown in Figure~\ref{fig:baseline-manufacturing-industry-employment-heter} in Appendix~\ref{sec:appendix-baseline-robustness-tables-and-figures} are dominated in low-skilled workers, low-profit and labour-intensive industries, and driven by the declining number of production workers and hours, due to higher labour costs. These disemployment effects explain the decline in total payroll and material cost in the $2017$ cohort in subsection~\ref{subsec:baseline-results-industry-costs}. On the other hand, the positive employment effect is dominated in high-skilled workers, high-profit and capital-intensive industries. Similarly, the dynamic treatment effects in Figure~\ref{fig:baseline-employment-hours} show an instantaneous increase in manufacturing industry employment (including production workers and hours) followed by a decline in the third year after the initial raise in MW. There is no evidence of pre-trends.
     \input{fig_sdid_emp_hours}
 
-    \citet{neumark2019econometrics} argues that cross-border studies may be biased against detecting disemployment effects due to worker mobility spillovers. To test if my results are influenced by cross-county mobility, potentially violating the stable unit treatment assumption, I use the interaction of the staggered difference-in-differences coefficient with the distance between population centers. The principle here is that worker mobility to counties/states with higher MW decreases as geographic distance to that county/state increases. Table~\ref{tab:baseline-cross-county-state-mobility} in Appendix~\ref{sec:appendix-baseline-robustness-tables-and-figures} indicates that worker mobility does not affect the overall baseline null results, including the positive employment effect specific to the $2015$ cohort. However, the disemployment effects observed for the $2014$ and $2017$ cohorts are explained by workers' unwillingness to commute to distant counties/states with higher MW. This supports the hypothesis that worker mobility decreases with increasing distance to higher MW regions. This indicates that the higher MW policy heightens the reluctance of low-skilled manufacturing industry workers to commute to regions with higher MW, as the demand for high-skilled manufacturing industry workers increase. Thus, low-skilled employment, including production workers and hours decline.
+    \citet{neumark2019econometrics} argues that cross-border studies may be biased against detecting disemployment effects due to worker mobility spillovers. To test if my results are influenced by cross-county mobility, potentially violating the stable unit treatment assumption, I use the interaction of the staggered difference-in-differences coefficient with the distance between population centers. The principle here is that worker mobility to counties/states with higher MW decreases as geographic distance to that county/state increases. Table~\ref{tab:baseline-cross-county-worker-mobility} in Appendix~\ref{sec:appendix-baseline-robustness-tables-and-figures} indicates that worker mobility does not affect the overall baseline null results, including the positive employment effect specific to the $2015$ cohort. However, the disemployment effects observed for the $2014$ and $2017$ cohorts are explained by workers' unwillingness to commute to distant counties/states with higher MW. This supports the hypothesis that worker mobility decreases with increasing distance to higher MW regions. This indicates that the higher MW policy heightens the reluctance of low-skilled manufacturing industry workers to commute to regions with higher MW, as the demand for high-skilled manufacturing industry workers increase. Thus, low-skilled employment, including production workers and hours decline.
 
     \subsection{Baseline Results: Industrial Output}\label{subsec:baseline-results-industrial-output}
     This subsection estimates the effect of raising MW on outputs of the manufacturing industry. The model is given by:
@@ -304,7 +311,7 @@
     The parameters of interest here is the triple-differences parameter $\beta$ which measures the differential average effects of higher MW on onsite total releases intensities at manufacturing facilities in treated counties relative to adjacent control counties given either their profit levels or production technology classification. That is, the separate differential impacts on either high- or low-profit-labour-intensive industries. $\psi$ captures the relative differential impact on high- or low-profit-capital-intensive industries. $\beta + \psi$ captures the total relative change on either the high- or low-profit-labour-intensive industries. To have a causal interpretation, the weaker parallel trends assumption is only required to hold for one of the groups in triple differences~\citep{olden2022triple}.~\citet{zhang2023unintended} hypothesised that more financially constrained firms and labour-intensive industries are more responsive to higher MW relative to capital-intensive industries. Hence, I test whether the effects of raising MW on total onsite releases intensities are dominated in either the high- or low-profit-labour-intensive industries. The results are presented in Tables~\ref{tab:heterogeneous-onsite-releases-int-hpli} and~\ref{tab:heterogeneous-onsite-releases-int-lpli}.
 
     \subsubsection{High-Profit-Labour-Intensive Manufacturing Industries}
-    For the high-profit-labour-intensive manufacturing industries, the triple-differences parameter $\beta$, as shown in Table~\ref{tab:heterogeneous-onsite-releases-int-hpli}, is negative and insignificant. The observed decline in toxic release intensity is largely attributable to the significant reduction in the $2015$ cohort. The overall relative change, $\beta_{2015} + \psi$, for the $2015$ cohort indicates a substantial decrease of $13.9ppts$ per $\$100$ million units of output. This result contradicts the argument by~\citet{zhang2023unintended} of high polution response for labour-intensive manufacturing industries, and suggests increased efficiency due to higher MW in high-profit-labour-intensive manufacturing industries. This reduction is primarily driven by the declining total air emission intensities (both from point and fugitive sources) in the $2015$ cohort, and the decline in land releases intensity, especially in the $2014$ and $2017$ cohorts. Additionally, the increase in surface impoundment intensity, especially in the $2015$ and $2017$ cohorts all drive this differential decline. Conversely, the increase in fugitive air emission intensity for the $2014$ is linked to the corresponding decline in surface impoundment intensity. The effect on surface water discharge intensity remains generally muted.
+    For the high-profit-labour-intensive manufacturing industries, the triple-differences parameter $\beta$, as shown in Table~\ref{tab:heterogeneous-onsite-releases-int-hpli}, is negative and insignificant. The observed decline in toxic release intensity is largely attributable to the significant reduction in the $2015$ cohort. The overall relative change, $\beta_{2015} + \psi$, for the $2015$ cohort indicates a substantial decrease of $13.9ppts$ per $\$100$ million units of output. This result contradicts the argument by~\citet{zhang2023unintended} of high pollution response for labour-intensive manufacturing industries, and suggests increased efficiency due to higher MW in high-profit-labour-intensive manufacturing industries. This reduction is primarily driven by the declining total air emission intensities (both from point and fugitive sources) in the $2015$ cohort, and the decline in land releases intensity, especially in the $2014$ and $2017$ cohorts. Additionally, the increase in surface impoundment intensity, especially in the $2015$ and $2017$ cohorts all drive this differential decline. Conversely, the increase in fugitive air emission intensity for the $2014$ is linked to the corresponding decline in surface impoundment intensity. The effect on surface water discharge intensity remains generally muted.
     \input{tbl_sdid_heter_onsite_releases_int_HPLI}
 
     In contrast, for the high-profit-capital-intensive manufacturing industries, the results show a significant positive effect of $19.9ppts$. This positive effect surpasses the baseline estimate of $11.9ppts$, indicating that toxic release intensity is highest among high-profit-capital-intensive manufacturing industries. This increase is driven by rises in total air emissions intensities, from fugitive sources, surface water discharge, and land releases intensities, regardless of increased surface impoundment. There is limited evidence of increases in point air emission intensity.
@@ -462,8 +469,8 @@
         \input{tbl_sdid_baseline_output_robustness}
     \end{appendices}
 %----------------------------------------------------------------------------------------------------------------------%
-    \bibliographystyle{C:/Users/david/OneDrive/Documents/ULMS/PhD/Thesis/chapter3/src/climate_change/latex/Economic_Journal/ejbib}
-    \bibliography{emissions}
+    \bibliographystyle{elsarticle-harv} % Bibliography style
+    \bibliography{emissions} % Bibliography file
 %----------------------------------------------------------------------------------------------------------------------%
 \end{document}
 %======================================================================================================================%

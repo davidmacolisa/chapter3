@@ -1,53 +1,58 @@
 %======================================================================================================================%
-\documentclass[numsec,webpdf,contemporary,large,namedate]{oup-authoring-template}% uncomment this line for author year citations and comment the above
+\documentclass[authoryear, preprint, twocolumn, 1p]{elsarticle}
 %======================================================================================================================%
-\onecolumn % for one column layouts
-%\usepackage{showframe}
-
-%\graphicspath{{Fig/}}
-% line numbers
-%\usepackage[mathlines, switch]{lineno}
-\usepackage[right]{lineno}
-\linenumbers
-%\usepackage[doublespacing]{setspace}
-\usepackage{booktabs}
+%% Preamble
+\usepackage{natbib}
+%\biboptions{longnamesfirst, angle, semicolon, sort} % Citation options
+\usepackage{graphicx}
+\usepackage{parskip}
 \usepackage{float}
-%\usepackage{times}
-\usepackage[a4paper, left=2.5cm, right=2.5cm]{geometry}
+\usepackage{booktabs}
+\usepackage[toc, page]{appendix}
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{amsfonts}
+\usepackage{mathrsfs}
+\usepackage[doublespacing]{setspace}
+\usepackage{lineno}
+\linenumbers % Uncomment this line if you need line numbers for review
+\usepackage{geometry}
+\geometry{paperwidth=8.5in, paperheight=11in, left=0.5in, right=0.5in, top=0.5in, bottom=0.5in}
 \usepackage{hyperref}
 \hypersetup{colorlinks = true, citecolor = blue, linkcolor = blue, urlcolor = blue, hypertexnames = true}
 \newcommand{\shortlink}[1]{\href{https://www.#1}{\texttt{#1}}}
+\journal{Research Policy} % Specify the journal name
 %======================================================================================================================%
 \begin{document}
 %======================================================================================================================%
-% Title Page
-    \journaltitle{Quarterly Journal of Economics}
-    \DOI{DOI HERE}
-    \copyrightyear{2024}
-%    \pubyear{2019}
-%    \access{Advance Access Publication Date: Day Month Year}
-    \appnotes{Paper}
+    \begin{frontmatter}
+        % Title Page
+        \title{Online Supplementary Material: Unforeseen Minimum Wage Consequences}
+        \author[1]{Davidmac Olisa Ekeocha\corref{cor1}} % Include corresponding author footnote
+        \ead{davidmac.ekeocha@liverpool.ac.uk} % Add your email address
+        \cortext[cor1]{Corresponding author} % Corresponding author footnote
 
-    \firstpage{1}
+        \affiliation[1]{organization={University of Liverpool}, % Add affiliation details
+            addressline={Chatham Street},
+            postcode={L69 7ZH},
+            city={Liverpool},
+            country={United Kingdom}}
+%----------------------------------------------------------------------------------------------------------------------%
+        \begin{abstract}
+            \noindent This online supplementary material presents results on additional heterogeneous characterizations, the offsite and publicly owned treatment works (POTWs), and the state-level baseline results for the article. Although, I lost some statistical power in the state analyses due to few state clusters, the results here show consistency in the direction of the effects reported in the original manuscript. Additionally, there are significant positive differences in the intensities of total offsite releases including land releases, but with one to two-year anticipations. The total release intensity transferred to POTWs increased one-year later, but waste treatment at POTWs declined two years later, suggesting greater adverse environmental impacts.
+        \end{abstract}
 
-    \subtitle{Online Supplementary Material}
-    \title[Minimum Wage Pass-through]{Unforeseen Minimum Wage Consequences}
-    \author[$\ast$]{Davidmac Olisa Ekeocha \ORCID{0000-0001-7098-0874}}
-    \authormark{Ekeocha, D.O.}
-    \address[$\ast$]{\orgdiv{Management School}, \orgname{University of Liverpool}, \orgaddress{\street{Chatham Street}, \state{Liverpool}, \postcode{L69 7ZH}, \country{England, United Kingdom}}}
-    \corresp[$\ast$]{Corresponding author. \href{davidmac.ekeocha@liverpool.ac.uk}{davidmac.ekeocha@liverpool.ac.uk}}
-%======================================================================================================================%
-    \abstract{\noindent This online supplementary material presents results on additional heterogeneous characterizations, the offsite and publicly owned treatment works (POTWs), and the state-level baseline results for the article. Although, I lost some statistical power in the state analyses due to few state clusters, the results here show consistency in the direction of the effects reported in the original manuscript. Additionally, there are significant positive differences in the intensities of total offsite releases including land releases, but with one to two-year anticipations. The total release intensity transferred to POTWs increased one-year later, but waste treatment at POTWs declined two years of later, suggesting greater adverse environmental impacts.}
-    \keywords{Minimum Wage, Toxic Releases, Staggered Difference-in-Differences, United States}
-%======================================================================================================================%
-    \maketitle
+        \begin{keyword}
+            Minimum Wage \sep Toxic Releases \sep Emissions \sep Staggered Difference-in-Differences \sep United States
+        \end{keyword}
+    \end{frontmatter}
 %======================================================================================================================%
 
 
     \section{Additional Heterogeneous Effects}\label{sec:additional-heterogeneous-effects}
 
     \subsection{Highest Emitting Industries}\label{subsec:highest-emitting-industries}
-    There are manufacturing industries that release and emit more toxic chemicals than others. This subsection investigates if the documented effect is heterogeneous and entirely driven by such highest emitting manufacturing industries. They include the chemical, food, leather and allied products and wood manufacturing industries (see their distributions in Figures~\ref{fig:releases-distribution-naics},~\ref{fig:air-emissions-distribution-naics},~\ref{fig:water-discharge-distribution-naics} and~\ref{fig:land-releases-distribution-naics} of Appendix~\ref{sec:appendix-distribution-of-industries-and-pollution-emissions-intensities}). To investigate the differential effect of higher MW on onsite total releases intensity of highest emitting manufacturing industries (HEIs), I estimate the following model:
+    There are manufacturing industries that release and emit more toxic chemicals than others. This subsection investigates if the documented effect is heterogeneous and entirely driven by such highest emitting manufacturing industries. They include the chemical, food, leather, and allied products and wood manufacturing industries (see their distributions in Figures~\ref{fig:releases-distribution-naics},~\ref{fig:air-emissions-distribution-naics},~\ref{fig:water-discharge-distribution-naics} and~\ref{fig:land-releases-distribution-naics} of Appendix~\ref{sec:appendix-distribution-of-industries-and-pollution-emissions-intensities}). To investigate the differential effect of higher MW on onsite total releases intensity of highest emitting manufacturing industries (HEIs), I estimate the following model:
     \begin{align}
         P_{f,cp,c,t}^{heis} &= \beta (Treated^{e} \cdot D)_{f,s,t} + \psi (Treated^{e})_{s,t} + \vartheta (Treated \cdot D)_{f,s,t} + \mu (Post \cdot D)_{f,s,t} \nonumber \\
         &\quad + \tau Treated_{s,t} + \rho D_{f,s,t} + \alpha Post_{t} + \delta X_{v,c,t-1} + \omega F_{f,t} + \lambda_{t} + \gamma_{f} + \phi_{cp} \nonumber \\
@@ -72,11 +77,11 @@
     \end{align}
     where $P_{f,cp,c,t}^{ind-conc}$ is the vector of total onsite releases intensity (air, water and land) of toxic chemicals at a low-concentrated manufacturing industry facility, $f$ in a cross-border county pair, $cp$ through a toxic chemical, $c$ in the year, $t$. $Treated_{s,t}$ is a dummy that is equal to $1$ for the treated states, and $0$ the control states. $Post_{t}$ is a dummy that is equal to $1$ if the year $t$ is a post-treatment year, and $0$ otherwise. And $D_{f,s,t}$ is a dummy that is unity for a low-concentrated manufacturing industry facility, $f$ in state, $s$ in the year, $t$ and $0$ for facilities in high-concentrated industries.
 
-    The parameter of interest here is the triple-differences parameter $\beta$ which measures the differential impact on onsite total releases intensity due to a higher MW policy for manufacturing facilities in low-concentrated industries. $\psi$ measures the relative change in onsite total releases intensity for manufacturing facilities in high-concentrated industries. And $\beta + \psi$ measures the total relative change in onsite total releases intensity for manufacturing facilities in low-concentrated industries. The results are presented in Table~\ref{tab:heterogeneous-onsite-releases-int-lcis}. Except for the significant differential increases in fugitive air emissions and surface water discharge intensities in the $2015$ cohort for low-concentrated or high competitive manufacturing facilities, the effect on the intensities of total toxic releases, air emissions from point sources, land releases and surface impoundment are muted. I also find evidence of a declining surface water discharge intensity in the $2014$ cohort. Conversely, except for the significant increases in surface impoundment intensity for the high-concentrated or less-competitive manufacturing industries, there is limited evidence of a significant effect on the intensities of total toxic releases, air emissions from point and fugitive sources, surface water discharge and land releases.
+    The parameter of interest here is the triple-differences parameter $\beta$ which measures the differential impact on onsite total releases intensity due to a higher MW policy for manufacturing facilities in low-concentrated industries. $\psi$ measures the relative change in onsite total releases intensity for manufacturing facilities in high-concentrated industries. And $\beta + \psi$ measures the total relative change in onsite total releases intensity for manufacturing facilities in low-concentrated industries. The results are presented in Table~\ref{tab:heterogeneous-onsite-releases-int-lcis}. Except for the significant differential increases in fugitive air emissions and surface water discharge intensities in the $2015$ cohort for low-concentrated or high competitive manufacturing facilities, the effect on the intensities of total toxic releases, air emissions from point sources, land releases, and surface impoundment are muted. I also find evidence of a declining surface water discharge intensity in the $2014$ cohort. Conversely, except for the significant increases in surface impoundment intensity for the high-concentrated or less-competitive manufacturing industries, there is limited evidence of a significant effect on the intensities of total toxic releases, air emissions from point and fugitive sources, surface water discharge, and land releases.
     \input{tbl_sdid_heter_onsite_releases_int_LCI}
     \input{fig_sdid_heter_onsite_releases_int_LCI}
 
-    Similar patterns are observed in the dynamic effects presented in Figure~\ref{fig:heterogeneous-onsite-releases-intensity-lcis}. In high competitive industries, while point air emissions intensity is declining, fugitive air emission intensity and surface water discharge intensity is rising, usually between the first and second year of post-treatment. However, the effects on the intensities of total toxic releases, total air emissions, land releases and surface impoundment are muted. In contrast, in less-competitive industries, the effects on the intensities of total toxic releases, air emissions from point sources, surface water discharge and land releases are also muted, whereas, I document increases in fugitive air emission intensity and surface impoundment intensity. This effect is observed immediately and persists throughout the post-treatment years. There is no evidence of significant pre-trends.
+    Similar patterns are observed in the dynamic effects presented in Figure~\ref{fig:heterogeneous-onsite-releases-intensity-lcis}. In high competitive industries, while point air emissions intensity is declining, fugitive air emission intensity and surface water discharge intensity is rising, usually between the first and second year of post-treatment. However, the effects on the intensities of total toxic releases, total air emissions, land releases, and surface impoundment are muted. In contrast, in less-competitive industries, the effects on the intensities of total toxic releases, air emissions from point sources, surface water discharge, and land releases are also muted, whereas, I document increases in fugitive air emission intensity and surface impoundment intensity. This effect is observed immediately and persists throughout the post-treatment years. There is no evidence of significant pre-trends.
 
     \subsection{Economic Growth Patterns}\label{subsec:economic-growth-patterns}
     In this subsection, I check whether the increasing onsite releases intensity due to a higher MW floor is peculiar to treated counties with high economic growth patterns. Theory suggests that economic growth patterns are correlated with pollutant emissions with a turning point at higher economic growth~\citep{grossman1995economic, shapiro2018pollution}. To investigate the differential effect of higher MW on onsite total releases intensity, I estimate the following model:
@@ -91,7 +96,7 @@
     \input{tbl_sdid_heter_onsite_releases_int_GDP}
     \input{fig_sdid_heter_onsite_releases_int_GDP}
 
-    Figure~\ref{fig:heterogeneous-onsite-releases-intensity-gdp} illustrates dynamic trends across counties, showing limited evidence of a differential increase in total onsite releases intensity including both point and fugitive air emissions, surface water discharge and land releases and surface impoundment intensities, for high GDP counties. Conversely, low GDP counties witnessed a significant increase in total toxic releases intensity primarily driven by fugitive air emissions intensity. This effect became significant from the second year post-treatment. However, the effects on point air emissions intensity, surface water discharge, land releases and surface impoundment intensities are muted for low GDP counties. There is no evidence of significant pre-trends.
+    Figure~\ref{fig:heterogeneous-onsite-releases-intensity-gdp} illustrates dynamic trends across counties, showing limited evidence of a differential increase in total onsite releases intensity including both point and fugitive air emissions, surface water discharge and land releases and surface impoundment intensities, for high GDP counties. Conversely, low GDP counties witnessed a significant increase in total toxic releases intensity primarily driven by fugitive air emissions intensity. This effect became significant from the second year post-treatment. However, the effects on point air emissions intensity, surface water discharge, land releases, and surface impoundment intensities are muted for low GDP counties. There is no evidence of significant pre-trends.
 
 
     \section{Offsite and POTWs Toxic Release Intensities}\label{sec:offsite-and-potws-toxic-release-intensities}
@@ -101,7 +106,7 @@
     \input{tbl_summ_potws}
 
     \subsection{Offsite Toxic Releases Intensities}\label{subsec:offsite-toxic-releases-intensities}
-    Figure~\ref{fig:baseline-offsite-total-releases-intensity} reports the event studies for total offsite releases intensities including the intensities of others, unknown, waste broker, metal solidification and storage releases to offsite facilities. Unknown sources are toxic releases reported in Form-R but with no defined chemical source, other toxic offsite releases are those reported in Form-R but not included in the environmental protection agency release pathways. It shows that total offsite releases intensities including other forms of toxic releases are increasing but with a two-year anticipation. Additionally, total release intensity meant for offsite storage appear to be declining with a one-year anticipation. There are no statistically significant effects on the intensities of releases to waste broker (intended for further waste management), metal solidification and from unknown sources.
+    Figure~\ref{fig:baseline-offsite-total-releases-intensity} reports the event studies for total offsite releases intensities including the intensities of others, unknown, waste broker, metal solidification, and storage releases to offsite facilities. Unknown sources are toxic releases reported in Form-R but with no defined chemical source, other toxic offsite releases are those reported in Form-R but not included in the environmental protection agency release pathways. It shows that total offsite releases intensities including other forms of toxic releases are increasing but with a two-year anticipation. Additionally, total release intensity meant for offsite storage appear to be declining with a one-year anticipation. There are no statistically significant effects on the intensities of releases to waste broker (intended for further waste management), metal solidification, and from unknown sources.
     \input{fig_sdid_offsite_total_releases_int}
 
     Figure~\ref{fig:total-offsite-land-releases-intensity} reports the event studies for total offsite land releases intensity including others, industrial waste water, surface impoundment, to-land treatment, landfills, and underground injection. Whereas others, and surface impoundment show an instant significant positive difference with a two-year anticipation, landfills intensity declined in the second post-treatment period. There are no statistically significant difference on the intensities of total land releases, industrial waste water, to-land treatment, and underground injection.
@@ -115,16 +120,16 @@
     \section{State-Level Preliminary Analyses}\label{sec:state-level-preliminary-analyses}
     The state-level preliminary analyses begin in this section by examining the effect of raising MW on manufacturing industry costs (labour and materials), employment, production workers and hours, and outputs. To rule out any possible treatment selection, I estimate this state-level equation:
     \begin{equation}
-        Treated_{s,t}^e = \beta Z_{f,sp,t} + \lambda_{t} + \phi_{sp} + \delta_{s} + \zeta_{sp,t} + \epsilon_{f,sp,t}\label{eq:treatment-selection}
+        Treated_{s,t}^e = \beta Z_{f,sp,t} + \lambda_{t} + \phi_{sp} + \delta_{s} + \zeta_{sp,t} + \epsilon_{f,sp,t}\label{eq:state-treatment-selection}
     \end{equation}
 
-    Where $Treated_{s,t}^e = 1[t - G_{s,t}]$ denotes treated states that are $e$-periods away from the initial treatment date, and $G_{s,t}$ is the vector of initial treatment dates. $Z_{f,sp,t}$ is the vector of facilities by state-pair covariates, and $\beta$ is the vector of coefficients. Albeit, the year fixed effects, $\lambda_{t}$, nets out any inflationary effects, city-region inflation is explicitly controlled for in the model. Cross-border state-pair, $\phi_{sp}$, and state, $\delta_{s}$, fixed effects are controlled for to account for within cross-border state-pair and state differences that may affect the MW policy. Finally, I control for cross-border state-pair linear trends, $\zeta_{sp,t}$, to account for time-varying common shocks affecting the evolution of the MW policy in paired cross-border states. The result (reported in Table~\ref{tab:treatment-selection}) showed no significant treatment selection effects in the following covariates: lagged values of county-level gross domestic product (GDP), GDP per capita, annual average establishments; inflation; average number of establishments, industry ownership and coverage.
+    Where $Treated_{s,t}^e = 1[t - G_{s,t}]$ denotes treated states that are $e$-periods away from the initial treatment date, and $G_{s,t}$ is the vector of initial treatment dates. $Z_{f,sp,t}$ is the vector of facilities by state-pair covariates, and $\beta$ is the vector of coefficients. Albeit, the year fixed effects, $\lambda_{t}$, nets out any inflationary effects, city-region inflation is explicitly controlled for in the model. Cross-border state-pair, $\phi_{sp}$, and state, $\delta_{s}$, fixed effects are controlled for to account for within cross-border state-pair and state differences that may affect the MW policy. Finally, I control for cross-border state-pair linear trends, $\zeta_{sp,t}$, to account for time-varying common shocks affecting the evolution of the MW policy in paired cross-border states. The result (reported in Table~\ref{tab:state-treatment-selection}) showed no significant treatment selection effects in the following covariates: lagged values of county-level gross domestic product (GDP), GDP per capita, annual average establishments; inflation; average number of establishments, industry ownership, and coverage.
     \input{tbl_treatment_selection_state}
 
-    \subsection{Baseline Results: Industry Costs}\label{subsec:baseline-results-industry-costs}
+    \subsection{State-Level Baseline Results: Industry Costs}\label{subsec:state-level-baseline-results-industry-costs}
     In what follows, I estimate the state-level wage responses of manufacturing industry employees in the baseline. The baseline model is given by:
     \begin{equation}
-        C_{i,sp,t} = \beta Treated_{s,t}^e + \delta X_{v,s,t-1} + \omega F_{f,t} + \lambda_{t} + \sigma_{s} + \phi_{sp} + \zeta_{sp,t} + \epsilon_{i,sp,t},\label{eq:baseline-wages}
+        C_{i,sp,t} = \beta Treated_{s,t}^e + \delta X_{v,s,t-1} + \omega F_{f,t} + \lambda_{t} + \sigma_{s} + \phi_{sp} + \zeta_{sp,t} + \epsilon_{i,sp,t},\label{eq:state-baseline-wages}
     \end{equation}
 
     where $C_{i,sp,t}$ is the vector of industry costs (hourly wages, total payroll and material costs) of manufacturing industry, $i$ in cross-border state pairs, $sp$ in the year, $t$. $Treated_{s,t}^e = \textbf{1}[t - G_{s,t}]$ is unity for the treated states that are $e$-periods away from the vector of initial treatment dates, $G_{s,t}$ and zero for the control states. $X_{v,s,t-1}$ denotes lagged values of county-level GDP per capita, annual average establishments, and city-region inflation~\citep{gopalan2021state, dube2010minimum, clemens2019making}. $F_{f,t}$ contains facility dummies on industry ownership.
@@ -134,63 +139,63 @@
 
     The average treatment effect on the treated (ATT) is captured by $\beta$, which is the difference in the average effect of raising the MW floor on manufacturing industry costs in treated states relative to adjacent control states. The effects measured by $\beta$ are recovered using the~\citet{sun2021estimating} staggered difference-in-differences estimator, an improvement over the TWFE estimator.
 
-    The results on industry costs are reported in Table~\ref{tab:baseline-industry-costs}. I find that a higher MW policy increases manufacturing industry wages (labour costs) in treated states relative to adjacent control states. Manufacturing industry wages per hour rose by $\$0.70$. This result is close to the county-level estimate, and still higher than that documented in~\citet{gopalan2021state} for the industry-wide effect on hourly wages of $\$0.48$. I further document an increase in total payroll in treated states relative to adjacent control states by $4.4$ percentage points (ppts), as well as an increase in cost of materials in manufacturing industries.
+    The results on industry costs are reported in Table~\ref{tab:state-baseline-industry-costs}. I find that a higher MW policy increases manufacturing industry wages (labour costs) in treated states relative to adjacent control states. Manufacturing industry wages per hour rose by $\$0.70$. This result is close to the county-level estimate, and still higher than that documented in~\citet{gopalan2021state} for the industry-wide effect on hourly wages of $\$0.48$. I further document an increase in total payroll in treated states relative to adjacent control states by $4.4$ percentage points (ppts), as well as an increase in cost of materials in manufacturing industries.
 
     The cohorts specific effects reveal that except for the $2017$ cohort where labour cost declined, it is positive for the $2014$ and $2015$ cohorts. Similarly, I find an increase in total payroll for the $2015$ cohort, and an increase in material cost for the $2014$ cohort. However, I find a declining effect in total payroll and material cost for the $2017$ cohort---Maine.
     \input{fig_sdid_industry_costs_state}
     \input{fig_sdid_industry_cost_heter_state}
 
-    Due to loss of statistical power at the state-level, the dynamic effects appear to be insignificant, however, they are consistent with the direction of impact in Figure~\ref{fig:baseline-manufacturing-industry-costs}. It shows increases in hourly wages, total payrolls and cost of materials in the post-treatment periods.
+    Due to loss of statistical power at the state-level, the dynamic effects appear to be insignificant, however, they are consistent with the direction of impact in Figure~\ref{fig:baseline-manufacturing-industry-costs}. It shows increases in hourly wages, total payrolls, and cost of materials in the post-treatment periods.
 
-    \subsection{Baseline Results: Employment and Hours}\label{subsec:baseline-results-employment-and-hours}
+    \subsection{State-Level Baseline Results: Employment and Hours}\label{subsec:state-level-baseline-results-employment-and-hours}
     This subsection estimates the state-level effect of raising MW on employment of manufacturing industry workers and their production hours. The model is given by:
     \begin{equation}
-        E_{i,sp,t} = \beta Treated_{s,t}^e + \delta X_{v,s,t-1} + \omega F_{f,t} + \lambda_{t} + \sigma_{s} + \phi_{sp} + \zeta_{sp,t} + \epsilon_{i,sp,t},\label{eq:baseline-emp-hours}
+        E_{i,sp,t} = \beta Treated_{s,t}^e + \delta X_{v,s,t-1} + \omega F_{f,t} + \lambda_{t} + \sigma_{s} + \phi_{sp} + \zeta_{sp,t} + \epsilon_{i,sp,t},\label{eq:state-baseline-emp-hours}
     \end{equation}
-    where $E_{i,sp,t}$ is the vector of employment, total production workers and hours in manufacturing industry, $i$ in cross-border state pairs, $sp$ in the year, $t$. Standard errors are clustered at the state level.
+    where $E_{i,sp,t}$ is the vector of employment, total production workers, and hours in manufacturing industry, $i$ in cross-border state pairs, $sp$ in the year, $t$. Standard errors are clustered at the state level.
     \input{tbl_sdid_baseline_employ_hours_state}
 
-    The average treatment effect on the treated (ATT) is captured by $\beta$, which is the difference in the average effect of raising the MW floor on manufacturing industry employment, production workers and hours in treated states relative to adjacent control states.
+    The average treatment effect on the treated (ATT) is captured by $\beta$, which is the difference in the average effect of raising the MW floor on manufacturing industry employment, production workers, and hours in treated states relative to adjacent control states.
 
-    The results are reported in Table~\ref{tab:baseline-employment-hours}. It reports results consistent with the county-level. It shows no significant changes in overall manufacturing industry employment, total production workers and hours following an MW policy in the treated states relative to adjacent control states. Particularly, the size of the effect suggests a sharp null effect of the MW policy on manufacturing industry employment including production workers and hours, after accounting for time-varying common shocks to border states. These results are consistent with the labour market literature assuming monopsonistic competition~\citep{card2000minimum, aaronson2018industry, cengiz2019effect, wong2019minimum, dustmann2022reallocation}.
+    The results are reported in Table~\ref{tab:state-baseline-employment-hours}. It reports results consistent with the county-level. It shows no significant changes in overall manufacturing industry employment, total production workers, and hours following an MW policy in the treated states relative to adjacent control states. Particularly, the size of the effect suggests a sharp null effect of the MW policy on manufacturing industry employment including production workers and hours, after accounting for time-varying common shocks to border states. These results are consistent with the labour market literature assuming monopsonistic competition~\citep{card2000minimum, aaronson2018industry, cengiz2019effect, wong2019minimum, dustmann2022reallocation}.
 
-    However, I find heterogeneity in the cohort-specific effects. While there are disemployment effects in the $2014$ and $2017$ cohorts, there is a positive effect on employment in the $2015$ cohort. These disemployment effects as shown in Figure~\ref{fig:baseline-manufacturing-industry-employment-heter} are dominated in low-skilled workers, low-profit and labour-intensive industries, and driven by the declining number of production workers and hours due to higher labour costs. These disemployment effects explain the decline in total payroll and material cost in the $2017$ cohort in subsection~\ref{subsec:baseline-results-industry-costs}. On the other hand, the positive employment effect is dominated in high-skilled workers, high-profit and capital-intensive industries.
+    However, I find heterogeneity in the cohort-specific effects. While there are disemployment effects in the $2014$ and $2017$ cohorts, there is a positive effect on employment in the $2015$ cohort. These disemployment effects as shown in Figure~\ref{fig:baseline-manufacturing-industry-employment-heter} are dominated in low-skilled workers, low-profit and labour-intensive industries, and driven by the declining number of production workers and hours due to higher labour costs. These disemployment effects explain the decline in total payroll and material cost in the $2017$ cohort in subsection~\ref{subsec:state-level-baseline-results-industry-costs}. On the other hand, the positive employment effect is dominated in high-skilled workers, high-profit and capital-intensive industries.
 
-    Similarly, the dynamic treatment effects in Figure~\ref{fig:baseline-employment-hours} show an insignificant positive post-treatment increases in manufacturing industry employment (including production workers and hours) followed by a decline in the third year.~\citet{neumark2019econometrics} argues that cross-border studies may be biased against detecting disemployment effects due to worker mobility spillovers. To test if my results are influenced by cross-state mobility, potentially violating the stable unit treatment assumption, I use the interaction of the staggered difference-in-differences coefficient with the distance between population centers. The principle here is that worker mobility to states/states with higher MW decreases as geographic distance to that state/state increases. Table~\ref{tab:baseline-cross-county-state-mobility} indicates that worker mobility does not affect the overall baseline results, including the positive employment effect specific to the $2015$ cohort. However, the disemployment effects observed for the $2014$ and $2017$ cohorts are explained by workers' unwillingness to commute to distant states with higher MW. This supports the hypothesis that worker mobility decreases with increasing distance to higher MW regions. This indicates that the higher MW policy heightens the reluctance of low-skilled manufacturing industry workers to commute to regions with higher MW, as the demand for high-skilled manufacturing industry workers increase. There is no evidence of pre-trends.
+    Similarly, the dynamic treatment effects in Figure~\ref{fig:state-baseline-employment-hours} show an insignificant positive post-treatment increases in manufacturing industry employment (including production workers and hours) followed by a decline in the third year.~\citet{neumark2019econometrics} argues that cross-border studies may be biased against detecting disemployment effects due to worker mobility spillovers. To test if my results are influenced by cross-state mobility, potentially violating the stable unit treatment assumption, I use the interaction of the staggered difference-in-differences coefficient with the distance between population centers. The principle here is that worker mobility to states/states with higher MW decreases as geographic distance to that state/state increases. Table~\ref{tab:state-baseline-cross-county-state-mobility} indicates that worker mobility does not affect the overall baseline results, including the positive employment effect specific to the $2015$ cohort. However, the disemployment effects observed for the $2014$ and $2017$ cohorts are explained by workers' unwillingness to commute to distant states with higher MW. This supports the hypothesis that worker mobility decreases with increasing distance to higher MW regions. This indicates that the higher MW policy heightens the reluctance of low-skilled manufacturing industry workers to commute to regions with higher MW, as the demand for high-skilled manufacturing industry workers increase. There is no evidence of pre-trends.
     \input{fig_sdid_emp_hours_state}
     \input{fig_sdid_industry_emp_hours_heter_state}
 
-    \subsection{Baseline Results: Industrial Output}\label{subsec:baseline-results-industrial-output}
+    \subsection{State-Level Baseline Results: Industrial Output}\label{subsec:state-level-baseline-results-industrial-output}
     This subsection estimates the effect of raising MW on outputs of the manufacturing industry. The model is given by:
     \begin{equation}
-        Y_{i,sp,t} = \beta Treated_{s,t}^e + \delta X_{v,s,t-1} + \omega F_{f,t} + \lambda_{t} + \sigma_{s} + \phi_{sp} + \zeta_{sp,t} + \epsilon_{i,sp,t},\label{eq:baseline-output}
+        Y_{i,sp,t} = \beta Treated_{s,t}^e + \delta X_{v,s,t-1} + \omega F_{f,t} + \lambda_{t} + \sigma_{s} + \phi_{sp} + \zeta_{sp,t} + \epsilon_{i,sp,t},\label{eq:state-baseline-output}
     \end{equation}
     where $Y_{i,sp,t}$ is the vector of manufacturing industry output, output per hour and output per worker (labour productivity), in manufacturing industry, $i$ in cross-border state pairs, $sp$ in the year, $t$. Standard errors are clustered at the state level.
     \input{tbl_sdid_baseline_output_state}
 
-    The average treatment effect on the treated (ATT) is captured by $\beta$, which is the difference in the average effect of raising the MW floor on manufacturing industry output, output per hour and output per worker in treated states relative to adjacent control states.
+    The average treatment effect on the treated (ATT) is captured by $\beta$, which is the difference in the average effect of raising the MW floor on manufacturing industry output, output per hour, and output per worker in treated states relative to adjacent control states.
 
-    The results are reported in Table~\ref{tab:baseline-industry-output}. Following an MW policy, I still document large statistically significant increases in manufacturing industry outputs by $13ppts$ in treated states for the $2014$ and $2015$ cohorts. Additionally, the output per hour and labour productivity rose by $14.4$ and $12.7$ (ppts), respectively. Thus, suggesting that for every $\$0.70/hr$ increase in wages, output per hour and labour productivity rise by those margins. Back of the envelop calculation shows that manufacturing industry output per hour and labour productivity increases by an additional $0.157 \cdot 2.62 \cdot \left(\frac{\$100m}{\$1m}\right) = \$41.13$ units per hour and $0.132 \cdot 3.65 \cdot \left(\frac{\$100m}{\$1000}\right) = \$48,180$ units per worker, respectively. The rising output is dominated amongst high-skilled workers, while labour productivity is dominated amongst low-profit industries.
+    The results are reported in Table~\ref{tab:state-baseline-industry-output}. Following an MW policy, I still document large statistically significant increases in manufacturing industry outputs by $13ppts$ in treated states for the $2014$ and $2015$ cohorts. Additionally, the output per hour and labour productivity rose by $14.4$ and $12.7$ (ppts), respectively. Thus, suggesting that for every $\$0.70/hr$ increase in wages, output per hour and labour productivity rise by those margins. Back of the envelop calculation shows that manufacturing industry output per hour and labour productivity increases by an additional $0.157 \cdot 2.62 \cdot \left(\frac{\$100m}{\$1m}\right) = \$41.13$ units per hour and $0.132 \cdot 3.65 \cdot \left(\frac{\$100m}{\$1000}\right) = \$48,180$ units per worker, respectively. The rising output is dominated amongst high-skilled workers, while labour productivity is dominated amongst low-profit industries.
 
     The cohort-specific effects reveal significant and substantially strong increases in total output, output per hour and output per worker across all cohorts, except for the $2017$ cohort. The decline in overall output for the $2017$ cohort is still explained by the decline in employment and number of production hours in labour-intensive industries since low-skilled workers are less likely to commute to distant higher MW states. The state-level results are marginally largely than the county-level.
 
-    Figure~\ref{fig:baseline-industry-output} records consistent results. The MW policy caused instantaneous significant increases in manufacturing industry outputs, output per hour and output per worker in treated states relative to adjacent control states. The effects on output per hour and output per worker persists throughout the spectrum. Importantly, there is no evidence of significant pre-trends.
+    Figure~\ref{fig:state-baseline-industry-output} records consistent results. The MW policy caused instantaneous significant increases in manufacturing industry outputs, output per hour, and output per worker in treated states relative to adjacent control states. The effects on output per hour and output per worker persists throughout the spectrum. Importantly, there is no evidence of significant pre-trends.
     \input{fig_sdid_output_state}
     \input{fig_sdid_industry_output_heter_state}
 
-    \subsection{Baseline Results: Industry Profits}\label{subsec:baseline-results-industry-profits}
-    Figure~\ref{fig:baseline-manufacturing-industry-profits} records consistent results with the county-level. Higher MW policies leads to higher profits for the manufacturing industry. Essential, this is driven by higher output levels amid higher labour costs and labour productivity.
+    \subsection{State-Level Baseline Results: Industry Profits}\label{subsec:state-level-baseline-results-industry-profits}
+    Figure~\ref{fig:state-baseline-manufacturing-industry-profits} records consistent results with the county-level. Higher MW policies leads to higher profits for the manufacturing industry. Essential, this is driven by higher output levels amid higher labour costs and labour productivity.
     \input{fig_sdid_industry_profits_state}
 
-    \subsection{Baseline Robustness}\label{subsec:baseline-robustness}
+    \subsection{State-Level Baseline Robustness}\label{subsec:state-level-baseline-robustness}
     I conduct several robustness exercises to confirm the robustness of the baseline industry results presented above.
 
-    \subsubsection{Standard Errors} Standard errors are clustered at the facility, zipcode, industry NAICS codes, and state levels. I document that the state-level results are not sensitive to these alternative clustering at the facility and NAICS levels. See Tables~\ref{tab:baseline-cost-robustness},~\ref{tab:baseline-employ-robustness} and~\ref{tab:baseline-output-robustness}.
+    \subsubsection{State-Level Standard Errors} Standard errors are clustered at the facility, zipcode, industry NAICS codes, and state levels. I document that the state-level results are not sensitive to these alternative clustering at the facility and NAICS levels. See Tables~\ref{tab:state-baseline-cost-robustness},~\ref{tab:state-baseline-employ-robustness} and~\ref{tab:state-baseline-output-robustness}.
     \input{tbl_sdid_baseline_cost_robustness_state}
     \input{tbl_sdid_baseline_employ_robustness_state}
     \input{tbl_sdid_baseline_output_robustness_state}
 
-    \subsubsection{Cross-County Worker Mobility}\label{subsubsec:cross-county-worker-mobility}
+    \subsubsection{Cross-State Worker Mobility}\label{subsubsec:cross-state-worker-mobility}
     The results here rejects the hypothesis of cross-worker state mobility.
     \input{tbl_sdid_baseline_worker_mobility_state}
 
@@ -216,9 +221,9 @@
         \input{fig_releases_distribution_pbts}
 
     \end{appendices}
-%======================================================================================================================%
-    \bibliographystyle{C:/Users/david/OneDrive/Documents/ULMS/PhD/Thesis/chapter3/src/climate_change/latex/Economic_Journal/ejbib}
-    \bibliography{emissions}
+%----------------------------------------------------------------------------------------------------------------------%
+    \bibliographystyle{elsarticle-harv} % Bibliography style
+    \bibliography{emissions} % Bibliography file
 %======================================================================================================================%
 \end{document}
 %======================================================================================================================%
